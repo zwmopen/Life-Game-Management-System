@@ -90,7 +90,7 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
       {/* 导航栏容器 */}
       <div className={`
         inset-y-0 left-0 ${isMobileOpen ? 'translate-x-0' : '-translate-x-full'} 
-        ${isNavCollapsed ? 'hidden' : 'block'} md:relative md:translate-x-0 transition duration-200 ease-in-out
+        ${isNavCollapsed && !isMobileOpen ? 'hidden' : 'block'} md:relative md:translate-x-0 transition duration-200 ease-in-out
         w-64 border-r flex flex-col z-40 ${sidebarClass}
       `}>
           <div className={`p-6 border-b ${isDark ? 'border-zinc-800' : 'border-slate-100'} flex items-center justify-between`}>
