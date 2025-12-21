@@ -254,8 +254,6 @@ const App: React.FC = () => {
     showExperienceBar: true,
     showBalance: true,
     showTaskCompletionRate: true,
-    allowAnonymousDataCollection: false,
-    saveActivityLogs: false,
     soundEffectsByLocation: {},
     soundLibrary: {}
   });

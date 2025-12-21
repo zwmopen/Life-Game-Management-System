@@ -118,6 +118,5 @@ export interface Settings {
     showExperienceBar: boolean;
     showBalance: boolean;
     showTaskCompletionRate: boolean;
-    allowAnonymousDataCollection: boolean;
-    saveActivityLogs: boolean;
+    autoBackupFrequency?: 'none' | 'daily' | 'weekly' | 'monthly';
 }
