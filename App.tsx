@@ -390,6 +390,18 @@ const App: React.FC = () => {
     setIsDataLoaded(true);
   }, []);
 
+  // 添加超时机制，确保即使数据加载出现问题，页面也能最终显示出来
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (!isDataLoaded) {
+        console.log('数据加载超时，强制设置为已加载状态');
+        setIsDataLoaded(true);
+      }
+    }, 3000); // 3秒超时
+
+    return () => clearTimeout(timeoutId);
+  }, [isDataLoaded]);
+
   // Global Achievement Watcher
   useEffect(() => {
       if(!isDataLoaded) return;
