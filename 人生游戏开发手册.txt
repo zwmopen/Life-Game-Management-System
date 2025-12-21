@@ -1,0 +1,389 @@
+# 人生游戏开发手册
+
+## 项目概述
+
+**项目名称**：反本能·主动进化系统（人生游戏）
+**项目类型**：React Web应用，用于个人成长和习惯养成
+**技术栈**：React 19 + TypeScript + Vite + Recharts + DnD Kit
+**项目目标**：通过游戏化方式帮助用户培养良好习惯、实现自我成长
+
+## 技术栈和依赖
+
+### 核心依赖
+- **React 19.2.3**：前端框架
+- **React DOM 19.2.3**：React DOM渲染
+- **TypeScript 5.8.2**：类型安全
+- **Vite 6.2.0**：构建工具
+- **Recharts 3.6.0**：图表库
+- **@dnd-kit/core 6.3.1**：拖拽核心库
+- **@dnd-kit/sortable 10.0.0**：拖拽排序功能
+- **@dnd-kit/utilities 3.2.2**：拖拽工具函数
+- **lucide-react 0.561.0**：图标库
+- **canvas-confetti 1.9.2**：庆祝效果
+- **@google/genai 1.33.0**：AI功能
+
+### 开发依赖
+- **@vitejs/plugin-react 5.0.0**：Vite React插件
+- **@types/node 22.14.0**：Node类型定义
+
+## 项目结构
+
+```
+反本能·主动进化系统/
+├── components/             # 组件目录
+│   ├── AICoach.tsx        # AI教练组件
+│   ├── Blueprint.tsx       # 蓝图组件（项目管理）
+│   ├── CharacterProfile.tsx # 角色档案组件
+│   ├── CommandCenter.tsx   # 指挥中心组件
+│   ├── DailyCheckIn.tsx    # 每日签到组件
+│   ├── Dashboard.tsx       # 仪表盘组件
+│   ├── Database.tsx        # 数据库组件
+│   ├── Desensitization.tsx # 脱敏组件
+│   ├── Documentation.tsx   # 文档组件
+│   ├── HabitForge.tsx      # 习惯锻造组件
+│   ├── HabitTracker.tsx    # 习惯追踪组件
+│   ├── HallOfFame.tsx      # 荣誉殿堂组件
+│   ├── LifeGame.tsx        # 人生游戏主组件
+│   ├── MantraBar.tsx       # 格言栏组件
+│   ├── MissionControl.tsx  # 任务控制组件
+│   ├── MonkMode.tsx        # 僧侣模式组件
+│   ├── Navigation.tsx      # 导航组件
+│   ├── ProjectManual.tsx   # 项目手册组件
+│   ├── Settings.tsx        # 设置组件
+│   ├── TaskMatrix.tsx      # 任务矩阵组件
+│   └── VisionBoard.tsx     # 愿景板组件
+├── dist/                   # 构建输出目录
+├── App.tsx                 # 应用主组件
+├── index.tsx               # 应用入口
+├── index.html              # HTML模板
+├── package.json            # 项目配置
+├── tsconfig.json           # TypeScript配置
+├── vite.config.ts          # Vite配置
+├── constants.ts            # 常量定义
+├── types.ts                # 类型定义
+└── metadata.json           # 元数据
+```
+
+## 主要组件说明
+
+### App.tsx
+**功能**：应用主组件，管理全局状态和路由
+**状态管理**：
+- `theme`：主题（light/dark）
+- `habits`：习惯列表
+- `projects`：项目列表
+- `habitOrder`：习惯顺序
+- `projectOrder`：项目顺序
+**本地存储**：
+- 使用localStorage保存所有状态
+- 自动加载和保存数据
+
+### LifeGame.tsx
+**功能**：人生游戏主界面，展示任务和习惯
+**布局**：
+- 左侧：习惯列表
+- 右侧：项目列表
+**拖拽功能**：
+- 支持习惯和项目的拖拽排序
+- 保存排序到localStorage
+
+### MissionControl.tsx
+**功能**：图表系统，展示各种成长图表
+**图表类型**：
+- 趋势图表：习惯完成率、专注时间趋势等
+- 概念图形：舒适圈模型、WOOP框架等
+**拖拽功能**：
+- 支持图表分类的拖拽排序
+- 保存排序到localStorage
+**图表渲染**：
+- 使用Recharts库渲染各种图表
+- 支持图表大小调整
+
+### CharacterProfile.tsx
+**功能**：角色档案，展示用户属性和成就
+**属性系统**：
+- STR（力量）
+- INT（智力）
+- DIS（自律）
+- CRE（创造）
+- SOC（社交）
+- WEA（财富）
+**成就系统**：
+- 各种成就和勋章
+
+### Blueprint.tsx
+**功能**：项目管理，支持创建和管理项目及子任务
+**项目结构**：
+- 项目包含多个子任务
+- 子任务支持拖拽排序
+- 支持项目的创建、编辑、删除
+
+## 数据结构
+
+### types.ts
+```typescript
+// 主题类型
+export type Theme = 'light' | 'dark';
+
+// 子任务类型
+export interface SubTask {
+  id: string;
+  title: string;
+  completed: boolean;
+  priority: 'high' | 'medium' | 'low';
+  deadline?: string;
+}
+
+// 项目类型
+export interface Project {
+  id: string;
+  name: string;
+  description: string;
+  attr: 'STR' | 'INT' | 'DIS' | 'CRE' | 'SOC' | 'WEA' | '';
+  reward: number;
+  dailyFocus: { [date: string]: number };
+  subTasks: SubTask[];
+  completed?: boolean;
+}
+
+// 习惯类型
+export interface Habit {
+  id: string;
+  name: string;
+  description: string;
+  attr: 'STR' | 'INT' | 'DIS' | 'CRE' | 'SOC' | 'WEA' | '';
+  reward: number;
+  frequency: 'daily' | 'weekly' | 'monthly';
+  history: { [date: string]: boolean };
+  streak: number;
+  completed?: boolean;
+}
+
+// 角色属性类型
+export interface CharacterStats {
+  STR: number;
+  INT: number;
+  DIS: number;
+  CRE: number;
+  SOC: number;
+  WEA: number;
+}
+```
+
+## 状态管理
+
+### 全局状态
+- 所有状态都保存在App.tsx中
+- 使用React的useState钩子管理
+- 通过props传递给子组件
+
+### 本地存储
+- 使用localStorage保存所有状态
+- 自动加载和保存数据
+- 保存的数据包括：
+  - habits：习惯列表
+  - projects：项目列表
+  - theme：主题
+  - habitOrder：习惯顺序
+  - projectOrder：项目顺序
+  - chartCategories：图表分类
+  - chartHeight：图表高度
+
+## 样式和主题
+
+### 主题系统
+- 支持light和dark两种主题
+- 使用CSS类名切换主题
+- 主题配置保存在localStorage
+
+### 样式设计
+- 使用Tailwind CSS进行样式设计
+- 响应式布局，支持不同屏幕尺寸
+- 统一的颜色方案
+
+## 图表系统
+
+### 图表分类
+1. **趋势图表**：
+   - habitCompletion：习惯完成率
+   - focusTrend：专注时间趋势
+   - dip：死穴区间
+   - dunning：达克效应
+   - jcurve：J型曲线
+   - antifragile：反脆弱
+   - secondcurve：第二曲线
+   - compound：原子习惯
+   - mining：复利/阻力
+   - dopamine：多巴胺
+   - flow：心流通道
+   - windLaw：风中定律
+
+2. **概念图形**：
+   - zone：舒适圈模型
+   - woop：WOOP框架
+   - peakEnd：峰终定律
+   - valueVenn：人生价值韦恩图
+   - cognitiveOnion：认知洋葱圈
+   - learningCycle：学习循环
+   - purpose：人类需求层次
+   - johariWindow：乔哈里视窗
+   - footInDoor：登门槛效应
+   - deliberatePractice：刻意练习循环
+   - foggBehavior：佛格行为模型
+   - eisenhowerMatrix：艾森豪威尔矩阵
+   - outputLineModel：输出线模型
+
+### 图表数据生成
+- 大部分图表使用useMemo生成模拟数据
+- 部分图表（如习惯完成率）使用真实数据
+
+## 交互功能
+
+### 拖拽排序
+- 使用DnD Kit库实现
+- 支持习惯、项目、子任务、图表的拖拽排序
+- 排序结果保存到localStorage
+
+### 响应式设计
+- 支持不同屏幕尺寸
+- 移动端友好
+
+## 构建和部署
+
+### 构建命令
+```bash
+npm run build
+```
+- 输出到dist目录
+- 支持生产环境优化
+
+### 开发命令
+```bash
+npm run dev
+```
+- 启动开发服务器
+- 支持热更新
+
+## 打包成APK
+
+### 方案一：使用Capacitor
+1. 安装Capacitor
+```bash
+npm install @capacitor/core @capacitor/cli
+```
+
+2. 初始化Capacitor
+```bash
+npx cap init 反本能·主动进化系统 com.example.antiinstinct
+```
+
+3. 安装Android平台
+```bash
+npm install @capacitor/android
+npx cap add android
+```
+
+4. 构建项目
+```bash
+npm run build
+```
+
+5. 同步到Android平台
+```bash
+npx cap sync
+```
+
+6. 打开Android Studio
+```bash
+npx cap open android
+```
+
+7. 在Android Studio中构建APK
+
+### 方案二：使用Cordova
+1. 安装Cordova
+```bash
+npm install -g cordova
+```
+
+2. 创建Cordova项目
+```bash
+cordova create anti-instinct com.example.antiinstinct 反本能·主动进化系统
+```
+
+3. 添加Android平台
+```bash
+cd anti-instinct
+cordova platform add android
+```
+
+4. 将React项目构建输出复制到Cordova项目
+```bash
+cp -r ../dist/* www/
+```
+
+5. 构建APK
+```bash
+cordova build android
+```
+
+## 开发注意事项
+
+1. **类型安全**：
+   - 使用TypeScript进行类型检查
+   - 所有组件和函数都要有类型定义
+
+2. **性能优化**：
+   - 使用React.memo优化组件渲染
+   - 使用useMemo缓存计算结果
+   - 使用useCallback缓存函数
+
+3. **代码规范**：
+   - 遵循ESLint和Prettier规范
+   - 保持代码整洁和可读性
+
+4. **测试**：
+   - 手动测试所有功能
+   - 确保在不同浏览器和设备上正常运行
+
+## 更新日志
+
+### 2025-12-19
+- 添加了输出线模型图表
+- 修复了图表分类拖拽排序
+- 优化了图表渲染逻辑
+
+## 后续开发建议
+
+1. 添加更多图表类型
+2. 增强AI教练功能
+3. 添加社交功能
+4. 支持多平台同步
+5. 增强数据可视化
+
+## 部署说明
+
+1. 将dist目录部署到任意静态文件服务器
+2. 支持Vercel、Netlify、GitHub Pages等
+3. 配置自定义域名
+
+## 故障排除
+
+### 图表无法显示
+- 检查CHARTS数组中是否有该图表定义
+- 检查是否有对应的渲染逻辑
+- 检查数据生成函数是否正常
+
+### 拖拽排序无法保存
+- 检查localStorage是否正常
+- 检查handleDragEnd函数是否正确更新状态
+- 检查useEffect是否正确保存数据
+
+### 主题切换不生效
+- 检查主题状态是否正确
+- 检查CSS类名是否正确切换
+- 检查localStorage是否正确保存主题
+
+## 联系方式
+
+如有问题或建议，请联系项目维护者。
