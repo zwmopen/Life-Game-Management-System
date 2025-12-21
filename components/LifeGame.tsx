@@ -734,7 +734,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                     <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
                         <div className="flex gap-2">
                             <button onClick={() => setTaskCategory('daily')} className={`px-4 py-1.5 rounded-lg text-xs font-bold border transition-all duration-300 ${taskCategory === 'daily' ? 'bg-blue-600 border-blue-600 text-white shadow-lg shadow-blue-900/50' : (isDark ? 'bg-zinc-900 border-zinc-800 text-zinc-500 hover:border-zinc-700' : 'bg-white border-slate-300 text-slate-500 hover:border-slate-200')}`}>日常任务</button>
-                            <button onClick={() => setTaskCategory('main')} className={`px-4 py-1.5 rounded-lg text-xs font-bold border transition-all duration-300 ${taskCategory === 'main' ? 'bg-red-600 border-red-600 text-white shadow-lg shadow-red-900/50' : (isDark ? 'bg-zinc-900 border-zinc-800 text-zinc-500 hover:border-zinc-700' : 'bg-white border-slate-300 text-slate-500 hover:border-slate-200')}`}>主线任务</button>
+                            <button onClick={() => setTaskCategory('main')} className={`px-4 py-1.5 rounded-lg text-xs font-bold border transition-all duration-300 ${taskCategory === 'main' ? 'bg-blue-600 border-blue-600 text-white shadow-lg shadow-blue-900/50' : (isDark ? 'bg-zinc-900 border-zinc-800 text-zinc-500 hover:border-zinc-700' : 'bg-white border-slate-300 text-slate-500 hover:border-slate-200')}`}>主线任务</button>
                             <button onClick={() => setTaskCategory('random')} className={`px-4 py-1.5 rounded-lg text-xs font-bold border transition-all duration-300 ${taskCategory === 'random' ? 'bg-purple-600 border-purple-600 text-white shadow-lg shadow-purple-900/50' : (isDark ? 'bg-zinc-900 border-zinc-800 text-zinc-500 hover:border-zinc-700' : 'bg-white border-slate-300 text-slate-500 hover:border-slate-200')}`}>随机任务</button>
                         </div>
                         <div className="flex gap-2 items-center">
@@ -817,25 +817,25 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                     </div>
                                 </div>
                                 {task.subTasks && !task.completed && (
-                                    <div className={`border-t p-3 space-y-2 ${isDark ? 'border-zinc-800 bg-zinc-950/30' : 'border-slate-200 bg-slate-50'}`}>
+                                    <div className={`border-t p-2 space-y-1 ${isDark ? 'border-zinc-800 bg-zinc-950/30' : 'border-slate-200 bg-slate-50'}`}>
                                         {task.subTasks.map(st => (
                                             <div 
                                                 key={st.id} 
-                                                className={`flex flex-col gap-0.5 p-2 rounded cursor-pointer group/sub ${isDark ? 'hover:bg-white/5' : 'hover:bg-white border border-transparent hover:border-slate-200'}`}
+                                                className={`flex items-center justify-between gap-2 p-1.5 rounded cursor-pointer group/sub ${isDark ? 'hover:bg-white/5' : 'hover:bg-white border border-transparent hover:border-slate-200'}`}
                                             >
                                                 <div className="flex items-center gap-2 flex-1" onClick={() => toggleSubTask(task.id, st.id)}>
-                                                    <div className={`transition-colors ${st.completed ? 'text-zinc-500' : 'text-zinc-400 group-hover/sub:text-blue-500'}`}>{st.completed ? <CheckSquare size={16} /> : <Square size={16} />}</div>
+                                                    <div className={`transition-colors ${st.completed ? 'text-zinc-500' : 'text-zinc-400 group-hover/sub:text-blue-500'}`}>{st.completed ? <CheckSquare size={14} /> : <Square size={14} />}</div>
                                                     <span className={`text-sm ${st.completed ? 'text-zinc-600 line-through' : textMain} transition-all`}>{st.text}</span>
                                                 </div>
                                                 {/* 显示子任务的经验、金币和时长 */}
-                                                <div className="flex items-center gap-2 ml-7 text-xs font-mono text-zinc-500">
-                                                    <span className="text-purple-400">+{st.xp} 经验</span>
-                                                    <span className="text-yellow-500">+{st.gold} 金币</span>
-                                                    <span className="text-blue-500">{st.duration} 分钟</span>
+                                                <div className="flex items-center gap-2 text-xs font-mono text-zinc-500">
+                                                    <span className="text-purple-400">+{st.xp}</span>
+                                                    <span className="text-yellow-500">+{st.gold}</span>
+                                                    <span className="text-blue-500">{st.duration}m</span>
                                                 </div>
-                                                <div className="flex items-center gap-1 justify-end mt-0.5">
-                                                    <button onClick={(e) => { e.stopPropagation(); deleteSubTask(task.id, st.id); }} className="text-zinc-700 hover:text-red-500 p-2 opacity-0 group-hover/sub:opacity-100 transition-opacity" title="删除子任务"><X size={20}/></button>
-                                                    <button onClick={(e) => { e.stopPropagation(); handleStartTimer(st.duration || 25); }} className={`p-3 rounded-full text-white transition-colors hover:scale-110 shadow-lg ${isDark ? 'bg-zinc-800 hover:bg-emerald-600' : 'bg-blue-500 hover:bg-blue-600'} opacity-0 group-hover/sub:opacity-100`}><Play size={16} fill="currentColor"/></button>
+                                                <div className="flex items-center gap-0.5">
+                                                    <button onClick={(e) => { e.stopPropagation(); deleteSubTask(task.id, st.id); }} className="text-zinc-700 hover:text-red-500 p-1.5 opacity-0 group-hover/sub:opacity-100 transition-opacity" title="删除子任务"><X size={16}/></button>
+                                                    <button onClick={(e) => { e.stopPropagation(); handleStartTimer(st.duration || 25); }} className={`p-2 rounded-full text-white transition-colors hover:scale-110 shadow-lg ${isDark ? 'bg-zinc-800 hover:bg-emerald-600' : 'bg-blue-500 hover:bg-blue-600'} opacity-0 group-hover/sub:opacity-100`}><Play size={14} fill="currentColor"/></button>
                                                 </div>
                                             </div>
                                         ))}
