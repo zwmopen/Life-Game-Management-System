@@ -64,8 +64,9 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
 }) => {
     const isDark = theme === 'dark';
     const isNeomorphic = theme === 'neomorphic';
+    // 拟态风格卡片背景 - 符合设计规格的高饱和度灰蓝色底色，135度光源，增强阴影效果
     const cardBg = isNeomorphic 
-        ? 'bg-zinc-200 border-zinc-300 rounded-2xl shadow-[15px_15px_30px_rgba(0,0,0,0.1),-15px_-15px_30px_rgba(255,255,255,0.8)] hover:shadow-[20px_20px_40px_rgba(0,0,0,0.15),-20px_-20px_40px_rgba(255,255,255,0.9)] transition-all duration-300' 
+        ? 'bg-[#e0e5ec] border-[#a3b1c6] rounded-[48px] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)] hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] transition-all duration-200 active:shadow-[inset_8px_8px_16px_rgba(163,177,198,0.6),inset_-8px_-8px_16px_rgba(255,255,255,1)]' 
         : isDark 
         ? 'bg-zinc-900 border-zinc-800' 
         : 'bg-white border-slate-200';
@@ -93,18 +94,20 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
          
          const focusBadges = getAllFocusTitles().map((r, idx) => ({ 
              id: `rank-${r.title}`, title: r.title, subTitle: `${r.min}H`, 
-             icon: getFocusIcon(idx), color: 'text-emerald-500', 
+             icon: getFocusIcon(idx), color: ['text-blue-500', 'text-purple-500', 'text-pink-500', 'text-indigo-500', 'text-teal-500', 'text-red-500', 'text-orange-500', 'text-yellow-500', 'text-cyan-500', 'text-lime-500', 'text-emerald-500', 'text-violet-500'][idx % 12], 
              isUnlocked: totalHours >= r.min, req: `专注 ${r.min}H`, progress: Math.min(100, (totalHours/r.min)*100), 
              rewardXp: r.min * 10, rewardGold: r.min * 5, category: 'FOCUS',
-             bgColor: 'bg-emerald-500/20', borderColor: 'border-emerald-500/50'
+             bgColor: ['bg-blue-500/20', 'bg-purple-500/20', 'bg-pink-500/20', 'bg-indigo-500/20', 'bg-teal-500/20', 'bg-red-500/20', 'bg-orange-500/20', 'bg-yellow-500/20', 'bg-cyan-500/20', 'bg-lime-500/20', 'bg-emerald-500/20', 'bg-violet-500/20'][idx % 12], 
+             borderColor: ['border-blue-500/50', 'border-purple-500/50', 'border-pink-500/50', 'border-indigo-500/50', 'border-teal-500/50', 'border-red-500/50', 'border-orange-500/50', 'border-yellow-500/50', 'border-cyan-500/50', 'border-lime-500/50', 'border-emerald-500/50', 'border-violet-500/50'][idx % 12]
          }));
 
          const wealthBadges = getAllWealthTitles().map((c, idx) => ({ 
              id: `class-${c.title}`, title: c.title, subTitle: `${c.min}G`, 
-             icon: idx > 10 ? Crown : Wallet, color: 'text-yellow-500', 
+             icon: getWealthIcon(idx), color: ['text-green-500', 'text-blue-500', 'text-purple-500', 'text-pink-500', 'text-indigo-500', 'text-teal-500', 'text-red-500', 'text-orange-500', 'text-yellow-500', 'text-cyan-500', 'text-lime-500', 'text-emerald-500'][idx % 12], 
              isUnlocked: balance >= c.min, req: `持有 ${c.min}G`, progress: Math.min(100, (balance/c.min)*100), 
              rewardXp: Math.floor(c.min * 0.1), rewardGold: 0, category: 'WEALTH',
-             bgColor: 'bg-yellow-500/20', borderColor: 'border-yellow-500/50'
+             bgColor: ['bg-green-500/20', 'bg-blue-500/20', 'bg-purple-500/20', 'bg-pink-500/20', 'bg-indigo-500/20', 'bg-teal-500/20', 'bg-red-500/20', 'bg-orange-500/20', 'bg-yellow-500/20', 'bg-cyan-500/20', 'bg-lime-500/20', 'bg-emerald-500/20'][idx % 12], 
+             borderColor: ['border-green-500/50', 'border-blue-500/50', 'border-purple-500/50', 'border-pink-500/50', 'border-indigo-500/50', 'border-teal-500/50', 'border-red-500/50', 'border-orange-500/50', 'border-yellow-500/50', 'border-cyan-500/50', 'border-lime-500/50', 'border-emerald-500/50'][idx % 12]
          }));
 
          const combatBadges = getAllMilitaryRanks().map((r, idx) => ({ 
@@ -117,18 +120,20 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
 
          const checkInBadges = getAllCheckInTitles().map((c, idx) => ({ 
              id: `check-${c.title}`, title: c.title, subTitle: `${c.min} DAYS`, 
-             icon: idx>5 ? Flame : Calendar, color: 'text-purple-500', 
+             icon: getCheckInIcon(idx), color: ['text-purple-500', 'text-blue-500', 'text-green-500', 'text-pink-500', 'text-indigo-500', 'text-teal-500', 'text-red-500', 'text-orange-500', 'text-yellow-500', 'text-cyan-500', 'text-lime-500', 'text-emerald-500'][idx % 12], 
              isUnlocked: checkInStreak >= c.min, req: `连签 ${c.min} 天`, progress: Math.min(100, (checkInStreak/c.min)*100), 
              rewardXp: c.min * 30, rewardGold: c.min * 20, category: 'CHECKIN',
-             bgColor: 'bg-purple-500/20', borderColor: 'border-purple-500/50'
+             bgColor: ['bg-purple-500/20', 'bg-blue-500/20', 'bg-green-500/20', 'bg-pink-500/20', 'bg-indigo-500/20', 'bg-teal-500/20', 'bg-red-500/20', 'bg-orange-500/20', 'bg-yellow-500/20', 'bg-cyan-500/20', 'bg-lime-500/20', 'bg-emerald-500/20'][idx % 12], 
+             borderColor: ['border-purple-500/50', 'border-blue-500/50', 'border-green-500/50', 'border-pink-500/50', 'border-indigo-500/50', 'border-teal-500/50', 'border-red-500/50', 'border-orange-500/50', 'border-yellow-500/50', 'border-cyan-500/50', 'border-lime-500/50', 'border-emerald-500/50'][idx % 12]
          }));
 
          const spendBadges = getAllConsumptionTitles().map((c, idx) => ({ 
              id: `consume-${c.title}`, title: c.title, subTitle: `${c.min}G`, 
-             icon: idx>5 ? Dumbbell : ShoppingBag, color: 'text-orange-500', 
+             icon: getSpendIcon(idx), color: ['text-purple-500', 'text-blue-500', 'text-green-500', 'text-pink-500', 'text-indigo-500', 'text-teal-500', 'text-red-500', 'text-orange-500', 'text-yellow-500', 'text-cyan-500', 'text-lime-500', 'text-emerald-500'][idx % 12], 
              isUnlocked: totalSpent >= c.min, req: `消费 ${c.min}G`, progress: Math.min(100, (totalSpent/c.min)*100), 
              rewardXp: 0, rewardGold: Math.floor(c.min * 0.1), category: 'SPEND',
-             bgColor: 'bg-orange-500/20', borderColor: 'border-orange-500/50'
+             bgColor: ['bg-purple-500/20', 'bg-blue-500/20', 'bg-green-500/20', 'bg-pink-500/20', 'bg-indigo-500/20', 'bg-teal-500/20', 'bg-red-500/20', 'bg-orange-500/20', 'bg-yellow-500/20', 'bg-cyan-500/20', 'bg-lime-500/20', 'bg-emerald-500/20'][idx % 12], 
+             borderColor: ['border-purple-500/50', 'border-blue-500/50', 'border-green-500/50', 'border-pink-500/50', 'border-indigo-500/50', 'border-teal-500/50', 'border-red-500/50', 'border-orange-500/50', 'border-yellow-500/50', 'border-cyan-500/50', 'border-lime-500/50', 'border-emerald-500/50'][idx % 12]
          }));
 
          return [...levelBadges, ...focusBadges, ...wealthBadges, ...combatBadges, ...checkInBadges, ...spendBadges];
@@ -204,8 +209,8 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                             <h3 className="text-xs font-bold uppercase text-zinc-500 mb-3 flex items-center gap-2"><Award size={14} className="text-yellow-500"/> 最新战勋</h3>
                             <div className="flex gap-3 overflow-x-auto pb-4 custom-scrollbar">
                                 {latestBadges.map((badge: any) => (
-                                    <div key={`latest-${badge.id}`} className={`shrink-0 w-28 p-3 rounded-full border ${isDark ? 'bg-gradient-to-br from-zinc-900 to-zinc-800' : `bg-white ${badge.bgColor}`} ${badge.borderColor} flex flex-col items-center gap-2 shadow-lg ${isDark ? 'shadow-black/50' : 'shadow-blue-100'} animate-in fade-in zoom-in duration-500`}>
-                                        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${badge.bgColor} ${isDark ? 'shadow-[0_0_10px_rgba(255,255,255,0.1)]' : 'shadow-blue-200'}`}>
+                                    <div key={`latest-${badge.id}`} className={`shrink-0 w-28 p-3 rounded-full border flex flex-col items-center gap-2 shadow-lg animate-in fade-in zoom-in duration-500 transition-all duration-300 ${isDark ? 'bg-gradient-to-br from-zinc-900 to-zinc-800' : isNeomorphic ? `bg-[#e0e5ec] ${badge.borderColor} shadow-[12px_12px_24px_rgba(163,177,198,0.6),-12px_-12px_24px_rgba(255,255,255,1)] hover:shadow-[16px_16px_32px_rgba(163,177,198,0.7),-16px_-16px_32px_rgba(255,255,255,1)]` : `bg-white ${badge.bgColor} ${badge.borderColor} ${isDark ? 'shadow-black/50' : 'shadow-blue-100'}`}`}>
+                                        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${badge.isUnlocked ? (isNeomorphic ? `bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]` : badge.bgColor) : 'bg-zinc-900/30'}`}>
                                             <badge.icon size={20} className={badge.color} strokeWidth={2}/>
                                         </div>
                                         <div className={`text-[10px] font-bold text-center truncate w-full ${textMain}`}>{badge.title}</div>
@@ -222,7 +227,7 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                             <button 
                                 key={tab.id} 
                                 onClick={() => setCategory(tab.id as any)}
-                                className={`px-4 py-2 rounded-lg text-xs font-bold border flex items-center gap-2 whitespace-nowrap transition-all ${category === tab.id ? (isDark ? 'bg-zinc-800 text-white border-zinc-700' : 'bg-blue-500 text-white border-blue-600') : (isDark ? 'bg-zinc-900 border-zinc-800 text-zinc-500 hover:border-zinc-700' : 'bg-white border-slate-300 text-slate-600 hover:border-slate-200')}`}
+                                className={`px-4 py-2 rounded-lg text-xs font-bold border flex items-center gap-2 whitespace-nowrap transition-all ${category === tab.id ? (isDark ? 'bg-zinc-800 text-white border-zinc-700' : isNeomorphic ? 'bg-blue-500 text-white border-blue-500 shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)]' : 'bg-blue-500 text-white border-blue-600') : (isDark ? 'bg-zinc-900 border-zinc-800 text-zinc-500 hover:border-zinc-700' : isNeomorphic ? 'bg-[#e0e5ec] border-[#a3b1c6] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)] text-zinc-700' : 'bg-white border-slate-300 text-slate-600 hover:border-slate-200')}`}
                             >
                                 <tab.i size={14} /> {tab.l}
                             </button>
@@ -234,9 +239,30 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                 <div className="p-6 pt-2">
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 pb-20">
                         {filteredBadges.map(badge => {
+                            // Enhanced neomorphic styles for badges
+                            const getBadgeClass = () => {
+                                if (badge.isUnlocked) {
+                                    if (isDark) {
+                                        return `bg-gradient-to-br from-zinc-900 to-zinc-800 ${badge.borderColor} shadow-lg animate-pulse-glow`;
+                                    } else if (isNeomorphic) {
+                                        return `bg-[#e0e5ec] border-[#a3b1c6] shadow-[12px_12px_24px_rgba(163,177,198,0.6),-12px_-12px_24px_rgba(255,255,255,1)] hover:shadow-[16px_16px_32px_rgba(163,177,198,0.7),-16px_-16px_32px_rgba(255,255,255,1)] active:shadow-[inset_10px_10px_20px_rgba(163,177,198,0.6),inset_-10px_-10px_20px_rgba(255,255,255,1)] animate-pulse-glow transition-all duration-300`;
+                                    } else {
+                                        return `bg-white ${badge.bgColor} ${badge.borderColor} shadow-lg animate-pulse-glow`;
+                                    }
+                                } else {
+                                    if (isDark) {
+                                        return `bg-gradient-to-br from-zinc-950 to-zinc-900 ${badge.borderColor} opacity-70`;
+                                    } else if (isNeomorphic) {
+                                        return `bg-[#e0e5ec] border-[#a3b1c6] shadow-[8px_8px_16px_rgba(163,177,198,0.5),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)] opacity-70 transition-all duration-300`;
+                                    } else {
+                                        return `bg-slate-100 ${badge.borderColor} opacity-70`;
+                                    }
+                                }
+                            };
+                            
                             return (
-                                <div key={badge.id} className={`shrink-0 w-28 p-3 rounded-full border ${badge.isUnlocked ? (isDark ? `bg-gradient-to-br from-zinc-900 to-zinc-800 ${badge.borderColor} shadow-lg animate-pulse-glow` : `bg-white ${badge.bgColor} ${badge.borderColor} shadow-lg animate-pulse-glow`) : (isDark ? `bg-gradient-to-br from-zinc-950 to-zinc-900 ${badge.borderColor} opacity-70` : `bg-slate-100 ${badge.borderColor} opacity-70`)} flex flex-col items-center gap-2 shadow-lg ${isDark ? 'shadow-black/50' : 'shadow-blue-100'} transition-all duration-300 hover:scale-[1.05]`}>
-                                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${badge.isUnlocked ? badge.bgColor : 'bg-zinc-900/30'}`}>
+                                <div key={badge.id} className={`shrink-0 w-28 p-3 rounded-full border flex flex-col items-center gap-2 shadow-lg transition-all duration-300 hover:scale-[1.05] ${getBadgeClass()}`}>
+                                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${badge.isUnlocked ? (isNeomorphic ? `bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]` : badge.bgColor) : 'bg-zinc-900/30'}`}>
                                         <badge.icon size={20} className={badge.isUnlocked ? badge.color : `${badge.color} opacity-70`} strokeWidth={2}/>
                                     </div>
                                     <div className={`text-[10px] font-bold text-center truncate w-full ${badge.isUnlocked ? textMain : 'text-zinc-500'}`}>{badge.title}</div>

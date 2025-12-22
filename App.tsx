@@ -185,7 +185,7 @@ const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<View>(View.COMMAND_CENTER);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isNavCollapsed, setIsNavCollapsed] = useState(false);
-  const [theme, setTheme] = useState<Theme>('light');
+  const [theme, setTheme] = useState<Theme>('neomorphic');
   const [isDataLoaded, setIsDataLoaded] = useState(false);
 
   // Global "Game" State
@@ -568,9 +568,9 @@ const App: React.FC = () => {
 
   const handleToggleTheme = () => {
       setTheme(prev => {
-          if (prev === 'dark') return 'light';
-          if (prev === 'light') return 'neomorphic';
-          return 'dark';
+          if (prev === 'neomorphic') return 'light';
+          if (prev === 'light') return 'dark';
+          return 'neomorphic';
       });
   };
 
@@ -1021,7 +1021,7 @@ const App: React.FC = () => {
       ? 'bg-zinc-950 text-zinc-100' 
       : theme === 'light' 
       ? 'bg-slate-50 text-slate-900' 
-      : 'bg-zinc-200 text-zinc-700'; // 拟态风格：柔和的浅灰色背景，低对比度文字
+      : 'bg-[#e0e5ec] text-zinc-800'; // 拟态风格：高饱和度灰蓝色背景，低对比度文字
   const entropy = Math.round((1 - (todayStats.habitsDone / Math.max(1, habits.length))) * 100);
 
   if (!isDataLoaded) {

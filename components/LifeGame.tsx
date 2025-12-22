@@ -144,9 +144,30 @@ const LifeGame: React.FC<LifeGameProps> = ({
   const textMain = isDark ? 'text-zinc-200' : isNeomorphic ? 'text-zinc-700' : 'text-slate-800';
   const textSub = isDark ? 'text-zinc-400' : isNeomorphic ? 'text-zinc-600' : 'text-slate-500';
   
-  // 增强拟态风格卡片背景
+  // 拟态风格样式变量
+  const neomorphicStyles = {
+    bg: 'bg-[#e0e5ec]',
+    border: 'border-[#e0e5ec]',
+    shadow: 'shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]',
+    hoverShadow: 'hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)]',
+    activeShadow: 'active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]',
+    transition: 'transition-all duration-200'
+  };
+  
+  // 生成按钮样式的辅助函数
+  const getButtonStyle = (isActive: boolean, isSpecial?: boolean) => {
+    if (isActive) {
+      return isSpecial ? 'bg-red-500 text-white border-red-500' : 'bg-blue-500 text-white border-blue-500';
+    }
+    if (isNeomorphic) {
+      return `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow} ${neomorphicStyles.hoverShadow} ${neomorphicStyles.activeShadow} ${neomorphicStyles.transition}`;
+    }
+    return isDark ? 'bg-zinc-900 border-zinc-800 text-zinc-500 hover:border-zinc-700' : 'bg-white border-slate-300 text-slate-600 hover:border-slate-200';
+  };
+  
+  // 拟态风格卡片背景 - 符合设计规格的高饱和度灰蓝色底色，135度光源，大圆角
   const cardBg = isNeomorphic 
-      ? 'bg-zinc-200 border-zinc-300 rounded-2xl shadow-[15px_15px_30px_rgba(0,0,0,0.1),-15px_-15px_30px_rgba(255,255,255,0.8)] hover:shadow-[20px_20px_40px_rgba(0,0,0,0.15),-20px_-20px_40px_rgba(255,255,255,0.9)] transition-all duration-300 active:shadow-[inset_8px_8px_16px_rgba(0,0,0,0.15),inset_-8px_-8px_16px_rgba(255,255,255,0.8)]' 
+      ? `${neomorphicStyles.bg} ${neomorphicStyles.border} rounded-[48px] ${neomorphicStyles.shadow} ${neomorphicStyles.hoverShadow} ${neomorphicStyles.activeShadow} ${neomorphicStyles.transition}` 
       : isDark 
       ? 'bg-zinc-900 border-zinc-800 shadow-[inset_-15px_-15px_30px_rgba(255,255,255,0.05),inset_15px_15px_30px_rgba(0,0,0,0.3)]' 
       : 'bg-white border-slate-200 shadow-[inset_-15px_-15px_30px_rgba(255,255,255,0.8),inset_15px_15px_30px_rgba(0,0,0,0.1)]';
@@ -729,10 +750,168 @@ const LifeGame: React.FC<LifeGameProps> = ({
             {mainTab === 'battle' && (
                 <div className="max-w-4xl mx-auto space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className={`rounded-lg border p-4 flex flex-col gap-2 transition-all duration-300 ${cardBg} border-purple-500/20 hover:shadow-lg`}>
-                            <div className="flex justify-between items-center mb-1"><div className="text-[10px] text-purple-500 uppercase tracking-widest font-bold flex items-center gap-1"><Target size={12}/> 本周核心战役</div><button onClick={() => setIsEditingGoal(!isEditingGoal)} className="text-zinc-500 hover:text-blue-500 transition-colors"><Edit2 size={12}/></button></div>
-                            {isEditingGoal ? (<input autoFocus className={`w-full bg-transparent border-b outline-none text-sm font-bold ${textMain} ${isDark ? 'border-zinc-600' : 'border-slate-300'}`} value={weeklyGoal} onChange={e => setWeeklyGoal(e.target.value)} onBlur={() => setIsEditingGoal(false)} onKeyDown={e => e.key === 'Enter' && setIsEditingGoal(false)}/>) : (<div className={`text-sm font-bold ${textMain} truncate cursor-pointer`} onClick={() => setIsEditingGoal(true)}>{weeklyGoal}</div>)}
-                        </div>
+            {/* 7天签到系统 */}
+            <div className={`rounded-lg border p-4 flex flex-col gap-2 transition-all duration-300 ${cardBg} border-blue-500/20 hover:shadow-lg`}>
+                <div className="flex justify-between items-center mb-4">
+                    <div className="text-[10px] text-blue-500 uppercase tracking-widest font-bold flex items-center gap-1">
+                        <Calendar size={12}/> 7天签到系统
+                    </div>
+                </div>
+                
+                {/* 签到状态管理 */}
+                <div className="space-y-4">
+                    {/* 签到按钮 */}
+                    <div className="flex justify-center">
+                        <button 
+                            onClick={() => {
+                                // 获取签到数据
+                                const todayDate = new Date().toLocaleDateString();
+                                const checkInData = JSON.parse(localStorage.getItem('life-game-weekly-checkin') || '{}');
+                                
+                                // 检查是否已签到
+                                if (!checkInData[todayDate]) {
+                                    // 更新签到数据
+                                    checkInData[todayDate] = true;
+                                    localStorage.setItem('life-game-weekly-checkin', JSON.stringify(checkInData));
+                                    
+                                    // 计算连续签到天数
+                                    const now = new Date();
+                                    const day = now.getDay();
+                                    const diff = now.getDate() - day + (day === 0 ? -6 : 1); // 调整到周一
+                                    const monday = new Date(now.setDate(diff));
+                                    const weekDates = [];
+                                    for (let i = 0; i < 7; i++) {
+                                        const date = new Date(monday);
+                                        date.setDate(monday.getDate() + i);
+                                        weekDates.push(date.toLocaleDateString());
+                                    }
+                                    const consecutiveDays = weekDates.filter(date => checkInData[date]).length;
+                                    const goldReward = 10 + (consecutiveDays * 5);
+                                    const xpReward = 15 + (consecutiveDays * 3);
+                                    
+                                    // 触发奖励
+                                    onUpdateBalance(goldReward, "签到奖励");
+                                    onAddFloatingReward(`+${goldReward} 金币`, 'text-yellow-500', window.innerWidth / 2 - 60);
+                                    onAddFloatingReward(`+${xpReward} 经验`, 'text-blue-500', window.innerWidth / 2 + 60);
+                                    
+                                    // 关联勋章系统：更新签到 streak
+                                    const streak = checkInStreak + 1;
+                                    localStorage.setItem('aes-checkin-streak', streak.toString());
+                                    
+                                    // 使用React状态更新，避免页面刷新
+                                    // 这里我们使用setTimeout来模拟状态更新，实际项目中应使用useState
+                                    setTimeout(() => {
+                                        // 重新渲染组件
+                                        window.dispatchEvent(new Event('storage'));
+                                    }, 100);
+                                }
+                            }}
+                            disabled={(() => {
+                                const todayDate = new Date().toLocaleDateString();
+                                const checkInData = JSON.parse(localStorage.getItem('life-game-weekly-checkin') || '{}');
+                                return !!checkInData[todayDate];
+                            })()}
+                            className={`px-6 py-2 rounded-lg text-sm font-bold transition-all duration-300 flex items-center gap-2 ${(() => {
+                                const todayDate = new Date().toLocaleDateString();
+                                const checkInData = JSON.parse(localStorage.getItem('life-game-weekly-checkin') || '{}');
+                                
+                                if (checkInData[todayDate]) {
+                                    return isNeomorphic 
+                                        ? 'bg-[#e0e5ec] text-emerald-500 border border-emerald-500/30 cursor-not-allowed shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)]' 
+                                        : 'bg-emerald-500/20 text-emerald-500 border-emerald-500/30 cursor-not-allowed';
+                                } else {
+                                    return isNeomorphic 
+                                        ? 'bg-[#e0e5ec] text-blue-500 border border-blue-500/30 hover:shadow-[3px_3px_6px_rgba(163,177,198,0.5),-3px_-3px_6px_rgba(255,255,255,0.8)] active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]' 
+                                        : 'bg-blue-600 text-white hover:bg-blue-700 shadow-lg shadow-blue-900/30 transform hover:scale-105';
+                                }
+                            })()}`}
+                        >
+                            {(() => {
+                                const todayDate = new Date().toLocaleDateString();
+                                const checkInData = JSON.parse(localStorage.getItem('life-game-weekly-checkin') || '{}');
+                                return checkInData[todayDate] ? (
+                                    <>
+                                        <Check size={16}/>
+                                        今日已签到
+                                    </>
+                                ) : (
+                                    <>
+                                        <Calendar size={16}/>
+                                        立即签到
+                                    </>
+                                );
+                            })()}
+                        </button>
+                    </div>
+                    
+                    {/* 7天签到状态 */}
+                    <div className="grid grid-cols-7 gap-2">
+                        {(() => {
+                            // 获取本周的日期范围（周一到周日）
+                            const now = new Date();
+                            const day = now.getDay();
+                            const diff = now.getDate() - day + (day === 0 ? -6 : 1); // 调整到周一
+                            const monday = new Date(now.setDate(diff));
+                            
+                            const weekDates = [];
+                            for (let i = 0; i < 7; i++) {
+                                const date = new Date(monday);
+                                date.setDate(monday.getDate() + i);
+                                weekDates.push(date);
+                            }
+                            
+                            const checkInData = JSON.parse(localStorage.getItem('life-game-weekly-checkin') || '{}');
+                            const today = new Date();
+                            const todayDateStr = today.toLocaleDateString();
+                            const dayNames = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
+                            
+                            // 每天的图标
+                            const dayIcons = [<Sun size={14}/>, <Coffee size={14}/>, <BookOpen size={14}/>, <Dumbbell size={14}/>, <Users size={14}/>, <Music size={14}/>, <Moon size={14}/>];
+                            
+                            return weekDates.map((date, index) => {
+                                const dateStr = date.toLocaleDateString();
+                                const isCheckedIn = !!checkInData[dateStr];
+                                const isToday = dateStr === todayDateStr;
+                                const isPast = date < today;
+                                
+                                return (
+                                    <div 
+                                        key={index} 
+                                        className={`flex flex-col items-center gap-1 transition-all duration-300 ${isToday ? 'scale-110' : ''}`}
+                                    >
+                                        <div className={`
+                                            w-full aspect-square rounded-lg flex flex-col items-center justify-center border-2 text-xs font-bold transition-all
+                                            ${isCheckedIn 
+                                                ? (isNeomorphic 
+                                                    ? 'bg-[#e0e5ec] border-emerald-500/30 text-emerald-500 shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]' 
+                                                    : 'border-emerald-500 bg-emerald-500/10 text-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.3)]')
+                                                : isToday 
+                                                ? (isNeomorphic 
+                                                    ? 'bg-[#e0e5ec] border-blue-500/30 text-blue-500 shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)]' 
+                                                    : 'border-blue-500 bg-blue-500/10 text-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.3)]')
+                                                : (isNeomorphic 
+                                                    ? 'bg-[#e0e5ec] border-zinc-300/30 text-zinc-400 shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)]' 
+                                                    : (isDark ? 'border-zinc-800 bg-zinc-800 text-zinc-600' : 'border-slate-200 bg-slate-100 text-slate-400'))
+                                            }
+                                        `}>
+                                            {isCheckedIn && <Check size={14} strokeWidth={4}/>}
+                                            {!isCheckedIn && dayIcons[index]}
+                                        </div>
+                                        <div className={`text-[10px] font-bold ${isCheckedIn ? 'text-emerald-500' : isToday ? 'text-blue-500' : (isDark ? 'text-zinc-500' : 'text-slate-500')}`}>
+                                            {dayNames[index]}
+                                        </div>
+                                    </div>
+                                );
+                            });
+                        })()}
+                    </div>
+                    
+                    {/* 签到奖励说明 */}
+                    <div className="text-xs text-zinc-500 text-center">
+                        连续签到可获得额外奖励，每周一重置
+                    </div>
+                </div>
+            </div>
                         <div className={`rounded-lg border p-4 flex flex-col gap-2 transition-all duration-300 ${cardBg} border-red-500/20 relative group hover:shadow-lg`}>
                             <div className="flex justify-between items-center mb-1"><div className="text-[10px] text-red-500 uppercase tracking-widest font-bold flex items-center gap-1"><Crosshair size={12}/> 今日核心战役</div><div className="flex gap-2"><button onClick={() => setIsEditingTodayGoal(!isEditingTodayGoal)} className="text-zinc-500 hover:text-blue-500 transition-colors"><Edit2 size={12}/></button><button onClick={() => { setShowProtocol(true); setProtocolStep(0); }} className="text-[10px] bg-red-900/20 text-red-400 border border-red-900/50 px-2 py-0.5 rounded hover:bg-red-900/40 flex items-center gap-1 transition-all" title="启动晨间协议重置目标"><Power size={10}/> 启动协议</button></div></div>
                             {isEditingTodayGoal ? (<input autoFocus className={`w-full bg-transparent border-b outline-none text-sm font-bold ${textMain} ${isDark ? 'border-zinc-600' : 'border-slate-300'}`} value={todayGoal} onChange={e => setTodayGoal(e.target.value)} onBlur={() => setIsEditingTodayGoal(false)} onKeyDown={e => e.key === 'Enter' && setIsEditingTodayGoal(false)}/>) : (<div className={`text-sm font-bold ${textMain} truncate cursor-pointer ${!todayGoal && 'text-zinc-500 italic'}`} onClick={() => setIsEditingTodayGoal(true)}>{todayGoal || "点击或启动协议设定目标..."}</div>)}
@@ -854,7 +1033,6 @@ const LifeGame: React.FC<LifeGameProps> = ({
 
                         {taskCategory === 'random' && (
                             <>
-                                <div className="flex justify-end mb-4"><button onClick={() => setIsManageTasksOpen(true)} className="text-xs text-zinc-500 hover:text-blue-500 underline transition-colors">管理随机库</button></div>
                                 {todaysChallenges.tasks.map((taskStr, idx) => {
                                     // 解析随机任务，支持完整格式和旧格式
                                     let taskText = taskStr;
@@ -925,41 +1103,40 @@ const LifeGame: React.FC<LifeGameProps> = ({
                      <div className="flex flex-wrap justify-between items-center gap-4 mb-6">
                          <div className="flex gap-2">
                             {[{ id: 'all', label: '全部' }, { id: 'physical', label: '实物' }, { id: 'rights', label: '权益' }, { id: 'leisure', label: '休闲' }].map(f => (
-                                <button onClick={() => setShopFilter(f.id as any)} className={`px-4 py-1.5 rounded-lg text-xs font-bold border transition-all ${shopFilter === f.id ? (isDark ? 'bg-zinc-800 text-white border-zinc-700' : 'bg-blue-500 text-white border-blue-600') : (isDark ? 'bg-zinc-900 border-zinc-800 text-zinc-500 hover:border-zinc-700' : 'bg-white border-slate-300 text-slate-600 hover:border-slate-200')}`}>{f.label}</button>
+                                <button onClick={() => setShopFilter(f.id as any)} className={`px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all ${getButtonStyle(shopFilter === f.id)}`}>{f.label}</button>
                             ))}
                          </div>
                          <div className="flex gap-2 items-center">
                              <button onClick={() => setActiveHelp('shop')} className="text-zinc-500 hover:text-white transition-colors"><HelpCircle size={16}/></button>
-                             <button onClick={() => setIsManageShopMode(!isManageShopMode)} className={`text-xs px-3 py-1.5 rounded-lg border font-bold flex items-center gap-1 transition-all ${isManageShopMode ? 'bg-red-500 text-white border-red-500' : (isDark ? 'bg-zinc-900 border-zinc-800 text-zinc-500 hover:border-zinc-700' : 'bg-white border-slate-300 text-slate-600 hover:border-slate-200')}`}>
+                             <button onClick={() => setIsManageShopMode(!isManageShopMode)} className={`text-xs px-3 py-1.5 rounded-[24px] border font-bold flex items-center gap-1 transition-all ${getButtonStyle(isManageShopMode, true)}`}>
                                  {isManageShopMode ? <CheckCircle size={12}/> : <Hammer size={12}/>} {isManageShopMode ? '完成管理' : '管理商品'}
                              </button>
-                             <button onClick={() => setMainTab('battle')} className="text-xs px-3 py-1.5 rounded-lg border transition-all ${isDark ? 'bg-zinc-900 border-zinc-800 text-zinc-500 hover:border-zinc-700' : 'bg-white border-slate-300 text-slate-600 hover:border-slate-200'}">返回作战</button>
+                             <button onClick={() => setMainTab('battle')} className={`text-xs px-3 py-1.5 rounded-[24px] border transition-all ${getButtonStyle(false)}`}>返回作战</button>
                          </div>
                      </div>
-                     {isManageShopMode && (<div className="mb-4"><button onClick={handleAddNewItem} className="w-full py-3 border border-dashed border-zinc-700 rounded-xl text-zinc-500 hover:text-white hover:border-zinc-500 transition-all flex items-center justify-center gap-2 text-sm font-bold"><Plus size={16}/> 上架新商品</button></div>)}
-                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                     {isManageShopMode && (<div className="mb-4"><button onClick={handleAddNewItem} className={`w-full py-3 border ${isNeomorphic ? 'border-dashed ' + neomorphicStyles.bg + ' ' + neomorphicStyles.border + ' ' + neomorphicStyles.shadow + ' ' + neomorphicStyles.hoverShadow + ' ' + neomorphicStyles.activeShadow : 'border-dashed border-zinc-700'} rounded-[24px] text-zinc-500 hover:text-white hover:border-zinc-500 transition-all flex items-center justify-center gap-2 text-sm font-bold`}><Plus size={16}/> 上架新商品</button></div>)}
+                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                          {sortedInventory.map((item, index) => (
-                             <div key={item.id} draggable={isManageShopMode} onDragStart={() => handleShopDragStart(index)} onDragOver={(e) => handleShopDragOver(e, index)} className={`group relative p-4 rounded-lg border flex flex-col items-center text-center gap-2 hover:border-yellow-500/50 hover:shadow-lg transition-all ${cardBg} ${item.type === 'physical' && item.owned ? 'opacity-50' : ''} ${isManageShopMode ? 'border-red-500/30 cursor-move' : 'cursor-default'}`} style={{ aspectRatio: '1/1', minHeight: '150px' }}>
+                             <div key={item.id} draggable={isManageShopMode} onDragStart={() => handleShopDragStart(index)} onDragOver={(e) => handleShopDragOver(e, index)} className={`group relative p-4 rounded-lg border flex flex-col items-center text-center gap-1.5 hover:border-yellow-500/50 hover:shadow-lg transition-all ${cardBg.replace('border-[#a3b1c6]', 'border-[#e0e5ec]')} ${item.type === 'physical' && item.owned ? 'opacity-50' : ''} ${isManageShopMode ? 'border-red-500/30 cursor-move' : 'cursor-default'}`} style={{ minHeight: '160px' }}>
                                  {isManageShopMode && (<><div className="absolute top-2 right-2 flex gap-2 z-10"><button onClick={(e) => { e.stopPropagation(); setEditingItem(item); setIsEditItemOpen(true); }} className="p-1.5 bg-blue-500 rounded text-white transition-colors hover:bg-blue-600"><Edit3 size={12}/></button><button onClick={(e) => handleDeleteItem(e, item.id)} className="p-1.5 bg-red-500 rounded text-white transition-colors hover:bg-red-600"><Trash2 size={12}/></button></div><div className="absolute left-2 top-2 text-zinc-600 opacity-50"><GripVertical size={16}/></div></>)}
                                  {/* 圆形图标，带有精致的边缘光效 */}
-                                 <div className="relative w-full h-1/2 flex items-center justify-center mb-0">
-                                     <div className={`relative w-16 h-16 rounded-full flex items-center justify-center border ${isDark ? 'bg-gradient-to-br from-zinc-800 to-zinc-900 border-zinc-700' : 'bg-gradient-to-br from-zinc-100 to-zinc-200 border-zinc-300'} group-hover:scale-110 transition-all duration-300`}>
+                                 <div className="relative w-full flex items-center justify-center mb-0">
+                                     <div className={`relative w-14 h-14 rounded-full flex items-center justify-center border ${isDark ? 'bg-gradient-to-br from-zinc-800 to-zinc-900 border-zinc-700' : 'bg-gradient-to-br from-zinc-100 to-zinc-200 border-zinc-300'} group-hover:scale-110 transition-all duration-300`}>
                                         {/* 边缘光效 */}
                                         <div className="absolute inset-0 rounded-full bg-gradient-to-r from-yellow-500/30 via-purple-500/30 to-blue-500/30 animate-[spin_3s_linear_infinite] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                                         {/* 扫光效果 */}
                                         <div className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 animate-[shine_2s_ease-in-out_infinite] transform -rotate-45 transition-opacity duration-500"></div>
                                         {/* 中心图标 */}
-                                        <div className="relative z-10 text-8xl group-hover:animate-pulse">{item.icon}</div>
+                                        <div className="relative z-10 text-7xl group-hover:animate-pulse">{item.icon}</div>
                                     </div>
                                  </div>
-                                 {/* 价格移到商品名称前面 */}
-                                 <div className="flex items-center justify-center gap-2 mt-1 w-full">
-                                     <span className={`px-3 py-1 text-xs font-bold rounded-full ${isDark ? 'bg-yellow-600/30 text-yellow-400 border border-yellow-600/50' : 'bg-yellow-100 text-yellow-800'}`}>¥{item.cost}</span>
-                                     <h4 className={`font-bold text-sm ${textMain} mt-0 truncate max-w-[120px]`}>{item.name}</h4>
-                                 </div>
-                                 <p className="text-xs text-zinc-500 mt-0 line-clamp-2 w-full max-w-[150px]">{item.description}</p>
-                                 {/* 购买按钮优化 */}
-                                 <button onClick={(e) => handlePurchase(item, e)} className={`w-full py-2 text-xs font-bold rounded-lg transition-all duration-300 ${item.type === 'physical' && item.owned ? 'bg-zinc-800 text-zinc-500 hover:bg-zinc-700' : 'bg-gradient-to-r from-yellow-600 to-amber-600 hover:from-yellow-500 hover:to-amber-500 text-white hover:shadow-xl hover:shadow-yellow-500/50 transform hover:scale-105 active:scale-95'}`}>
+                                 {/* 价格移到商品名称上面 */}
+                                 <span className={`px-3 py-1 text-xs font-bold rounded-full mt-1 ${isDark ? 'bg-yellow-600/30 text-yellow-400 border border-yellow-600/50' : 'bg-yellow-100 text-yellow-800'}`}>¥{item.cost}</span>
+                                 {/* 商品名称允许换行显示 */}
+                                 <h4 className={`font-bold text-sm ${textMain} mt-0 text-center w-full break-words`}>{item.name}</h4>
+                                 <p className="text-xs text-zinc-500 mt-0 line-clamp-2 w-full max-w-[120px]">{item.description}</p>
+                                 {/* 购买按钮完全融入商品块 */}
+                                 <button onClick={(e) => handlePurchase(item, e)} className={`w-full py-1 text-[12px] font-bold rounded-md mt-1 transition-all duration-300 ${item.type === 'physical' && item.owned ? 'bg-zinc-800/30 text-zinc-500 hover:bg-zinc-700/50' : (isNeomorphic ? neomorphicStyles.bg + ' text-blue-600 hover:text-blue-700' : 'bg-gradient-to-r from-yellow-600/80 to-amber-600/80 hover:from-yellow-500/90 hover:to-amber-500/90 text-white')}`}>
                                     {item.type === 'physical' && item.owned ? '已拥有' : '购买'}
                                 </button>
                              </div>

@@ -1,4 +1,4 @@
-# 反本能·主动进化系统 - 项目计划书
+# 人生游戏化管理系统
 
 ## 1. 项目概述
 这是一个基于 React 和 TypeScript 开发的人生管理系统，采用游戏化设计理念，帮助用户养成良好习惯、管理任务和实现个人成长。项目使用 Vite 作为构建工具，结合 Google Gemini API 提供 AI 辅助功能。
@@ -209,9 +209,3 @@ npm run build
 
 MIT License
 
-## 15. 联系方式
-
-如有问题或建议，请通过以下方式联系：
-- 项目地址：[GitHub Repository]
-- 邮件：[contact@example.com]
-- 社交媒体：[@example]

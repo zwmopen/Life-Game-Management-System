@@ -18,10 +18,15 @@ interface MissionControlProps {
 
 const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits }) => {
   const isDark = theme === 'dark';
-  const bgClass = isDark ? 'bg-zinc-950' : 'bg-slate-50';
-  const cardBg = isDark ? 'bg-zinc-900 border-zinc-800' : 'bg-white border-slate-200 shadow-sm';
-  const textMain = isDark ? 'text-zinc-200' : 'text-slate-800';
-  const textSub = isDark ? 'text-zinc-500' : 'text-slate-500';
+  const isNeomorphic = theme === 'neomorphic';
+  const bgClass = isDark ? 'bg-zinc-950' : isNeomorphic ? 'bg-[#e0e5ec]' : 'bg-slate-50';
+  const cardBg = isDark 
+      ? 'bg-zinc-900 border-zinc-800' 
+      : isNeomorphic 
+      ? 'bg-[#e0e5ec] border-[#a3b1c6] rounded-[32px] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)] hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] transition-all duration-200 active:shadow-[inset_8px_8px_16px_rgba(163,177,198,0.6),inset_-8px_-8px_16px_rgba(255,255,255,1)]' 
+      : 'bg-white border-slate-200 shadow-sm';
+  const textMain = isDark ? 'text-zinc-200' : isNeomorphic ? 'text-zinc-700' : 'text-slate-800';
+  const textSub = isDark ? 'text-zinc-500' : isNeomorphic ? 'text-zinc-600' : 'text-slate-500';
 
   const [activeChart, setActiveChart] = useState<string>('dip');
   const [chartHeight, setChartHeight] = useState<number>(500);
@@ -960,7 +965,7 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
               id: 'comfort',
               label: '舒适区',
               description: '熟悉与安全',
-              radius: 80,
+              radius: 40,
               color: '#10b981',
               fillOpacity: 0.2
           },
@@ -968,7 +973,7 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
               id: 'learning',
               label: '学习区',
               description: '成长与提升',
-              radius: 120,
+              radius: 60,
               color: '#3b82f6',
               fillOpacity: 0.2
           },
@@ -976,7 +981,7 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
               id: 'fear',
               label: '恐惧区',
               description: '未知与挑战',
-              radius: 160,
+              radius: 80,
               color: '#ef4444',
               fillOpacity: 0.2
           }
@@ -1117,8 +1122,19 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
   }, [projects]);
 
   const getButtonClass = (isActive: boolean) => {
-      if (isActive) return isDark ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/50' : 'bg-blue-500 text-white shadow-lg shadow-blue-200';
-      return isDark ? 'bg-zinc-800 text-zinc-400 hover:bg-zinc-700' : 'bg-white border border-slate-200 text-slate-500 hover:bg-slate-50';
+      if (isActive) {
+          if (isNeomorphic) {
+              return 'bg-blue-500 text-white border-[#a3b1c6] shadow-[12px_12px_24px_rgba(163,177,198,0.6),-12px_-12px_24px_rgba(255,255,255,1),inset_2px_2px_4px_rgba(255,255,255,0.2),inset_-2px_-2px_4px_rgba(163,177,198,0.2)] hover:shadow-[16px_16px_32px_rgba(163,177,198,0.7),-16px_-16px_32px_rgba(255,255,255,1),inset_2px_2px_4px_rgba(255,255,255,0.2),inset_-2px_-2px_4px_rgba(163,177,198,0.2)] active:shadow-[inset_8px_8px_16px_rgba(163,177,198,0.6),inset_-8px_-8px_16px_rgba(255,255,255,1)] transition-all duration-300';
+          } else {
+              return isDark ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/50' : 'bg-blue-500 text-white shadow-lg shadow-blue-200';
+          }
+      } else {
+          if (isNeomorphic) {
+              return 'bg-[#e0e5ec] border-[#a3b1c6] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1),inset_2px_2px_4px_rgba(255,255,255,0.3),inset_-2px_-2px_4px_rgba(163,177,198,0.2)] hover:shadow-[14px_14px_28px_rgba(163,177,198,0.7),-14px_-14px_28px_rgba(255,255,255,1),inset_2px_2px_4px_rgba(255,255,255,0.3),inset_-2px_-2px_4px_rgba(163,177,198,0.2)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)] text-zinc-700 transition-all duration-300';
+          } else {
+              return isDark ? 'bg-zinc-800 text-zinc-400 hover:bg-zinc-700' : 'bg-white border border-slate-200 text-slate-500 hover:bg-slate-50';
+          }
+      }
   };
 
   const CHARTS = [
@@ -1172,8 +1188,8 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
                             onDragEnd={handleDragEnd}
                         >
                             {/* 趋势图表分类 */}
-                            <div className="w-full text-xs text-blue-500 font-bold mb-1">📊 趋势图表</div>
-                            <div id="category-trend" className="flex flex-wrap gap-2 mb-3">
+                            <div className={`w-full text-xs font-bold mb-2 px-2 py-1 rounded-lg transition-all ${isNeomorphic ? 'bg-[#e0e5ec] border-[#a3b1c6] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1),inset_2px_2px_4px_rgba(255,255,255,0.3),inset_-2px_-2px_4px_rgba(163,177,198,0.2)] text-blue-600' : 'text-blue-500'}`}>📊 趋势图表</div>
+                            <div id="category-trend" className="flex flex-wrap gap-2 mb-3 p-2 rounded-lg transition-all ${isNeomorphic ? 'bg-[#e0e5ec] border-[#a3b1c6] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.5),inset_-4px_-4px_8px_rgba(255,255,255,0.8)]' : ''}">
                                 <SortableContext items={chartCategories.trend} strategy={horizontalListSortingStrategy}>
                                     {chartCategories.trend.map(c => {
                                         const chart = getChartById(c);
@@ -1184,11 +1200,11 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
                             </div>
                             
                             {/* 分割线 */}
-                            <div className="w-full h-px bg-zinc-800 my-1"></div>
+                            <div className={`w-full h-px my-1 ${isNeomorphic ? 'bg-[#a3b1c6] shadow-[inset_1px_1px_2px_rgba(163,177,198,0.6),inset_-1px_-1px_2px_rgba(255,255,255,1)]' : 'bg-zinc-800'}`}></div>
                             
                             {/* 概念图形分类 */}
-                            <div className="w-full text-xs text-purple-500 font-bold mb-1">🎨 概念图形</div>
-                            <div id="category-concept" className="flex flex-wrap gap-2">
+                            <div className={`w-full text-xs font-bold mb-2 px-2 py-1 rounded-lg transition-all ${isNeomorphic ? 'bg-[#e0e5ec] border-[#a3b1c6] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1),inset_2px_2px_4px_rgba(255,255,255,0.3),inset_-2px_-2px_4px_rgba(163,177,198,0.2)] text-purple-600' : 'text-purple-500'}`}>🎨 概念图形</div>
+                            <div id="category-concept" className="flex flex-wrap gap-2 p-2 rounded-lg transition-all ${isNeomorphic ? 'bg-[#e0e5ec] border-[#a3b1c6] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.5),inset_-4px_-4px_8px_rgba(255,255,255,0.8)]' : ''}">
                                 <SortableContext items={chartCategories.concept} strategy={horizontalListSortingStrategy}>
                                     {chartCategories.concept.map(c => {
                                         const chart = getChartById(c);
@@ -1207,7 +1223,7 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
             {/* Featured Strategic Chart (Full Width Top) */}
             <div 
                 ref={chartContainerRef}
-                className={`p-4 rounded-lg border ${cardBg} lg:col-span-2 flex flex-col relative overflow-hidden group transition-transform duration-300 z-0 hover:z-10 hover:shadow-lg`} 
+                className={`p-4 rounded-lg border ${cardBg} lg:col-span-2 flex flex-col relative overflow-hidden group transition-all duration-300 z-0 hover:z-10`} 
                 style={{ height: `${chartHeight}px`, minHeight: '500px' }}
             >
                 {/* Resize Handle */}

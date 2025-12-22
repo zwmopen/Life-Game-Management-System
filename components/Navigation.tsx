@@ -50,9 +50,9 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
   const isDark = theme === 'dark';
   const isNeomorphic = theme === 'neomorphic';
   
-  // 拟态风格样式
+  // 拟态风格样式 - 符合规格的高饱和度灰蓝色底色，135度光源，增强阴影效果
   const sidebarClass = isNeomorphic 
-      ? 'bg-zinc-200 border-zinc-300 shadow-[20px_20px_40px_rgba(0,0,0,0.1),-20px_-20px_40px_rgba(255,255,255,0.8)] transition-all duration-300' 
+      ? 'bg-[#e0e5ec] border-[#a3b1c6] rounded-r-[48px] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)] transition-all duration-300' 
       : isDark 
       ? 'bg-zinc-950 border-zinc-800' 
       : 'bg-white border-slate-200 shadow-xl';
@@ -60,16 +60,16 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
   const textClass = isDark ? 'text-zinc-400' : isNeomorphic ? 'text-zinc-700' : 'text-slate-500';
   
   const activeClass = isNeomorphic 
-      ? 'bg-zinc-200 text-zinc-700 border-zinc-300 shadow-[inset_5px_5px_10px_rgba(0,0,0,0.1),inset_-5px_-5px_10px_rgba(255,255,255,0.8)]' 
+      ? 'bg-[#e0e5ec] text-zinc-700 border-[#a3b1c6] rounded-lg shadow-[inset_8px_8px_16px_rgba(163,177,198,0.6),inset_-8px_-8px_16px_rgba(255,255,255,1)] transform scale-98 transition-all duration-150' 
       : isDark 
-      ? 'bg-emerald-900/20 text-emerald-400 border-emerald-900/50' 
-      : 'bg-blue-50 text-blue-600 border-blue-200';
+      ? 'bg-emerald-900/20 text-emerald-400 border-emerald-900/50 rounded-lg' 
+      : 'bg-blue-50 text-blue-600 border-blue-200 rounded-lg';
   
   const hoverClass = isNeomorphic 
-      ? 'hover:text-zinc-800 hover:bg-zinc-200 hover:shadow-[5px_5px_10px_rgba(0,0,0,0.15),-5px_-5px_10px_rgba(255,255,255,0.9)]' 
+      ? 'hover:text-zinc-800 hover:bg-[#e0e5ec] hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] transition-all duration-200 transform scale-102 rounded-lg' 
       : isDark 
-      ? 'hover:text-zinc-100 hover:bg-zinc-900' 
-      : 'hover:text-slate-900 hover:bg-slate-50';
+      ? 'hover:text-zinc-100 hover:bg-zinc-900 rounded-lg' 
+      : 'hover:text-slate-900 hover:bg-slate-50 rounded-lg';
 
   // Entropy Color Logic
   const getEntropyColor = () => {
