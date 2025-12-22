@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Volume2, VolumeX, Music, Headphones, Sun, Moon, FileText, HelpCircle, Bell, Eye, Database, Shield, Info } from 'lucide-react';
+import { Volume2, VolumeX, Music, Headphones, Sun, Moon, FileText, HelpCircle, Bell, Eye, Database, Shield, Info, Activity } from 'lucide-react';
 import { Theme, Settings as SettingsType } from '../types';
 
 interface SettingsProps {

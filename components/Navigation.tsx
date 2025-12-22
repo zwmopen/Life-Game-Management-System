@@ -48,10 +48,28 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
   };
 
   const isDark = theme === 'dark';
-  const sidebarClass = isDark ? 'bg-zinc-950 border-zinc-800' : 'bg-white border-slate-200 shadow-xl';
-  const textClass = isDark ? 'text-zinc-400' : 'text-slate-500';
-  const activeClass = isDark ? 'bg-emerald-900/20 text-emerald-400 border-emerald-900/50' : 'bg-blue-50 text-blue-600 border-blue-200';
-  const hoverClass = isDark ? 'hover:text-zinc-100 hover:bg-zinc-900' : 'hover:text-slate-900 hover:bg-slate-50';
+  const isNeomorphic = theme === 'neomorphic';
+  
+  // 拟态风格样式
+  const sidebarClass = isNeomorphic 
+      ? 'bg-zinc-200 border-zinc-300 shadow-[20px_20px_40px_rgba(0,0,0,0.1),-20px_-20px_40px_rgba(255,255,255,0.8)] transition-all duration-300' 
+      : isDark 
+      ? 'bg-zinc-950 border-zinc-800' 
+      : 'bg-white border-slate-200 shadow-xl';
+  
+  const textClass = isDark ? 'text-zinc-400' : isNeomorphic ? 'text-zinc-700' : 'text-slate-500';
+  
+  const activeClass = isNeomorphic 
+      ? 'bg-zinc-200 text-zinc-700 border-zinc-300 shadow-[inset_5px_5px_10px_rgba(0,0,0,0.1),inset_-5px_-5px_10px_rgba(255,255,255,0.8)]' 
+      : isDark 
+      ? 'bg-emerald-900/20 text-emerald-400 border-emerald-900/50' 
+      : 'bg-blue-50 text-blue-600 border-blue-200';
+  
+  const hoverClass = isNeomorphic 
+      ? 'hover:text-zinc-800 hover:bg-zinc-200 hover:shadow-[5px_5px_10px_rgba(0,0,0,0.15),-5px_-5px_10px_rgba(255,255,255,0.9)]' 
+      : isDark 
+      ? 'hover:text-zinc-100 hover:bg-zinc-900' 
+      : 'hover:text-slate-900 hover:bg-slate-50';
 
   // Entropy Color Logic
   const getEntropyColor = () => {

@@ -305,7 +305,7 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
     const isDark = theme === 'dark';
     const isNeomorphic = theme === 'neomorphic';
     const cardBg = isNeomorphic 
-        ? 'bg-zinc-200 border-zinc-300 shadow-[10px_10px_20px_rgba(0,0,0,0.1),-10px_-10px_20px_rgba(255,255,255,0.8)] transition-all duration-300' 
+        ? 'bg-zinc-200 border-zinc-300 rounded-2xl shadow-[15px_15px_30px_rgba(0,0,0,0.1),-15px_-15px_30px_rgba(255,255,255,0.8)] hover:shadow-[20px_20px_40px_rgba(0,0,0,0.15),-20px_-20px_40px_rgba(255,255,255,0.9)] transition-all duration-300' 
         : isDark 
         ? 'bg-zinc-900 border-zinc-800' 
         : 'bg-white border-slate-200';
