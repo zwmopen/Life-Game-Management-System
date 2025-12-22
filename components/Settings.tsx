@@ -11,12 +11,19 @@ interface SettingsProps {
 
 const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, onToggleTheme }) => {
   const isDark = theme === 'dark';
-  const cardBg = isDark ? 'bg-zinc-900 border-zinc-800' : 'bg-white border-slate-200';
-  const textMain = isDark ? 'text-zinc-200' : 'text-slate-800';
-  const textSub = isDark ? 'text-zinc-500' : 'text-slate-500';
+  const isNeomorphic = theme === 'neomorphic';
+  const cardBg = isNeomorphic 
+      ? 'bg-zinc-200 border-zinc-300 shadow-[10px_10px_20px_rgba(0,0,0,0.1),-10px_-10px_20px_rgba(255,255,255,0.8)] hover:shadow-[15px_15px_30px_rgba(0,0,0,0.15),-15px_-15px_30px_rgba(255,255,255,0.9)] transition-all duration-300' 
+      : isDark 
+      ? 'bg-zinc-900 border-zinc-800' 
+      : 'bg-white border-slate-200';
+  const textMain = isDark ? 'text-zinc-200' : isNeomorphic ? 'text-zinc-700' : 'text-slate-800';
+  const textSub = isDark ? 'text-zinc-500' : isNeomorphic ? 'text-zinc-600' : 'text-slate-500';
   
   // State to control project documentation visibility
   const [showDocs, setShowDocs] = useState(false);
+  // State to control nutcloud settings visibility
+  const [showNutcloudSettings, setShowNutcloudSettings] = useState(false);
 
   // Simple tooltip component
   const Tooltip = ({ children, content }: { children: React.ReactNode; content: string }) => (
@@ -46,24 +53,35 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
       <div className="flex-1 overflow-y-auto p-2 custom-scrollbar">
         <div className="max-w-2xl mx-auto space-y-1">
           {/* Theme Toggle */}
-          <div className={`rounded-lg border shadow-sm p-3 ${cardBg}`}>
+          <div className={`rounded-lg border p-3 ${cardBg}`}>
             <div className="flex justify-between items-center">
               <div className="flex items-center gap-2">
-                {isDark ? <Moon size={20} className="text-blue-400" /> : <Sun size={20} className="text-yellow-500" />}
+                {theme === 'dark' && <Moon size={20} className="text-blue-400" />}
+                {theme === 'light' && <Sun size={20} className="text-yellow-500" />}
+                {theme === 'neomorphic' && <Activity size={20} className="text-zinc-600" />}
                 <div>
                   <h3 className={`font-bold text-sm ${textMain}`}>主题切换</h3>
-                  <p className={`text-[10px] ${textSub}`}>切换深色/浅色主题</p>
+                  <p className={`text-[10px] ${textSub}`}>切换深色/浅色/拟态主题</p>
                 </div>
               </div>
-              <Tooltip content="切换系统主题，适应不同光线环境">
-                <HelpCircle size={16} className="text-zinc-500 hover:text-blue-500 transition-colors cursor-help" />
-              </Tooltip>
-              <button
-                onClick={onToggleTheme}
-                className={`p-1.5 rounded-full transition-all duration-300 ${isDark ? 'bg-zinc-800 hover:bg-zinc-700' : 'bg-slate-100 hover:bg-slate-200'}`}
-              >
-                {isDark ? <Sun size={18} className="text-yellow-500" /> : <Moon size={18} className="text-blue-400" />}
-              </button>
+              <div className="flex items-center gap-2">
+                <Tooltip content="切换系统主题，适应不同光线环境">
+                  <HelpCircle size={16} className="text-zinc-500 hover:text-blue-500 transition-colors cursor-help" />
+                </Tooltip>
+                <button
+                  onClick={onToggleTheme}
+                  className={`p-1.5 rounded-full transition-all duration-300 
+                      ${theme === 'neomorphic' 
+                          ? 'bg-zinc-300 text-zinc-700 shadow-[inset_-3px_-3px_6px_rgba(255,255,255,0.7),inset_3px_3px_6px_rgba(0,0,0,0.1)]' 
+                          : isDark 
+                          ? 'bg-zinc-800 hover:bg-zinc-700' 
+                          : 'bg-slate-100 hover:bg-slate-200'}`}
+                >
+                  {theme === 'dark' && <Sun size={18} className="text-yellow-500" />}
+                  {theme === 'light' && <Activity size={18} className="text-zinc-600" />}
+                  {theme === 'neomorphic' && <Moon size={18} className="text-blue-400" />}
+                </button>
+              </div>
             </div>
           </div>
 
@@ -390,9 +408,10 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
             <div className="space-y-4">
               {/* Backup Section */}
               <div className="space-y-2">
-                <h4 className={`text-xs font-bold ${textMain}`}>备份选项</h4>
-                <div className="grid grid-cols-2 gap-2">
-                  <button className={`px-4 py-2 rounded-lg transition-colors ${isDark ? 'bg-green-900/30 text-green-400 hover:bg-green-800/50' : 'bg-green-100 text-green-700 hover:bg-green-200'}`} onClick={() => {
+                <h4 className={`text-xs font-bold ${textMain}`}>手动备份</h4>
+                <div className="grid grid-cols-1 gap-2">
+                  {/* Local Backup */}
+                  <button className={`w-full px-4 py-2 rounded-lg transition-colors ${isDark ? 'bg-green-900/30 text-green-400 hover:bg-green-800/50' : 'bg-green-100 text-green-700 hover:bg-green-200'}`} onClick={() => {
                     const data = localStorage.getItem('aes-global-data-v3');
                     if (data) {
                       const blob = new Blob([data], { type: 'application/json' });
@@ -408,17 +427,122 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                   }}>
                     本地备份
                   </button>
-                  <button className={`px-4 py-2 rounded-lg transition-colors ${isDark ? 'bg-blue-900/30 text-blue-400 hover:bg-blue-800/50' : 'bg-blue-100 text-blue-700 hover:bg-blue-200'}`} onClick={() => {
-                    // 坚果云在线备份逻辑
+                  
+                  {/* Online Backup (Nutcloud) */}
+                  <button className={`w-full px-4 py-2 rounded-lg transition-colors ${isDark ? 'bg-blue-900/30 text-blue-400 hover:bg-blue-800/50' : 'bg-blue-100 text-blue-700 hover:bg-blue-200'}`} onClick={async () => {
                     const data = localStorage.getItem('aes-global-data-v3');
                     if (data) {
-                      // 这里可以实现坚果云API调用
-                      // 目前显示模拟备份成功
-                      alert('已连接到坚果云，数据备份中...\n\n提示：请在实际环境中配置坚果云API密钥以启用在线备份功能');
+                      // Check if Nutcloud WebDAV credentials are configured
+                      if (settings.nutcloudWebDAV?.server && settings.nutcloudWebDAV?.username && settings.nutcloudWebDAV?.password) {
+                        try {
+                          // Ensure server URL ends with a slash
+                          const serverUrl = settings.nutcloudWebDAV.server.endsWith('/') ? settings.nutcloudWebDAV.server : `${settings.nutcloudWebDAV.server}/`;
+                          const filename = `life-game-backup-${new Date().toISOString().split('T')[0]}.json`;
+                          const url = `${serverUrl}${filename}`;
+                          
+                          // Send WebDAV PUT request to upload the file
+                          const response = await fetch(url, {
+                            method: 'PUT',
+                            headers: {
+                              'Content-Type': 'application/json',
+                              'Authorization': `Basic ${btoa(`${settings.nutcloudWebDAV.username}:${settings.nutcloudWebDAV.password}`)}`
+                            },
+                            body: data
+                          });
+                          
+                          if (response.ok) {
+                            alert('备份成功上传到坚果云');
+                          } else {
+                            // Get more detailed error message
+                            const errorText = await response.text();
+                            console.error('Backup failed response:', response.status, response.statusText, errorText);
+                            alert(`备份失败: ${response.status} ${response.statusText}\n\n可能的原因：\n1. WebDAV服务器地址格式不正确（确保以/结尾）\n2. 坚果云账号或密码错误\n3. 网络连接问题\n4. 跨域限制（尝试使用其他浏览器或方式）`);
+                          }
+                        } catch (error) {
+                          console.error('Backup error:', error);
+                          const errorMessage = error instanceof Error ? error.message : String(error);
+                          alert(`备份失败：${errorMessage}\n\n可能的原因：\n1. WebDAV服务器地址格式不正确\n2. 坚果云账号或密码错误\n3. 网络连接问题\n4. 浏览器跨域限制\n\n详细错误：${errorMessage}`);
+                        }
+                      } else {
+                        alert('请先在坚果云WebDAV配置中填写完整的服务器地址、账号和密码');
+                      }
                     }
                   }}>
                     在线备份（坚果云）
                   </button>
+                </div>
+                
+                {/* Nutcloud Settings (Collapsible) */}
+                <div className="space-y-2">
+                  <button 
+                    onClick={() => setShowNutcloudSettings(!showNutcloudSettings)}
+                    className={`w-full px-4 py-2 rounded-lg transition-colors text-left ${isDark ? 'bg-zinc-800/50 text-zinc-300 hover:bg-zinc-800' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
+                  >
+                    <div className="flex justify-between items-center">
+                      <span>坚果云WebDAV配置</span>
+                      <span className={`text-xs ${textSub}`}>
+                        {showNutcloudSettings ? '收起' : '展开'}
+                      </span>
+                    </div>
+                  </button>
+                  
+                  {showNutcloudSettings && (
+                    <div className={`p-3 rounded-lg border ${isDark ? 'bg-zinc-900/50 border-zinc-800' : 'bg-white border-slate-200'}`}>
+                      <div className="space-y-3">
+                        <div className="space-y-1">
+                          <label className={`text-xs ${textMain}`}>WebDAV服务器地址</label>
+                          <input
+                            type="text"
+                            placeholder="https://dav.jianguoyun.com/dav/"
+                            value={settings.nutcloudWebDAV?.server || ''}
+                            onChange={(e) => onUpdateSettings({ 
+                              nutcloudWebDAV: { 
+                                server: e.target.value, 
+                                username: settings.nutcloudWebDAV?.username || '', 
+                                password: settings.nutcloudWebDAV?.password || '' 
+                              } 
+                            })}
+                            className={`w-full text-sm px-3 py-2 rounded border outline-none ${isDark ? 'bg-zinc-800 border-zinc-700 text-white' : 'bg-white border-slate-300 text-slate-800'}`}
+                          />
+                        </div>
+                        <div className="space-y-1">
+                          <label className={`text-xs ${textMain}`}>坚果云账号</label>
+                          <input
+                            type="text"
+                            placeholder="输入坚果云账号（邮箱）"
+                            value={settings.nutcloudWebDAV?.username || ''}
+                            onChange={(e) => onUpdateSettings({ 
+                              nutcloudWebDAV: { 
+                                server: settings.nutcloudWebDAV?.server || '', 
+                                username: e.target.value, 
+                                password: settings.nutcloudWebDAV?.password || '' 
+                              } 
+                            })}
+                            className={`w-full text-sm px-3 py-2 rounded border outline-none ${isDark ? 'bg-zinc-800 border-zinc-700 text-white' : 'bg-white border-slate-300 text-slate-800'}`}
+                          />
+                        </div>
+                        <div className="space-y-1">
+                          <label className={`text-xs ${textMain}`}>WebDAV密码</label>
+                          <input
+                            type="password"
+                            placeholder="输入坚果云WebDAV密码"
+                            value={settings.nutcloudWebDAV?.password || ''}
+                            onChange={(e) => onUpdateSettings({ 
+                              nutcloudWebDAV: { 
+                                server: settings.nutcloudWebDAV?.server || '', 
+                                username: settings.nutcloudWebDAV?.username || '', 
+                                password: e.target.value 
+                              } 
+                            })}
+                            className={`w-full text-sm px-3 py-2 rounded border outline-none ${isDark ? 'bg-zinc-800 border-zinc-700 text-white' : 'bg-white border-slate-300 text-slate-800'}`}
+                          />
+                        </div>
+                        <div className={`text-[10px] ${textSub}`}>
+                          WebDAV密码可在坚果云设置中生成，<a href="https://www.jianguoyun.com/d/client/settings/security" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">点击获取WebDAV密码</a>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
               
@@ -553,7 +677,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                 </div>
                 
                 <h4 className="font-bold text-sm mb-2">核心功能模块</h4>
-                <ul className="text-xs ${textSub} list-disc list-inside space-y-1 mb-3">
+                <ul className={`text-xs ${textSub} list-disc list-inside space-y-1 mb-3`}>
                   <li>战略指挥部 - 核心仪表盘</li>
                   <li>任务矩阵 - 习惯养成与项目管理</li>
                   <li>数据中心 - 图表与洞察</li>

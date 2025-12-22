@@ -139,9 +139,17 @@ const LifeGame: React.FC<LifeGameProps> = ({
     timeLeft, isActive, duration, onToggleTimer, onResetTimer, onChangeDuration, onUpdateTimeLeft, onUpdateIsActive
 }) => {
   const isDark = theme === 'dark';
+  const isNeomorphic = theme === 'neomorphic';
   const todayStr = new Date().toLocaleDateString();
-  const textMain = isDark ? 'text-zinc-200' : 'text-slate-800';
-  const cardBg = isDark ? 'bg-zinc-900 border-zinc-800 shadow-[inset_-15px_-15px_30px_rgba(255,255,255,0.05),inset_15px_15px_30px_rgba(0,0,0,0.3)]' : 'bg-white border-slate-200 shadow-[inset_-15px_-15px_30px_rgba(255,255,255,0.8),inset_15px_15px_30px_rgba(0,0,0,0.1)]';
+  const textMain = isDark ? 'text-zinc-200' : isNeomorphic ? 'text-zinc-700' : 'text-slate-800';
+  const textSub = isDark ? 'text-zinc-400' : isNeomorphic ? 'text-zinc-600' : 'text-slate-500';
+  
+  // 拟态风格卡片背景
+  const cardBg = isNeomorphic 
+      ? 'bg-zinc-200 border-zinc-300 shadow-[10px_10px_20px_rgba(0,0,0,0.1),-10px_-10px_20px_rgba(255,255,255,0.8)] hover:shadow-[15px_15px_30px_rgba(0,0,0,0.15),-15px_-15px_30px_rgba(255,255,255,0.9)] transition-all duration-300' 
+      : isDark 
+      ? 'bg-zinc-900 border-zinc-800 shadow-[inset_-15px_-15px_30px_rgba(255,255,255,0.05),inset_15px_15px_30px_rgba(0,0,0,0.3)]' 
+      : 'bg-white border-slate-200 shadow-[inset_-15px_-15px_30px_rgba(255,255,255,0.8),inset_15px_15px_30px_rgba(0,0,0,0.1)]';
   
   const [level, setLevel] = useState(1);
   const [savings, setSavings] = useState(0); 

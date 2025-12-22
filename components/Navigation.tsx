@@ -156,14 +156,28 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
               )}
           </div>
           
+          {/* 主题切换按钮 - 拟态风格 */}
           <div className={`p-6 border-t ${isDark ? 'border-zinc-800' : 'border-slate-100'} flex justify-between items-center`}>
                <button 
-                  onClick={() => setTheme(isDark ? 'light' : 'dark')}
-                  className={`flex items-center gap-2 text-xs font-bold px-3 py-1.5 rounded-full transition-colors ${isDark ? 'bg-zinc-900 text-zinc-400 hover:text-white' : 'bg-slate-100 text-slate-500 hover:text-blue-600'}`}
-                  title={isDark ? '切换到浅色模式' : '切换到深色模式'}
+                  onClick={() => {
+                      setTheme(prev => {
+                          if (prev === 'dark') return 'light';
+                          if (prev === 'light') return 'neomorphic';
+                          return 'dark';
+                      });
+                  }}
+                  className={`flex items-center gap-2 text-xs font-bold px-3 py-1.5 rounded-full transition-all duration-300 
+                      ${theme === 'neomorphic' 
+                          ? 'bg-zinc-300 text-zinc-700 shadow-[inset_-3px_-3px_6px_rgba(255,255,255,0.7),inset_3px_3px_6px_rgba(0,0,0,0.1)]' 
+                          : isDark 
+                          ? 'bg-zinc-900 text-zinc-400 hover:text-white' 
+                          : 'bg-slate-100 text-slate-500 hover:text-blue-600'}`}
+                  title={`切换到${theme === 'dark' ? '浅色' : theme === 'light' ? '拟态' : '深色'}主题`}
                >
-                   {isDark ? <Moon size={12}/> : <Sun size={12}/>}
-                   {isDark ? '深色' : '浅色'}
+                   {theme === 'dark' && <Moon size={12}/>}
+                   {theme === 'light' && <Sun size={12}/>}
+                   {theme === 'neomorphic' && <Activity size={12}/>}
+                   {theme === 'dark' ? '深色' : theme === 'light' ? '浅色' : '拟态'}
                </button>
               <div className={`text-[10px] font-mono ${isDark ? 'text-zinc-600' : 'text-slate-400'}`}>V 4.5.0</div>
           </div>

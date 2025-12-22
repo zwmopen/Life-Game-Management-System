@@ -9,7 +9,7 @@ export enum View {
   SETTINGS = 'SETTINGS',             // 设置中心 (New)
 }
 
-export type Theme = 'dark' | 'light';
+export type Theme = 'dark' | 'light' | 'neomorphic'; // 拟态风格
 export type AttributeType = 'STR' | 'INT' | 'DIS' | 'CRE' | 'SOC' | 'WEA';
 
 export interface RejectionLog {
@@ -119,4 +119,9 @@ export interface Settings {
     showBalance: boolean;
     showTaskCompletionRate: boolean;
     autoBackupFrequency?: 'none' | 'daily' | 'weekly' | 'monthly';
+    nutcloudWebDAV?: {
+        server: string;
+        username: string;
+        password: string;
+    };
 }

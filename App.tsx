@@ -567,7 +567,11 @@ const App: React.FC = () => {
   };
 
   const handleToggleTheme = () => {
-      setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+      setTheme(prev => {
+          if (prev === 'dark') return 'light';
+          if (prev === 'light') return 'neomorphic';
+          return 'dark';
+      });
   };
 
   // Global Audio Ref for Background Music Persistence
@@ -1013,7 +1017,11 @@ const App: React.FC = () => {
     }
   };
 
-  const bgClass = theme === 'dark' ? 'bg-zinc-950 text-zinc-100' : 'bg-slate-50 text-slate-900';
+  const bgClass = theme === 'dark' 
+      ? 'bg-zinc-950 text-zinc-100' 
+      : theme === 'light' 
+      ? 'bg-slate-50 text-slate-900' 
+      : 'bg-zinc-200 text-zinc-700'; // 拟态风格：柔和的浅灰色背景，低对比度文字
   const entropy = Math.round((1 - (todayStats.habitsDone / Math.max(1, habits.length))) * 100);
 
   if (!isDataLoaded) {

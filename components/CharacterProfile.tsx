@@ -303,8 +303,13 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
         onImmersiveModeChange = undefined
     } = props;
     const isDark = theme === 'dark';
-    const cardBg = isDark ? 'bg-zinc-900 border-zinc-800' : 'bg-white border-slate-200';
-    const textMain = isDark ? 'text-zinc-100' : 'text-slate-800';
+    const isNeomorphic = theme === 'neomorphic';
+    const cardBg = isNeomorphic 
+        ? 'bg-zinc-200 border-zinc-300 shadow-[10px_10px_20px_rgba(0,0,0,0.1),-10px_-10px_20px_rgba(255,255,255,0.8)] transition-all duration-300' 
+        : isDark 
+        ? 'bg-zinc-900 border-zinc-800' 
+        : 'bg-white border-slate-200';
+    const textMain = isDark ? 'text-zinc-100' : isNeomorphic ? 'text-zinc-700' : 'text-slate-800';
     
     const levelInfo = getLevelInfo(xp);
     const focusInfo = getFocusInfo(totalHours);
