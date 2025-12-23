@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, LineChart, Line, ComposedChart } from 'recharts';
 import { 
   Coins, Trophy, ShoppingBag, CheckCircle, Swords, Flame, 
   Shield, Brain, BicepsFlexed, Sparkles, Users, Plus, X, Crown,
@@ -10,7 +11,7 @@ import {
   Headphones, Armchair, Scissors, Glasses, Footprints, Utensils, Sofa, Activity, Power, ChevronRight, Sun, Wallet
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
-import { Theme, AttributeType, Habit, Project, SubTask } from '../types';
+import { Theme, AttributeType, Habit, Project, SubTask, TaskType, AutoTaskType, Task } from '../types';
 import CharacterProfile, { CharacterProfileHandle } from './CharacterProfile';
 
 interface LifeGameProps {
@@ -38,7 +39,7 @@ interface LifeGameProps {
   todaysChallenges: {date: string, tasks: string[]};
   completedRandomTasks: {[date: string]: string[]};
   onToggleRandomChallenge: (task: string) => void;
-  onStartAutoTask: (type: 'habit'|'project'|'random', id: string, duration: number, subId?: string) => void;
+  onStartAutoTask: (type: AutoTaskType, id: string, duration: number, subId?: string) => void;
   checkInStreak: number;
   onPomodoroComplete: (m: number) => void;
   xp: number;
@@ -50,6 +51,9 @@ interface LifeGameProps {
   onGiveUpTask?: (id: string) => void;
   isNavCollapsed: boolean;
   setIsNavCollapsed: (collapsed: boolean) => void;
+  // 统计数据
+  todayStats: {focusMinutes: number, tasksCompleted: number, habitsDone: number, earnings: number, spending: number};
+  statsHistory: {[key: number]: {focusMinutes: number, tasksCompleted: number, habitsDone: number, earnings: number, spending: number}};
   // Pomodoro Global State
   timeLeft: number;
   isActive: boolean;
@@ -62,6 +66,9 @@ interface LifeGameProps {
   // Additional props from previous code
   onUpdateHabitOrder?: (order: string[]) => void;
   onUpdateProjectOrder?: (order: string[]) => void;
+  // Immersive Mode State
+  isImmersive: boolean;
+  setIsImmersive: (isImmersive: boolean) => void;
 }
 
 const XP_PER_LEVEL = 200;
@@ -122,21 +129,24 @@ const SHOP_CATALOG = [
 
 
 
+// 简化ATTR_COLORS，去除彩色阴影效果，只保留文字颜色，与签到系统效果一致
 const ATTR_COLORS: Record<AttributeType | string, string> = {
-    STR: 'text-red-500 border-red-500/30 shadow-red-500/10',
-    INT: 'text-blue-500 border-blue-500/30 shadow-blue-500/10',
-    DIS: 'text-zinc-400 border-zinc-500/30 shadow-zinc-500/10',
-    CRE: 'text-purple-500 border-purple-500/30 shadow-purple-500/10',
-    SOC: 'text-pink-500 border-pink-500/30 shadow-pink-500/10',
-    WEA: 'text-yellow-500 border-yellow-500/30 shadow-yellow-500/10',
+    STR: 'text-red-500',
+    INT: 'text-blue-500',
+    DIS: 'text-zinc-400',
+    CRE: 'text-purple-500',
+    SOC: 'text-pink-500',
+    WEA: 'text-yellow-500',
 };
 
 const LifeGame: React.FC<LifeGameProps> = ({ 
     theme, balance, onUpdateBalance, habits, projects, habitOrder, projectOrder, onToggleHabit, onUpdateHabit, onDeleteHabit, onUpdateProject, onDeleteProject, onAddHabit, onAddProject, initialTab, initialCategory, onAddFloatingReward, totalTasksCompleted, totalHours,
     challengePool, setChallengePool, todaysChallenges, completedRandomTasks, onToggleRandomChallenge, onStartAutoTask, checkInStreak, onPomodoroComplete, xp, weeklyGoal, setWeeklyGoal, todayGoal, setTodayGoal,
-    givenUpTasks = [], onGiveUpTask, onUpdateHabitOrder, onUpdateProjectOrder, isNavCollapsed, setIsNavCollapsed,
+    givenUpTasks = [], onGiveUpTask, onUpdateHabitOrder, onUpdateProjectOrder, isNavCollapsed, setIsNavCollapsed, todayStats, statsHistory,
     // Pomodoro Global State
-    timeLeft, isActive, duration, onToggleTimer, onResetTimer, onChangeDuration, onUpdateTimeLeft, onUpdateIsActive
+    timeLeft, isActive, duration, onToggleTimer, onResetTimer, onChangeDuration, onUpdateTimeLeft, onUpdateIsActive,
+    // Immersive Mode State
+    isImmersive, setIsImmersive
 }) => {
   const isDark = theme === 'dark';
   const isNeomorphic = theme === 'neomorphic';
@@ -222,7 +232,50 @@ const LifeGame: React.FC<LifeGameProps> = ({
     lastInterestDate: new Date().toLocaleDateString()
   });
 
+  // Global Audio Management - Move audio management to LifeGame to ensure continuous playback across navigation
+  const [isMuted, setIsMuted] = useState(false);
+  const [currentSoundId, setCurrentSoundId] = useState('forest');
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
+  // Audio URLs mapping
+  const SOUNDS = [
+    { id: 'forest', name: '迷雾森林', url: "https://assets.mixkit.co/active_storage/sfx/2441/2441-preview.mp3" }, // 使用海浪声替代失效的森林声
+    { id: 'alpha', name: '阿尔法波', url: "https://assets.mixkit.co/active_storage/sfx/243/243-preview.mp3" },
+    { id: 'theta', name: '希塔波', url: "https://assets.mixkit.co/active_storage/sfx/244/244-preview.mp3" }, 
+    { id: 'beta', name: '贝塔波', url: "https://assets.mixkit.co/active_storage/sfx/1126/1126-preview.mp3" },
+    { id: 'ocean', name: '海浪声', url: "https://assets.mixkit.co/active_storage/sfx/2441/2441-preview.mp3" },
+    { id: 'rain', name: '雨声', url: "https://assets.mixkit.co/active_storage/sfx/2442/2442-preview.mp3" },
+    { id: 'night', name: '夏夜虫鸣', url: "https://assets.mixkit.co/active_storage/sfx/2443/2443-preview.mp3" },
+    { id: 'white-noise', name: '白噪音', url: "https://assets.mixkit.co/active_storage/sfx/2444/2444-preview.mp3" },
+    { id: 'pink-noise', name: '粉红噪音', url: "https://assets.mixkit.co/active_storage/sfx/2445/2445-preview.mp3" },
+    { id: 'brown-noise', name: '布朗噪音', url: "https://assets.mixkit.co/active_storage/sfx/2446/2446-preview.mp3" },
+    { id: 'cafe', name: '咖啡馆环境', url: "https://assets.mixkit.co/active_storage/sfx/2447/2447-preview.mp3" },
+    { id: 'fireplace', name: '壁炉声', url: "https://assets.mixkit.co/active_storage/sfx/2448/2448-preview.mp3" },
+  ];
+
+  // Manage audio playback globally
+  useEffect(() => {
+    // Create new Audio object if it doesn't exist or sound changed
+    if (!audioRef.current) {
+      const newAudio = new Audio(SOUNDS.find(s => s.id === currentSoundId)?.url || SOUNDS[0].url);
+      newAudio.loop = true;
+      newAudio.volume = 0.3;
+      newAudio.muted = isMuted;
+      audioRef.current = newAudio;
+    } else {
+      // Update existing audio if sound changed
+      const currentSound = SOUNDS.find(s => s.id === currentSoundId)?.url || SOUNDS[0].url;
+      if (audioRef.current.src !== currentSound) {
+        audioRef.current.src = currentSound;
+        audioRef.current.load();
+      }
+      audioRef.current.muted = isMuted;
+    }
+
+    return () => {
+      // Do NOT stop audio on cleanup - let it continue playing across navigation
+    };
+  }, [currentSoundId, isMuted]);
 
   const handleProtocolComplete = () => {
       onUpdateBalance(50, `晨间协议完成 (Ready: ${readiness}%)`);
@@ -254,14 +307,14 @@ const LifeGame: React.FC<LifeGameProps> = ({
       e.preventDefault();
       if (draggedTaskIndex === null || draggedTaskIndex === targetIndex || !draggedTask) return;
       
-      if (draggedTask.type === 'daily' && onUpdateHabitOrder) {
+      if (draggedTask.type === TaskType.DAILY && onUpdateHabitOrder) {
           // 更新习惯任务排序
           const newOrder = [...habitOrder];
           const [draggedId] = newOrder.splice(draggedTaskIndex, 1);
           newOrder.splice(targetIndex, 0, draggedId);
           onUpdateHabitOrder(newOrder);
           setDraggedTaskIndex(targetIndex);
-      } else if (draggedTask.type === 'main' && onUpdateProjectOrder) {
+      } else if (draggedTask.type === TaskType.MAIN && onUpdateProjectOrder) {
           // 更新主线任务排序
           const newOrder = [...projectOrder];
           const [draggedId] = newOrder.splice(draggedTaskIndex, 1);
@@ -275,7 +328,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
   const sortedHabits = habitOrder.map(id => habits.find(h => h.id === id)).filter(h => h !== undefined) as Habit[];
   const habitTasks = sortedHabits.map(h => ({
       id: h.id, text: h.name, attr: h.attr || 'DIS', xp: h.xp || Math.ceil(h.reward * 1.5), gold: h.reward, duration: h.duration || 0,
-      type: 'daily' as const, completed: !!h.history[todayStr], frequency: 'daily' as const, originalData: h,
+      type: TaskType.DAILY, completed: !!h.history[todayStr], frequency: 'daily' as const, originalData: h,
       isGivenUp: givenUpTasks.includes(h.id)
   })).sort((a, b) => {
       if (a.isGivenUp && !b.isGivenUp) return 1;
@@ -297,7 +350,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
       const avgGold = Math.ceil(totalRewardGold / subTaskCount);
       
       return {
-          id: p.id, text: p.name, attr: p.attr || 'WEA', xp: totalRewardXP, gold: totalRewardGold, type: 'main' as const,
+          id: p.id, text: p.name, attr: p.attr || 'WEA', xp: totalRewardXP, gold: totalRewardGold, type: TaskType.MAIN,
           completed: p.status === 'completed', frequency: 'once' as const, isExpanded: false,
           originalData: p,
           subTasks: p.subTasks.map(st => ({
@@ -396,7 +449,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
 
   const completeTask = (task: any, e: React.MouseEvent | null) => {
       if (task.isGivenUp) return; 
-      if (task.type === 'daily') {
+      if (task.type === TaskType.DAILY) {
           onToggleHabit(task.id, todayStr);
           // 所有弹窗由 App.tsx 中的 handleToggleHabit 函数统一处理，避免重复
       }
@@ -490,7 +543,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
       setNewTaskXP((task.xp || 20).toString());
       setNewTaskDuration((task.duration || 30).toString());
       setNewTaskType(task.type);
-      if (task.type === 'main') {
+      if (task.type === TaskType.MAIN) {
           const p = projects.find(proj => proj.id === task.id);
           if(p) setEditingProjectSubTasks([...p.subTasks]);
       } else {
@@ -565,7 +618,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
       } else if (newTaskType === 'main') {
           onAddProject({
               id: Date.now().toString(), name: newTaskTitle, startDate: new Date().toISOString().split('T')[0],
-              description: '核心战略目标', status: 'active', logs: [], dailyFocus: {}, subTasks: editingProjectSubTasks, fears: [], todayFocusMinutes: 0, attr: 'WEA'
+              description: '核心战略目标', status: 'active', logs: [], dailyFocus: {}, subTasks: editingProjectSubTasks, fears: [], todayFocusMinutes: 0, attr: AttributeType.WEALTH
           });
       } else if (newTaskType === 'random') {
           // 添加完整的随机任务，包含奖励信息
@@ -728,193 +781,321 @@ const LifeGame: React.FC<LifeGameProps> = ({
             </div>
         )}
 
-        <CharacterProfile ref={characterProfileRef} theme={theme} xp={xp} balance={balance} totalHours={totalHours} totalKills={totalTasksCompleted} checkInStreak={checkInStreak} onPomodoroComplete={onPomodoroComplete} onUpdateBalance={onUpdateBalance} 
-          // Pomodoro Global State
-          timeLeft={timeLeft}
-          isActive={isActive}
-          duration={duration}
-          onToggleTimer={onToggleTimer}
-          onResetTimer={onResetTimer}
-          onChangeDuration={onChangeDuration}
-          onUpdateTimeLeft={onUpdateTimeLeft}
-          onUpdateIsActive={onUpdateIsActive}
-          // Immersive Mode Callback
-          onImmersiveModeChange={(isImmersive) => {
-              if (isImmersive) {
-                  setIsNavCollapsed(true);
-              }
-          }}
-        />
+        {mainTab === 'battle' && (
+          <CharacterProfile ref={characterProfileRef} theme={theme} xp={xp} balance={balance} totalHours={totalHours} totalKills={totalTasksCompleted} checkInStreak={checkInStreak} onPomodoroComplete={onPomodoroComplete} onUpdateBalance={onUpdateBalance} 
+            // Pomodoro Global State
+            timeLeft={timeLeft}
+            isActive={isActive}
+            duration={duration}
+            onToggleTimer={onToggleTimer}
+            onResetTimer={onResetTimer}
+            onChangeDuration={onChangeDuration}
+            onUpdateTimeLeft={onUpdateTimeLeft}
+            onUpdateIsActive={onUpdateIsActive}
+            // Audio Management
+            isMuted={isMuted}
+            currentSoundId={currentSoundId}
+            setIsMuted={setIsMuted}
+            setCurrentSoundId={setCurrentSoundId}
+            // Immersive Mode Callback
+            onImmersiveModeChange={(newIsImmersive) => {
+                if (newIsImmersive) {
+                    setIsNavCollapsed(true);
+                }
+                setIsImmersive(newIsImmersive);
+            }}
+          />
+        )}
 
         <div className="flex-1 overflow-y-auto p-4 md:p-6 relative custom-scrollbar">
             {mainTab === 'battle' && (
-                <div className="max-w-4xl mx-auto space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* 7天签到系统 */}
-            <div className={`rounded-lg border p-4 flex flex-col gap-2 transition-all duration-300 ${cardBg} border-blue-500/20 hover:shadow-lg`}>
-                <div className="flex justify-between items-center mb-4">
-                    <div className="text-[10px] text-blue-500 uppercase tracking-widest font-bold flex items-center gap-1">
-                        <Calendar size={12}/> 7天签到系统
-                    </div>
-                </div>
-                
-                {/* 签到状态管理 */}
-                <div className="space-y-4">
-                    {/* 签到按钮 */}
-                    <div className="flex justify-center">
-                        <button 
-                            onClick={() => {
-                                // 获取签到数据
-                                const todayDate = new Date().toLocaleDateString();
-                                const checkInData = JSON.parse(localStorage.getItem('life-game-weekly-checkin') || '{}');
+                <div className="max-w-4xl mx-auto space-y-8">
+                    {/* 实时情报卡模块 - 从战略指挥部移动过来 */}
+                    <div className={`${cardBg} border p-4 rounded-xl`}>
+                        <div className="flex items-center justify-between mb-3">
+                            <div className="text-xs text-zinc-500 uppercase font-bold flex items-center gap-1">
+                                <Clock size={12}/> 实时情报卡片
+                            </div>
+                        </div>
+                        
+                        {/* 1. 实时情报卡片 - 调整为更紧凑的两列布局，宽度缩减 */}
+                        <div className="grid grid-cols-2 gap-4">
+                            {/* 专注时间趋势 - 缩小版 */}
+                            <div className={`${cardBg} border p-2 rounded-lg flex flex-col justify-between transition-all duration-300 cursor-default hover:shadow-lg`}>
+                                <div className="flex items-center justify-between">
+                                    <div className="text-xs text-zinc-500 uppercase font-bold flex items-center gap-1">
+                                        <Activity size={10}/> 专注时间统计
+                                    </div>
+                                    <div className="text-xs text-zinc-500">
+                                        7天
+                                    </div>
+                                </div>
                                 
-                                // 检查是否已签到
-                                if (!checkInData[todayDate]) {
-                                    // 更新签到数据
-                                    checkInData[todayDate] = true;
-                                    localStorage.setItem('life-game-weekly-checkin', JSON.stringify(checkInData));
-                                    
-                                    // 计算连续签到天数
-                                    const now = new Date();
-                                    const day = now.getDay();
-                                    const diff = now.getDate() - day + (day === 0 ? -6 : 1); // 调整到周一
-                                    const monday = new Date(now.setDate(diff));
-                                    const weekDates = [];
-                                    for (let i = 0; i < 7; i++) {
-                                        const date = new Date(monday);
-                                        date.setDate(monday.getDate() + i);
-                                        weekDates.push(date.toLocaleDateString());
-                                    }
-                                    const consecutiveDays = weekDates.filter(date => checkInData[date]).length;
-                                    const goldReward = 10 + (consecutiveDays * 5);
-                                    const xpReward = 15 + (consecutiveDays * 3);
-                                    
-                                    // 触发奖励
-                                    onUpdateBalance(goldReward, "签到奖励");
-                                    onAddFloatingReward(`+${goldReward} 金币`, 'text-yellow-500', window.innerWidth / 2 - 60);
-                                    onAddFloatingReward(`+${xpReward} 经验`, 'text-blue-500', window.innerWidth / 2 + 60);
-                                    
-                                    // 关联勋章系统：更新签到 streak
-                                    const streak = checkInStreak + 1;
-                                    localStorage.setItem('aes-checkin-streak', streak.toString());
-                                    
-                                    // 使用React状态更新，避免页面刷新
-                                    // 这里我们使用setTimeout来模拟状态更新，实际项目中应使用useState
-                                    setTimeout(() => {
-                                        // 重新渲染组件
-                                        window.dispatchEvent(new Event('storage'));
-                                    }, 100);
-                                }
-                            }}
-                            disabled={(() => {
-                                const todayDate = new Date().toLocaleDateString();
-                                const checkInData = JSON.parse(localStorage.getItem('life-game-weekly-checkin') || '{}');
-                                return !!checkInData[todayDate];
-                            })()}
-                            className={`px-6 py-2 rounded-lg text-sm font-bold transition-all duration-300 flex items-center gap-2 ${(() => {
-                                const todayDate = new Date().toLocaleDateString();
-                                const checkInData = JSON.parse(localStorage.getItem('life-game-weekly-checkin') || '{}');
+                                {/* 7天趋势图 - 缩小尺寸 */}
+                                <div className="h-[80px] w-full mt-1">
+                                    <ResponsiveContainer width="100%" height="100%">
+                                        <LineChart
+                                            data={useMemo(() => {
+                                                const data = [];
+                                                for (let i = 6; i >= 0; i--) {
+                                                    const date = new Date();
+                                                    date.setDate(date.getDate() - i);
+                                                    const dayStr = date.toLocaleDateString('zh-CN', { day: 'numeric' });
+                                                    
+                                                    // 获取当天的专注时间
+                                                    let focusMinutes = 0;
+                                                    // 检查statsHistory中是否有该日期的数据
+                                                    const dayKey = Object.keys(statsHistory).find(key => {
+                                                        const statsDate = new Date();
+                                                        statsDate.setDate(statsDate.getDate() - (7 - i));
+                                                        return parseInt(key) === statsDate.getDate();
+                                                    });
+                                                    
+                                                    if (dayKey) {
+                                                        focusMinutes = statsHistory[parseInt(dayKey)].focusMinutes;
+                                                    } else if (i === 0) {
+                                                        // 今天的数据
+                                                        focusMinutes = todayStats?.focusMinutes || 0;
+                                                    }
+                                                    
+                                                    data.push({
+                                                        date: dayStr,
+                                                        focusMinutes
+                                                    });
+                                                }
+                                                return data;
+                                            }, [statsHistory, todayStats])}
+                                        >
+                                            <CartesianGrid strokeDasharray="3 3" stroke={isDark ? "#27272a" : "#e2e8f0"} vertical={false} />
+                                            <XAxis 
+                                                dataKey="date" 
+                                                stroke={isDark ? "#71717a" : "#71717a"} 
+                                                fontSize={8} 
+                                                tickLine={false} 
+                                            />
+                                            <YAxis 
+                                                stroke={isDark ? "#71717a" : "#71717a"} 
+                                                fontSize={8} 
+                                                tickLine={false} 
+                                                domain={[0, 'dataMax + 50']} 
+                                                tickFormatter={(value) => `${value}min`}
+                                                hide
+                                            />
+                                            <Tooltip 
+                                                contentStyle={{ 
+                                                    backgroundColor: isDark ? '#18181b' : '#fff', 
+                                                    borderColor: isDark ? '#333' : '#e2e8f0', 
+                                                    color: isDark ? '#fff' : '#000',
+                                                    fontSize: '10px',
+                                                    padding: '4px'
+                                                }}
+                                                formatter={(value) => [`${value} 分钟`, '专注时间']}
+                                            />
+                                            <Line 
+                                                type="monotone" 
+                                                dataKey="focusMinutes" 
+                                                stroke={isDark ? "#8b5cf6" : "#8b5cf6"} 
+                                                strokeWidth={1.5} 
+                                                dot={{ fill: isDark ? "#8b5cf6" : "#8b5cf6", r: 2 }} 
+                                                activeDot={{ r: 3 }}
+                                            />
+                                        </LineChart>
+                                    </ResponsiveContainer>
+                                </div>
                                 
-                                if (checkInData[todayDate]) {
-                                    return isNeomorphic 
-                                        ? 'bg-[#e0e5ec] text-emerald-500 border border-emerald-500/30 cursor-not-allowed shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)]' 
-                                        : 'bg-emerald-500/20 text-emerald-500 border-emerald-500/30 cursor-not-allowed';
-                                } else {
-                                    return isNeomorphic 
-                                        ? 'bg-[#e0e5ec] text-blue-500 border border-blue-500/30 hover:shadow-[3px_3px_6px_rgba(163,177,198,0.5),-3px_-3px_6px_rgba(255,255,255,0.8)] active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]' 
-                                        : 'bg-blue-600 text-white hover:bg-blue-700 shadow-lg shadow-blue-900/30 transform hover:scale-105';
-                                }
-                            })()}`}
-                        >
-                            {(() => {
-                                const todayDate = new Date().toLocaleDateString();
-                                const checkInData = JSON.parse(localStorage.getItem('life-game-weekly-checkin') || '{}');
-                                return checkInData[todayDate] ? (
-                                    <>
-                                        <Check size={16}/>
-                                        今日已签到
-                                    </>
-                                ) : (
-                                    <>
-                                        <Calendar size={16}/>
-                                        立即签到
-                                    </>
-                                );
-                            })()}
-                        </button>
-                    </div>
-                    
-                    {/* 7天签到状态 */}
-                    <div className="grid grid-cols-7 gap-2">
-                        {(() => {
-                            // 获取本周的日期范围（周一到周日）
-                            const now = new Date();
-                            const day = now.getDay();
-                            const diff = now.getDate() - day + (day === 0 ? -6 : 1); // 调整到周一
-                            const monday = new Date(now.setDate(diff));
-                            
-                            const weekDates = [];
-                            for (let i = 0; i < 7; i++) {
-                                const date = new Date(monday);
-                                date.setDate(monday.getDate() + i);
-                                weekDates.push(date);
-                            }
-                            
-                            const checkInData = JSON.parse(localStorage.getItem('life-game-weekly-checkin') || '{}');
-                            const today = new Date();
-                            const todayDateStr = today.toLocaleDateString();
-                            const dayNames = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
-                            
-                            // 每天的图标
-                            const dayIcons = [<Sun size={14}/>, <Coffee size={14}/>, <BookOpen size={14}/>, <Dumbbell size={14}/>, <Users size={14}/>, <Music size={14}/>, <Moon size={14}/>];
-                            
-                            return weekDates.map((date, index) => {
-                                const dateStr = date.toLocaleDateString();
-                                const isCheckedIn = !!checkInData[dateStr];
-                                const isToday = dateStr === todayDateStr;
-                                const isPast = date < today;
-                                
-                                return (
-                                    <div 
-                                        key={index} 
-                                        className={`flex flex-col items-center gap-1 transition-all duration-300 ${isToday ? 'scale-110' : ''}`}
-                                    >
-                                        <div className={`
-                                            w-full aspect-square rounded-lg flex flex-col items-center justify-center border-2 text-xs font-bold transition-all
-                                            ${isCheckedIn 
-                                                ? (isNeomorphic 
-                                                    ? 'bg-[#e0e5ec] border-emerald-500/30 text-emerald-500 shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]' 
-                                                    : 'border-emerald-500 bg-emerald-500/10 text-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.3)]')
-                                                : isToday 
-                                                ? (isNeomorphic 
-                                                    ? 'bg-[#e0e5ec] border-blue-500/30 text-blue-500 shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)]' 
-                                                    : 'border-blue-500 bg-blue-500/10 text-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.3)]')
-                                                : (isNeomorphic 
-                                                    ? 'bg-[#e0e5ec] border-zinc-300/30 text-zinc-400 shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)]' 
-                                                    : (isDark ? 'border-zinc-800 bg-zinc-800 text-zinc-600' : 'border-slate-200 bg-slate-100 text-slate-400'))
-                                            }
-                                        `}>
-                                            {isCheckedIn && <Check size={14} strokeWidth={4}/>}
-                                            {!isCheckedIn && dayIcons[index]}
-                                        </div>
-                                        <div className={`text-[10px] font-bold ${isCheckedIn ? 'text-emerald-500' : isToday ? 'text-blue-500' : (isDark ? 'text-zinc-500' : 'text-slate-500')}`}>
-                                            {dayNames[index]}
+                                {/* 底部统计信息 - 今日专注时间和本周平均水平排列 */}
+                                <div className="mt-1 flex justify-between items-center text-xs">
+                                    <div className="flex items-center gap-4">
+                                        <span className="text-zinc-500">
+                                            本周平均: {(() => {
+                                                // 计算本周平均专注时间
+                                                const total = Object.values(statsHistory).reduce((sum, stats: any) => sum + (stats.focusMinutes || 0), 0) + (todayStats?.focusMinutes || 0);
+                                                const days = Math.min(Object.keys(statsHistory).length + 1, 7);
+                                                return Math.round(total / days) || 0; 
+                                            })()} min
+                                        </span>
+                                        <div className="flex items-center gap-1">
+                                            <Clock size={8} className="text-zinc-500"/>
+                                            <span className={`font-mono ${isDark ? 'text-blue-400' : 'text-blue-600'}`}>
+                                                今日: {todayStats?.focusMinutes || 0} min
+                                            </span>
                                         </div>
                                     </div>
-                                );
-                            });
-                        })()}
-                    </div>
-                    
-                    {/* 签到奖励说明 */}
-                    <div className="text-xs text-zinc-500 text-center">
-                        连续签到可获得额外奖励，每周一重置
-                    </div>
-                </div>
-            </div>
-                        <div className={`rounded-lg border p-4 flex flex-col gap-2 transition-all duration-300 ${cardBg} border-red-500/20 relative group hover:shadow-lg`}>
-                            <div className="flex justify-between items-center mb-1"><div className="text-[10px] text-red-500 uppercase tracking-widest font-bold flex items-center gap-1"><Crosshair size={12}/> 今日核心战役</div><div className="flex gap-2"><button onClick={() => setIsEditingTodayGoal(!isEditingTodayGoal)} className="text-zinc-500 hover:text-blue-500 transition-colors"><Edit2 size={12}/></button><button onClick={() => { setShowProtocol(true); setProtocolStep(0); }} className="text-[10px] bg-red-900/20 text-red-400 border border-red-900/50 px-2 py-0.5 rounded hover:bg-red-900/40 flex items-center gap-1 transition-all" title="启动晨间协议重置目标"><Power size={10}/> 启动协议</button></div></div>
-                            {isEditingTodayGoal ? (<input autoFocus className={`w-full bg-transparent border-b outline-none text-sm font-bold ${textMain} ${isDark ? 'border-zinc-600' : 'border-slate-300'}`} value={todayGoal} onChange={e => setTodayGoal(e.target.value)} onBlur={() => setIsEditingTodayGoal(false)} onKeyDown={e => e.key === 'Enter' && setIsEditingTodayGoal(false)}/>) : (<div className={`text-sm font-bold ${textMain} truncate cursor-pointer ${!todayGoal && 'text-zinc-500 italic'}`} onClick={() => setIsEditingTodayGoal(true)}>{todayGoal || "点击或启动协议设定目标..."}</div>)}
+                                    <span className="font-bold text-zinc-500">
+                                        🔄
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            {/* 签到系统 - 缩小版，移到实时情报卡片中 */}
+                            <div className={`${cardBg} border p-2 rounded-lg flex flex-col gap-1 transition-all duration-300 cursor-default hover:shadow-lg`}>
+                                <div className="flex justify-between items-center mb-2">
+                                    <div className="text-[10px] text-blue-500 uppercase tracking-widest font-bold flex items-center gap-1">
+                                        <Calendar size={10}/> 签到系统
+                                    </div>
+                                </div>
+                                
+                                {/* 签到按钮 - 圆形勋章样式，带跳动动画 */}
+                                <div className="flex justify-center mb-1">
+                                    <button 
+                                        onClick={() => {
+                                            // 获取签到数据
+                                            const todayDate = new Date().toLocaleDateString();
+                                            const checkInData = JSON.parse(localStorage.getItem('life-game-weekly-checkin') || '{}');
+                                            
+                                            // 检查是否已签到
+                                            if (!checkInData[todayDate]) {
+                                                // 更新签到数据
+                                                checkInData[todayDate] = true;
+                                                localStorage.setItem('life-game-weekly-checkin', JSON.stringify(checkInData));
+                                                
+                                                // 计算连续签到天数
+                                                const now = new Date();
+                                                const day = now.getDay();
+                                                const diff = now.getDate() - day + (day === 0 ? -6 : 1); // 调整到周一
+                                                const monday = new Date(now.setDate(diff));
+                                                const weekDates = [];
+                                                for (let i = 0; i < 7; i++) {
+                                                    const date = new Date(monday);
+                                                    date.setDate(monday.getDate() + i);
+                                                    weekDates.push(date.toLocaleDateString());
+                                                }
+                                                const consecutiveDays = weekDates.filter(date => checkInData[date]).length;
+                                                const goldReward = 10 + (consecutiveDays * 5);
+                                                const xpReward = 15 + (consecutiveDays * 3);
+                                                
+                                                // 触发奖励
+                                                onUpdateBalance(goldReward, "签到奖励");
+                                                
+                                                // 添加签到成功提示
+                                                onAddFloatingReward('签到成功！', 'text-green-500', window.innerWidth / 2);
+                                                
+                                                // 添加经验和金币奖励弹出效果
+                                                setTimeout(() => {
+                                                    onAddFloatingReward(`+${goldReward} 金币`, 'text-yellow-500', window.innerWidth / 2 - 80);
+                                                }, 300);
+                                                setTimeout(() => {
+                                                    onAddFloatingReward(`+${xpReward} 经验`, 'text-blue-500', window.innerWidth / 2 + 80);
+                                                }, 600);
+                                                
+                                                // 触发烟花特效
+                                                confetti({
+                                                    particleCount: 100,
+                                                    spread: 70,
+                                                    origin: { y: 0.6 },
+                                                    colors: ['#fbbf24', '#f59e0b', '#d97706', '#3b82f6', '#10b981', '#8b5cf6']
+                                                });
+                                                
+                                                // 关联勋章系统：更新签到 streak
+                                                const streak = checkInStreak + 1;
+                                                localStorage.setItem('aes-checkin-streak', streak.toString());
+                                                
+                                                // 使用React状态更新，避免页面刷新
+                                                setTimeout(() => {
+                                                    // 重新渲染组件
+                                                    window.dispatchEvent(new Event('storage'));
+                                                }, 100);
+                                            }
+                                        }}
+                                        disabled={(() => {
+                                            const todayDate = new Date().toLocaleDateString();
+                                            const checkInData = JSON.parse(localStorage.getItem('life-game-weekly-checkin') || '{}');
+                                            return !!checkInData[todayDate];
+                                        })()}
+                                        className={`w-12 h-12 rounded-full text-sm font-bold transition-all duration-300 flex flex-col items-center justify-center gap-0 ${(() => {
+                                            const todayDate = new Date().toLocaleDateString();
+                                            const checkInData = JSON.parse(localStorage.getItem('life-game-weekly-checkin') || '{}');
+                                            
+                                            if (checkInData[todayDate]) {
+                                                return isNeomorphic 
+                                                    ? 'bg-[#e0e5ec] text-emerald-500 border-2 border-emerald-500/30 cursor-not-allowed shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,1)]' 
+                                                    : 'bg-emerald-500/20 text-emerald-500 border-2 border-emerald-500/30 cursor-not-allowed';
+                                            } else {
+                                                return isNeomorphic 
+                                                    ? 'bg-[#e0e5ec] text-blue-500 border-2 border-blue-500/30 hover:shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] active:shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,1)] animate-pulse' 
+                                                    : 'bg-blue-600 text-white border-2 border-blue-700 hover:bg-blue-700 shadow-lg shadow-blue-900/30 transform hover:scale-105 animate-pulse';
+                                            }
+                                        })()}`}
+                                    >
+                                        {(() => {
+                                            const todayDate = new Date().toLocaleDateString();
+                                            const checkInData = JSON.parse(localStorage.getItem('life-game-weekly-checkin') || '{}');
+                                            return checkInData[todayDate] ? (
+                                                <>
+                                                    <Check size={20} strokeWidth={3}/>
+                                                    <span className="text-[10px]">已签</span>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <Package size={20} strokeWidth={2}/>
+                                                    <span className="text-[10px]">签到</span>
+                                                </>
+                                            );
+                                        })()}
+                                    </button>
+                                </div>
+                                
+                                {/* 7天签到状态 - 更小的尺寸 */}
+                                <div className="grid grid-cols-7 gap-1">
+                                    {(() => {
+                                        // 获取本周的日期范围（周一到周日）
+                                        const now = new Date();
+                                        const day = now.getDay();
+                                        const diff = now.getDate() - day + (day === 0 ? -6 : 1); // 调整到周一
+                                        const monday = new Date(now.setDate(diff));
+                                        
+                                        const weekDates = [];
+                                        for (let i = 0; i < 7; i++) {
+                                            const date = new Date(monday);
+                                            date.setDate(monday.getDate() + i);
+                                            weekDates.push(date);
+                                        }
+                                        
+                                        const checkInData = JSON.parse(localStorage.getItem('life-game-weekly-checkin') || '{}');
+                                        const today = new Date();
+                                        const todayDateStr = today.toLocaleDateString();
+                                        const dayNames = ['一', '二', '三', '四', '五', '六', '日'];
+                                        
+                                        // 每天的图标 - 放大尺寸
+                                        const dayIcons = [<Sun size={12}/>, <Coffee size={12}/>, <BookOpen size={12}/>, <Dumbbell size={12}/>, <Users size={12}/>, <Music size={12}/>, <Moon size={12}/>];
+                                        
+                                        return weekDates.map((date, index) => {
+                                            const dateStr = date.toLocaleDateString();
+                                            const isCheckedIn = !!checkInData[dateStr];
+                                            const isToday = dateStr === todayDateStr;
+                                            
+                                            return (
+                                                <div 
+                                                    key={index} 
+                                                    className={`flex flex-col items-center gap-0.5 transition-all duration-300 ${isToday ? 'scale-105' : ''}`}
+                                                >
+                                                    <div className={`
+                                                        w-full aspect-square rounded-full flex items-center justify-center border-2 text-[7px] font-bold transition-all
+                                                        ${isCheckedIn 
+                                                            ? (isNeomorphic 
+                                                                ? 'bg-[#e0e5ec] border-emerald-500/30 text-emerald-500 shadow-[inset_1px_1px_2px_rgba(163,177,198,0.6),inset_-1px_-1px_2px_rgba(255,255,255,1)]' 
+                                                                : 'border-emerald-500 bg-emerald-500/10 text-emerald-500 shadow-[0_0_3px_rgba(16,185,129,0.3)]')
+                                                            : isToday 
+                                                            ? (isNeomorphic 
+                                                                ? 'bg-[#e0e5ec] border-blue-500/30 text-blue-500 shadow-[1px_1px_2px_rgba(163,177,198,0.6),-1px_-1px_2px_rgba(255,255,255,1)]' 
+                                                                : 'border-blue-500 bg-blue-500/10 text-blue-500 shadow-[0_0_3px_rgba(59,130,246,0.3)]')
+                                                            : (isNeomorphic 
+                                                                ? 'bg-[#e0e5ec] border-zinc-300/30 text-zinc-400 shadow-[1px_1px_2px_rgba(163,177,198,0.6),-1px_-1px_2px_rgba(255,255,255,1)]' 
+                                                                : (isDark ? 'border-zinc-800 bg-zinc-800 text-zinc-600' : 'border-slate-200 bg-slate-100 text-slate-400'))
+                                                    }
+                                                    `}>
+                                                        {isCheckedIn && <Check size={12} strokeWidth={3} className="flex-shrink-0"/>}
+                                                        {!isCheckedIn && dayIcons[index]}
+                                                    </div>
+                                                    <div className={`text-[8px] font-bold ${isCheckedIn ? 'text-emerald-500' : isToday ? 'text-blue-500' : (isDark ? 'text-zinc-500' : 'text-slate-500')}`}>
+                                                        {dayNames[index]}
+                                                    </div>
+                                                </div>
+                                            );
+                                        });
+                                    })()}
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -942,32 +1123,32 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                 onDoubleClick={() => openEditTask(task)} 
                                 className={`relative group rounded-lg border transition-all overflow-hidden ${task.completed ? 'opacity-50 grayscale ' + (isDark ? 'bg-zinc-950/50' : 'bg-slate-100') : task.isGivenUp ? 'opacity-70 ' + (isDark ? 'bg-red-950/10 border-red-900/30' : 'bg-red-50 border-red-200') : ''} ${cardBg} ${!task.completed && !task.isGivenUp ? 'hover:border-blue-500/50 hover:shadow-lg' : (isDark ? 'border-zinc-800' : 'border-slate-200')} ${draggedTask && draggedTask.id === task.id ? 'opacity-50 scale-95' : ''}`}
                             >
-                                <div className="p-4 flex items-center gap-4">
+                                <div className="p-3 flex items-center gap-3">
                                     <div className="text-zinc-600 cursor-grab active:cursor-grabbing"><GripVertical size={14}/></div>
-                                    <button onClick={(e) => { e.stopPropagation(); completeTask(task, e); }} className={`w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all shrink-0 ${task.completed ? 'bg-emerald-500 border-emerald-500 text-white' : task.isGivenUp ? 'border-red-900 text-red-900 cursor-not-allowed' : (isDark ? 'border-zinc-600 hover:border-emerald-500 text-transparent' : 'border-slate-300 hover:border-emerald-500 bg-white')}`} disabled={task.isGivenUp}>
-                                        {task.completed && <Check size={16} strokeWidth={4} />}
-                                        {task.isGivenUp && <X size={16} strokeWidth={4} />}
+                                    <button onClick={(e) => { e.stopPropagation(); completeTask(task, e); }} className={`w-7 h-7 rounded-full border-2 flex items-center justify-center transition-all shrink-0 ${task.completed ? 'bg-emerald-500 border-emerald-500 text-white' : task.isGivenUp ? 'border-red-900 text-red-900 cursor-not-allowed' : (isDark ? 'border-zinc-600 hover:border-emerald-500 text-transparent' : 'border-slate-300 hover:border-emerald-500 bg-white')}`} disabled={task.isGivenUp}>
+                                        {task.completed && <Check size={14} strokeWidth={4} />}
+                                        {task.isGivenUp && <X size={14} strokeWidth={4} />}
                                     </button>
-                                    <div className="flex-1">
-                                        <div className="flex items-center gap-2 mb-2">
+                                    <div className="flex-1 min-w-0">
+                                        <div className="flex items-center gap-2">
                                             <span className={`text-[10px] font-bold px-1.5 rounded border ${ATTR_COLORS[task.attr].replace('shadow-', '')} bg-opacity-10`}>
                                                 {task.attr === 'STR' ? '力量' : task.attr === 'INT' ? '智力' : task.attr === 'DIS' ? '自律' : task.attr === 'CRE' ? '创造' : task.attr === 'SOC' ? '社交' : '财富'}
                                             </span>
-                                            <h3 className={`font-bold ${task.completed || task.isGivenUp ? 'line-through text-zinc-500' : textMain}`}>
+                                            <h3 className={`font-bold truncate ${task.completed || task.isGivenUp ? 'line-through text-zinc-500' : textMain}`}>
                                                 {task.text}
                                                 {task.isGivenUp && <span className="ml-2 text-[9px] text-red-500 border border-red-900 bg-red-900/20 px-1 rounded font-bold">已放弃</span>}
                                             </h3>
                                             <button onClick={() => openEditTask(task)} className="opacity-0 group-hover:opacity-100 text-zinc-500 hover:text-blue-500 transition-opacity ml-2"><Edit3 size={12}/></button>
                                         </div>
-                                        <div className="flex items-center gap-4 text-xs font-mono text-zinc-500"><span className="text-purple-400">经验 +{task.xp}</span><span className="text-yellow-500">金币 +{task.gold}</span><span className="text-blue-500">消耗时长 {task.duration || 25} 分钟</span></div>
+                                        <div className="flex items-center gap-3 text-[11px] font-mono text-zinc-500 mt-1"><span className="text-purple-400">+{task.xp}</span><span className="text-yellow-500">+{task.gold}</span><span className="text-blue-500">{task.duration || 25}m</span></div>
                                     </div>
                                     {!task.completed && !task.isGivenUp && (
-                                        <button onClick={(e) => giveUpTask(task.id, e)} className="text-zinc-600 hover:text-red-500 p-2 rounded hover:bg-red-900/10 transition-colors" title="放弃任务 (无奖励)">
-                                            <X size={20} />
+                                        <button onClick={(e) => giveUpTask(task.id, e)} className="text-zinc-600 hover:text-red-500 p-1.5 rounded hover:bg-red-900/10 transition-colors" title="放弃任务 (无奖励)">
+                                            <X size={16} />
                                         </button>
                                     )}
-                                    <button onClick={() => handleStartTimer(task.duration || 25)} disabled={task.completed || task.isGivenUp} className={`p-3 rounded-full text-white transition-colors group-hover:scale-110 shadow-lg ${isDark ? 'bg-zinc-800 hover:bg-emerald-600' : 'bg-blue-500 hover:bg-blue-600'} disabled:opacity-50 disabled:scale-100`}>
-                                        <Play size={16} fill="currentColor"/>
+                                    <button onClick={() => handleStartTimer(task.duration || 25)} disabled={task.completed || task.isGivenUp} className={`p-2.5 rounded-full text-white transition-colors group-hover:scale-105 shadow-lg ${isDark ? 'bg-zinc-800 hover:bg-emerald-600' : 'bg-blue-500 hover:bg-blue-600'} disabled:opacity-50 disabled:scale-100`}>
+                                        <Play size={14} fill="currentColor"/>
                                     </button>
                                 </div>
                             </div>
@@ -1053,7 +1234,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                     
                                     const isCompleted = completedRandomTasks[todaysChallenges.date]?.includes(taskStr);
                                     const isGivenUp = givenUpTasks.includes(taskStr);
-                                    const task = { id: `random-${idx}`, text: taskText, gold: taskReward, xp: taskXP, duration: taskDuration, type: 'random', completed: isCompleted, isGivenUp: isGivenUp };
+                                    const task = { id: `random-${idx}`, text: taskText, gold: taskReward, xp: taskXP, duration: taskDuration, type: TaskType.RANDOM, completed: isCompleted, isGivenUp: isGivenUp };
                                     return (
                                         <div 
                                             key={idx} 
@@ -1280,7 +1461,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                             onAddProject({
                                                 id: `project-${Date.now()}`,
                                                 name: newTaskTitle,
-                                                attr: 'WEA',
+                                                attr: AttributeType.WEALTH,
                                                 subTasks: editingProjectSubTasks,
                                                 dailyFocus: {},
                                                 completed: false

@@ -1,0 +1,99 @@
+import React, { useEffect } from 'react';
+import confetti from 'canvas-confetti';
+import { Star, Zap, Clock, Wallet, ShoppingBag, Target, Flame, Sparkles } from 'lucide-react';
+
+interface RewardModalProps {
+  badge: any;
+  onClose: (id: string, xp: number, gold: number) => void;
+}
+
+const RewardModal: React.FC<RewardModalProps> = ({ badge, onClose }) => {
+  let threshold = 0;
+  if (badge.min) threshold = badge.min;
+  else if (badge.val) threshold = badge.val;
+  else {
+    const numMatch = badge.subTitle.match(/(\d+)/);
+    if (numMatch) threshold = parseInt(numMatch[0]);
+  }
+  if (threshold === 0) threshold = 1;
+  const standardReward = Math.max(1, Math.floor(threshold * 0.1));
+  let rewardGold = 0;
+  let rewardXp = 0;
+  let IconComp = Star;
+  let iconColor = 'text-yellow-400';
+  let animationClass = 'animate-spin-slow';
+
+  if (badge.id.startsWith('lvl')) { 
+    rewardXp = standardReward; rewardGold = standardReward; IconComp = Zap; iconColor = 'text-blue-500'; animationClass = 'animate-pulse';
+  } 
+  else if (badge.id.startsWith('rank')) { 
+    rewardXp = 0; rewardGold = Math.max(10, standardReward * 5); IconComp = Clock; iconColor = 'text-emerald-500'; animationClass = 'animate-bounce';
+  }
+  else if (badge.id.startsWith('class')) { 
+    rewardXp = 0; rewardGold = Math.max(5, Math.floor(threshold * 0.05)); IconComp = Wallet; iconColor = 'text-yellow-500'; animationClass = 'animate-pulse';
+  }
+  else if (badge.id.startsWith('consume')) {
+    rewardXp = 0; rewardGold = Math.floor(threshold * 0.1); IconComp = ShoppingBag; iconColor = 'text-orange-500'; animationClass = 'animate-bounce';
+  }
+  else if (badge.id.startsWith('combat')) { 
+    rewardXp = threshold * 10; rewardGold = threshold * 10; IconComp = Target; iconColor = 'text-red-500'; animationClass = 'animate-bounce';
+  }
+  else if (badge.id.startsWith('check')) {
+    rewardXp = threshold * 10; rewardGold = threshold * 10; IconComp = Flame; iconColor = 'text-purple-500'; animationClass = 'animate-pulse';
+  }
+  if (badge.iconName === 'Target') IconComp = Target;
+
+  useEffect(() => {
+    const duration = 3 * 1000;
+    const animationEnd = Date.now() + duration;
+    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
+    const randomInRange = (min: number, max: number) => Math.random() * (max - min) + min;
+    const interval: any = setInterval(function() {
+      const timeLeft = animationEnd - Date.now();
+      if (timeLeft <= 0) return clearInterval(interval);
+      const particleCount = 50 * (timeLeft / duration);
+      confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
+      confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
+    }, 250);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="fixed inset-0 z-[99999] bg-black/90 flex items-center justify-center p-4 backdrop-blur-md animate-in fade-in duration-500">
+      <div className="flex flex-col items-center text-center space-y-8 animate-in zoom-in duration-500 max-w-sm w-full relative">
+        <div className="relative">
+          <div className={`absolute inset-0 ${iconColor.replace('text-', 'bg-')}/30 blur-[60px] rounded-full animate-pulse`}></div>
+          <div className="relative text-[120px] animate-[spin_3s_linear_infinite]">
+            <Sparkles className="text-white opacity-20 absolute -top-10 -left-10" size={40}/>
+            <Sparkles className="text-white opacity-20 absolute top-20 -right-10" size={30}/>
+            <IconComp className={`${iconColor} ${animationClass}`} size={100} strokeWidth={1.5}/>
+          </div>
+        </div>
+        <div>
+          <h2 className="text-3xl font-black text-white mb-2 uppercase tracking-widest">成就达成</h2>
+          <div className={`text-xl font-bold ${badge.color}`}>{badge.title}</div>
+          <div className="text-zinc-400 font-mono mt-1">{badge.subTitle}</div>
+        </div>
+        <div className="bg-zinc-900 border border-yellow-500/30 p-6 rounded-2xl w-full flex justify-around items-center">
+          <div className="flex flex-col items-center">
+            <div className="text-xs text-zinc-500 font-bold uppercase mb-1">经验奖励</div>
+            <div className={`text-2xl font-black ${rewardXp > 0 ? 'text-blue-400' : 'text-zinc-600'}`}>+{rewardXp}</div>
+          </div>
+          <div className="w-px h-10 bg-zinc-800"></div>
+          <div className="flex flex-col items-center">
+            <div className="text-xs text-zinc-500 font-bold uppercase mb-1">金币奖励</div>
+            <div className={`text-2xl font-black ${rewardGold > 0 ? 'text-yellow-400' : 'text-zinc-600'}`}>+{rewardGold}</div>
+          </div>
+        </div>
+        <button 
+          onClick={() => onClose(badge.id, rewardXp, rewardGold)}
+          className="w-full py-4 bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-500 hover:to-orange-500 text-white font-black text-lg rounded-xl shadow-lg shadow-orange-900/50 transform transition-all active:scale-95 flex items-center justify-center gap-2"
+        >
+          <Star size={24}/> 领取奖励
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default RewardModal;

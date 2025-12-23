@@ -84,13 +84,17 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
     const getSpendIcon = (idx: number) => [ShoppingBag, Dumbbell, Utensils, Ticket, Music, Headphones, Armchair, Scissors, Glasses, Footprints, Utensils, Sofa][idx % 12] || ShoppingBag;
 
     const generateBadges = () => {
-         const levelBadges = getAllLevels().map((l, idx) => ({ 
-             id: `lvl-${l.val}`, title: l.title, subTitle: `LV.${l.val}`, 
-             icon: getLevelIcon(idx), color: 'text-blue-500', 
-             isUnlocked: xp >= l.min, req: `等级 ${l.val}`, progress: Math.min(100, (xp/l.min)*100), 
-             rewardXp: 0, rewardGold: l.val * 10, category: 'LEVEL',
-             bgColor: 'bg-blue-500/20', borderColor: 'border-blue-500/50'
-         }));
+         const levelBadges = getAllLevels().map((l, idx) => {
+             // 使用索引 + 1 作为等级值
+             const levelValue = idx + 1;
+             return {
+                 id: `lvl-${levelValue}`, title: l.title, subTitle: `LV.${levelValue}`,
+                 icon: getLevelIcon(idx), color: 'text-blue-500',
+                 isUnlocked: xp >= l.min, req: `等级 ${levelValue}`, progress: Math.min(100, (xp/l.min)*100),
+                 rewardXp: 0, rewardGold: levelValue * 10, category: 'LEVEL',
+                 bgColor: 'bg-blue-500/20', borderColor: 'border-blue-500/50'
+             };
+         });
          
          const focusBadges = getAllFocusTitles().map((r, idx) => ({ 
              id: `rank-${r.title}`, title: r.title, subTitle: `${r.min}H`, 
@@ -147,42 +151,10 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
     const unlockedCount = allBadges.filter(b => b.isUnlocked).length;
     const totalCount = allBadges.length;
 
-    // Dummy ref for character profile
-    const charProfileRef = React.useRef<CharacterProfileHandle>(null);
-
     return (
         <div className={`h-full flex flex-col overflow-hidden ${isDark ? 'bg-zinc-950' : 'bg-slate-50'}`}>
             {/* Add CSS for animations */}
             <style>{styles}</style>
-            
-            {/* Top Character Profile */}
-            <div className="shrink-0 relative z-20">
-                <CharacterProfile 
-                    ref={charProfileRef}
-                    theme={theme}
-                    xp={xp}
-                    balance={balance}
-                    totalHours={totalHours}
-                    totalKills={totalCampaignsWon}
-                    checkInStreak={checkInStreak}
-                    onPomodoroComplete={onPomodoroComplete}
-                    // Pomodoro Global State
-                    timeLeft={timeLeft}
-                    isActive={isActive}
-                    duration={duration}
-                    onToggleTimer={onToggleTimer}
-                    onResetTimer={onResetTimer}
-                    onChangeDuration={onChangeDuration}
-                    onUpdateTimeLeft={onUpdateTimeLeft}
-                    onUpdateIsActive={onUpdateIsActive}
-                    // Immersive Mode Callback
-                    onImmersiveModeChange={(isImmersive) => {
-                        if (isImmersive) {
-                            setIsNavCollapsed(true);
-                        }
-                    }}
-                />
-            </div>
             
             {/* Scrollable Content */}
             <div className="flex-1 overflow-y-auto custom-scrollbar">

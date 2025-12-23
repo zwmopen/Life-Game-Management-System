@@ -3,6 +3,7 @@ import { ScheduleItem } from './types';
 export const SYSTEM_INSTRUCTION = `
 你是《人生游戏化管理系统》的中枢智能。
 你的目标是指导用户完成为期90天的高强度财富与个人成长闭关。
+`;
 
 export const INITIAL_SCHEDULE: ScheduleItem[] = [
   { id: '1', time: '07:30', activity: '生物激活：起床 & 阳光/冷水', theory: 'aMCC 唤醒 / 昼夜节律', completed: false },

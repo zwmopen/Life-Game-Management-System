@@ -4,8 +4,8 @@
 
 **项目名称**：反本能·主动进化系统（人生游戏）
 **项目类型**：React Web应用，用于个人成长和习惯养成
-**技术栈**：React 19 + TypeScript + Vite + Recharts + DnD Kit
-**项目目标**：通过游戏化方式帮助用户培养良好习惯、实现自我成长
+**技术栈**：React 19 + TypeScript + Vite + Recharts + DnD Kit + Lucide React
+**项目目标**：通过游戏化方式帮助用户培养良好习惯、提高生产力、实现自我成长
 
 ## 技术栈和依赖
 
@@ -31,37 +31,44 @@
 ```
 反本能·主动进化系统/
 ├── components/             # 组件目录
-│   ├── AICoach.tsx        # AI教练组件
-│   ├── Blueprint.tsx       # 蓝图组件（项目管理）
-│   ├── CharacterProfile.tsx # 角色档案组件
-│   ├── CommandCenter.tsx   # 指挥中心组件
-│   ├── DailyCheckIn.tsx    # 每日签到组件
-│   ├── Dashboard.tsx       # 仪表盘组件
-│   ├── Database.tsx        # 数据库组件
-│   ├── Desensitization.tsx # 脱敏组件
-│   ├── Documentation.tsx   # 文档组件
-│   ├── HabitForge.tsx      # 习惯锻造组件
-│   ├── HabitTracker.tsx    # 习惯追踪组件
+│   ├── shared/            # 共享组件
+│   │   ├── AvatarProfile.tsx     # 角色档案组件
+│   │   ├── MantraModule.tsx      # 锦囊模块
+│   │   ├── MilitaryModule.tsx     # 军工模块
+│   │   ├── RewardModal.tsx        # 奖励弹窗
+│   │   └── TomatoTimer.tsx       # 番茄钟组件
+│   ├── CharacterProfile.tsx   # 角色系统组件
+│   ├── DailyCheckIn.tsx       # 每日签到组件
 │   ├── HallOfFame.tsx      # 荣誉殿堂组件
 │   ├── LifeGame.tsx        # 人生游戏主组件
-│   ├── MantraBar.tsx       # 格言栏组件
 │   ├── MissionControl.tsx  # 任务控制组件
-│   ├── MonkMode.tsx        # 僧侣模式组件
 │   ├── Navigation.tsx      # 导航组件
 │   ├── ProjectManual.tsx   # 项目手册组件
-│   ├── Settings.tsx        # 设置组件
-│   ├── TaskMatrix.tsx      # 任务矩阵组件
-│   └── VisionBoard.tsx     # 愿景板组件
-├── dist/                   # 构建输出目录
-├── App.tsx                 # 应用主组件
-├── index.tsx               # 应用入口
+│   └── Settings.tsx        # 设置组件
+├── constants/             # 常量目录
+│   └── index.ts           # 集中式常量定义
+├── hooks/                 # 自定义Hooks目录
+│   ├── useGameState.ts     # 游戏状态管理Hook
+│   ├── useHabits.ts        # 习惯管理Hook
+│   └── useProjects.ts      # 项目管理Hook
+├── utils/                 # 工具函数目录
+├── public/             # 静态资源目录
+│   ├── manifest.json
+│   └── sw.js
+├── android/               # Android 构建配置
+├── apk-build/             # APK构建输出目录
+├── App.tsx                # 应用主组件
+├── constants.ts            # 旧常量定义（待移除）
 ├── index.html              # HTML模板
+├── index.tsx              # 应用入口
+├── types.ts                # TypeScript类型定义
+├── vite.config.ts           # Vite配置
 ├── package.json            # 项目配置
 ├── tsconfig.json           # TypeScript配置
-├── vite.config.ts          # Vite配置
-├── constants.ts            # 常量定义
-├── types.ts                # 类型定义
-└── metadata.json           # 元数据
+├── .gitignore             # Git忽略配置
+├── DEVELOPMENT_DOC.md      # 开发文档
+└── README.md               # 项目说明
+└── 人生游戏开发手册.txt      # 开发手册
 ```
 
 ## 主要组件说明
@@ -69,23 +76,174 @@
 ### App.tsx
 **功能**：应用主组件，管理全局状态和路由
 **状态管理**：
-- `theme`：主题（light/dark）
-- `habits`：习惯列表
-- `projects`：项目列表
-- `habitOrder`：习惯顺序
-- `projectOrder`：项目顺序
+- `currentView`：当前视图
+- `isMobileOpen`：移动端菜单状态
+- `isNavCollapsed`：导航栏折叠状态
+- `theme`：主题（dark/light/neomorphic）
+- `isDataLoaded`：数据加载状态
+- 全局游戏状态：day、balance、xp、checkInStreak等
+- 番茄钟状态：pomodoroTimeLeft、pomodoroIsActive等
 **本地存储**：
 - 使用localStorage保存所有状态
 - 自动加载和保存数据
 
+### Navigation.tsx
+**功能**：应用导航组件
+**布局**：
+- 固定侧边栏，支持折叠/展开
+- 顶部显示应用标题和折叠按钮
+- 中间导航菜单列表
+- 底部熵值监控和主题切换
+**折叠按钮**：位于导航栏内部右侧，贴近右边框，可折叠/展开导航栏
+**导航项**：
+- 作战中心（Gamepad2）
+- 荣誉殿堂（Medal）
+- 补给黑市（ShoppingBag）
+- 图表汇总（BarChart2）
+- 设置中心（Settings）
+
 ### LifeGame.tsx
 **功能**：人生游戏主界面，展示任务和习惯
 **布局**：
-- 左侧：习惯列表
-- 右侧：项目列表
+- 顶部：角色属性面板（CharacterProfile）
+- 实时情报卡：包含专注时间统计和签到系统
+- 中部：任务分类切换（日常任务/主线任务/随机任务）
+- 底部：任务列表，支持拖拽排序
 **拖拽功能**：
 - 支持习惯和项目的拖拽排序
 - 保存排序到localStorage
+**核心模块**：
+- 实时情报卡：7天专注时间统计 + 签到系统
+- 任务管理：日常任务、主线任务、随机挑战
+- 商店系统：虚拟物品购买
+- 银行系统：存款和利息
+
+### CharacterProfile.tsx
+**功能**：角色系统组件，整合多个共享组件
+**核心模块**：
+- AvatarProfile：展示角色属性和成就
+- TomatoTimer：番茄钟功能
+- MilitaryModule：军工模块
+- MantraModule：锦囊模块
+
+### 共享组件说明
+
+#### AvatarProfile.tsx
+**功能**：角色档案组件，展示用户属性和成就
+**属性系统**：
+- STR（力量）
+- INT（智力）
+- DIS（自律）
+- CRE（创造）
+- SOC（社交）
+- WEA（财富）
+**成就系统**：各种成就和勋章
+
+#### TomatoTimer.tsx
+**功能**：番茄钟组件
+**核心特性**：
+- 支持25/45/60分钟预设
+- 支持背景音效（森林、海浪、雨声等）
+- 沉浸式专注模式
+
+#### MilitaryModule.tsx
+**功能**：军工模块，展示储备余额和总击杀数
+
+#### MantraModule.tsx
+**功能**：锦囊模块，展示每日金句
+
+#### RewardModal.tsx
+**功能**：奖励弹窗，用于展示成就解锁和奖励
+
+## 自定义Hooks说明
+
+### useGameState.ts
+**功能**：游戏状态管理Hook
+**管理状态**：
+- day：当前天数
+- balance：当前余额
+- xp：当前经验值
+- checkInStreak：连续签到天数
+- transactions：交易记录列表
+- reviews：评审日志列表
+**核心方法**：
+- handleUpdateBalance：更新余额并记录交易
+
+### useHabits.ts
+**功能**：习惯管理Hook
+**管理状态**：
+- habits：习惯列表
+- habitOrder：习惯排序
+- todayStats：今日统计
+**核心方法**：
+- handleToggleHabit：切换习惯完成状态
+- handleAddHabit：添加新习惯
+- handleUpdateHabit：更新习惯
+- handleDeleteHabit：删除习惯
+
+### useProjects.ts
+**功能**：项目管理Hook
+**管理状态**：
+- projects：项目列表
+- projectOrder：项目排序
+**核心方法**：
+- handleUpdateProject：更新项目
+- handleAddProject：添加新项目
+- handleDeleteProject：删除项目
+
+## 状态管理
+
+### 优化后的状态管理方案
+- 使用自定义Hooks封装状态管理逻辑
+- 每个Hook负责一个特定领域的状态管理
+- 状态通过props在组件间传递
+- 本地存储逻辑封装在Hooks内部
+- 减少App.tsx的状态管理负担
+
+### 状态流向
+1. App组件初始化并调用各种Hooks
+2. Hooks从localStorage加载数据
+3. App组件将状态通过props传递给子组件
+4. 子组件通过回调函数更新状态
+5. Hooks自动保存状态到localStorage
+
+## 数据结构
+
+### 类型系统优化
+- 添加了详细的JSDoc注释
+- 使用枚举类型替代字符串常量
+- 统一了接口命名规范
+- 优化了类型定义结构
+
+### 核心枚举类型
+```typescript
+export enum AttributeType {
+  STRENGTH = 'STR',
+  INTELLIGENCE = 'INT',
+  DISCIPLINE = 'DIS',
+  CREATIVITY = 'CRE',
+  SOCIABILITY = 'SOC',
+  WEALTH = 'WEA',
+}
+
+export enum TaskType {
+  DAILY = 'daily',
+  MAIN = 'main',
+  RANDOM = 'random',
+  LEISURE = 'leisure',
+}
+
+export enum AutoTaskType {
+  HABIT = 'habit',
+  PROJECT = 'project',
+  RANDOM = 'random',
+}
+
+export enum SoundType {
+  SOUND_EFFECT = 'soundEffect',
+  BACKGROUND_MUSIC = 'bgMusic',
+}
+```
 
 ### MissionControl.tsx
 **功能**：图表系统，展示各种成长图表
@@ -99,74 +257,147 @@
 - 使用Recharts库渲染各种图表
 - 支持图表大小调整
 
-### CharacterProfile.tsx
-**功能**：角色档案，展示用户属性和成就
-**属性系统**：
-- STR（力量）
-- INT（智力）
-- DIS（自律）
-- CRE（创造）
-- SOC（社交）
-- WEA（财富）
-**成就系统**：
-- 各种成就和勋章
+### DailyCheckIn.tsx
+**功能**：每日签到组件
+**奖励机制**：连续签到奖励金币和经验值
+**UI设计**：
+- 圆形勋章样式签到按钮
+- 7天签到状态展示
+- 跳动动画效果
 
-### Blueprint.tsx
-**功能**：项目管理，支持创建和管理项目及子任务
-**项目结构**：
-- 项目包含多个子任务
-- 子任务支持拖拽排序
-- 支持项目的创建、编辑、删除
+### HallOfFame.tsx
+**功能**：展示用户成就和荣誉
+**设计**：勋章墙设计，展示已获得的成就
+
+### Settings.tsx
+**功能**：应用设置
+**配置项**：
+- 背景音乐设置
+- 音效设置
+- 通知设置
+- 主题切换
 
 ## 数据结构
 
 ### types.ts
 ```typescript
 // 主题类型
-export type Theme = 'light' | 'dark';
+export type Theme = 'light' | 'dark' | 'neomorphic'; 
 
 // 子任务类型
 export interface SubTask {
   id: string;
   title: string;
+  duration: number;
   completed: boolean;
-  priority: 'high' | 'medium' | 'low';
-  deadline?: string;
+  frequency: 'daily' | 'weekly' | 'once';
 }
 
 // 项目类型
 export interface Project {
   id: string;
   name: string;
+  startDate: string; // ISO Date string
   description: string;
-  attr: 'STR' | 'INT' | 'DIS' | 'CRE' | 'SOC' | 'WEA' | '';
-  reward: number;
+  status: 'active' | 'paused' | 'completed';
+  logs: ProjectLog[];
   dailyFocus: { [date: string]: number };
   subTasks: SubTask[];
-  completed?: boolean;
+  fears: FearEntry[];
+  todayFocusMinutes: number;
+  attr?: AttributeType; // RPG属性
 }
 
 // 习惯类型
 export interface Habit {
   id: string;
   name: string;
-  description: string;
-  attr: 'STR' | 'INT' | 'DIS' | 'CRE' | 'SOC' | 'WEA' | '';
-  reward: number;
-  frequency: 'daily' | 'weekly' | 'monthly';
-  history: { [date: string]: boolean };
+  reward: number; // Gold
+  xp?: number;    // Custom XP
+  duration?: number; // Duration in minutes
   streak: number;
-  completed?: boolean;
+  archived: boolean;
+  color: string;
+  attr?: AttributeType; // RPG属性
+  history: { [dateString: string]: boolean };
+  logs: { [dateString: string]: string };
 }
 
-// 角色属性类型
-export interface CharacterStats {
-  STR: number;
-  INT: number;
-  DIS: number;
-  CRE: number;
-  SOC: number;
-  WEA: number;
+// 项目日志类型
+export interface ProjectLog {
+  id: string;
+  date: string;
+  content: string;
+  durationMinutes: number;
+}
+
+// 恐惧条目类型
+export interface FearEntry {
+  id: string;
+  challenge: string; // What I want to do
+  fear: string;      // What I am afraid of
+  prevention: string; // How to solve it
+  status: 'pending' | 'conquered';
+  logs: RejectionLog[];
+}
+
+// 交易记录
+export interface Transaction {
+  id: string;
+  time: string;
+  desc: string;
+  amount: number;
+}
+
+// 回顾日志
+export interface ReviewLog {
+  id: string;
+  date: string;
+  content: string;
+  aiAnalysis: string;
+  timestamp: number;
+}
+
+// 每日统计
+export interface DailyStats {
+  focusMinutes: number;
+  tasksCompleted: number;
+  habitsDone: number;
+  earnings: number;
+  spending: number;
+}
+
+// 设置选项类型
+export interface Settings {
+    bgMusicVolume: number;
+    soundEffectVolume: number;
+    enableBgMusic: boolean;
+    enableSoundEffects: boolean;
+    enableNotifications: boolean;
+    enableTaskCompleteNotifications: boolean;
+    enableAchievementNotifications: boolean;
+    enablePomodoroNotifications: boolean;
+    showExperienceBar: boolean;
+    showBalance: boolean;
+    showTaskCompletionRate: boolean;
+    soundEffectsByLocation: {
+        [location: string]: {
+            enabled: boolean;
+            sound: string;
+        };
+    };
+    soundLibrary: {
+        [soundId: string]: {
+            name: string;
+            url: string;
+        };
+    };
+    autoBackupFrequency?: 'none' | 'daily' | 'weekly' | 'monthly';
+    nutcloudWebDAV?: {
+        server: string;
+        username: string;
+        password: string;
+    };
 }
 ```
 
@@ -186,13 +417,13 @@ export interface CharacterStats {
   - theme：主题
   - habitOrder：习惯顺序
   - projectOrder：项目顺序
-  - chartCategories：图表分类
-  - chartHeight：图表高度
+  - statsHistory：统计历史
+  - 以及其他游戏状态
 
 ## 样式和主题
 
 ### 主题系统
-- 支持light和dark两种主题
+- 支持light、dark和neomorphic（拟态）三种主题
 - 使用CSS类名切换主题
 - 主题配置保存在localStorage
 
@@ -200,38 +431,22 @@ export interface CharacterStats {
 - 使用Tailwind CSS进行样式设计
 - 响应式布局，支持不同屏幕尺寸
 - 统一的颜色方案
+- 拟态风格：高饱和度灰蓝色底色，135度光源，大圆角设计
+- 深色主题：深色背景配合霓虹色彩
+- 浅色主题：明亮简洁的设计
 
 ## 图表系统
 
 ### 图表分类
 1. **趋势图表**：
-   - habitCompletion：习惯完成率
-   - focusTrend：专注时间趋势
-   - dip：死穴区间
-   - dunning：达克效应
-   - jcurve：J型曲线
-   - antifragile：反脆弱
-   - secondcurve：第二曲线
-   - compound：原子习惯
-   - mining：复利/阻力
-   - dopamine：多巴胺
-   - flow：心流通道
-   - windLaw：风中定律
+   - 习惯完成率
+   - 专注时间统计
+   - 其他成长趋势
 
 2. **概念图形**：
-   - zone：舒适圈模型
-   - woop：WOOP框架
-   - peakEnd：峰终定律
-   - valueVenn：人生价值韦恩图
-   - cognitiveOnion：认知洋葱圈
-   - learningCycle：学习循环
-   - purpose：人类需求层次
-   - johariWindow：乔哈里视窗
-   - footInDoor：登门槛效应
-   - deliberatePractice：刻意练习循环
-   - foggBehavior：佛格行为模型
-   - eisenhowerMatrix：艾森豪威尔矩阵
-   - outputLineModel：输出线模型
+   - 舒适圈模型
+   - WOOP框架
+   - 其他概念图形
 
 ### 图表数据生成
 - 大部分图表使用useMemo生成模拟数据
@@ -246,7 +461,36 @@ export interface CharacterStats {
 
 ### 响应式设计
 - 支持不同屏幕尺寸
-- 移动端友好
+- 移动端友好设计
+
+## 番茄钟系统
+**功能**：专注计时工具
+**核心特性**：
+- 支持自定义时长（25分钟、45分钟、60分钟）
+- 自动记录专注时间到今日统计
+- 完成后获得金币和经验奖励
+- 支持背景音效（森林、海浪、雨声、咖啡馆等）
+- 沉浸式专注模式
+
+## 游戏化系统
+
+### 角色成长
+- **等级系统**：通过经验值升级
+- **属性系统**：STR、INT、DIS、CRE、SOC、WEA
+- **专注等级**：根据累计专注时间解锁不同头衔
+- **财富等级**：根据金币数量解锁不同称号
+
+### 奖励机制
+- **金币**：完成任务、习惯、专注时间获得
+- **经验值**：完成任务、习惯获得
+- **成就系统**：各种成就和勋章
+- **视觉反馈**：完成任务时的浮动奖励文字和动画
+- **庆祝效果**：成就解锁时的五彩纸屑效果
+
+### 装备和物品系统
+- **黑市系统**：可使用金币购买虚拟物品
+- **物品分类**：数码产品、装备、饮食、娱乐、服务、票务、会员、充值
+- **购买动画**：丰富的视觉反馈
 
 ## 构建和部署
 
@@ -263,6 +507,12 @@ npm run dev
 ```
 - 启动开发服务器
 - 支持热更新
+
+### 测试命令
+```bash
+npm run lint
+npm run typecheck
+```
 
 ## 打包成APK
 
@@ -329,37 +579,137 @@ cordova build android
 
 ## 开发注意事项
 
-1. **类型安全**：
-   - 使用TypeScript进行类型检查
-   - 所有组件和函数都要有类型定义
+### 类型安全
+- 使用TypeScript进行类型检查
+- 所有组件和函数都要有类型定义
+- 运行 `npm run typecheck` 进行类型检查
 
-2. **性能优化**：
-   - 使用React.memo优化组件渲染
-   - 使用useMemo缓存计算结果
-   - 使用useCallback缓存函数
+### 性能优化
+- 使用React.memo优化组件渲染
+- 使用useMemo缓存计算结果
+- 使用useCallback缓存函数
 
-3. **代码规范**：
-   - 遵循ESLint和Prettier规范
-   - 保持代码整洁和可读性
+### 代码规范
+- 遵循ESLint和Prettier规范
+- 运行 `npm run lint` 检查代码规范
 
-4. **测试**：
-   - 手动测试所有功能
-   - 确保在不同浏览器和设备上正常运行
+### 测试
+- 手动测试所有功能
+- 确保在不同主题下都能正常工作
+- 测试移动端响应式布局
 
 ## 更新日志
 
-### 2025-12-19
-- 添加了输出线模型图表
-- 修复了图表分类拖拽排序
-- 优化了图表渲染逻辑
+### 2025-12-23
+- 导航栏折叠按钮移动到导航栏内部右侧
+- 作战中心的签到模块改名为签到系统
+- 专注趋势模块改名为专注时间统计
+- 优化了导航栏布局
+
+### 2025-12-23 代码优化
+- **目录结构优化**：创建了hooks、utils、constants等文件夹，实现模块化管理
+- **组件拆分**：将大型组件拆分为多个小型共享组件，确保单一职责原则
+- **自定义Hooks**：创建了useGameState、useHabits、useProjects等自定义Hooks，封装状态管理逻辑
+- **常量集中管理**：将App.tsx中的常量提取到constants/index.ts，实现集中式管理
+- **类型系统优化**：添加了详细的JSDoc注释，使用枚举类型替代字符串常量
+- **组件提取**：将RewardModal组件从App.tsx中提取为独立组件
+- **代码文档改进**：为类型定义、接口和函数添加了详细的JSDoc注释
+- **状态管理优化**：使用自定义Hooks封装状态管理逻辑，减少App.tsx的负担
+
+## 代码优化最佳实践
+
+### 组件设计原则
+- **单一职责**：每个组件只负责一个功能
+- **可复用性**：将通用功能提取为共享组件
+- **组件大小限制**：单个组件代码量控制在500行以内
+- **明确的props接口**：为组件定义详细的props接口
+
+### Hook设计原则
+- **领域划分**：每个Hook负责一个特定领域的状态管理
+- **封装内部逻辑**：将状态、计算和本地存储逻辑封装在Hook内部
+- **清晰的返回值**：返回值结构清晰，易于理解和使用
+- **自动持久化**：重要状态自动保存到localStorage
+
+### 类型设计原则
+- **使用枚举替代字符串常量**：提高类型安全性
+- **详细的JSDoc注释**：为类型和接口添加详细注释
+- **统一的命名规范**：使用清晰、一致的命名规范
+- **接口分离**：根据不同用途定义不同的接口
+
+### 代码文档规范
+- **类型和接口注释**：为所有类型和接口添加JSDoc注释
+- **函数注释**：为重要函数添加JSDoc注释
+- **常量注释**：为常量添加注释说明用途
+- **组件注释**：为组件添加功能说明
+
+## 后续优化建议
+
+1. **移除旧文件**：删除不再使用的constants.ts文件
+2. **完善utils目录**：添加工具函数，封装通用逻辑
+3. **添加测试**：为自定义Hooks添加单元测试
+4. **优化性能**：使用React.memo和useMemo优化组件性能
+5. **完善文档**：为所有组件和Hooks添加完整的JSDoc注释
+6. **标准化命名**：统一组件和函数命名规范
+
+## 开发工作流
+
+1. **需求分析**：明确功能需求和技术要求
+2. **设计方案**：设计组件结构和状态管理方案
+3. **代码实现**：实现功能代码，遵循最佳实践
+4. **代码优化**：优化代码结构和性能
+5. **添加测试**：编写单元测试和集成测试
+6. **文档更新**：更新开发手册和API文档
+7. **代码审查**：进行代码审查，确保质量
+8. **部署上线**：构建和部署应用
+
+## 故障排除
+
+### 类型错误
+- 检查类型定义是否正确
+- 确保枚举使用正确
+- 检查导入导出是否正确
+
+### Hook使用错误
+- 确保Hook在组件顶层调用
+- 检查Hook依赖数组是否正确
+- 确保Hook返回值使用正确
+
+### 组件渲染问题
+- 检查组件props是否正确
+- 检查组件状态管理是否正确
+- 检查条件渲染逻辑是否正确
+
+## 核心优化成果
+
+### 代码结构优化
+- 模块化目录结构，便于维护和扩展
+- 清晰的组件层次结构
+- 集中式常量管理
+
+### 性能优化
+- 减少了大型组件的渲染负担
+- 优化了状态更新逻辑
+- 提高了代码复用率
+
+### 可维护性提升
+- 清晰的代码文档
+- 标准化的代码风格
+- 模块化的设计方案
+
+### 开发效率提升
+- 组件复用减少重复代码
+- 类型安全减少运行时错误
+- 清晰的代码结构便于理解和修改
 
 ## 后续开发建议
 
-1. 添加更多图表类型
-2. 增强AI教练功能
-3. 添加社交功能
-4. 支持多平台同步
-5. 增强数据可视化
+1. **添加更多图表类型**：扩展MissionControl中的图表种类
+2. **增强AI教练功能**：提供更智能的个性化建议
+3. **添加社交功能**：支持用户之间的互动
+4. **支持多平台同步**：实现云同步功能
+5. **增强数据可视化**：添加更多维度的数据分析
+6. **添加离线支持**：支持离线使用
+7. **增强番茄钟功能**：添加更多专注模式和统计
 
 ## 部署说明
 
@@ -383,6 +733,133 @@ cordova build android
 - 检查主题状态是否正确
 - 检查CSS类名是否正确切换
 - 检查localStorage是否正确保存主题
+
+### 番茄钟不工作
+- 检查CharacterProfile组件中的计时器逻辑
+- 检查音效文件是否能正常加载
+- 检查localStorage中的番茄钟状态
+
+## 核心工作流程
+
+### 1. 应用启动流程
+1. App组件初始化状态
+2. 从localStorage加载保存的数据
+3. 初始化各种状态
+4. 渲染Navigation和当前视图
+
+### 2. 任务完成流程
+1. 用户在LifeGame组件中完成任务
+2. 触发奖励计算（金币、经验值）
+3. 更新全局状态
+4. 保存到localStorage
+5. 显示浮动奖励动画
+
+### 3. 专注时间统计
+1. 番茄钟完成后调用onPomodoroComplete
+2. 更新todayStats.focusMinutes
+3. 保存到statsHistory
+4. 在MissionControl和实时情报卡中展示
+
+### 4. 签到流程
+1. 用户点击签到按钮
+2. 检查是否已签到
+3. 更新签到数据到localStorage
+4. 计算连续签到天数
+5. 发放奖励
+6. 更新UI状态
+
+## 关键API和工具函数
+
+### 数据持久化
+- `localStorage.getItem('aes-global-data-v3')`：保存全局游戏数据
+- `localStorage.getItem('life-game-stats-v2')`：保存角色统计数据
+- `localStorage.getItem('life-game-weekly-checkin')`：保存每周签到数据
+
+### 核心工具函数
+- `getAllLevels()`：获取所有等级信息
+- `getFocusInfo()`：计算专注等级
+- `getWealthInfo()`：计算财富等级
+- `getAllMilitaryRanks()`：获取军衔信息
+
+## 设计规范
+
+### 拟态风格设计
+- 背景色：#e0e5ec
+- 边框色：#a3b1c6
+- 阴影：10px 10px 20px rgba(163,177,198,0.6), -10px -10px 20px rgba(255,255,255,1)
+- 圆角：48px
+- 交互效果：悬停时阴影变化，点击时内阴影
+
+### 深色主题设计
+- 背景：bg-zinc-950
+- 边框：border-zinc-800
+- 文本：text-zinc-200
+- 强调色：emerald-500
+
+### 响应式设计
+- 移动端：折叠导航栏，使用汉堡菜单
+- 平板：自适应布局
+- 桌面端：完整侧边栏布局
+
+## 安全注意事项
+- 所有数据存储在localStorage中，避免敏感信息
+- 音频资源使用外部CDN链接，确保资源可访问
+- 遵循CSP策略，只允许安全的资源加载
+- 所有用户输入都经过适当处理，防止XSS攻击
+
+## 国际化
+- 所有文本内容均使用中文
+- 日期格式使用本地化格式
+- 数字格式使用中文习惯
+
+## 可访问性
+- 使用语义化HTML标签
+- 支持键盘导航
+- 适当的颜色对比度
+- 支持屏幕阅读器
+
+## 性能优化
+- 组件使用React.memo优化渲染
+- 计算结果使用useMemo缓存
+- 事件处理函数使用useCallback缓存
+- 图片资源优化
+- 延迟加载非关键资源
+
+## 开发环境搭建
+
+### 安装依赖
+```bash
+npm install
+```
+
+### 启动开发服务器
+```bash
+npm run dev
+```
+
+### 构建生产版本
+```bash
+npm run build
+```
+
+### 运行测试
+```bash
+npm run test
+```
+
+### 代码质量检查
+```bash
+npm run lint
+npm run typecheck
+```
+
+## 贡献指南
+1. 遵循现有的代码风格和模式
+2. 编写TypeScript类型定义
+3. 确保所有测试通过
+4. 添加新功能时编写相应的测试
+5. 提交前运行lint和typecheck
+6. 遵循Conventional Commits规范
 
 ## 联系方式
 
