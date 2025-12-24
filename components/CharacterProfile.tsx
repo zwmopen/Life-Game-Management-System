@@ -25,11 +25,11 @@ interface CharacterProfileProps {
   onUpdateTimeLeft: (seconds: number) => void;
   onUpdateIsActive: (active: boolean) => void;
   onImmersiveModeChange?: (isImmersive: boolean) => void;
-  // Audio Management
+  // Global Audio Management
   isMuted: boolean;
   currentSoundId: string;
-  setIsMuted: (muted: boolean) => void;
-  setCurrentSoundId: (soundId: string) => void;
+  onToggleMute: (muted: boolean) => void;
+  onSoundChange: (soundId: string) => void;
 }
 
 export interface CharacterProfileHandle {
@@ -81,11 +81,11 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
         onUpdateTimeLeft,
         onUpdateIsActive,
         onImmersiveModeChange = undefined,
-        // Audio Management
+        // Global Audio Management
         isMuted,
         currentSoundId,
-        setIsMuted,
-        setCurrentSoundId
+        onToggleMute,
+        onSoundChange
     } = props;
     const isDark = theme === 'dark';
     const isNeomorphic = theme === 'neomorphic';
@@ -298,7 +298,9 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
     const [isImmersive, setIsImmersive] = useState(false);
     const [showHelp, setShowHelp] = useState(false);
     const [isEditingBalance, setIsEditingBalance] = useState(false);
+    const [isEditingKills, setIsEditingKills] = useState(false);
     const [tempBalance, setTempBalance] = useState(balance.toString());
+    const [tempKills, setTempKills] = useState(totalKills?.toString() || '0');
     // Add real-time system time state
     const [currentDateTime, setCurrentDateTime] = useState(new Date());
     // Add mantra management state
@@ -393,9 +395,18 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
         const newBalance = parseInt(tempBalance);
         if (!isNaN(newBalance) && onUpdateBalance) {
             const diff = newBalance - balance;
-            if (diff !== 0) onUpdateBalance(diff, '手动调整储备');
+            if (diff !== 0) onUpdateBalance(diff, '手动调整储备金');
         }
         setIsEditingBalance(false);
+    };
+    
+    const handleSaveKills = () => {
+        const newKills = parseInt(tempKills);
+        if (!isNaN(newKills) && onUpdateBalance) {
+            // 这里可以添加更新歼敌数的逻辑
+            // 由于当前歼敌数是从totalKills传递而来，可能需要额外的回调函数
+        }
+        setIsEditingKills(false);
     };
 
     const currentSound = SOUNDS.find(s => s.id === currentSoundId) || SOUNDS[0];
@@ -425,8 +436,8 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
     // Mantra Management
     const handleAddMantra = () => {
         if (!newMantraInput.trim()) return;
-        const lines = newMantraInput.split('\n').filter(line => line.trim() !== '');
-        setMantras([...mantras, ...lines]);
+        // 将整个输入作为一个完整的金句添加，不按换行分割
+        setMantras([newMantraInput.trim(), ...mantras]);
         setNewMantraInput('');
     };
     const handleDeleteMantra = (index: number) => {
@@ -500,10 +511,15 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
                         balance={balance}
                         totalKills={totalKills}
                         isEditingBalance={isEditingBalance}
+                        isEditingKills={isEditingKills}
                         tempBalance={tempBalance}
+                        tempKills={tempKills}
                         setIsEditingBalance={setIsEditingBalance}
+                        setIsEditingKills={setIsEditingKills}
                         setTempBalance={setTempBalance}
+                        setTempKills={setTempKills}
                         handleSaveBalance={handleSaveBalance}
+                        handleSaveKills={handleSaveKills}
                     />
                 </div>
                 
@@ -536,7 +552,7 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
                                             key={sound.id}
                                             onClick={(e) => { 
                                                 e.stopPropagation(); 
-                                                setCurrentSoundId(sound.id); 
+                                                onSoundChange(sound.id); 
                                                 setIsSoundMenuOpen(false);
                                             }}
                                             className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${currentSoundId === sound.id ? (isDark ? 'bg-zinc-800 text-white' : 'bg-blue-50 text-blue-600') : (isDark ? 'hover:bg-zinc-800 text-zinc-300' : 'hover:bg-slate-100 text-slate-700')}`}
@@ -549,10 +565,7 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
                             <button 
                                 onClick={(e) => { 
                                     e.stopPropagation(); 
-                                    setIsMuted(!isMuted); 
-                                    if (audioRef.current) {
-                                        audioRef.current.muted = !isMuted;
-                                    }
+                                    onToggleMute(!isMuted); 
                                     setIsSoundMenuOpen(false);
                                 }}
                                 className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${isMuted ? (isDark ? 'bg-zinc-800 text-white' : 'bg-blue-50 text-blue-600') : (isDark ? 'hover:bg-zinc-800 text-zinc-300' : 'hover:bg-slate-100 text-slate-700')}`}
@@ -576,16 +589,26 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
                         ? 'bg-[#e0e5ec] border-[#a3b1c6] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)] hover:shadow-[8px_8px_16px_rgba(163,177,198,0.5),-8px_-8px_16px_rgba(255,255,255,1)] active:shadow-[inset_10px_10px_20px_rgba(163,177,198,0.6),inset_-10px_-10px_20px_rgba(255,255,255,1)]' 
                         : 'bg-gradient-to-br from-amber-600 to-orange-700 shadow-[inset_-15px_-15px_30px_rgba(0,0,0,0.3),15px_15px_30px_rgba(0,0,0,0.2)]' 
                     }`}>
-                        {/* 环形进度条 - 调整半径 */}
+                        {/* 环形进度条 - 调整半径，添加微妙凹陷效果 */}
                         <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
-                            {/* 背景圆环 */}
+                            {/* 微妙的凹陷效果 - 仅一个阴影圆环 */}
                             <circle
                                 cx="50"
                                 cy="50"
                                 r="40"
                                 fill="none"
-                                stroke={isNeomorphic ? '#d0d5dc' : 'rgba(255,255,255,0.3)'}
+                                stroke={isNeomorphic ? '#d0d5dc' : 'rgba(0,0,0,0.2)'}
                                 strokeWidth="8"
+                                className="opacity-30"
+                            />
+                            {/* 主背景圆环 */}
+                            <circle
+                                cx="50"
+                                cy="50"
+                                r="40"
+                                fill="none"
+                                stroke={isNeomorphic ? '#e0e5ec' : 'rgba(255,255,255,0.3)'}
+                                strokeWidth="6"
                             />
                             {/* 进度圆环 */}
                             <circle
@@ -594,7 +617,7 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
                                 r="40"
                                 fill="none"
                                 stroke={isActive ? (isNeomorphic ? '#3b82f6' : '#ffffff') : (isNeomorphic ? '#9ca3af' : 'rgba(255,255,255,0.5)')}
-                                strokeWidth="8"
+                                strokeWidth="4"
                                 strokeLinecap="round"
                                 transform="rotate(-90 50 50)"
                                 strokeDasharray={2 * Math.PI * 40}
@@ -606,10 +629,10 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
                         {/* 状态文字和倒计时 - 居中显示，黑色文字 */}
                         <div className="relative z-10 flex flex-col items-center justify-center">
                             {/* 状态文字 */}
-                            <div className={`text-lg font-bold uppercase tracking-[0.3em] mb-3 text-black font-mono`}>{isActive ? '专注模式' : '已暂停'}</div>
+                            <div className={`text-xl font-bold uppercase tracking-[0.3em] mb-3 text-black font-mono`}>{isActive ? '专注模式' : '已暂停'}</div>
                             
-                            {/* 倒计时文字 */}
-                            <div className={`text-[10vw] font-black font-mono leading-none tracking-tighter text-black tabular-nums`}>{formatTime(timeLeft)}</div>
+                            {/* 倒计时文字 - 缩小尺寸，添加最大字体限制 */}
+                            <div className={`text-[8vw] sm:text-[6vw] max-[800px]:text-[10vw] font-black font-mono leading-none tracking-tighter text-black tabular-nums max-text-[80px]`}>{formatTime(timeLeft)}</div>
                         </div>
                     </div>
                 </div>
@@ -660,33 +683,33 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
 
         {/* 锦囊库管理模态框 */}
         {isMantraModalOpen && (
-            <div className="fixed inset-0 z-[2000] bg-black/80 flex items-center justify-center p-4 backdrop-blur-md">
-                <div className={`${isDark ? 'bg-zinc-900 border-zinc-800' : 'bg-white border-slate-200'} border rounded-xl p-6 w-full max-w-2xl overflow-y-auto max-h-[90vh]`}>
+            <div className="fixed inset-0 z-[2000] bg-black/80 flex items-center justify-center p-4 backdrop-blur-md animate-in fade-in">
+                <div className={`${isNeomorphic ? 'bg-[#e0e5ec] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-900 border-zinc-800' : 'bg-white border-slate-200'} border rounded-[48px] p-6 w-full max-w-2xl overflow-y-auto max-h-[90vh] transition-all duration-300`}>
                     <div className="flex justify-between items-center mb-6">
-                        <h2 className="text-xl font-bold ${isDark ? 'text-white' : 'text-slate-800'}">管理锦囊库</h2>
+                        <h2 className={`text-xl font-bold ${isDark ? 'text-white' : isNeomorphic ? 'text-zinc-800' : 'text-slate-800'}`}>管理锦囊库</h2>
                         <button 
                             onClick={() => setIsMantraModalOpen(false)}
-                            className={`p-2 rounded-full ${isDark ? 'hover:bg-zinc-800 text-white' : 'hover:bg-slate-100 text-slate-800'} transition-colors`}
+                            className={`p-2 rounded-full transition-colors ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[3px_3px_6px_rgba(163,177,198,0.5),-3px_-3px_6px_rgba(255,255,255,1)] active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]' : isDark ? 'hover:bg-zinc-800 text-white' : 'hover:bg-slate-100 text-slate-800'}`}
                         >
-                            <X size={24} />
+                            <X size={24} className={isDark ? 'text-white' : isNeomorphic ? 'text-zinc-800' : 'text-slate-800'} />
                         </button>
                     </div>
                     
                     {/* 添加新咒语 */}
                     <div className="mb-6">
-                        <h3 className="text-sm font-medium mb-2 ${isDark ? 'text-zinc-300' : 'text-slate-700'}">添加新咒语</h3>
+                        <h3 className={`text-sm font-medium mb-2 ${isDark ? 'text-zinc-300' : isNeomorphic ? 'text-zinc-700' : 'text-slate-700'}`}>添加新金句</h3>
                         <div className="flex gap-2">
                             <input 
                                 type="text" 
-                                placeholder="输入新咒语..." 
+                                placeholder="输入新金句..." 
                                 value={newMantraInput} 
                                 onChange={(e) => setNewMantraInput(e.target.value)}
                                 onKeyDown={(e) => e.key === 'Enter' && handleAddMantra()}
-                                className={`flex-1 px-4 py-2 rounded-lg border ${isDark ? 'bg-zinc-800 border-zinc-700 text-white placeholder-zinc-500' : 'bg-slate-50 border-slate-300 text-slate-800 placeholder-slate-400'} focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                                className={`flex-1 px-4 py-2 rounded-[24px] transition-all ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)] text-zinc-800 placeholder-zinc-500' : isDark ? 'bg-zinc-800 border-zinc-700 text-white placeholder-zinc-500' : 'bg-slate-50 border-slate-300 text-slate-800 placeholder-slate-400'} border focus:outline-none focus:ring-2 focus:ring-blue-500`}
                             />
                             <button 
                                 onClick={handleAddMantra}
-                                className={`px-4 py-2 rounded-lg ${isDark ? 'bg-blue-600 hover:bg-blue-700 text-white' : 'bg-blue-500 hover:bg-blue-600 text-white'} transition-colors font-medium`}
+                                className={`px-4 py-2 rounded-[24px] transition-all font-medium ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[3px_3px_6px_rgba(163,177,198,0.5),-3px_-3px_6px_rgba(255,255,255,1)] active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)] text-zinc-800' : isDark ? 'bg-blue-600 hover:bg-blue-700 text-white' : 'bg-blue-500 hover:bg-blue-600 text-white'}`}
                             >
                                 添加
                             </button>
@@ -695,10 +718,10 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
                     
                     {/* 咒语列表 */}
                     <div>
-                        <h3 className="text-sm font-medium mb-3 ${isDark ? 'text-zinc-300' : 'text-slate-700'}">现有咒语 ({mantras.length})</h3>
-                        <div className="space-y-2">
+                        <h3 className={`text-sm font-medium mb-3 ${isDark ? 'text-zinc-300' : isNeomorphic ? 'text-zinc-700' : 'text-slate-700'}`}>现有金句 ({mantras.length})</h3>
+                        <div className="space-y-3">
                             {mantras.map((mantra, index) => (
-                                <div key={index} className={`flex items-center justify-between p-3 rounded-lg border ${isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-slate-50 border-slate-300'} transition-colors hover:border-blue-500/50`}>
+                                <div key={index} className={`flex items-center justify-between p-3 rounded-[24px] transition-all ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[3px_3px_6px_rgba(163,177,198,0.5),-3px_-3px_6px_rgba(255,255,255,1)] active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-slate-50 border-slate-300'} border hover:border-blue-500/50`}>
                                     {editingMantraIndex === index ? (
                                         <div className="flex items-center gap-2 flex-1">
                                             <input 
@@ -707,35 +730,35 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
                                                 onChange={(e) => setEditingMantraValue(e.target.value)}
                                                 onKeyDown={(e) => e.key === 'Enter' && saveMantraEdit(index)}
                                                 autoFocus
-                                                className={`flex-1 px-3 py-1 rounded border ${isDark ? 'bg-zinc-700 border-zinc-600 text-white' : 'bg-white border-slate-300 text-slate-800'} focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                                                className={`flex-1 px-3 py-1.5 rounded-[16px] transition-all ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] text-zinc-800' : isDark ? 'bg-zinc-700 border-zinc-600 text-white' : 'bg-white border-slate-300 text-slate-800'} border focus:outline-none focus:ring-2 focus:ring-blue-500`}
                                             />
                                             <button 
                                                 onClick={() => saveMantraEdit(index)}
-                                                className={`px-3 py-1 rounded ${isDark ? 'bg-green-600 hover:bg-green-700 text-white' : 'bg-green-500 hover:bg-green-600 text-white'} text-sm transition-colors`}
+                                                className={`px-3 py-1.5 rounded-[16px] text-sm transition-all ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)] hover:shadow-[2px_2px_4px_rgba(163,177,198,0.5),-2px_-2px_4px_rgba(255,255,255,1)] active:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] text-zinc-800' : isDark ? 'bg-green-600 hover:bg-green-700 text-white' : 'bg-green-500 hover:bg-green-600 text-white'}`}
                                             >
                                                 保存
                                             </button>
                                         </div>
                                     ) : (
                                         <div className="flex items-center gap-2 flex-1">
-                                            <span className={`${isDark ? 'text-zinc-200' : 'text-slate-700'}`}>{mantra}</span>
-                                            <div className="flex gap-1">
+                                            <span className={`${isDark ? 'text-zinc-200' : isNeomorphic ? 'text-zinc-800' : 'text-slate-700'}`}>{mantra}</span>
+                                            <div className="flex gap-1.5">
                                                 <button 
                                                     onClick={() => {
                                                         setEditingMantraIndex(index);
                                                         setEditingMantraValue(mantra);
                                                     }}
-                                                    className={`p-1.5 rounded ${isDark ? 'hover:bg-zinc-700 text-blue-400' : 'hover:bg-slate-200 text-blue-600'} transition-colors`}
+                                                    className={`p-1.5 rounded-full transition-colors ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] hover:shadow-[2px_2px_4px_rgba(163,177,198,0.5),-2px_-2px_4px_rgba(255,255,255,1)] active:shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,1)] text-zinc-700' : isDark ? 'hover:bg-zinc-700 text-blue-400' : 'hover:bg-slate-200 text-blue-600'}`}
                                                     title="编辑"
                                                 >
-                                                    <Edit3 size={16} />
+                                                    <Edit3 size={16} className={isDark ? 'text-blue-400' : isNeomorphic ? 'text-zinc-700' : 'text-blue-600'} />
                                                 </button>
                                                 <button 
                                                     onClick={() => handleDeleteMantra(index)}
-                                                    className={`p-1.5 rounded ${isDark ? 'hover:bg-zinc-700 text-red-400' : 'hover:bg-slate-200 text-red-600'} transition-colors`}
+                                                    className={`p-1.5 rounded-full transition-colors ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] hover:shadow-[2px_2px_4px_rgba(163,177,198,0.5),-2px_-2px_4px_rgba(255,255,255,1)] active:shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,1)] text-zinc-700' : isDark ? 'hover:bg-zinc-700 text-red-400' : 'hover:bg-slate-200 text-red-600'}`}
                                                     title="删除"
                                                 >
-                                                    <Trash2 size={16} />
+                                                    <Trash2 size={16} className={isDark ? 'text-red-400' : isNeomorphic ? 'text-zinc-700' : 'text-red-600'} />
                                                 </button>
                                             </div>
                                         </div>

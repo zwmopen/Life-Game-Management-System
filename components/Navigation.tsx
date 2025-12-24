@@ -51,9 +51,9 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
   
   // 拟态风格样式 - 符合规格的高饱和度灰蓝色底色，135度光源，增强阴影效果
   const sidebarClass = isNeomorphic 
-      ? 'bg-[#e0e5ec] border-[#a3b1c6] rounded-r-[48px] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)] transition-all duration-300' 
+      ? 'bg-[#e0e5ec] border-[#a3b1c6] rounded-r-[48px] shadow-[10px_10px_20px_rgba(163,177,198,0.6)] transition-all duration-300 overflow-hidden' 
       : isDark 
-      ? 'bg-zinc-950 border-zinc-800' 
+      ? 'bg-zinc-900 border-zinc-800 shadow-xl' 
       : 'bg-white border-slate-200 shadow-xl';
   
   const textClass = isDark ? 'text-zinc-400' : isNeomorphic ? 'text-zinc-700' : 'text-slate-500';
@@ -89,7 +89,7 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
         w-${isNavCollapsed ? '12' : '64'} border-r flex flex-col z-40 ${sidebarClass}
         ${isNavCollapsed ? 'block' : 'block'}
       `}>
-          <div className={`p-6 border-b ${isDark ? 'border-zinc-800' : 'border-slate-100'} flex items-center justify-between ${isNavCollapsed ? 'hidden' : 'flex'}`}>
+          <div className={`p-6 ${isNeomorphic ? `bg-[#e0e5ec]` : ''} flex items-center justify-between ${isNavCollapsed ? 'hidden' : 'flex'}`}>
             <h1 className={`text-xl font-bold tracking-tighter ${isDark ? 'text-emerald-500' : 'text-blue-600'}`}>
               人生游戏系统
             </h1>
@@ -151,24 +151,24 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
 
           {/* Entropy Monitor */}
           {!isNavCollapsed && (
-            <div className={`px-6 py-4 border-t ${isDark ? 'border-zinc-800 bg-zinc-900/30' : 'border-slate-100 bg-slate-50'}`}>
+            <div className={`px-6 py-4 ${isDark ? 'border-zinc-800 bg-zinc-900' : 'border-slate-100 bg-slate-100'} transition-all duration-300`}>
                 <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-1">
                         <span className={`text-[10px] font-bold uppercase tracking-widest flex items-center gap-1 ${entropyColor}`}>
                             <Activity size={12}/> 系统稳定性
                         </span>
                         <div className="relative group">
-                            <button className="text-zinc-500 hover:text-white transition-colors">
+                            <button className={`text-zinc-500 hover:text-zinc-800 transition-colors ${isDark ? 'hover:text-white' : ''}`}>
                                 <HelpCircle size={10}/>
                             </button>
-                            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-48 p-2 rounded text-[10px] bg-zinc-800 text-zinc-300 border border-zinc-700 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
+                            <div className={`absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-48 p-2 rounded text-[10px] ${isDark ? 'bg-zinc-800 text-zinc-300 border border-zinc-700' : 'bg-white text-slate-800 border border-slate-200 shadow-lg'} opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50`}>
                                 系统稳定性 = 100% - 熵值<br/>熵值越高，系统越混乱<br/>完成习惯任务可降低熵值
                             </div>
                         </div>
                     </div>
                     <span className={`text-xs font-mono font-bold ${entropyColor}`}>{100 - entropy}%</span>
                 </div>
-                <div className="w-full h-1.5 bg-zinc-800 rounded-full overflow-hidden flex">
+                <div className={`w-full h-1.5 rounded-full overflow-hidden flex ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)]' : 'bg-zinc-800'}`}>
                     <div 
                         className={`h-full transition-all duration-1000 ${entropy > 50 ? 'bg-red-500 animate-pulse' : 'bg-emerald-500'}`} 
                         style={{ width: `${100 - entropy}%` }}

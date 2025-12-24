@@ -3,8 +3,6 @@ import Navigation from './components/Navigation';
 import MissionControl from './components/MissionControl'; 
 import LifeGame from './components/LifeGame';
 import HallOfFame from './components/HallOfFame';
-
-import ProjectManual from './components/ProjectManual';
 import Settings from './components/Settings';
 import { View, Transaction, ReviewLog, Habit, Task, TaskType, DailyStats, Theme, Project, AttributeType, AchievementItem, AutoTask, AutoTaskType, SoundType } from './types';
 import { Wallet, Crown, Clock, Brain, Zap, Target, Crosshair, Skull, Star, Gift, Medal, Sparkles, Swords, Flame, Footprints, Calendar, ShoppingBag, Dumbbell, Shield } from 'lucide-react';
@@ -143,7 +141,7 @@ const App: React.FC = () => {
   });
 
   const totalKills = todayStats.tasksCompleted + todayStats.habitsDone;
-  const totalHours = (Object.values(statsHistory).reduce((acc: number, curr: any) => acc + (curr.focusMinutes || 0), 0) / 60);
+  const totalHours = (Object.values(statsHistory as Record<string, { focusMinutes: number }>).reduce((acc: number, curr) => acc + (curr.focusMinutes || 0), 0) / 60);
   const totalSpent = (Object.values(statsHistory).reduce((acc: number, curr: any) => acc + (curr.spending || 0), 0)) + todayStats.spending;
 
   // --- Persistence Engine ---
@@ -374,14 +372,17 @@ const App: React.FC = () => {
     };
     setTransactions(prev => [newTransaction, ...prev].slice(0, 50));
     
-    if (amount > 0) {
-        setTodayStats(s => ({ ...s, earnings: s.earnings + amount }));
-        // Play Coin Sound
-        playSound("https://assets.mixkit.co/active_storage/sfx/2003/2003-preview.mp3");
-    } else {
-        setTodayStats(s => ({ ...s, spending: s.spending - amount }));
-        // Play Spend Sound
-        playSound("https://assets.mixkit.co/active_storage/sfx/2004/2004-preview.mp3");
+    // 只有非手动调整储备的交易才更新统计数据
+    if (reason !== '手动调整储备金') {
+      if (amount > 0) {
+          setTodayStats(s => ({ ...s, earnings: s.earnings + amount }));
+          // Play Coin Sound
+          playSound("https://assets.mixkit.co/active_storage/sfx/2003/2003-preview.mp3");
+      } else {
+          setTodayStats(s => ({ ...s, spending: s.spending - amount }));
+          // Play Spend Sound
+          playSound("https://assets.mixkit.co/active_storage/sfx/2004/2004-preview.mp3");
+      }
     }
   };
 
@@ -440,13 +441,17 @@ const App: React.FC = () => {
       };
   }, [settings.enableBgMusic, settings.bgMusicVolume]);
 
+  // Global Sound State
+  const [currentSoundId, setCurrentSoundId] = useState<string>('');
+  const [isMuted, setIsMuted] = useState<boolean>(false);
+
   // Audio Handler
   const playSound = (url: string, type: SoundType = SoundType.SOUND_EFFECT) => {
       if ((type === SoundType.SOUND_EFFECT && !settings.enableSoundEffects) || (type === SoundType.BACKGROUND_MUSIC && !settings.enableBgMusic)) {
           return;
       }
       
-      const volume = type === SoundType.SOUND_EFFECT ? settings.soundEffectVolume : settings.bgMusicVolume;
+      const volume = isMuted ? 0 : (type === SoundType.SOUND_EFFECT ? settings.soundEffectVolume : settings.bgMusicVolume);
       
       if (type === SoundType.BACKGROUND_MUSIC) {
           // For background music, use the global audio ref to persist across navigation
@@ -468,6 +473,36 @@ const App: React.FC = () => {
           const audio = new Audio(url);
           audio.volume = volume;
           audio.play().catch(() => {});
+      }
+  };
+
+  // Handle Sound Change
+  const handleSoundChange = (soundId: string) => {
+      setCurrentSoundId(soundId);
+      // Get sound URL from sound library or default
+      const SOUNDS = [
+          { id: 'forest', name: '迷雾森林', url: "https://assets.mixkit.co/active_storage/sfx/2441/2441-preview.mp3" },
+          { id: 'alpha', name: '阿尔法波', url: "https://assets.mixkit.co/active_storage/sfx/243/243-preview.mp3" },
+          { id: 'theta', name: '希塔波', url: "https://assets.mixkit.co/active_storage/sfx/244/244-preview.mp3" },
+          { id: 'beta', name: '贝塔波', url: "https://assets.mixkit.co/active_storage/sfx/1126/1126-preview.mp3" },
+          { id: 'ocean', name: '海浪声', url: "https://assets.mixkit.co/active_storage/sfx/2441/2441-preview.mp3" },
+          { id: 'rain', name: '雨声', url: "https://assets.mixkit.co/active_storage/sfx/2442/2442-preview.mp3" },
+          { id: 'night', name: '夏夜虫鸣', url: "https://assets.mixkit.co/active_storage/sfx/2443/2443-preview.mp3" },
+          { id: 'white-noise', name: '白噪音', url: "https://assets.mixkit.co/active_storage/sfx/2444/2444-preview.mp3" },
+          { id: 'pink-noise', name: '粉红噪音', url: "https://assets.mixkit.co/active_storage/sfx/2445/2445-preview.mp3" },
+          { id: 'brown-noise', name: '布朗噪音', url: "https://assets.mixkit.co/active_storage/sfx/2446/2446-preview.mp3" },
+          { id: 'cafe', name: '咖啡馆环境', url: "https://assets.mixkit.co/active_storage/sfx/2447/2447-preview.mp3" },
+          { id: 'fireplace', name: '壁炉声', url: "https://assets.mixkit.co/active_storage/sfx/2448/2448-preview.mp3" },
+      ];
+      const sound = SOUNDS.find(s => s.id === soundId) || SOUNDS[0];
+      playSound(sound.url, SoundType.BACKGROUND_MUSIC);
+  };
+
+  // Handle Mute Toggle
+  const handleMuteToggle = () => {
+      setIsMuted(!isMuted);
+      if (bgMusicRef.current) {
+          bgMusicRef.current.volume = isMuted ? (settings.enableBgMusic ? settings.bgMusicVolume : 0) : 0;
       }
   };
 
@@ -754,6 +789,11 @@ const App: React.FC = () => {
                   // Immersive Mode State
                   isImmersive={isImmersive}
                   setIsImmersive={setIsImmersive}
+                  // Audio Management
+                  isMuted={isMuted}
+                  currentSoundId={currentSoundId}
+                  onToggleMute={handleMuteToggle}
+                  onSoundChange={handleSoundChange}
                />;
       case View.BLACK_MARKET:
         return <LifeGame 
@@ -806,6 +846,14 @@ const App: React.FC = () => {
                   onChangeDuration={handleChangeDuration}
                   onUpdateTimeLeft={handleUpdateTimeLeft}
                   onUpdateIsActive={handleUpdateIsActive}
+                  // Immersive Mode State
+                  isImmersive={isImmersive}
+                  setIsImmersive={setIsImmersive}
+                  // Audio Management
+                  isMuted={isMuted}
+                  currentSoundId={currentSoundId}
+                  onToggleMute={handleMuteToggle}
+                  onSoundChange={handleSoundChange}
                />;
       case View.HALL_OF_FAME:
         return <HallOfFame 
@@ -839,8 +887,7 @@ const App: React.FC = () => {
                   projects={projects}
                   habits={habits}
                />;
-      case View.PROJECT_MANUAL:
-        return <ProjectManual theme={theme} />;
+
       case View.SETTINGS:
         return <Settings 
                   theme={theme} 
@@ -856,7 +903,7 @@ const App: React.FC = () => {
       ? 'bg-zinc-950 text-zinc-100' 
       : theme === 'light' 
       ? 'bg-slate-50 text-slate-900' 
-      : 'bg-[#e0e5ec] text-zinc-800'; // 拟态风格：高饱和度灰蓝色背景，低对比度文字
+      : 'bg-[#e0e5ec] text-zinc-800'; // 拟态风格：高饱和度灰蓝色背景，低对比度文字，与导航栏背景一致
   const entropy = Math.round((1 - (todayStats.habitsDone / Math.max(1, habits.length))) * 100);
 
   if (!isDataLoaded) {
@@ -887,9 +934,8 @@ const App: React.FC = () => {
       {/* GLOBAL REWARD POPUP */}
       {activeAchievement && <RewardModal badge={activeAchievement} onClose={handleClaimReward} />}
 
-
-
-      <main className={`flex-1 h-full overflow-y-auto relative scroll-smooth flex flex-col transition-all duration-200`}>
+      {/* 统一背景，消除侧边栏和主体的颜色割裂 */}
+      <main className={`flex-1 h-full overflow-y-auto relative scroll-smooth flex flex-col transition-all duration-200 ${bgClass}`}>
         {theme === 'dark' ? (
              <div className="absolute inset-0 z-0 pointer-events-none opacity-20"
                 style={{

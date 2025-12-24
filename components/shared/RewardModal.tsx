@@ -44,7 +44,12 @@ const RewardModal: React.FC<RewardModalProps> = ({ badge, onClose }) => {
   if (badge.iconName === 'Target') IconComp = Target;
 
   useEffect(() => {
-    const duration = 3 * 1000;
+    // 自动关闭定时器 - 2秒后自动关闭
+    const autoCloseTimer = setTimeout(() => {
+      onClose(badge.id, rewardXp, rewardGold);
+    }, 2000);
+
+    const duration = 2 * 1000;
     const animationEnd = Date.now() + duration;
     const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
     const randomInRange = (min: number, max: number) => Math.random() * (max - min) + min;
@@ -55,8 +60,11 @@ const RewardModal: React.FC<RewardModalProps> = ({ badge, onClose }) => {
       confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
       confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
     }, 250);
-    return () => clearInterval(interval);
-  }, []);
+    return () => {
+      clearInterval(interval);
+      clearTimeout(autoCloseTimer);
+    };
+  }, [badge.id, rewardXp, rewardGold, onClose]);
 
   return (
     <div className="fixed inset-0 z-[99999] bg-black/90 flex items-center justify-center p-4 backdrop-blur-md animate-in fade-in duration-500">
@@ -85,12 +93,6 @@ const RewardModal: React.FC<RewardModalProps> = ({ badge, onClose }) => {
             <div className={`text-2xl font-black ${rewardGold > 0 ? 'text-yellow-400' : 'text-zinc-600'}`}>+{rewardGold}</div>
           </div>
         </div>
-        <button 
-          onClick={() => onClose(badge.id, rewardXp, rewardGold)}
-          className="w-full py-4 bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-500 hover:to-orange-500 text-white font-black text-lg rounded-xl shadow-lg shadow-orange-900/50 transform transition-all active:scale-95 flex items-center justify-center gap-2"
-        >
-          <Star size={24}/> 领取奖励
-        </button>
       </div>
     </div>
   );

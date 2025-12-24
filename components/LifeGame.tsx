@@ -191,7 +191,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
 
   const [mainTab, setMainTab] = useState<'battle' | 'shop' | 'armory'>(initialTab || 'battle');
   const [taskCategory, setTaskCategory] = useState<'daily' | 'main' | 'random'>(initialCategory || 'daily');
-  const [shopFilter, setShopFilter] = useState<'all' | 'physical' | 'rights' | 'leisure'>('all');
+  const [shopFilter, setShopFilter] = useState<'all' | 'physical' | 'rights' | 'leisure' | 'owned'>('all');
 
   const [isAddTaskOpen, setIsAddTaskOpen] = useState(false);
   const [newTaskTitle, setNewTaskTitle] = useState('');
@@ -212,6 +212,16 @@ const LifeGame: React.FC<LifeGameProps> = ({
   const [draggedShopIndex, setDraggedShopIndex] = useState<number | null>(null);
 
   const [isEditingGoal, setIsEditingGoal] = useState(false);
+  // 战略储备双击编辑状态
+  const [isEditingSavings, setIsEditingSavings] = useState(false);
+  const [tempSavings, setTempSavings] = useState(balance);
+  
+  // 更新tempSavings以反映最新的balance值
+  useEffect(() => {
+    if (!isEditingSavings) {
+      setTempSavings(balance);
+    }
+  }, [balance, isEditingSavings]);
   const [isEditingTodayGoal, setIsEditingTodayGoal] = useState(false);
 
   const [activeHelp, setActiveHelp] = useState<string | null>(null);
@@ -425,7 +435,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
           if (i.id === item.id) {
               return { 
                   ...i, 
-                  owned: i.type === 'physical' ? true : i.owned, 
+                  owned: true, // 所有类型商品购买后都标记为已拥有
                   purchaseCount: (i.purchaseCount || 0) + 1,
                   lastPurchased: Date.now() 
               };
@@ -435,7 +445,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
 
       // Trigger Visual - Changed from 3D rotation to simple scale animation
       setJustPurchasedItem(item);
-      setTimeout(() => setJustPurchasedItem(null), 1500);
+      setTimeout(() => setJustPurchasedItem(null), 2000);
   };
 
   const handleStartTimer = (duration: number) => {
@@ -636,7 +646,12 @@ const LifeGame: React.FC<LifeGameProps> = ({
       setEditingProjectSubTasks([]);
   };
 
-  const filteredInventory = inventory.filter(i => (shopFilter === 'all' || i.type === shopFilter));
+  const filteredInventory = inventory.filter(i => {
+    if (shopFilter === 'owned') {
+      return i.owned === true;
+    }
+    return shopFilter === 'all' || i.type === shopFilter;
+  });
   const sortedInventory = [...filteredInventory].sort((a, b) => {
       const timeA = a.lastPurchased || 0;
       const timeB = b.lastPurchased || 0;
@@ -645,9 +660,9 @@ const LifeGame: React.FC<LifeGameProps> = ({
   });
 
   return (
-    <div className={`h-full flex flex-col overflow-hidden relative ${isDark ? 'bg-zinc-950' : 'bg-slate-50'}`}>
+    <div className={`h-full flex flex-col overflow-hidden relative`}>
         
-        {/* PURCHASE ANIMATION - Improved with center flash */}
+        {/* PURCHASE ANIMATION - Improved with centered popup */}
         {justPurchasedItem && (
             <>
                 {/* Center Flash Effect */}
@@ -656,21 +671,18 @@ const LifeGame: React.FC<LifeGameProps> = ({
                         {justPurchasedItem.icon}
                     </div>
                 </div>
-                {/* Bottom Popup */}
-                <div className="fixed bottom-6 right-6 z-[1000] bg-zinc-900/95 border border-yellow-500/30 rounded-xl p-4 flex items-center gap-4 backdrop-blur-lg shadow-2xl shadow-yellow-500/10 animate-in fade-in slide-in-from-bottom-4 duration-300">
-                    <div className="text-4xl animate-[spin_1s_ease-in-out_infinite] drop-shadow-[0_0_10px_rgba(234,179,8,0.5)]">
-                        {justPurchasedItem.icon}
-                    </div>
-                    <div className="flex flex-col gap-1">
-                        <h3 className="text-lg font-bold text-white">已获取物资</h3>
-                        <div className="text-yellow-400 font-bold">{justPurchasedItem.name}</div>
-                        <div className="text-red-500 font-mono text-sm">¥-{justPurchasedItem.cost}</div>
-                    </div>
-                </div>
-                {/* Purchase Success Text */}
-                <div className="fixed top-1/3 left-1/2 -translate-x-1/2 z-[1002] animate-in fade-in-zoom duration-700">
-                    <div className="bg-black/80 backdrop-blur-lg px-8 py-4 rounded-full border border-yellow-500/50 shadow-2xl shadow-yellow-500/20">
-                        <h2 className="text-xl font-bold text-yellow-400 animate-pulse">恭喜你购买 {justPurchasedItem.name}！</h2>
+                {/* Centered Popup with neomorphic effect */}
+                <div className="fixed inset-0 z-[1000] flex items-center justify-center animate-in fade-in duration-300">
+                    <div className={`p-6 flex items-center gap-4 rounded-2xl backdrop-blur-lg shadow-2xl max-w-md w-full mx-4 transition-all duration-300 ${isNeomorphic ? 'bg-[#e0e5ec] border-[#e0e5ec] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-900/95 border border-yellow-500/30 shadow-yellow-500/10' : 'bg-white/95 border border-slate-200 shadow-lg'}`}>
+                        <div className={`text-4xl animate-[spin_1s_ease-in-out_infinite] ${isNeomorphic ? 'drop-shadow-[0_0_10px_rgba(234,179,8,0.5)]' : 'drop-shadow-[0_0_10px_rgba(234,179,8,0.5)]'}`}>
+                            {justPurchasedItem.icon}
+                        </div>
+                        <div className="flex flex-col gap-2 flex-1">
+                            <h3 className={`text-lg font-bold ${isDark ? 'text-white' : isNeomorphic ? 'text-zinc-700' : 'text-slate-800'}`}>购买成功</h3>
+                            <div className={`font-bold ${isDark ? 'text-yellow-400' : isNeomorphic ? 'text-yellow-600' : 'text-yellow-500'}`}>获得 {justPurchasedItem.name}</div>
+                            <div className={`font-mono text-sm ${isDark ? 'text-red-500' : isNeomorphic ? 'text-red-600' : 'text-red-500'}`}>金币 - {justPurchasedItem.cost}G</div>
+                            <div className={`font-mono text-sm ${isDark ? 'text-green-500' : isNeomorphic ? 'text-green-600' : 'text-green-500'}`}>当前剩余 {balance}G</div>
+                        </div>
                     </div>
                 </div>
             </>
@@ -811,17 +823,17 @@ const LifeGame: React.FC<LifeGameProps> = ({
             {mainTab === 'battle' && (
                 <div className="max-w-4xl mx-auto space-y-8">
                     {/* 实时情报卡模块 - 从战略指挥部移动过来 */}
-                    <div className={`${cardBg} border p-4 rounded-xl`}>
-                        <div className="flex items-center justify-between mb-3">
+                    <div className={`${cardBg} border p-3 rounded-xl mb-4`}>
+                        <div className="flex items-center justify-between mb-2">
                             <div className="text-xs text-zinc-500 uppercase font-bold flex items-center gap-1">
                                 <Clock size={12}/> 实时情报卡片
                             </div>
                         </div>
                         
                         {/* 1. 实时情报卡片 - 调整为更紧凑的两列布局，移动端单列 */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                             {/* 专注时间趋势 - 缩小版 */}
-                            <div className={`${cardBg} border p-2 rounded-lg flex flex-col justify-between transition-all duration-300 cursor-default hover:shadow-lg`}>
+                            <div className={`${cardBg} border p-1.5 rounded-lg flex flex-col justify-between transition-all duration-300 cursor-default hover:shadow-lg`}>
                                 <div className="flex items-center justify-between">
                                     <div className="text-xs text-zinc-500 uppercase font-bold flex items-center gap-1">
                                         <Activity size={10}/> 专注时间统计
@@ -832,8 +844,8 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                 </div>
                                 
                                 {/* 7天趋势图 - 缩小尺寸 */}
-                                <div className="h-[80px] w-full mt-1">
-                                    <ResponsiveContainer width="100%" height={80}>
+                                <div className="h-[70px] w-full mt-1">
+                                    <ResponsiveContainer width="100%" height={70}>
                                         <LineChart
                                             data={useMemo(() => {
                                                 const data = [];
@@ -905,7 +917,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                 
                                 {/* 底部统计信息 - 今日专注时间和本周平均水平排列 */}
                                 <div className="mt-1 flex justify-between items-center text-xs">
-                                    <div className="flex items-center gap-4">
+                                    <div className="flex items-center gap-3">
                                         <span className="text-zinc-500">
                                             本周平均: {(() => {
                                                 // 计算本周平均专注时间
@@ -921,16 +933,14 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                             </span>
                                         </div>
                                     </div>
-                                    <span className="font-bold text-zinc-500">
-                                        🔄
-                                    </span>
+
                                 </div>
                             </div>
                             
                             {/* 签到系统 - 缩小版，移到实时情报卡片中 */}
-                            <div className={`${cardBg} border p-2 rounded-lg flex flex-col gap-1 transition-all duration-300 cursor-default hover:shadow-lg`}>
-                                <div className="flex justify-between items-center mb-2">
-                                    <div className="text-[10px] text-blue-500 uppercase tracking-widest font-bold flex items-center gap-1">
+                            <div className={`${cardBg} border p-1.5 rounded-lg flex flex-col gap-1 transition-all duration-300 cursor-default hover:shadow-lg`}>
+                                <div className="flex justify-between items-center mb-1">
+                                    <div className="text-xs text-blue-500 uppercase tracking-widest font-bold flex items-center gap-1">
                                         <Calendar size={10}/> 签到系统
                                     </div>
                                 </div>
@@ -1002,7 +1012,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                             const checkInData = JSON.parse(localStorage.getItem('life-game-weekly-checkin') || '{}');
                                             return !!checkInData[todayDate];
                                         })()}
-                                        className={`w-12 h-12 rounded-full text-sm font-bold transition-all duration-300 flex flex-col items-center justify-center gap-0 ${(() => {
+                                        className={`w-11 h-11 rounded-full text-sm font-bold transition-all duration-300 flex flex-col items-center justify-center gap-0 ${(() => {
                                             const todayDate = new Date().toLocaleDateString();
                                             const checkInData = JSON.parse(localStorage.getItem('life-game-weekly-checkin') || '{}');
                                             
@@ -1022,13 +1032,13 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                             const checkInData = JSON.parse(localStorage.getItem('life-game-weekly-checkin') || '{}');
                                             return checkInData[todayDate] ? (
                                                 <>
-                                                    <Check size={20} strokeWidth={3}/>
-                                                    <span className="text-[10px]">已签</span>
+                                                    <Check size={18} strokeWidth={3}/>
+                                                    <span className="text-[9px]">已签</span>
                                                 </>
                                             ) : (
                                                 <>
-                                                    <Package size={20} strokeWidth={2}/>
-                                                    <span className="text-[10px]">签到</span>
+                                                    <Package size={18} strokeWidth={2}/>
+                                                    <span className="text-[9px]">签到</span>
                                                 </>
                                             );
                                         })()}
@@ -1057,7 +1067,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                         const dayNames = ['一', '二', '三', '四', '五', '六', '日'];
                                         
                                         // 每天的图标 - 放大尺寸
-                                        const dayIcons = [<Sun size={12}/>, <Coffee size={12}/>, <BookOpen size={12}/>, <Dumbbell size={12}/>, <Users size={12}/>, <Music size={12}/>, <Moon size={12}/>];
+                                        const dayIcons = [<Sun size={11}/>, <Coffee size={11}/>, <BookOpen size={11}/>, <Dumbbell size={11}/>, <Users size={11}/>, <Music size={11}/>, <Moon size={11}/>];
                                         
                                         return weekDates.map((date, index) => {
                                             const dateStr = date.toLocaleDateString();
@@ -1084,10 +1094,10 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                                                 : (isDark ? 'border-zinc-800 bg-zinc-800 text-zinc-600' : 'border-slate-200 bg-slate-100 text-slate-400'))
                                                     }
                                                     `}>
-                                                        {isCheckedIn && <Check size={12} strokeWidth={3} className="flex-shrink-0"/>}
+                                                        {isCheckedIn && <Check size={11} strokeWidth={3} className="flex-shrink-0"/>}
                                                         {!isCheckedIn && dayIcons[index]}
                                                     </div>
-                                                    <div className={`text-[8px] font-bold ${isCheckedIn ? 'text-emerald-500' : isToday ? 'text-blue-500' : (isDark ? 'text-zinc-500' : 'text-slate-500')}`}>
+                                                    <div className={`text-[7px] font-bold ${isCheckedIn ? 'text-emerald-500' : isToday ? 'text-blue-500' : (isDark ? 'text-zinc-500' : 'text-slate-500')}`}>
                                                         {dayNames[index]}
                                                     </div>
                                                 </div>
@@ -1099,15 +1109,23 @@ const LifeGame: React.FC<LifeGameProps> = ({
                         </div>
                     </div>
 
-                    <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
-                        <div className="flex gap-2">
-                            <button onClick={() => setTaskCategory('daily')} className={`px-4 py-1.5 rounded-lg text-xs font-bold border transition-all duration-300 ${taskCategory === 'daily' ? 'bg-blue-600 border-blue-600 text-white shadow-lg shadow-blue-900/50' : (isDark ? 'bg-zinc-900 border-zinc-800 text-zinc-500 hover:border-zinc-700' : 'bg-white border-slate-300 text-slate-500 hover:border-slate-200')}`}>日常任务</button>
-                            <button onClick={() => setTaskCategory('main')} className={`px-4 py-1.5 rounded-lg text-xs font-bold border transition-all duration-300 ${taskCategory === 'main' ? 'bg-blue-600 border-blue-600 text-white shadow-lg shadow-blue-900/50' : (isDark ? 'bg-zinc-900 border-zinc-800 text-zinc-500 hover:border-zinc-700' : 'bg-white border-slate-300 text-slate-500 hover:border-slate-200')}`}>主线任务</button>
-                            <button onClick={() => setTaskCategory('random')} className={`px-4 py-1.5 rounded-lg text-xs font-bold border transition-all duration-300 ${taskCategory === 'random' ? 'bg-purple-600 border-purple-600 text-white shadow-lg shadow-purple-900/50' : (isDark ? 'bg-zinc-900 border-zinc-800 text-zinc-500 hover:border-zinc-700' : 'bg-white border-slate-300 text-slate-500 hover:border-slate-200')}`}>随机任务</button>
+                    {/* 任务管理系统 */}
+                    <div className={`${cardBg} border p-3 rounded-xl mb-4`}>
+                        <div className="flex items-center justify-between mb-2">
+                            <div className="text-xs text-zinc-500 uppercase font-bold flex items-center gap-1">
+                                <List size={12}/> 任务管理系统
+                            </div>
                         </div>
-                        <div className="flex gap-2 items-center ml-auto">
-                            <button onClick={() => setActiveHelp('tasks')} className="text-zinc-500 hover:text-white transition-colors"><HelpCircle size={16}/></button>
-                            <button onClick={() => setIsManageTasksOpen(true)} className={`px-4 py-1.5 rounded-lg text-xs font-bold border transition-all flex items-center gap-2 ${isDark ? 'bg-zinc-900 border-zinc-800 text-zinc-300 hover:border-zinc-700' : 'bg-white border-slate-300 text-slate-600 hover:border-slate-200'}`}><List size={14}/> 管理</button>
+                        <div className="flex flex-wrap items-center justify-between gap-3">
+                            <div className="flex gap-2">
+                                <button onClick={() => setTaskCategory('daily')} className={`px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all ${getButtonStyle(taskCategory === 'daily')}`}>日常任务</button>
+                                <button onClick={() => setTaskCategory('main')} className={`px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all ${getButtonStyle(taskCategory === 'main')}`}>主线任务</button>
+                                <button onClick={() => setTaskCategory('random')} className={`px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all ${getButtonStyle(taskCategory === 'random')}`}>随机任务</button>
+                            </div>
+                            <div className="flex gap-2 items-center">
+                                <button onClick={() => setActiveHelp('tasks')} className="text-zinc-500 hover:text-white transition-colors"><HelpCircle size={16}/></button>
+                                <button onClick={() => setIsManageTasksOpen(true)} className={`text-xs px-3 py-1.5 rounded-[24px] border font-bold flex items-center gap-1 transition-all ${getButtonStyle(isManageShopMode, true)}`}><List size={12}/> 管理</button>
+                            </div>
                         </div>
                     </div>
 
@@ -1280,18 +1298,74 @@ const LifeGame: React.FC<LifeGameProps> = ({
             {/* ... The rest of the tabs are controlled by the mainTab switch above ... */}
             {mainTab === 'shop' && (
                 <div className="max-w-5xl mx-auto space-y-6">
-                     <div className="flex flex-wrap justify-between items-center gap-4 mb-6">
-                         <div className="flex gap-2">
-                            {[{ id: 'all', label: '全部' }, { id: 'physical', label: '实物' }, { id: 'rights', label: '权益' }, { id: 'leisure', label: '休闲' }].map(f => (
-                                <button onClick={() => setShopFilter(f.id as any)} className={`px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all ${getButtonStyle(shopFilter === f.id)}`}>{f.label}</button>
-                            ))}
+                     {/* 商品分组和管理商品组合成一个小模块 */}
+                     <div className={`p-4 rounded-xl border ${cardBg} shadow-lg`}>
+                         {/* 左上角小图标和文字 */}
+                         <div className="flex items-center gap-2 mb-3">
+                             <ShoppingBag size={14} className="text-yellow-500"/>
+                             <h3 className={`text-xs font-bold uppercase ${textSub}`}>商品分类与管理</h3>
                          </div>
-                         <div className="flex gap-2 items-center">
-                             <button onClick={() => setActiveHelp('shop')} className="text-zinc-500 hover:text-white transition-colors"><HelpCircle size={16}/></button>
-                             <button onClick={() => setIsManageShopMode(!isManageShopMode)} className={`text-xs px-3 py-1.5 rounded-[24px] border font-bold flex items-center gap-1 transition-all ${getButtonStyle(isManageShopMode, true)}`}>
-                                 {isManageShopMode ? <CheckCircle size={12}/> : <Hammer size={12}/>} {isManageShopMode ? '完成管理' : '管理商品'}
-                             </button>
-                             <button onClick={() => setMainTab('battle')} className={`text-xs px-3 py-1.5 rounded-[24px] border transition-all ${getButtonStyle(false)}`}>返回作战</button>
+                         <div className="flex flex-wrap justify-between items-center gap-4">
+                             <div className="flex gap-2">
+                                {[{ id: 'all', label: '全部' }, { id: 'physical', label: '实物' }, { id: 'rights', label: '权益' }, { id: 'leisure', label: '休闲' }, { id: 'owned', label: '已购买' }].map(f => (
+                                    <button onClick={() => setShopFilter(f.id as any)} className={`px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all ${getButtonStyle(shopFilter === f.id)}`}>{f.label}</button>
+                                ))}
+                             </div>
+                             <div className="flex gap-2 items-center">
+                                 <button onClick={() => setActiveHelp('shop')} className="text-zinc-500 hover:text-white transition-colors"><HelpCircle size={16}/></button>
+                                 <div className={`flex items-center gap-1 cursor-pointer transition-all ${isEditingSavings ? '' : 'hover:scale-105'}`}>
+                                     {isEditingSavings ? (
+                                         <div className="flex items-center gap-1">
+                                             <Wallet size={12} className="text-yellow-500"/>
+                                             <input 
+                                                 type="number" 
+                                                 min="0" 
+                                                 value={tempSavings} 
+                                                 onChange={(e) => setTempSavings(Number(e.target.value))} 
+                                                 className={`w-20 text-xs px-2 py-1.5 rounded-[24px] border font-bold ${isDark ? 'bg-zinc-800 border-zinc-700 text-white' : 'bg-white border-slate-300 text-slate-800'} focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                                                 autoFocus
+                                                 onKeyDown={(e) => {
+                                                     if (e.key === 'Enter') {
+                                                         onUpdateBalance(tempSavings - balance, '调整战略储备金');
+                                                         setIsEditingSavings(false);
+                                                     } else if (e.key === 'Escape') {
+                                                         setTempSavings(balance);
+                                                         setIsEditingSavings(false);
+                                                     }
+                                                 }}
+                                             />
+                                             <button 
+                                                 onClick={() => {
+                                                     onUpdateBalance(tempSavings - balance, '调整战略储备金');
+                                                     setIsEditingSavings(false);
+                                                 }}
+                                                 className={`text-xs px-2 py-1.5 rounded-full font-bold ${isDark ? 'bg-green-900/30 text-green-400 hover:bg-green-800/50' : 'bg-green-100 text-green-700 hover:bg-green-200'} transition-colors`}
+                                             >
+                                                 ✓
+                                             </button>
+                                             <button 
+                                                 onClick={() => {
+                                                     setTempSavings(balance);
+                                                     setIsEditingSavings(false);
+                                                 }}
+                                                 className={`text-xs px-2 py-1.5 rounded-full font-bold ${isDark ? 'bg-red-900/30 text-red-400 hover:bg-red-800/50' : 'bg-red-100 text-red-700 hover:bg-red-200'} transition-colors`}
+                                             >
+                                                 ✕
+                                             </button>
+                                         </div>
+                                     ) : (
+                                         <div 
+                                             onDoubleClick={() => setIsEditingSavings(true)}
+                                             className={`text-xs px-3 py-1.5 rounded-[24px] border font-bold flex items-center gap-1 ${getButtonStyle(false, false)}`}
+                                         >
+                                             <Wallet size={12} className="text-yellow-500"/> 储备金: {balance}
+                                         </div>
+                                     )}
+                                 </div>
+                                 <button onClick={() => setIsManageShopMode(!isManageShopMode)} className={`text-xs px-3 py-1.5 rounded-[24px] border font-bold flex items-center gap-1 transition-all ${getButtonStyle(isManageShopMode, true)}`}>
+                                     {isManageShopMode ? <CheckCircle size={12}/> : <Hammer size={12}/>} {isManageShopMode ? '完成管理' : '管理商品'}
+                                 </button>
+                             </div>
                          </div>
                      </div>
                      {isManageShopMode && (<div className="mb-4"><button onClick={handleAddNewItem} className={`w-full py-3 border ${isNeomorphic ? 'border-dashed ' + neomorphicStyles.bg + ' ' + neomorphicStyles.border + ' ' + neomorphicStyles.shadow + ' ' + neomorphicStyles.hoverShadow + ' ' + neomorphicStyles.activeShadow : 'border-dashed border-zinc-700'} rounded-[24px] text-zinc-500 hover:text-white hover:border-zinc-500 transition-all flex items-center justify-center gap-2 text-sm font-bold`}><Plus size={16}/> 上架新商品</button></div>)}
@@ -1314,6 +1388,12 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                  <span className={`px-3 py-1 text-xs font-bold rounded-full mt-1 ${isDark ? 'bg-yellow-600/30 text-yellow-400 border border-yellow-600/50' : 'bg-yellow-100 text-yellow-800'}`}>¥{item.cost}</span>
                                  {/* 商品名称允许换行显示 */}
                                  <h4 className={`font-bold text-sm ${textMain} mt-0 text-center w-full break-words`}>{item.name}</h4>
+                                 {/* 显示购买次数 */}
+                                 {item.purchaseCount > 0 && (
+                                     <span className="text-[10px] text-zinc-500 font-bold">
+                                         已购买 x{item.purchaseCount}
+                                     </span>
+                                 )}
                                  <p className="text-xs text-zinc-500 mt-0 line-clamp-2 w-full max-w-[120px]">{item.description}</p>
                                  {/* 购买按钮完全融入商品块 */}
                                  <button onClick={(e) => handlePurchase(item, e)} className={`w-full py-1 text-[12px] font-bold rounded-md mt-1 transition-all duration-300 ${item.type === 'physical' && item.owned ? 'bg-zinc-800/30 text-zinc-500 hover:bg-zinc-700/50' : (isNeomorphic ? neomorphicStyles.bg + ' text-blue-600 hover:text-blue-700' : 'bg-gradient-to-r from-yellow-600/80 to-amber-600/80 hover:from-yellow-500/90 hover:to-amber-500/90 text-white')}`}>

@@ -127,7 +127,7 @@ const DailyCheckIn: React.FC<DailyCheckInProps> = ({ theme, onClaim }) => {
             <div className="relative group cursor-pointer" onClick={!hasClaimedToday ? handleCheckIn : undefined}>
                 {isOpening || hasClaimedToday ? (
                     <div className="animate-in zoom-in duration-500 flex flex-col items-center">
-                        <Gift size={80} className="text-emerald-500 mb-4 drop-shadow-[0_0_20px_rgba(16,185,129,0.6)]" />
+                        <Gift size={96} className="text-emerald-500 mb-4 drop-shadow-[0_0_20px_rgba(16,185,129,0.6)]" />
                         <div className="flex flex-col items-center gap-1">
                             <div className="text-2xl font-black text-yellow-500 animate-bounce">
                                 +{REWARDS[streak % 7]} GOLD
@@ -140,7 +140,7 @@ const DailyCheckIn: React.FC<DailyCheckInProps> = ({ theme, onClaim }) => {
                 ) : (
                     <div className={`transition-transform duration-300 ${isOpening ? 'scale-110' : 'hover:scale-105 hover:rotate-2'}`}>
                         <div className="absolute inset-0 bg-yellow-500/20 blur-xl rounded-full animate-pulse"></div>
-                        <Gift size={80} className="text-yellow-500 relative z-10 drop-shadow-[0_0_15px_rgba(234,179,8,0.5)]" />
+                        <Gift size={96} className="text-yellow-500 relative z-10 drop-shadow-[0_0_15px_rgba(234,179,8,0.5)]" />
                         <div className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full animate-bounce">
                             点击领取
                         </div>

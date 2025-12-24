@@ -7,10 +7,15 @@ interface MilitaryModuleProps {
   balance: number;
   totalKills?: number;
   isEditingBalance: boolean;
+  isEditingKills: boolean;
   tempBalance: string;
+  tempKills: string;
   setIsEditingBalance: (editing: boolean) => void;
+  setIsEditingKills: (editing: boolean) => void;
   setTempBalance: (balance: string) => void;
+  setTempKills: (kills: string) => void;
   handleSaveBalance: () => void;
+  handleSaveKills: () => void;
 }
 
 const MilitaryModule: React.FC<MilitaryModuleProps> = ({
@@ -18,10 +23,15 @@ const MilitaryModule: React.FC<MilitaryModuleProps> = ({
   balance,
   totalKills = 0,
   isEditingBalance,
+  isEditingKills,
   tempBalance,
+  tempKills,
   setIsEditingBalance,
+  setIsEditingKills,
   setTempBalance,
-  handleSaveBalance
+  setTempKills,
+  handleSaveBalance,
+  handleSaveKills
 }) => {
   const isDark = theme === 'dark';
   const isNeomorphic = theme === 'neomorphic';
@@ -43,10 +53,10 @@ const MilitaryModule: React.FC<MilitaryModuleProps> = ({
       {/* 右侧空白区域 */}
       <div className="flex-1"></div>
       
-      {/* 储备信息 */}
+      {/* 储备金信息 */}
       <div className="flex items-center gap-1 flex-shrink-0">
         <Coins size={12} className="text-yellow-500"/>
-        <span className="text-zinc-500">储备</span>
+        <span className="text-zinc-500">储备金</span>
         {isEditingBalance ? (
           <input 
             autoFocus 
@@ -58,19 +68,37 @@ const MilitaryModule: React.FC<MilitaryModuleProps> = ({
             onKeyDown={(e) => e.key === 'Enter' && handleSaveBalance()}
           />
         ) : (
-          <span className={`text-xs font-mono font-bold ${isDark ? 'text-yellow-400' : 'text-yellow-600'}`}>
+          <span 
+            className={`text-xs font-mono font-bold ${isDark ? 'text-yellow-400' : 'text-yellow-600'} cursor-pointer`}
+            onDoubleClick={() => setIsEditingBalance(true)}
+          >
             {balance}
           </span>
         )}
       </div>
       
-      {/* 歼敌信息 */}
+      {/* 歼敌数信息 */}
       <div className="flex items-center gap-1 flex-shrink-0">
         <Target size={12} className="text-red-500"/>
-        <span className="text-zinc-500">歼敌</span>
-        <span className={`text-xs font-mono font-bold ${isDark ? 'text-red-400' : 'text-red-600'}`}>
-          {totalKills}
-        </span>
+        <span className="text-zinc-500">歼敌数</span>
+        {isEditingKills ? (
+          <input 
+            autoFocus 
+            type="number" 
+            className={`text-xs font-mono font-bold text-center bg-transparent border-b outline-none w-10 ${isDark ? 'text-red-400 border-red-600' : 'text-red-600 border-red-400'}`} 
+            value={tempKills} 
+            onChange={(e) => setTempKills(e.target.value)} 
+            onBlur={handleSaveKills} 
+            onKeyDown={(e) => e.key === 'Enter' && handleSaveKills()}
+          />
+        ) : (
+          <span 
+            className={`text-xs font-mono font-bold ${isDark ? 'text-red-400' : 'text-red-600'} cursor-pointer`}
+            onDoubleClick={() => setIsEditingKills(true)}
+          >
+            {totalKills}
+          </span>
+        )}
       </div>
     </div>
   );
