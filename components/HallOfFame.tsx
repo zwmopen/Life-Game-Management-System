@@ -201,8 +201,9 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                     </div>
                 </div>
 
-                {/* Badges Grid */}
+                {/* All Honors Module - 所有战勋模块 */}
                 <div className="p-6 pt-2">
+                    <h3 className="text-xs font-bold uppercase text-zinc-500 mb-3 flex items-center gap-2"><Award size={14} className="text-yellow-500"/> 所有战勋</h3>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 pb-20">
                         {filteredBadges.map(badge => {
                             // Enhanced neomorphic styles for badges
