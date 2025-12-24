@@ -40,7 +40,7 @@ export const getAllConsumptionTitles = () => CONSUMPTION_THRESHOLDS;
 
 // --- Initial Habits ---
 export const INITIAL_HABITS = [
-  { id: 'mk1', name: '生物激活: 起床 & 阳光/冷水 (07:30)', reward: 5, xp: 10, duration: 15, streak: 0, color: '#ef4444', attr: AttributeType.STRENGTH, archived: false, history: {}, logs: {} },
+  { id: 'mk1', name: '生物激活: 起床 & 阳光/冷水 (07:30)', reward: 5, xp: 10, duration: 15, streak: 1, color: '#ef4444', attr: AttributeType.STRENGTH, archived: false, history: {"2025/12/24":true}, logs: {} },
   { id: 'mk2', name: '精神校准: 冥想 & 恐惧设定 (08:00)', reward: 10, xp: 15, duration: 20, streak: 0, color: '#3b82f6', attr: AttributeType.INTELLIGENCE, archived: false, history: {}, logs: {} },
   { id: 'mk3', name: '深度工作 I: 吞青蛙/核心任务 (08:30)', reward: 30, xp: 50, duration: 90, streak: 0, color: '#f59e0b', attr: AttributeType.WEALTH, archived: false, history: {}, logs: {} },
   { id: 'mk4', name: '能量补给: 低碳水午餐 (12:00)', reward: 5, xp: 5, duration: 30, streak: 0, color: '#10b981', attr: AttributeType.STRENGTH, archived: false, history: {}, logs: {} },
@@ -55,33 +55,25 @@ export const INITIAL_HABITS = [
 // --- Initial Projects ---
 export const INITIAL_PROJECTS = [
   {
-    id: 'p1', name: '数码万粉号 I', startDate: new Date().toISOString().split('T')[0], description: '创建并运营第一个粉丝量达到1万的数码账号', status: 'active', logs: [], dailyFocus: {}, todayFocusMinutes: 0, fears: [], attr: AttributeType.WEALTH,
+    id: 'p1', name: '数码博主', startDate: '2025-12-23', description: '创建并运营第一个粉丝量达到1万的数码账号', status: 'active', logs: [], dailyFocus: {}, todayFocusMinutes: 0, fears: [], attr: AttributeType.WEALTH,
     subTasks: [
-      { id: 't1_1', title: '发布视频作品', duration: 60, completed: false, frequency: 'daily' },
-      { id: 't1_2', title: '发布引流作品', duration: 30, completed: false, frequency: 'daily' },
-      { id: 't1_3', title: '发布图文作品', duration: 20, completed: false, frequency: 'daily' }
+      { id: 't1_1', title: '找爆款', duration: 5, completed: false, frequency: 'daily' },
+      { id: 't1_2', title: '二创爆款', duration: 5, completed: false, frequency: 'daily' },
+      { id: 't1_3', title: '发布作品', duration: 5, completed: false, frequency: 'daily' }
     ]
   },
   {
-    id: 'p2', name: '数码万分号 II', startDate: new Date().toISOString().split('T')[0], description: '创建并运营第二个粉丝量达到1万的数码账号', status: 'active', logs: [], dailyFocus: {}, todayFocusMinutes: 0, fears: [], attr: AttributeType.WEALTH,
+    id: 'p3', name: '成长型博主', startDate: '2025-12-23', description: '成为一个拥有1000粉丝的成长型博主', status: 'active', logs: [], dailyFocus: {}, todayFocusMinutes: 0, fears: [], attr: AttributeType.INTELLIGENCE,
     subTasks: [
-      { id: 't2_1', title: '发布视频作品', duration: 60, completed: false, frequency: 'daily' },
-      { id: 't2_2', title: '发布引流作品', duration: 30, completed: false, frequency: 'daily' },
-      { id: 't2_3', title: '发布图文作品', duration: 20, completed: false, frequency: 'daily' }
+      { id: 't3_1', title: '刷爆款选题', duration: 10, completed: false, frequency: 'daily' },
+      { id: 't3_2', title: '全网搜集， AI梳理文案', duration: 20, completed: false, frequency: 'daily' },
+      { id: 't3_3', title: '拍摄视频', duration: 20, completed: false, frequency: 'daily' },
+      { id: 't3_4', title: '剪辑视频', duration: 20, completed: false, frequency: 'daily' },
+      { id: 't3_5', title: '发布视频', duration: 10, completed: false, frequency: 'daily' }
     ]
   },
   {
-    id: 'p3', name: '成长型博主：1000粉目标', startDate: new Date().toISOString().split('T')[0], description: '成为一个拥有1000粉丝的成长型博主', status: 'active', logs: [], dailyFocus: {}, todayFocusMinutes: 0, fears: [], attr: AttributeType.INTELLIGENCE,
-    subTasks: [
-      { id: 't3_1', title: '选一个选题', duration: 15, completed: false, frequency: 'daily' },
-      { id: 't3_2', title: '整理文案', duration: 30, completed: false, frequency: 'daily' },
-      { id: 't3_3', title: '拍摄视频', duration: 45, completed: false, frequency: 'daily' },
-      { id: 't3_4', title: '剪辑视频', duration: 60, completed: false, frequency: 'daily' },
-      { id: 't3_5', title: '发布视频', duration: 15, completed: false, frequency: 'daily' }
-    ]
-  },
-  {
-    id: 'p4', name: '拥有6块腹肌', startDate: new Date().toISOString().split('T')[0], description: '通过健身和饮食拥有6块腹肌', status: 'active', logs: [], dailyFocus: {}, todayFocusMinutes: 0, fears: [], attr: AttributeType.STRENGTH,
+    id: 'p4', name: '拥有6块腹肌', startDate: '2025-12-23', description: '通过健身和饮食拥有6块腹肌', status: 'active', logs: [], dailyFocus: {}, todayFocusMinutes: 0, fears: [], attr: AttributeType.STRENGTH,
     subTasks: [
       { id: 't4_1', title: '每天喝八杯水', duration: 5, completed: false, frequency: 'daily' },
       { id: 't4_2', title: '每天做50个深蹲', duration: 10, completed: false, frequency: 'daily' },
@@ -90,6 +82,14 @@ export const INITIAL_PROJECTS = [
       { id: 't4_5', title: '控制饮食，减少碳水', duration: 5, completed: false, frequency: 'daily' }
     ]
   },
+  {
+    id: 'project-1766567611110', name: '小红书虚拟店铺', startDate: new Date().toISOString().split('T')[0], description: '', status: 'active', logs: [], dailyFocus: {}, todayFocusMinutes: 0, fears: [], attr: AttributeType.WEALTH,
+    subTasks: [
+      { id: 't1_1', title: '找同行选品二创上架', duration: 5, completed: false, frequency: 'daily' },
+      { id: 't1_2', title: '多平台搜索爆款笔记二创上架', duration: 5, completed: false, frequency: 'daily' },
+      { id: 't1_3', title: '发布作品', duration: 5, completed: false, frequency: 'daily' }
+    ]
+  }
 ];
 
 // --- Initial Challenges ---
@@ -104,6 +104,6 @@ export const INITIAL_CHALLENGES = [
 ];
 
 // --- Initial Achievements ---
-export const INITIAL_ACHIEVEMENTS: AchievementConfig[] = [
+export const INITIAL_ACHIEVEMENTS: AchievementItem[] = [
   { id: 'c0', name: '迈出一步', limit: 1, unit: 'kills', iconName: 'Target', color: 'text-red-500', desc: '完成 1 个任务', category: '战役' },
 ];

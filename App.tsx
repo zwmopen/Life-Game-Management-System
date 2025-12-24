@@ -36,9 +36,9 @@ const App: React.FC = () => {
 
   // Global "Game" State
   const [day, setDay] = useState(1); 
-  const [balance, setBalance] = useState(1250);
-  const [xp, setXp] = useState(0); 
-  const [checkInStreak, setCheckInStreak] = useState(0); 
+  const [balance, setBalance] = useState(60); // 用户备份数据中的初始余额
+  const [xp, setXp] = useState(10); // 用户备份数据中的初始经验值
+  const [checkInStreak, setCheckInStreak] = useState(1); // 用户备份数据中的初始签到 streak
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [reviews, setReviews] = useState<ReviewLog[]>([]);
   
@@ -126,18 +126,27 @@ const App: React.FC = () => {
   const [completedRandomTasks, setCompletedRandomTasks] = useState<{[date: string]: string[]}>({}); 
   const [givenUpTasks, setGivenUpTasks] = useState<string[]>([]); // New: Persisted Given Up Tasks
   
-  const [claimedBadges, setClaimedBadges] = useState<string[]>([]);
+  // 用户备份数据中的已解锁勋章
+  const [claimedBadges, setClaimedBadges] = useState<string[]>(["class-吃土少年","class-泡面搭档","class-温饱及格","class-奶茶自由","class-外卖不看价"]);
   const [activeAchievement, setActiveAchievement] = useState<any>(null); 
 
   const [activeAutoTask, setActiveAutoTask] = useState<AutoTask | null>(null);
 
-  const [statsHistory, setStatsHistory] = useState<{[key: number]: DailyStats}>({});
-  const [todayStats, setTodayStats] = useState<DailyStats>({
-      focusMinutes: 0,
+  const [statsHistory, setStatsHistory] = useState<{[key: number]: DailyStats}>({
+    1: {
+      focusMinutes: 10,
       tasksCompleted: 0,
-      habitsDone: 0,
-      earnings: 0,
-      spending: 0
+      habitsDone: 1,
+      earnings: 117,
+      spending: 9
+    }
+  });
+  const [todayStats, setTodayStats] = useState<DailyStats>({
+      focusMinutes: 10,
+      tasksCompleted: 0,
+      habitsDone: 1,
+      earnings: 117,
+      spending: 9
   });
 
   const totalKills = todayStats.tasksCompleted + todayStats.habitsDone;
