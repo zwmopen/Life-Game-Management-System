@@ -94,10 +94,10 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
       <div className={`
         inset-y-0 left-0 ${isMobileOpen ? 'translate-x-0' : '-translate-x-full'} 
         md:relative md:translate-x-0 transition duration-200 ease-in-out
-        w-${isNavCollapsed && !isMobileOpen ? '12' : '64'} border-r flex flex-col z-40 ${sidebarClass}
-        ${isNavCollapsed && !isMobileOpen ? 'md:block' : 'block'}
+        w-${isNavCollapsed ? '12' : '64'} border-r flex flex-col z-40 ${sidebarClass}
+        ${isNavCollapsed ? 'md:block' : 'block'}
       `}>
-          <div className={`p-6 border-b ${isDark ? 'border-zinc-800' : 'border-slate-100'} flex items-center justify-between ${isNavCollapsed && !isMobileOpen ? 'hidden' : 'flex'}`}>
+          <div className={`p-6 border-b ${isDark ? 'border-zinc-800' : 'border-slate-100'} flex items-center justify-between ${isNavCollapsed ? 'hidden' : 'flex'}`}>
             <h1 className={`text-xl font-bold tracking-tighter ${isDark ? 'text-emerald-500' : 'text-blue-600'}`}>
               人生游戏系统
             </h1>
