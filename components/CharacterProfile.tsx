@@ -463,10 +463,10 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
     return (
         <>
         <div className="mt-4"></div> {/* 下移状态卡片 */}
-        <div className={`${cardBg} border p-3 rounded-xl z-20 w-full max-w-4xl mx-auto transition-all duration-300 hover:shadow-lg`}>
+        <div className={`${cardBg} border p-2 sm:p-4 rounded-xl z-20 w-full max-w-4xl mx-auto transition-all duration-300 hover:shadow-lg`}>
             
             {/* 状态卡片标题 */}
-            <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center justify-between mb-2 sm:mb-3">
                 <div className="text-xs text-zinc-500 uppercase font-bold flex items-center gap-1">
                     <Star size={12}/> 状态卡片
                 </div>
@@ -474,7 +474,7 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
             </div>
             
             {/* 4个小模块：与实时情报卡片风格完全一致，移动端单列 */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 gap-2 sm:gap-3">
                 {/* 1. 角色系统模块 */}
                 <div className={`${cardBg} border p-2 rounded-lg flex flex-col justify-between transition-all duration-300 cursor-default hover:shadow-lg`}>
                     <AvatarProfile 
@@ -683,33 +683,33 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
 
         {/* 锦囊库管理模态框 */}
         {isMantraModalOpen && (
-            <div className="fixed inset-0 z-[2000] bg-black/80 flex items-center justify-center p-4 backdrop-blur-md animate-in fade-in">
-                <div className={`${isNeomorphic ? 'bg-[#e0e5ec] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-900 border-zinc-800' : 'bg-white border-slate-200'} border rounded-[48px] p-6 w-full max-w-2xl overflow-y-auto max-h-[90vh] transition-all duration-300`}>
-                    <div className="flex justify-between items-center mb-6">
-                        <h2 className={`text-xl font-bold ${isDark ? 'text-white' : isNeomorphic ? 'text-zinc-800' : 'text-slate-800'}`}>管理锦囊库</h2>
+            <div className="fixed inset-0 z-[2000] bg-black/80 flex items-center justify-center p-2 sm:p-4 backdrop-blur-md animate-in fade-in">
+                <div className={`${isNeomorphic ? 'bg-[#e0e5ec] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-900 border-zinc-800' : 'bg-white border-slate-200'} border rounded-2xl sm:rounded-[48px] p-4 sm:p-6 w-full max-w-2xl overflow-y-auto max-h-[90vh] transition-all duration-300`}>
+                    <div className="flex justify-between items-center mb-4 sm:mb-6">
+                        <h2 className={`text-lg sm:text-xl font-bold ${isDark ? 'text-white' : isNeomorphic ? 'text-zinc-800' : 'text-slate-800'}`}>管理锦囊库</h2>
                         <button 
                             onClick={() => setIsMantraModalOpen(false)}
-                            className={`p-2 rounded-full transition-colors ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[3px_3px_6px_rgba(163,177,198,0.5),-3px_-3px_6px_rgba(255,255,255,1)] active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]' : isDark ? 'hover:bg-zinc-800 text-white' : 'hover:bg-slate-100 text-slate-800'}`}
+                            className={`p-2 sm:p-3 rounded-full transition-colors ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[3px_3px_6px_rgba(163,177,198,0.5),-3px_-3px_6px_rgba(255,255,255,1)] active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]' : isDark ? 'hover:bg-zinc-800 text-white' : 'hover:bg-slate-100 text-slate-800'}`}
                         >
-                            <X size={24} className={isDark ? 'text-white' : isNeomorphic ? 'text-zinc-800' : 'text-slate-800'} />
+                            <X size={20} sm:size={24} className={isDark ? 'text-white' : isNeomorphic ? 'text-zinc-800' : 'text-slate-800'} />
                         </button>
                     </div>
                     
                     {/* 添加新咒语 */}
-                    <div className="mb-6">
+                    <div className="mb-4 sm:mb-6">
                         <h3 className={`text-sm font-medium mb-2 ${isDark ? 'text-zinc-300' : isNeomorphic ? 'text-zinc-700' : 'text-slate-700'}`}>添加新金句</h3>
-                        <div className="flex gap-2">
+                        <div className="flex flex-col sm:flex-row gap-2">
                             <input 
                                 type="text" 
                                 placeholder="输入新金句..." 
                                 value={newMantraInput} 
                                 onChange={(e) => setNewMantraInput(e.target.value)}
                                 onKeyDown={(e) => e.key === 'Enter' && handleAddMantra()}
-                                className={`flex-1 px-4 py-2 rounded-[24px] transition-all ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)] text-zinc-800 placeholder-zinc-500' : isDark ? 'bg-zinc-800 border-zinc-700 text-white placeholder-zinc-500' : 'bg-slate-50 border-slate-300 text-slate-800 placeholder-slate-400'} border focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                                className={`flex-1 px-4 py-3 rounded-xl sm:rounded-[24px] transition-all ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)] text-zinc-800 placeholder-zinc-500' : isDark ? 'bg-zinc-800 border-zinc-700 text-white placeholder-zinc-500' : 'bg-slate-50 border-slate-300 text-slate-800 placeholder-slate-400'} border focus:outline-none focus:ring-2 focus:ring-blue-500`}
                             />
                             <button 
                                 onClick={handleAddMantra}
-                                className={`px-4 py-2 rounded-[24px] transition-all font-medium ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[3px_3px_6px_rgba(163,177,198,0.5),-3px_-3px_6px_rgba(255,255,255,1)] active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)] text-zinc-800' : isDark ? 'bg-blue-600 hover:bg-blue-700 text-white' : 'bg-blue-500 hover:bg-blue-600 text-white'}`}
+                                className={`px-4 py-3 rounded-xl sm:rounded-[24px] transition-all font-medium ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[3px_3px_6px_rgba(163,177,198,0.5),-3px_-3px_6px_rgba(255,255,255,1)] active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)] text-zinc-800' : isDark ? 'bg-blue-600 hover:bg-blue-700 text-white' : 'bg-blue-500 hover:bg-blue-600 text-white'}`}
                             >
                                 添加
                             </button>

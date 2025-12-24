@@ -967,7 +967,7 @@ const App: React.FC = () => {
       {floatingTexts.map(ft => (
           <div 
             key={ft.id}
-            className={`fixed pointer-events-none text-2xl font-black ${ft.color} animate-bounce z-[9999]`}
+            className={`fixed pointer-events-none text-xl sm:text-2xl font-black ${ft.color} animate-bounce z-[9999]`}
             style={{ left: ft.x, top: ft.y, textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}
           >
               {ft.text}

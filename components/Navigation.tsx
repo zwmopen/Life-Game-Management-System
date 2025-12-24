@@ -83,12 +83,12 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
 
       {/* 导航栏容器 */}
       <div className={`
-        inset-y-0 left-0 ${isNavCollapsed ? 'translate-x-0' : '-translate-x-full'} 
+        inset-y-0 left-0 translate-x-0 
         md:translate-x-0 transition duration-200 ease-in-out
-        w-${isNavCollapsed ? '12' : '64'} border-r flex flex-col z-40 ${sidebarClass}
+        w-12 md:w-${isNavCollapsed ? '12' : '64'} border-r flex flex-col z-40 ${sidebarClass}
         md:relative
       `}>
-          <div className={`p-6 ${isNeomorphic ? `bg-[#e0e5ec]` : ''} flex items-center justify-between ${isNavCollapsed ? 'hidden' : 'flex'}`}>
+          <div className={`p-6 ${isNeomorphic ? `bg-[#e0e5ec]` : ''} flex items-center justify-between ${isNavCollapsed ? 'hidden' : 'md:flex'}`}>
             <h1 className={`text-xl font-bold tracking-tighter ${isDark ? 'text-emerald-500' : 'text-blue-600'}`}>
               人生游戏系统
             </h1>
@@ -98,7 +98,7 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
           {/* 统一逻辑：点击折叠/展开导航栏宽度 */}
           <button 
             onClick={() => {
-              // 无论移动端还是桌面端，都切换折叠状态
+              // 只有桌面端可以切换折叠状态
               setIsNavCollapsed(!isNavCollapsed);
             }}
             className={`
@@ -138,6 +138,7 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
                       }
                       ${currentView === item.id ? activeClass : `${textClass} ${hoverClass}`}
                   `}
+                  title={item.label}
                   >
                   <item.icon size={isNavCollapsed ? 18 : 20} />
                   {!isNavCollapsed && (
@@ -182,32 +183,32 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
           )}
           
           {/* 主题切换按钮 - 拟态风格 */}
-          {!isNavCollapsed && (
-            <div className={`p-6 border-t ${isDark ? 'border-zinc-800' : 'border-slate-100'} flex justify-between items-center`}>
-                 <button 
-                    onClick={() => {
-                        setTheme(prev => {
-                            if (prev === 'dark') return 'light';
-                            if (prev === 'light') return 'neomorphic';
-                            return 'dark';
-                        });
-                    }}
-                    className={`flex items-center gap-2 text-xs font-bold px-3 py-1.5 rounded-full transition-all duration-300 
-                        ${theme === 'neomorphic' 
-                            ? 'bg-zinc-300 text-zinc-700 shadow-[inset_-3px_-3px_6px_rgba(255,255,255,0.7),inset_3px_3px_6px_rgba(0,0,0,0.1)]' 
-                            : isDark 
-                            ? 'bg-zinc-900 text-zinc-400 hover:text-white' 
-                            : 'bg-slate-100 text-slate-500 hover:text-blue-600'}`}
-                    title={`切换到${theme === 'dark' ? '浅色' : theme === 'light' ? '拟态' : '深色'}主题`}
-                 >
-                     {theme === 'dark' && <Moon size={12}/>}
-                     {theme === 'light' && <Sun size={12}/>}
-                     {theme === 'neomorphic' && <Activity size={12}/>}
-                     {theme === 'dark' ? '深色' : theme === 'light' ? '浅色' : '拟态'}
-                 </button>
+          <div className={`${isNavCollapsed ? 'px-3 py-3' : 'p-6'} border-t ${isDark ? 'border-zinc-800' : 'border-slate-100'} flex ${isNavCollapsed ? 'justify-center' : 'justify-between'} items-center`}>
+               <button 
+                  onClick={() => {
+                      setTheme(prev => {
+                          if (prev === 'dark') return 'light';
+                          if (prev === 'light') return 'neomorphic';
+                          return 'dark';
+                      });
+                  }}
+                  className={`flex items-center gap-2 text-xs font-bold px-3 py-1.5 rounded-full transition-all duration-300 
+                      ${theme === 'neomorphic' 
+                          ? 'bg-zinc-300 text-zinc-700 shadow-[inset_-3px_-3px_6px_rgba(255,255,255,0.7),inset_3px_3px_6px_rgba(0,0,0,0.1)]' 
+                          : isDark 
+                          ? 'bg-zinc-900 text-zinc-400 hover:text-white' 
+                          : 'bg-slate-100 text-slate-500 hover:text-blue-600'}`}
+                  title={`切换到${theme === 'dark' ? '浅色' : theme === 'light' ? '拟态' : '深色'}主题`}
+               >
+                   {theme === 'dark' && <Moon size={12}/>}
+                   {theme === 'light' && <Sun size={12}/>}
+                   {theme === 'neomorphic' && <Activity size={12}/>}
+                   {!isNavCollapsed && (theme === 'dark' ? '深色' : theme === 'light' ? '浅色' : '拟态')}
+               </button>
+              {!isNavCollapsed && (
                 <div className={`text-[10px] font-mono ${isDark ? 'text-zinc-600' : 'text-slate-400'}`}>V 4.5.0</div>
-            </div>
-          )}
+              )}
+          </div>
       </div>
     </>
   );

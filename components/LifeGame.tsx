@@ -820,7 +820,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
               />
             )}
             {mainTab === 'battle' && (
-                <div className="max-w-4xl mx-auto space-y-8">
+                <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8">
                     {/* 实时情报卡模块 - 从战略指挥部移动过来 */}
                     <div className={`${cardBg} border p-3 rounded-xl mb-4`}>
                         <div className="flex items-center justify-between mb-2">
@@ -1139,33 +1139,39 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                 onDoubleClick={() => openEditTask(task)} 
                                 className={`relative group rounded-lg border transition-all overflow-hidden ${task.completed ? 'opacity-50 grayscale ' + (isDark ? 'bg-zinc-950/50' : 'bg-slate-100') : task.isGivenUp ? 'opacity-70 ' + (isDark ? 'bg-red-950/10 border-red-900/30' : 'bg-red-50 border-red-200') : ''} ${cardBg} ${!task.completed && !task.isGivenUp ? 'hover:border-blue-500/50 hover:shadow-lg' : (isDark ? 'border-zinc-800' : 'border-slate-200')} ${draggedTask && draggedTask.id === task.id ? 'opacity-50 scale-95' : ''}`}
                             >
-                                <div className="p-3 flex items-center gap-3">
-                                    <div className="text-zinc-600 cursor-grab active:cursor-grabbing"><GripVertical size={14}/></div>
-                                    <button onClick={(e) => { e.stopPropagation(); completeTask(task, e); }} className={`w-7 h-7 rounded-full border-2 flex items-center justify-center transition-all shrink-0 ${task.completed ? 'bg-emerald-500 border-emerald-500 text-white' : task.isGivenUp ? 'border-red-900 text-red-900 cursor-not-allowed' : (isDark ? 'border-zinc-600 hover:border-emerald-500 text-transparent' : 'border-slate-300 hover:border-emerald-500 bg-white')}`} disabled={task.isGivenUp}>
-                                        {task.completed && <Check size={14} strokeWidth={4} />}
-                                        {task.isGivenUp && <X size={14} strokeWidth={4} />}
+                                <div className="p-2 sm:p-3 flex items-center gap-2 sm:gap-3">
+                                    <div className="text-zinc-600 cursor-grab active:cursor-grabbing hidden sm:flex"><GripVertical size={14}/></div>
+                                    <button onClick={(e) => { e.stopPropagation(); completeTask(task, e); }} className={`w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all shrink-0 ${task.completed ? 'bg-emerald-500 border-emerald-500 text-white' : task.isGivenUp ? 'border-red-900 text-red-900 cursor-not-allowed' : (isDark ? 'border-zinc-600 hover:border-emerald-500 text-transparent' : 'border-slate-300 hover:border-emerald-500 bg-white')}`} disabled={task.isGivenUp}>
+                                        {task.completed && <Check size={16} strokeWidth={4} />}
+                                        {task.isGivenUp && <X size={16} strokeWidth={4} />}
                                     </button>
                                     <div className="flex-1 min-w-0">
-                                        <div className="flex items-center gap-2">
-                                            <span className={`text-[10px] font-bold px-1.5 rounded border ${ATTR_COLORS[task.attr].replace('shadow-', '')} bg-opacity-10`}>
+                                        <div className="flex items-center gap-1 sm:gap-2 flex-wrap">
+                                            <span className={`text-[10px] font-bold px-1.5 rounded border ${ATTR_COLORS[task.attr].replace('shadow-', '')} bg-opacity-10 whitespace-nowrap`}>
                                                 {task.attr === 'STR' ? '力量' : task.attr === 'INT' ? '智力' : task.attr === 'DIS' ? '自律' : task.attr === 'CRE' ? '创造' : task.attr === 'SOC' ? '社交' : '财富'}
                                             </span>
                                             <h3 className={`font-bold truncate ${task.completed || task.isGivenUp ? 'line-through text-zinc-500' : textMain}`}>
                                                 {task.text}
-                                                {task.isGivenUp && <span className="ml-2 text-[9px] text-red-500 border border-red-900 bg-red-900/20 px-1 rounded font-bold">已放弃</span>}
+                                                {task.isGivenUp && <span className="ml-1 text-[9px] text-red-500 border border-red-900 bg-red-900/20 px-1 rounded font-bold whitespace-nowrap">已放弃</span>}
                                             </h3>
-                                            <button onClick={() => openEditTask(task)} className="opacity-0 group-hover:opacity-100 text-zinc-500 hover:text-blue-500 transition-opacity ml-2"><Edit3 size={12}/></button>
+                                            <button onClick={() => openEditTask(task)} className="opacity-0 group-hover:opacity-100 text-zinc-500 hover:text-blue-500 transition-opacity ml-1 sm:ml-2"><Edit3 size={12}/></button>
                                         </div>
-                                        <div className="flex items-center gap-3 text-[11px] font-mono text-zinc-500 mt-1"><span className="text-purple-400">+{task.xp}</span><span className="text-yellow-500">+{task.gold}</span><span className="text-blue-500">{task.duration || 25}m</span></div>
+                                        <div className="flex items-center gap-2 sm:gap-3 text-[11px] font-mono text-zinc-500 mt-1 flex-wrap">
+                                            <span className="text-purple-400">+{task.xp}</span>
+                                            <span className="text-yellow-500">+{task.gold}</span>
+                                            <span className="text-blue-500">{task.duration || 25}m</span>
+                                        </div>
                                     </div>
-                                    {!task.completed && !task.isGivenUp && (
-                                        <button onClick={(e) => giveUpTask(task.id, e)} className="text-zinc-600 hover:text-red-500 p-1.5 rounded hover:bg-red-900/10 transition-colors" title="放弃任务 (无奖励)">
-                                            <X size={16} />
+                                    <div className="flex items-center gap-1 sm:gap-2">
+                                        {!task.completed && !task.isGivenUp && (
+                                            <button onClick={(e) => giveUpTask(task.id, e)} className="text-zinc-600 hover:text-red-500 p-2 rounded hover:bg-red-900/10 transition-colors" title="放弃任务 (无奖励)">
+                                                <X size={16} />
+                                            </button>
+                                        )}
+                                        <button onClick={() => handleStartTimer(task.duration || 25)} disabled={task.completed || task.isGivenUp} className={`p-3 rounded-full text-white transition-colors group-hover:scale-105 shadow-lg ${isDark ? 'bg-zinc-800 hover:bg-emerald-600' : 'bg-blue-500 hover:bg-blue-600'} disabled:opacity-50 disabled:scale-100`}>
+                                            <Play size={16} fill="currentColor"/>
                                         </button>
-                                    )}
-                                    <button onClick={() => handleStartTimer(task.duration || 25)} disabled={task.completed || task.isGivenUp} className={`p-2.5 rounded-full text-white transition-colors group-hover:scale-105 shadow-lg ${isDark ? 'bg-zinc-800 hover:bg-emerald-600' : 'bg-blue-500 hover:bg-blue-600'} disabled:opacity-50 disabled:scale-100`}>
-                                        <Play size={14} fill="currentColor"/>
-                                    </button>
+                                    </div>
                                 </div>
                             </div>
                         ))}
@@ -1180,19 +1186,19 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                 onDoubleClick={() => openEditTask(task)} 
                                 className={`relative group rounded-lg border transition-all overflow-hidden ${task.completed ? 'opacity-50 grayscale ' + (isDark ? 'bg-zinc-950/50' : 'bg-slate-100') : ''} ${cardBg} ${!task.completed ? 'hover:border-red-500/50 hover:shadow-lg' : (isDark ? 'border-zinc-800' : 'border-slate-200')} ${draggedTask && draggedTask.id === task.id ? 'opacity-50 scale-95' : ''}`}
                             >
-                                <div className="p-4 flex flex-col gap-2">
-                                    <div className="flex items-center gap-3">
+                                <div className="p-3 flex flex-col gap-2">
+                                    <div className="flex items-center gap-2">
                                         <button className={`w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all shrink-0 ${task.completed ? 'bg-emerald-500 border-emerald-500 text-white' : (isDark ? 'border-zinc-600 cursor-default' : 'border-slate-300 bg-white')}`}>{task.completed && <Check size={16} strokeWidth={4} />}</button>
                                         <div className="flex-1">
-                                            <div className="flex items-center gap-2 mb-1">
-                                                <span className={`text-[10px] font-bold px-1.5 rounded border ${ATTR_COLORS[task.attr].replace('shadow-', '')} bg-opacity-10`}>
+                                            <div className="flex items-center gap-1.5 mb-1 flex-wrap">
+                                                <span className={`text-[10px] font-bold px-1.5 rounded border ${ATTR_COLORS[task.attr].replace('shadow-', '')} bg-opacity-10 whitespace-nowrap`}>
                                                     {task.attr === 'STR' ? '力量' : task.attr === 'INT' ? '智力' : task.attr === 'DIS' ? '自律' : task.attr === 'CRE' ? '创造' : task.attr === 'SOC' ? '社交' : '财富'}
                                                 </span>
                                                 <h3 className={`font-bold ${task.completed ? 'line-through text-zinc-500' : textMain}`}>{task.text}</h3>
                                                 <button onClick={() => openEditTask(task)} className="opacity-0 group-hover:opacity-100 text-zinc-500 hover:text-blue-500 transition-opacity ml-1"><Edit3 size={12}/></button>
                                             </div>
                                             {/* 显示主任务的经验、金币和消耗时长 */}
-                                            <div className="flex items-center gap-4 text-xs font-mono text-zinc-500">
+                                            <div className="flex items-center gap-2 sm:gap-3 text-xs font-mono text-zinc-500 flex-wrap">
                                                 <span className="text-purple-400">总经验 +{task.xp}</span>
                                                 <span className="text-yellow-500">总金币 +{task.gold}</span>
                                                 <span className="text-blue-500">总时长 {task.subTasks.reduce((sum, st) => sum + st.duration, 0)} 分钟</span>
@@ -1201,25 +1207,25 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                     </div>
                                 </div>
                                 {task.subTasks && !task.completed && (
-                                    <div className={`border-t p-2 space-y-1 ${isDark ? 'border-zinc-800 bg-zinc-950/30' : 'border-slate-200 bg-slate-50'}`}>
+                                    <div className={`border-t p-1 sm:p-2 space-y-1 ${isDark ? 'border-zinc-800 bg-zinc-950/30' : 'border-slate-200 bg-slate-50'}`}>
                                         {task.subTasks.map(st => (
                                             <div 
                                                 key={st.id} 
-                                                className={`flex items-center justify-between gap-2 p-1.5 rounded cursor-pointer group/sub ${isDark ? 'hover:bg-white/5' : 'hover:bg-white border border-transparent hover:border-slate-200'}`}
+                                                className={`flex flex-wrap items-center justify-between gap-1 sm:gap-2 p-1.5 rounded cursor-pointer group/sub ${isDark ? 'hover:bg-white/5' : 'hover:bg-white border border-transparent hover:border-slate-200'}`}
                                             >
-                                                <div className="flex items-center gap-2 flex-1" onClick={() => toggleSubTask(task.id, st.id)}>
-                                                    <div className={`transition-colors ${st.completed ? 'text-zinc-500' : 'text-zinc-400 group-hover/sub:text-blue-500'}`}>{st.completed ? <CheckSquare size={14} /> : <Square size={14} />}</div>
-                                                    <span className={`text-sm ${st.completed ? 'text-zinc-600 line-through' : textMain} transition-all`}>{st.text}</span>
+                                                <div className="flex items-center gap-2 flex-1 min-w-0" onClick={() => toggleSubTask(task.id, st.id)}>
+                                                    <div className={`transition-colors ${st.completed ? 'text-zinc-500' : 'text-zinc-400 group-hover/sub:text-blue-500'}`}>{st.completed ? <CheckSquare size={16} /> : <Square size={16} />}</div>
+                                                    <span className={`text-sm truncate ${st.completed ? 'text-zinc-600 line-through' : textMain} transition-all`}>{st.text}</span>
                                                 </div>
                                                 {/* 显示子任务的经验、金币和时长 */}
-                                                <div className="flex items-center gap-2 text-xs font-mono text-zinc-500">
+                                                <div className="flex items-center gap-1 sm:gap-2 text-xs font-mono text-zinc-500 flex-wrap mb-1 sm:mb-0">
                                                     <span className="text-purple-400">+{st.xp}</span>
                                                     <span className="text-yellow-500">+{st.gold}</span>
                                                     <span className="text-blue-500">{st.duration}m</span>
                                                 </div>
-                                                <div className="flex items-center gap-0.5">
-                                                    <button onClick={(e) => { e.stopPropagation(); deleteSubTask(task.id, st.id); }} className="text-zinc-700 hover:text-red-500 p-1.5 opacity-0 group-hover/sub:opacity-100 transition-opacity" title="删除子任务"><X size={16}/></button>
-                                                    <button onClick={(e) => { e.stopPropagation(); handleStartTimer(st.duration || 25); }} className={`p-2 rounded-full text-white transition-colors hover:scale-110 shadow-lg ${isDark ? 'bg-zinc-800 hover:bg-emerald-600' : 'bg-blue-500 hover:bg-blue-600'} opacity-0 group-hover/sub:opacity-100`}><Play size={14} fill="currentColor"/></button>
+                                                <div className="flex items-center gap-1 sm:gap-0.5">
+                                                    <button onClick={(e) => { e.stopPropagation(); deleteSubTask(task.id, st.id); }} className="text-zinc-700 hover:text-red-500 p-2 opacity-0 group-hover/sub:opacity-100 transition-opacity" title="删除子任务"><X size={16}/></button>
+                                                    <button onClick={(e) => { e.stopPropagation(); handleStartTimer(st.duration || 25); }} className={`p-2 rounded-full text-white transition-colors hover:scale-110 shadow-lg ${isDark ? 'bg-zinc-800 hover:bg-emerald-600' : 'bg-blue-500 hover:bg-blue-600'} opacity-0 group-hover/sub:opacity-100`}><Play size={16} fill="currentColor"/></button>
                                                 </div>
                                             </div>
                                         ))}
