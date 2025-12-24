@@ -90,7 +90,7 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
     const isDark = theme === 'dark';
     const isNeomorphic = theme === 'neomorphic';
     const cardBg = isNeomorphic 
-        ? 'bg-[#e0e5ec] border-[#a3b1c6] rounded-lg shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)] transition-all duration-300' 
+        ? 'bg-[#e0e5ec] border-[#e0e5ec] rounded-lg shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)] transition-all duration-300' 
         : isDark 
         ? 'bg-zinc-900 border-zinc-800' 
         : 'bg-white border-slate-200';
@@ -462,8 +462,8 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
                 <div className="w-6"></div>
             </div>
             
-            {/* 4个小模块：与实时情报卡片风格完全一致 */}
-            <div className="grid grid-cols-2 gap-3">
+            {/* 4个小模块：与实时情报卡片风格完全一致，移动端单列 */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {/* 1. 角色系统模块 */}
                 <div className={`${cardBg} border p-2 rounded-lg flex flex-col justify-between transition-all duration-300 cursor-default hover:shadow-lg`}>
                     <AvatarProfile 

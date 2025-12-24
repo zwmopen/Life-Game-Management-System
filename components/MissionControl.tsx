@@ -197,7 +197,11 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
   useEffect(() => {
     const savedHeight = localStorage.getItem('chartHeight');
     if (savedHeight) {
-      setChartHeight(parseInt(savedHeight));
+      const parsedHeight = parseInt(savedHeight);
+      // Ensure height is a valid number and within reasonable range
+      if (!isNaN(parsedHeight) && parsedHeight >= 300 && parsedHeight <= 1000) {
+        setChartHeight(parsedHeight);
+      }
     }
   }, []);
 
@@ -210,7 +214,11 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
   useEffect(() => {
     const savedBgHeight = localStorage.getItem('chartContainerHeight');
     if (savedBgHeight) {
-      setChartHeight(parseInt(savedBgHeight));
+      const parsedHeight = parseInt(savedBgHeight);
+      // Ensure height is a valid number and within reasonable range
+      if (!isNaN(parsedHeight) && parsedHeight >= 300 && parsedHeight <= 1000) {
+        setChartHeight(parsedHeight);
+      }
     }
   }, []);
 

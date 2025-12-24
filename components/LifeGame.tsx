@@ -818,8 +818,8 @@ const LifeGame: React.FC<LifeGameProps> = ({
                             </div>
                         </div>
                         
-                        {/* 1. 实时情报卡片 - 调整为更紧凑的两列布局，宽度缩减 */}
-                        <div className="grid grid-cols-2 gap-4">
+                        {/* 1. 实时情报卡片 - 调整为更紧凑的两列布局，移动端单列 */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {/* 专注时间趋势 - 缩小版 */}
                             <div className={`${cardBg} border p-2 rounded-lg flex flex-col justify-between transition-all duration-300 cursor-default hover:shadow-lg`}>
                                 <div className="flex items-center justify-between">
@@ -833,7 +833,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                 
                                 {/* 7天趋势图 - 缩小尺寸 */}
                                 <div className="h-[80px] w-full mt-1">
-                                    <ResponsiveContainer width="100%" height="100%">
+                                    <ResponsiveContainer width="100%" height={80}>
                                         <LineChart
                                             data={useMemo(() => {
                                                 const data = [];

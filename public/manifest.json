@@ -1,26 +1,28 @@
 {
-  "name": "人生游戏系统",
-  "short_name": "人生游戏",
-  "description": "反本能·主动进化系统",
+  "name": "反本能·主动进化系统",
+  "short_name": "主动进化系统",
+  "description": "基于认知科学的外部执行力外骨骼，利用热力学第二定律和进化心理学原理，通过强制性的结构和即时的多巴胺反馈，帮助用户执行有利于长期成长的行为。",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#4285f4",
+  "theme_color": "#3b82f6",
   "icons": [
     {
-      "src": "/favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "src": "/vite.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
     },
     {
-      "src": "/logo192.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "/logo512.png",
-      "type": "image/png",
-      "sizes": "512x512"
+      "src": "/vite.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
     }
-  ]
+  ],
+  "orientation": "portrait-primary",
+  "categories": ["productivity", "education", "lifestyle"],
+  "prefer_related_applications": false,
+  "related_applications": [],
+  "lang": "zh-CN"
 }
