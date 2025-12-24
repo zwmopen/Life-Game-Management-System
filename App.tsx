@@ -32,7 +32,7 @@ import RewardModal from './components/shared/RewardModal';
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<View>(View.RPG_MISSION_CENTER);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const [isNavCollapsed, setIsNavCollapsed] = useState(false);
+  const [isNavCollapsed, setIsNavCollapsed] = useState(true);
   const [theme, setTheme] = useState<Theme>('neomorphic');
   const [isDataLoaded, setIsDataLoaded] = useState(false);
 

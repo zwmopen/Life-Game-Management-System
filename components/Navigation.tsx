@@ -80,22 +80,14 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
 
   return (
     <>
-      {/* 移动端菜单按钮保持不变 */}
-      <div className="md:hidden fixed top-4 right-4 z-50">
-        <button 
-          onClick={() => setIsMobileOpen(!isMobileOpen)}
-          className={`p-2 border rounded-md ${isDark ? 'bg-zinc-900 border-zinc-700 text-emerald-400' : 'bg-white border-slate-200 text-blue-600'}`}
-        >
-          {isMobileOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
-      </div>
+      {/* 移除移动端冗余菜单按钮 */}
 
       {/* 导航栏容器 */}
       <div className={`
         inset-y-0 left-0 ${isMobileOpen ? 'translate-x-0' : '-translate-x-full'} 
         md:relative md:translate-x-0 transition duration-200 ease-in-out
         w-${isNavCollapsed ? '12' : '64'} border-r flex flex-col z-40 ${sidebarClass}
-        ${isNavCollapsed ? 'md:block' : 'block'}
+        ${isNavCollapsed ? 'block' : 'block'}
       `}>
           <div className={`p-6 border-b ${isDark ? 'border-zinc-800' : 'border-slate-100'} flex items-center justify-between ${isNavCollapsed ? 'hidden' : 'flex'}`}>
             <h1 className={`text-xl font-bold tracking-tighter ${isDark ? 'text-emerald-500' : 'text-blue-600'}`}>
@@ -104,15 +96,11 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
           </div>
           
           {/* 折叠/展开按钮 - 调整到导航栏中间位置，贴紧右边 */}
-          {/* 移动端：点击关闭导航栏 */}
-          {/* 桌面端：点击折叠/展开导航栏 */}
+          {/* 统一逻辑：点击折叠/展开导航栏宽度 */}
           <button 
             onClick={() => {
-              if (isMobileOpen) {
-                setIsMobileOpen(false);
-              } else {
-                setIsNavCollapsed(!isNavCollapsed);
-              }
+              // 无论移动端还是桌面端，都切换折叠状态
+              setIsNavCollapsed(!isNavCollapsed);
             }}
             className={`
               absolute right-2 top-1/2 transform -translate-y-1/2 p-1 rounded-lg transition-all duration-300 flex items-center justify-center z-50
@@ -121,10 +109,10 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
                 : isDark 
                 ? 'text-zinc-500 hover:text-white hover:bg-zinc-800' 
                 : 'text-slate-500 hover:text-slate-700 hover:bg-slate-100'}`}
-            title={isMobileOpen ? '关闭导航栏' : (isNavCollapsed ? '展开导航栏' : '收起导航栏')}
+            title={isNavCollapsed ? '展开导航栏' : '收起导航栏'}
           >
-            {/* 移动端显示关闭图标，桌面端显示折叠/展开图标 */}
-            {isMobileOpen ? <X size={16} /> : (isNavCollapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />)}
+            {/* 统一显示折叠/展开图标 */}
+            {isNavCollapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
           </button>
 
           <nav className="flex-1 py-6 space-y-2 overflow-y-auto">
