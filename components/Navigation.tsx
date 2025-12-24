@@ -104,8 +104,16 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
           </div>
           
           {/* 折叠/展开按钮 - 调整到导航栏中间位置，贴紧右边 */}
+          {/* 移动端：点击关闭导航栏 */}
+          {/* 桌面端：点击折叠/展开导航栏 */}
           <button 
-            onClick={() => setIsNavCollapsed(!isNavCollapsed)}
+            onClick={() => {
+              if (isMobileOpen) {
+                setIsMobileOpen(false);
+              } else {
+                setIsNavCollapsed(!isNavCollapsed);
+              }
+            }}
             className={`
               absolute right-2 top-1/2 transform -translate-y-1/2 p-1 rounded-lg transition-all duration-300 flex items-center justify-center z-50
               ${isNeomorphic 
@@ -113,10 +121,10 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
                 : isDark 
                 ? 'text-zinc-500 hover:text-white hover:bg-zinc-800' 
                 : 'text-slate-500 hover:text-slate-700 hover:bg-slate-100'}`}
-            title={isNavCollapsed ? '展开导航栏' : '收起导航栏'}
+            title={isMobileOpen ? '关闭导航栏' : (isNavCollapsed ? '展开导航栏' : '收起导航栏')}
           >
-            {/* 根据折叠状态显示相反的图标 */}
-            {isNavCollapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
+            {/* 移动端显示关闭图标，桌面端显示折叠/展开图标 */}
+            {isMobileOpen ? <X size={16} /> : (isNavCollapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />)}
           </button>
 
           <nav className="flex-1 py-6 space-y-2 overflow-y-auto">
