@@ -80,14 +80,28 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
 
   return (
     <>
-      {/* 移除移动端冗余菜单按钮 */}
+      {/* 移动端菜单按钮 - 仅在移动端显示 */}
+      <button
+        onClick={() => setIsMobileOpen(!isMobileOpen)}
+        className="fixed top-4 left-4 z-50 p-2 rounded-full md:hidden transition-all duration-300"
+        style={{
+          backgroundColor: isDark ? '#334155' : (isNeomorphic ? '#e0e5ec' : '#ffffff'),
+          boxShadow: isNeomorphic 
+            ? '5px 5px 10px rgba(163,177,198,0.6), -5px -5px 10px rgba(255,255,255,1)'
+            : isDark 
+            ? '0 4px 6px -1px rgba(0, 0, 0, 0.3)'
+            : '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+        }}
+      >
+        {isMobileOpen ? <X size={24} /> : <Menu size={24} />}
+      </button>
 
       {/* 导航栏容器 */}
       <div className={`
-        inset-y-0 left-0 ${isMobileOpen ? 'translate-x-0' : '-translate-x-full'} 
-        md:relative md:translate-x-0 transition duration-200 ease-in-out
+        inset-y-0 left-0 ${isMobileOpen ? 'translate-x-0' : (isNavCollapsed ? 'translate-x-0' : '-translate-x-full')} 
+        md:translate-x-0 transition duration-200 ease-in-out
         w-${isNavCollapsed ? '12' : '64'} border-r flex flex-col z-40 ${sidebarClass}
-        ${isNavCollapsed ? 'block' : 'block'}
+        md:relative
       `}>
           <div className={`p-6 ${isNeomorphic ? `bg-[#e0e5ec]` : ''} flex items-center justify-between ${isNavCollapsed ? 'hidden' : 'flex'}`}>
             <h1 className={`text-xl font-bold tracking-tighter ${isDark ? 'text-emerald-500' : 'text-blue-600'}`}>
@@ -133,14 +147,14 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
                   onClick={() => handleNavClick(item.id)}
                   className={`
                       flex items-center rounded-lg transition-all duration-200 border border-transparent
-                      ${isNavCollapsed && !isMobileOpen 
-                        ? `w-10 h-10 justify-center mx-auto` 
+                      ${isNavCollapsed 
+                        ? `w-10 h-10 justify-center mx-auto my-1` 
                         : `w-full space-x-3 px-4 py-3 pl-8`
                       }
                       ${currentView === item.id ? activeClass : `${textClass} ${hoverClass}`}
                   `}
                   >
-                  <item.icon size={isNavCollapsed && !isMobileOpen ? 18 : 20} />
+                  <item.icon size={isNavCollapsed ? 18 : 20} />
                   {!isNavCollapsed && (
                     <span className="font-medium text-sm">{item.label}</span>
                   )}

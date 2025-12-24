@@ -793,33 +793,32 @@ const LifeGame: React.FC<LifeGameProps> = ({
             </div>
         )}
 
-        {mainTab === 'battle' && (
-          <CharacterProfile ref={characterProfileRef} theme={theme} xp={xp} balance={balance} totalHours={totalHours} totalKills={totalTasksCompleted} checkInStreak={checkInStreak} onPomodoroComplete={onPomodoroComplete} onUpdateBalance={onUpdateBalance} 
-            // Pomodoro Global State
-            timeLeft={timeLeft}
-            isActive={isActive}
-            duration={duration}
-            onToggleTimer={onToggleTimer}
-            onResetTimer={onResetTimer}
-            onChangeDuration={onChangeDuration}
-            onUpdateTimeLeft={onUpdateTimeLeft}
-            onUpdateIsActive={onUpdateIsActive}
-            // Audio Management
-            isMuted={isMuted}
-            currentSoundId={currentSoundId}
-            setIsMuted={setIsMuted}
-            setCurrentSoundId={setCurrentSoundId}
-            // Immersive Mode Callback
-            onImmersiveModeChange={(newIsImmersive) => {
-                if (newIsImmersive) {
-                    setIsNavCollapsed(true);
-                }
-                setIsImmersive(newIsImmersive);
-            }}
-          />
-        )}
-
         <div className="flex-1 overflow-y-auto p-4 md:p-6 relative custom-scrollbar">
+            {mainTab === 'battle' && (
+              <CharacterProfile ref={characterProfileRef} theme={theme} xp={xp} balance={balance} totalHours={totalHours} totalKills={totalTasksCompleted} checkInStreak={checkInStreak} onPomodoroComplete={onPomodoroComplete} onUpdateBalance={onUpdateBalance} 
+                // Pomodoro Global State
+                timeLeft={timeLeft}
+                isActive={isActive}
+                duration={duration}
+                onToggleTimer={onToggleTimer}
+                onResetTimer={onResetTimer}
+                onChangeDuration={onChangeDuration}
+                onUpdateTimeLeft={onUpdateTimeLeft}
+                onUpdateIsActive={onUpdateIsActive}
+                // Audio Management
+                isMuted={isMuted}
+                currentSoundId={currentSoundId}
+                onToggleMute={setIsMuted}
+                onSoundChange={setCurrentSoundId}
+                // Immersive Mode Callback
+                onImmersiveModeChange={(newIsImmersive) => {
+                    if (newIsImmersive) {
+                        setIsNavCollapsed(true);
+                    }
+                    setIsImmersive(newIsImmersive);
+                }}
+              />
+            )}
             {mainTab === 'battle' && (
                 <div className="max-w-4xl mx-auto space-y-8">
                     {/* 实时情报卡模块 - 从战略指挥部移动过来 */}
