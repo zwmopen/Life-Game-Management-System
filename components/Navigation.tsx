@@ -27,7 +27,6 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
 
   const handleNavClick = (view: View) => {
     setView(view);
-    setIsMobileOpen(false);
   };
 
   const handleDragStart = (index: number) => {
@@ -80,25 +79,11 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
 
   return (
     <>
-      {/* 移动端菜单按钮 - 仅在移动端显示 */}
-      <button
-        onClick={() => setIsMobileOpen(!isMobileOpen)}
-        className="fixed top-4 left-4 z-50 p-2 rounded-full md:hidden transition-all duration-300"
-        style={{
-          backgroundColor: isDark ? '#334155' : (isNeomorphic ? '#e0e5ec' : '#ffffff'),
-          boxShadow: isNeomorphic 
-            ? '5px 5px 10px rgba(163,177,198,0.6), -5px -5px 10px rgba(255,255,255,1)'
-            : isDark 
-            ? '0 4px 6px -1px rgba(0, 0, 0, 0.3)'
-            : '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
-        }}
-      >
-        {isMobileOpen ? <X size={24} /> : <Menu size={24} />}
-      </button>
+
 
       {/* 导航栏容器 */}
       <div className={`
-        inset-y-0 left-0 ${isMobileOpen ? 'translate-x-0' : (isNavCollapsed ? 'translate-x-0' : '-translate-x-full')} 
+        inset-y-0 left-0 ${isNavCollapsed ? 'translate-x-0' : '-translate-x-full'} 
         md:translate-x-0 transition duration-200 ease-in-out
         w-${isNavCollapsed ? '12' : '64'} border-r flex flex-col z-40 ${sidebarClass}
         md:relative
