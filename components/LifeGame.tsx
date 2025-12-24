@@ -1105,10 +1105,9 @@ const LifeGame: React.FC<LifeGameProps> = ({
                             <button onClick={() => setTaskCategory('main')} className={`px-4 py-1.5 rounded-lg text-xs font-bold border transition-all duration-300 ${taskCategory === 'main' ? 'bg-blue-600 border-blue-600 text-white shadow-lg shadow-blue-900/50' : (isDark ? 'bg-zinc-900 border-zinc-800 text-zinc-500 hover:border-zinc-700' : 'bg-white border-slate-300 text-slate-500 hover:border-slate-200')}`}>主线任务</button>
                             <button onClick={() => setTaskCategory('random')} className={`px-4 py-1.5 rounded-lg text-xs font-bold border transition-all duration-300 ${taskCategory === 'random' ? 'bg-purple-600 border-purple-600 text-white shadow-lg shadow-purple-900/50' : (isDark ? 'bg-zinc-900 border-zinc-800 text-zinc-500 hover:border-zinc-700' : 'bg-white border-slate-300 text-slate-500 hover:border-slate-200')}`}>随机任务</button>
                         </div>
-                        <div className="flex gap-2 items-center">
+                        <div className="flex gap-2 items-center ml-auto">
                             <button onClick={() => setActiveHelp('tasks')} className="text-zinc-500 hover:text-white transition-colors"><HelpCircle size={16}/></button>
                             <button onClick={() => setIsManageTasksOpen(true)} className={`px-4 py-1.5 rounded-lg text-xs font-bold border transition-all flex items-center gap-2 ${isDark ? 'bg-zinc-900 border-zinc-800 text-zinc-300 hover:border-zinc-700' : 'bg-white border-slate-300 text-slate-600 hover:border-slate-200'}`}><List size={14}/> 管理</button>
-                            <button onClick={() => setMainTab('shop')} className={`px-4 py-1.5 rounded-lg text-xs font-bold border transition-all flex items-center gap-2 ${isDark ? 'bg-zinc-900 border-zinc-800 text-zinc-500 hover:border-zinc-700' : 'bg-white border-slate-300 text-slate-500 hover:border-slate-200'}`}> <ShoppingBag size={14}/> 黑市</button>
                         </div>
                     </div>
 
