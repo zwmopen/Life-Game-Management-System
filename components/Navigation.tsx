@@ -85,8 +85,8 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
       <div className={`
         inset-y-0 left-0 translate-x-0 
         md:translate-x-0 transition duration-200 ease-in-out
-        w-12 md:w-${isNavCollapsed ? '12' : '64'} border-r flex flex-col z-40 ${sidebarClass}
-        md:relative
+        w-${isNavCollapsed ? '12' : '64'} border-r flex flex-col z-40 ${sidebarClass}
+        fixed md:relative
       `}>
           <div className={`p-6 ${isNeomorphic ? `bg-[#e0e5ec]` : ''} flex items-center justify-between ${isNavCollapsed ? 'hidden' : 'md:flex'}`}>
             <h1 className={`text-xl font-bold tracking-tighter ${isDark ? 'text-emerald-500' : 'text-blue-600'}`}>

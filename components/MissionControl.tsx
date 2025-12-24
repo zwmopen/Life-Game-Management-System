@@ -85,11 +85,29 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
 
   // Initialize sensors for drag and drop
   const sensors = useSensors(
-    useSensor(PointerSensor),
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 5, // Reduced distance for mobile touch
+      },
+    }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
+
+  // Enable touch action for draggable elements
+  useEffect(() => {
+    const draggableElements = document.querySelectorAll('[draggable="true"]');
+    draggableElements.forEach(element => {
+      element.style.touchAction = 'none';
+    });
+    
+    return () => {
+      draggableElements.forEach(element => {
+        element.style.touchAction = '';
+      });
+    };
+  }, []);
 
   // Create a SortableButton component using useSortable hook
   const SortableButton = React.memo(({ id, chart }: { id: string; chart: any }) => {
@@ -1231,13 +1249,13 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
         </div>
 
         {/* Main Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-20">
+        <div className="flex flex-col gap-6 pb-20">
             
             {/* Featured Strategic Chart (Full Width Top) */}
             <div 
                 ref={chartContainerRef}
                 className={`p-4 rounded-lg ${cardBg} lg:col-span-2 flex flex-col relative overflow-hidden group transition-all duration-300 z-0 hover:z-10`} 
-                style={{ height: `${chartHeight}px`, minHeight: '500px' }}
+                style={{ height: `${chartHeight}px`, minHeight: '300px' }}
             >
                 {/* Resize Handle */}
                 <div
@@ -2482,7 +2500,7 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
 
             {/* Deep Analysis Module - Separate Section */}
             {activeChartObj.deepAnalysis && (
-                <div className={`p-4 rounded-xl border ${cardBg} lg:col-span-2 z-10`}>
+                <div className={`p-4 rounded-xl border ${cardBg} z-10`}>
                     <h3 className={`font-bold flex items-center gap-2 ${textMain} text-base mb-3`}>
                         <BrainCircuit size={16} className={isDark ? 'text-purple-400' : 'text-purple-600'}/> 深度解析 - {activeChartObj.label}
                     </h3>
