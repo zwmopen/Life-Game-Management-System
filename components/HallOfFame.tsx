@@ -161,31 +161,37 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                 
                 {/* Header Section */}
                 <div className="p-6 pb-2">
-                    <div className="flex justify-end mb-4">
-                        <div className={`px-4 py-3 rounded-lg border flex flex-col items-end transition-all duration-300 ${cardBg} hover:shadow-lg`}>
-                            <div className="text-[10px] text-zinc-500 uppercase font-bold">成就收集率</div>
-                            <div className="text-2xl font-black text-yellow-500">{Math.round((unlockedCount/totalCount)*100)}%</div>
-                            <div className="text-[10px] text-zinc-500">{unlockedCount}/{totalCount} 已解锁</div>
-                        </div>
-                    </div>
-
                     {/* Latest Honors Section - 最新战勋模块 */}
-                    {latestBadges.length > 0 && (
-                        <div className={`mb-6 p-4 rounded-xl border ${cardBg} shadow-lg`}>
-                            <h3 className="text-xs font-bold uppercase text-zinc-500 mb-3 flex items-center gap-2"><Award size={14} className="text-yellow-500"/> 最新战勋</h3>
-                            <div className="flex gap-3 overflow-x-auto pb-2 custom-scrollbar">
-                                {latestBadges.map((badge: any) => (
-                                    <div key={`latest-${badge.id}`} className={`shrink-0 w-28 p-3 rounded-full border flex flex-col items-center gap-2 shadow-lg animate-in fade-in zoom-in duration-500 transition-all duration-300 ${isDark ? 'bg-gradient-to-br from-zinc-900 to-zinc-800' : isNeomorphic ? `bg-[#e0e5ec] ${badge.borderColor} shadow-[12px_12px_24px_rgba(163,177,198,0.6),-12px_-12px_24px_rgba(255,255,255,1)] hover:shadow-[16px_16px_32px_rgba(163,177,198,0.7),-16px_-16px_32px_rgba(255,255,255,1)]` : `bg-white ${badge.bgColor} ${badge.borderColor} ${isDark ? 'shadow-black/50' : 'shadow-blue-100'}`}`}>
-                                        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${badge.isUnlocked ? (isNeomorphic ? `bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]` : badge.bgColor) : 'bg-zinc-900/30'}`}>
-                                            <badge.icon size={20} className={badge.color} strokeWidth={2}/>
+                    <div className={`mb-6 p-4 rounded-xl border ${cardBg} shadow-lg transition-all duration-300 hover:shadow-xl`}>
+                        <h3 className="text-xs font-bold uppercase text-zinc-500 mb-3 flex items-center gap-2"><Award size={14} className="text-yellow-500"/> 最新战勋</h3>
+                        <div className="flex gap-3 overflow-x-auto pb-2 custom-scrollbar">
+                            {latestBadges.map((badge: any) => {
+                                // 为最新战勋卡片添加拟态效果和交互效果
+                                const badgeClass = isNeomorphic 
+                                    ? `shrink-0 w-28 p-3 rounded-full border flex flex-col items-center gap-2 transition-all duration-300 cursor-pointer hover:shadow-lg bg-[#e0e5ec] border-[#a3b1c6] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)] hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] active:shadow-[inset_8px_8px_16px_rgba(163,177,198,0.6),inset_-8px_-8px_16px_rgba(255,255,255,1)]` 
+                                    : isDark 
+                                    ? `shrink-0 w-28 p-3 rounded-full border flex flex-col items-center gap-2 shadow-lg transition-all duration-300 cursor-pointer hover:shadow-xl bg-gradient-to-br from-zinc-900 to-zinc-800` 
+                                    : `shrink-0 w-28 p-3 rounded-full border flex flex-col items-center gap-2 shadow-lg transition-all duration-300 cursor-pointer hover:shadow-xl bg-white ${badge.bgColor} ${badge.borderColor}`;
+                                
+                                return (
+                                    <div key={`latest-${badge.id}`} className={`${badgeClass} animate-in fade-in zoom-in duration-500`}>
+                                        <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${badge.isUnlocked ? (isNeomorphic ? `bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] hover:shadow-[inset_3px_3px_6px_rgba(163,177,198,0.5),inset_-3px_-3px_6px_rgba(255,255,255,1)]` : badge.bgColor) : 'bg-zinc-900/30'}`}>
+                                                <badge.icon size={20} className={badge.color} strokeWidth={2}/>
+                                            </div>
+                                            <div className={`text-[10px] font-bold text-center truncate w-full ${textMain}`}>{badge.title}</div>
+                                            <div className={`text-[8px] font-mono ${textSub}`}>{badge.subTitle}</div>
                                         </div>
-                                        <div className={`text-[10px] font-bold text-center truncate w-full ${textMain}`}>{badge.title}</div>
-                                        <div className={`text-[8px] font-mono ${textSub}`}>{badge.subTitle}</div>
-                                    </div>
-                                ))}
+                                    );
+                                })}
+                                
+                                {/* 成就收集率模块 - 放在最新战勋的右侧 */}
+                                <div className={`shrink-0 min-w-32 p-3 rounded-xl border flex flex-col items-center justify-center gap-2 shadow-lg transition-all duration-300 cursor-pointer hover:shadow-lg ${cardBg}`}>
+                                    <div className={`text-[10px] text-zinc-500 uppercase font-bold mb-1`}>成就收集率</div>
+                                    <div className={`text-2xl font-black text-yellow-500 mb-1`}>{Math.round((unlockedCount/totalCount)*100)}%</div>
+                                    <div className={`text-[8px] font-mono ${textSub}`}>{unlockedCount}/{totalCount} 已解锁</div>
+                                </div>
                             </div>
                         </div>
-                    )}
 
                     {/* Filter Tabs */}
                     <div className="flex gap-2 overflow-x-auto pb-2 custom-scrollbar">
