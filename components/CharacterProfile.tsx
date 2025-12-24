@@ -525,15 +525,6 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
             <div className={`fixed inset-0 z-[1000] flex flex-col items-center justify-center animate-in fade-in duration-700 ${isDark ? 'bg-zinc-950' : 'bg-slate-50'}`} onClick={cycleMantra}>
                 <button onClick={(e) => { e.stopPropagation(); setIsImmersive(false); }} className={`absolute top-8 right-8 transition-all duration-300 ${isDark ? 'text-zinc-500 hover:text-white' : 'text-slate-500 hover:text-slate-800'}`}><X size={32} /></button>
                 
-                {/* 背景音乐切换按钮 - 向右调整位置 */}
-                <button 
-                    onClick={(e) => { e.stopPropagation(); setIsSoundMenuOpen(!isSoundMenuOpen); }} 
-                    className={`absolute top-8 left-16 transition-all duration-300 ${isDark ? 'text-zinc-500 hover:text-white' : 'text-slate-500 hover:text-slate-800'}`}
-                    title={isMuted ? '开启音效' : '切换音效'}
-                >
-                    {isMuted ? <VolumeX size={32} /> : <Volume2 size={32} />}
-                </button>
-                
                 {/* 音效菜单 */}
                 {isSoundMenuOpen && (
                     <div className={`absolute top-20 left-8 rounded-xl shadow-lg p-4 backdrop-blur-sm ${isDark ? 'bg-zinc-900/95 border border-zinc-800' : 'bg-white/95 border border-slate-200'}`}>
@@ -635,8 +626,20 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
                     >
                         {isActive ? <Pause size={36} className="text-orange-600" /> : <Play size={36} className="text-orange-600" />}
                     </button>
-                    {/* 预设时间按钮 - 缩小按钮 */}
-                    <div className="flex gap-3">
+                    {/* 控制按钮组 - 包含音效按钮和预设时间按钮 */}
+                    <div className="flex gap-3 items-center">
+                        {/* 背景音乐切换按钮 - 放在25分钟按钮前面 */}
+                        <button 
+                            onClick={(e) => { e.stopPropagation(); setIsSoundMenuOpen(!isSoundMenuOpen); }} 
+                            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center justify-center ${isNeomorphic 
+                                ? `bg-[#e0e5ec] border-[#a3b1c6] shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] hover:shadow-[2px_2px_4px_rgba(163,177,198,0.5),-2px_-2px_4px_rgba(255,255,255,1)] active:shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,1)] text-zinc-600` 
+                                : isDark ? 'bg-zinc-900 text-zinc-300 border-zinc-800 hover:bg-zinc-800' : 'bg-white text-slate-600 border-slate-300 hover:bg-slate-100' 
+                            }`}
+                            title={isMuted ? '开启音效' : '切换音效'}
+                        >
+                            {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
+                        </button>
+                        {/* 预设时间按钮 - 缩小按钮 */}
                         {[25, 45, 60].map(m => (
                             <button key={m}
                                 onClick={(e) => { e.stopPropagation(); onChangeDuration(m); }}
