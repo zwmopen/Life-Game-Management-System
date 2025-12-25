@@ -26,6 +26,7 @@ interface TomatoTimerProps {
 
 // --- SOUNDS ---
 const SOUNDS: Sound[] = [
+  { id: 'mute', name: '静音', url: "", icon: VolumeX, color: 'text-zinc-500', hex: '#6b7280' }, // 添加静音选项作为第一个
   { id: 'forest', name: '迷雾森林', url: "https://assets.mixkit.co/active_storage/sfx/2441/2441-preview.mp3", icon: Trees, color: 'text-green-600', hex: '#16a34a' }, // 使用海浪声替代失效的森林声
   { id: 'alpha', name: '阿尔法波', url: "https://assets.mixkit.co/active_storage/sfx/243/243-preview.mp3", icon: Waves, color: 'text-purple-500', hex: '#a855f7' },
   { id: 'theta', name: '希塔波', url: "https://assets.mixkit.co/active_storage/sfx/244/244-preview.mp3", icon: CloudRain, color: 'text-emerald-500', hex: '#10b981' }, 
@@ -52,8 +53,8 @@ const TomatoTimer: React.FC<TomatoTimerProps> = ({
   onUpdateIsActive,
   onImmersiveModeChange
 }) => {
-  const [isMuted, setIsMuted] = useState(false);
-  const [currentSoundId, setCurrentSoundId] = useState('forest');
+  const [currentSoundId, setCurrentSoundId] = useState('mute');
+  const [originalSoundId, setOriginalSoundId] = useState('forest'); // 默认播放的音乐
   const [isSoundMenuOpen, setIsSoundMenuOpen] = useState(false);
   // 移除本地isImmersive状态，使用父组件传递的onImmersiveModeChange回调
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
@@ -97,44 +98,57 @@ const TomatoTimer: React.FC<TomatoTimerProps> = ({
 
   // Audio management
   useEffect(() => {
-    // Create new Audio object
-    const newAudio = new Audio(currentSound.url);
-    newAudio.loop = true;
-    newAudio.volume = 0.3;
-    newAudio.muted = isMuted;
+    let audioSrc = '';
+    let shouldPlay = false;
+    let targetSoundId = currentSoundId;
     
-    // Replace old Audio object
-    audioRef.current = newAudio;
+    // 当番茄钟启动时，自动切换到迷雾森林音乐
+    if (isActive) {
+      targetSoundId = originalSoundId;
+      const targetSound = SOUNDS.find(s => s.id === targetSoundId) || SOUNDS[1];
+      audioSrc = targetSound.url;
+      shouldPlay = true;
+    }
     
-    // Play new audio if timer is active and not muted
-    if (isActive && !isMuted) {
+    // If no audio source, don't create audio object
+    if (!audioSrc) {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.src = '';
+        audioRef.current = null;
+      }
+      return;
+    }
+
+    // Create new Audio object if needed
+    let newAudio = audioRef.current;
+    if (!newAudio || newAudio.src !== audioSrc) {
+      if (newAudio) {
+        newAudio.pause();
+        newAudio.src = '';
+      }
+      newAudio = new Audio(audioSrc);
+      newAudio.loop = true;
+      newAudio.volume = 0.3;
+      audioRef.current = newAudio;
+    }
+    
+    // Play or pause audio based on timer state
+    if (shouldPlay) {
       newAudio.play().catch((error) => {
         console.log('Audio play failed, possibly due to browser autoplay policy:', error);
       });
+    } else {
+      newAudio.pause();
     }
     
     return () => {
-      newAudio.pause();
-      newAudio.src = '';
+      if (newAudio) {
+        newAudio.pause();
+        newAudio.src = '';
+      }
     };
-  }, [currentSoundId, isActive, isMuted]);
-
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-    
-    // Handle mute state change
-    audio.muted = isMuted;
-    
-    // Handle play/pause state change
-    if (isActive && !isMuted) {
-      audio.play().catch((error) => {
-        console.log('Audio play failed, possibly due to browser autoplay policy:', error);
-      });
-    } else {
-      audio.pause();
-    }
-  }, [isActive, isMuted]);
+  }, [isActive, currentSoundId, originalSoundId]);
 
   // 移除本地沉浸式状态管理，完全由父组件控制
 
@@ -199,16 +213,6 @@ const TomatoTimer: React.FC<TomatoTimerProps> = ({
                 </button>
               );
             })}
-            <button 
-              onClick={() => {
-                setIsMuted(!isMuted);
-                setIsSoundMenuOpen(false);
-              }}
-              className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${isMuted ? (isNeomorphic ? 'bg-[#d0d5dc] text-red-600' : isDark ? 'bg-zinc-800 text-white' : 'bg-red-50 text-red-600') : (isNeomorphic ? 'hover:bg-[#d0d5dc]' : isDark ? 'hover:bg-zinc-800 text-zinc-300' : 'hover:bg-slate-100 text-slate-700')}`}
-            >
-              {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
-              <span className="text-xs font-medium">{isMuted ? '开启音效' : '关闭音效'}</span>
-            </button>
           </div>
         </div>
       )}
@@ -288,9 +292,9 @@ const TomatoTimer: React.FC<TomatoTimerProps> = ({
               className={`p-2.5 rounded-full transition-all duration-300 hover:scale-105 ${isNeomorphic 
                 ? 'bg-[#e0e5ec] border border-slate-300 shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] hover:shadow-[2px_2px_4px_rgba(163,177,198,0.6),-2px_-2px_4px_rgba(255,255,255,1)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] text-zinc-600' 
                 : 'text-zinc-500 hover:text-blue-400 hover:bg-white/10'}`}
-              title={isMuted ? '开启音效' : '切换音效'}
+              title={currentSoundId === 'mute' ? '开启音效' : '切换音效'}
             >
-              {isMuted ? <VolumeX size={18} /> : <Waves size={18} />}
+              {currentSoundId === 'mute' ? <VolumeX size={18} /> : <Waves size={18} />}
             </button>
           </div>
           

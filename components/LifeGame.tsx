@@ -7,12 +7,14 @@ import {
   Gamepad2, Play, Pause, StopCircle, Clock, Archive, ArchiveRestore, Settings, Gift,
   Box, XCircle, Sunset, Moon, Coffee, Dumbbell, BookOpen, Calendar, Check, Target, Pencil,
   Radar as RadarIcon, Container, Filter, Wrench, User, Crosshair, TrendingUp, Lock, Unlock, Skull, ArrowLeft, GripVertical, Star, Package, List, RefreshCw, Dice5, Hammer, Edit2, Layout,
-  HelpCircle, Smartphone, Laptop, Shirt, Ticket, Music, Wifi, Video, Square, CheckSquare,
-  Headphones, Armchair, Scissors, Glasses, Footprints, Utensils, Sofa, Activity, Power, ChevronRight, Sun, Wallet
+  HelpCircle, Smartphone, Laptop, Shirt, Ticket, Music, Wifi, Video, Square, CheckSquare, Dice1,
+  Headphones, Armchair, Scissors, Glasses, Footprints, Utensils, Sofa, Activity, Power, ChevronRight, Sun, Wallet,
+  Camera, Tablet, Wind, Fish, Mountain
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
-import { Theme, AttributeType, Habit, Project, SubTask, TaskType, AutoTaskType, Task } from '../types';
+import { Theme, AttributeType, Habit, Project, SubTask, TaskType, AutoTaskType, Task, DiceState, DiceTask, DiceCategory, DiceHistory, Settings as SettingsType } from '../types';
 import CharacterProfile, { CharacterProfileHandle } from './CharacterProfile';
+import { GlobalGuideCard, HelpTooltip, helpContent } from './HelpSystem';
 
 interface LifeGameProps {
   theme: Theme;
@@ -46,6 +48,7 @@ interface LifeGameProps {
   weeklyGoal: string;
   setWeeklyGoal: (g: string) => void;
   todayGoal: string;
+  settings: SettingsType;
   setTodayGoal: (g: string) => void;
   givenUpTasks?: string[];
   onGiveUpTask?: (id: string) => void;
@@ -69,6 +72,16 @@ interface LifeGameProps {
   // Immersive Mode State
   isImmersive: boolean;
   setIsImmersive: (isImmersive: boolean) => void;
+  // Settings
+  settings?: any;
+  // 命运骰子相关
+  diceState?: DiceState;
+  onSpinDice?: () => { success: boolean; message?: string };
+  onDiceResult?: (result: 'completed' | 'skipped' | 'later') => void;
+  onAddDiceTask?: (task: DiceTask) => void;
+  onDeleteDiceTask?: (taskId: string, category: DiceCategory) => void;
+  onUpdateDiceTask?: (taskId: string, category: DiceCategory, updates: Partial<DiceTask>) => void;
+  onUpdateDiceConfig?: (config: Partial<DiceState['config']>) => void;
 }
 
 const XP_PER_LEVEL = 200;
@@ -79,8 +92,13 @@ const SHOP_CATALOG = [
   { id: 'p_dig_1', name: 'iPhone 16 Pro', description: '顶级通讯终端', cost: 8999, type: 'physical', owned: false, icon: <Smartphone size={24} className="text-zinc-300"/>, category: '数码' },
   { id: 'p_dig_2', name: 'MacBook Pro M4', description: '生产力核心武器', cost: 16000, type: 'physical', owned: false, icon: <Laptop size={24} className="text-zinc-400"/>, category: '数码' },
   { id: 'p_dig_3', name: '降噪耳机', description: '主动降噪，物理结界', cost: 2000, type: 'physical', owned: false, icon: <Headphones size={24} className="text-blue-400"/>, category: '数码' },
-  { id: 'p_dig_4', name: '智能手表', description: '健康监测，时间管理', cost: 2500, type: 'physical', owned: false, icon: <Clock size={24} className="text-green-500"/>, category: '数码' },
   { id: 'p_dig_5', name: '机械键盘', description: '输入体验升级', cost: 800, type: 'physical', owned: false, icon: <Layout size={24} className="text-purple-400"/>, category: '数码' },
+  { id: 'p_dig_6', name: '大疆pocket 3', description: '便携稳定器', cost: 2590, type: 'physical', owned: false, icon: <Camera size={24} className="text-yellow-500"/>, category: '数码' },
+  { id: 'p_dig_8', name: 'AirPods', description: '无线耳机', cost: 189, type: 'physical', owned: false, icon: <Headphones size={24} className="text-blue-400"/>, category: '数码' },
+  { id: 'p_dig_9', name: 'MacBook Pro', description: '高端笔记本电脑', cost: 6499, type: 'physical', owned: false, icon: <Laptop size={24} className="text-zinc-400"/>, category: '数码' },
+  { id: 'p_dig_10', name: 'iPad', description: '平板电脑', cost: 3299, type: 'physical', owned: false, icon: <Tablet size={24} className="text-purple-400"/>, category: '数码' },
+  { id: 'p_dig_11', name: '扫地机器人', description: '智能清扫，解放双手', cost: 7200, type: 'physical', owned: false, icon: <Layout size={24} className="text-blue-400"/>, category: '数码' },
+  { id: 'p_dig_12', name: '戴森吹风机', description: '高端吹风机', cost: 1999, type: 'physical', owned: false, icon: <Wind size={24} className="text-pink-500"/>, category: '数码' },
   
   // 装备
   { id: 'p_gear_1', name: '人体工学椅', description: '脊椎防御系统', cost: 1500, type: 'physical', owned: false, icon: <Armchair size={24} className="text-orange-400"/>, category: '装备' },
@@ -88,24 +106,28 @@ const SHOP_CATALOG = [
   { id: 'p_gear_3', name: '新战靴 (鞋子)', description: '行动力 +10%', cost: 800, type: 'physical', owned: false, icon: <Footprints size={24} className="text-yellow-600"/>, category: '装备' },
   { id: 'p_gear_4', name: '防蓝光眼镜', description: '护眼 Buff', cost: 400, type: 'physical', owned: false, icon: <Glasses size={24} className="text-cyan-400"/>, category: '装备' },
   { id: 'p_gear_5', name: '智能台灯', description: '护眼照明，专注模式', cost: 350, type: 'physical', owned: false, icon: <Sun size={24} className="text-yellow-500"/>, category: '装备' },
-  { id: 'p_gear_6', name: '健身哑铃', description: '力量训练，肌肉增长', cost: 200, type: 'physical', owned: false, icon: <Dumbbell size={24} className="text-red-500"/>, category: '装备' },
   
   // 饮食
   { id: 's_food_1', name: '辣条一包', description: '廉价多巴胺 (慎用)', cost: 1, type: 'leisure', owned: false, icon: <Utensils size={24} className="text-red-500"/>, category: '饮食' },
   { id: 's_food_2', name: '快乐水', description: '瞬间恢复心情', cost: 5, type: 'leisure', owned: false, icon: <Coffee size={24} className="text-amber-700"/>, category: '饮食' },
   { id: 's_food_3', name: '疯狂星期四', description: '高热量补给', cost: 68, type: 'leisure', owned: false, icon: <Gift size={24} className="text-yellow-500"/>, category: '饮食' },
-  { id: 's_food_4', name: '健康沙拉', description: '轻食主义，健康饮食', cost: 28, type: 'leisure', owned: false, icon: <Utensils size={24} className="text-green-500"/>, category: '饮食' },
-  { id: 's_food_5', name: '下午茶套餐', description: '工作间隙，能量补充', cost: 38, type: 'leisure', owned: false, icon: <Coffee size={24} className="text-pink-500"/>, category: '饮食' },
   { id: 's_food_6', name: '买一瓶饮料', description: '解渴又提神', cost: 5, type: 'leisure', owned: false, icon: <Coffee size={24} className="text-blue-500"/>, category: '饮食' },
+  { id: 's_food_7', name: '烤全羊', description: '豪华美食', cost: 800, type: 'leisure', owned: false, icon: <Utensils size={24} className="text-red-500"/>, category: '饮食' },
+  { id: 's_food_8', name: '烧烤', description: '街头美食', cost: 60, type: 'leisure', owned: false, icon: <Utensils size={24} className="text-orange-500"/>, category: '饮食' },
+  { id: 's_food_9', name: '烤鱼', description: '美味烤鱼', cost: 100, type: 'leisure', owned: false, icon: <Fish size={24} className="text-blue-500"/>, category: '饮食' },
+  { id: 's_food_10', name: '烤鸭', description: '传统美食', cost: 30, type: 'leisure', owned: false, icon: <Utensils size={24} className="text-yellow-500"/>, category: '饮食' },
+  { id: 's_food_11', name: '奶茶', description: '休闲饮品', cost: 10, type: 'leisure', owned: false, icon: <Coffee size={24} className="text-pink-500"/>, category: '饮食' },
+  { id: 's_food_12', name: '正新鸡排', description: '快餐美食', cost: 13, type: 'leisure', owned: false, icon: <Utensils size={24} className="text-red-500"/>, category: '饮食' },
+  { id: 's_food_13', name: '香辣大鸡腿', description: '香辣可口', cost: 1.99, type: 'leisure', owned: false, icon: <Utensils size={24} className="text-red-500"/>, category: '饮食' },
   
   // 娱乐
   { id: 's_ent_1', name: '看小说半小时', description: '沉浸式阅读体验', cost: 30, type: 'leisure', owned: false, icon: <BookOpen size={24} className="text-purple-500"/>, category: '娱乐' },
-  { id: 's_ent_2', name: '刷短视频30分钟', description: '短平快的娱乐方式', cost: 30, type: 'leisure', owned: false, icon: <Video size={24} className="text-red-500"/>, category: '娱乐' },
+  { id: 's_ent_2', name: '刷短视频半小时', description: '短平快的娱乐方式', cost: 30, type: 'leisure', owned: false, icon: <Video size={24} className="text-red-500"/>, category: '娱乐' },
   { id: 's_ent_3', name: '看小说一小时', description: '长时间沉浸式阅读', cost: 60, type: 'leisure', owned: false, icon: <BookOpen size={24} className="text-purple-600"/>, category: '娱乐' },
-  { id: 's_ent_4', name: '刷短视频60分钟', description: '长时间刷短视频', cost: 60, type: 'leisure', owned: false, icon: <Video size={24} className="text-red-600"/>, category: '娱乐' },
+  { id: 's_ent_4', name: '刷短视频一小时', description: '长时间刷短视频', cost: 60, type: 'leisure', owned: false, icon: <Video size={24} className="text-red-600"/>, category: '娱乐' },
   
   // 服务
-  { id: 's_hair_1', name: '理发 (形象重置)', description: '魅力值回升', cost: 48, type: 'leisure', owned: false, icon: <Scissors size={24} className="text-pink-400"/>, category: '服务' },
+  { id: 's_hair_1', name: '理发', description: '魅力值回升', cost: 48, type: 'leisure', owned: false, icon: <Scissors size={24} className="text-pink-400"/>, category: '服务' },
   { id: 's_spa_1', name: '按摩放松', description: '缓解疲劳，恢复精力', cost: 198, type: 'leisure', owned: false, icon: <Armchair size={24} className="text-blue-400"/>, category: '服务' },
   { id: 's_books_1', name: '书籍购买', description: '知识获取，思维升级', cost: 98, type: 'leisure', owned: false, icon: <BookOpen size={24} className="text-amber-600"/>, category: '服务' },
   
@@ -116,13 +138,18 @@ const SHOP_CATALOG = [
   
   // 会员
   { id: 'r_vip_1', name: '网易云 VIP (月)', description: '听觉享受', cost: 15, type: 'rights', owned: false, icon: <Music size={24} className="text-red-600"/>, category: '会员' },
-  { id: 'r_vip_2', name: 'Netflix (月)', description: '影视娱乐', cost: 78, type: 'rights', owned: false, icon: <Video size={24} className="text-red-500"/>, category: '会员' },
   { id: 'r_vip_3', name: '健身会员 (月)', description: '健身特权，健康生活', cost: 298, type: 'rights', owned: false, icon: <Dumbbell size={24} className="text-blue-500"/>, category: '会员' },
+  { id: 'r_vip_4', name: '网课论坛会员', description: '学习资源，交流平台', cost: 99, type: 'rights', owned: false, icon: <BookOpen size={24} className="text-purple-500"/>, category: '会员' },
+  { id: 'r_vip_5', name: '小众社群', description: '兴趣交流，人脉拓展', cost: 99, type: 'rights', owned: false, icon: <Users size={24} className="text-green-500"/>, category: '会员' },
   
   // 充值
   { id: 'r_char_1', name: '话费充值卡', description: '通讯保障', cost: 99, type: 'rights', owned: false, icon: <Wifi size={24} className="text-blue-500"/>, category: '充值' },
-  { id: 'r_char_2', name: '游戏点卡', description: '虚拟世界，娱乐放松', cost: 49, type: 'rights', owned: false, icon: <Gamepad2 size={24} className="text-green-500"/>, category: '充值' },
+  { id: 'r_char_1_50', name: '话费充值卡50元', description: '通讯保障', cost: 50, type: 'rights', owned: false, icon: <Wifi size={24} className="text-blue-500"/>, category: '充值' },
   { id: 'r_char_3', name: '云存储空间', description: '数据安全，便捷访问', cost: 118, type: 'rights', owned: false, icon: <Box size={24} className="text-purple-500"/>, category: '充值' },
+  
+  // 新增商品
+  { id: 'r_misc_1', name: '365天日历', description: '时间管理，记录生活', cost: 9.9, type: 'physical', owned: false, icon: <Calendar size={24} className="text-yellow-500"/>, category: '其他' },
+  { id: 'r_misc_2', name: '约人爬山', description: '户外活动，锻炼身体', cost: 9.9, type: 'leisure', owned: false, icon: <Mountain size={24} className="text-green-500"/>, category: '其他' },
   
 
 ];
@@ -139,6 +166,17 @@ const ATTR_COLORS: Record<AttributeType | string, string> = {
     WEA: 'text-yellow-500',
 };
 
+// 盲盒售价档位
+const BLIND_BOX_PRICES = [5, 10, 20, 30, 50, 100, 200, 1000, 2000, 3000, 5000];
+
+// 盲盒规则说明
+const BLIND_BOX_RULES = `
+1. 盲盒售价档位：${BLIND_BOX_PRICES.join(', ')}
+2. 商品匹配规则：仅从商品库中抽取价格在 [盲盒售价×0.5, 盲盒售价×1.5] 区间内的商品
+3. 隐藏款机制：所有档位盲盒统一设置5%概率，触发后可抽取价格=盲盒售价×2的商品
+4. 每个盲盒档位独立匹配，不跨区间抽取
+`;
+
 const LifeGame: React.FC<LifeGameProps> = ({ 
     theme, balance, onUpdateBalance, habits, projects, habitOrder, projectOrder, onToggleHabit, onUpdateHabit, onDeleteHabit, onUpdateProject, onDeleteProject, onAddHabit, onAddProject, initialTab, initialCategory, onAddFloatingReward, totalTasksCompleted, totalHours,
     challengePool, setChallengePool, todaysChallenges, completedRandomTasks, onToggleRandomChallenge, onStartAutoTask, checkInStreak, onPomodoroComplete, xp, weeklyGoal, setWeeklyGoal, todayGoal, setTodayGoal,
@@ -146,7 +184,17 @@ const LifeGame: React.FC<LifeGameProps> = ({
     // Pomodoro Global State
     timeLeft, isActive, duration, onToggleTimer, onResetTimer, onChangeDuration, onUpdateTimeLeft, onUpdateIsActive,
     // Immersive Mode State
-    isImmersive, setIsImmersive
+    isImmersive, setIsImmersive,
+    // Settings
+    settings = {},
+    // 命运骰子相关
+    diceState,
+    onSpinDice,
+    onDiceResult,
+    onAddDiceTask,
+    onDeleteDiceTask,
+    onUpdateDiceTask,
+    onUpdateDiceConfig
 }) => {
   const isDark = theme === 'dark';
   const isNeomorphic = theme === 'neomorphic';
@@ -191,13 +239,15 @@ const LifeGame: React.FC<LifeGameProps> = ({
 
   const [mainTab, setMainTab] = useState<'battle' | 'shop' | 'armory'>(initialTab || 'battle');
   const [taskCategory, setTaskCategory] = useState<'daily' | 'main' | 'random'>(initialCategory || 'daily');
-  const [shopFilter, setShopFilter] = useState<'all' | 'physical' | 'rights' | 'leisure' | 'owned'>('all');
+  const [shopFilter, setShopFilter] = useState<'all' | 'physical' | 'rights' | 'leisure' | 'owned' | 'blindbox'>('all');
+  const [showBlindBoxHelp, setShowBlindBoxHelp] = useState(false);
 
   const [isAddTaskOpen, setIsAddTaskOpen] = useState(false);
   const [newTaskTitle, setNewTaskTitle] = useState('');
   const [newTaskReward, setNewTaskReward] = useState('15');
   const [newTaskXP, setNewTaskXP] = useState('20');
   const [newTaskDuration, setNewTaskDuration] = useState('30');
+  const [newTaskAttr, setNewTaskAttr] = useState<AttributeType>(AttributeType.WEALTH);
   const [newTaskType, setNewTaskType] = useState<'daily' | 'main' | 'random'>('daily');
   const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
   const [editingProjectSubTasks, setEditingProjectSubTasks] = useState<SubTask[]>([]);
@@ -299,6 +349,9 @@ const LifeGame: React.FC<LifeGameProps> = ({
   // 拖拽状态管理
   const [draggedTask, setDraggedTask] = useState<any>(null);
   const [draggedTaskIndex, setDraggedTaskIndex] = useState<number | null>(null);
+  
+  // Help content for different sections with update time
+
 
   // 拖拽开始
   const handleDragStart = (task: any, index: number) => {
@@ -407,6 +460,78 @@ const LifeGame: React.FC<LifeGameProps> = ({
   useEffect(() => {
     localStorage.setItem('life-game-stats-v2', JSON.stringify({ level, xp, inventory, savings }));
   }, [level, xp, inventory, savings]);
+
+  // 盲盒购买处理函数
+  const handleBlindBoxPurchase = (price: number, e: React.MouseEvent) => {
+      e.stopPropagation();
+      if (isManageShopMode) return;
+
+      if (balance < price) {
+          onAddFloatingReward("资金不足", "text-red-500", e.clientX, e.clientY);
+          return;
+      }
+      
+      // 播放购买音效
+      const purchaseSound = new Audio("https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3");
+      purchaseSound.volume = 0.5;
+      purchaseSound.play().catch(()=>{});
+      
+      // 触发烟花效果
+      confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { x: e.clientX / window.innerWidth, y: e.clientY / window.innerHeight }
+      });
+      
+      // 计算价格区间
+      const minPrice = price * 0.5;
+      const maxPrice = price * 1.5;
+      const hiddenPrice = price * 2;
+      
+      // 检查是否触发隐藏款（5%概率）
+      const isHidden = Math.random() < 0.05;
+      
+      // 筛选符合条件的商品
+      const eligibleItems = inventory.filter(item => {
+          if (isHidden) {
+              return item.cost === hiddenPrice;
+          } else {
+              return item.cost >= minPrice && item.cost <= maxPrice;
+          }
+      });
+      
+      if (eligibleItems.length === 0) {
+          onAddFloatingReward("当前档位暂无可用商品", "text-red-500", e.clientX, e.clientY);
+          return;
+      }
+      
+      // 随机选择一个商品
+      const randomIndex = Math.floor(Math.random() * eligibleItems.length);
+      const selectedItem = eligibleItems[randomIndex];
+      
+      // 更新余额
+      onUpdateBalance(-price, `购买盲盒: ${price}金币`);
+      
+      // 更新商品库存
+      setInventory(prev => prev.map(i => {
+          if (i.id === selectedItem.id) {
+              return { 
+                  ...i, 
+                  owned: true, // 所有类型商品购买后都标记为已拥有
+                  purchaseCount: (i.purchaseCount || 0) + 1,
+                  lastPurchased: Date.now() 
+              };
+          }
+          return i;
+      }));
+
+      // 显示购买动画
+      setJustPurchasedItem(selectedItem);
+      setTimeout(() => setJustPurchasedItem(null), 2000);
+      
+      // 显示获得的商品信息
+      onAddFloatingReward(`获得${isHidden ? '隐藏款' : ''}: ${selectedItem.name}`, "text-yellow-500", e.clientX, e.clientY);
+  };
 
   const handlePurchase = (item: any, e: React.MouseEvent) => {
       e.stopPropagation();
@@ -571,6 +696,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
           setNewTaskReward((parsedTask.gold || 20).toString());
           setNewTaskXP((parsedTask.xp || 30).toString());
           setNewTaskDuration((parsedTask.duration || 20).toString());
+          setNewTaskAttr(parsedTask.attr || AttributeType.WEALTH);
           setNewTaskType('random');
           setEditingProjectSubTasks([]);
           setIsAddTaskOpen(true);
@@ -581,6 +707,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
           setNewTaskReward('20');
           setNewTaskXP('30');
           setNewTaskDuration('20');
+          setNewTaskAttr(AttributeType.WEALTH);
           setNewTaskType('random');
           setEditingProjectSubTasks([]);
           setIsAddTaskOpen(true);
@@ -604,7 +731,8 @@ const LifeGame: React.FC<LifeGameProps> = ({
               text: newTaskTitle,
               gold: parseInt(newTaskReward) || 20,
               xp: parseInt(newTaskXP) || 30,
-              duration: parseInt(newTaskDuration) || 20
+              duration: parseInt(newTaskDuration) || 20,
+              attr: newTaskAttr
           };
           
           // 更新挑战池
@@ -624,11 +752,11 @@ const LifeGame: React.FC<LifeGameProps> = ({
   const handleAddNewTask = () => {
       if (!newTaskTitle.trim()) return;
       if (newTaskType === 'daily') {
-          onAddHabit(newTaskTitle, parseInt(newTaskReward) || 15);
+          onAddHabit(newTaskTitle, parseInt(newTaskReward) || 15, newTaskAttr);
       } else if (newTaskType === 'main') {
           onAddProject({
               id: Date.now().toString(), name: newTaskTitle, startDate: new Date().toISOString().split('T')[0],
-              description: '核心战略目标', status: 'active', logs: [], dailyFocus: {}, subTasks: editingProjectSubTasks, fears: [], todayFocusMinutes: 0, attr: AttributeType.WEALTH
+              description: '核心战略目标', status: 'active', logs: [], dailyFocus: {}, subTasks: editingProjectSubTasks, fears: [], todayFocusMinutes: 0, attr: newTaskAttr
           });
       } else if (newTaskType === 'random') {
           // 添加完整的随机任务，包含奖励信息
@@ -643,6 +771,10 @@ const LifeGame: React.FC<LifeGameProps> = ({
       }
       setIsAddTaskOpen(false);
       setNewTaskTitle('');
+      setNewTaskReward('15');
+      setNewTaskXP('20');
+      setNewTaskDuration('30');
+      setNewTaskAttr(AttributeType.WEALTH);
       setEditingProjectSubTasks([]);
   };
 
@@ -662,6 +794,22 @@ const LifeGame: React.FC<LifeGameProps> = ({
   return (
     <div className={`h-full flex flex-col overflow-hidden relative`}>
         
+        {/* Global Guide Card - 使用统一的帮助系统组件 */}
+        <GlobalGuideCard
+          activeHelp={activeHelp}
+          helpContent={helpContent}
+          onClose={() => setActiveHelp(null)}
+          cardBg={cardBg}
+          textMain={textMain}
+          textSub={textSub}
+          config={settings.guideCardConfig || {
+            fontSize: 'medium',
+            borderRadius: 'medium',
+            shadowIntensity: 'medium',
+            showUnderlyingPrinciple: true
+          }}
+        />
+
         {/* PURCHASE ANIMATION - Improved with centered popup */}
         {justPurchasedItem && (
             <>
@@ -817,6 +965,8 @@ const LifeGame: React.FC<LifeGameProps> = ({
                     }
                     setIsImmersive(newIsImmersive);
                 }}
+                // Settings
+                settings={settings}
               />
             )}
             {mainTab === 'battle' && (
@@ -1109,26 +1259,99 @@ const LifeGame: React.FC<LifeGameProps> = ({
                     </div>
 
                     {/* 任务管理系统 */}
-                    <div className={`${cardBg} border p-3 rounded-xl mb-4`}>
+                    <div className={`${cardBg} border p-3 rounded-xl`}>
                         <div className="flex items-center justify-between mb-2">
                             <div className="text-xs text-zinc-500 uppercase font-bold flex items-center gap-1">
                                 <List size={12}/> 任务管理系统
                             </div>
                         </div>
-                        <div className="flex flex-wrap items-center justify-between gap-3">
+                        <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
                             <div className="flex gap-2">
                                 <button onClick={() => setTaskCategory('daily')} className={`px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all ${getButtonStyle(taskCategory === 'daily')}`}>日常任务</button>
                                 <button onClick={() => setTaskCategory('main')} className={`px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all ${getButtonStyle(taskCategory === 'main')}`}>主线任务</button>
-                                <button onClick={() => setTaskCategory('random')} className={`px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all ${getButtonStyle(taskCategory === 'random')}`}>随机任务</button>
+                                <button onClick={() => setTaskCategory('random')} className={`px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all ${getButtonStyle(taskCategory === 'random')}`}>命运骰子</button>
                             </div>
                             <div className="flex gap-2 items-center">
-                                <button onClick={() => setActiveHelp('tasks')} className="text-zinc-500 hover:text-white transition-colors"><HelpCircle size={16}/></button>
-                                <button onClick={() => setIsManageTasksOpen(true)} className={`text-xs px-3 py-1.5 rounded-[24px] border font-bold flex items-center gap-1 transition-all ${getButtonStyle(isManageShopMode, true)}`}><List size={12}/> 管理</button>
+                            <HelpTooltip helpId="tasks" onHelpClick={setActiveHelp} className="text-zinc-500 hover:text-white transition-colors relative group">
+                                <HelpCircle size={16}/>
+                            </HelpTooltip>
+                            <button onClick={() => setIsManageTasksOpen(true)} className={`text-xs px-3 py-1.5 rounded-[24px] border font-bold flex items-center gap-1 transition-all ${getButtonStyle(isManageShopMode, true)}`}><List size={12}/> 管理</button>
+                        </div>
+                        </div>
+                        {/* 任务进度条 */}
+                        <div className="mb-4">
+                            <div className="flex justify-between items-center text-xs mb-1">
+                                <span className="text-zinc-500">任务完成进度</span>
+                                <span className={`font-mono text-blue-500`}>
+                                    {(() => {
+                                        if (taskCategory === 'daily') {
+                                            const completed = habitTasks.filter(task => task.completed).length;
+                                            const total = habitTasks.length;
+                                            return total > 0 ? `${Math.round((completed / total) * 100)}%` : '0%';
+                                        } else if (taskCategory === 'main') {
+                                            // 计算主线任务的整体进度，考虑子任务完成情况
+                                            const totalWeight = projectTasks.length;
+                                            if (totalWeight === 0) return '0%';
+                                            
+                                            const overallProgress = projectTasks.reduce((sum, task) => {
+                                                if (task.completed) {
+                                                    return sum + 1;
+                                                } else {
+                                                    const subTaskProgress = task.subTasks.filter(st => st.completed).length / task.subTasks.length;
+                                                    return sum + subTaskProgress;
+                                                }
+                                            }, 0);
+                                            
+                                            return `${Math.round((overallProgress / totalWeight) * 100)}%`;
+                                        } else {
+                                            const completed = todaysChallenges.tasks.filter(taskStr => {
+                                                return completedRandomTasks[todaysChallenges.date]?.includes(taskStr) || false;
+                                            }).length;
+                                            const total = todaysChallenges.tasks.length;
+                                            return total > 0 ? `${Math.round((completed / total) * 100)}%` : '0%';
+                                        }
+                                    })()}
+                                </span>
+                            </div>
+                            <div className={`w-full h-2.5 rounded-full overflow-hidden shadow-inner ${isDark ? 'bg-zinc-800' : 'bg-slate-200'}`}>
+                                <div 
+                                    className="h-full bg-blue-600 rounded-full transition-all duration-500 ease-out"
+                                    style={{ 
+                                        width: `${(() => {
+                                            if (taskCategory === 'daily') {
+                                                const completed = habitTasks.filter(task => task.completed).length;
+                                                const total = habitTasks.length;
+                                                return total > 0 ? (completed / total) * 100 : 0;
+                                            } else if (taskCategory === 'main') {
+                                                // 计算主线任务的整体进度，考虑子任务完成情况
+                                                const totalWeight = projectTasks.length;
+                                                if (totalWeight === 0) return 0;
+                                                
+                                                const overallProgress = projectTasks.reduce((sum, task) => {
+                                                    if (task.completed) {
+                                                        return sum + 1;
+                                                    } else {
+                                                        const subTaskProgress = task.subTasks.filter(st => st.completed).length / task.subTasks.length;
+                                                        return sum + subTaskProgress;
+                                                    }
+                                                }, 0);
+                                                
+                                                return (overallProgress / totalWeight) * 100;
+                                            } else {
+                                                const completed = todaysChallenges.tasks.filter(taskStr => {
+                                                    return completedRandomTasks[todaysChallenges.date]?.includes(taskStr) || false;
+                                                }).length;
+                                                const total = todaysChallenges.tasks.length;
+                                                return total > 0 ? (completed / total) * 100 : 0;
+                                            }
+                                        })()}%` 
+                                    }}
+                                ></div>
                             </div>
                         </div>
                     </div>
 
-                    <div className="grid gap-4">
+                    <div className="grid gap-4 mb-4">
                         {taskCategory === 'daily' && habitTasks.map((task, index) => (
                             <div 
                                 key={task.id} 
@@ -1147,13 +1370,10 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                     </button>
                                     <div className="flex-1 min-w-0">
                                         <div className="flex items-center gap-1 sm:gap-2 flex-wrap">
-                                            <span className={`text-[10px] font-bold px-1.5 rounded border ${ATTR_COLORS[task.attr].replace('shadow-', '')} bg-opacity-10 whitespace-nowrap`}>
-                                                {task.attr === 'STR' ? '力量' : task.attr === 'INT' ? '智力' : task.attr === 'DIS' ? '自律' : task.attr === 'CRE' ? '创造' : task.attr === 'SOC' ? '社交' : '财富'}
-                                            </span>
                                             <h3 className={`font-bold truncate ${task.completed || task.isGivenUp ? 'line-through text-zinc-500' : textMain}`}>
-                                                {task.text}
-                                                {task.isGivenUp && <span className="ml-1 text-[9px] text-red-500 border border-red-900 bg-red-900/20 px-1 rounded font-bold whitespace-nowrap">已放弃</span>}
-                                            </h3>
+                                                    {task.text}
+                                                    {task.isGivenUp && <span className="ml-1 text-[9px] text-red-500 border border-red-900 bg-red-900/20 px-1 rounded font-bold whitespace-nowrap">已放弃</span>}
+                                                </h3>
                                             <button onClick={() => openEditTask(task)} className="opacity-0 group-hover:opacity-100 text-zinc-500 hover:text-blue-500 transition-opacity ml-1 sm:ml-2"><Edit3 size={12}/></button>
                                         </div>
                                         <div className="flex items-center gap-2 sm:gap-3 text-[11px] font-mono text-zinc-500 mt-1 flex-wrap">
@@ -1191,10 +1411,9 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                         <button className={`w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all shrink-0 ${task.completed ? 'bg-emerald-500 border-emerald-500 text-white' : (isDark ? 'border-zinc-600 cursor-default' : 'border-slate-300 bg-white')}`}>{task.completed && <Check size={16} strokeWidth={4} />}</button>
                                         <div className="flex-1">
                                             <div className="flex items-center gap-1.5 mb-1 flex-wrap">
-                                                <span className={`text-[10px] font-bold px-1.5 rounded border ${ATTR_COLORS[task.attr].replace('shadow-', '')} bg-opacity-10 whitespace-nowrap`}>
-                                                    {task.attr === 'STR' ? '力量' : task.attr === 'INT' ? '智力' : task.attr === 'DIS' ? '自律' : task.attr === 'CRE' ? '创造' : task.attr === 'SOC' ? '社交' : '财富'}
-                                                </span>
-                                                <h3 className={`font-bold ${task.completed ? 'line-through text-zinc-500' : textMain}`}>{task.text}</h3>
+                                                <h3 className={`font-bold ${task.completed ? 'line-through text-zinc-500' : textMain}`}>
+                                                    {task.text}
+                                                </h3>
                                                 <button onClick={() => openEditTask(task)} className="opacity-0 group-hover:opacity-100 text-zinc-500 hover:text-blue-500 transition-opacity ml-1"><Edit3 size={12}/></button>
                                             </div>
                                             {/* 显示主任务的经验、金币和消耗时长 */}
@@ -1203,6 +1422,20 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                                 <span className="text-yellow-500">总金币 +{task.gold}</span>
                                                 <span className="text-blue-500">总时长 {task.subTasks.reduce((sum, st) => sum + st.duration, 0)} 分钟</span>
                                             </div>
+                                            {/* 主线任务进度条 */}
+                                            {!task.completed && (
+                                                <div className="mt-1.5">
+                                                    <div className="flex items-center justify-end text-xs mb-0.5">
+                                                        <span className="font-mono text-blue-500">{Math.round((task.subTasks.filter(st => st.completed).length / task.subTasks.length) * 100)}%</span>
+                                                    </div>
+                                                    <div className={`w-full h-2 rounded-full overflow-hidden ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-800 shadow-[inset_2px_2px_4px_rgba(0,0,0,0.5),inset_-2px_-2px_4px_rgba(255,255,255,0.1)]' : 'bg-slate-200 shadow-[inset_2px_2px_4px_rgba(163,177,198,0.3),inset_-2px_-2px_4px_rgba(255,255,255,0.8)]'}`}>
+                                                        <div 
+                                                            className="h-full bg-blue-600 rounded-full transition-all duration-500 ease-out"
+                                                            style={{ width: `${(task.subTasks.filter(st => st.completed).length / task.subTasks.length) * 100}%` }}
+                                                        ></div>
+                                                    </div>
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
@@ -1235,66 +1468,235 @@ const LifeGame: React.FC<LifeGameProps> = ({
                         ))}
 
                         {taskCategory === 'random' && (
-                            <>
-                                {todaysChallenges.tasks.map((taskStr, idx) => {
-                                    // 解析随机任务，支持完整格式和旧格式
-                                    let taskText = taskStr;
-                                    let taskReward = 20;
-                                    let taskXP = 30;
-                                    let taskDuration = 20;
-                                    
-                                    try {
-                                        const parsedTask = JSON.parse(taskStr);
-                                        taskText = parsedTask.text;
-                                        taskReward = parsedTask.gold || 20;
-                                        taskXP = parsedTask.xp || 30;
-                                        taskDuration = parsedTask.duration || 20;
-                                    } catch (e) {
-                                        // 旧格式，直接使用字符串
-                                        taskText = taskStr;
-                                    }
-                                    
-                                    const isCompleted = completedRandomTasks[todaysChallenges.date]?.includes(taskStr);
-                                    const isGivenUp = givenUpTasks.includes(taskStr);
-                                    const task = { id: `random-${idx}`, text: taskText, gold: taskReward, xp: taskXP, duration: taskDuration, type: TaskType.RANDOM, completed: isCompleted, isGivenUp: isGivenUp };
-                                    return (
-                                        <div 
-                                            key={idx} 
-                                            draggable 
-                                            onDragStart={() => handleDragStart(task, idx)} 
-                                            onDragEnd={handleDragEnd} 
-                                            onDragOver={(e) => handleDragOver(e, idx)} 
-                                            className={`relative group rounded-lg border transition-all overflow-hidden ${isCompleted ? 'opacity-50 grayscale ' + (isDark ? 'bg-zinc-950/50' : 'bg-slate-100') : isGivenUp ? 'opacity-70 ' + (isDark ? 'bg-red-950/10 border-red-900/30' : 'bg-red-50 border-red-200') : ''} ${cardBg} ${!isCompleted && !isGivenUp ? 'hover:border-purple-500/50 hover:shadow-lg' : (isDark ? 'border-zinc-800' : 'border-slate-200')} ${draggedTask && draggedTask.id === `random-${idx}` ? 'opacity-50 scale-95' : ''}`}>
-                                            <div className="p-4 flex items-center gap-4">
-                                                <div className="text-zinc-600 cursor-grab active:cursor-grabbing"><GripVertical size={14}/></div>
-                                                <button onClick={() => !isGivenUp && onToggleRandomChallenge(taskStr)} className={`w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all shrink-0 ${isCompleted ? 'bg-emerald-500 border-emerald-500 text-white' : isGivenUp ? 'border-red-900 text-red-900 cursor-not-allowed' : (isDark ? 'border-zinc-600 hover:border-emerald-500' : 'border-slate-300 hover:border-emerald-500 bg-white')}`} disabled={isGivenUp}>
-                                                    {isCompleted && <Check size={16} strokeWidth={4} />}
-                                                    {isGivenUp && <X size={16} strokeWidth={4} />}
-                                                </button>
-                                                <div className="flex-1">
-                                                    <div className="flex items-center gap-2 mb-2">
-                                                        <span className={`text-[10px] font-bold px-1.5 rounded border border-purple-500/30 text-purple-500 bg-purple-500/10`}>RND</span>
-                                                        <h3 className={`font-bold ${isCompleted || isGivenUp ? 'line-through text-zinc-500' : textMain}`}>
-                                                            {taskText}
-                                                            {isGivenUp && <span className="ml-2 text-[9px] text-red-500 border border-red-900 bg-red-900/20 px-1 rounded font-bold">已放弃</span>}
-                                                        </h3>
-                                                        <button onClick={() => openEditRandomTask(taskStr)} className="opacity-0 group-hover:opacity-100 text-zinc-500 hover:text-blue-500 transition-opacity ml-2"><Edit3 size={12}/></button>
-                                                    </div>
-                                                    <div className="flex items-center gap-4 text-xs font-mono text-zinc-500"><span className="text-purple-400">经验 +{taskXP}</span><span className="text-yellow-500">金币 +{taskReward}</span><span className="text-blue-500">消耗时长 {taskDuration} 分钟</span></div>
+                            <div className="space-y-4">
+                                {/* 命运骰子组件 */}
+                                <div className={`${cardBg} border p-3 rounded-xl text-center`}>
+                                    {/* 骰子区域 - 上移到顶部 */}
+                                    <div className="flex justify-center mb-2">
+                                        <button 
+                                            onClick={() => {
+                                                if (onSpinDice) {
+                                                    const result = onSpinDice();
+                                                    if (!result.success && result.message) {
+                                                        onAddFloatingReward(result.message, 'text-red-500');
+                                                    }
+                                                }
+                                            }}
+                                            disabled={diceState?.isSpinning || (diceState?.todayCount >= (diceState?.config.dailyLimit || 10))}
+                                            className={`relative w-24 h-24 rounded-full flex items-center justify-center transition-all duration-300 transform ${diceState?.isSpinning ? 'animate-[spin_2s_ease-in-out]' : 'hover:scale-110 hover:rotate-12'} ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]' : isDark ? 'bg-gradient-to-br from-zinc-800 to-zinc-900 border-zinc-700' : 'bg-gradient-to-br from-white to-slate-100 border-slate-200'} border-4 ${diceState?.isSpinning ? 'border-yellow-500' : 'border-blue-500'} shadow-lg hover:shadow-xl group`}
+                                        >
+                                            {/* 3D骰子效果容器 */}
+                                            <div className={`relative transition-all duration-500 ${diceState?.isSpinning ? 'animate-[spin_1s_linear_infinite]' : 'animate-[rotate3d_5s_linear_infinite]'}`} style={{ perspective: '500px' }}>
+                                                {/* 骰子立体效果 */}
+                                                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white to-blue-100 opacity-20 blur-lg transform rotate-45"></div>
+                                                <div className={`absolute inset-0 rounded-full bg-gradient-to-br from-blue-200 to-blue-500 opacity-10 blur-md transform -rotate-45`}></div>
+                                                {/* 3D旋转骰子 */}
+                                                <div className={`relative z-10 transition-all duration-1000 ${diceState?.isSpinning ? 'animate-[spin3d_0.5s_linear_infinite]' : 'animate-[rotate3d_8s_ease-in-out_infinite]'}`} style={{ transformStyle: 'preserve-3d' }}>
+                                                    <Dice5 
+                                                        size={44} 
+                                                        className={`relative z-10 transition-all duration-300 ${diceState?.isSpinning ? 'text-yellow-500 drop-shadow-[0_0_15px_rgba(234,179,8,0.8)]' : 'text-blue-500 group-hover:text-blue-600 drop-shadow-[0_0_5px_rgba(59,130,246,0.5)]'}`} 
+                                                    />
+                                                    {/* 骰子投影效果 */}
+                                                    <div className="absolute inset-0 rounded-full bg-blue-500 opacity-5 blur-xl translate-z-[-20px] scale-[1.2]"></div>
                                                 </div>
-                                                {!isCompleted && !isGivenUp && (
-                                                    <button onClick={(e) => giveUpTask(taskStr, e)} className="text-zinc-600 hover:text-red-500 p-2 rounded hover:bg-red-900/10 transition-colors">
-                                                        <X size={20} />
+                                                {/* 骰子高光效果 */}
+                                                <div className="absolute -top-2 -right-2 w-12 h-12 rounded-full bg-white opacity-30 blur-sm"></div>
+                                                <div className="absolute -bottom-2 -left-2 w-12 h-12 rounded-full bg-white opacity-10 blur-sm"></div>
+                                            </div>
+                                        </button>
+                                    </div>
+                                    
+                                    {/* 剩余次数显示 */}
+                                    <div className="mb-1">
+                                        <div className="text-xs text-zinc-500 mb-0.5">今日剩余次数</div>
+                                        <div className={`text-lg font-bold ${isDark ? 'text-blue-400' : 'text-blue-600'}`}>
+                                            {diceState?.todayCount || 0} / {diceState?.config.dailyLimit || 10}
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                {/* 骰子结果弹窗 */}
+                                {diceState?.currentResult && (
+                                    <div className="fixed inset-0 z-[100] bg-black/80 flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in">
+                                        <div className={`w-full max-w-md p-6 rounded-2xl border ${cardBg} shadow-2xl relative transform transition-all duration-500 animate-in zoom-in`}>
+                                            {/* 弹窗装饰 */}
+                                            <div className="absolute top-0 left-0 w-full h-full rounded-2xl bg-gradient-to-br from-blue-500/10 to-yellow-500/10 opacity-50 pointer-events-none"></div>
+                                            <h3 className={`font-bold mb-4 ${textMain} flex items-center justify-center gap-2 text-2xl`}>
+                                                <Sparkles size={24} className="text-yellow-500 animate-pulse" />
+                                                命运礼物
+                                            </h3>
+                                            <div className="space-y-6">
+                                                {/* 骰子结果 */}
+                                                <div className="text-center">
+                                                    {/* 3D骰子展示 */}
+                                                    <div className="relative inline-block">
+                                                        <div className={`${diceState.isSpinning ? 'animate-[spin_1s_linear_infinite]' : ''}`}>
+                                                            <Dice5 size={96} className="text-yellow-500 drop-shadow-[0_0_20px_rgba(234,179,8,0.8)]" />
+                                                        </div>
+                                                        {/* 骰子光效 */}
+                                                        <div className="absolute inset-0 rounded-full bg-yellow-500/30 blur-xl animate-pulse"></div>
+                                                    </div>
+                                                    <h4 className={`text-xl font-bold ${textMain} mb-2 mt-4 bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent`}>
+                                                        {(() => {
+                                                            switch (diceState.currentResult.category) {
+                                                                case DiceCategory.HEALTH:
+                                                                    return '健康微行动';
+                                                                case DiceCategory.EFFICIENCY:
+                                                                    return '效率任务';
+                                                                case DiceCategory.LEISURE:
+                                                                    return '休闲小奖励';
+                                                                default:
+                                                                    return '未知任务';
+                                                            }
+                                                        })()}
+                                                    </h4>
+                                                    <p className={`text-lg ${textMain} p-4 rounded-lg ${isDark ? 'bg-zinc-800/80' : 'bg-white/80'} backdrop-blur-sm`}>{diceState.currentResult.text}</p>
+                                                </div>
+                                                
+                                                {/* 奖励信息 */}
+                                                <div className="grid grid-cols-3 gap-4 text-center">
+                                                    <div className={`p-4 rounded-lg ${isDark ? 'bg-zinc-800/80 hover:bg-zinc-800' : 'bg-white/80 hover:bg-white'} backdrop-blur-sm transition-all hover:shadow-lg border border-zinc-700/50`}>
+                                                        <div className="text-xs text-zinc-500 mb-1">金币</div>
+                                                        <div className="text-lg font-bold text-yellow-500 flex items-center justify-center gap-1">
+                                                            <Coins size={18} />
+                                                            +{(diceState.currentResult as any)._generatedGold || 0}
+                                                        </div>
+                                                    </div>
+                                                    <div className={`p-4 rounded-lg ${isDark ? 'bg-zinc-800/80 hover:bg-zinc-800' : 'bg-white/80 hover:bg-white'} backdrop-blur-sm transition-all hover:shadow-lg border border-zinc-700/50`}>
+                                                        <div className="text-xs text-zinc-500 mb-1">经验</div>
+                                                        <div className="text-lg font-bold text-purple-500 flex items-center justify-center gap-1">
+                                                            <Star size={18} />
+                                                            +{(diceState.currentResult as any)._generatedXp || 0}
+                                                        </div>
+                                                    </div>
+                                                    {diceState.currentResult.duration && (
+                                                        <div className={`p-4 rounded-lg ${isDark ? 'bg-zinc-800/80 hover:bg-zinc-800' : 'bg-white/80 hover:bg-white'} backdrop-blur-sm transition-all hover:shadow-lg border border-zinc-700/50`}>
+                                                            <div className="text-xs text-zinc-500 mb-1">时长</div>
+                                                            <div className="text-lg font-bold text-blue-500 flex items-center justify-center gap-1">
+                                                                <Clock size={18} />
+                                                                {diceState.currentResult.duration} 分钟
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                                
+                                                {/* 操作按钮 */}
+                                                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                                                    <button 
+                                                        onClick={() => {
+                                                            // 启动番茄钟
+                                                            if (diceState?.currentResult.duration) {
+                                                                onChangeDuration(diceState.currentResult.duration);
+                                                                onToggleTimer();
+                                                            }
+                                                            onDiceResult && onDiceResult('later');
+                                                        }}
+                                                        className={`py-3 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold transition-all hover:scale-105 hover:shadow-xl`}
+                                                    >
+                                                        开始
                                                     </button>
-                                                )}
-                                                <button onClick={() => handleStartTimer(taskDuration)} disabled={isCompleted || isGivenUp} className={`p-3 rounded-full text-white transition-colors group-hover:scale-110 shadow-lg ${isDark ? 'bg-zinc-800 hover:bg-purple-600' : 'bg-purple-500 hover:bg-purple-600'} disabled:opacity-50`}>
-                                                    <Play size={16} fill="currentColor"/>
-                                                </button>
+                                                    <button 
+                                                        onClick={() => onDiceResult && onDiceResult('completed')}
+                                                        className={`py-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold transition-all hover:scale-105 hover:shadow-xl`}
+                                                    >
+                                                        已完成
+                                                    </button>
+                                                    <button 
+                                                        onClick={() => onDiceResult && onDiceResult('later')}
+                                                        className={`py-3 rounded-lg ${isDark ? 'bg-zinc-800 hover:bg-zinc-700' : 'bg-white hover:bg-slate-100'} ${isDark ? 'text-white' : 'text-zinc-700'} font-bold transition-all hover:scale-105 hover:shadow-xl`}
+                                                    >
+                                                        稍后做
+                                                    </button>
+                                                    <button 
+                                                        onClick={() => onDiceResult && onDiceResult('skipped')}
+                                                        className={`py-3 rounded-lg bg-red-600 hover:bg-red-500 text-white font-bold transition-all hover:scale-105 hover:shadow-xl`}
+                                                    >
+                                                        跳过
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
-                                    );
-                                })}
-                            </>
+                                    </div>
+                                )}
+                                
+                                {/* 任务列表 */}
+                                <div className="space-y-4">
+                                    {/* 未完成任务 */}
+                                    {diceState?.pendingTasks?.length > 0 && (
+                                        <div className={`${cardBg} border p-4 rounded-xl`}>
+                                            <h4 className={`text-lg font-bold mb-3 ${textMain}`}>待完成任务</h4>
+                                            <div className="space-y-2">
+                                                {diceState.pendingTasks.map(taskRecord => (
+                                                    <div 
+                                                        key={taskRecord.id} 
+                                                        className={`p-3 rounded-lg ${isDark ? 'bg-zinc-800' : 'bg-slate-100'} transition-all hover:shadow-md`}
+                                                    >
+                                                        <div className="flex items-start justify-between gap-2">
+                                                            <div className="flex-1">
+                                                                <p className={`font-medium ${textMain}`}>{taskRecord.task.text}</p>
+                                                                <div className="flex items-center gap-2 text-xs text-zinc-500 mt-1">
+                                                                    <span className="text-yellow-500">+{taskRecord.generatedGold} 金币</span>
+                                                                    <span className="text-purple-500">+{taskRecord.generatedXp} 经验</span>
+                                                                    {taskRecord.task.duration && (
+                                                                        <span className="text-blue-500">{taskRecord.task.duration} 分钟</span>
+                                                                    )}
+                                                                </div>
+                                                            </div>
+                                                            <button 
+                                                                    onClick={() => {
+                                                                        // 临时将当前任务设置为currentResult，以便完成它
+                                                                        setDiceState(prev => ({
+                                                                            ...prev,
+                                                                            currentResult: taskRecord.task as any
+                                                                        }));
+                                                                        // 延迟调用onDiceResult，确保状态更新完成
+                                                                        setTimeout(() => {
+                                                                            onDiceResult && onDiceResult('completed');
+                                                                        }, 0);
+                                                                    }}
+                                                                    className={`px-3 py-1.5 rounded-full text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white transition-colors`}
+                                                                >
+                                                                    标记完成
+                                                                </button>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+                                    
+                                    {/* 已完成任务 */}
+                                    {diceState?.completedTasks?.length > 0 && (
+                                        <div className={`${cardBg} border p-4 rounded-xl`}>
+                                            <h4 className={`text-lg font-bold mb-3 ${textMain}`}>已完成任务</h4>
+                                            <div className="space-y-2">
+                                                {diceState.completedTasks.map(taskRecord => (
+                                                    <div 
+                                                        key={taskRecord.id} 
+                                                        className={`p-3 rounded-lg ${isDark ? 'bg-zinc-800/50' : 'bg-slate-100/50'} transition-all opacity-75`}
+                                                    >
+                                                        <div className="flex items-start justify-between gap-2">
+                                                            <div className="flex-1">
+                                                                <p className={`font-medium ${textMain} line-through`}>{taskRecord.task.text}</p>
+                                                                <div className="flex items-center gap-2 text-xs text-zinc-500 mt-1">
+                                                                    <span className="text-yellow-500">+{taskRecord.generatedGold} 金币</span>
+                                                                    <span className="text-purple-500">+{taskRecord.generatedXp} 经验</span>
+                                                                    {taskRecord.task.duration && (
+                                                                        <span className="text-blue-500">{taskRecord.task.duration} 分钟</span>
+                                                                    )}
+                                                                </div>
+                                                            </div>
+                                                            <div className="flex items-center gap-2">
+                                                                <CheckCircle size={16} className="text-emerald-500" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
                         )}
                     </div>
                 </div>
@@ -1312,9 +1714,24 @@ const LifeGame: React.FC<LifeGameProps> = ({
                          </div>
                          <div className="flex flex-wrap justify-between items-center gap-4">
                              <div className="flex gap-2">
-                                {[{ id: 'all', label: '全部' }, { id: 'physical', label: '实物' }, { id: 'rights', label: '权益' }, { id: 'leisure', label: '休闲' }, { id: 'owned', label: '已购买' }].map(f => (
-                                    <button onClick={() => setShopFilter(f.id as any)} className={`px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all ${getButtonStyle(shopFilter === f.id)}`}>{f.label}</button>
+                                {[{ id: 'all', label: '全部' }, { id: 'physical', label: '实物' }, { id: 'rights', label: '权益' }, { id: 'leisure', label: '休闲' }, { id: 'owned', label: '已购买' }, { id: 'blindbox', label: '盲盒' }].map(f => (
+                                    <button key={f.id} onClick={() => setShopFilter(f.id as any)} className={`px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all ${getButtonStyle(shopFilter === f.id)}`}>{f.label}</button>
                                 ))}
+                                {shopFilter === 'blindbox' && (
+                                    <div className="relative group">
+                                        <button onClick={() => setShowBlindBoxHelp(!showBlindBoxHelp)} className="text-zinc-500 hover:text-white transition-colors p-1.5"><HelpCircle size={16}/></button>
+                                        {showBlindBoxHelp && (
+                                            <div className={`absolute top-full right-0 mt-2 p-3 rounded-lg shadow-lg z-50 max-w-xs text-xs font-bold ${isDark ? 'bg-zinc-900 border-zinc-700 text-zinc-200' : 'bg-white border-slate-200 text-slate-800'} border animate-in fade-in slide-in-from-top-4`}>
+                                                <div className="space-y-1">
+                                                    <div className="text-yellow-500 font-bold">盲盒规则</div>
+                                                    {BLIND_BOX_RULES.split('\n').filter(line => line.trim()).map((line, index) => (
+                                                        <div key={index} className="text-xs">{line}</div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
                              </div>
                              <div className="flex gap-2 items-center">
                                  <button onClick={() => setActiveHelp('shop')} className="text-zinc-500 hover:text-white transition-colors"><HelpCircle size={16}/></button>
@@ -1374,39 +1791,69 @@ const LifeGame: React.FC<LifeGameProps> = ({
                          </div>
                      </div>
                      {isManageShopMode && (<div className="mb-4"><button onClick={handleAddNewItem} className={`w-full py-3 border ${isNeomorphic ? 'border-dashed ' + neomorphicStyles.bg + ' ' + neomorphicStyles.border + ' ' + neomorphicStyles.shadow + ' ' + neomorphicStyles.hoverShadow + ' ' + neomorphicStyles.activeShadow : 'border-dashed border-zinc-700'} rounded-[24px] text-zinc-500 hover:text-white hover:border-zinc-500 transition-all flex items-center justify-center gap-2 text-sm font-bold`}><Plus size={16}/> 上架新商品</button></div>)}
-                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                         {sortedInventory.map((item, index) => (
-                             <div key={item.id} draggable={isManageShopMode} onDragStart={() => handleShopDragStart(index)} onDragOver={(e) => handleShopDragOver(e, index)} className={`group relative p-4 rounded-lg border flex flex-col items-center text-center gap-1.5 hover:border-yellow-500/50 hover:shadow-lg transition-all ${cardBg.replace('border-[#a3b1c6]', 'border-[#e0e5ec]')} ${item.type === 'physical' && item.owned ? 'opacity-50' : ''} ${isManageShopMode ? 'border-red-500/30 cursor-move' : 'cursor-default'}`} style={{ minHeight: '160px' }}>
-                                 {isManageShopMode && (<><div className="absolute top-2 right-2 flex gap-2 z-10"><button onClick={(e) => { e.stopPropagation(); setEditingItem(item); setIsEditItemOpen(true); }} className="p-1.5 bg-blue-500 rounded text-white transition-colors hover:bg-blue-600"><Edit3 size={12}/></button><button onClick={(e) => handleDeleteItem(e, item.id)} className="p-1.5 bg-red-500 rounded text-white transition-colors hover:bg-red-600"><Trash2 size={12}/></button></div><div className="absolute left-2 top-2 text-zinc-600 opacity-50"><GripVertical size={16}/></div></>)}
-                                 {/* 圆形图标，带有精致的边缘光效 */}
-                                 <div className="relative w-full flex items-center justify-center mb-0">
-                                     <div className={`relative w-14 h-14 rounded-full flex items-center justify-center border ${isDark ? 'bg-gradient-to-br from-zinc-800 to-zinc-900 border-zinc-700' : 'bg-gradient-to-br from-zinc-100 to-zinc-200 border-zinc-300'} group-hover:scale-110 transition-all duration-300`}>
-                                        {/* 边缘光效 */}
-                                        <div className="absolute inset-0 rounded-full bg-gradient-to-r from-yellow-500/30 via-purple-500/30 to-blue-500/30 animate-[spin_3s_linear_infinite] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                                        {/* 扫光效果 */}
-                                        <div className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 animate-[shine_2s_ease-in-out_infinite] transform -rotate-45 transition-opacity duration-500"></div>
-                                        {/* 中心图标 */}
-                                        <div className="relative z-10 text-7xl group-hover:animate-pulse">{item.icon}</div>
-                                    </div>
+                     {shopFilter === 'blindbox' ? (
+                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                             {BLIND_BOX_PRICES.map((price, index) => (
+                                 <div key={price} className={`group relative p-4 rounded-lg border flex flex-col items-center text-center gap-1.5 hover:border-yellow-500/50 hover:shadow-lg transition-all ${cardBg.replace('border-[#a3b1c6]', 'border-[#e0e5ec]')} cursor-pointer`} style={{ minHeight: '160px' }}>
+                                     {/* 圆形图标，带有精致的边缘光效 */}
+                                     <div className="relative w-full flex items-center justify-center mb-0">
+                                         <div className={`relative w-14 h-14 rounded-full flex items-center justify-center border ${isDark ? 'bg-gradient-to-br from-zinc-800 to-zinc-900 border-zinc-700' : 'bg-gradient-to-br from-zinc-100 to-zinc-200 border-zinc-300'} group-hover:scale-110 transition-all duration-300`}>
+                                            {/* 边缘光效 */}
+                                            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-yellow-500/30 via-purple-500/30 to-blue-500/30 animate-[spin_3s_linear_infinite] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                                            {/* 扫光效果 */}
+                                            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 animate-[shine_2s_ease-in-out_infinite] transform -rotate-45 transition-opacity duration-500"></div>
+                                            {/* 中心图标 */}
+                                            <div className="relative z-10 text-7xl group-hover:animate-pulse"><Dice5 size={24} className="text-purple-500"/></div>
+                                        </div>
+                                     </div>
+                                     {/* 价格移到商品名称上面 */}
+                                     <span className={`px-3 py-1 text-xs font-bold rounded-full mt-1 ${isDark ? 'bg-yellow-600/30 text-yellow-400 border border-yellow-600/50' : 'bg-yellow-100 text-yellow-800'}`}>¥{price}</span>
+                                     {/* 商品名称允许换行显示 */}
+                                     <h4 className={`font-bold text-sm ${textMain} mt-0 text-center w-full break-words`}>盲盒</h4>
+                                     {/* 盲盒描述 */}
+                                     <p className="text-xs text-zinc-500 mt-0 line-clamp-2 w-full max-w-[120px]">随机获得价值{price * 0.5}-{price * 1.5}的商品，5%概率获得隐藏款</p>
+                                     {/* 购买按钮完全融入商品块 */}
+                                     <button onClick={(e) => handleBlindBoxPurchase(price, e)} className={`w-full py-1 text-[12px] font-bold rounded-md mt-1 transition-all duration-300 ${isNeomorphic ? neomorphicStyles.bg + ' text-blue-600 hover:text-blue-700' : 'bg-gradient-to-r from-yellow-600/80 to-amber-600/80 hover:from-yellow-500/90 hover:to-amber-500/90 text-white'}`}>
+                                        购买
+                                    </button>
                                  </div>
-                                 {/* 价格移到商品名称上面 */}
-                                 <span className={`px-3 py-1 text-xs font-bold rounded-full mt-1 ${isDark ? 'bg-yellow-600/30 text-yellow-400 border border-yellow-600/50' : 'bg-yellow-100 text-yellow-800'}`}>¥{item.cost}</span>
-                                 {/* 商品名称允许换行显示 */}
-                                 <h4 className={`font-bold text-sm ${textMain} mt-0 text-center w-full break-words`}>{item.name}</h4>
-                                 {/* 显示购买次数 */}
-                                 {item.purchaseCount > 0 && (
-                                     <span className="text-[10px] text-zinc-500 font-bold">
-                                         已购买 x{item.purchaseCount}
-                                     </span>
-                                 )}
-                                 <p className="text-xs text-zinc-500 mt-0 line-clamp-2 w-full max-w-[120px]">{item.description}</p>
-                                 {/* 购买按钮完全融入商品块 */}
-                                 <button onClick={(e) => handlePurchase(item, e)} className={`w-full py-1 text-[12px] font-bold rounded-md mt-1 transition-all duration-300 ${item.type === 'physical' && item.owned ? 'bg-zinc-800/30 text-zinc-500 hover:bg-zinc-700/50' : (isNeomorphic ? neomorphicStyles.bg + ' text-blue-600 hover:text-blue-700' : 'bg-gradient-to-r from-yellow-600/80 to-amber-600/80 hover:from-yellow-500/90 hover:to-amber-500/90 text-white')}`}>
-                                    {item.type === 'physical' && item.owned ? '已拥有' : '购买'}
-                                </button>
-                             </div>
-                         ))}
-                     </div>
+                             ))}
+                         </div>
+                     ) : (
+                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                             {sortedInventory.map((item, index) => (
+                                 <div key={item.id} draggable={isManageShopMode} onDragStart={() => handleShopDragStart(index)} onDragOver={(e) => handleShopDragOver(e, index)} className={`group relative p-4 rounded-lg border flex flex-col items-center text-center gap-1.5 hover:border-yellow-500/50 hover:shadow-lg transition-all ${cardBg.replace('border-[#a3b1c6]', 'border-[#e0e5ec]')} ${item.type === 'physical' && item.owned ? 'opacity-50' : ''} ${isManageShopMode ? 'border-red-500/30 cursor-move' : 'cursor-default'}`} style={{ minHeight: '160px' }}>
+                                     {isManageShopMode && (<><div className="absolute top-2 right-2 flex gap-2 z-10"><button onClick={(e) => { e.stopPropagation(); setEditingItem(item); setIsEditItemOpen(true); }} className="p-1.5 bg-blue-500 rounded text-white transition-colors hover:bg-blue-600"><Edit3 size={12}/></button><button onClick={(e) => handleDeleteItem(e, item.id)} className="p-1.5 bg-red-500 rounded text-white transition-colors hover:bg-red-600"><Trash2 size={12}/></button></div><div className="absolute left-2 top-2 text-zinc-600 opacity-50"><GripVertical size={16}/></div></>)}
+                                     {/* 圆形图标，带有精致的边缘光效 */}
+                                     <div className="relative w-full flex items-center justify-center mb-0">
+                                         <div className={`relative w-14 h-14 rounded-full flex items-center justify-center border ${isDark ? 'bg-gradient-to-br from-zinc-800 to-zinc-900 border-zinc-700' : 'bg-gradient-to-br from-zinc-100 to-zinc-200 border-zinc-300'} group-hover:scale-110 transition-all duration-300`}>
+                                            {/* 边缘光效 */}
+                                            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-yellow-500/30 via-purple-500/30 to-blue-500/30 animate-[spin_3s_linear_infinite] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                                            {/* 扫光效果 */}
+                                            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 animate-[shine_2s_ease-in-out_infinite] transform -rotate-45 transition-opacity duration-500"></div>
+                                            {/* 中心图标 */}
+                                            <div className="relative z-10 text-7xl group-hover:animate-pulse">{item.icon}</div>
+                                        </div>
+                                     </div>
+                                     {/* 价格移到商品名称上面 */}
+                                     <span className={`px-3 py-1 text-xs font-bold rounded-full mt-1 ${isDark ? 'bg-yellow-600/30 text-yellow-400 border border-yellow-600/50' : 'bg-yellow-100 text-yellow-800'}`}>¥{item.cost}</span>
+                                     {/* 商品名称允许换行显示 */}
+                                     <h4 className={`font-bold text-sm ${textMain} mt-0 text-center w-full break-words`}>{item.name}</h4>
+                                     {/* 显示购买次数 */}
+                                     {item.purchaseCount > 0 && (
+                                         <span className="text-[10px] text-zinc-500 font-bold">
+                                             已购买 x{item.purchaseCount}
+                                         </span>
+                                     )}
+                                     <p className="text-xs text-zinc-500 mt-0 line-clamp-2 w-full max-w-[120px]">{item.description}</p>
+                                     {/* 购买按钮完全融入商品块 */}
+                                     <button onClick={(e) => handlePurchase(item, e)} className={`w-full py-1 text-[12px] font-bold rounded-md mt-1 transition-all duration-300 ${item.type === 'physical' && item.owned ? 'bg-zinc-800/30 text-zinc-500 hover:bg-zinc-700/50' : (isNeomorphic ? neomorphicStyles.bg + ' text-blue-600 hover:text-blue-700' : 'bg-gradient-to-r from-yellow-600/80 to-amber-600/80 hover:from-yellow-500/90 hover:to-amber-500/90 text-white')}`}>
+                                        {item.type === 'physical' && item.owned ? '已拥有' : '购买'}
+                                    </button>
+                                 </div>
+                             ))}
+                         </div>
+                     )}
                 </div>
             )}
             {mainTab === 'armory' && (
@@ -1427,10 +1874,197 @@ const LifeGame: React.FC<LifeGameProps> = ({
         {/* Modals */}
         {activeHelp && (
             <div className="fixed inset-0 z-[100] bg-black/80 flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in">
-                <div className={`w-full max-w-md p-6 rounded-2xl border ${cardBg} shadow-2xl relative`}>
-                    <button onClick={() => setActiveHelp(null)} className="absolute top-4 right-4 text-zinc-500 hover:text-white"><X size={20}/></button>
-                    {activeHelp === 'tasks' && (<div className="space-y-4"><h3 className={`text-xl font-black ${textMain} flex items-center gap-2`}><List className="text-blue-500"/> 任务系统指南</h3><div className="text-sm text-zinc-400 space-y-3"><p><strong className="text-emerald-500">左侧勾选 (√):</strong> 完成任务，立即获得金币与经验奖励，并记录连胜。</p><p><strong className="text-red-500">右侧放弃 (X):</strong> 战略性放弃今日任务。无惩罚，无奖励，任务将显示<span className="text-red-500">ABANDONED</span>并沉底，代表今日不再攻坚。</p><p><strong>日常副本:</strong> 每日重置，适合培养微习惯。</p><p><strong>随机挑战:</strong> 一次性任务，完成后移除。</p></div></div>)}
-                    {activeHelp === 'shop' && (<div className="space-y-4"><h3 className={`text-xl font-black ${textMain} flex items-center gap-2`}><ShoppingBag className="text-yellow-500"/> 黑市交易法则</h3><div className="text-sm text-zinc-400 space-y-3"><p><strong>实物类:</strong> 如数码产品，购买后永久拥有，存入军械库。</p><p><strong>权益/休闲:</strong> 如会员或娱乐时间，购买即消耗，代表你获得了一次享受的权利。</p><p><strong>金币来源:</strong> 仅通过完成任务获得。不劳动者不得食。</p></div></div>)}
+                <div className={`w-full max-w-md rounded-2xl border ${cardBg} shadow-2xl relative overflow-hidden flex flex-col max-h-[80vh]`}>
+                    <button onClick={() => setActiveHelp(null)} className="absolute top-4 right-4 text-zinc-500 hover:text-white transition-colors z-10"><X size={20}/></button>
+                    <div className="p-6 overflow-y-auto">
+                        {activeHelp === 'tasks' && (
+                            <div className="space-y-4">
+                                <div className="flex justify-between items-center">
+                                    <h3 className={`text-xl font-black ${textMain} flex items-center gap-2`}>
+                                        <List className="text-blue-500"/>
+                                        任务系统指南
+                                    </h3>
+                                    <div className={`text-xs ${textSub}`}>更新时间: 2025-12-25</div>
+                                </div>
+                                <div className="text-sm text-zinc-400 space-y-3">
+                                    <p><strong className="text-emerald-500">左侧勾选 (√):</strong> 完成任务，立即获得金币与经验奖励，并记录连胜。</p>
+                                    <p><strong className="text-red-500">右侧放弃 (X):</strong> 战略性放弃今日任务。无惩罚，无奖励，任务将显示<span className="text-red-500">已放弃</span>并沉底，代表今日不再攻坚。</p>
+                                    <p><strong>日常任务:</strong> 每日重置，适合培养微习惯。</p>
+                                    <p><strong>主线任务:</strong> 长期目标，适合项目推进。</p>
+                                    
+                                    <p className="text-lg font-bold text-purple-500">命运骰子系统</p>
+                                    <p><strong className="text-purple-500">系统简介:</strong> 命运骰子是一个趣味互动模块，通过游戏化方式增加系统趣味性，提供随机惊喜，打破日常任务的单调性，平衡任务压力，促进用户主动参与。</p>
+                                    
+                                    <p><strong className="text-purple-500">娱乐性:</strong></p>
+                                    <ul className="list-disc list-inside space-y-1 ml-4">
+                                        <li>流畅的骰子旋转动画，增强视觉体验</li>
+                                        <li>随机生成的任务和奖励，带来惊喜感</li>
+                                        <li>每日进度条设计，提供成就感和目标感</li>
+                                        <li>多样化的任务类型，保持新鲜感</li>
+                                    </ul>
+                                    
+                                    <p><strong className="text-purple-500">优势与好处:</strong></p>
+                                    <ul className="list-disc list-inside space-y-1 ml-4">
+                                        <li>打破日常任务的单调性，提供随机惊喜</li>
+                                        <li>平衡任务压力，穿插休闲小奖励</li>
+                                        <li>促进用户主动参与，"有事没事点一下"</li>
+                                        <li>覆盖多种任务类型，满足不同场景需求</li>
+                                        <li>降低决策成本，减少用户选择困难</li>
+                                        <li>培养微习惯，通过简单任务建立良好习惯</li>
+                                        <li>增加系统使用频率，提高用户活跃度</li>
+                                        <li>通过随机任务激发用户尝试新事物</li>
+                                    </ul>
+                                    
+                                    <p><strong className="text-purple-500">骰子设计与概率:</strong></p>
+                                    <ul className="list-disc list-inside space-y-1 ml-4">
+                                        <li>12面骰子设计，科学的概率分布</li>
+                                        <li>健康微行动类：4面 (33.3% 概率) - 专注5-60分钟、深蹲、俯卧撑等</li>
+                                        <li>效率任务类：5面 (41.7% 概率) - 寻找爆款作品、整理工作流、发布内容等</li>
+                                        <li>休闲小奖励类：3面 (25% 概率) - 喝水、吃水果、听音乐等</li>
+                                    </ul>
+                                    
+                                    <p><strong className="text-purple-500">交互规则:</strong></p>
+                                    <ul className="list-disc list-inside space-y-1 ml-4">
+                                        <li>点击骰子图标触发旋转动画（1-2秒时长）</li>
+                                        <li>动画结束后显示随机任务结果</li>
+                                        <li>点击「已完成」：发放对应积分，记录任务完成状态</li>
+                                        <li>点击「稍后做」：将任务加入待办列表，不发积分</li>
+                                        <li>点击「跳过」：不发积分，直接关闭弹窗，消耗当日次数</li>
+                                    </ul>
+                                    
+                                    <p><strong className="text-purple-500">任务管理:</strong></p>
+                                    <ul className="list-disc list-inside space-y-1 ml-4">
+                                        <li>未完成任务：置顶显示，方便查看和完成</li>
+                                        <li>已完成任务：置底显示，记录用户成就，带有勾选标记</li>
+                                        <li>每日自动清空：零点自动重置任务列表</li>
+                                        <li>进度条机制：每日10次点击机会，完成一个任务推进10%进度条</li>
+                                        <li>任务填充：新任务自动添加到待办列表，完成的任务移至已完成列表</li>
+                                    </ul>
+                                    
+                                    <p><strong className="text-purple-500">奖励机制:</strong></p>
+                                    <ul className="list-disc list-inside space-y-1 ml-4">
+                                        <li>休闲类任务：2-5金币</li>
+                                        <li>健康类任务：3-6金币</li>
+                                        <li>效率类任务：5-10金币</li>
+                                        <li>分值可配置，支持自定义调整</li>
+                                    </ul>
+                                    
+                                    <p><strong className="text-purple-500">记忆功能:</strong></p>
+                                    <ul className="list-disc list-inside space-y-1 ml-4">
+                                        <li>记录用户历史抽取的任务</li>
+                                        <li>智能避免短时间内重复抽到相同内容</li>
+                                        <li>确保任务多样性，提高用户体验</li>
+                                        <li>历史记录定期清理，保持系统性能</li>
+                                    </ul>
+                                    
+                                    <p><strong className="text-purple-500">逻辑设计:</strong></p>
+                                    <ul className="list-disc list-inside space-y-1 ml-4">
+                                        <li>基于概率分布的任务生成算法</li>
+                                        <li>智能避免重复任务，记录用户历史抽取的任务</li>
+                                        <li>任务池管理，支持动态添加和调整任务</li>
+                                        <li>每日自动重置机制，确保每天都有新的任务</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        )}
+                        {activeHelp === 'dice' && (
+                            <div className="space-y-4">
+                                <div className="flex justify-between items-center">
+                                    <h3 className={`text-xl font-black ${textMain} flex items-center gap-2`}>
+                                        <Dice5 className="text-purple-500"/>
+                                        命运骰子指南
+                                    </h3>
+                                    <div className={`text-xs ${textSub}`}>更新时间: 2025-12-26</div>
+                                </div>
+                                <div className="text-sm text-zinc-400 space-y-3">
+                                    <p><strong className="text-purple-500">原理:</strong> 以RPG游戏随机事件为核心，通过轻量化随机任务/奖励降低行动启动门槛，强化人生游戏化沉浸感。</p>
+                                    
+                                    <p><strong className="text-purple-500">好处:</strong></p>
+                                    <ul className="list-disc list-inside space-y-1 ml-4">
+                                        <li>打破规划焦虑，降低行动启动门槛</li>
+                                        <li>提升执行趣味性，让任务不再枯燥</li>
+                                        <li>平衡任务压力与休闲反馈，避免疲劳</li>
+                                        <li>培养微习惯，通过简单任务建立良好行为模式</li>
+                                        <li>增加系统使用频率，提高用户活跃度</li>
+                                    </ul>
+                                    
+                                    <p><strong className="text-purple-500">规则:</strong></p>
+                                    <ul className="list-disc list-inside space-y-1 ml-4">
+                                        <li>每日可点击10次，点击消耗次数</li>
+                                        <li>完成任务可获对应积分：休闲类2-5分、健康类3-6分、效率类5-10分</li>
+                                        <li>支持"已完成/稍后做/跳过"操作</li>
+                                        <li>智能避免重复抽取历史任务</li>
+                                        <li>任务类型分为三大类：健康微行动、效率任务、休闲小奖励</li>
+                                    </ul>
+                                    
+                                    <p><strong className="text-purple-500">娱乐性:</strong></p>
+                                    <ul className="list-disc list-inside space-y-1 ml-4">
+                                        <li>3D立体骰子旋转动画，增强视觉体验</li>
+                                        <li>随机生成的任务和奖励，带来惊喜感</li>
+                                        <li>每日进度条设计，提供成就感和目标感</li>
+                                        <li>多样化的任务类型，保持新鲜感</li>
+                                    </ul>
+                                    
+                                    <p><strong className="text-purple-500">骰子设计与概率:</strong></p>
+                                    <ul className="list-disc list-inside space-y-1 ml-4">
+                                        <li>12面骰子设计，科学的概率分布</li>
+                                        <li>健康微行动类：4面（33.3% 概率）</li>
+                                        <li>效率任务类：5面（41.7% 概率，侧重项目推进）</li>
+                                        <li>休闲小奖励类：3面（25% 概率，平衡任务压力）</li>
+                                    </ul>
+                                    
+                                    <p><strong className="text-purple-500">交互规则:</strong></p>
+                                    <ul className="list-disc list-inside space-y-1 ml-4">
+                                        <li>点击骰子图标触发旋转动画（2秒时长）</li>
+                                        <li>动画结束后显示随机任务结果，标注为"命运礼物"</li>
+                                        <li>点击「已完成」：发放对应积分，记录任务完成状态</li>
+                                        <li>点击「稍后做」：将任务加入待办列表，不发积分</li>
+                                        <li>点击「跳过」：不发积分，直接关闭弹窗，消耗当日次数</li>
+                                    </ul>
+                                    
+                                    <p><strong className="text-purple-500">任务管理:</strong></p>
+                                    <ul className="list-disc list-inside space-y-1 ml-4">
+                                        <li>未完成任务：置顶显示，方便查看和完成</li>
+                                        <li>已完成任务：置底显示，记录用户成就</li>
+                                        <li>每日自动清空：零点自动重置任务列表</li>
+                                        <li>进度条机制：每日10次点击机会，完成一个任务推进10%进度条</li>
+                                    </ul>
+                                    
+                                    <p><strong className="text-purple-500">逻辑设计:</strong></p>
+                                    <ul className="list-disc list-inside space-y-1 ml-4">
+                                        <li>基于概率分布的任务生成算法</li>
+                                        <li>智能避免重复任务，记录用户历史抽取的任务</li>
+                                        <li>任务池管理，支持动态添加和调整任务</li>
+                                        <li>每日自动重置机制，确保每天都有新的任务</li>
+                                    </ul>
+                                    
+                                    <p><strong className="text-purple-500">记忆功能:</strong></p>
+                                    <ul className="list-disc list-inside space-y-1 ml-4">
+                                        <li>记录用户历史抽取的任务</li>
+                                        <li>智能避免短时间内重复抽到相同内容</li>
+                                        <li>确保任务多样性，提高用户体验</li>
+                                        <li>历史记录定期清理，保持系统性能</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        )}
+                        {activeHelp === 'shop' && (
+                            <div className="space-y-4">
+                                <div className="flex justify-between items-center">
+                                    <h3 className={`text-xl font-black ${textMain} flex items-center gap-2`}>
+                                        <ShoppingBag className="text-yellow-500"/>
+                                        黑市交易法则
+                                    </h3>
+                                    <div className={`text-xs ${textSub}`}>更新时间: 2025-12-26</div>
+                                </div>
+                                <div className="text-sm text-zinc-400 space-y-3">
+                                    <p><strong>实物类:</strong> 如数码产品，购买后永久拥有，存入军械库。</p>
+                                    <p><strong>权益/休闲:</strong> 如会员或娱乐时间，购买即消耗，代表你获得了一次享受的权利。</p>
+                                    <p><strong>金币来源:</strong> 仅通过完成任务获得。不劳动者不得食。</p>
+                                </div>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
         )}
@@ -1445,30 +2079,45 @@ const LifeGame: React.FC<LifeGameProps> = ({
                     </div>
                     
                     <div className={`flex p-2 border-b ${isDark ? 'border-zinc-800 bg-zinc-900/50' : 'border-slate-200 bg-slate-50'}`}>
-                        <button onClick={() => setManageTaskTab('daily')} className={`flex-1 text-xs py-2 rounded font-bold ${manageTaskTab === 'daily' ? (isDark ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-slate-800') : (isDark ? 'text-zinc-500 hover:text-zinc-300' : 'text-slate-600 hover:text-slate-800')}`}>日常任务</button>
-                        <button onClick={() => setManageTaskTab('main')} className={`flex-1 text-xs py-2 rounded font-bold ${manageTaskTab === 'main' ? (isDark ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-slate-800') : (isDark ? 'text-zinc-500 hover:text-zinc-300' : 'text-slate-600 hover:text-slate-800')}`}>主线任务</button>
-                        <button onClick={() => setManageTaskTab('random')} className={`flex-1 text-xs py-2 rounded font-bold ${manageTaskTab === 'random' ? (isDark ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-slate-800') : (isDark ? 'text-zinc-500 hover:text-zinc-300' : 'text-slate-600 hover:text-slate-800')}`}>随机任务</button>
-                    </div>
+                            <button onClick={() => setManageTaskTab('daily')} className={`flex-1 text-xs py-2 rounded font-bold ${manageTaskTab === 'daily' ? (isDark ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-slate-800') : (isDark ? 'text-zinc-500 hover:text-zinc-300' : 'text-slate-600 hover:text-slate-800')}`}>日常任务</button>
+                            <button onClick={() => setManageTaskTab('main')} className={`flex-1 text-xs py-2 rounded font-bold ${manageTaskTab === 'main' ? (isDark ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-slate-800') : (isDark ? 'text-zinc-500 hover:text-zinc-300' : 'text-slate-600 hover:text-slate-800')}`}>主线任务</button>
+                            <button onClick={() => setManageTaskTab('random')} className={`flex-1 text-xs py-2 rounded font-bold flex items-center justify-center gap-1 ${manageTaskTab === 'random' ? (isDark ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-slate-800') : (isDark ? 'text-zinc-500 hover:text-zinc-300' : 'text-slate-600 hover:text-slate-800')}`}><Dice5 size={12} /> 命运骰子</button>
+                        </div>
                     
                     <div className="p-4 overflow-y-auto space-y-2 flex-1">
                         {/* 添加任务表单 - 日常任务 */}
                         {manageTaskTab === 'daily' && (
-                            <div className={`p-3 border border-dashed rounded mb-4 ${isDark ? 'border-zinc-700 bg-zinc-900/50' : 'border-slate-300 bg-slate-50'}`}>
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                                    <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>任务标题</label><input value={newTaskTitle} onChange={e => setNewTaskTitle(e.target.value)} className={`w-full border-b py-1 outline-none ${textMain} ${isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300'}`} placeholder="输入日常任务标题..." /></div>
-                                    <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>金币奖励</label><input type="number" value={newTaskReward} onChange={e => setNewTaskReward(e.target.value)} className={`w-full border-b py-1 outline-none ${textMain} ${isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300'}`} /></div>
-                                    <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>XP 奖励</label><input type="number" value={newTaskXP} onChange={e => setNewTaskXP(e.target.value)} className={`w-full border-b py-1 outline-none ${textMain} ${isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300'}`} /></div>
+                            <div className={`p-3 border border-dashed rounded mb-4 ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] border-none rounded-lg' : (isDark ? 'border-zinc-700 bg-zinc-900/50' : 'border-slate-300 bg-slate-50')}`}>
+                                <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+                                    <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>任务标题</label><input value={newTaskTitle} onChange={e => setNewTaskTitle(e.target.value)} className={`w-full py-1 outline-none ${textMain} ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-2' : (isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300')}`} placeholder="输入日常任务标题..." /></div>
+                                    <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>任务属性</label>
+                                        <select 
+                                            value={newTaskAttr} 
+                                            onChange={e => setNewTaskAttr(e.target.value as AttributeType)} 
+                                            className={`w-full py-1 outline-none ${textMain} ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-2' : (isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300')}`}
+                                        >
+                                            <option value={AttributeType.STRENGTH}>力量</option>
+                                            <option value={AttributeType.INTELLIGENCE}>智力</option>
+                                            <option value={AttributeType.DISCIPLINE}>自律</option>
+                                            <option value={AttributeType.CREATIVITY}>创造</option>
+                                            <option value={AttributeType.SOCIABILITY}>社交</option>
+                                            <option value={AttributeType.WEALTH}>财富</option>
+                                        </select>
+                                    </div>
+                                    <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>金币奖励</label><input type="number" value={newTaskReward} onChange={e => setNewTaskReward(e.target.value)} className={`w-full py-1 outline-none ${textMain} ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-2' : (isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300')}`} /></div>
+                                    <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>XP 奖励</label><input type="number" value={newTaskXP} onChange={e => setNewTaskXP(e.target.value)} className={`w-full py-1 outline-none ${textMain} ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-2' : (isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300')}`} /></div>
                                 </div>
                                 <button 
                                     onClick={() => {
                                         if(newTaskTitle.trim()) {
-                                            onAddHabit(newTaskTitle, parseInt(newTaskReward) || 15);
+                                            onAddHabit(newTaskTitle, parseInt(newTaskReward) || 15, newTaskAttr);
                                             setNewTaskTitle('');
                                             setNewTaskReward('15');
                                             setNewTaskXP('20');
+                                            setNewTaskAttr(AttributeType.WEALTH);
                                         }
                                     }} 
-                                    className="w-full mt-3 py-2 text-xs bg-emerald-600 hover:bg-emerald-500 text-white rounded flex items-center justify-center gap-2"
+                                    className={`w-full mt-3 py-2 text-xs text-white rounded flex items-center justify-center gap-2 ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] border-none text-emerald-600 hover:shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)]' : 'bg-emerald-600 hover:bg-emerald-500'}`}
                                 >
                                     <Plus size={14}/> 添加日常任务
                                 </button>
@@ -1477,11 +2126,25 @@ const LifeGame: React.FC<LifeGameProps> = ({
                         
                         {/* 添加任务表单 - 主线任务 */}
                         {manageTaskTab === 'main' && (
-                            <div className={`p-3 border border-dashed rounded mb-4 ${isDark ? 'border-zinc-700 bg-zinc-900/50' : 'border-slate-300 bg-slate-50'}`}>
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
-                                    <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>任务标题</label><input value={newTaskTitle} onChange={e => setNewTaskTitle(e.target.value)} className={`w-full border-b py-1 outline-none ${textMain} ${isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300'}`} placeholder="输入主线任务标题..." /></div>
-                                    <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>金币奖励</label><input type="number" value={newTaskReward} onChange={e => setNewTaskReward(e.target.value)} className={`w-full border-b py-1 outline-none ${textMain} ${isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300'}`} /></div>
-                                    <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>XP 奖励</label><input type="number" value={newTaskXP} onChange={e => setNewTaskXP(e.target.value)} className={`w-full border-b py-1 outline-none ${textMain} ${isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300'}`} /></div>
+                            <div className={`p-3 border border-dashed rounded mb-4 ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] border-none rounded-lg' : (isDark ? 'border-zinc-700 bg-zinc-900/50' : 'border-slate-300 bg-slate-50')}`}>
+                                <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-3">
+                                    <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>任务标题</label><input value={newTaskTitle} onChange={e => setNewTaskTitle(e.target.value)} className={`w-full py-1 outline-none ${textMain} ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-2' : (isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300')}`} placeholder="输入主线任务标题..." /></div>
+                                    <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>任务属性</label>
+                                        <select 
+                                            value={newTaskAttr} 
+                                            onChange={e => setNewTaskAttr(e.target.value as AttributeType)} 
+                                            className={`w-full py-1 outline-none ${textMain} ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-2' : (isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300')}`}
+                                        >
+                                            <option value={AttributeType.STRENGTH}>力量</option>
+                                            <option value={AttributeType.INTELLIGENCE}>智力</option>
+                                            <option value={AttributeType.DISCIPLINE}>自律</option>
+                                            <option value={AttributeType.CREATIVITY}>创造</option>
+                                            <option value={AttributeType.SOCIABILITY}>社交</option>
+                                            <option value={AttributeType.WEALTH}>财富</option>
+                                        </select>
+                                    </div>
+                                    <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>金币奖励</label><input type="number" value={newTaskReward} onChange={e => setNewTaskReward(e.target.value)} className={`w-full py-1 outline-none ${textMain} ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-2' : (isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300')}`} /></div>
+                                    <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>XP 奖励</label><input type="number" value={newTaskXP} onChange={e => setNewTaskXP(e.target.value)} className={`w-full py-1 outline-none ${textMain} ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-2' : (isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300')}`} /></div>
                                 </div>
                                 
                                 {/* 子任务列表 */}
@@ -1497,7 +2160,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                                     duration: 30
                                                 }]);
                                             }}
-                                            className="text-xs bg-blue-600 hover:bg-blue-500 text-white px-3 py-1 rounded flex items-center gap-1"
+                                            className={`text-xs text-white px-3 py-1 rounded flex items-center gap-1 ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] border-none text-blue-600 hover:shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)]' : 'bg-blue-600 hover:bg-blue-500'}`}
                                         >
                                             <Plus size={12}/> 添加子任务
                                         </button>
@@ -1514,7 +2177,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                                     setEditingProjectSubTasks(newSubTasks);
                                                 }} 
                                                 placeholder={`子任务 ${index + 1} 标题...`} 
-                                                className={`flex-1 border-b py-1 outline-none ${textMain} ${isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300'}`} 
+                                                className={`flex-1 py-1 outline-none ${textMain} ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-2' : (isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300')}`} 
                                             />
                                             <input 
                                                 type="number" 
@@ -1525,13 +2188,13 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                                     setEditingProjectSubTasks(newSubTasks);
                                                 }} 
                                                 placeholder="时长(m)" 
-                                                className={`w-20 border-b py-1 outline-none ${textMain} ${isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300'} text-right`} 
+                                                className={`w-20 py-1 outline-none ${textMain} ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-2 text-right' : (isDark ? 'bg-transparent border-zinc-700 text-right' : 'bg-transparent border-slate-300 text-right')}`} 
                                             />
                                             <button 
                                                 onClick={() => {
                                                     setEditingProjectSubTasks(editingProjectSubTasks.filter((_, i) => i !== index));
                                                 }}
-                                                className="text-red-500 hover:text-red-400 p-1"
+                                                className={`p-1 ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] border-none rounded text-red-500 hover:shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)]' : 'text-red-500 hover:text-red-400'}`}
                                             >
                                                 <Trash2 size={14}/>
                                             </button>
@@ -1545,7 +2208,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                             onAddProject({
                                                 id: `project-${Date.now()}`,
                                                 name: newTaskTitle,
-                                                attr: AttributeType.WEALTH,
+                                                attr: newTaskAttr,
                                                 subTasks: editingProjectSubTasks,
                                                 dailyFocus: {},
                                                 completed: false
@@ -1553,82 +2216,223 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                             setNewTaskTitle('');
                                             setNewTaskReward('15');
                                             setNewTaskXP('20');
+                                            setNewTaskAttr(AttributeType.WEALTH);
                                             setEditingProjectSubTasks([]);
                                         }
                                     }} 
-                                    className="w-full mt-3 py-2 text-xs bg-emerald-600 hover:bg-emerald-500 text-white rounded flex items-center justify-center gap-2"
+                                    className={`w-full mt-3 py-2 text-xs text-white rounded flex items-center justify-center gap-2 ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] border-none text-emerald-600 hover:shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)]' : 'bg-emerald-600 hover:bg-emerald-500'}`}
                                 >
                                     <Plus size={14}/> 添加主线任务
                                 </button>
                             </div>
                         )}
                         
-                        {/* 添加任务表单 - 随机任务 */}
+                        {/* 添加任务表单 - 命运骰子任务 */}
                         {manageTaskTab === 'random' && (
-                            <div className={`p-3 border border-dashed rounded mb-4 ${isDark ? 'border-zinc-700 bg-zinc-900/50' : 'border-slate-300 bg-slate-50'}`}>
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                                    <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>任务标题</label><input value={newChallengeText} onChange={e => setNewChallengeText(e.target.value)} className={`w-full border-b py-1 outline-none ${textMain} ${isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300'}`} placeholder="输入随机任务..." /></div>
-                                    <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>金币奖励</label><input type="number" id="randomReward" value="20" className={`w-full border-b py-1 outline-none ${textMain} ${isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300'}`} /></div>
-                                    <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>预估时长(m)</label><input type="number" id="randomDuration" value="20" className={`w-full border-b py-1 outline-none ${textMain} ${isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300'}`} /></div>
+                            <div className="space-y-4">
+                                {/* 分类选择 */}
+                                <div className={`p-3 border border-dashed rounded ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] border-none rounded-lg' : (isDark ? 'border-zinc-700 bg-zinc-900/50' : 'border-slate-300 bg-slate-50')}`}>
+                                    <h4 className={`text-sm font-bold mb-3 ${textMain}`}>命运事件分类</h4>
+                                    <div className="flex gap-2 mb-4">
+                                        {[
+                                            { id: 'health', label: '健康微行动', color: 'emerald' },
+                                            { id: 'efficiency', label: '效率任务', color: 'blue' },
+                                            { id: 'leisure', label: '休闲小奖励', color: 'purple' }
+                                        ].map(category => (
+                                            <button 
+                                                key={category.id}
+                                                onClick={() => {
+                                                    // 设置当前分类
+                                                    const categorySelect = document.getElementById('diceCategory') as HTMLSelectElement;
+                                                    if (categorySelect) {
+                                                        categorySelect.value = category.id;
+                                                    }
+                                                }}
+                                                className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all bg-${category.color}-100 text-${category.color}-700 hover:bg-${category.color}-200 hover:text-${category.color}-800 ${isDark ? `bg-${category.color}-900/30 text-${category.color}-400 hover:bg-${category.color}-900/50` : ''}`}
+                                            >
+                                                {category.label}
+                                            </button>
+                                        ))}
+                                    </div>
+                                    
+                                    <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
+                                        <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>任务标题</label><input value={newChallengeText} onChange={e => setNewChallengeText(e.target.value)} className={`w-full py-1 outline-none ${textMain} ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-2' : (isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300')}`} placeholder="输入命运事件..." /></div>
+                                        <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>事件分类</label>
+                                            <select 
+                                                id="diceCategory"
+                                                className={`w-full py-1 outline-none ${textMain} ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-2' : (isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300')}`}
+                                            >
+                                                <option value="health">健康微行动</option>
+                                                <option value="efficiency">效率任务</option>
+                                                <option value="leisure">休闲小奖励</option>
+                                            </select>
+                                        </div>
+                                        <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>任务属性</label>
+                                            <select 
+                                                id="randomAttr"
+                                                value={newTaskAttr} 
+                                                onChange={e => setNewTaskAttr(e.target.value as AttributeType)} 
+                                                className={`w-full py-1 outline-none ${textMain} ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-2' : (isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300')}`}
+                                            >
+                                                <option value={AttributeType.STRENGTH}>力量</option>
+                                                <option value={AttributeType.INTELLIGENCE}>智力</option>
+                                                <option value={AttributeType.DISCIPLINE}>自律</option>
+                                                <option value={AttributeType.CREATIVITY}>创造</option>
+                                                <option value={AttributeType.SOCIABILITY}>社交</option>
+                                                <option value={AttributeType.WEALTH}>财富</option>
+                                            </select>
+                                        </div>
+                                        <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>金币奖励</label><input type="number" id="randomReward" value="20" className={`w-full py-1 outline-none ${textMain} ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-2' : (isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300')}`} /></div>
+                                        <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>预估时长(m)</label><input type="number" id="randomDuration" value="20" className={`w-full py-1 outline-none ${textMain} ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-2' : (isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300')}`} /></div>
+                                    </div>
+                                    <button 
+                                        onClick={() => {
+                                            if(newChallengeText.trim()) {
+                                                const categorySelect = document.getElementById('diceCategory') as HTMLSelectElement;
+                                                const reward = parseInt((document.getElementById('randomReward') as HTMLInputElement).value) || 20;
+                                                const duration = parseInt((document.getElementById('randomDuration') as HTMLInputElement).value) || 20;
+                                                const attr = (document.getElementById('randomAttr') as HTMLSelectElement).value as AttributeType;
+                                                
+                                                const newTask = {
+                                                    text: newChallengeText,
+                                                    gold: reward,
+                                                    xp: Math.ceil(reward * 1.5),
+                                                    duration: duration,
+                                                    attr: attr,
+                                                    category: categorySelect?.value || 'health' // 添加分类信息
+                                                };
+                                                
+                                                setChallengePool([...challengePool, JSON.stringify(newTask)]);
+                                                setNewChallengeText('');
+                                                
+                                                // 重置表单
+                                                if (categorySelect) categorySelect.value = 'health';
+                                                (document.getElementById('randomReward') as HTMLInputElement).value = '20';
+                                                (document.getElementById('randomDuration') as HTMLInputElement).value = '20';
+                                                (document.getElementById('randomAttr') as HTMLSelectElement).value = AttributeType.WEALTH;
+                                            }
+                                        }} 
+                                        className={`w-full mt-3 py-2 text-xs text-white rounded flex items-center justify-center gap-2 ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] border-none text-purple-600 hover:shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)]' : 'bg-purple-600 hover:bg-purple-500'}`}
+                                    >
+                                        <Plus size={14}/> 添加命运事件
+                                    </button>
                                 </div>
-                                <button 
-                                    onClick={() => {
-                                        if(newChallengeText.trim()) {
-                                            const reward = parseInt((document.getElementById('randomReward') as HTMLInputElement).value) || 20;
-                                            const duration = parseInt((document.getElementById('randomDuration') as HTMLInputElement).value) || 20;
-                                            const newTask = {
-                                                text: newChallengeText,
-                                                gold: reward,
-                                                xp: Math.ceil(reward * 1.5),
-                                                duration: duration
-                                            };
-                                            setChallengePool([...challengePool, JSON.stringify(newTask)]);
-                                            setNewChallengeText('');
-                                            (document.getElementById('randomReward') as HTMLInputElement).value = '20';
-                                            (document.getElementById('randomDuration') as HTMLInputElement).value = '20';
-                                        }
-                                    }} 
-                                    className="w-full mt-3 py-2 text-xs bg-purple-600 hover:bg-purple-500 text-white rounded flex items-center justify-center gap-2"
-                                >
-                                    <Plus size={14}/> 添加随机任务
-                                </button>
                             </div>
                         )}
                         
                         {/* 现有任务列表 */}
                         <div className="space-y-2">
                             {manageTaskTab === 'daily' && habits.map((h) => (
-                                <div key={h.id} className={`flex items-center justify-between p-2 border rounded ${isDark ? 'border-zinc-800 bg-zinc-900/50' : 'border-slate-200 bg-slate-50'}`}>
+                                <div key={h.id} className={`flex items-center justify-between p-2 rounded ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] border-none rounded-lg' : (isDark ? 'border-zinc-800 bg-zinc-900/50' : 'border-slate-200 bg-slate-50')}`}>
                                     <span className={`text-xs ${textMain}`}>{h.name}</span>
                                     <div className="flex gap-2">
-                                        <button onClick={() => { openEditTask({...h, text:h.name, type:'daily', gold:h.reward}); setIsManageTasksOpen(false); }} className="text-blue-500 hover:text-blue-400"><Edit3 size={14}/></button>
-                                        <button onClick={() => onDeleteHabit(h.id)} className="text-red-500 hover:text-red-400"><Trash2 size={14}/></button>
+                                        <button onClick={() => { openEditTask({...h, text:h.name, type:'daily', gold:h.reward}); setIsManageTasksOpen(false); }} className={`${isNeomorphic ? 'bg-[#e0e5ec] shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] border-none rounded text-blue-500 hover:shadow-[1px_1px_3px_rgba(163,177,198,0.6),-1px_-1px_3px_rgba(255,255,255,1)] active:shadow-[inset_1px_1px_2px_rgba(163,177,198,0.6),inset_-1px_-1px_2px_rgba(255,255,255,1)] p-1' : 'text-blue-500 hover:text-blue-400'}`}><Edit3 size={14}/></button>
+                                        <button onClick={() => onDeleteHabit(h.id)} className={`${isNeomorphic ? 'bg-[#e0e5ec] shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] border-none rounded text-red-500 hover:shadow-[1px_1px_3px_rgba(163,177,198,0.6),-1px_-1px_3px_rgba(255,255,255,1)] active:shadow-[inset_1px_1px_2px_rgba(163,177,198,0.6),inset_-1px_-1px_2px_rgba(255,255,255,1)] p-1' : 'text-red-500 hover:text-red-400'}`}><Trash2 size={14}/></button>
                                     </div>
                                 </div>
                             ))}
                             {manageTaskTab === 'main' && projects.map((p) => (
-                                <div key={p.id} className={`flex items-center justify-between p-2 border rounded ${isDark ? 'border-zinc-800 bg-zinc-900/50' : 'border-slate-200 bg-slate-50'}`}>
+                                <div key={p.id} className={`flex items-center justify-between p-2 rounded ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] border-none rounded-lg' : (isDark ? 'border-zinc-800 bg-zinc-900/50' : 'border-slate-200 bg-slate-50')}`}>
                                     <span className={`text-xs ${textMain}`}>{p.name}</span>
                                     <div className="flex gap-2">
-                                        <button onClick={() => { openEditTask({...p, text:p.name, type:'main', gold:500}); setIsManageTasksOpen(false); }} className="text-blue-500 hover:text-blue-400"><Edit3 size={14}/></button>
-                                        <button onClick={() => onDeleteProject(p.id)} className="text-red-500 hover:text-red-400"><Trash2 size={14}/></button>
+                                        <button onClick={() => { openEditTask({...p, text:p.name, type:'main', gold:500}); setIsManageTasksOpen(false); }} className={`${isNeomorphic ? 'bg-[#e0e5ec] shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] border-none rounded text-blue-500 hover:shadow-[1px_1px_3px_rgba(163,177,198,0.6),-1px_-1px_3px_rgba(255,255,255,1)] active:shadow-[inset_1px_1px_2px_rgba(163,177,198,0.6),inset_-1px_-1px_2px_rgba(255,255,255,1)] p-1' : 'text-blue-500 hover:text-blue-400'}`}><Edit3 size={14}/></button>
+                                        <button onClick={() => onDeleteProject(p.id)} className={`${isNeomorphic ? 'bg-[#e0e5ec] shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] border-none rounded text-red-500 hover:shadow-[1px_1px_3px_rgba(163,177,198,0.6),-1px_-1px_3px_rgba(255,255,255,1)] active:shadow-[inset_1px_1px_2px_rgba(163,177,198,0.6),inset_-1px_-1px_2px_rgba(255,255,255,1)] p-1' : 'text-red-500 hover:text-red-400'}`}><Trash2 size={14}/></button>
                                     </div>
                                 </div>
                             ))}
                             {manageTaskTab === 'random' && (
                                 <>
-                                    {challengePool.map((c, idx) => {
-                                        let taskText = c;
-                                        try {
-                                            const parsedTask = JSON.parse(c);
-                                            taskText = parsedTask.text;
-                                        } catch (e) {
-                                            // 旧格式，直接使用字符串
-                                        }
+                                    {/* 分类任务列表 */}
+                                    {[
+                                        { id: 'health', label: '健康微行动', color: 'emerald' },
+                                        { id: 'efficiency', label: '效率任务', color: 'blue' },
+                                        { id: 'leisure', label: '休闲小奖励', color: 'purple' },
+                                        { id: 'other', label: '未分类', color: 'gray' }
+                                    ].map(category => {
+                                        // 筛选该分类的任务
+                                        const categoryTasks = challengePool.filter(task => {
+                                            try {
+                                                const parsedTask = JSON.parse(task);
+                                                return parsedTask.category === category.id || (category.id === 'other' && !parsedTask.category);
+                                            } catch (e) {
+                                                return category.id === 'other';
+                                            }
+                                        });
+                                        
+                                        if (categoryTasks.length === 0) return null;
+                                        
                                         return (
-                                            <div key={idx} className={`flex items-center justify-between p-2 border rounded ${isDark ? 'border-zinc-800 bg-zinc-900/50' : 'border-slate-200 bg-slate-50'}`}>
-                                                <span className={`text-xs ${textMain}`}>{taskText}</span>
-                                                <button onClick={() => setChallengePool(challengePool.filter((_, i) => i !== idx))} className="text-red-500 hover:text-red-400"><Trash2 size={14}/></button>
+                                            <div key={category.id} className="mb-4">
+                                                <h4 className={`text-sm font-bold mb-2 ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}>
+                                                    <span className={`inline-block w-2 h-2 rounded-full mr-2 bg-${category.color}-500`}></span>
+                                                    {category.label} ({categoryTasks.length})
+                                                </h4>
+                                                <div className="space-y-2">
+                                                    {categoryTasks.map((taskStr, idx) => {
+                                                        let taskText = taskStr;
+                                                        let taskCategory = category.id;
+                                                        let taskReward = 20;
+                                                        let taskDuration = 20;
+                                                        let taskAttr = AttributeType.WEALTH;
+                                                        
+                                                        try {
+                                                            const parsedTask = JSON.parse(taskStr);
+                                                            taskText = parsedTask.text;
+                                                            taskCategory = parsedTask.category || 'other';
+                                                            taskReward = parsedTask.gold || 20;
+                                                            taskDuration = parsedTask.duration || 20;
+                                                            taskAttr = parsedTask.attr || AttributeType.WEALTH;
+                                                        } catch (e) {
+                                                            // 旧格式，直接使用字符串
+                                                        }
+                                                        
+                                                        return (
+                                                            <div key={idx} className={`flex items-center justify-between p-2 rounded ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] border-none rounded-lg' : (isDark ? 'border-zinc-800 bg-zinc-900/50' : 'border-slate-200 bg-slate-50')}`}>
+                                                                <div className="flex items-center gap-2">
+                                                                    <span className={`text-xs ${textMain}`}>{taskText}</span>
+                                                                    <span className={`text-[9px] px-1.5 py-0.5 rounded-full bg-${category.color}-100 text-${category.color}-700 ${isDark ? `bg-${category.color}-900/30 text-${category.color}-400` : ''}`}>
+                                                                        {category.label}
+                                                                    </span>
+                                                                    <span className={`text-[9px] text-zinc-500`}>+{taskReward}G</span>
+                                                                    <span className={`text-[9px] text-zinc-500`}>{taskDuration}m</span>
+                                                                </div>
+                                                                <div className="flex gap-2">
+                                                                    <button 
+                                                                        onClick={() => {
+                                                                            // 编辑任务
+                                                                            const parsedTask = JSON.parse(taskStr);
+                                                                            setNewChallengeText(parsedTask.text);
+                                                                            setNewTaskAttr(parsedTask.attr || AttributeType.WEALTH);
+                                                                            
+                                                                            // 设置表单值
+                                                                            const categorySelect = document.getElementById('diceCategory') as HTMLSelectElement;
+                                                                            const rewardInput = document.getElementById('randomReward') as HTMLInputElement;
+                                                                            const durationInput = document.getElementById('randomDuration') as HTMLInputElement;
+                                                                            const attrSelect = document.getElementById('randomAttr') as HTMLSelectElement;
+                                                                            
+                                                                            if (categorySelect) categorySelect.value = parsedTask.category || 'health';
+                                                                            if (rewardInput) rewardInput.value = (parsedTask.gold || 20).toString();
+                                                                            if (durationInput) durationInput.value = (parsedTask.duration || 20).toString();
+                                                                            if (attrSelect) attrSelect.value = parsedTask.attr || AttributeType.WEALTH;
+                                                                            
+                                                                            // 删除旧任务
+                                                                            setChallengePool(challengePool.filter((_, i) => i !== idx));
+                                                                        }}
+                                                                        className={`${isNeomorphic ? 'bg-[#e0e5ec] shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] border-none rounded text-blue-500 hover:shadow-[1px_1px_3px_rgba(163,177,198,0.6),-1px_-1px_3px_rgba(255,255,255,1)] active:shadow-[inset_1px_1px_2px_rgba(163,177,198,0.6),inset_-1px_-1px_2px_rgba(255,255,255,1)] p-1' : 'text-blue-500 hover:text-blue-400'}`}
+                                                                    >
+                                                                        <Edit3 size={14}/>
+                                                                    </button>
+                                                                    <button 
+                                                                        onClick={() => setChallengePool(challengePool.filter((_, i) => i !== idx))}
+                                                                        className={`${isNeomorphic ? 'bg-[#e0e5ec] shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] border-none rounded text-red-500 hover:shadow-[1px_1px_3px_rgba(163,177,198,0.6),-1px_-1px_3px_rgba(255,255,255,1)] active:shadow-[inset_1px_1px_2px_rgba(163,177,198,0.6),inset_-1px_-1px_2px_rgba(255,255,255,1)] p-1' : 'text-red-500 hover:text-red-400'}`}
+                                                                    >
+                                                                        <Trash2 size={14}/>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        );
+                                                    })}
+                                                </div>
                                             </div>
                                         );
                                     })}
@@ -1651,7 +2455,21 @@ const LifeGame: React.FC<LifeGameProps> = ({
                             <input autoFocus value={newTaskTitle} onChange={e => setNewTaskTitle(e.target.value)} className={`w-full border-b py-2 outline-none ${textMain} ${isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300'}`} placeholder="输入任务名称..." />
                         </div>
                         {(newTaskType === 'daily' || newTaskType === 'main') && (
-                            <div className="grid grid-cols-3 gap-4">
+                            <div className="grid grid-cols-4 gap-4">
+                                <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>任务属性</label>
+                                    <select 
+                                        value={newTaskAttr} 
+                                        onChange={e => setNewTaskAttr(e.target.value as AttributeType)} 
+                                        className={`w-full border-b py-1 outline-none ${textMain} ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-1' : (isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300')}`}
+                                    >
+                                        <option value={AttributeType.STRENGTH}>力量</option>
+                                        <option value={AttributeType.INTELLIGENCE}>智力</option>
+                                        <option value={AttributeType.DISCIPLINE}>自律</option>
+                                        <option value={AttributeType.CREATIVITY}>创造</option>
+                                        <option value={AttributeType.SOCIABILITY}>社交</option>
+                                        <option value={AttributeType.WEALTH}>财富</option>
+                                    </select>
+                                </div>
                                 <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>金币奖励</label><input type="number" value={newTaskReward} onChange={e => setNewTaskReward(e.target.value)} className={`w-full border-b py-1 outline-none ${textMain} ${isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300'}`} /></div>
                                 <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>XP 奖励</label><input type="number" value={newTaskXP} onChange={e => setNewTaskXP(e.target.value)} className={`w-full border-b py-1 outline-none ${textMain} ${isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300'}`} /></div>
                                 <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>预估时长(m)</label><input type="number" value={newTaskDuration} onChange={e => setNewTaskDuration(e.target.value)} className={`w-full border-b py-1 outline-none ${textMain} ${isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300'}`} /></div>

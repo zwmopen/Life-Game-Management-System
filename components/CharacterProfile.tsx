@@ -30,6 +30,18 @@ interface CharacterProfileProps {
   currentSoundId: string;
   onToggleMute: (muted: boolean) => void;
   onSoundChange: (soundId: string) => void;
+  // Settings
+  settings?: {
+    showCharacterSystem?: boolean;
+    showPomodoroSystem?: boolean;
+    showFocusTimeSystem?: boolean;
+    showCheckinSystem?: boolean;
+    showAchievementCollectionRate?: boolean;
+    showSystemStabilityModule?: boolean;
+    showLatestBadges?: boolean;
+    showChartSummary?: boolean;
+    showSupplyMarket?: boolean;
+  };
 }
 
 export interface CharacterProfileHandle {
@@ -62,30 +74,42 @@ export const getAllMilitaryRanks = () => MILITARY_THRESHOLDS;
 
 // 简化组件定义，避免复杂的泛型语法
 const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
-    const {
-        theme,
-        xp,
-        balance,
-        totalHours,
-        totalKills = 0,
-        checkInStreak = 0,
-        onPomodoroComplete = undefined,
-        onUpdateBalance = undefined,
+    const { 
+        theme, 
+        xp, 
+        balance, 
+        totalHours, 
+        totalKills = 0, 
+        checkInStreak = 0, 
+        onPomodoroComplete = undefined, 
+        onUpdateBalance = undefined, 
         // Pomodoro Global State
-        timeLeft,
-        isActive,
-        duration,
-        onToggleTimer,
-        onResetTimer,
-        onChangeDuration,
-        onUpdateTimeLeft,
-        onUpdateIsActive,
-        onImmersiveModeChange = undefined,
+        timeLeft, 
+        isActive, 
+        duration, 
+        onToggleTimer, 
+        onResetTimer, 
+        onChangeDuration, 
+        onUpdateTimeLeft, 
+        onUpdateIsActive, 
+        onImmersiveModeChange = undefined, 
         // Global Audio Management
-        isMuted,
-        currentSoundId,
-        onToggleMute,
-        onSoundChange
+        isMuted, 
+        currentSoundId, 
+        onToggleMute, 
+        onSoundChange, 
+        // Settings
+        settings = {
+            showCharacterSystem: true,
+            showPomodoroSystem: true,
+            showFocusTimeSystem: true,
+            showCheckinSystem: true,
+            showAchievementCollectionRate: true,
+            showSystemStabilityModule: true,
+            showLatestBadges: true,
+            showChartSummary: true,
+            showSupplyMarket: true
+        }
     } = props;
     const isDark = theme === 'dark';
     const isNeomorphic = theme === 'neomorphic';
@@ -473,66 +497,74 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
                 <div className="w-6"></div>
             </div>
             
-            {/* 4个小模块：与实时情报卡片风格完全一致，移动端单列 */}
-            <div className="grid grid-cols-1 gap-2 sm:gap-3">
+            {/* 4个小模块：与实时情报卡片风格完全一致，移动端单列，电脑端双列 */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-3">
                 {/* 1. 角色系统模块 */}
-                <div className={`${cardBg} border p-2 rounded-lg flex flex-col justify-between transition-all duration-300 cursor-default hover:shadow-lg`}>
-                    <AvatarProfile 
-                        theme={theme}
-                        xp={xp}
-                        totalHours={totalHours}
-                        balance={balance}
-                        levelInfo={levelInfo}
-                        focusInfo={focusInfo}
-                        wealthInfo={wealthInfo}
-                    />
-                </div>
+                {settings.showCharacterSystem && (
+                    <div className={`${cardBg} border p-2 rounded-lg flex flex-col justify-between transition-all duration-300 cursor-default hover:shadow-lg`}>
+                        <AvatarProfile 
+                            theme={theme}
+                            xp={xp}
+                            totalHours={totalHours}
+                            balance={balance}
+                            levelInfo={levelInfo}
+                            focusInfo={focusInfo}
+                            wealthInfo={wealthInfo}
+                        />
+                    </div>
+                )}
 
                 {/* 2. 番茄系统模块 */}
-                <div className={`${cardBg} border p-2 rounded-lg flex flex-col justify-between transition-all duration-300 cursor-default hover:shadow-lg`}>
-                    <TomatoTimer
-                        theme={theme}
-                        timeLeft={timeLeft}
-                        isActive={isActive}
-                        duration={duration}
-                        onToggleTimer={onToggleTimer}
-                        onResetTimer={onResetTimer}
-                        onChangeDuration={onChangeDuration}
-                        onUpdateTimeLeft={onUpdateTimeLeft}
-                        onUpdateIsActive={onUpdateIsActive}
-                        onImmersiveModeChange={(isImmersive) => setIsImmersive(true)}
-                    />
-                </div>
+                {settings.showPomodoroSystem && (
+                    <div className={`${cardBg} border p-2 rounded-lg flex flex-col justify-between transition-all duration-300 cursor-default hover:shadow-lg`}>
+                        <TomatoTimer
+                            theme={theme}
+                            timeLeft={timeLeft}
+                            isActive={isActive}
+                            duration={duration}
+                            onToggleTimer={onToggleTimer}
+                            onResetTimer={onResetTimer}
+                            onChangeDuration={onChangeDuration}
+                            onUpdateTimeLeft={onUpdateTimeLeft}
+                            onUpdateIsActive={onUpdateIsActive}
+                            onImmersiveModeChange={(isImmersive) => setIsImmersive(true)}
+                        />
+                    </div>
+                )}
 
                 {/* 3. 军工模块 */}
-                <div className={`${cardBg} border p-2 rounded-lg flex flex-col justify-between transition-all duration-300 cursor-default hover:shadow-lg`}>
-                    <MilitaryModule
-                        theme={theme}
-                        balance={balance}
-                        totalKills={totalKills}
-                        isEditingBalance={isEditingBalance}
-                        isEditingKills={isEditingKills}
-                        tempBalance={tempBalance}
-                        tempKills={tempKills}
-                        setIsEditingBalance={setIsEditingBalance}
-                        setIsEditingKills={setIsEditingKills}
-                        setTempBalance={setTempBalance}
-                        setTempKills={setTempKills}
-                        handleSaveBalance={handleSaveBalance}
-                        handleSaveKills={handleSaveKills}
-                    />
-                </div>
+                {settings.showFocusTimeSystem && (
+                    <div className={`${cardBg} border p-2 rounded-lg flex flex-col justify-between transition-all duration-300 cursor-default hover:shadow-lg`}>
+                        <MilitaryModule
+                            theme={theme}
+                            balance={balance}
+                            totalKills={totalKills}
+                            isEditingBalance={isEditingBalance}
+                            isEditingKills={isEditingKills}
+                            tempBalance={tempBalance}
+                            tempKills={tempKills}
+                            setIsEditingBalance={setIsEditingBalance}
+                            setIsEditingKills={setIsEditingKills}
+                            setTempBalance={setTempBalance}
+                            setTempKills={setTempKills}
+                            handleSaveBalance={handleSaveBalance}
+                            handleSaveKills={handleSaveKills}
+                        />
+                    </div>
+                )}
                 
                 {/* 4. 心法模块 */}
-                <div className={`${cardBg} border p-2 rounded-lg flex flex-col justify-between transition-all duration-300 cursor-default hover:shadow-lg`}>
-                    <MantraModule
-                        theme={theme}
-                        mantras={mantras}
-                        currentMantraIndex={currentMantraIndex}
-                        cycleMantra={cycleMantra}
-                        setIsMantraModalOpen={setIsMantraModalOpen}
-                    />
-                </div>
+                {settings.showCheckinSystem && (
+                    <div className={`${cardBg} border p-2 rounded-lg flex flex-col justify-between transition-all duration-300 cursor-default hover:shadow-lg`}>
+                        <MantraModule
+                            theme={theme}
+                            mantras={mantras}
+                            currentMantraIndex={currentMantraIndex}
+                            cycleMantra={cycleMantra}
+                            setIsMantraModalOpen={setIsMantraModalOpen}
+                        />
+                    </div>
+                )}
             </div>
         </div>
 
@@ -740,7 +772,7 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
                                             </button>
                                         </div>
                                     ) : (
-                                        <div className="flex items-center gap-2 flex-1">
+                                        <div className="flex items-center justify-between flex-1">
                                             <span className={`${isDark ? 'text-zinc-200' : isNeomorphic ? 'text-zinc-800' : 'text-slate-700'}`}>{mantra}</span>
                                             <div className="flex gap-1.5">
                                                 <button 

@@ -65,19 +65,19 @@ const AvatarProfile: React.FC<AvatarProfileProps> = ({
         <div className="flex-1 grid grid-cols-1 gap-1.5">
           <div className="flex items-center gap-1 text-xs">
                 <div className="w-8 font-bold text-right text-blue-500 shrink-0">经验</div>
-                <div className={`w-16 h-2 rounded-full overflow-hidden ${isDark ? 'bg-zinc-700' : isNeomorphic ? 'bg-[#d0d5dc]' : 'bg-zinc-200'}`}>
-                  <div className="h-full bg-blue-500 transition-all duration-300" style={{ width: `${levelInfo.progress}%` }}></div>
+                <div className={`w-16 h-2 rounded-full overflow-hidden ${isDark ? 'bg-zinc-700' : isNeomorphic ? 'bg-[#d0d5dc]' : 'bg-zinc-200'} shadow-inner`}>
+                  <div className="h-full bg-blue-500 transition-all duration-300 rounded-full" style={{ width: `${levelInfo.progress}%` }}></div>
                 </div>
                 <div className={`flex items-center gap-1 truncate ${textMain} max-w-[100px]`}><span className="font-mono text-blue-500 font-bold">LV.{levelInfo.level}</span><span className="text-xs truncate">{levelInfo.title}</span></div>
               </div>
           <div className="flex items-center gap-1 text-xs">
             <div className="w-8 font-bold text-right text-emerald-500 shrink-0">专注</div>
-            <div className="w-16 h-2 bg-zinc-200 dark:bg-zinc-700 rounded-full overflow-hidden"><div className="h-full bg-emerald-500 transition-all duration-300" style={{ width: `${focusInfo.progress}%` }}></div></div>
+            <div className="w-16 h-2 bg-zinc-200 dark:bg-zinc-700 rounded-full overflow-hidden shadow-inner"><div className="h-full bg-emerald-500 transition-all duration-300 rounded-full" style={{ width: `${focusInfo.progress}%` }}></div></div>
             <div className={`flex items-center gap-1 truncate ${textMain} max-w-[100px]`}><span className="font-mono text-emerald-400 font-bold">LV.{focusInfo.level}</span><span className="text-xs truncate">{focusInfo.title}</span></div>
           </div>
           <div className="flex items-center gap-1 text-xs">
             <div className="w-8 font-bold text-right text-yellow-500 shrink-0">财富</div>
-            <div className="w-16 h-2 bg-zinc-200 dark:bg-zinc-700 rounded-full overflow-hidden"><div className="h-full bg-yellow-500 transition-all duration-300" style={{ width: `${wealthInfo.progress}%` }}></div></div>
+            <div className="w-16 h-2 bg-zinc-200 dark:bg-zinc-700 rounded-full overflow-hidden shadow-inner"><div className="h-full bg-yellow-500 transition-all duration-300 rounded-full" style={{ width: `${wealthInfo.progress}%` }}></div></div>
             <div className={`flex items-center gap-1 truncate ${textMain} max-w-[100px]`}><span className="font-mono text-yellow-400 font-bold">LV.{wealthInfo.level}</span><span className="text-xs truncate">{wealthInfo.title}</span></div>
           </div>
         </div>

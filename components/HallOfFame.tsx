@@ -20,6 +20,8 @@ import {
   BrainCircuit, Activity, TrendingUp, DollarSign, Building, Utensils, Ticket, Music, Headphones, Armchair, Scissors, Glasses, Sofa, Edit3,
   XCircle, Trash2, Plus, Grid3X3
 } from 'lucide-react';
+
+
 import { Theme, AchievementItem } from '../types';
 import CharacterProfile, { CharacterProfileHandle, getAllLevels, getAllFocusTitles, getAllWealthTitles, getAllMilitaryRanks } from './CharacterProfile';
 
@@ -81,9 +83,9 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
             return isSpecial ? 'bg-red-500 text-white border-red-500' : 'bg-blue-500 text-white border-blue-500';
         }
         if (isNeomorphic) {
-            return `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow} ${neomorphicStyles.hoverShadow} ${neomorphicStyles.activeShadow} ${neomorphicStyles.transition}`;
+            return `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.transition}`;
         }
-        return isDark ? 'bg-zinc-900 border-zinc-800 text-zinc-500 hover:border-zinc-700' : 'bg-white border-slate-300 text-slate-600 hover:border-slate-200';
+        return isDark ? 'bg-zinc-900 border-zinc-800 text-zinc-500 hover:border-zinc-700' : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300';
     };
     
     // 拟态风格卡片背景 - 符合设计规格的高饱和度灰蓝色底色，135度光源，增强阴影效果
@@ -128,6 +130,7 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
     const [viewingGroup, setViewingGroup] = useState<'ALL' | 'LEVEL' | 'FOCUS' | 'WEALTH' | 'COMBAT' | 'CHECKIN' | 'SPEND'>('ALL');
     // 强制刷新状态，用于更新勋章列表
     const [forceRefresh, setForceRefresh] = useState(false);
+    const [activeHelp, setActiveHelp] = useState<string | null>(null);
     // 重置编辑缓存函数，避免跨分组操作冲突
     const resetEditCache = (categoryToReset?: string) => {
         if (categoryToReset) {
@@ -311,21 +314,21 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                             {/* 左侧：图标和文字 */}
                             <div className="flex items-center gap-1">
                                 <Activity size={12} className="text-yellow-500"/>
-                                <h4 className="text-xs font-bold uppercase text-zinc-500">成就收集率</h4>
+                                <h4 className="text-xs font-bold uppercase text-zinc-500 text-shadow-sm">成就收集率</h4>
                             </div>
                             
-                            {/* 中间：延长的进度条 */}
-                            <div className="flex-1 bg-zinc-700 rounded-full h-1.5 overflow-hidden">
-                                <div 
-                                    className="h-full bg-blue-600 rounded-full transition-all duration-500 ease-out" 
-                                    style={{ width: `${Math.round((unlockedCount/totalCount)*100)}%` }}
-                                ></div>
-                            </div>
+                            {/* 中间：延长的进度条 - 凹陷效果 */}
+                        <div className={`flex-1 rounded-full h-1.5 overflow-hidden ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-800 shadow-[inset_2px_2px_4px_rgba(0,0,0,0.5),inset_-2px_-2px_4px_rgba(255,255,255,0.1)]' : 'bg-slate-200 shadow-[inset_2px_2px_4px_rgba(163,177,198,0.3),inset_-2px_-2px_4px_rgba(255,255,255,0.8)]'}`}>
+                            <div 
+                                className={`h-full bg-blue-600 rounded-full transition-all duration-500 ease-out ${isNeomorphic ? 'shadow-[4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]' : isDark ? 'shadow-[2px_2px_4px_rgba(0,0,0,0.3)]' : 'shadow-[2px_2px_4px_rgba(163,177,198,0.3)]'}`} 
+                                style={{ width: `${Math.round((unlockedCount/totalCount)*100)}%` }}
+                            ></div>
+                        </div>
                             
                             {/* 右侧：百分比和已解锁数量 */}
                             <div className="flex items-center gap-2 ml-auto">
-                                <div className={`text-xl font-black text-yellow-500`}>{Math.round((unlockedCount/totalCount)*100)}%</div>
-                                <div className={`text-sm font-mono ${textSub}`}>{unlockedCount}/{totalCount} 已解锁</div>
+                                <div className={`text-xl font-black text-yellow-500 text-shadow-md`}>{Math.round((unlockedCount/totalCount)*100)}%</div>
+                                <div className={`text-sm font-mono ${textSub} text-shadow-sm`}>{unlockedCount}/{totalCount} 已解锁</div>
                             </div>
                         </div>
                     </div>
@@ -379,9 +382,15 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                     {/* 3. 勋章分组模块 - 单独的模块 */}
                     <div className={`mb-6 p-3 rounded-xl ${isDark ? 'bg-zinc-900' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[6px_6px_12px_rgba(163,177,198,0.6),-6px_-6px_12px_rgba(255,255,255,1)]' : 'bg-white shadow-md'} transition-all duration-300 hover:shadow-lg`}>
                         {/* 左上角分组图标和文字 */}
-                        <div className="flex items-center gap-2 mb-2">
-                            <Layout size={12} className="text-yellow-500"/>
-                            <h4 className="text-xs font-bold uppercase text-zinc-500">勋章分组</h4>
+                        <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center gap-2">
+                                <Layout size={12} className="text-yellow-500"/>
+                                <h4 className="text-xs font-bold uppercase text-zinc-500">勋章分组</h4>
+                            </div>
+                            {/* 问号帮助按钮 */}
+                        <button onClick={() => setActiveHelp('achievements')} className={`p-1.5 rounded-full transition-all duration-300 hover:scale-[1.1] ${isNeomorphic ? 'hover:bg-blue-500/10' : 'hover:bg-blue-500/20'}`}>
+                            <HelpCircle size={14} className="text-blue-500" />
+                        </button>
                         </div>
                         <div className="flex gap-2 overflow-x-auto pb-2 custom-scrollbar items-center">
                             {
@@ -424,7 +433,7 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                             }
                             {/* 管理按钮 */}
                             <button 
-                                className={`px-4 py-1.5 text-xs font-bold flex items-center gap-1.5 whitespace-nowrap transition-all ${isNeomorphic ? 'bg-[#e0e5ec] transition-all duration-300 text-zinc-700 rounded-[24px]' : (isDark ? 'bg-zinc-900 hover:bg-zinc-800 text-zinc-500 transition-all duration-300 rounded-[24px]' : 'bg-white hover:bg-slate-100 text-slate-600 transition-all duration-300 rounded-[24px]')}`}
+                                className={`px-4 py-1.5 text-xs font-bold flex items-center gap-1.5 whitespace-nowrap transition-all ${isNeomorphic ? 'bg-[#e0e5ec] border-[#e0e5ec] text-zinc-700 rounded-[24px] hover:shadow-[4px_4px_8px_rgba(163,177,198,0.5),-4px_-4px_8px_rgba(255,255,255,0.8)] active:shadow-[inset_3px_3px_6px_rgba(163,177,198,0.5),inset_-3px_-3px_6px_rgba(255,255,255,0.8)]' : (isDark ? 'bg-zinc-900 hover:bg-zinc-800 text-zinc-500 transition-all duration-300 rounded-[24px]' : 'bg-white hover:bg-slate-100 text-slate-600 transition-all duration-300 rounded-[24px]')}`}
                                 onClick={() => setShowManageModal(true)}
                             >
                                 <Edit3 size={12} /> 管理
@@ -497,7 +506,7 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                     {/* 分类切换按钮 */}
                     <div className="mb-6 overflow-x-auto pb-2">
                         <div className="flex gap-2">
-                            {[{id:'ALL', l:'全部', i:Grid3X3}, {id:'LEVEL', l:'等级', i:Zap}, {id:'FOCUS', l:'专注', i:Clock}, {id:'WEALTH', l:'财富', i:Wallet}, {id:'COMBAT', l:'战斗', i:Target}, {id:'CHECKIN', l:'签到', i:Calendar}, {id:'SPEND', l:'消费', i:ShoppingBag}].map(group => {
+                            {[{id:'ALL', l:'全部', i:Grid3X3}, {id:'LEVEL', l:'等级', i:Zap}, {id:'FOCUS', l:'专注', i:Clock}, {id:'WEALTH', l:'财富', i:Wallet}, {id:'COMBAT', l:'战斗', i:Target}, {id:'CHECKIN', l:'签到', i:Calendar}, {id:'SPEND', l:'消费', i:ShoppingBag}, {id:'TASK', l:'任务勋章', i:List}].map(group => {
                                 const Icon = group.i;
                                 return (
                                     <button 
@@ -521,32 +530,63 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                     
                     {/* 勋章分组列表 */}
                     <div className="space-y-6">
+                        {/* 新增勋章按钮 - 移动到顶部 */}
+                        <div className="text-center">
+                            <button 
+                                className={`w-full py-3 rounded-full transition-all ${isDark ? 'bg-zinc-800 hover:bg-zinc-700' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_8px_8px_16px_rgba(163,177,198,0.6),inset_-8px_-8px_16px_rgba(255,255,255,1)]' : 'bg-blue-50 hover:bg-blue-100'}`}
+                                onClick={() => {
+                                    // 创建一个新的勋章模板
+                                    const newBadge = {
+                                        id: `new-${Date.now()}`,
+                                        title: '新勋章',
+                                        subTitle: 'NEW',
+                                        icon: Trophy,
+                                        color: 'text-yellow-500',
+                                        bgColor: 'bg-yellow-500/20',
+                                        borderColor: 'border-yellow-500/50',
+                                        isUnlocked: false,
+                                        req: '完成条件',
+                                        progress: 0,
+                                        rewardXp: 0,
+                                        rewardGold: 0,
+                                        category: selectedCategory === 'ALL' ? 'LEVEL' : selectedCategory,
+                                        level: 1,
+                                        min: 100,
+                                        rewardRatio: 0.1
+                                    };
+                                    setEditingBadge(newBadge);
+                                }}
+                            >
+                                <Plus size={16} className="inline-block mr-2" /> 新增勋章
+                            </button>
+                        </div>
+                        
                         <div>
                             <div className="grid grid-cols-1 gap-3">
-                                {[{id:'LEVEL', l:'等级', i:Zap}, {id:'FOCUS', l:'专注', i:Clock}, {id:'WEALTH', l:'财富', i:Wallet}, {id:'COMBAT', l:'战斗', i:Target}, {id:'CHECKIN', l:'签到', i:Calendar}, {id:'SPEND', l:'消费', i:ShoppingBag}]
+                                {[{id:'LEVEL', l:'等级', i:Zap}, {id:'FOCUS', l:'专注', i:Clock}, {id:'WEALTH', l:'财富', i:Wallet}, {id:'COMBAT', l:'战斗', i:Target}, {id:'CHECKIN', l:'签到', i:Calendar}, {id:'SPEND', l:'消费', i:ShoppingBag}, {id:'TASK', l:'任务勋章', i:List}]
                                     .filter(group => selectedCategory === 'ALL' || group.id === selectedCategory)
                                     .map(group => (
                                     <div 
                                         key={group.id} 
-                                        className={`p-3 rounded-lg transition-all ${isDark ? 'bg-zinc-800 hover:bg-zinc-700' : isNeomorphic ? 'bg-[#e0e5ec]' : 'bg-slate-50 hover:bg-slate-100'}`}
+                                        className={`p-4 rounded-lg transition-all duration-300 hover:scale-[1.02] ${isDark ? 'bg-zinc-800 hover:bg-zinc-700' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)] hover:shadow-[8px_8px_16px_rgba(163,177,198,0.5),-8px_-8px_16px_rgba(255,255,255,1)]' : 'bg-slate-50 hover:bg-slate-100'}`}
                                     >
                                         <div className="flex items-center justify-between">
                                             <div className="flex items-center gap-2">
                                                 <group.i size={16} className="text-yellow-500" />
                                                 <span className={textMain}>{group.l}</span>
                                             </div>
-                                            <div className="flex gap-1">
+                                            <div className="flex gap-2">
                                                 <button 
-                                                    className={`p-1.5 rounded hover:bg-yellow-500/20 transition-colors`}
-                                                    onClick={() => setEditingGroup(group.id)}
-                                                >
-                                                    <Edit3 size={14} className={textSub} />
-                                                </button>
-                                                <button 
-                                                    className={`p-1.5 rounded hover:bg-red-500/20 transition-colors`}
-                                                >
-                                                    <Trash2 size={14} className={textSub} />
-                                                </button>
+                                    className={`p-2 rounded-full transition-all duration-300 hover:scale-[1.2] ${isNeomorphic ? 'bg-[#e0e5ec] border-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]' : 'hover:bg-yellow-500/20'}`}
+                                    onClick={() => setEditingGroup(group.id)}
+                                >
+                                    <Edit3 size={16} className={isDark ? 'text-yellow-400' : 'text-yellow-600'} />
+                                </button>
+                                <button 
+                                    className={`p-2 rounded-full transition-all duration-300 hover:scale-[1.2] ${isNeomorphic ? 'bg-[#e0e5ec] border-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]' : 'hover:bg-red-500/20'}`}
+                                >
+                                    <Trash2 size={16} className={isDark ? 'text-red-400' : 'text-red-600'} />
+                                </button>
                                             </div>
                                         </div>
                                         
@@ -555,28 +595,28 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                                             {allBadges.filter(badge => badge.category === group.id).map(badge => (
                                                 <div 
                                                     key={badge.id} 
-                                                    className={`p-2 rounded flex items-center justify-between hover:bg-zinc-800/50 transition-colors ${isDark ? 'bg-zinc-900/50' : 'bg-white/50'}`}
+                                                    className={`p-3 rounded-lg flex items-center justify-between transition-all duration-300 hover:scale-[1.02] group ${isDark ? 'bg-zinc-900/50 hover:bg-zinc-800/70' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.5),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[6px_6px_12px_rgba(163,177,198,0.4),-6px_-6px_12px_rgba(255,255,255,1)]' : 'bg-slate-50 hover:bg-slate-100'}`}
                                                 >
-                                                    <div className="flex items-center gap-2">
-                                                        <div className={`w-8 h-8 rounded-full flex items-center justify-center ${badge.isUnlocked ? badge.bgColor : 'bg-zinc-900/30'}`}>
-                                                            <badge.icon size={16} className={badge.color} strokeWidth={2} />
+                                                    <div className="flex items-center gap-3">
+                                                        <div className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-[1.1] ${badge.isUnlocked ? (isNeomorphic ? `bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] hover:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),-2px_-2px_4px_rgba(255,255,255,1)]` : badge.bgColor) : 'bg-zinc-900/30'}`}>
+                                                            <badge.icon size={20} className={badge.color} strokeWidth={2} />
                                                         </div>
                                                         <div className="flex-1">
-                                                            <div className={`text-sm font-bold ${textMain}`}>{badge.title}</div>
+                                                            <div className={`text-sm font-bold ${textMain} transition-all duration-300 group-hover:scale-[1.05]`}>{badge.title}</div>
                                                             <div className={`text-xs ${textSub}`}>{badge.req}</div>
                                                         </div>
                                                     </div>
-                                                    <div className="flex gap-1">
+                                                    <div className="flex gap-2 opacity-70 transition-opacity duration-300 group-hover:opacity-100">
                                                         <button 
-                                                            className={`p-1.5 rounded hover:bg-yellow-500/20 transition-colors`}
+                                                            className={`p-2 rounded-lg transition-all duration-300 hover:scale-[1.2] ${isNeomorphic ? 'bg-[#e0e5ec] border-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]' : 'hover:bg-yellow-500/20'}`}
                                                             onClick={() => setEditingBadge(badge)}
                                                         >
-                                                            <Edit3 size={12} className={textSub} />
+                                                            <Edit3 size={16} className={isDark ? 'text-yellow-400' : 'text-yellow-600'} />
                                                         </button>
                                                         <button 
-                                                            className={`p-1.5 rounded hover:bg-red-500/20 transition-colors`}
+                                                            className={`p-2 rounded-lg transition-all duration-300 hover:scale-[1.2] ${isNeomorphic ? 'bg-[#e0e5ec] border-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]' : 'hover:bg-red-500/20'}`}
                                                         >
-                                                            <Trash2 size={12} className={textSub} />
+                                                            <Trash2 size={16} className={isDark ? 'text-red-400' : 'text-red-600'} />
                                                         </button>
                                                     </div>
                                                 </div>
@@ -590,7 +630,7 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                         {/* 新增分组按钮 */}
                         <div className="text-center">
                             <button 
-                                className={`w-full py-3 rounded-lg transition-all ${isDark ? 'bg-zinc-800 hover:bg-zinc-700' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_8px_8px_16px_rgba(163,177,198,0.6),inset_-8px_-8px_16px_rgba(255,255,255,1)]' : 'bg-blue-50 hover:bg-blue-100'}`}
+                                className={`w-full py-3 rounded-full transition-all ${isDark ? 'bg-zinc-800 hover:bg-zinc-700' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_8px_8px_16px_rgba(163,177,198,0.6),inset_-8px_-8px_16px_rgba(255,255,255,1)]' : 'bg-blue-50 hover:bg-blue-100'}`}
                             >
                                 <Plus size={16} className="inline-block mr-2" /> 新增分组
                             </button>
@@ -639,173 +679,261 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                 <div className={`w-full max-w-2xl rounded-xl ${isDark ? 'bg-zinc-900' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)]' : 'bg-white'} p-6`}>
                     <h3 className={`text-lg font-bold mb-4 ${textMain}`}>编辑勋章</h3>
                     <div className="space-y-4">
-                        {/* 基本信息 - 一行显示两个修改项 */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label className={`block text-sm font-bold mb-2 ${textSub}`}>勋章名称</label>
-                                <input 
-                                    type="text" 
-                                    defaultValue={badgeEditCache[editingBadge.category]?.[editingBadge.id]?.title || editingBadge.title}
-                                    onChange={(e) => setBadgeEditCache(prev => ({
-                                        ...prev,
-                                        [editingBadge.category]: {
-                                            ...prev[editingBadge.category] || {},
-                                            [editingBadge.id]: {
-                                                ...prev[editingBadge.category]?.[editingBadge.id] || editingBadge,
-                                                title: e.target.value
+                        {/* 基本信息 - 根据勋章类型显示不同的配置项 */}
+                        {editingBadge.category === 'TASK' ? (
+                            <>
+                                {/* 任务勋章配置：仅显示勋章名称、完成次数、解锁奖励 */}
+                                <div>
+                                    <label className={`block text-sm font-bold mb-2 ${textSub}`}>勋章名称</label>
+                                    <input 
+                                        type="text" 
+                                        defaultValue={badgeEditCache[editingBadge.category]?.[editingBadge.id]?.title || editingBadge.title}
+                                        onChange={(e) => setBadgeEditCache(prev => ({
+                                            ...prev,
+                                            [editingBadge.category]: {
+                                                ...prev[editingBadge.category] || {},
+                                                [editingBadge.id]: {
+                                                    ...prev[editingBadge.category]?.[editingBadge.id] || editingBadge,
+                                                    title: e.target.value
+                                                }
                                             }
-                                        }
-                                    }))}
-                                    className={`w-full p-3 rounded-lg ${isDark ? 'bg-zinc-800 border-zinc-700' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]' : 'bg-white border-slate-200'} border ${textMain}`}
-                                />
-                            </div>
-                            <div>
-                                <label className={`block text-sm font-bold mb-2 ${textSub}`}>子标题</label>
-                                <input 
-                                    type="text" 
-                                    defaultValue={badgeEditCache[editingBadge.category]?.[editingBadge.id]?.subTitle || editingBadge.subTitle}
-                                    onChange={(e) => setBadgeEditCache(prev => ({
-                                        ...prev,
-                                        [editingBadge.category]: {
-                                            ...prev[editingBadge.category] || {},
-                                            [editingBadge.id]: {
-                                                ...prev[editingBadge.category]?.[editingBadge.id] || editingBadge,
-                                                subTitle: e.target.value
-                                            }
-                                        }
-                                    }))}
-                                    className={`w-full p-3 rounded-lg ${isDark ? 'bg-zinc-800 border-zinc-700' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]' : 'bg-white border-slate-200'} border ${textMain}`}
-                                />
-                            </div>
-                        </div>
-                        
-                        {/* 等级和达成条件 - 一行显示两个修改项 */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label className={`block text-sm font-bold mb-2 ${textSub}`}>等级设置</label>
-                                <input 
-                                    type="number" 
-                                    defaultValue={badgeEditCache[editingBadge.category]?.[editingBadge.id]?.level || editingBadge.level || 1}
-                                    min="1"
-                                    onChange={(e) => setBadgeEditCache(prev => ({
-                                        ...prev,
-                                        [editingBadge.category]: {
-                                            ...prev[editingBadge.category] || {},
-                                            [editingBadge.id]: {
-                                                ...prev[editingBadge.category]?.[editingBadge.id] || editingBadge,
-                                                level: parseInt(e.target.value) || 1
-                                            }
-                                        }
-                                    }))}
-                                    className={`w-full p-3 rounded-lg ${isDark ? 'bg-zinc-800 border-zinc-700' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]' : 'bg-white border-slate-200'} border ${textMain}`}
-                                />
-                            </div>
-                            
-                            <div>
-                                <label className={`block text-sm font-bold mb-2 ${textSub}`}>达成条件</label>
-                                <input 
-                                    type="text" 
-                                    defaultValue={badgeEditCache[editingBadge.category]?.[editingBadge.id]?.req || editingBadge.req}
-                                    onChange={(e) => setBadgeEditCache(prev => ({
-                                        ...prev,
-                                        [editingBadge.category]: {
-                                            ...prev[editingBadge.category] || {},
-                                            [editingBadge.id]: {
-                                                ...prev[editingBadge.category]?.[editingBadge.id] || editingBadge,
-                                                req: e.target.value
-                                            }
-                                        }
-                                    }))}
-                                    className={`w-full p-3 rounded-lg ${isDark ? 'bg-zinc-800 border-zinc-700' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]' : 'bg-white border-slate-200'} border ${textMain}`}
-                                />
-                            </div>
-                        </div>
-                        
-                        {/* 奖励配置区域 */}
-                        <div>
-                            <div className="flex items-center justify-between mb-2">
-                                <label className={`block text-sm font-bold ${textSub}`}>奖励配置</label>
-                                <div className="relative group">
-                                    <button className="p-1 rounded-full hover:bg-yellow-500/20 transition-colors">
-                                        <HelpCircle size={14} className={textSub} />
-                                    </button>
-                                    <div className="absolute right-0 top-6 w-64 p-3 rounded-lg bg-black/80 text-xs text-white z-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
-                                        <p className="mb-2 font-bold">默认奖励规则：</p>
-                                        <ul className="space-y-1">
-                                            <li>• 经验类勋章：仅奖励经验值，10%比例</li>
-                                            <li>• 金币类勋章：仅奖励金币，10%比例</li>
-                                            <li>• 专注时间类：奖励经验+金币，均10%比例</li>
-                                            <li>• 消费类勋章：仅奖励金币，10%比例</li>
-                                        </ul>
+                                        }))}
+                                        className={`w-full p-3 rounded-lg ${isDark ? 'bg-zinc-800 border-zinc-700' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]' : 'bg-white border-slate-200'} border ${textMain}`}
+                                    />
+                                </div>
+                                
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                                    <div>
+                                        <label className={`block text-sm font-bold mb-2 ${textSub}`}>完成次数</label>
+                                        <input 
+                                            type="number" 
+                                            defaultValue={badgeEditCache[editingBadge.category]?.[editingBadge.id]?.requiredValue || editingBadge.requiredValue || 1}
+                                            min="1"
+                                            onChange={(e) => setBadgeEditCache(prev => ({
+                                                ...prev,
+                                                [editingBadge.category]: {
+                                                    ...prev[editingBadge.category] || {},
+                                                    [editingBadge.id]: {
+                                                        ...prev[editingBadge.category]?.[editingBadge.id] || editingBadge,
+                                                        requiredValue: parseInt(e.target.value) || 1
+                                                    }
+                                                }
+                                            }))}
+                                            className={`w-full p-3 rounded-lg ${isDark ? 'bg-zinc-800 border-zinc-700' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]' : 'bg-white border-slate-200'} border ${textMain}`}
+                                        />
+                                    </div>
+                                    
+                                    <div>
+                                        <label className={`block text-sm font-bold mb-2 ${textSub}`}>解锁奖励</label>
+                                        <div className="grid grid-cols-2 gap-2">
+                                            <div>
+                                                <label className={`block text-xs font-bold mb-1 ${textSub}`}>经验值</label>
+                                                <input 
+                                                    type="number" 
+                                                    defaultValue={badgeEditCache[editingBadge.category]?.[editingBadge.id]?.rewardXp || editingBadge.rewardXp || 0}
+                                                    min="0"
+                                                    onChange={(e) => setBadgeEditCache(prev => ({
+                                                        ...prev,
+                                                        [editingBadge.category]: {
+                                                            ...prev[editingBadge.category] || {},
+                                                            [editingBadge.id]: {
+                                                                ...prev[editingBadge.category]?.[editingBadge.id] || editingBadge,
+                                                                rewardXp: parseInt(e.target.value) || 0
+                                                            }
+                                                        }
+                                                    }))}
+                                                    className={`w-full p-2 rounded-lg ${isDark ? 'bg-zinc-800 border-zinc-700' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]' : 'bg-white border-slate-200'} border ${textMain}`}
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className={`block text-xs font-bold mb-1 ${textSub}`}>金币</label>
+                                                <input 
+                                                    type="number" 
+                                                    defaultValue={badgeEditCache[editingBadge.category]?.[editingBadge.id]?.rewardGold || editingBadge.rewardGold || 0}
+                                                    min="0"
+                                                    onChange={(e) => setBadgeEditCache(prev => ({
+                                                        ...prev,
+                                                        [editingBadge.category]: {
+                                                            ...prev[editingBadge.category] || {},
+                                                            [editingBadge.id]: {
+                                                                ...prev[editingBadge.category]?.[editingBadge.id] || editingBadge,
+                                                                rewardGold: parseInt(e.target.value) || 0
+                                                            }
+                                                        }
+                                                    }))}
+                                                    className={`w-full p-2 rounded-lg ${isDark ? 'bg-zinc-800 border-zinc-700' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]' : 'bg-white border-slate-200'} border ${textMain}`}
+                                                />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                {/* 奖励比例 */}
-                                <div>
-                                    <label className={`block text-xs font-bold mb-1 ${textSub}`}>奖励比例 (%)</label>
-                                    <input 
-                                        type="number" 
-                                        defaultValue={badgeEditCache[editingBadge.category]?.[editingBadge.id]?.rewardRatio || editingBadge.rewardRatio || 10}
-                                        min="0"
-                                        max="100"
-                                        onChange={(e) => setBadgeEditCache(prev => ({
-                                            ...prev,
-                                            [editingBadge.category]: {
-                                                ...prev[editingBadge.category] || {},
-                                                [editingBadge.id]: {
-                                                    ...prev[editingBadge.category]?.[editingBadge.id] || editingBadge,
-                                                    rewardRatio: parseInt(e.target.value) || 10
+                            </>
+                        ) : (
+                            <>
+                                {/* 其他类型勋章的完整配置 */}
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label className={`block text-sm font-bold mb-2 ${textSub}`}>勋章名称</label>
+                                        <input 
+                                            type="text" 
+                                            defaultValue={badgeEditCache[editingBadge.category]?.[editingBadge.id]?.title || editingBadge.title}
+                                            onChange={(e) => setBadgeEditCache(prev => ({
+                                                ...prev,
+                                                [editingBadge.category]: {
+                                                    ...prev[editingBadge.category] || {},
+                                                    [editingBadge.id]: {
+                                                        ...prev[editingBadge.category]?.[editingBadge.id] || editingBadge,
+                                                        title: e.target.value
+                                                    }
                                                 }
-                                            }
-                                        }))}
-                                        className={`w-full p-3 rounded-lg ${isDark ? 'bg-zinc-800 border-zinc-700' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]' : 'bg-white border-slate-200'} border ${textMain}`}
-                                    />
+                                            }))}
+                                            className={`w-full p-3 rounded-lg ${isDark ? 'bg-zinc-800 border-zinc-700' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]' : 'bg-white border-slate-200'} border ${textMain}`}
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className={`block text-sm font-bold mb-2 ${textSub}`}>子标题</label>
+                                        <input 
+                                            type="text" 
+                                            defaultValue={badgeEditCache[editingBadge.category]?.[editingBadge.id]?.subTitle || editingBadge.subTitle}
+                                            onChange={(e) => setBadgeEditCache(prev => ({
+                                                ...prev,
+                                                [editingBadge.category]: {
+                                                    ...prev[editingBadge.category] || {},
+                                                    [editingBadge.id]: {
+                                                        ...prev[editingBadge.category]?.[editingBadge.id] || editingBadge,
+                                                        subTitle: e.target.value
+                                                    }
+                                                }
+                                            }))}
+                                            className={`w-full p-3 rounded-lg ${isDark ? 'bg-zinc-800 border-zinc-700' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]' : 'bg-white border-slate-200'} border ${textMain}`}
+                                        />
+                                    </div>
                                 </div>
                                 
-                                {/* 经验奖励 */}
-                                <div>
-                                    <label className={`block text-xs font-bold mb-1 ${textSub}`}>经验奖励</label>
-                                    <input 
-                                        type="number" 
-                                        defaultValue={badgeEditCache[editingBadge.category]?.[editingBadge.id]?.rewardXp || editingBadge.rewardXp || 0}
-                                        min="0"
-                                        onChange={(e) => setBadgeEditCache(prev => ({
-                                            ...prev,
-                                            [editingBadge.category]: {
-                                                ...prev[editingBadge.category] || {},
-                                                [editingBadge.id]: {
-                                                    ...prev[editingBadge.category]?.[editingBadge.id] || editingBadge,
-                                                    rewardXp: parseInt(e.target.value) || 0
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                                    <div>
+                                        <label className={`block text-sm font-bold mb-2 ${textSub}`}>等级设置</label>
+                                        <input 
+                                            type="number" 
+                                            defaultValue={badgeEditCache[editingBadge.category]?.[editingBadge.id]?.level || editingBadge.level || 1}
+                                            min="1"
+                                            onChange={(e) => setBadgeEditCache(prev => ({
+                                                ...prev,
+                                                [editingBadge.category]: {
+                                                    ...prev[editingBadge.category] || {},
+                                                    [editingBadge.id]: {
+                                                        ...prev[editingBadge.category]?.[editingBadge.id] || editingBadge,
+                                                        level: parseInt(e.target.value) || 1
+                                                    }
                                                 }
-                                            }
-                                        }))}
-                                        className={`w-full p-3 rounded-lg ${isDark ? 'bg-zinc-800 border-zinc-700' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]' : 'bg-white border-slate-200'} border ${textMain}`}
-                                    />
+                                            }))}
+                                            className={`w-full p-3 rounded-lg ${isDark ? 'bg-zinc-800 border-zinc-700' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]' : 'bg-white border-slate-200'} border ${textMain}`}
+                                        />
+                                    </div>
+                                    
+                                    <div>
+                                        <label className={`block text-sm font-bold mb-2 ${textSub}`}>达成条件</label>
+                                        <input 
+                                            type="text" 
+                                            defaultValue={badgeEditCache[editingBadge.category]?.[editingBadge.id]?.req || editingBadge.req}
+                                            onChange={(e) => setBadgeEditCache(prev => ({
+                                                ...prev,
+                                                [editingBadge.category]: {
+                                                    ...prev[editingBadge.category] || {},
+                                                    [editingBadge.id]: {
+                                                        ...prev[editingBadge.category]?.[editingBadge.id] || editingBadge,
+                                                        req: e.target.value
+                                                    }
+                                                }
+                                            }))}
+                                            className={`w-full p-3 rounded-lg ${isDark ? 'bg-zinc-800 border-zinc-700' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]' : 'bg-white border-slate-200'} border ${textMain}`}
+                                        />
+                                    </div>
                                 </div>
                                 
-                                {/* 金币奖励 */}
-                                <div>
-                                    <label className={`block text-xs font-bold mb-1 ${textSub}`}>金币奖励</label>
-                                    <input 
-                                        type="number" 
-                                        defaultValue={badgeEditCache[editingBadge.category]?.[editingBadge.id]?.rewardGold || editingBadge.rewardGold || 0}
-                                        min="0"
-                                        onChange={(e) => setBadgeEditCache(prev => ({
-                                            ...prev,
-                                            [editingBadge.category]: {
-                                                ...prev[editingBadge.category] || {},
-                                                [editingBadge.id]: {
-                                                    ...prev[editingBadge.category]?.[editingBadge.id] || editingBadge,
-                                                    rewardGold: parseInt(e.target.value) || 0
-                                                }
-                                            }
-                                        }))}
-                                        className={`w-full p-3 rounded-lg ${isDark ? 'bg-zinc-800 border-zinc-700' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]' : 'bg-white border-slate-200'} border ${textMain}`}
-                                    />
+                                <div className="mt-4">
+                                    <div className="flex items-center justify-between mb-2">
+                                        <label className={`block text-sm font-bold ${textSub}`}>奖励配置</label>
+                                        <div className="relative group">
+                                            <button className="p-1 rounded-full hover:bg-yellow-500/20 transition-colors">
+                                                <HelpCircle size={14} className={textSub} />
+                                            </button>
+                                            <div className="absolute right-0 top-6 w-64 p-3 rounded-lg bg-black/80 text-xs text-white z-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+                                                <p className="mb-2 font-bold">默认奖励规则：</p>
+                                                <ul className="space-y-1">
+                                                    <li>• 经验类勋章：仅奖励经验值，10%比例</li>
+                                                    <li>• 金币类勋章：仅奖励金币，10%比例</li>
+                                                    <li>• 专注时间类：奖励经验+金币，均10%比例</li>
+                                                    <li>• 消费类勋章：仅奖励金币，10%比例</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                        <div>
+                                            <label className={`block text-xs font-bold mb-1 ${textSub}`}>奖励比例 (%)</label>
+                                            <input 
+                                                type="number" 
+                                                defaultValue={badgeEditCache[editingBadge.category]?.[editingBadge.id]?.rewardRatio || editingBadge.rewardRatio || 10}
+                                                min="0"
+                                                max="100"
+                                                onChange={(e) => setBadgeEditCache(prev => ({
+                                                    ...prev,
+                                                    [editingBadge.category]: {
+                                                        ...prev[editingBadge.category] || {},
+                                                        [editingBadge.id]: {
+                                                            ...prev[editingBadge.category]?.[editingBadge.id] || editingBadge,
+                                                            rewardRatio: parseInt(e.target.value) || 10
+                                                        }
+                                                    }
+                                                }))}
+                                                className={`w-full p-3 rounded-lg ${isDark ? 'bg-zinc-800 border-zinc-700' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]' : 'bg-white border-slate-200'} border ${textMain}`}
+                                            />
+                                        </div>
+                                        
+                                        <div>
+                                            <label className={`block text-xs font-bold mb-1 ${textSub}`}>经验奖励</label>
+                                            <input 
+                                                type="number" 
+                                                defaultValue={badgeEditCache[editingBadge.category]?.[editingBadge.id]?.rewardXp || editingBadge.rewardXp || 0}
+                                                min="0"
+                                                onChange={(e) => setBadgeEditCache(prev => ({
+                                                    ...prev,
+                                                    [editingBadge.category]: {
+                                                        ...prev[editingBadge.category] || {},
+                                                        [editingBadge.id]: {
+                                                            ...prev[editingBadge.category]?.[editingBadge.id] || editingBadge,
+                                                            rewardXp: parseInt(e.target.value) || 0
+                                                        }
+                                                    }
+                                                }))}
+                                                className={`w-full p-3 rounded-lg ${isDark ? 'bg-zinc-800 border-zinc-700' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]' : 'bg-white border-slate-200'} border ${textMain}`}
+                                            />
+                                        </div>
+                                        
+                                        <div>
+                                            <label className={`block text-xs font-bold mb-1 ${textSub}`}>金币奖励</label>
+                                            <input 
+                                                type="number" 
+                                                defaultValue={badgeEditCache[editingBadge.category]?.[editingBadge.id]?.rewardGold || editingBadge.rewardGold || 0}
+                                                min="0"
+                                                onChange={(e) => setBadgeEditCache(prev => ({
+                                                    ...prev,
+                                                    [editingBadge.category]: {
+                                                        ...prev[editingBadge.category] || {},
+                                                        [editingBadge.id]: {
+                                                            ...prev[editingBadge.category]?.[editingBadge.id] || editingBadge,
+                                                            rewardGold: parseInt(e.target.value) || 0
+                                                        }
+                                                    }
+                                                }))}
+                                                className={`w-full p-3 rounded-lg ${isDark ? 'bg-zinc-800 border-zinc-700' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]' : 'bg-white border-slate-200'} border ${textMain}`}
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+                            </>
+                        )}
                         
                         {/* 操作按钮 */}
                         <div className="flex gap-2">
@@ -922,6 +1050,50 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
         
 
         
+        
+        {/* 帮助模态框 */}
+        {activeHelp && (
+            <div className="fixed inset-0 z-[100] bg-black/80 flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in">
+                <div className={`w-full max-w-md p-6 rounded-2xl border ${cardBg} shadow-2xl relative`}>
+                    <button onClick={() => setActiveHelp(null)} className="absolute top-4 right-4 text-zinc-500 hover:text-white"><XCircle size={20}/></button>
+                    {activeHelp === 'achievements' && (
+                        <div className="space-y-4">
+                            <div className="flex justify-between items-center">
+                                <h3 className={`text-xl font-black ${textMain} flex items-center gap-2`}>
+                                    <Trophy className="text-yellow-500"/>
+                                    勋章系统指南
+                                </h3>
+                                <div className={`text-xs ${textSub}`}>更新时间: 2025-12-26</div>
+                            </div>
+                            <div className="text-sm text-zinc-400 space-y-3">
+                                <p>勋章系统是人生游戏的核心激励机制，通过完成各种挑战获得不同类型的勋章。</p>
+                                <p><strong className="text-emerald-500">勋章分类:</strong></p>
+                                <ul className="list-disc list-inside space-y-1 ml-4">
+                                    <li>等级：根据经验值解锁</li>
+                                    <li>专注：根据累计专注时间解锁</li>
+                                    <li>财富：根据金币数量解锁</li>
+                                    <li>战斗：根据完成任务数量解锁</li>
+                                    <li>签到：根据连续签到天数解锁</li>
+                                    <li>消费：根据累计消费金额解锁</li>
+                                </ul>
+                                <p><strong className="text-emerald-500">解锁条件:</strong> 达到对应阈值自动解锁，无需手动领取。</p>
+                                <p><strong className="text-emerald-500">奖励机制:</strong> 不同类型勋章有不同的奖励规则：</p>
+                                <ul className="list-disc list-inside space-y-1 ml-4">
+                                    <li>经验类勋章：仅奖励经验值</li>
+                                    <li>金币类勋章：仅奖励金币</li>
+                                    <li>专注时间类：同时奖励经验和金币</li>
+                                    <li>战斗类：同时奖励经验和金币</li>
+                                    <li>签到类：同时奖励经验和金币</li>
+                                    <li>消费类：仅奖励金币</li>
+                                </ul>
+                                <p><strong className="text-emerald-500">管理功能:</strong> 点击"管理"按钮可以编辑勋章的详细信息，包括名称、解锁条件和奖励。</p>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </div>
+        )}
+
         </div>
     );
 };

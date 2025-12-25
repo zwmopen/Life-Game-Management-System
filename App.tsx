@@ -4,7 +4,7 @@ import MissionControl from './components/MissionControl';
 import LifeGame from './components/LifeGame';
 import HallOfFame from './components/HallOfFame';
 import Settings from './components/Settings';
-import { View, Transaction, ReviewLog, Habit, Task, TaskType, DailyStats, Theme, Project, AttributeType, AchievementItem, AutoTask, AutoTaskType, SoundType } from './types';
+import { View, Transaction, ReviewLog, Habit, Task, TaskType, DailyStats, Theme, Project, AttributeType, AchievementItem, AutoTask, AutoTaskType, SoundType, DiceState, DiceTask, DiceCategory, DiceHistory } from './types';
 import { Wallet, Crown, Clock, Brain, Zap, Target, Crosshair, Skull, Star, Gift, Medal, Sparkles, Swords, Flame, Footprints, Calendar, ShoppingBag, Dumbbell, Shield } from 'lucide-react';
 import CharacterProfile, { getAllLevels, getAllFocusTitles, getAllWealthTitles, getAllMilitaryRanks, XP_PER_LEVEL, CharacterProfileHandle } from './components/CharacterProfile';
 import confetti from 'canvas-confetti';
@@ -18,7 +18,8 @@ import {
   INITIAL_HABITS,
   INITIAL_PROJECTS,
   INITIAL_CHALLENGES,
-  INITIAL_ACHIEVEMENTS
+  INITIAL_ACHIEVEMENTS,
+  INITIAL_DICE_STATE
 } from './constants/index';
 
 // 导入共享组件
@@ -30,7 +31,7 @@ import RewardModal from './components/shared/RewardModal';
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<View>(View.RPG_MISSION_CENTER);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const [isNavCollapsed, setIsNavCollapsed] = useState(true);
+  const [isNavCollapsed, setIsNavCollapsed] = useState(false);
   const [theme, setTheme] = useState<Theme>('neomorphic');
   const [isDataLoaded, setIsDataLoaded] = useState(false);
 
@@ -97,6 +98,12 @@ const App: React.FC = () => {
     enableBgMusic: true, 
     enableSoundEffects: true,
     enableNotifications: true,
+    guideCardConfig: {
+      fontSize: 'medium' as const,
+      borderRadius: 'medium' as const,
+      shadowIntensity: 'medium' as const,
+      showUnderlyingPrinciple: true
+    },
     enableTaskCompleteNotifications: true,
     enableAchievementNotifications: true,
     enablePomodoroNotifications: true,
@@ -104,7 +111,17 @@ const App: React.FC = () => {
     showBalance: true,
     showTaskCompletionRate: true,
     soundEffectsByLocation: {},
-    soundLibrary: {}
+    soundLibrary: {},
+    // Display Settings (all enabled by default)
+    showCharacterSystem: true,
+    showPomodoroSystem: true,
+    showFocusTimeSystem: true,
+    showCheckinSystem: true,
+    showAchievementCollectionRate: true,
+    showSystemStabilityModule: true,
+    showLatestBadges: true,
+    showChartSummary: true,
+    showSupplyMarket: true
   });
 
   // Weekly & Daily Goal State
@@ -131,6 +148,9 @@ const App: React.FC = () => {
   const [activeAchievement, setActiveAchievement] = useState<any>(null); 
 
   const [activeAutoTask, setActiveAutoTask] = useState<AutoTask | null>(null);
+  
+  // 命运骰子状态
+  const [diceState, setDiceState] = useState<DiceState>(INITIAL_DICE_STATE);
 
   const [statsHistory, setStatsHistory] = useState<{[key: number]: DailyStats}>({
     1: {
@@ -158,6 +178,7 @@ const App: React.FC = () => {
     const savedGlobal = localStorage.getItem('aes-global-data-v3');
     const savedLifeGame = localStorage.getItem('life-game-stats-v2');
     const streakStr = localStorage.getItem('aes-checkin-streak');
+    const savedDiceState = localStorage.getItem('aes-dice-state');
 
     if(streakStr) setCheckInStreak(parseInt(streakStr));
 
@@ -233,6 +254,38 @@ const App: React.FC = () => {
         localStorage.setItem('aes-global-data-v3', JSON.stringify({ startDate: new Date().toISOString() }));
     }
 
+    // 加载命运骰子状态
+  if (savedDiceState) {
+    try {
+      const diceData = JSON.parse(savedDiceState);
+      const todayStr = new Date().toLocaleDateString();
+      
+      // 如果是新的一天，重置次数和任务列表
+      if (diceData.lastClickDate !== todayStr) {
+        setDiceState(prev => ({
+          ...prev,
+          todayCount: 0,
+          lastClickDate: todayStr,
+          pendingTasks: [],
+          completedTasks: []
+        }));
+      } else {
+        // 确保新字段存在
+        setDiceState({
+          ...diceData,
+          pendingTasks: diceData.pendingTasks || [],
+          completedTasks: diceData.completedTasks || []
+        });
+      }
+    } catch (e) {
+      console.error("Dice save corrupted", e);
+      setDiceState(INITIAL_DICE_STATE);
+    }
+  } else {
+    // 首次使用，初始化骰子状态
+    setDiceState(INITIAL_DICE_STATE);
+  }
+
     if (savedLifeGame) {
         try {
             const lgData = JSON.parse(savedLifeGame);
@@ -299,7 +352,7 @@ const App: React.FC = () => {
 
 
   useEffect(() => {
-      if(!isDataLoaded) return;
+      if (!isDataLoaded) return;
       const todayStr = new Date().toLocaleDateString();
       if (todaysChallenges.date !== todayStr) {
           const shuffled = [...challengePool].sort(() => 0.5 - Math.random());
@@ -309,6 +362,13 @@ const App: React.FC = () => {
           });
       }
   }, [isDataLoaded, challengePool, todaysChallenges]);
+
+  // 保存命运骰子状态到localStorage
+  useEffect(() => {
+    if (isDataLoaded) {
+      localStorage.setItem('aes-dice-state', JSON.stringify(diceState));
+    }
+  }, [diceState, isDataLoaded]);
 
   useEffect(() => {
     if (!isDataLoaded) return;
@@ -368,7 +428,7 @@ const App: React.FC = () => {
       setFloatingTexts(prev => [...prev, { id, text, x: finalX, y: finalY, color }]);
       setTimeout(() => {
           setFloatingTexts(prev => prev.filter(ft => ft.id !== id));
-      }, 2000); 
+      }, 1500); 
   };
 
   const handleUpdateBalance = (amount: number, reason: string) => {
@@ -432,22 +492,22 @@ const App: React.FC = () => {
 
   // Effect to handle background music based on settings changes
   useEffect(() => {
-      if (bgMusicRef.current) {
-          if (settings.enableBgMusic) {
+      if (settings.enableBgMusic) {
+          // 创建音频对象但默认不自动播放，只有用户明确点击时才播放
+          if (!bgMusicRef.current) {
+              const defaultSound = {
+                  id: 'forest',
+                  name: '迷雾森林',
+                  url: "https://assets.mixkit.co/active_storage/sfx/2441/2441-preview.mp3"
+              };
+              bgMusicRef.current = new Audio(defaultSound.url);
+              bgMusicRef.current.loop = true;
+              // 设置音量但不播放
               bgMusicRef.current.volume = settings.bgMusicVolume;
-              bgMusicRef.current.play().catch(() => {});
-          } else {
-              bgMusicRef.current.pause();
           }
+      } else if (bgMusicRef.current) {
+          bgMusicRef.current.pause();
       }
-
-      // Cleanup on component unmount
-      return () => {
-          if (bgMusicRef.current) {
-              bgMusicRef.current.pause();
-              bgMusicRef.current = null;
-          }
-      };
   }, [settings.enableBgMusic, settings.bgMusicVolume]);
 
   // Global Sound State
@@ -649,19 +709,20 @@ const App: React.FC = () => {
           if (p.id === id) {
               const updatedProject = { ...p, ...updates };
               if (updates.subTasks) {
-                  // 检查哪些子任务从非完成状态变为完成状态
+                  // 检查哪些子任务从非完成状态变为完成状态，或从完成状态变为非完成状态
                   const prevCompletedSubTasks = p.subTasks.filter(t => t.completed).length;
                   const newCompletedSubTasks = updatedProject.subTasks.filter(t => t.completed).length;
-                  const newlyCompletedCount = Math.max(0, newCompletedSubTasks - prevCompletedSubTasks);
+                  const diff = newCompletedSubTasks - prevCompletedSubTasks;
                   
-                  if (newlyCompletedCount > 0) {
-                      // 为每个新完成的子任务添加统一奖励
-                      for (let i = 0; i < newlyCompletedCount; i++) {
+                  if (diff > 0) {
+                      // 子任务完成：添加奖励
+                      for (let i = 0; i < diff; i++) {
                           handleUpdateBalance(10, `完成子任务: ${p.name}`);
                           setXp(prev => prev + 10);
                           setTodayStats(s => ({ 
                               ...s, 
-                              focusMinutes: s.focusMinutes + 10
+                              focusMinutes: s.focusMinutes + 10,
+                              tasksCompleted: s.tasksCompleted + 1 // 完成子任务增加歼敌数
                           }));
                           
                           // 统一奖励通知：经验+10, 金币+10, 专注时间+10
@@ -679,17 +740,47 @@ const App: React.FC = () => {
                       }
                       
                       playSound("https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3");
+                  } else if (diff < 0) {
+                      // 子任务撤销：回退奖励
+                      const undoneCount = Math.abs(diff);
+                      for (let i = 0; i < undoneCount; i++) {
+                          handleUpdateBalance(-10, `撤销子任务: ${p.name}`);
+                          setXp(prev => Math.max(0, prev - 10));
+                          setTodayStats(s => ({ 
+                              ...s, 
+                              focusMinutes: Math.max(0, s.focusMinutes - 10),
+                              tasksCompleted: Math.max(0, s.tasksCompleted - 1) // 撤销子任务减少歼敌数
+                          }));
+                          
+                          // 统一撤销通知
+                          setTimeout(() => {
+                              addFloatingText(`-10 金币`, 'text-red-500', window.innerWidth / 2 - 80);
+                          }, i * 300);
+                          
+                          setTimeout(() => {
+                              addFloatingText(`-10 经验`, 'text-red-500', window.innerWidth / 2);
+                          }, i * 300 + 300);
+                          
+                          setTimeout(() => {
+                              addFloatingText(`-10 专注时间`, 'text-red-500', window.innerWidth / 2 + 80);
+                          }, i * 300 + 600);
+                      }
                   }
                   
                   const allDone = updatedProject.subTasks.length > 0 && updatedProject.subTasks.every(t => t.completed);
                   if (allDone && p.status !== 'completed') {
+                      // 主线任务完成：添加奖励
                       updatedProject.status = 'completed';
                       handleUpdateBalance(100, `战役胜利: ${p.name}`);
                       addFloatingText('战役胜利！获得奖励', 'text-yellow-400');
                       setXp(prev => prev + 200);
                       addFloatingText('+200 经验', 'text-blue-500', window.innerWidth / 2);
                   } else if (!allDone && p.status === 'completed') {
+                      // 主线任务撤销完成：回退奖励
                       updatedProject.status = 'active';
+                      handleUpdateBalance(-100, `撤销战役胜利: ${p.name}`);
+                      setXp(prev => Math.max(0, prev - 200));
+                      addFloatingText('-200 经验', 'text-red-500', window.innerWidth / 2);
                   }
               }
               return updatedProject;
@@ -741,6 +832,222 @@ const App: React.FC = () => {
       setCurrentView(View.RPG_MISSION_CENTER);
   };
 
+  // --- 命运骰子核心逻辑 --- //
+
+  // 检查今日是否还有次数
+  const checkDiceAvailability = () => {
+    const todayStr = new Date().toLocaleDateString();
+    if (diceState.lastClickDate !== todayStr) {
+      // 新的一天，重置次数
+      setDiceState(prev => ({
+        ...prev,
+        todayCount: 0,
+        lastClickDate: todayStr
+      }));
+      return true;
+    }
+    return diceState.todayCount < diceState.config.dailyLimit;
+  };
+
+  // 生成随机奖励值
+  const generateRandomReward = (min: number, max: number) => {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  };
+
+  // 旋转骰子，随机生成结果
+  const spinDice = () => {
+    const todayStr = new Date().toLocaleDateString();
+    
+    // 检查次数
+    if (!checkDiceAvailability()) {
+      return { success: false, message: '今日骰子次数已用完，明天再来玩吧' };
+    }
+    
+    // 播放骰子滚动音效
+    playSound("https://assets.mixkit.co/sfx/preview/mixkit-rolling-dice-1911.mp3");
+    
+    // 开始旋转动画
+    setDiceState(prev => ({
+      ...prev,
+      isSpinning: true
+    }));
+    
+    // 根据权重选择分类
+    const categories = Object.entries(diceState.config.categoryDistribution);
+    const totalWeight = categories.reduce((sum, [_, weight]) => sum + weight, 0);
+    let random = Math.random() * totalWeight;
+    let selectedCategory: DiceCategory;
+    
+    for (const [category, weight] of categories) {
+      if (random < weight) {
+        selectedCategory = category as DiceCategory;
+        break;
+      }
+      random -= weight;
+    }
+    
+    // 从选中的分类中随机选择一个任务，避免短时间内重复
+    const categoryTasks = diceState.taskPool[selectedCategory as DiceCategory];
+    const availableTasks = categoryTasks.filter(task => {
+      // 检查最近是否已经抽到过这个任务
+      const recentHistory = diceState.history.slice(-5);
+      return !recentHistory.some(record => record.taskId === task.id);
+    });
+    
+    const task = availableTasks.length > 0 
+      ? availableTasks[Math.floor(Math.random() * availableTasks.length)]
+      : categoryTasks[Math.floor(Math.random() * categoryTasks.length)];
+    
+    // 生成随机奖励
+    const gold = generateRandomReward(task.goldRange[0], task.goldRange[1]);
+    const xp = task.xpRange 
+      ? generateRandomReward(task.xpRange[0], task.xpRange[1])
+      : 0;
+    
+    // 模拟旋转动画结束
+    setTimeout(() => {
+      // 播放惊喜音效
+      playSound("https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3");
+      
+      setDiceState(prev => ({
+        ...prev,
+        isSpinning: false,
+        currentResult: {
+          ...task,
+          // 保存随机生成的奖励值
+          _generatedGold: gold,
+          _generatedXp: xp
+        } as any,
+        todayCount: prev.todayCount + 1
+      }));
+    }, 1500);
+    
+    return { success: true };
+  };
+
+  // 处理骰子结果
+  const handleDiceResult = (result: 'completed' | 'skipped' | 'later') => {
+    if (!diceState.currentResult) return;
+    
+    const task = diceState.currentResult;
+    const gold = (task as any)._generatedGold || 0;
+    const xp = (task as any)._generatedXp || 0;
+    
+    if (result === 'completed') {
+      // 完成任务，发放奖励
+      handleUpdateBalance(gold, `命运骰子: ${task.text}`);
+      setXp(prev => prev + xp);
+      setTodayStats(s => ({
+        ...s,
+        tasksCompleted: s.tasksCompleted + 1,
+        focusMinutes: s.focusMinutes + (task.duration || 0)
+      }));
+      
+      // 添加浮动奖励
+      addFloatingText(`+${gold} 金币`, 'text-yellow-500', window.innerWidth / 2 - 80);
+      setTimeout(() => {
+        addFloatingText(`+${xp} 经验`, 'text-blue-500', window.innerWidth / 2);
+      }, 300);
+      if (task.duration) {
+        setTimeout(() => {
+          addFloatingText(`+${task.duration} 专注时间`, 'text-green-500', window.innerWidth / 2 + 80);
+        }, 600);
+      }
+    }
+    
+    // 记录历史
+    const historyRecord: DiceHistory = {
+      id: Date.now().toString(),
+      date: new Date().toISOString(),
+      taskId: task.id,
+      text: task.text,
+      category: task.category,
+      gold,
+      xp,
+      result,
+      completedAt: result === 'completed' ? new Date().toISOString() : undefined
+    };
+    
+    // 更新任务列表
+    if (result === 'later' || result === 'completed') {
+      const taskRecord = {
+        id: Date.now().toString(),
+        task,
+        generatedGold: gold,
+        generatedXp: xp,
+        status: result === 'completed' ? 'completed' as const : 'pending' as const,
+        createdAt: new Date().toISOString(),
+        completedAt: result === 'completed' ? new Date().toISOString() : undefined
+      };
+      
+      setDiceState(prev => ({
+        ...prev,
+        history: [historyRecord, ...prev.history].slice(0, 100), // 保留最近100条记录
+        completedTaskIds: result === 'completed' 
+          ? [...prev.completedTaskIds, task.id]
+          : prev.completedTaskIds,
+        currentResult: undefined,
+        pendingTasks: result === 'later' 
+          ? [...prev.pendingTasks, taskRecord]
+          : prev.pendingTasks.filter(t => t.task.id !== task.id),
+        completedTasks: result === 'completed' 
+          ? [...prev.completedTasks, taskRecord]
+          : prev.completedTasks
+      }));
+    } else {
+      // 如果是跳过，不添加到任务列表
+      setDiceState(prev => ({
+        ...prev,
+        history: [historyRecord, ...prev.history].slice(0, 100),
+        completedTaskIds: prev.completedTaskIds,
+        currentResult: undefined
+      }));
+    }
+  };
+
+  // 添加命运骰子任务
+  const addDiceTask = (task: DiceTask) => {
+    setDiceState(prev => ({
+      ...prev,
+      taskPool: {
+        ...prev.taskPool,
+        [task.category]: [...prev.taskPool[task.category], task]
+      }
+    }));
+  };
+
+  // 删除命运骰子任务
+  const deleteDiceTask = (taskId: string, category: DiceCategory) => {
+    setDiceState(prev => ({
+      ...prev,
+      taskPool: {
+        ...prev.taskPool,
+        [category]: prev.taskPool[category].filter(task => task.id !== taskId)
+      }
+    }));
+  };
+
+  // 更新命运骰子任务
+  const updateDiceTask = (taskId: string, category: DiceCategory, updates: Partial<DiceTask>) => {
+    setDiceState(prev => ({
+      ...prev,
+      taskPool: {
+        ...prev.taskPool,
+        [category]: prev.taskPool[category].map(task => 
+          task.id === taskId ? { ...task, ...updates } : task
+        )
+      }
+    }));
+  };
+
+  // 更新骰子配置
+  const updateDiceConfig = (config: Partial<DiceState['config']>) => {
+    setDiceState(prev => ({
+      ...prev,
+      config: { ...prev.config, ...config }
+    }));
+  };
+
   const renderView = () => {
     switch (currentView) {
 
@@ -782,7 +1089,7 @@ const App: React.FC = () => {
                   setWeeklyGoal={setWeeklyGoal}
                   todayGoal={todayGoal}
                   setTodayGoal={setTodayGoal}
-                  givenUpTasks={givenUpTasks} 
+                  givenUpTasks={givenUpTasks}
                   onGiveUpTask={handleGiveUpTask}
                   isNavCollapsed={isNavCollapsed}
                   setIsNavCollapsed={setIsNavCollapsed}
@@ -803,6 +1110,16 @@ const App: React.FC = () => {
                   currentSoundId={currentSoundId}
                   onToggleMute={handleMuteToggle}
                   onSoundChange={handleSoundChange}
+                  // Settings
+                  settings={settings}
+                  // 命运骰子相关
+                  diceState={diceState}
+                  onSpinDice={spinDice}
+                  onDiceResult={handleDiceResult}
+                  onAddDiceTask={addDiceTask}
+                  onDeleteDiceTask={deleteDiceTask}
+                  onUpdateDiceTask={updateDiceTask}
+                  onUpdateDiceConfig={updateDiceConfig}
                />;
       case View.BLACK_MARKET:
         return <LifeGame 
@@ -823,7 +1140,7 @@ const App: React.FC = () => {
                   onAddHabit={handleAddHabit}
                   onAddProject={handleAddProject}
                   initialTab="shop"
-                  initialCategory="daily"
+                  initialCategory={initialTaskCategory}
                   onAddFloatingReward={addFloatingText}
                   totalTasksCompleted={totalKills}
                   totalHours={totalHours}
@@ -863,6 +1180,16 @@ const App: React.FC = () => {
                   currentSoundId={currentSoundId}
                   onToggleMute={handleMuteToggle}
                   onSoundChange={handleSoundChange}
+                  // Settings
+                  settings={settings}
+                  // 命运骰子相关
+                  diceState={diceState}
+                  onSpinDice={spinDice}
+                  onDiceResult={handleDiceResult}
+                  onAddDiceTask={addDiceTask}
+                  onDeleteDiceTask={deleteDiceTask}
+                  onUpdateDiceTask={updateDiceTask}
+                  onUpdateDiceConfig={updateDiceConfig}
                />;
       case View.HALL_OF_FAME:
         return <HallOfFame 

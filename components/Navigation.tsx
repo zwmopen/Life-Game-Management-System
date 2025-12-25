@@ -15,6 +15,8 @@ interface NavigationProps {
 }
 
 const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileOpen, setIsMobileOpen, theme, setTheme, entropy, isNavCollapsed, setIsNavCollapsed }) => {
+  // 新增状态：控制是否完全隐藏侧边栏（仅手机端）
+  const [isNavHidden, setIsNavHidden] = useState(false);
   const [navItems, setNavItems] = useState([
     { id: View.RPG_MISSION_CENTER, label: '作战中心（执行）', icon: Gamepad2 },
     { id: View.HALL_OF_FAME, label: '荣誉殿堂（成就）', icon: Medal },
@@ -81,38 +83,49 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
     <>
 
 
+          {/* 折叠/展开按钮 - 放在导航栏左边外框边上 */}
+          {/* 三级折叠逻辑：默认展开全部 -> 点击1次：折叠显示图标 -> 点击2次：隐藏全部 -> 点击3次：展开全部 */}
+          <button 
+            onClick={() => {
+              if (isNavHidden) {
+                // 从完全隐藏状态恢复到展开全部
+                setIsNavHidden(false);
+                setIsNavCollapsed(false);
+              } else if (isNavCollapsed) {
+                // 从只显示图标状态隐藏全部导航栏
+                setIsNavHidden(true);
+              } else {
+                // 从展开状态折叠到只显示图标
+                setIsNavCollapsed(true);
+              }
+            }}
+            className={`
+              fixed left-0 top-1/2 transform -translate-y-1/2 p-2 rounded-r-lg transition-all duration-300 flex items-center justify-center z-50
+              md:absolute md:left-0 md:right-auto md:transform-none md:translate-y-0
+              ${isNeomorphic 
+                ? 'bg-transparent text-zinc-700 hover:bg-transparent hover:shadow-none' 
+                : isDark 
+                ? 'text-zinc-500 hover:text-white hover:bg-transparent' 
+                : 'text-slate-500 hover:text-slate-700 hover:bg-transparent'}`}
+            title={isNavHidden ? '展开导航栏' : isNavCollapsed ? '隐藏导航栏' : '折叠导航栏'}
+          >
+            {/* 根据状态显示正确的图标方向 */}
+            {isNavHidden ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
+          </button>
+
       {/* 导航栏容器 */}
       <div className={`
         inset-y-0 left-0 translate-x-0 
         md:translate-x-0 transition duration-200 ease-in-out
         w-${isNavCollapsed ? '12' : '64'} border-r flex flex-col z-40 ${sidebarClass}
         fixed md:relative
+        ${isNavHidden ? 'hidden' : ''}
       `}>
           <div className={`p-6 ${isNeomorphic ? `bg-[#e0e5ec]` : ''} flex items-center justify-between ${isNavCollapsed ? 'hidden' : 'md:flex'}`}>
             <h1 className={`text-xl font-bold tracking-tighter ${isDark ? 'text-emerald-500' : 'text-blue-600'}`}>
               人生游戏系统
             </h1>
           </div>
-          
-          {/* 折叠/展开按钮 - 调整到导航栏中间位置，贴紧右边 */}
-          {/* 统一逻辑：点击折叠/展开导航栏宽度 */}
-          <button 
-            onClick={() => {
-              // 只有桌面端可以切换折叠状态
-              setIsNavCollapsed(!isNavCollapsed);
-            }}
-            className={`
-              absolute right-2 top-1/2 transform -translate-y-1/2 p-1 rounded-lg transition-all duration-300 flex items-center justify-center z-50
-              ${isNeomorphic 
-                ? 'bg-[#e0e5ec] text-zinc-700 hover:bg-[#e0e5ec] hover:shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,1)]' 
-                : isDark 
-                ? 'text-zinc-500 hover:text-white hover:bg-zinc-800' 
-                : 'text-slate-500 hover:text-slate-700 hover:bg-slate-100'}`}
-            title={isNavCollapsed ? '展开导航栏' : '收起导航栏'}
-          >
-            {/* 统一显示折叠/展开图标 */}
-            {isNavCollapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
-          </button>
 
           <nav className="flex-1 py-6 space-y-2 overflow-y-auto">
             {navItems.map((item, index) => (
@@ -151,7 +164,7 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
 
           {/* Entropy Monitor */}
           {!isNavCollapsed && (
-            <div className={`px-6 py-4 ${isDark ? 'border-zinc-800 bg-zinc-900' : 'border-slate-100 bg-slate-100'} transition-all duration-300`}>
+            <div className={`px-6 py-4 ${isNeomorphic ? 'bg-[#e0e5ec]' : isDark ? 'bg-zinc-900' : 'bg-white'} transition-all duration-300`}>
                 <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-1">
                         <span className={`text-[10px] font-bold uppercase tracking-widest flex items-center gap-1 ${entropyColor}`}>
@@ -168,7 +181,7 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
                     </div>
                     <span className={`text-xs font-mono font-bold ${entropyColor}`}>{100 - entropy}%</span>
                 </div>
-                <div className={`w-full h-1.5 rounded-full overflow-hidden flex ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)]' : 'bg-zinc-800'}`}>
+                <div className={`w-full h-1.5 rounded-full overflow-hidden flex ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-800' : 'bg-slate-200'}`}>
                     <div 
                         className={`h-full transition-all duration-1000 ${entropy > 50 ? 'bg-red-500 animate-pulse' : 'bg-emerald-500'}`} 
                         style={{ width: `${100 - entropy}%` }}

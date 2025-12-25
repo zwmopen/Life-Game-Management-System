@@ -67,10 +67,10 @@ const DailyCheckIn: React.FC<DailyCheckInProps> = ({ theme, onClaim }) => {
           // Play Coin Sound
           new Audio("https://assets.mixkit.co/active_storage/sfx/2003/2003-preview.mp3").play().catch(()=>{});
 
-          // Close delay
+          // Close delay - Total display time: 1s animation + 1s reward = 2s total
           setTimeout(() => {
               setIsOpen(false);
-          }, 2500);
+          }, 1000);
       }, 1000);
   };
 

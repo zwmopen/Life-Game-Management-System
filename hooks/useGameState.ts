@@ -45,7 +45,7 @@ interface UseGameStateReturn {
  */
 export const useGameState = (): UseGameStateReturn => {
   const [day, setDay] = useState(1);
-  const [balance, setBalance] = useState(60);
+  const [balance, setBalance] = useState(59);
   const [xp, setXp] = useState(10);
   const [checkInStreak, setCheckInStreak] = useState(1);
   const [transactions, setTransactions] = useState<Transaction[]>([]);

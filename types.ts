@@ -328,6 +328,121 @@ export interface AutoTask {
 }
 
 /**
+ * 命运骰子分类枚举
+ */
+export enum DiceCategory {
+  /** 健康微行动类 */
+  HEALTH = 'health',
+  /** 效率任务类 */
+  EFFICIENCY = 'efficiency',
+  /** 休闲小奖励类 */
+  LEISURE = 'leisure'
+}
+
+/**
+ * 命运骰子任务接口
+ */
+export interface DiceTask {
+  /** 任务ID */
+  id: string;
+  /** 任务文本 */
+  text: string;
+  /** 任务分类 */
+  category: DiceCategory;
+  /** 奖励金币范围 */
+  goldRange: [number, number];
+  /** 奖励经验值范围 */
+  xpRange?: [number, number];
+  /** 任务时长（分钟） */
+  duration?: number;
+}
+
+/**
+ * 命运骰子历史记录接口
+ */
+export interface DiceHistory {
+  /** 记录ID */
+  id: string;
+  /** 日期 */
+  date: string;
+  /** 任务ID */
+  taskId: string;
+  /** 任务文本 */
+  text: string;
+  /** 任务分类 */
+  category: DiceCategory;
+  /** 获得金币 */
+  gold: number;
+  /** 获得经验值 */
+  xp: number;
+  /** 处理结果 */
+  result: 'completed' | 'skipped' | 'later';
+  /** 完成时间 */
+  completedAt?: string;
+}
+
+/**
+ * 命运骰子配置接口
+ */
+export interface DiceConfig {
+  /** 每日可点击上限 */
+  dailyLimit: number;
+  /** 骰子面数 */
+  faceCount: number;
+  /** 各分类占比（面数） */
+  categoryDistribution: {
+    [key in DiceCategory]: number;
+  };
+}
+
+/**
+ * 命运骰子任务记录接口，用于任务列表管理
+ */
+export interface DiceTaskRecord {
+  /** 记录ID */
+  id: string;
+  /** 任务信息 */
+  task: DiceTask;
+  /** 生成的奖励值 */
+  generatedGold: number;
+  generatedXp: number;
+  /** 状态 */
+  status: 'pending' | 'completed';
+  /** 创建时间 */
+  createdAt: string;
+  /** 完成时间 */
+  completedAt?: string;
+}
+
+/**
+ * 命运骰子状态接口
+ */
+export interface DiceState {
+  /** 今日已点击次数 */
+  todayCount: number;
+  /** 上次点击日期 */
+  lastClickDate: string;
+  /** 历史记录 */
+  history: DiceHistory[];
+  /** 已完成任务ID列表 */
+  completedTaskIds: string[];
+  /** 当前旋转状态 */
+  isSpinning: boolean;
+  /** 当前结果 */
+  currentResult?: DiceTask;
+  /** 任务池 */
+  taskPool: {
+    [key in DiceCategory]: DiceTask[];
+  };
+  /** 配置 */
+  config: DiceConfig;
+  /** 今日任务列表 - 未完成 */
+  pendingTasks: DiceTaskRecord[];
+  /** 今日任务列表 - 已完成 */
+  completedTasks: DiceTaskRecord[];
+}
+
+/**
  * 声音类型枚举
  */
 export enum SoundType {
@@ -335,6 +450,20 @@ export enum SoundType {
   SOUND_EFFECT = 'soundEffect',
   /** 背景音乐 */
   BACKGROUND_MUSIC = 'bgMusic',
+}
+
+/**
+ * 指南卡片配置接口
+ */
+export interface GuideCardConfig {
+    /** 字体大小 */
+    fontSize: 'small' | 'medium' | 'large';
+    /** 圆角大小 */
+    borderRadius: 'small' | 'medium' | 'large';
+    /** 阴影强度 */
+    shadowIntensity: 'light' | 'medium' | 'strong';
+    /** 是否显示底层原理板块 */
+    showUnderlyingPrinciple: boolean;
 }
 
 /**
@@ -392,4 +521,6 @@ export interface Settings {
         /** 密码 */
         password: string;
     };
+    /** 指南卡片配置 */
+    guideCardConfig: GuideCardConfig;
 }

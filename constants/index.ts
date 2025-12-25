@@ -1,4 +1,4 @@
-import { AchievementItem, AttributeType } from '../types';
+import { AchievementItem, AttributeType, DiceCategory } from '../types';
 
 // --- Check-in Thresholds ---
 export const CHECKIN_THRESHOLDS = [
@@ -107,3 +107,93 @@ export const INITIAL_CHALLENGES = [
 export const INITIAL_ACHIEVEMENTS: AchievementItem[] = [
   { id: 'c0', name: '迈出一步', limit: 1, unit: 'kills', iconName: 'Target', color: 'text-red-500', desc: '完成 1 个任务', category: '战役' },
 ];
+
+// --- Initial Dice Tasks ---
+export const INITIAL_DICE_TASKS = {
+  [DiceCategory.HEALTH]: [
+    { id: 'dice-health-1', text: '专注5/10/20/25/30/45/60分钟（随机时长）', category: DiceCategory.HEALTH, goldRange: [3, 6], xpRange: [5, 10], duration: 30 },
+    { id: 'dice-health-2', text: '深蹲10下', category: DiceCategory.HEALTH, goldRange: [3, 6], xpRange: [5, 10], duration: 5 },
+    { id: 'dice-health-3', text: '做10/20/30/50个俯卧撑（随机数量）', category: DiceCategory.HEALTH, goldRange: [3, 6], xpRange: [5, 10], duration: 10 },
+    { id: 'dice-health-4', text: '拉伸肩颈10分钟', category: DiceCategory.HEALTH, goldRange: [3, 6], xpRange: [5, 10], duration: 10 },
+    { id: 'dice-health-5', text: '做20个开合跳', category: DiceCategory.HEALTH, goldRange: [3, 6], xpRange: [5, 10], duration: 5 },
+    { id: 'dice-health-6', text: '下楼散步15分钟', category: DiceCategory.HEALTH, goldRange: [3, 6], xpRange: [5, 10], duration: 15 },
+    { id: 'dice-health-7', text: '泡一杯枸杞/菊花茶', category: DiceCategory.HEALTH, goldRange: [3, 6], xpRange: [5, 10], duration: 5 },
+    { id: 'dice-health-8', text: '整理桌面5分钟', category: DiceCategory.HEALTH, goldRange: [3, 6], xpRange: [5, 10], duration: 5 },
+    { id: 'dice-health-9', text: '闭眼冥想3分钟', category: DiceCategory.HEALTH, goldRange: [3, 6], xpRange: [5, 10], duration: 3 },
+    { id: 'dice-health-10', text: '喝够500ml温水', category: DiceCategory.HEALTH, goldRange: [3, 6], xpRange: [5, 10], duration: 5 },
+    { id: 'dice-health-11', text: '做10个平板支撑（30秒/组，分2组）', category: DiceCategory.HEALTH, goldRange: [3, 6], xpRange: [5, 10], duration: 10 },
+    { id: 'dice-health-12', text: '靠墙静蹲1分钟', category: DiceCategory.HEALTH, goldRange: [3, 6], xpRange: [5, 10], duration: 1 },
+    { id: 'dice-health-13', text: '做5分钟眼保健操', category: DiceCategory.HEALTH, goldRange: [3, 6], xpRange: [5, 10], duration: 5 },
+    { id: 'dice-health-14', text: '踮脚拉伸100次', category: DiceCategory.HEALTH, goldRange: [3, 6], xpRange: [5, 10], duration: 10 },
+    { id: 'dice-health-15', text: '深呼吸10次（腹式呼吸）', category: DiceCategory.HEALTH, goldRange: [3, 6], xpRange: [5, 10], duration: 3 }
+  ],
+  [DiceCategory.EFFICIENCY]: [
+    { id: 'dice-efficiency-1', text: '为数码号寻找一个爆款作品并复刻发布', category: DiceCategory.EFFICIENCY, goldRange: [5, 10], xpRange: [10, 20], duration: 30 },
+    { id: 'dice-efficiency-2', text: '制作两个数码爆款备用，准备发布', category: DiceCategory.EFFICIENCY, goldRange: [5, 10], xpRange: [10, 20], duration: 60 },
+    { id: 'dice-efficiency-3', text: '整理一份扣子制作工作流', category: DiceCategory.EFFICIENCY, goldRange: [5, 10], xpRange: [10, 20], duration: 45 },
+    { id: 'dice-efficiency-4', text: '整理一篇最新AI资讯，发布在公众号', category: DiceCategory.EFFICIENCY, goldRange: [5, 10], xpRange: [10, 20], duration: 60 },
+    { id: 'dice-efficiency-5', text: '整理一个AI干货发布在公众号，并录制视频发布抖音', category: DiceCategory.EFFICIENCY, goldRange: [5, 10], xpRange: [10, 20], duration: 90 },
+    { id: 'dice-efficiency-6', text: '给商品库新增一个商品', category: DiceCategory.EFFICIENCY, goldRange: [5, 10], xpRange: [10, 20], duration: 20 },
+    { id: 'dice-efficiency-7', text: '马上完成一个滴答任务', category: DiceCategory.EFFICIENCY, goldRange: [5, 10], xpRange: [10, 20], duration: 30 },
+    { id: 'dice-efficiency-8', text: '一句话总结今天的核心任务', category: DiceCategory.EFFICIENCY, goldRange: [5, 10], xpRange: [10, 20], duration: 5 },
+    { id: 'dice-efficiency-9', text: '马上选品并上架一个产品', category: DiceCategory.EFFICIENCY, goldRange: [5, 10], xpRange: [10, 20], duration: 30 },
+    { id: 'dice-efficiency-10', text: '马上选品并上架两个商品', category: DiceCategory.EFFICIENCY, goldRange: [5, 10], xpRange: [10, 20], duration: 60 },
+    { id: 'dice-efficiency-11', text: '为有潜力的一个产品发布一篇笔记', category: DiceCategory.EFFICIENCY, goldRange: [5, 10], xpRange: [10, 20], duration: 45 },
+    { id: 'dice-efficiency-12', text: '为有潜力的产品发布两篇笔记', category: DiceCategory.EFFICIENCY, goldRange: [5, 10], xpRange: [10, 20], duration: 90 },
+    { id: 'dice-efficiency-13', text: '去抖音搬运一篇优质的商品笔记', category: DiceCategory.EFFICIENCY, goldRange: [5, 10], xpRange: [10, 20], duration: 20 },
+    { id: 'dice-efficiency-14', text: '将商品数据分享给朋友', category: DiceCategory.EFFICIENCY, goldRange: [5, 10], xpRange: [10, 20], duration: 10 },
+    { id: 'dice-efficiency-15', text: '打电话，随机找一个朋友聊天', category: DiceCategory.EFFICIENCY, goldRange: [5, 10], xpRange: [10, 20], duration: 15 },
+    { id: 'dice-efficiency-16', text: '梳理10分钟飞书文档', category: DiceCategory.EFFICIENCY, goldRange: [5, 10], xpRange: [10, 20], duration: 10 },
+    { id: 'dice-efficiency-17', text: '梳理10分钟滴答清单', category: DiceCategory.EFFICIENCY, goldRange: [5, 10], xpRange: [10, 20], duration: 10 },
+    { id: 'dice-efficiency-18', text: '收藏3个优质的同行选题（为后续创作囤货）', category: DiceCategory.EFFICIENCY, goldRange: [5, 10], xpRange: [10, 20], duration: 15 },
+    { id: 'dice-efficiency-19', text: '给已发布的笔记/商品写1条评论回复', category: DiceCategory.EFFICIENCY, goldRange: [5, 10], xpRange: [10, 20], duration: 5 },
+    { id: 'dice-efficiency-20', text: '清理手机相册10分钟（删掉没用的截图）', category: DiceCategory.EFFICIENCY, goldRange: [5, 10], xpRange: [10, 20], duration: 10 },
+    { id: 'dice-efficiency-21', text: '复盘1个当天完成的小任务（写1句话总结）', category: DiceCategory.EFFICIENCY, goldRange: [5, 10], xpRange: [10, 20], duration: 5 },
+    { id: 'dice-efficiency-22', text: '给当天的项目列3个核心待办', category: DiceCategory.EFFICIENCY, goldRange: [5, 10], xpRange: [10, 20], duration: 10 }
+  ],
+  [DiceCategory.LEISURE]: [
+    { id: 'dice-leisure-1', text: '奖励自己喝杯水', category: DiceCategory.LEISURE, goldRange: [2, 5], xpRange: [3, 8], duration: 2 },
+    { id: 'dice-leisure-2', text: '马上吃个水果', category: DiceCategory.LEISURE, goldRange: [2, 5], xpRange: [3, 8], duration: 5 },
+    { id: 'dice-leisure-3', text: '马上吃一包辣条', category: DiceCategory.LEISURE, goldRange: [2, 5], xpRange: [3, 8], duration: 5 },
+    { id: 'dice-leisure-4', text: '听一首喜欢的歌（单曲循环1遍）', category: DiceCategory.LEISURE, goldRange: [2, 5], xpRange: [3, 8], duration: 5 },
+    { id: 'dice-leisure-5', text: '看1个搞笑短视频合集（5分钟内）', category: DiceCategory.LEISURE, goldRange: [2, 5], xpRange: [3, 8], duration: 5 },
+    { id: 'dice-leisure-6', text: '吃一颗糖果/一块巧克力', category: DiceCategory.LEISURE, goldRange: [2, 5], xpRange: [3, 8], duration: 2 },
+    { id: 'dice-leisure-7', text: '给绿植浇一次水（顺便欣赏5分钟）', category: DiceCategory.LEISURE, goldRange: [2, 5], xpRange: [3, 8], duration: 10 },
+    { id: 'dice-leisure-8', text: '换一张手机锁屏壁纸（用自制MBTI图）', category: DiceCategory.LEISURE, goldRange: [2, 5], xpRange: [3, 8], duration: 10 },
+    { id: 'dice-leisure-9', text: '翻一页喜欢的书（不用强求读完）', category: DiceCategory.LEISURE, goldRange: [2, 5], xpRange: [3, 8], duration: 5 },
+    { id: 'dice-leisure-10', text: '给自己拍一张今日状态照（记录小日常）', category: DiceCategory.LEISURE, goldRange: [2, 5], xpRange: [3, 8], duration: 10 },
+    { id: 'dice-leisure-11', text: '选一部想看的电影/剧，添加到收藏夹', category: DiceCategory.LEISURE, goldRange: [2, 5], xpRange: [3, 8], duration: 10 },
+    { id: 'dice-leisure-12', text: '发呆5分钟（不做任何事）', category: DiceCategory.LEISURE, goldRange: [2, 5], xpRange: [3, 8], duration: 5 },
+    { id: 'dice-leisure-13', text: '听一段10分钟的轻音乐', category: DiceCategory.LEISURE, goldRange: [2, 5], xpRange: [3, 8], duration: 10 },
+    { id: 'dice-leisure-14', text: '玩一局手机小游戏（5分钟内）', category: DiceCategory.LEISURE, goldRange: [2, 5], xpRange: [3, 8], duration: 5 },
+    { id: 'dice-leisure-15', text: '看一张喜欢的风景图（1分钟）', category: DiceCategory.LEISURE, goldRange: [2, 5], xpRange: [3, 8], duration: 1 },
+    { id: 'dice-leisure-16', text: '给自己泡一杯咖啡/奶茶', category: DiceCategory.LEISURE, goldRange: [2, 5], xpRange: [3, 8], duration: 5 },
+    { id: 'dice-leisure-17', text: '整理1个喜欢的表情包文件夹', category: DiceCategory.LEISURE, goldRange: [2, 5], xpRange: [3, 8], duration: 15 },
+    { id: 'dice-leisure-18', text: '回忆一件今天的开心小事', category: DiceCategory.LEISURE, goldRange: [2, 5], xpRange: [3, 8], duration: 5 }
+  ]
+};
+
+// --- Initial Dice Config ---
+export const INITIAL_DICE_CONFIG = {
+  dailyLimit: 10,
+  faceCount: 12,
+  categoryDistribution: {
+    [DiceCategory.HEALTH]: 4,
+    [DiceCategory.EFFICIENCY]: 5,
+    [DiceCategory.LEISURE]: 3
+  }
+};
+
+// --- Initial Dice State ---
+export const INITIAL_DICE_STATE = {
+  todayCount: 0,
+  lastClickDate: new Date().toISOString().split('T')[0],
+  history: [],
+  completedTaskIds: [],
+  isSpinning: false,
+  currentResult: undefined,
+  taskPool: INITIAL_DICE_TASKS,
+  config: INITIAL_DICE_CONFIG,
+  pendingTasks: [],
+  completedTasks: []
+};
