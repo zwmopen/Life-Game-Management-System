@@ -25,6 +25,12 @@ import {
 // 导入共享组件
 import RewardModal from './components/shared/RewardModal';
 
+// 导入模块化 hooks
+import { usePomodoro } from './features/pomodoro';
+import { useDice } from './features/dice';
+import { useAchievements } from './features/achievements';
+import { useStorage } from './features/storage';
+import { useStats } from './features/stats';
 
 
 
@@ -43,51 +49,11 @@ const App: React.FC = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [reviews, setReviews] = useState<ReviewLog[]>([]);
   
-  // Pomodoro Timer State (Global)
-  const [pomodoroTimeLeft, setPomodoroTimeLeft] = useState(25 * 60);
-  const [pomodoroIsActive, setPomodoroIsActive] = useState(false);
-  const [pomodoroDuration, setPomodoroDuration] = useState(25);
-  
   // Immersive Mode State (Global)
   const [isImmersive, setIsImmersive] = useState(false);
 
-  // Pomodoro Timer Handlers
-  const handleToggleTimer = () => {
-    setPomodoroIsActive(!pomodoroIsActive);
-  };
-
-  const handleResetTimer = () => {
-    setPomodoroIsActive(false);
-    setPomodoroTimeLeft(pomodoroDuration * 60);
-  };
-
-  const handleChangeDuration = (minutes: number) => {
-    setPomodoroDuration(minutes);
-    setPomodoroIsActive(false);
-    setPomodoroTimeLeft(minutes * 60);
-  };
-
-  const handleUpdateTimeLeft = (seconds: number) => {
-    setPomodoroTimeLeft(seconds);
-  };
-
-  const handleUpdateIsActive = (active: boolean) => {
-    setPomodoroIsActive(active);
-  };
-
-  // Global Pomodoro Timer Effect
-  useEffect(() => {
-    let interval: number;
-    if (pomodoroIsActive && pomodoroTimeLeft > 0) {
-      interval = window.setInterval(() => {
-        setPomodoroTimeLeft(prev => prev - 1);
-      }, 1000);
-    } else if (pomodoroTimeLeft === 0 && pomodoroIsActive) {
-      setPomodoroIsActive(false);
-      setPomodoroTimeLeft(pomodoroDuration * 60);
-    }
-    return () => clearInterval(interval);
-  }, [pomodoroIsActive, pomodoroTimeLeft, pomodoroDuration]);
+  // 使用模块化 hooks
+  const { pomodoroState, toggleTimer, resetTimer, changeDuration, updateTimeLeft, updateIsActive } = usePomodoro();
   
   const characterProfileRef = useRef<CharacterProfileHandle>(null);
 
@@ -145,12 +111,11 @@ const App: React.FC = () => {
   
   // 用户备份数据中的已解锁勋章
   const [claimedBadges, setClaimedBadges] = useState<string[]>(["class-吃土少年","class-泡面搭档","class-温饱及格","class-奶茶自由","class-外卖不看价"]);
-  const [activeAchievement, setActiveAchievement] = useState<any>(null); 
 
   const [activeAutoTask, setActiveAutoTask] = useState<AutoTask | null>(null);
   
-  // 命运骰子状态
-  const [diceState, setDiceState] = useState<DiceState>(INITIAL_DICE_STATE);
+  // 使用模块化 hooks
+  const { diceState, setDiceState } = useDice(isDataLoaded);
 
   const [statsHistory, setStatsHistory] = useState<{[key: number]: DailyStats}>({
     1: {
@@ -169,9 +134,8 @@ const App: React.FC = () => {
       spending: 9
   });
 
-  const totalKills = todayStats.tasksCompleted + todayStats.habitsDone;
-  const totalHours = (Object.values(statsHistory as Record<string, { focusMinutes: number }>).reduce((acc: number, curr) => acc + (curr.focusMinutes || 0), 0) / 60);
-  const totalSpent = (Object.values(statsHistory).reduce((acc: number, curr: any) => acc + (curr.spending || 0), 0)) + todayStats.spending;
+  // 使用模块化 hooks
+  const { totalKills, totalHours, totalSpent } = useStats(statsHistory, todayStats);
 
   // --- Persistence Engine ---
   useEffect(() => {
@@ -313,42 +277,10 @@ const App: React.FC = () => {
     return () => clearTimeout(timeoutId);
   }, [isDataLoaded]);
 
-  // Global Achievement Watcher
-  useEffect(() => {
-      if(!isDataLoaded) return;
-
-      const checkAndTrigger = () => {
-          const currentLevelInfo = getAllLevels().findIndex(l => xp < l.min) - 1; 
-          const currentLevelVal = currentLevelInfo === -2 ? getAllLevels().length : currentLevelInfo + 1;
-
-          const levelBadges = getAllLevels().map((l, idx) => { const levelValue = idx + 1; return { id: `lvl-${levelValue}`, title: l.title, subTitle: `LV.${levelValue}`, icon: idx%2===0 ? <Zap size={32} strokeWidth={3}/> : <Sparkles size={32} strokeWidth={3}/>, color: 'text-blue-500', isUnlocked: xp >= l.min, req: `达到等级 ${levelValue}`, min: l.min }; });
-          const rankBadges = getAllFocusTitles().map((r, idx) => ({ id: `rank-${r.title}`, title: r.title, subTitle: `${r.min}H`, icon: idx%2===0 ? <Clock size={32} strokeWidth={3}/> : <Brain size={32} strokeWidth={3}/>, color: 'text-emerald-500', isUnlocked: totalHours >= r.min, req: `专注 ${r.min} 小时`, min: r.min }));
-          const classBadges = getAllWealthTitles().map((c, idx) => ({ id: `class-${c.title}`, title: c.title, subTitle: `${c.min}G`, icon: idx>10 ? <Crown size={32} strokeWidth={3}/> : <Wallet size={32} strokeWidth={3}/>, color: 'text-yellow-500', isUnlocked: balance >= c.min, req: `持有 ${c.min} 金币`, min: c.min }));
-          const combatBadges = getAllMilitaryRanks().map((r, idx) => ({ id: `combat-${r.title}`, title: r.title, subTitle: `${r.min} KILLS`, icon: idx>15 ? <Skull size={32} strokeWidth={3}/> : (idx>8 ? <Shield size={32} strokeWidth={3}/> : <Target size={32} strokeWidth={3}/>), color: 'text-red-500', isUnlocked: totalKills >= r.min, req: `完成 ${r.min} 个任务`, min: r.min }));
-          const checkInBadges = getAllCheckInTitles().map((c, idx) => ({ id: `check-${c.title}`, title: c.title, subTitle: `${c.min} DAYS`, icon: idx>5 ? <Flame size={32} strokeWidth={3}/> : (idx>2 ? <Footprints size={32} strokeWidth={3}/> : <Calendar size={32} strokeWidth={3}/>), color: 'text-purple-500', isUnlocked: checkInStreak >= c.min, req: `连续签到 ${c.min} 天`, min: c.min }));
-          const consumptionBadges = getAllConsumptionTitles().map((c, idx) => ({ id: `consume-${c.title}`, title: c.title, subTitle: `${c.min}G`, icon: idx>5 ? <Dumbbell size={32} strokeWidth={3}/> : <ShoppingBag size={32} strokeWidth={3}/>, color: 'text-orange-500', isUnlocked: totalSpent >= c.min, req: `累计消费 ${c.min} 金币`, min: c.min }));
-
-          const isNonZero = (badge: any) => {
-              if (badge.min === 0) return false;
-              if (badge.id.includes('列兵') && totalKills === 0) return false;
-              if (badge.id.includes('专注小白') && totalHours === 0) return false;
-              if (badge.id.includes('赛博乞丐') && balance < 50) return false;
-              if (badge.id.startsWith('consume') && totalSpent === 0) return false;
-              
-              return true;
-          };
-
-          const allBadges = [...levelBadges, ...rankBadges, ...classBadges, ...combatBadges, ...checkInBadges, ...consumptionBadges];
-          
-          const unlockedUnclaimed = allBadges.find(b => b.isUnlocked && !claimedBadges.includes(b.id) && isNonZero(b));
-          
-          if (unlockedUnclaimed && !activeAchievement) {
-              setActiveAchievement(unlockedUnclaimed);
-          }
-      };
-
-      checkAndTrigger();
-  }, [xp, balance, totalHours, totalKills, checkInStreak, totalSpent, claimedBadges, isDataLoaded]);
+  // 使用模块化 hooks
+  const { activeAchievement, setActiveAchievement } = useAchievements(
+    xp, balance, totalHours, totalKills, checkInStreak, totalSpent, claimedBadges, isDataLoaded
+  );
 
 
   useEffect(() => {
@@ -1094,14 +1026,14 @@ const App: React.FC = () => {
                   isNavCollapsed={isNavCollapsed}
                   setIsNavCollapsed={setIsNavCollapsed}
                   // Pomodoro Global State
-                  timeLeft={pomodoroTimeLeft}
-                  isActive={pomodoroIsActive}
-                  duration={pomodoroDuration}
-                  onToggleTimer={handleToggleTimer}
-                  onResetTimer={handleResetTimer}
-                  onChangeDuration={handleChangeDuration}
-                  onUpdateTimeLeft={handleUpdateTimeLeft}
-                  onUpdateIsActive={handleUpdateIsActive}
+                  timeLeft={pomodoroState.timeLeft}
+                  isActive={pomodoroState.isActive}
+                  duration={pomodoroState.duration}
+                  onToggleTimer={toggleTimer}
+                  onResetTimer={resetTimer}
+                  onChangeDuration={changeDuration}
+                  onUpdateTimeLeft={updateTimeLeft}
+                  onUpdateIsActive={updateIsActive}
                   // Immersive Mode State
                   isImmersive={isImmersive}
                   setIsImmersive={setIsImmersive}
@@ -1164,14 +1096,14 @@ const App: React.FC = () => {
                   isNavCollapsed={isNavCollapsed}
                   setIsNavCollapsed={setIsNavCollapsed}
                   // Pomodoro Global State
-                  timeLeft={pomodoroTimeLeft}
-                  isActive={pomodoroIsActive}
-                  duration={pomodoroDuration}
-                  onToggleTimer={handleToggleTimer}
-                  onResetTimer={handleResetTimer}
-                  onChangeDuration={handleChangeDuration}
-                  onUpdateTimeLeft={handleUpdateTimeLeft}
-                  onUpdateIsActive={handleUpdateIsActive}
+                  timeLeft={pomodoroState.timeLeft}
+                  isActive={pomodoroState.isActive}
+                  duration={pomodoroState.duration}
+                  onToggleTimer={toggleTimer}
+                  onResetTimer={resetTimer}
+                  onChangeDuration={changeDuration}
+                  onUpdateTimeLeft={updateTimeLeft}
+                  onUpdateIsActive={updateIsActive}
                   // Immersive Mode State
                   isImmersive={isImmersive}
                   setIsImmersive={setIsImmersive}
@@ -1208,14 +1140,14 @@ const App: React.FC = () => {
                   isNavCollapsed={isNavCollapsed}
                   setIsNavCollapsed={setIsNavCollapsed}
                   // Pomodoro Global State
-                  timeLeft={pomodoroTimeLeft}
-                  isActive={pomodoroIsActive}
-                  duration={pomodoroDuration}
-                  onToggleTimer={handleToggleTimer}
-                  onResetTimer={handleResetTimer}
-                  onChangeDuration={handleChangeDuration}
-                  onUpdateTimeLeft={handleUpdateTimeLeft}
-                  onUpdateIsActive={handleUpdateIsActive}
+                  timeLeft={pomodoroState.timeLeft}
+                  isActive={pomodoroState.isActive}
+                  duration={pomodoroState.duration}
+                  onToggleTimer={toggleTimer}
+                  onResetTimer={resetTimer}
+                  onChangeDuration={changeDuration}
+                  onUpdateTimeLeft={updateTimeLeft}
+                  onUpdateIsActive={updateIsActive}
                />;
       case View.DATA_CHARTS:
         return <MissionControl 

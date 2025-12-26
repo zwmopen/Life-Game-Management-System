@@ -47,6 +47,22 @@
 │   └── Settings.tsx        # 设置组件
 ├── constants/             # 常量目录
 │   └── index.ts           # 集中式常量定义
+├── features/              # 功能模块目录（模块化重构新增）
+│   ├── achievements/       # 成就系统模块
+│   │   ├── index.ts        # 模块统一导出
+│   │   └── useAchievements.tsx  # 成就系统Hook
+│   ├── dice/               # 命运骰子模块
+│   │   ├── index.ts        # 模块统一导出
+│   │   └── useDice.ts      # 命运骰子Hook
+│   ├── pomodoro/           # 番茄钟模块
+│   │   ├── index.ts        # 模块统一导出
+│   │   └── usePomodoro.ts  # 番茄钟Hook
+│   ├── storage/            # 存储系统模块
+│   │   ├── index.ts        # 模块统一导出
+│   │   └── useStorage.ts   # 存储系统Hook
+│   └── stats/              # 统计系统模块
+│       ├── index.ts        # 模块统一导出
+│       └── useStats.ts     # 统计系统Hook
 ├── hooks/                 # 自定义Hooks目录
 │   ├── useGameState.ts     # 游戏状态管理Hook
 │   ├── useHabits.ts        # 习惯管理Hook
@@ -69,6 +85,60 @@
 ├── DEVELOPMENT_DOC.md      # 开发文档
 └── README.md               # 项目说明
 └── 人生游戏开发手册.txt      # 开发手册
+```
+
+## 模块化重构说明
+
+### 重构背景
+为了解决代码体积过大、行数过多导致的AI维护中断、查找问题效率低、修复成本高等问题，对项目进行了模块化重构。
+
+### 重构目标
+1. **代码结构化/模块化**：将过长的单文件代码拆解为独立模块
+2. **统一管理逻辑**：可统一管理的功能/配置集中封装
+3. **适配AI维护特性**：重构后的代码需符合AI易识别、易修改的特点
+
+### 重构内容
+
+#### 1. 功能模块拆分
+- **番茄钟系统**：拆分为 `usePomodoro` 钩子，负责番茄钟状态管理和计时逻辑
+- **命运骰子系统**：拆分为 `useDice` 钩子，负责骰子状态管理和每日重置逻辑
+- **成就系统**：拆分为 `useAchievements` 钩子，负责成就检测和勋章解锁逻辑
+- **存储系统**：拆分为 `useStorage` 钩子，负责数据持久化和加载逻辑
+- **统计系统**：拆分为 `useStats` 钩子，负责统计数据计算和汇总逻辑
+
+#### 2. 状态管理优化
+- 各功能模块的状态通过自定义钩子集中管理
+- 减少App.tsx的状态数量，提高代码可读性
+- 各模块状态独立，降低耦合度
+
+#### 3. 导入导出优化
+- 每个功能模块通过 `index.ts` 统一导出
+- 简化导入路径，提高代码可维护性
+- 便于AI快速定位和理解模块结构
+
+### 重构后的优势
+1. **代码更清晰**：功能模块边界明确，便于理解和维护
+2. **AI友好**：模块化结构便于AI查找和修改特定功能
+3. **降低耦合**：各模块独立，减少修改影响范围
+4. **提高复用性**：功能模块可在不同场景下复用
+5. **便于扩展**：新增功能可直接添加新的模块
+
+### 使用说明
+在组件中使用模块化钩子：
+```typescript
+// 导入模块化钩子
+import { usePomodoro } from './features/pomodoro';
+import { useDice } from './features/dice';
+import { useAchievements } from './features/achievements';
+import { useStorage } from './features/storage';
+import { useStats } from './features/stats';
+
+// 在组件中使用
+const { pomodoroState, toggleTimer, resetTimer } = usePomodoro();
+const { diceState, setDiceState } = useDice(isDataLoaded);
+const { activeAchievement, setActiveAchievement } = useAchievements(/* 参数 */);
+const { habits, setHabits, projects, setProjects } = useStorage(setIsDataLoaded);
+const { totalKills, totalHours, totalSpent } = useStats(statsHistory, todayStats);
 ```
 
 ## 3. 勋章系统 (Medal System)
