@@ -18,7 +18,7 @@ import {
   Trophy, Medal, Crown, Star, Wallet, Brain, Clock, Zap, Target, Crosshair, Skull, Flag, CheckCircle2, Lock, Flame, ShoppingBag, Gift,
   HelpCircle, Shield, Footprints, Calendar, Dumbbell, Sparkles, Layout, Award, User, Gem, Feather, Eye, Compass, Key, Anchor, Sword, Sun, Moon, Coins, Diamond, Landmark, Briefcase,
   BrainCircuit, Activity, TrendingUp, DollarSign, Building, Utensils, Ticket, Music, Headphones, Armchair, Scissors, Glasses, Sofa, Edit3,
-  XCircle, Trash2, Plus, Grid3X3
+  XCircle, Trash2, Plus, Grid3X3, List, RotateCw
 } from 'lucide-react';
 
 
@@ -607,18 +607,30 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                                                         </div>
                                                     </div>
                                                     <div className="flex gap-2 opacity-70 transition-opacity duration-300 group-hover:opacity-100">
-                                                        <button 
-                                                            className={`p-2 rounded-lg transition-all duration-300 hover:scale-[1.2] ${isNeomorphic ? 'bg-[#e0e5ec] border-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]' : 'hover:bg-yellow-500/20'}`}
-                                                            onClick={() => setEditingBadge(badge)}
-                                                        >
-                                                            <Edit3 size={16} className={isDark ? 'text-yellow-400' : 'text-yellow-600'} />
-                                                        </button>
-                                                        <button 
-                                                            className={`p-2 rounded-lg transition-all duration-300 hover:scale-[1.2] ${isNeomorphic ? 'bg-[#e0e5ec] border-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]' : 'hover:bg-red-500/20'}`}
-                                                        >
-                                                            <Trash2 size={16} className={isDark ? 'text-red-400' : 'text-red-600'} />
-                                                        </button>
-                                                    </div>
+                                <button 
+                                    className={`p-2 rounded-lg transition-all duration-300 hover:scale-[1.2] ${isNeomorphic ? 'bg-[#e0e5ec] border-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]' : 'hover:bg-yellow-500/20'}`}
+                                    onClick={() => setEditingBadge(badge)}
+                                >
+                                    <Edit3 size={16} className={isDark ? 'text-yellow-400' : 'text-yellow-600'} />
+                                </button>
+                                <button 
+                                    className={`p-2 rounded-lg transition-all duration-300 hover:scale-[1.2] ${isNeomorphic ? 'bg-[#e0e5ec] border-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]' : 'hover:bg-blue-500/20'}`}
+                                    onClick={() => {
+                                        // 重置该成就：从claimedBadges中移除
+                                        const updatedClaimedBadges = claimedBadges.filter(id => id !== badge.id);
+                                        localStorage.setItem('claimedBadges', JSON.stringify(updatedClaimedBadges));
+                                        // 触发强制刷新
+                                        setForceRefresh(prev => !prev);
+                                    }}
+                                >
+                                    <RotateCw size={16} className={isDark ? 'text-blue-400' : 'text-blue-600'} />
+                                </button>
+                                <button 
+                                    className={`p-2 rounded-lg transition-all duration-300 hover:scale-[1.2] ${isNeomorphic ? 'bg-[#e0e5ec] border-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]' : 'hover:bg-red-500/20'}`}
+                                >
+                                    <Trash2 size={16} className={isDark ? 'text-red-400' : 'text-red-600'} />
+                                </button>
+                            </div>
                                                 </div>
                                             ))}
                                         </div>

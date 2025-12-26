@@ -1717,21 +1717,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                 {[{ id: 'all', label: '全部' }, { id: 'physical', label: '实物' }, { id: 'rights', label: '权益' }, { id: 'leisure', label: '休闲' }, { id: 'owned', label: '已购买' }, { id: 'blindbox', label: '盲盒' }].map(f => (
                                     <button key={f.id} onClick={() => setShopFilter(f.id as any)} className={`px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all ${getButtonStyle(shopFilter === f.id)}`}>{f.label}</button>
                                 ))}
-                                {shopFilter === 'blindbox' && (
-                                    <div className="relative group">
-                                        <button onClick={() => setShowBlindBoxHelp(!showBlindBoxHelp)} className="text-zinc-500 hover:text-white transition-colors p-1.5"><HelpCircle size={16}/></button>
-                                        {showBlindBoxHelp && (
-                                            <div className={`absolute top-full right-0 mt-2 p-3 rounded-lg shadow-lg z-50 max-w-xs text-xs font-bold ${isDark ? 'bg-zinc-900 border-zinc-700 text-zinc-200' : 'bg-white border-slate-200 text-slate-800'} border animate-in fade-in slide-in-from-top-4`}>
-                                                <div className="space-y-1">
-                                                    <div className="text-yellow-500 font-bold">盲盒规则</div>
-                                                    {BLIND_BOX_RULES.split('\n').filter(line => line.trim()).map((line, index) => (
-                                                        <div key={index} className="text-xs">{line}</div>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
-                                )}
+                                
                              </div>
                              <div className="flex gap-2 items-center">
                                  <button onClick={() => setActiveHelp('shop')} className="text-zinc-500 hover:text-white transition-colors"><HelpCircle size={16}/></button>

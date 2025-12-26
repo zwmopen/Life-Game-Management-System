@@ -43,7 +43,7 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
   // Drag and Drop state
   const [chartCategories, setChartCategories] = useState<{ [key: string]: string[] }>({
     trend: ['habitCompletion', 'focusTrend', 'dip', 'dunning', 'jcurve', 'antifragile', 'secondcurve', 'compound', 'mining', 'dopamine', 'flow', 'windLaw'],
-    concept: ['zone', 'woop', 'peakEnd', 'valueVenn', 'learningCycle', 'purpose', 'johariWindow', 'footInDoor', 'deliberatePractice', 'foggBehavior', 'eisenhowerMatrix', 'outputLineModel']
+    concept: ['zone', 'woop', 'peakEnd', 'valueVenn', 'learningCycle', 'purpose', 'johariWindow', 'footInDoor', 'deliberatePractice', 'foggBehavior', 'eisenhowerMatrix']
   });
 
   // Load saved categories from localStorage
@@ -831,20 +831,6 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       return data;
   }, []);
 
-  // 输入与输出模型数据
-  const outputLineModelData = useMemo(() => {
-      const data = [];
-      for (let i = 0; i <= 100; i++) {
-          // 简单的线性关系：产出 = 投入 * 0.8 + 10
-          const output = i * 0.8 + 10;
-          data.push({
-              input: i,
-              output
-          });
-      }
-      return data;
-  }, []);
-
   // 人生价值韦恩图数据
   const valueVennData = useMemo(() => {
       return [
@@ -1449,17 +1435,6 @@ WOOP框架结合了积极想象和现实规划，提高目标实现的成功率�
 2. **预防胜于治疗**：投资第二象限的事情可以减少第一象限的危机
 3. **授权与拒绝**：学会授权他人处理某些任务，学会拒绝不合理的请求
 4. **持续优化**：定期回顾和调整任务分配，不断优化时间管理` }, icon: Target, color: 'text-indigo-500' },
-      { id: 'outputLineModel', label: '输入与输出模型', desc: '展示输入输出关系的线性模型，帮助理解投入与产出的关系。', deepAnalysis: { concept: `输入与输出模型展示了投入与产出之间的关系，强调了输入的质量和数量对产出的影响。
-
-- **线性关系**：在理想情况下，产出与输入呈线性关系
-- **效率因子**：产出 = 输入 × 效率因子
-- **瓶颈效应**：系统的产出往往受限于瓶颈环节`, usage: `1. **优化输入质量**：提高输入的质量，如选择高质量的学习材料、合作伙伴等
-2. **增加有效输入**：增加对产出有贡献的输入，减少无效输入
-3. **提高转换效率**：通过优化流程、提高技能等方式提高输入到输出的转换效率
-4. **识别瓶颈**：找出系统中的瓶颈环节，优先优化`, principle: `1. **质量优先于数量**：高质量的输入比低质量的大量输入更有价值
-2. **效率优化**：提高输入到输出的转换效率是提升产出的关键
-3. **系统思维**：将问题视为一个系统，优化整体效率而非局部
-4. **持续改进**：通过不断优化输入、转换过程和输出，实现持续改进` }, icon: TrendingUp, color: 'text-cyan-500' },
   ];
 
   const activeChartObj = CHARTS.find(c => c.id === activeChart) || CHARTS[0];
@@ -1506,22 +1481,32 @@ WOOP框架结合了积极想象和现实规划，提高目标实现的成功率�
         {/* Main Grid */}
         <div className="flex flex-col gap-6 pb-20">
             
-            {/* Featured Strategic Chart (Full Width Top) */}
-            <div 
-                ref={chartContainerRef}
-                className={`p-4 rounded-lg ${cardBg} lg:col-span-2 flex flex-col relative overflow-hidden group transition-all duration-300 z-0 hover:z-10`} 
-                style={{ minHeight: '500px', width: '100%', alignSelf: 'center' }}
-            >
-    
-                <div className="flex justify-between items-center mb-2 z-10">
-                    <h3 className={`font-bold flex items-center gap-2 ${textMain} text-base`}>
-                        <activeChartObj.icon size={16} className={activeChartObj.color}/> {activeChartObj.label}
-                    </h3>
+            {/* 图表学习模块 - 包含图表和深度解析 */}
+            <div className={`p-3 rounded-xl ${isDark ? 'bg-zinc-900' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[6px_6px_12px_rgba(163,177,198,0.6),-6px_-6px_12px_rgba(255,255,255,1)]' : 'bg-white shadow-md'} transition-all duration-300 hover:shadow-lg`}>
+                {/* 左上角小图标和文字 - 作为模块标题 */}
+                <div className="flex items-center gap-2 mb-4">
+                    <BarChart2 size={12} className="text-yellow-500"/>
+                    <h3 className="text-[10px] font-bold uppercase text-zinc-500">图表学习</h3>
                 </div>
-                <p className={`text-xs ${textSub} mb-4 z-10 max-w-2xl`}>{activeChartObj.desc}</p>
-                
-                <div className="flex-1 w-full h-full z-10">
-                    {/* CHART RENDER LOGIC */}
+
+                {/* 内部包含图表和深度解析两个悬浮凸起模块 */}
+                <div className="space-y-6">
+                    {/* Featured Strategic Chart (Full Width Top) */}
+                    <div 
+                        ref={chartContainerRef}
+                        className={`p-4 rounded-lg ${cardBg} flex flex-col relative overflow-hidden group transition-all duration-300 z-0 hover:z-10`} 
+                        style={{ minHeight: '500px', width: '100%', alignSelf: 'center' }}
+                    >
+    
+                        <div className="flex justify-between items-center mb-2 z-10">
+                            <h3 className={`font-bold flex items-center gap-2 ${textMain} text-base`}>
+                                <activeChartObj.icon size={16} className={activeChartObj.color}/> {activeChartObj.label}
+                            </h3>
+                        </div>
+                        <p className={`text-xs ${textSub} mb-4 z-10 max-w-2xl`}>{activeChartObj.desc}</p>
+                        
+                        <div className="flex-1 w-full h-full z-10">
+                            {/* CHART RENDER LOGIC */}
                         {activeChart === 'attributeRadar' ? (
                             <ResponsiveContainer width="100%" height="100%">
                                 <RadarChart cx="50%" cy="50%" outerRadius="70%" data={attributeData} animationDuration={1000}>
@@ -1909,20 +1894,22 @@ WOOP框架结合了积极想象和现实规划，提高目标实现的成功率�
                                 </AreaChart>
                             </ResponsiveContainer>
                         ) : activeChart === 'habitCompletion' ? (
-                            <ResponsiveContainer width="100%" height="100%">
-                            <ComposedChart data={habitCompletionData} animationDuration={1000}>
-                                <CartesianGrid strokeDasharray="3 3" stroke={isDark ? "#27272a" : "#e2e8f0"} />
-                                <XAxis dataKey="date" stroke="#71717a" label={{ value: '日期', position: 'insideBottom' }} />
-                                <YAxis stroke="#71717a" label={{ value: '完成率 (%)', angle: -90, position: 'insideLeft' }} />
-                                <YAxis yAxisId="right" orientation="right" stroke="#71717a" label={{ value: '任务数', angle: 90, position: 'insideRight' }} />
-                                <Tooltip contentStyle={{ backgroundColor: isDark ? '#18181b' : '#fff', borderColor: isDark ? '#333' : '#e2e8f0', color: isDark ? '#fff' : '#000' }}/>
-                                <Legend />
-                                <Line type="monotone" dataKey="completionRate" stroke="#10b981" strokeWidth={3} dot={{ r: 4 }} name="总完成率" />
-                                <Bar dataKey="habitsCompleted" stackId="a" fill="#3b82f6" name="日常任务完成数" yAxisId="right" />
-                                <Bar dataKey="projectsCompleted" stackId="a" fill="#ef4444" name="主线任务完成数" yAxisId="right" />
-                                <Bar dataKey="total" stackId="b" fill="#71717a" fillOpacity={0.2} name="总任务数" yAxisId="right" />
-                            </ComposedChart>
-                            </ResponsiveContainer>
+                            <div className={`p-4 rounded-xl border ${cardBg} z-10`}>
+                                <ResponsiveContainer width="100%" height="400px">
+                                <ComposedChart data={habitCompletionData} animationDuration={1000}>
+                                    <CartesianGrid strokeDasharray="3 3" stroke={isDark ? "#27272a" : "#e2e8f0"} />
+                                    <XAxis dataKey="date" stroke="#71717a" label={{ value: '日期', position: 'insideBottom' }} />
+                                    <YAxis stroke="#71717a" label={{ value: '完成率 (%)', angle: -90, position: 'insideLeft' }} />
+                                    <YAxis yAxisId="right" orientation="right" stroke="#71717a" label={{ value: '任务数', angle: 90, position: 'insideRight' }} />
+                                    <Tooltip contentStyle={{ backgroundColor: isDark ? '#18181b' : '#fff', borderColor: isDark ? '#333' : '#e2e8f0', color: isDark ? '#fff' : '#000' }}/>
+                                    <Legend />
+                                    <Line type="monotone" dataKey="completionRate" stroke="#10b981" strokeWidth={3} dot={{ r: 4 }} name="总完成率" />
+                                    <Bar dataKey="habitsCompleted" stackId="a" fill="#3b82f6" name="日常任务完成数" yAxisId="right" />
+                                    <Bar dataKey="projectsCompleted" stackId="a" fill="#ef4444" name="主线任务完成数" yAxisId="right" />
+                                    <Bar dataKey="total" stackId="b" fill="#71717a" fillOpacity={0.2} name="总任务数" yAxisId="right" />
+                                </ComposedChart>
+                                </ResponsiveContainer>
+                            </div>
                         ) : activeChart === 'projectProgress' ? (
                             <ResponsiveContainer width="100%" height="100%">
                             <RadarChart cx="50%" cy="50%" outerRadius="70%" data={projectProgressData} animationDuration={1000}>
@@ -2820,18 +2807,6 @@ WOOP框架结合了积极想象和现实规划，提高目标实现的成功率�
                                     </g>
                                 </svg>
                             </div>
-                        ) : activeChart === 'outputLineModel' ? (
-                            <ResponsiveContainer width="100%" height="100%">
-                                <LineChart data={outputLineModelData} animationDuration={1000}>
-                                    <CartesianGrid strokeDasharray="3 3" stroke={isDark ? "#27272a" : "#e2e8f0"} />
-                                    <XAxis dataKey="input" stroke="#71717a" label={{ value: '投入', position: 'insideBottom' }} />
-                                    <YAxis stroke="#71717a" label={{ value: '产出', angle: -90, position: 'insideLeft' }} />
-                                    <Tooltip contentStyle={{ backgroundColor: isDark ? '#18181b' : '#fff', borderColor: isDark ? '#333' : '#e2e8f0', color: isDark ? '#fff' : '#000' }}/>
-                                    <Legend />
-                                    <Line type="monotone" dataKey="output" stroke="#06b6d4" strokeWidth={3} name="产出" />
-                                    <ReferenceLine y={0} stroke="#666" strokeDasharray="3 3" />
-                                </LineChart>
-                            </ResponsiveContainer>
                         ) : activeChart === 'eisenhowerMatrix' ? (
                             <div className="flex flex-col items-center justify-center h-full w-full p-4">
                                 <svg width="100%" height="100%" viewBox="0 0 450 450" preserveAspectRatio="xMidYMid meet">
@@ -2939,6 +2914,8 @@ WOOP框架结合了积极想象和现实规划，提高目标实现的成功率�
                 </div>
             )}
 
+                </div> <!-- 关闭space-y-6 -->
+            </div> <!-- 关闭图表学习模块 -->
 
         </div>
     </div>
