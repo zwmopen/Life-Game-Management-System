@@ -6,7 +6,7 @@ import {
 } from 'recharts';
 import BaseChart from './BaseChart';
 import { chartConfig, getGridColor, getTooltipStyle } from './ChartConfig';
-import { Activity, BarChart2, Mountain, Zap, BrainCircuit, Pickaxe, Hexagon, TrendingUp, Anchor, Target, CircleDot, PieChart, RotateCw, Smile, Battery, TrendingDown, Scale, Compass, Layers, GitMerge, Shield, Eye, CheckCircle2, Clock, GripVertical, HelpCircle, Square, ArrowRight, Search, BookOpen, Repeat, FileSearch, Lightbulb, RefreshCw, Timer, Star, FileText, MessageCircle, User, ArrowLeftRight, Layout, Diamond, Trophy, Wind, Gift, Sparkles, Heart, GraduationCap, ShieldAlert, Code2, PlayCircle, UsersRound, Exchange, Switch, UsersRound as Users, PlayCircle as Play, ShieldAlert as AlertShield, Code2 as Code, Heart as HeartIcon, GraduationCap as GradCap, HelpCircle as Help, CheckCircle2 as CheckCircle, Clock as ClockIcon, GripVertical as Grip, RefreshCw as Loop, Signal, ArrowLeft, Brain, AlertCircle, Sparkles as Sparkle, Wind as WindIcon, Gift as GiftIcon } from 'lucide-react';
+import { Activity, BarChart2, Mountain, Zap, BrainCircuit, Pickaxe, Hexagon, TrendingUp, Anchor, Target, CircleDot, PieChart, RotateCw, Smile, Battery, TrendingDown, Scale, Compass, Layers, GitMerge, Shield, Eye, CheckCircle2, Clock, GripVertical, HelpCircle, Square, ArrowRight, Search, BookOpen, Repeat, FileSearch, Lightbulb, RefreshCw, Timer, Star, FileText, MessageCircle, User, ArrowLeftRight, Layout, Diamond } from 'lucide-react';
 import { Theme, Project, Habit } from '../types';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragEndEvent } from '@dnd-kit/core';
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy, horizontalListSortingStrategy, useSortable } from '@dnd-kit/sortable';
@@ -56,7 +56,7 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
   // Drag and Drop state - 删除习惯完成率和专注时间趋势，添加新的成长型思维、沉没成本谬误和二八定律，以及新增的决策/行为/认知/学习类图表
   const [chartCategories, setChartCategories] = useState<{ [key: string]: string[] }>({
     trend: ['dip', 'dunning', 'jcurve', 'antifragile', 'secondcurve', 'compound', 'mining', 'dopamine', 'flow', 'windLaw'],
-    concept: ['zone', 'woop', 'peakEnd', 'valueVenn', 'purpose', 'johariWindow', 'footInDoor', 'deliberatePractice', 'foggBehavior', 'eisenhowerMatrix', 'growthMindset', 'sunkCost', 'pareto', 'swot', 'goldenCircle', 'fiveWhys', 'brokenWindow', 'matthewEffect', 'hedgehogPrinciple', 'survivorshipBias', 'occamsRazor', 'anchoringEffect', 'tenThousandHours', 'feynmanTechnique', 'spacedRepetition', 'probabilityThinking', 'regretMinimization', 'identityTheory', 'zeigarnikEffect', 'grayThinking', 'reverseThinking', 'riaReading', 'feedbackLoop', 'eisenhowerAdvanced', 'energyManagement', 'prospectTheory', 'weightedDecisionMatrix', 'feedbackPeakLaw', 'environmentDesign', 'frameRefactoring', 'knowledgeCrystallization', 'metaLearning', 'crossDomainLearning', 'energySegmentation', 'smartPrinciple', 'exposureEffect', 'emotionABC', 'endowmentEffect', 'bystanderEffect', 'birdcageEffect', 'metacognition', 'transferLearning', 'singleTasking', 'parkinsonsLaw', 'nonviolentCommunication', 'reciprocityPrinciple', 'systemFeedback', 'bottleneckTheory', 'valueProposition', 'opportunityCost', 'mvpThinking', 'buildMeasureLearn', 'butterflyEffect', 'pathDependency', 'opportunitySunkCost', 'scarcityAbundance', 'minimalResistance', 'immediateFeedback', 'perspectiveShift', 'firstPrincipleAdvanced', 'ecologicalNiche', 'symbiosisEffect', 'multidimensionalCompounding', 'valueDensity', 'cognitiveCircle', 'boundaryBreaking', 'redundancyBackup', 'rhythmControl', 'dislocationCompetition', 'networkEffect', 'assetizationThinking', 'moatThinking', 'knowledgeActionUnity', 'microHabitCompounding', 'barbellStrategy', 'antifragileThinking', 'supplyDemandMismatch', 'leverageThinking', 'reverseEngineering', 'firstPrincipleMigration', 'potentialEnergyAccumulation', 'valueMultiplication', 'essenceThinking', 'nodeControlThinking', 'actionCalibrationThinking', 'platformLeverageThinking', 'ecologicalFeedbackThinking', 'compoundLeverage', 'valueNetwork', 'thresholdBreakthrough', 'valueAnchorUpgrade', 'firstPrincipleInnovation', 'paradigmShift', 'probabilityRight', 'extremeFocus', 'fastIteration', 'minimalResistancePath', 'resultVisualization', 'ecologicalNichePositioning', 'valueSymbiosisNetwork', 'ecologicalEmpowerment', 'symbiosisBarrier', 'comfort', 'learning', 'fear', 'wish', 'outcome', 'obstacle', 'plan', 'passion', 'talent', 'market', 'core', 'values', 'beliefs', 'behaviors', 'identity', 'input', 'process', 'output', 'open', 'blind', 'hidden', 'unknown', 'goal', 'focus', 'improve', 'motivation', 'ability', 'trigger', 'urgentImportant', 'urgentNotImportant', 'notUrgentImportant', 'notUrgentNotImportant']
+    concept: ['zone', 'woop', 'peakEnd', 'valueVenn', 'purpose', 'johariWindow', 'footInDoor', 'deliberatePractice', 'foggBehavior', 'eisenhowerMatrix', 'growthMindset', 'sunkCost', 'pareto', 'swot', 'goldenCircle', 'fiveWhys', 'brokenWindow', 'matthewEffect', 'hedgehogPrinciple', 'survivorshipBias', 'occamsRazor', 'anchoringEffect', 'tenThousandHours', 'feynmanTechnique', 'spacedRepetition', 'probabilityThinking', 'regretMinimization', 'identityTheory', 'zeigarnikEffect', 'grayThinking', 'reverseThinking', 'riaReading', 'feedbackLoop', 'eisenhowerAdvanced', 'energyManagement', 'prospectTheory', 'weightedDecisionMatrix', 'feedbackPeakLaw', 'environmentDesign', 'frameRefactoring', 'knowledgeCrystallization', 'metaLearning', 'crossDomainLearning', 'energySegmentation', 'smartPrinciple']
   });
 
   // Load saved categories from localStorage
@@ -64,7 +64,7 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
     const savedCategories = localStorage.getItem('chartCategories');
     const initialCategories = {
       trend: ['dip', 'dunning', 'jcurve', 'antifragile', 'secondcurve', 'compound', 'mining', 'dopamine', 'flow', 'windLaw'],
-      concept: ['zone', 'woop', 'peakEnd', 'valueVenn', 'purpose', 'johariWindow', 'footInDoor', 'deliberatePractice', 'foggBehavior', 'eisenhowerMatrix', 'growthMindset', 'sunkCost', 'pareto', 'swot', 'goldenCircle', 'fiveWhys', 'brokenWindow', 'matthewEffect', 'hedgehogPrinciple', 'survivorshipBias', 'occamsRazor', 'anchoringEffect', 'tenThousandHours', 'feynmanTechnique', 'spacedRepetition', 'probabilityThinking', 'regretMinimization', 'identityTheory', 'zeigarnikEffect', 'grayThinking', 'reverseThinking', 'riaReading', 'feedbackLoop', 'eisenhowerAdvanced', 'energyManagement', 'prospectTheory', 'weightedDecisionMatrix', 'feedbackPeakLaw', 'environmentDesign', 'frameRefactoring', 'knowledgeCrystallization', 'metaLearning', 'crossDomainLearning', 'energySegmentation', 'smartPrinciple', 'exposureEffect', 'emotionABC', 'endowmentEffect', 'bystanderEffect', 'birdcageEffect', 'metacognition', 'transferLearning', 'singleTasking', 'parkinsonsLaw', 'nonviolentCommunication', 'reciprocityPrinciple', 'systemFeedback', 'bottleneckTheory', 'valueProposition', 'opportunityCost', 'mvpThinking', 'buildMeasureLearn', 'butterflyEffect', 'pathDependency', 'opportunitySunkCost', 'scarcityAbundance', 'minimalResistance', 'immediateFeedback', 'perspectiveShift', 'firstPrincipleAdvanced', 'ecologicalNiche', 'symbiosisEffect', 'multidimensionalCompounding', 'valueDensity', 'cognitiveCircle', 'boundaryBreaking', 'redundancyBackup', 'rhythmControl', 'dislocationCompetition', 'networkEffect', 'assetizationThinking', 'moatThinking', 'knowledgeActionUnity', 'microHabitCompounding', 'barbellStrategy', 'antifragileThinking', 'supplyDemandMismatch', 'leverageThinking', 'reverseEngineering', 'firstPrincipleMigration', 'potentialEnergyAccumulation', 'valueMultiplication', 'essenceThinking', 'nodeControlThinking', 'actionCalibrationThinking', 'platformLeverageThinking', 'ecologicalFeedbackThinking', 'compoundLeverage', 'valueNetwork', 'thresholdBreakthrough', 'valueAnchorUpgrade', 'firstPrincipleInnovation', 'paradigmShift', 'probabilityRight', 'extremeFocus', 'fastIteration', 'minimalResistancePath', 'resultVisualization', 'ecologicalNichePositioning', 'valueSymbiosisNetwork', 'ecologicalEmpowerment', 'symbiosisBarrier', 'comfort', 'learning', 'fear', 'wish', 'outcome', 'obstacle', 'plan', 'passion', 'talent', 'market', 'core', 'values', 'beliefs', 'behaviors', 'identity', 'input', 'process', 'output', 'open', 'blind', 'hidden', 'unknown', 'goal', 'focus', 'improve', 'motivation', 'ability', 'trigger', 'urgentImportant', 'urgentNotImportant', 'notUrgentImportant', 'notUrgentNotImportant']
+      concept: ['zone', 'woop', 'peakEnd', 'valueVenn', 'purpose', 'johariWindow', 'footInDoor', 'deliberatePractice', 'foggBehavior', 'eisenhowerMatrix', 'growthMindset', 'sunkCost', 'pareto', 'swot', 'goldenCircle', 'fiveWhys', 'brokenWindow', 'matthewEffect', 'hedgehogPrinciple', 'survivorshipBias', 'occamsRazor', 'anchoringEffect', 'tenThousandHours', 'feynmanTechnique', 'spacedRepetition', 'probabilityThinking', 'regretMinimization', 'identityTheory', 'zeigarnikEffect', 'grayThinking', 'reverseThinking', 'riaReading', 'feedbackLoop', 'eisenhowerAdvanced', 'energyManagement', 'prospectTheory', 'weightedDecisionMatrix', 'feedbackPeakLaw', 'environmentDesign', 'frameRefactoring', 'knowledgeCrystallization', 'metaLearning', 'crossDomainLearning', 'energySegmentation', 'smartPrinciple', 'exposureEffect', 'emotionABC', 'endowmentEffect', 'bystanderEffect', 'birdcageEffect', 'metacognition', 'transferLearning', 'singleTasking', 'parkinsonsLaw', 'nonviolentCommunication', 'reciprocityPrinciple', 'systemFeedback', 'bottleneckTheory', 'valueProposition', 'opportunityCost', 'mvpThinking', 'buildMeasureLearn', 'butterflyEffect', 'pathDependency', 'opportunitySunkCost', 'scarcityAbundance', 'minimalResistance', 'immediateFeedback', 'perspectiveShift', 'firstPrincipleAdvanced', 'ecologicalNiche', 'symbiosisEffect', 'multidimensionalCompounding', 'valueDensity', 'cognitiveCircle', 'boundaryBreaking', 'redundancyBackup', 'rhythmControl', 'dislocationCompetition', 'networkEffect', 'assetizationThinking', 'moatThinking', 'knowledgeActionUnity', 'microHabitCompounding', 'barbellStrategy', 'antifragileThinking', 'supplyDemandMismatch', 'leverageThinking', 'reverseEngineering', 'firstPrincipleMigration', 'potentialEnergyAccumulation', 'valueMultiplication', 'essenceThinking', 'nodeControlThinking', 'actionCalibrationThinking', 'platformLeverageThinking', 'ecologicalFeedbackThinking']
     };
     
     if (savedCategories) {
@@ -3376,91 +3376,11 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
           </BaseChart>
         );
       default:
-        // 统一标准化绘制模板，用于处理所有未明确指定渲染逻辑的图表和概念图
-        const activeChartObj = getChartById(activeChart);
-        if (!activeChartObj) {
-          return <div className="w-full h-full flex items-center justify-center text-gray-500">未找到图表数据</div>;
-        }
-        
-        // 将tips和practice按分号拆分
-        const tipsList = activeChartObj.tips.split(';').map(tip => tip.trim()).filter(tip => tip);
-        const practiceList = activeChartObj.practice.split(';').map(prac => prac.trim()).filter(prac => prac);
-        
-        // 统一标准化绘制模板
         return (
-          <div className="w-full h-full p-4">
-            {/* 标题区域 */}
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-3">
-                <activeChartObj.icon className="w-10 h-10 text-blue-500" />
-                <h3 className="text-2xl font-bold text-center" style={{ color: isDark ? '#ffffff' : '#000000' }}>
-                  {activeChartObj.label}
-                </h3>
-              </div>
-            </div>
-            
-            {/* 核心内容区域 - 采用双重视觉参照规范 */}
-            <div className={`${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-900' : 'bg-white'} rounded-xl p-6 h-[calc(100%-120px)] overflow-y-auto`}>
-              {/* 第一部分：核心原理与适用范围（参照复利效应、心流通道的风格） */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                {/* 核心原理 */}
-                <div className={`rounded-lg p-4 ${isDark ? 'bg-blue-900/20 border border-blue-800' : 'bg-blue-50 border border-blue-200'}`}>
-                  <h4 className={`font-bold mb-3 ${isDark ? 'text-blue-300' : 'text-blue-700'}`}>核心原理</h4>
-                  <p className={`${isDark ? 'text-gray-300' : 'text-gray-700'} text-sm leading-relaxed`}>
-                    {activeChartObj.principle}
-                  </p>
-                </div>
-                
-                {/* 适用范围 */}
-                <div className={`rounded-lg p-4 ${isDark ? 'bg-green-900/20 border border-green-800' : 'bg-green-50 border border-green-200'}`}>
-                  <h4 className={`font-bold mb-3 ${isDark ? 'text-green-300' : 'text-green-700'}`}>适用范围</h4>
-                  <p className={`${isDark ? 'text-gray-300' : 'text-gray-700'} text-sm leading-relaxed`}>
-                    {activeChartObj.scope}
-                  </p>
-                </div>
-              </div>
-              
-              {/* 第二部分：简短描述与深度分析（参照WOOP框架、乔哈里视窗的风格） */}
-              <div className="mb-8">
-                {/* 简短描述 */}
-                <div className={`rounded-lg p-4 mb-6 ${isDark ? 'bg-purple-900/20 border border-purple-800' : 'bg-purple-50 border border-purple-200'}`}>
-                  <h4 className={`font-bold mb-3 ${isDark ? 'text-purple-300' : 'text-purple-700'}`}>描述</h4>
-                  <p className={`${isDark ? 'text-gray-300' : 'text-gray-700'} text-sm leading-relaxed`}>
-                    {activeChartObj.description}
-                  </p>
-                </div>
-                
-                {/* 深度分析 */}
-                <div className={`rounded-lg p-4 ${isDark ? 'bg-indigo-900/20 border border-indigo-800' : 'bg-indigo-50 border border-indigo-200'}`}>
-                  <h4 className={`font-bold mb-3 ${isDark ? 'text-indigo-300' : 'text-indigo-700'}`}>深度分析</h4>
-                  <p className={`${isDark ? 'text-gray-300' : 'text-gray-700'} text-sm leading-relaxed`}>
-                    {activeChartObj.deepAnalysis}
-                  </p>
-                </div>
-              </div>
-              
-              {/* 第三部分：使用技巧与实践方法（参照舒适区模型的风格） */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* 使用技巧 */}
-                <div className={`rounded-lg p-4 ${isDark ? 'bg-yellow-900/20 border border-yellow-800' : 'bg-yellow-50 border border-yellow-200'}`}>
-                  <h4 className={`font-bold mb-3 ${isDark ? 'text-yellow-300' : 'text-yellow-700'}`}>使用技巧</h4>
-                  <ul className={`list-disc list-inside space-y-2 ${isDark ? 'text-gray-300' : 'text-gray-700'} text-sm`}>
-                    {tipsList.map((tip, index) => (
-                      <li key={index} className="leading-relaxed">{tip}</li>
-                    ))}
-                  </ul>
-                </div>
-                
-                {/* 实践方法 */}
-                <div className={`rounded-lg p-4 ${isDark ? 'bg-pink-900/20 border border-pink-800' : 'bg-pink-50 border border-pink-200'}`}>
-                  <h4 className={`font-bold mb-3 ${isDark ? 'text-pink-300' : 'text-pink-700'}`}>实践方法</h4>
-                  <ul className={`list-disc list-inside space-y-2 ${isDark ? 'text-gray-300' : 'text-gray-700'} text-sm`}>
-                    {practiceList.map((practice, index) => (
-                      <li key={index} className="leading-relaxed">{practice}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
+          <div className="w-full h-full flex items-center justify-center">
+            <div className="text-center">
+              <h3 className="text-xl font-bold text-gray-500">图表加载中...</h3>
+              <p className="text-sm text-gray-400 mt-2">请选择一个图表类型</p>
             </div>
           </div>
         );
@@ -5343,7 +5263,7 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
         {/* Chart Display - Middle Position */}
         <div className="row-span-1">
           {/* 图表展示区 */}
-          <div className={`p-4 rounded-lg ${cardBg} ${textMain} h-full`}>
+          <div className={`p-4 rounded-lg ${cardBg} ${textMain} mb-4`}>
             {/* 左上角添加"图表展示区"文字 */}
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
@@ -5357,7 +5277,7 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
               className="rounded-lg overflow-hidden bg-opacity-5"
               style={{
                 minHeight: '500px',
-                height: '600px'
+                height: 'auto'
               }}
             >
               {renderChart()}
@@ -5422,6 +5342,54 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
                   ))
                 ) : (
                   <p>请选择一个图表查看实践方法</p>
+                )}
+              </div>
+            </div>
+            
+            {/* 可视化设计描述 */}
+            <div className="mb-4">
+              <h4 className="text-md font-medium mb-2 text-indigo-500">可视化设计描述</h4>
+              <div className="text-sm text-gray-600 dark:text-gray-300 space-y-2">
+                {activeChart === 'dunning' && (
+                  <>
+                    <h5 className="text-sm font-semibold text-indigo-600">核心维度提取</h5>
+                    <ul className="list-disc pl-5 space-y-1">
+                      <li>自变量：智慧水平（知识与经验，从低到高）</li>
+                      <li>因变量：自信程度（从高到低）</li>
+                      <li>阶段划分：自信爆棚区、自信崩溃区、自信重建区、自信成熟区</li>
+                      <li>关键节点：愚昧之巅（峰值）、绝望之谷（谷底）、开悟之坡（拐点）、平稳高原（平稳期）</li>
+                      <li>趋势规律：先上升后急剧下降，再缓慢上升，最后趋于平稳</li>
+                    </ul>
+                    
+                    <h5 className="text-sm font-semibold text-indigo-600 mt-3">可视化设计描述</h5>
+                    <ul className="list-disc pl-5 space-y-1">
+                      <li>图表类型：复合面积图，结合曲线趋势和阶段分区</li>
+                      <li>坐标轴定义：横轴（智慧水平）0-100，纵轴（自信程度）0-100</li>
+                      <li>视觉元素：
+                        <ul className="list-circle pl-5">
+                          <li>自信爆棚区：黄色渐变背景，标注"愚昧之巅"</li>
+                          <li>自信崩溃区：红色渐变背景，标注"绝望之谷"</li>
+                          <li>自信重建区：青色渐变背景，标注"开悟之坡"</li>
+                          <li>自信成熟区：蓝色渐变背景，标注"平稳高原"</li>
+                          <li>黑色曲线表示自信变化趋势</li>
+                          <li>红色圆点标记关键节点</li>
+                        </ul>
+                      </li>
+                      <li>概念融合：将原理、适用场景、使用技巧作为图表注释嵌入</li>
+                    </ul>
+                    
+                    <h5 className="text-sm font-semibold text-indigo-600 mt-3">设计特点</h5>
+                    <ul className="list-disc pl-5 space-y-1">
+                      <li>使用渐变色彩区分四个阶段，增强视觉层次感</li>
+                      <li>关键节点用特殊标记突出，便于理解模型核心</li>
+                      <li>曲线平滑过渡，直观展示自信变化趋势</li>
+                      <li>嵌入核心概念注释，提升图表信息密度</li>
+                      <li>商务简约风格配色，适合专业场景使用</li>
+                    </ul>
+                  </>
+                )}
+                {activeChart !== 'dunning' && (
+                  <p>请选择一个图表查看其可视化设计描述</p>
                 )}
               </div>
             </div>
