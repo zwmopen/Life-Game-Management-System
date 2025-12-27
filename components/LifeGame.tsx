@@ -897,23 +897,39 @@ const LifeGame: React.FC<LifeGameProps> = ({
   });
 
   return (
-    <div className={`h-full flex flex-col overflow-hidden relative`}>
-        
-        {/* Global Guide Card - 使用统一的帮助系统组件 */}
-        <GlobalGuideCard
-          activeHelp={activeHelp}
-          helpContent={helpContent}
-          onClose={() => setActiveHelp(null)}
-          cardBg={cardBg}
-          textMain={textMain}
-          textSub={textSub}
-          config={settings.guideCardConfig || {
-            fontSize: 'medium',
-            borderRadius: 'medium',
-            shadowIntensity: 'medium',
-            showUnderlyingPrinciple: true
-          }}
-        />
+        <div className={`h-full flex flex-col overflow-hidden relative`}>
+            
+            {/* Global Guide Card - 使用统一的帮助系统组件 */}
+            <GlobalGuideCard
+              activeHelp={activeHelp}
+              helpContent={helpContent}
+              onClose={() => setActiveHelp(null)}
+              cardBg={cardBg}
+              textMain={textMain}
+              textSub={textSub}
+              config={settings.guideCardConfig || {
+                fontSize: 'medium',
+                borderRadius: 'medium',
+                shadowIntensity: 'medium',
+                showUnderlyingPrinciple: true
+              }}
+            />
+            
+            {/* 全局命运骰子结果弹窗 - 确保在所有任务分类下都能显示 */}
+            {diceState?.currentResult && (
+                <FateGiftModal
+                    task={diceState.currentResult as any}
+                    isSpinning={diceState.isSpinning}
+                    onComplete={() => onDiceResult && onDiceResult('completed')}
+                    onLater={() => onDiceResult && onDiceResult('later')}
+                    onSkip={() => onDiceResult && onDiceResult('skipped')}
+                    onStartTimer={(duration) => {
+                        onChangeDuration(duration);
+                        onToggleTimer();
+                    }}
+                    theme={theme}
+                />
+            )}
 
         {/* PURCHASE ANIMATION - Improved with centered popup */}
         {justPurchasedItem && (
