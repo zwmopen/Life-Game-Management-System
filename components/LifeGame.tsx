@@ -9,12 +9,13 @@ import {
   Radar as RadarIcon, Container, Filter, Wrench, User, Crosshair, TrendingUp, Lock, Unlock, Skull, ArrowLeft, GripVertical, Star, Package, List, RefreshCw, Dice5, Hammer, Edit2, Layout,
   HelpCircle, Smartphone, Laptop, Shirt, Ticket, Music, Wifi, Video, Square, CheckSquare, Dice1,
   Headphones, Armchair, Scissors, Glasses, Footprints, Utensils, Sofa, Activity, Power, ChevronRight, Sun, Wallet,
-  Camera, Tablet, Wind, Fish, Mountain
+  Camera, Tablet, Wind, Fish, Mountain, Home, Car, Heart
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { Theme, AttributeType, Habit, Project, SubTask, TaskType, AutoTaskType, Task, DiceState, DiceTask, DiceCategory, DiceHistory, Settings as SettingsType } from '../types';
 import CharacterProfile, { CharacterProfileHandle } from './CharacterProfile';
 import { GlobalGuideCard, HelpTooltip, helpContent } from './HelpSystem';
+import FateGiftModal from './shared/FateGiftModal';
 
 interface LifeGameProps {
   theme: Theme;
@@ -82,6 +83,8 @@ interface LifeGameProps {
   onDeleteDiceTask?: (taskId: string, category: DiceCategory) => void;
   onUpdateDiceTask?: (taskId: string, category: DiceCategory, updates: Partial<DiceTask>) => void;
   onUpdateDiceConfig?: (config: Partial<DiceState['config']>) => void;
+  // 角色等级变化回调
+  onLevelChange: (newLevel: number, type: 'level' | 'focus' | 'wealth') => void;
 }
 
 const XP_PER_LEVEL = 200;
@@ -151,6 +154,45 @@ const SHOP_CATALOG = [
   { id: 'r_misc_1', name: '365天日历', description: '时间管理，记录生活', cost: 9.9, type: 'physical', owned: false, icon: <Calendar size={24} className="text-yellow-500"/>, category: '其他' },
   { id: 'r_misc_2', name: '约人爬山', description: '户外活动，锻炼身体', cost: 9.9, type: 'leisure', owned: false, icon: <Mountain size={24} className="text-green-500"/>, category: '其他' },
   
+  // 新增用户要求商品
+  // 家居类
+  { id: 'p_home_1', name: '室内炉锅桌子', description: '家居生活必备', cost: 1299, type: 'physical', owned: false, icon: <Utensils size={24} className="text-amber-500"/>, category: '家居' },
+  { id: 'p_home_2', name: '厨房套装', description: '全套厨房设备', cost: 3500, type: 'physical', owned: false, icon: <Utensils size={24} className="text-blue-500"/>, category: '家居' },
+  
+  // 房产类
+  { id: 'p_property_1', name: '房子一间', description: '温馨小屋', cost: 500000, type: 'physical', owned: false, icon: <Home size={24} className="text-red-500"/>, category: '房产' },
+  
+  // 车辆类
+  { id: 'p_car_1', name: '理想汽车', description: '新能源汽车', cost: 250000, type: 'physical', owned: false, icon: <Car size={24} className="text-green-500"/>, category: '车辆' },
+  
+  // 饮食类
+  { id: 's_food_14', name: '酱骨头套餐', description: '酱骨头、牛骨头、调料一条龙', cost: 158, type: 'leisure', owned: false, icon: <Utensils size={24} className="text-red-500"/>, category: '饮食' },
+  { id: 's_food_15', name: '烧烤套餐（自制）', description: '自己动手做烧烤', cost: 88, type: 'leisure', owned: false, icon: <Utensils size={24} className="text-orange-500"/>, category: '饮食' },
+  { id: 's_food_16', name: '烧烤套餐（外买）', description: '购买现成烧烤', cost: 158, type: 'leisure', owned: false, icon: <Utensils size={24} className="text-orange-500"/>, category: '饮食' },
+  { id: 's_food_17', name: '烤鱼（外买）', description: '美味烤鱼188元', cost: 188, type: 'leisure', owned: false, icon: <Fish size={24} className="text-blue-500"/>, category: '饮食' },
+  { id: 's_food_18', name: '烤鱼（自制）', description: '自己做烤鱼55元', cost: 55, type: 'leisure', owned: false, icon: <Fish size={24} className="text-blue-500"/>, category: '饮食' },
+  { id: 's_food_19', name: '临沂炒鸡', description: '正宗临沂炒鸡', cost: 33, type: 'leisure', owned: false, icon: <Utensils size={24} className="text-yellow-500"/>, category: '饮食' },
+  
+  // 旅游类
+  { id: 'r_tick_4', name: '挪威旅行', description: '去挪威旅行一次', cost: 15000, type: 'rights', owned: false, icon: <Mountain size={24} className="text-blue-500"/>, category: '票务' },
+  { id: 'r_tick_5', name: '家庭旅游', description: '带家人出去旅游', cost: 3000, type: 'rights', owned: false, icon: <Users size={24} className="text-green-500"/>, category: '票务' },
+  
+  // 服务类
+  { id: 's_service_1', name: '体检套餐', description: '带爸爸妈妈做体检', cost: 1200, type: 'rights', owned: false, icon: <Heart size={24} className="text-red-500"/>, category: '服务' },
+  
+  // 运动类
+  { id: 's_sport_1', name: '爬山', description: '去爬山30分钟', cost: 20, type: 'leisure', owned: false, icon: <Mountain size={24} className="text-green-500"/>, category: '运动' },
+  { id: 's_sport_2', name: '跑步', description: '去跑步30分钟', cost: 10, type: 'leisure', owned: false, icon: <Footprints size={24} className="text-blue-500"/>, category: '运动' },
+  { id: 's_sport_3', name: '健身', description: '去健身房30分钟', cost: 50, type: 'leisure', owned: false, icon: <Dumbbell size={24} className="text-red-500"/>, category: '运动' },
+  
+  // 服装类
+  { id: 'p_cloth_1', name: '衣服一件', description: '时尚服装', cost: 299, type: 'physical', owned: false, icon: <Shirt size={24} className="text-purple-500"/>, category: '服装' },
+  { id: 'p_cloth_2', name: '裤子一条', description: '休闲裤子', cost: 199, type: 'physical', owned: false, icon: <Shirt size={24} className="text-blue-500"/>, category: '服装' },
+  { id: 'p_cloth_3', name: '家人衣服', description: '给家人买衣服', cost: 399, type: 'physical', owned: false, icon: <Users size={24} className="text-pink-500"/>, category: '服装' },
+  { id: 'p_cloth_4', name: '家人裤子', description: '给家人买裤子', cost: 299, type: 'physical', owned: false, icon: <Users size={24} className="text-green-500"/>, category: '服装' },
+  
+  // 礼品类
+  { id: 'p_gift_1', name: '朋友礼物', description: '常用但贵的小礼物', cost: 1000, type: 'physical', owned: false, icon: <Gift size={24} className="text-yellow-500"/>, category: '礼品' },
 
 ];
 
@@ -194,7 +236,8 @@ const LifeGame: React.FC<LifeGameProps> = ({
     onAddDiceTask,
     onDeleteDiceTask,
     onUpdateDiceTask,
-    onUpdateDiceConfig
+    onUpdateDiceConfig,
+    onLevelChange
 }) => {
   const isDark = theme === 'dark';
   const isNeomorphic = theme === 'neomorphic';
@@ -255,6 +298,8 @@ const LifeGame: React.FC<LifeGameProps> = ({
   const [isManageTasksOpen, setIsManageTasksOpen] = useState(false);
   const [manageTaskTab, setManageTaskTab] = useState<'daily' | 'main' | 'random'>('daily');
   const [newChallengeText, setNewChallengeText] = useState('');
+  // 命运骰子任务分类状态
+  const [activeDiceCategory, setActiveDiceCategory] = useState<string>('all');
   
   const [isEditItemOpen, setIsEditItemOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<any>(null);
@@ -265,6 +310,9 @@ const LifeGame: React.FC<LifeGameProps> = ({
   // 战略储备双击编辑状态
   const [isEditingSavings, setIsEditingSavings] = useState(false);
   const [tempSavings, setTempSavings] = useState(balance);
+  
+  // 用于触发签到组件重新渲染的状态
+  const [checkInUpdated, setCheckInUpdated] = useState(0);
   
   // 更新tempSavings以反映最新的balance值
   useEffect(() => {
@@ -402,18 +450,18 @@ const LifeGame: React.FC<LifeGameProps> = ({
   // 按照projectOrder排序项目任务
   const sortedProjects = projectOrder.map(id => projects.find(p => p.id === id)).filter(p => p !== undefined) as Project[];
   const projectTasks = sortedProjects.map(p => {
-      // 计算主线任务的总奖励和总时长
-      const totalRewardXP = 60;
-      const totalRewardGold = 60;
+      // 主线任务奖励机制：与日常任务保持一致
+      const baseRewardGold = 60; // 基础金币奖励
+      const baseRewardXP = Math.ceil(baseRewardGold * 1.5); // 经验奖励与日常任务相同：金币*1.5
       const totalDuration = p.subTasks.reduce((sum, st) => sum + st.duration, 60);
       
       // 计算每个子任务的平均奖励
       const subTaskCount = Math.max(p.subTasks.length, 1);
-      const avgXP = Math.ceil(totalRewardXP / subTaskCount);
-      const avgGold = Math.ceil(totalRewardGold / subTaskCount);
+      const avgXP = Math.ceil(baseRewardXP / subTaskCount);
+      const avgGold = Math.ceil(baseRewardGold / subTaskCount);
       
       return {
-          id: p.id, text: p.name, attr: p.attr || 'WEA', xp: totalRewardXP, gold: totalRewardGold, type: TaskType.MAIN,
+          id: p.id, text: p.name, attr: p.attr || 'WEA', xp: baseRewardXP, gold: baseRewardGold, type: TaskType.MAIN,
           completed: p.status === 'completed', frequency: 'once' as const, isExpanded: false,
           originalData: p,
           subTasks: p.subTasks.map(st => ({
@@ -585,6 +633,22 @@ const LifeGame: React.FC<LifeGameProps> = ({
   const completeTask = (task: any, e: React.MouseEvent | null) => {
       if (task.isGivenUp) return; 
       if (task.type === TaskType.DAILY) {
+          // 播放完成音效
+          const completeSound = new Audio("https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3");
+          completeSound.volume = 0.5;
+          completeSound.play().catch(()=>{});
+          
+          // 触发烟花效果
+          if (e) {
+              confetti({
+                  particleCount: 100,
+                  spread: 70,
+                  origin: { x: e.clientX / window.innerWidth, y: e.clientY / window.innerHeight },
+                  colors: ['#fbbf24', '#f59e0b', '#d97706', '#3b82f6', '#10b981', '#8b5cf6'],
+                  animationDuration: 800
+              });
+          }
+          
           onToggleHabit(task.id, todayStr);
           // 所有弹窗由 App.tsx 中的 handleToggleHabit 函数统一处理，避免重复
       }
@@ -592,7 +656,19 @@ const LifeGame: React.FC<LifeGameProps> = ({
 
   const giveUpTask = (taskId: string, e: React.MouseEvent) => {
       e.stopPropagation(); 
-      if (onGiveUpTask) onGiveUpTask(taskId);
+      if (onGiveUpTask) {
+          onGiveUpTask(taskId);
+          
+          // 触发命运骰子机制
+          setTimeout(() => {
+              if (onSpinDice) {
+                  const result = onSpinDice();
+                  if (!result.success && result.message) {
+                      onAddFloatingReward(result.message, 'text-red-500');
+                  }
+              }
+          }, 300);
+      }
   };
 
   const toggleSubTask = (projectId: string, subTaskId: string) => {
@@ -607,17 +683,46 @@ const LifeGame: React.FC<LifeGameProps> = ({
       onUpdateProject(projectId, { subTasks: newSubTasks });
       
       if (newStatus) {
-          new Audio("https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3").play().catch(()=>{});
+          // 播放完成音效
+          const completeSound = new Audio("https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3");
+          completeSound.volume = 0.5;
+          completeSound.play().catch(()=>{});
+          
+          // 触发小型烟花效果
+          confetti({
+              particleCount: 50,
+              spread: 50,
+              origin: { x: 0.5, y: 0.5 },
+              colors: ['#fbbf24', '#f59e0b', '#d97706', '#3b82f6', '#10b981', '#8b5cf6'],
+              animationDuration: 600
+          });
       }
   };
 
-  const deleteSubTask = (projectId: string, subTaskId: string) => {
-      if (window.confirm("确定删除此子任务？")) {
-          const project = projects.find(p => p.id === projectId);
-          if (!project) return;
-          const newSubTasks = project.subTasks.filter(t => t.id !== subTaskId);
-          onUpdateProject(projectId, { subTasks: newSubTasks });
-      }
+  const giveUpSubTask = (projectId: string, subTaskId: string) => {
+      // 直接放弃子任务，不删除，标记为已完成但不计入奖励
+      const project = projects.find(p => p.id === projectId);
+      if (!project) return;
+      const subTask = project.subTasks.find(t => t.id === subTaskId);
+      if (!subTask) return;
+      
+      const newSubTasks = project.subTasks.map(t => t.id === subTaskId ? { ...t, completed: true, isGivenUp: true } : t);
+      onUpdateProject(projectId, { subTasks: newSubTasks });
+      
+      // 播放放弃音效
+      const giveUpSound = new Audio("https://assets.mixkit.co/sfx/preview/mixkit-interface-error-beep-221.mp3");
+      giveUpSound.volume = 0.5;
+      giveUpSound.play().catch(()=>{});
+      
+      // 触发命运骰子机制
+      setTimeout(() => {
+          if (onSpinDice) {
+              const result = onSpinDice();
+              if (!result.success && result.message) {
+                  onAddFloatingReward(result.message, 'text-red-500');
+              }
+          }
+      }, 300);
   };
 
   const handleDeleteItem = (e: React.MouseEvent, id: string) => {
@@ -943,7 +1048,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
 
         <div className="flex-1 overflow-y-auto p-4 md:p-6 relative custom-scrollbar">
             {mainTab === 'battle' && (
-              <CharacterProfile ref={characterProfileRef} theme={theme} xp={xp} balance={balance} totalHours={totalHours} totalKills={totalTasksCompleted} checkInStreak={checkInStreak} onPomodoroComplete={onPomodoroComplete} onUpdateBalance={onUpdateBalance} 
+              <CharacterProfile ref={characterProfileRef} theme={theme} xp={xp} balance={balance} totalHours={totalHours} totalKills={totalTasksCompleted} checkInStreak={checkInStreak} onPomodoroComplete={onPomodoroComplete} onUpdateBalance={onUpdateBalance} onLevelChange={onLevelChange} 
                 // Pomodoro Global State
                 timeLeft={timeLeft}
                 isActive={isActive}
@@ -1149,10 +1254,10 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                                 const streak = checkInStreak + 1;
                                                 localStorage.setItem('aes-checkin-streak', streak.toString());
                                                 
-                                                // 使用React状态更新，避免页面刷新
+                                                // 使用React状态更新，确保组件重新渲染
                                                 setTimeout(() => {
-                                                    // 重新渲染组件
-                                                    window.dispatchEvent(new Event('storage'));
+                                                    // 更新状态触发重新渲染
+                                                    setCheckInUpdated(prev => prev + 1);
                                                 }, 100);
                                             }
                                         }}
@@ -1195,7 +1300,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                 </div>
                                 
                                 {/* 7天签到状态 - 更小的尺寸 */}
-                                <div className="grid grid-cols-7 gap-1">
+                                <div className="grid grid-cols-7 gap-1" key={checkInUpdated}>
                                     {(() => {
                                         // 获取本周的日期范围（周一到周日）
                                         const now = new Date();
@@ -1457,7 +1562,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                                     <span className="text-blue-500">{st.duration}m</span>
                                                 </div>
                                                 <div className="flex items-center gap-1 sm:gap-0.5">
-                                                    <button onClick={(e) => { e.stopPropagation(); deleteSubTask(task.id, st.id); }} className="text-zinc-700 hover:text-red-500 p-2 opacity-0 group-hover/sub:opacity-100 transition-opacity" title="删除子任务"><X size={16}/></button>
+                                                    <button onClick={(e) => { e.stopPropagation(); giveUpSubTask(task.id, st.id); }} className="text-zinc-700 hover:text-red-500 p-2 opacity-0 group-hover/sub:opacity-100 transition-opacity" title="放弃子任务"><X size={16}/></button>
                                                     <button onClick={(e) => { e.stopPropagation(); handleStartTimer(st.duration || 25); }} className={`p-2 rounded-full text-white transition-colors hover:scale-110 shadow-lg ${isDark ? 'bg-zinc-800 hover:bg-emerald-600' : 'bg-blue-500 hover:bg-blue-600'} opacity-0 group-hover/sub:opacity-100`}><Play size={16} fill="currentColor"/></button>
                                                 </div>
                                             </div>
@@ -1515,108 +1620,20 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                     </div>
                                 </div>
                                 
-                                {/* 骰子结果弹窗 */}
+                                {/* 骰子结果弹窗 - 使用全局统一组件 */}
                                 {diceState?.currentResult && (
-                                    <div className="fixed inset-0 z-[100] bg-black/80 flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in">
-                                        <div className={`w-full max-w-md p-6 rounded-2xl border ${cardBg} shadow-2xl relative transform transition-all duration-500 animate-in zoom-in`}>
-                                            {/* 弹窗装饰 */}
-                                            <div className="absolute top-0 left-0 w-full h-full rounded-2xl bg-gradient-to-br from-blue-500/10 to-yellow-500/10 opacity-50 pointer-events-none"></div>
-                                            <h3 className={`font-bold mb-4 ${textMain} flex items-center justify-center gap-2 text-2xl`}>
-                                                <Sparkles size={24} className="text-yellow-500 animate-pulse" />
-                                                命运礼物
-                                            </h3>
-                                            <div className="space-y-6">
-                                                {/* 骰子结果 */}
-                                                <div className="text-center">
-                                                    {/* 3D骰子展示 */}
-                                                    <div className="relative inline-block">
-                                                        <div className={`${diceState.isSpinning ? 'animate-[spin_1s_linear_infinite]' : ''}`}>
-                                                            <Dice5 size={96} className="text-yellow-500 drop-shadow-[0_0_20px_rgba(234,179,8,0.8)]" />
-                                                        </div>
-                                                        {/* 骰子光效 */}
-                                                        <div className="absolute inset-0 rounded-full bg-yellow-500/30 blur-xl animate-pulse"></div>
-                                                    </div>
-                                                    <h4 className={`text-xl font-bold ${textMain} mb-2 mt-4 bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent`}>
-                                                        {(() => {
-                                                            switch (diceState.currentResult.category) {
-                                                                case DiceCategory.HEALTH:
-                                                                    return '健康微行动';
-                                                                case DiceCategory.EFFICIENCY:
-                                                                    return '效率任务';
-                                                                case DiceCategory.LEISURE:
-                                                                    return '休闲小奖励';
-                                                                default:
-                                                                    return '未知任务';
-                                                            }
-                                                        })()}
-                                                    </h4>
-                                                    <p className={`text-lg ${textMain} p-4 rounded-lg ${isDark ? 'bg-zinc-800/80' : 'bg-white/80'} backdrop-blur-sm`}>{diceState.currentResult.text}</p>
-                                                </div>
-                                                
-                                                {/* 奖励信息 */}
-                                                <div className="grid grid-cols-3 gap-4 text-center">
-                                                    <div className={`p-4 rounded-lg ${isDark ? 'bg-zinc-800/80 hover:bg-zinc-800' : 'bg-white/80 hover:bg-white'} backdrop-blur-sm transition-all hover:shadow-lg border border-zinc-700/50`}>
-                                                        <div className="text-xs text-zinc-500 mb-1">金币</div>
-                                                        <div className="text-lg font-bold text-yellow-500 flex items-center justify-center gap-1">
-                                                            <Coins size={18} />
-                                                            +{(diceState.currentResult as any)._generatedGold || 0}
-                                                        </div>
-                                                    </div>
-                                                    <div className={`p-4 rounded-lg ${isDark ? 'bg-zinc-800/80 hover:bg-zinc-800' : 'bg-white/80 hover:bg-white'} backdrop-blur-sm transition-all hover:shadow-lg border border-zinc-700/50`}>
-                                                        <div className="text-xs text-zinc-500 mb-1">经验</div>
-                                                        <div className="text-lg font-bold text-purple-500 flex items-center justify-center gap-1">
-                                                            <Star size={18} />
-                                                            +{(diceState.currentResult as any)._generatedXp || 0}
-                                                        </div>
-                                                    </div>
-                                                    {diceState.currentResult.duration && (
-                                                        <div className={`p-4 rounded-lg ${isDark ? 'bg-zinc-800/80 hover:bg-zinc-800' : 'bg-white/80 hover:bg-white'} backdrop-blur-sm transition-all hover:shadow-lg border border-zinc-700/50`}>
-                                                            <div className="text-xs text-zinc-500 mb-1">时长</div>
-                                                            <div className="text-lg font-bold text-blue-500 flex items-center justify-center gap-1">
-                                                                <Clock size={18} />
-                                                                {diceState.currentResult.duration} 分钟
-                                                            </div>
-                                                        </div>
-                                                    )}
-                                                </div>
-                                                
-                                                {/* 操作按钮 */}
-                                                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                                                    <button 
-                                                        onClick={() => {
-                                                            // 启动番茄钟
-                                                            if (diceState?.currentResult.duration) {
-                                                                onChangeDuration(diceState.currentResult.duration);
-                                                                onToggleTimer();
-                                                            }
-                                                            onDiceResult && onDiceResult('later');
-                                                        }}
-                                                        className={`py-3 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold transition-all hover:scale-105 hover:shadow-xl`}
-                                                    >
-                                                        开始
-                                                    </button>
-                                                    <button 
-                                                        onClick={() => onDiceResult && onDiceResult('completed')}
-                                                        className={`py-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold transition-all hover:scale-105 hover:shadow-xl`}
-                                                    >
-                                                        已完成
-                                                    </button>
-                                                    <button 
-                                                        onClick={() => onDiceResult && onDiceResult('later')}
-                                                        className={`py-3 rounded-lg ${isDark ? 'bg-zinc-800 hover:bg-zinc-700' : 'bg-white hover:bg-slate-100'} ${isDark ? 'text-white' : 'text-zinc-700'} font-bold transition-all hover:scale-105 hover:shadow-xl`}
-                                                    >
-                                                        稍后做
-                                                    </button>
-                                                    <button 
-                                                        onClick={() => onDiceResult && onDiceResult('skipped')}
-                                                        className={`py-3 rounded-lg bg-red-600 hover:bg-red-500 text-white font-bold transition-all hover:scale-105 hover:shadow-xl`}
-                                                    >
-                                                        跳过
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <FateGiftModal
+                                        task={diceState.currentResult as any}
+                                        isSpinning={diceState.isSpinning}
+                                        onComplete={() => onDiceResult && onDiceResult('completed')}
+                                        onLater={() => onDiceResult && onDiceResult('later')}
+                                        onSkip={() => onDiceResult && onDiceResult('skipped')}
+                                        onStartTimer={(duration) => {
+                                            onChangeDuration(duration);
+                                            onToggleTimer();
+                                        }}
+                                        theme={theme}
+                                    />
                                 )}
                                 
                                 {/* 任务列表 */}
@@ -2306,6 +2323,37 @@ const LifeGame: React.FC<LifeGameProps> = ({
                             </div>
                         )}
                         
+                        {/* 任务分类切换模块 - 命运骰子分组专用 */}
+                        {manageTaskTab === 'random' && (
+                            <div className={`mt-4 mb-3 p-3 rounded-lg ${isDark ? 'bg-zinc-800/50 border-zinc-700' : 'bg-slate-100 border-slate-200'} border`}>
+                                <h3 className={`text-xs font-bold uppercase ${textSub} mb-2 flex items-center gap-1`}>
+                                    <Filter size={12}/> 命运骰子任务分类
+                                </h3>
+                                <div className="flex gap-2 flex-wrap">
+                                    {[
+                                        { id: 'health', label: '健康微行动', color: 'emerald' },
+                                        { id: 'efficiency', label: '效率任务', color: 'blue' },
+                                        { id: 'leisure', label: '休闲小奖励', color: 'purple' },
+                                        { id: 'all', label: '全部任务', color: 'gray' }
+                                    ].map(category => (
+                                        <button 
+                                            key={category.id}
+                                            onClick={() => {
+                                                // 切换任务分类
+                                                setActiveDiceCategory(category.id);
+                                            }}
+                                            className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${activeDiceCategory === category.id ? 
+                                                `${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] text-${category.color}-700 border-none' : `${isDark ? 'bg-zinc-600' : 'bg-slate-200'} text-${category.color}-700`}` : 
+                                                `${isNeomorphic ? 'bg-[#e0e5ec] shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] hover:shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] text-${category.color}-600 border-none' : `${isDark ? 'bg-zinc-700 hover:bg-zinc-600' : 'bg-white hover:bg-slate-100'} text-${category.color}-600 hover:text-${category.color}-700`}`}`}
+                                        >
+                                            <span className={`inline-block w-1.5 h-1.5 rounded-full mr-1 bg-${category.color}-500`}></span>
+                                            {category.label}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                        
                         {/* 现有任务列表 */}
                         <div className="space-y-2">
                             {manageTaskTab === 'daily' && habits.map((h) => (
@@ -2334,7 +2382,8 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                         { id: 'efficiency', label: '效率任务', color: 'blue' },
                                         { id: 'leisure', label: '休闲小奖励', color: 'purple' },
                                         { id: 'other', label: '未分类', color: 'gray' }
-                                    ].map(category => {
+                                    ].filter(category => activeDiceCategory === 'all' || category.id === activeDiceCategory)
+                                    .map(category => {
                                         // 筛选该分类的任务
                                         const categoryTasks = challengePool.filter(task => {
                                             try {

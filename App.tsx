@@ -334,6 +334,64 @@ const App: React.FC = () => {
 
   }, [habits, projects, habitOrder, projectOrder, balance, day, transactions, reviews, statsHistory, todayStats, challengePool, todaysChallenges, achievements, completedRandomTasks, isDataLoaded, xp, claimedBadges, weeklyGoal, todayGoal, givenUpTasks]);
 
+  // 每日自动刷新任务功能
+  useEffect(() => {
+    // 计算当前时间到凌晨0:00的毫秒数
+    const calculateTimeUntilMidnight = () => {
+      const now = new Date();
+      const tomorrow = new Date(now);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      tomorrow.setHours(0, 0, 0, 0);
+      return tomorrow.getTime() - now.getTime();
+    };
+
+    // 重置所有任务状态的函数
+    const resetAllTasks = () => {
+      // 重置所有习惯任务的历史记录
+      setHabits(prevHabits => prevHabits.map(habit => ({
+        ...habit,
+        history: {}, // 清空历史记录
+        streak: 0 // 重置连续天数
+      })));
+
+      // 重置所有项目任务的子任务状态
+      setProjects(prevProjects => prevProjects.map(project => ({
+        ...project,
+        subTasks: project.subTasks.map(subTask => ({
+          ...subTask,
+          completed: false
+        })),
+        status: 'active' // 重置项目状态为活跃
+      })));
+
+      // 清空已放弃任务列表
+      setGivenUpTasks([]);
+
+      // 重置今日统计数据
+      setTodayStats({ focusMinutes: 0, tasksCompleted: 0, habitsDone: 0, earnings: 0, spending: 0 });
+
+      // 生成新的每日挑战
+      const todayStr = new Date().toLocaleDateString();
+      const shuffled = [...challengePool].sort(() => 0.5 - Math.random());
+      const selected = shuffled.slice(0, 3);
+      setTodaysChallenges({ date: todayStr, tasks: selected });
+      setCompletedRandomTasks(prev => ({ ...prev, [todayStr]: [] }));
+    };
+
+    // 设置初始定时器
+    let timeoutId = setTimeout(() => {
+      resetAllTasks();
+      // 之后每天凌晨0:00执行一次
+      const dailyInterval = 24 * 60 * 60 * 1000;
+      timeoutId = setInterval(resetAllTasks, dailyInterval);
+    }, calculateTimeUntilMidnight());
+
+    return () => {
+      clearTimeout(timeoutId);
+      clearInterval(timeoutId);
+    };
+  }, [challengePool]);
+
   useEffect(() => {
       if(isDataLoaded) {
           setStatsHistory(prev => ({ ...prev, [day]: todayStats }));
@@ -341,6 +399,37 @@ const App: React.FC = () => {
   }, [todayStats, day, isDataLoaded]);
 
   const [floatingTexts, setFloatingTexts] = useState<{id: number, text: string, x: number, y: number, color: string}[]>([]);
+
+  // 处理角色等级变化
+  const handleLevelChange = (newLevel: number, type: 'level' | 'focus' | 'wealth') => {
+    // 根据等级类型重置相关数据
+    switch (type) {
+      case 'level':
+        // 重置经验等级相关勋章
+        setClaimedBadges(prev => prev.filter(badge => !badge.startsWith('class-')));
+        // 设置新的经验值，使其刚好达到新等级的阈值
+        const newXpThreshold = getAllLevels()[newLevel - 1]?.min || 0;
+        setXp(newXpThreshold);
+        break;
+      case 'focus':
+        // 重置专注等级相关勋章
+        setClaimedBadges(prev => prev.filter(badge => !badge.startsWith('focus-')));
+        // 重置专注时间相关的统计数据
+        setStatsHistory({});
+        setTodayStats(prev => ({ ...prev, focusMinutes: 0 }));
+        break;
+      case 'wealth':
+        // 重置财富等级相关勋章
+        setClaimedBadges(prev => prev.filter(badge => !badge.startsWith('wealth-')));
+        // 重置余额和相关统计
+        setBalance(0);
+        setTodayStats(prev => ({ ...prev, earnings: 0, spending: 0 }));
+        break;
+    }
+    
+    // 显示成功提示
+    addFloatingText(`${type === 'level' ? '经验' : type === 'focus' ? '专注' : '财富'}等级已更新为${newLevel}`, 'text-yellow-500');
+  };
 
   // 用于跟踪最近添加的浮动文本，避免重复调用
   const lastFloatingText = useRef({ text: '', timestamp: 0 });
@@ -404,6 +493,8 @@ const App: React.FC = () => {
 
   const handleGiveUpTask = (taskId: string) => {
       setGivenUpTasks(prev => [...prev, taskId]);
+      // 放弃任务时触发命运骰子
+      spinDice();
   };
 
   // Settings Handlers
@@ -1052,6 +1143,8 @@ const App: React.FC = () => {
                   onDeleteDiceTask={deleteDiceTask}
                   onUpdateDiceTask={updateDiceTask}
                   onUpdateDiceConfig={updateDiceConfig}
+                  // 角色等级变化回调
+                  onLevelChange={handleLevelChange}
                />;
       case View.BLACK_MARKET:
         return <LifeGame 

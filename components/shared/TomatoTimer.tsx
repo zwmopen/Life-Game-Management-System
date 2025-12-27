@@ -27,18 +27,18 @@ interface TomatoTimerProps {
 // --- SOUNDS ---
 const SOUNDS: Sound[] = [
   { id: 'mute', name: '静音', url: "", icon: VolumeX, color: 'text-zinc-500', hex: '#6b7280' }, // 添加静音选项作为第一个
-  { id: 'forest', name: '迷雾森林', url: "https://assets.mixkit.co/active_storage/sfx/2441/2441-preview.mp3", icon: Trees, color: 'text-green-600', hex: '#16a34a' }, // 使用海浪声替代失效的森林声
+  { id: 'forest', name: '迷雾森林', url: "https://assets.mixkit.co/active_storage/sfx/2443/2443-preview.mp3", icon: Trees, color: 'text-green-600', hex: '#16a34a' }, // 使用夏夜虫鸣替代失效的森林声
   { id: 'alpha', name: '阿尔法波', url: "https://assets.mixkit.co/active_storage/sfx/243/243-preview.mp3", icon: Waves, color: 'text-purple-500', hex: '#a855f7' },
   { id: 'theta', name: '希塔波', url: "https://assets.mixkit.co/active_storage/sfx/244/244-preview.mp3", icon: CloudRain, color: 'text-emerald-500', hex: '#10b981' }, 
   { id: 'beta', name: '贝塔波', url: "https://assets.mixkit.co/active_storage/sfx/1126/1126-preview.mp3", icon: BrainCircuit, color: 'text-blue-500', hex: '#3b82f6' },
   { id: 'ocean', name: '海浪声', url: "https://assets.mixkit.co/active_storage/sfx/2441/2441-preview.mp3", icon: Waves, color: 'text-blue-600', hex: '#2563eb' },
   { id: 'rain', name: '雨声', url: "https://assets.mixkit.co/active_storage/sfx/2442/2442-preview.mp3", icon: CloudRain, color: 'text-gray-500', hex: '#6b7280' },
-  { id: 'night', name: '夏夜虫鸣', url: "https://assets.mixkit.co/active_storage/sfx/2443/2443-preview.mp3", icon: Moon, color: 'text-indigo-600', hex: '#4f46e5' },
+  { id: 'night', name: '夏夜虫鸣', url: "https://assets.mixkit.co/active_storage/sfx/2447/2447-preview.mp3", icon: Moon, color: 'text-indigo-600', hex: '#4f46e5' },
   { id: 'white-noise', name: '白噪音', url: "https://assets.mixkit.co/active_storage/sfx/2444/2444-preview.mp3", icon: Coffee, color: 'text-amber-500', hex: '#f59e0b' },
   { id: 'pink-noise', name: '粉红噪音', url: "https://assets.mixkit.co/active_storage/sfx/2445/2445-preview.mp3", icon: Coffee, color: 'text-rose-500', hex: '#ec4899' },
   { id: 'brown-noise', name: '布朗噪音', url: "https://assets.mixkit.co/active_storage/sfx/2446/2446-preview.mp3", icon: Coffee, color: 'text-orange-600', hex: '#ea580c' },
-  { id: 'cafe', name: '咖啡馆环境', url: "https://assets.mixkit.co/active_storage/sfx/2447/2447-preview.mp3", icon: Coffee, color: 'text-amber-600', hex: '#d97706' },
-  { id: 'fireplace', name: '壁炉声', url: "https://assets.mixkit.co/active_storage/sfx/2448/2448-preview.mp3", icon: Coffee, color: 'text-red-500', hex: '#ef4444' },
+  { id: 'cafe', name: '咖啡馆环境', url: "https://assets.mixkit.co/active_storage/sfx/2448/2448-preview.mp3", icon: Coffee, color: 'text-amber-600', hex: '#d97706' },
+  { id: 'fireplace', name: '壁炉声', url: "https://assets.mixkit.co/active_storage/sfx/2449/2449-preview.mp3", icon: Coffee, color: 'text-red-500', hex: '#ef4444' },
 ];
 
 const TomatoTimer: React.FC<TomatoTimerProps> = ({
@@ -102,12 +102,14 @@ const TomatoTimer: React.FC<TomatoTimerProps> = ({
     let shouldPlay = false;
     let targetSoundId = currentSoundId;
     
-    // 当番茄钟启动时，自动切换到迷雾森林音乐
+    // 当番茄钟启动时，使用用户选择的音乐
     if (isActive) {
-      targetSoundId = originalSoundId;
-      const targetSound = SOUNDS.find(s => s.id === targetSoundId) || SOUNDS[1];
-      audioSrc = targetSound.url;
-      shouldPlay = true;
+      // 如果用户选择了静音，则不播放音乐
+      if (targetSoundId !== 'mute') {
+        const targetSound = SOUNDS.find(s => s.id === targetSoundId) || SOUNDS[1];
+        audioSrc = targetSound.url;
+        shouldPlay = true;
+      }
     }
     
     // If no audio source, don't create audio object
@@ -148,7 +150,7 @@ const TomatoTimer: React.FC<TomatoTimerProps> = ({
         newAudio.src = '';
       }
     };
-  }, [isActive, currentSoundId, originalSoundId]);
+  }, [isActive, currentSoundId]);
 
   // 移除本地沉浸式状态管理，完全由父组件控制
 

@@ -1,1707 +1,356 @@
-# 人生游戏开发手册
+# 人生游戏化管理系统开发手册
 
 ## 项目概述
 
-**项目名称**：反本能·主动进化系统（人生游戏）
-**项目类型**：React Web应用，用于个人成长和习惯养成
-**技术栈**：React 19 + TypeScript + Vite + Recharts + DnD Kit + Lucide React
-**项目目标**：通过游戏化方式帮助用户培养良好习惯、提高生产力、实现自我成长
+人生游戏化管理系统是一个将人生成长与游戏机制相结合的Web应用，旨在通过游戏化元素激励用户完成任务、培养习惯、提升自我。
 
-## 技术栈和依赖
+## 技术栈
 
-### 核心依赖
-- **React 19.2.3**：前端框架
-- **React DOM 19.2.3**：React DOM渲染
-- **TypeScript 5.8.2**：类型安全
-- **Vite 6.2.0**：构建工具
-- **Recharts 3.6.0**：图表库
-- **@dnd-kit/core 6.3.1**：拖拽核心库
-- **@dnd-kit/sortable 10.0.0**：拖拽排序功能
-- **@dnd-kit/utilities 3.2.2**：拖拽工具函数
-- **lucide-react 0.561.0**：图标库
-- **canvas-confetti 1.9.2**：庆祝效果
-- **@google/genai 1.33.0**：AI功能
-
-### 开发依赖
-- **@vitejs/plugin-react 5.0.0**：Vite React插件
-- **@types/node 22.14.0**：Node类型定义
+- **前端框架**: React 18 + TypeScript
+- **构建工具**: Vite
+- **状态管理**: React Hooks + Context API
+- **UI组件库**: 自定义组件 + Lucide React图标
+- **数据可视化**: Recharts
+- **样式方案**: Tailwind CSS
+- **数据持久化**: localStorage
 
 ## 项目结构
 
 ```
-反本能·主动进化系统/
-├── components/             # 组件目录
-│   ├── shared/            # 共享组件
-│   │   ├── AvatarProfile.tsx     # 角色档案组件
-│   │   ├── MantraModule.tsx      # 锦囊模块
-│   │   ├── MilitaryModule.tsx     # 军工模块
-│   │   ├── RewardModal.tsx        # 奖励弹窗
-│   │   └── TomatoTimer.tsx       # 番茄钟组件
-│   ├── CharacterProfile.tsx   # 角色系统组件
-│   ├── DailyCheckIn.tsx       # 每日签到组件
-│   ├── HallOfFame.tsx      # 荣誉殿堂组件
-│   ├── LifeGame.tsx        # 人生游戏主组件
-│   ├── MissionControl.tsx  # 任务控制组件
-│   ├── Navigation.tsx      # 导航组件
-│   ├── ProjectManual.tsx   # 项目手册组件
-│   └── Settings.tsx        # 设置组件
-├── constants/             # 常量目录
-│   └── index.ts           # 集中式常量定义
-├── features/              # 功能模块目录（模块化重构新增）
-│   ├── achievements/       # 成就系统模块
-│   │   ├── index.ts        # 模块统一导出
-│   │   └── useAchievements.tsx  # 成就系统Hook
-│   ├── dice/               # 命运骰子模块
-│   │   ├── index.ts        # 模块统一导出
-│   │   └── useDice.ts      # 命运骰子Hook
-│   ├── pomodoro/           # 番茄钟模块
-│   │   ├── index.ts        # 模块统一导出
-│   │   └── usePomodoro.ts  # 番茄钟Hook
-│   ├── storage/            # 存储系统模块
-│   │   ├── index.ts        # 模块统一导出
-│   │   └── useStorage.ts   # 存储系统Hook
-│   └── stats/              # 统计系统模块
-│       ├── index.ts        # 模块统一导出
-│       └── useStats.ts     # 统计系统Hook
-├── hooks/                 # 自定义Hooks目录
-│   ├── useGameState.ts     # 游戏状态管理Hook
-│   ├── useHabits.ts        # 习惯管理Hook
-│   └── useProjects.ts      # 项目管理Hook
-├── utils/                 # 工具函数目录
-├── public/             # 静态资源目录
-│   ├── manifest.json
-│   └── sw.js
-├── android/               # Android 构建配置
-├── apk-build/             # APK构建输出目录
-├── App.tsx                # 应用主组件
-├── constants.ts            # 旧常量定义（待移除）
-├── index.html              # HTML模板
-├── index.tsx              # 应用入口
-├── types.ts                # TypeScript类型定义
-├── vite.config.ts           # Vite配置
-├── package.json            # 项目配置
-├── tsconfig.json           # TypeScript配置
-├── .gitignore             # Git忽略配置
-├── DEVELOPMENT_DOC.md      # 开发文档
-└── README.md               # 项目说明
-└── 人生游戏开发手册.txt      # 开发手册
+人生游戏管理系统/
+├── components/          # 组件目录
+│   ├── App.tsx         # 主应用组件
+│   ├── LifeGame.tsx    # 核心游戏组件
+│   ├── MissionControl.tsx # 任务控制面板
+│   ├── CharacterProfile.tsx # 角色资料
+│   ├── BaseChart.tsx   # 基础图表组件
+│   ├── ChartConfig.tsx # 图表配置
+│   ├── FrostedDiceExample.tsx # 磨砂质感骰子示例
+│   └── ...             # 其他组件
+├── features/           # 功能模块
+│   └── dice/           # 命运骰子功能
+│       └── useDice.ts  # 骰子逻辑Hook
+├── types/              # TypeScript类型定义
+│   └── index.ts        # 类型导出
+├── constants/          # 常量定义
+│   └── index.ts        # 常量导出
+├── utils/              # 工具函数
+│   └── index.ts        # 工具函数导出
+├── public/             # 静态资源
+├── package.json        # 项目配置
+├── tsconfig.json       # TypeScript配置
+├── vite.config.ts      # Vite配置
+└── tailwind.config.js  # Tailwind配置
 ```
 
-## 模块化重构说明
+## 核心功能模块
 
-### 重构背景
-为了解决代码体积过大、行数过多导致的AI维护中断、查找问题效率低、修复成本高等问题，对项目进行了模块化重构。
+### 1. 角色系统
 
-### 重构目标
-1. **代码结构化/模块化**：将过长的单文件代码拆解为独立模块
-2. **统一管理逻辑**：可统一管理的功能/配置集中封装
-3. **适配AI维护特性**：重构后的代码需符合AI易识别、易修改的特点
+- **属性系统**: 力量、智力、魅力、创造力、社交、财富
+- **等级系统**: 经验值累积升级
+- **成就系统**: 完成特定任务获得成就
 
-### 重构内容
+### 2. 任务管理
 
-#### 1. 功能模块拆分
-- **番茄钟系统**：拆分为 `usePomodoro` 钩子，负责番茄钟状态管理和计时逻辑
-- **命运骰子系统**：拆分为 `useDice` 钩子，负责骰子状态管理和每日重置逻辑
-- **成就系统**：拆分为 `useAchievements` 钩子，负责成就检测和勋章解锁逻辑
-- **存储系统**：拆分为 `useStorage` 钩子，负责数据持久化和加载逻辑
-- **统计系统**：拆分为 `useStats` 钩子，负责统计数据计算和汇总逻辑
+- **日常任务**: 每日可完成的重复任务
+- **主线任务**: 长期项目任务
+- **随机挑战**: 随机生成的任务
+- **命运骰子**: 随机任务生成系统
 
-#### 2. 状态管理优化
-- 各功能模块的状态通过自定义钩子集中管理
-- 减少App.tsx的状态数量，提高代码可读性
-- 各模块状态独立，降低耦合度
+### 3. 命运骰子系统
 
-#### 3. 导入导出优化
-- 每个功能模块通过 `index.ts` 统一导出
-- 简化导入路径，提高代码可维护性
-- 便于AI快速定位和理解模块结构
+#### 3.1 功能概述
 
-### 重构后的优势
-1. **代码更清晰**：功能模块边界明确，便于理解和维护
-2. **AI友好**：模块化结构便于AI查找和修改特定功能
-3. **降低耦合**：各模块独立，减少修改影响范围
-4. **提高复用性**：功能模块可在不同场景下复用
-5. **便于扩展**：新增功能可直接添加新的模块
+命运骰子系统是一个随机任务生成机制，用户可以通过点击骰子获得随机任务，完成后获得奖励。
 
-### 使用说明
-在组件中使用模块化钩子：
-```typescript
-// 导入模块化钩子
-import { usePomodoro } from './features/pomodoro';
-import { useDice } from './features/dice';
-import { useAchievements } from './features/achievements';
-import { useStorage } from './features/storage';
-import { useStats } from './features/stats';
+#### 3.2 分类体系
 
-// 在组件中使用
-const { pomodoroState, toggleTimer, resetTimer } = usePomodoro();
-const { diceState, setDiceState } = useDice(isDataLoaded);
-const { activeAchievement, setActiveAchievement } = useAchievements(/* 参数 */);
-const { habits, setHabits, projects, setProjects } = useStorage(setIsDataLoaded);
-const { totalKills, totalHours, totalSpent } = useStats(statsHistory, todayStats);
+- **健康微行动**: 与健康相关的小任务
+- **效率任务**: 提升工作效率的任务
+- **休闲小奖励**: 放松身心的奖励任务
+
+#### 3.3 磨砂质感效果实现
+
+命运骰子系统采用了现代的磨砂质感设计，主要通过以下CSS属性实现：
+
+```css
+/* 核心磨砂质感属性 */
+.backdrop-blur-sm        /* 背景模糊效果 */
+.bg-gradient-to-br       /* 渐变背景 */
+.opacity-50              /* 半透明效果 */
+.shadow-lg/shadow-xl     /* 多层次阴影 */
+.border-zinc-700/50      /* 半透明边框 */
+.bg-zinc-800/80          /* 半透明背景色 */
+
+/* 拟态设计（Neomorphic）磨砂效果 */
+.bg-[#e0e5ec]            /* 拟态背景色 */
+.shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] /* 拟态阴影 */
 ```
 
-## 3. 勋章系统 (Medal System)
+#### 3.4 实现代码
 
-### 3.1 功能逻辑
+磨砂质感骰子按钮核心实现：
 
-#### 3.1.1 勋章分组
-- **等级勋章 (LEVEL)**: 根据用户经验值解锁，每提升一级获得一个
-- **专注勋章 (FOCUS)**: 根据累计专注时间解锁
-- **财富勋章 (WEALTH)**: 根据累计金币持有量解锁
-- **战斗勋章 (COMBAT)**: 根据完成任务数量解锁
-- **签到勋章 (CHECKIN)**: 根据连续签到天数解锁
-- **消费勋章 (SPEND)**: 根据累计消费金额解锁
-
-#### 3.1.2 达成条件
-- 每种勋章类型有不同的阈值设置
-- 系统自动检测用户行为，满足条件时自动解锁
-- 解锁后立即显示通知并发放奖励
-
-#### 3.1.3 奖励机制
-- **经验类勋章**: 仅奖励经验值，比例为达成条件的10%
-- **金币类勋章**: 仅奖励金币，比例为达成条件的10%
-- **专注时间类**: 同时奖励经验和金币，均为达成条件的10%
-- **战斗类**: 同时奖励经验和金币，经验为条件的20%，金币为条件的10%
-- **签到类**: 同时奖励经验和金币，均为条件的30%和20%
-- **消费类**: 仅奖励金币，比例为达成条件的10%
-
-#### 3.1.4 数据管理
-- 本地存储键名: `aes-claimed-badges`
-- 存储格式: 字符串数组，存储已解锁勋章的ID
-- 自动检测机制: 组件初始化时检查所有勋章条件，未解锁但已满足条件的自动解锁
-
-### 3.2 界面设计
-
-#### 3.2.1 布局结构
-- **主界面**: 荣誉殿堂组件，采用模块化布局
-- **勋章分组**: 横向滚动的分组按钮，支持快速切换
-- **勋章网格**: 响应式网格布局，根据屏幕尺寸自动调整列数
-  - 移动端: 2列
-  - 平板: 3列
-  - 桌面: 4列
-  - 大屏: 6列
-- **编辑模态框**: 全屏覆盖的模态框，支持勋章详细信息编辑
-
-#### 3.2.2 配色方案
-- **勋章卡片**: 
-  - 已解锁: 动态渐变色背景，带流光动画效果
-  - 未解锁: 半透明灰色背景，无动画效果
-- **分组按钮**: 
-  - 激活状态: 蓝色背景，白色文字
-  - 非激活状态: 根据主题变化
-    - 拟态风格: 高饱和度灰蓝色背景 (#e0e5ec)
-    - 深色主题: 深灰色背景 (bg-zinc-900)
-    - 浅色主题: 白色背景
-
-#### 3.2.3 样式参数
-- **勋章尺寸**: 固定宽度 w-28
-- **图标尺寸**: w-10 h-10
-- **文字大小**: 
-  - 勋章名称: text-[10px]
-  - 勋章等级: text-[8px]
-- **圆角设置**: 
-  - 勋章卡片: 圆形 (rounded-full)
-  - 分组按钮: 大圆角 (rounded-[24px])
-  - 编辑模态框: 圆角 (rounded-xl)
-- **间距设置**: 
-  - 勋章间距: gap-3
-  - 分组按钮间距: gap-2
-  - 模态框内边距: p-6
-
-### 3.3 交互规则
-
-#### 3.3.1 用户操作
-- **分组切换**: 点击分组按钮切换显示对应类型的勋章
-- **勋章编辑**: 点击勋章的编辑按钮进入编辑模态框
-- **分组管理**: 支持重命名分组
-- **勋章解锁**: 自动检测并显示解锁通知
-
-#### 3.3.2 编辑功能
-- **基本信息**: 勋章名称、子标题、等级设置
-- **达成条件**: 可编辑达成阈值和描述
-- **奖励配置**: 支持自定义奖励比例和固定奖励值
-- **实时计算**: 根据勋章类型自动应用不同的奖励规则
-
-#### 3.3.3 通知机制
-- **解锁通知**: 勋章解锁时显示弹出通知，包含勋章名称、等级和奖励
-- **通知时长**: 2秒后自动关闭
-- **动画效果**: 带流光效果的视觉反馈
-
-### 3.4 技术实现
-
-#### 3.4.1 核心组件
-- **HallOfFame.tsx**: 荣誉殿堂主组件，管理勋章展示和编辑
-- **CharacterProfile.tsx**: 角色档案，展示最近解锁的勋章
-- **RewardModal.tsx**: 奖励弹窗，处理勋章解锁奖励
-
-#### 3.4.2 数据结构
-```typescript
-export interface AchievementItem {
-  id: string;
-  title: string;
-  subTitle: string;
-  icon: React.ElementType;
-  color: string;
-  isUnlocked: boolean;
-  req: string;
-  progress: number;
-  rewardXp: number;
-  rewardGold: number;
-  category: 'LEVEL' | 'FOCUS' | 'WEALTH' | 'COMBAT' | 'CHECKIN' | 'SPEND';
-  bgColor: string;
-  borderColor: string;
-  level: number;
-  min: number;
-  rewardRatio: number;
-}
+```tsx
+<button 
+  className={`relative w-24 h-24 rounded-full flex items-center justify-center transition-all duration-300 transform ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]' : isDark ? 'bg-gradient-to-br from-zinc-800 to-zinc-900 border-zinc-700' : 'bg-gradient-to-br from-white to-slate-100 border-slate-200'} border-4 shadow-lg hover:shadow-xl group`}
+>
+  {/* 3D骰子效果容器 - 磨砂质感核心实现 */}
+  <div className={`relative transition-all duration-500`} style={{ perspective: '500px' }}>
+    {/* 骰子立体磨砂效果 */}
+    <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white to-blue-100 opacity-20 blur-lg transform rotate-45"></div>
+    <div className={`absolute inset-0 rounded-full bg-gradient-to-br from-blue-200 to-blue-500 opacity-10 blur-md transform -rotate-45`}></div>
+    
+    {/* 3D旋转骰子 - 磨砂质感增强 */}
+    <div className={`relative z-10 transition-all duration-1000`} style={{ transformStyle: 'preserve-3d' }}>
+      <Dice5 
+        size={44} 
+        className={`relative z-10 transition-all duration-300 text-blue-500 group-hover:text-blue-600 drop-shadow-[0_0_5px_rgba(59,130,246,0.5)]`} 
+      />
+      {/* 骰子投影效果 - 增强磨砂立体感 */}
+      <div className="absolute inset-0 rounded-full bg-blue-500 opacity-5 blur-xl translate-z-[-20px] scale-[1.2]"></div>
+    </div>
+    
+    {/* 骰子高光效果 - 磨砂质感点睛之笔 */}
+    <div className="absolute -top-2 -right-2 w-12 h-12 rounded-full bg-white opacity-30 blur-sm"></div>
+    <div className="absolute -bottom-2 -left-2 w-12 h-12 rounded-full bg-white opacity-10 blur-sm"></div>
+  </div>
+</button>
 ```
 
-#### 3.4.3 关键函数
-- **generateBadges()**: 生成所有勋章数据
-- **showUnlockBadgeNotification()**: 显示勋章解锁通知
-- **resetEditCache()**: 重置编辑缓存，避免跨分组操作冲突
-- **onClaimReward()**: 处理勋章奖励发放
+### 4. 任务管理系统优化
 
-### 3.5 开发注意事项
+#### 4.1 任务分类
 
-#### 3.5.1 性能优化
-- 使用React.memo优化组件渲染
-- 合理使用useMemo缓存计算结果
-- 避免不必要的状态更新
+系统中的任务分为以下三类：
 
-#### 3.5.2 扩展性
-- 支持动态添加新的勋章类型
-- 奖励规则可配置，支持不同勋章类型的差异化奖励
-- 模块化设计，便于后续功能扩展
+1. **健康微行动**: 与身体健康相关的小任务
+   - 示例：做俯卧撑、冥想、冷水洗脸等
+   - 任务数量：21个
 
-#### 3.5.3 主题适配
-- 所有样式需支持三种主题（light、dark、neomorphic）
-- 使用CSS变量或条件样式确保在不同主题下的良好显示
+2. **效率任务**: 提升工作和学习效率的任务
+   - 示例：专注工作、阅读、整理房间等
+   - 任务数量：29个
 
-## 主要组件说明
+3. **休闲小奖励**: 放松身心的奖励任务
+   - 示例：听音乐、看短视频、打电话给朋友等
+   - 任务数量：20个
 
-### App.tsx
-**功能**：应用主组件，管理全局状态和路由
-**状态管理**：
-- `currentView`：当前视图
-- `isMobileOpen`：移动端菜单状态
-- `isNavCollapsed`：导航栏折叠状态
-- `theme`：主题（dark/light/neomorphic）
-- `isDataLoaded`：数据加载状态
-- 全局游戏状态：day、balance、xp、checkInStreak等
-- 番茄钟状态：pomodoroTimeLeft、pomodoroIsActive等
-**本地存储**：
-- 使用localStorage保存所有状态
-- 自动加载和保存数据
+#### 4.2 分类切换功能
 
-### Navigation.tsx
-**功能**：应用导航组件
-**布局**：
-- 固定侧边栏，支持折叠/展开
-- 顶部显示应用标题和折叠按钮
-- 中间导航菜单列表
-- 底部熵值监控和主题切换
-**折叠按钮**：位于导航栏内部右侧，贴近右边框，可折叠/展开导航栏
-**导航项**：
-- 作战中心（Gamepad2）
-- 荣誉殿堂（Medal）
-- 补给黑市（ShoppingBag）
-- 图表汇总（BarChart2）
-- 设置中心（Settings）
+在命运骰子分组界面，实现了任务分类切换功能：
 
-### LifeGame.tsx
-**功能**：人生游戏主界面，展示任务和习惯
-**布局**：
-- 顶部：角色属性面板（CharacterProfile）
-- 实时情报卡：包含专注时间统计和签到系统
-- 中部：任务分类切换（日常任务/主线任务/随机任务）
-- 底部：任务列表，支持拖拽排序
-**拖拽功能**：
-- 支持习惯和项目的拖拽排序
-- 保存排序到localStorage
-**核心模块**：
-- 实时情报卡：7天专注时间统计 + 签到系统
-- 任务管理：日常任务、主线任务、随机挑战
-- 商店系统：虚拟物品购买
-- 银行系统：存款和利息
+- 将分类按钮整合为独立模块
+- 放置在"添加命运事件"模块下方
+- 与"命运事件分类"模块相互独立
+- 点击不同分类按钮时，下方任务列表相应切换
 
-### CharacterProfile.tsx
-**功能**：角色系统组件，整合多个共享组件
-**核心模块**：
-- AvatarProfile：展示角色属性和成就
-- TomatoTimer：番茄钟功能
-- MilitaryModule：军工模块
-- MantraModule：锦囊模块
+#### 4.3 实现代码
 
-### 共享组件说明
+```tsx
+// 任务分类状态管理
+const [activeDiceCategory, setActiveDiceCategory] = useState<string>('all');
 
-#### AvatarProfile.tsx
-**功能**：角色档案组件，展示用户属性和成就
+// 分类按钮组件
+<div className="flex flex-wrap gap-2 mt-4">
+  <button 
+    onClick={() => setActiveDiceCategory('all')}
+    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${activeDiceCategory === 'all' ? 'bg-blue-500 text-white' : isDark ? 'bg-zinc-800 hover:bg-zinc-700' : 'bg-white hover:bg-gray-100'} border ${isDark ? 'border-zinc-700' : 'border-gray-200'} shadow-sm`}
+  >
+    全部
+  </button>
+  <button 
+    onClick={() => setActiveDiceCategory(DiceCategory.HEALTH)}
+    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${activeDiceCategory === DiceCategory.HEALTH ? 'bg-red-500 text-white' : isDark ? 'bg-zinc-800 hover:bg-zinc-700' : 'bg-white hover:bg-gray-100'} border ${isDark ? 'border-zinc-700' : 'border-gray-200'} shadow-sm`}
+  >
+    健康微行动
+  </button>
+  <button 
+    onClick={() => setActiveDiceCategory(DiceCategory.EFFICIENCY)}
+    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${activeDiceCategory === DiceCategory.EFFICIENCY ? 'bg-green-500 text-white' : isDark ? 'bg-zinc-800 hover:bg-zinc-700' : 'bg-white hover:bg-gray-100'} border ${isDark ? 'border-zinc-700' : 'border-gray-200'} shadow-sm`}
+  >
+    效率任务
+  </button>
+  <button 
+    onClick={() => setActiveDiceCategory(DiceCategory.LEISURE)}
+    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${activeDiceCategory === DiceCategory.LEISURE ? 'bg-yellow-500 text-white' : isDark ? 'bg-zinc-800 hover:bg-zinc-700' : 'bg-white hover:bg-gray-100'} border ${isDark ? 'border-zinc-700' : 'border-gray-200'} shadow-sm`}
+  >
+    休闲小奖励
+  </button>
+</div>
 
-**成就系统**：各种成就和勋章
-
-#### TomatoTimer.tsx
-**功能**：番茄钟组件
-**核心特性**：
-- 支持25/45/60分钟预设
-- 支持背景音效（森林、海浪、雨声等）
-- 沉浸式专注模式
-
-#### MilitaryModule.tsx
-**功能**：军工模块，展示储备余额和总击杀数
-
-#### MantraModule.tsx
-**功能**：锦囊模块，展示每日金句
-
-#### RewardModal.tsx
-**功能**：奖励弹窗，用于展示成就解锁和奖励
-**关键参数**：
-- 弹窗显示时间：2秒
-- 支持多种奖励类型（金币、经验值、勋章等）
-- 带庆祝动画效果
-
-## 自定义Hooks说明
-
-### useGameState.ts
-**功能**：游戏状态管理Hook
-**管理状态**：
-- day：当前天数
-- balance：当前余额
-- xp：当前经验值
-- checkInStreak：连续签到天数
-- transactions：交易记录列表
-- reviews：评审日志列表
-**核心方法**：
-- handleUpdateBalance：更新余额并记录交易
-
-### useHabits.ts
-**功能**：习惯管理Hook
-**管理状态**：
-- habits：习惯列表
-- habitOrder：习惯排序
-- todayStats：今日统计
-**核心方法**：
-- handleToggleHabit：切换习惯完成状态
-- handleAddHabit：添加新习惯
-- handleUpdateHabit：更新习惯
-- handleDeleteHabit：删除习惯
-
-### useProjects.ts
-**功能**：项目管理Hook
-**管理状态**：
-- projects：项目列表
-- projectOrder：项目排序
-**核心方法**：
-- handleUpdateProject：更新项目
-- handleAddProject：添加新项目
-- handleDeleteProject：删除项目
-
-## 状态管理
-
-### 优化后的状态管理方案
-- 使用自定义Hooks封装状态管理逻辑
-- 每个Hook负责一个特定领域的状态管理
-- 状态通过props在组件间传递
-- 本地存储逻辑封装在Hooks内部
-- 减少App.tsx的状态管理负担
-
-### 状态流向
-1. App组件初始化并调用各种Hooks
-2. Hooks从localStorage加载数据
-3. App组件将状态通过props传递给子组件
-4. 子组件通过回调函数更新状态
-5. Hooks自动保存状态到localStorage
-
-## 数据结构
-
-### 类型系统优化
-- 添加了详细的JSDoc注释
-- 使用枚举类型替代字符串常量
-- 统一了接口命名规范
-- 优化了类型定义结构
-
-### 核心枚举类型
-```typescript
-export enum AttributeType {
-  STRENGTH = 'STR',
-  INTELLIGENCE = 'INT',
-  DISCIPLINE = 'DIS',
-  CREATIVITY = 'CRE',
-  SOCIABILITY = 'SOC',
-  WEALTH = 'WEA',
-}
-
-export enum TaskType {
-  DAILY = 'daily',
-  MAIN = 'main',
-  RANDOM = 'random',
-  LEISURE = 'leisure',
-}
-
-export enum AutoTaskType {
-  HABIT = 'habit',
-  PROJECT = 'project',
-  RANDOM = 'random',
-}
-
-export enum SoundType {
-  SOUND_EFFECT = 'soundEffect',
-  BACKGROUND_MUSIC = 'bgMusic',
-}
+// 任务列表筛选
+const filteredTasks = diceState?.taskPool[category] || [];
 ```
 
-### MissionControl.tsx
-**功能**：图表系统，展示各种成长图表
-**图表类型**：
-- 趋势图表：习惯完成率、专注时间趋势等
-- 概念图形：舒适圈模型、WOOP框架等
-**拖拽功能**：
-- 支持图表分类的拖拽排序
-- 保存排序到localStorage
-**图表渲染**：
-- 使用Recharts库渲染各种图表
-- 支持图表大小调整
-**优化内容**：
-- 佛格行为模型：优化文字重叠问题，调整图表大小
-- 认知冲突图：优化文字重叠问题
-- 人类需求层次表：优化视觉效果
-- 登门卡效应：优化文字重叠问题，调整图表大小
-- 刻意练习循环：优化文字显示，调整图表大小
-- 艾森豪威尔矩阵：优化文字紧凑问题，调整图表大小
-- 输出线模型：重命名为"输入与输出模型"，优化表述和视觉效果
+### 5. 数据可视化图表优化
 
-### DailyCheckIn.tsx
-**功能**：每日签到组件
-**奖励机制**：连续签到奖励金币和经验值
-**UI设计**：
-- 圆形勋章样式签到按钮
-- 7天签到状态展示
-- 跳动动画效果
-**奖励弹窗**：
-- 显示时间：2秒
-- 包含签到奖励详情
+#### 5.1 优化措施
 
-### HallOfFame.tsx
-**功能**：荣誉殿堂组件，管理勋章系统的展示和编辑
-**核心功能**：
-- 展示用户已获得的勋章和成就
-- 支持按分组筛选勋章（等级、专注、财富、战斗、签到、消费）
-- 提供勋章管理功能，支持编辑勋章详细信息
-- 自动检测并通知勋章解锁
-- 展示勋章解锁进度和奖励
-**布局**：
-- 模块化设计，包含成就收集率、最新战勋、勋章分组、勋章列表等模块
-- 响应式网格布局，根据屏幕尺寸自动调整勋章列数
-- 编辑模态框支持全屏覆盖，提供详细的勋章编辑功能
-**交互**：
-- 分组切换：横向滚动的分组按钮
-- 勋章编辑：点击编辑按钮进入编辑模态框
-- 解锁通知：自动弹出的勋章解锁通知
-**技术实现**：
-- 使用CSS动画实现勋章流光效果
-- 本地存储保存已解锁勋章
-- 动态生成勋章数据
-- 支持三种主题（light、dark、neomorphic）
+为所有图表添加了以下优化：
 
-### Settings.tsx
-**功能**：应用设置
-**配置项**：
-- 背景音乐设置
-- 音效设置
-- 通知设置
-- 主题切换
-**优化内容**：
-- 数据管理：采用凹下框设计，突出三个按钮
-- 关于系统：采用凹下框设计，优化文字展示
-- 帮助系统：所有带问号的帮助按钮改为点击显示提示模块，包含详细介绍和更新时间
+- **描述性标题**: 确保标题准确反映图表内容与分析目的
+- **坐标轴标签**: 为坐标轴添加清晰明确的标签，包括单位标识
+- **图例说明**: 配置合适的图例，确保数据系列与可视化元素对应关系清晰
+- **边界范围**: 设定并显示清晰的边界范围，确保数据分布与趋势完整呈现
 
-## 数据结构
+#### 5.2 图表类型
 
-### types.ts
-```typescript
-// 主题类型
-export type Theme = 'light' | 'dark' | 'neomorphic'; 
+系统包含多种类型的图表：
 
-// 子任务类型
-export interface SubTask {
-  id: string;
-  title: string;
-  duration: number;
-  completed: boolean;
-  frequency: 'daily' | 'weekly' | 'once';
-}
+- **雷达图**: 角色属性雷达图
+- **柱状图**: 每日专注时间分布
+- **面积图**: 长期投资收益曲线、熵增与熵减的动态平衡
+- **折线图**: J型曲线、反脆弱曲线、第二曲线
+- **散点图**: 心流状态分布图
+- **SVG图表**: 舒适区模型、WOOP框架、价值三圈模型
 
-// 项目类型
-export interface Project {
-  id: string;
-  name: string;
-  startDate: string; // ISO Date string
-  description: string;
-  status: 'active' | 'paused' | 'completed';
-  logs: ProjectLog[];
-  dailyFocus: { [date: string]: number };
-  subTasks: SubTask[];
-  fears: FearEntry[];
-  todayFocusMinutes: number;
-  attr?: AttributeType; // RPG属性
-}
+#### 5.3 实现代码
 
-// 习惯类型
-export interface Habit {
-  id: string;
-  name: string;
-  reward: number; // Gold
-  xp?: number;    // Custom XP
-  duration?: number; // Duration in minutes
-  streak: number;
-  archived: boolean;
-  color: string;
-  attr?: AttributeType; // RPG属性
-  history: { [dateString: string]: boolean };
-  logs: { [dateString: string]: string };
-}
-
-// 项目日志类型
-export interface ProjectLog {
-  id: string;
-  date: string;
-  content: string;
-  durationMinutes: number;
-}
-
-// 恐惧条目类型
-export interface FearEntry {
-  id: string;
-  challenge: string; // What I want to do
-  fear: string;      // What I am afraid of
-  prevention: string; // How to solve it
-  status: 'pending' | 'conquered';
-  logs: RejectionLog[];
-}
-
-// 交易记录
-export interface Transaction {
-  id: string;
-  time: string;
-  desc: string;
-  amount: number;
-}
-
-// 回顾日志
-export interface ReviewLog {
-  id: string;
-  date: string;
-  content: string;
-  aiAnalysis: string;
-  timestamp: number;
-}
-
-// 每日统计
-export interface DailyStats {
-  focusMinutes: number;
-  tasksCompleted: number;
-  habitsDone: number;
-  earnings: number;
-  spending: number;
-}
-
-// 设置选项类型
-export interface Settings {
-    bgMusicVolume: number;
-    soundEffectVolume: number;
-    enableBgMusic: boolean;
-    enableSoundEffects: boolean;
-    enableNotifications: boolean;
-    enableTaskCompleteNotifications: boolean;
-    enableAchievementNotifications: boolean;
-    enablePomodoroNotifications: boolean;
-    showExperienceBar: boolean;
-    showBalance: boolean;
-    showTaskCompletionRate: boolean;
-    soundEffectsByLocation: {
-        [location: string]: {
-            enabled: boolean;
-            sound: string;
-        };
-    };
-    soundLibrary: {
-        [soundId: string]: {
-            name: string;
-            url: string;
-        };
-    };
-    autoBackupFrequency?: 'none' | 'daily' | 'weekly' | 'monthly';
-    nutcloudWebDAV?: {
-        server: string;
-        username: string;
-        password: string;
-    };
-}
+```tsx
+<BaseChart data={attributeData} isDark={isDark} height={chartHeight}>
+  <RadarChart cx="50%" cy="50%" outerRadius="70%" data={attributeData} animationDuration={1000}>
+    <PolarGrid stroke={getGridColor(isDark)} />
+    <PolarAngleAxis dataKey="subject" tick={{ fill: isDark ? '#a1a1aa' : '#64748b', fontSize: chartConfig.fontSize.axisTick, fontWeight: 'bold' }} />
+    <PolarRadiusAxis angle={30} domain={[0, 150]} tick={{ fontSize: 8 }} axisLine={false} label={{ value: '能力值', angle: -90, position: 'insideLeft', fontSize: chartConfig.fontSize.axisLabel }} />
+    <Radar name="能力值" dataKey="A" stroke={chartConfig.colors.purple} strokeWidth={2} fill={chartConfig.colors.purple} fillOpacity={0.3} />
+    <Legend wrapperStyle={chartConfig.legend.wrapperStyle} />
+    <text x="50%" y="20" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={chartConfig.fontSize.title} fontWeight="bold">
+      角色属性雷达图
+    </text>
+  </RadarChart>
+</BaseChart>
 ```
 
-## 状态管理
+## 核心功能说明
 
-### 全局状态
-- 所有状态都保存在App.tsx中
-- 使用React的useState钩子管理
-- 通过props传递给子组件
+### 1. 角色系统
 
-### 本地存储
-- 使用localStorage保存所有状态
-- 自动加载和保存数据
-- 保存的数据包括：
-  - habits：习惯列表
-  - projects：项目列表
-  - theme：主题
-  - habitOrder：习惯顺序
-  - projectOrder：项目顺序
-  - statsHistory：统计历史
-  - 以及其他游戏状态
+- **属性成长**: 完成任务获得属性点，提升角色能力
+- **等级晋升**: 累积经验值提升等级
+- **成就解锁**: 完成特定目标解锁成就
 
-## 样式和主题
+### 2. 任务系统
 
-### 主题系统
-- 支持light、dark和neomorphic（拟态）三种主题
-- 使用CSS类名切换主题
-- 主题配置保存在localStorage
+- **每日任务**: 每日刷新的常规任务
+- **主线任务**: 长期项目任务，包含多个子任务
+- **随机挑战**: 随机生成的挑战任务
+- **命运骰子**: 随机生成的任务，带有随机奖励
 
-### 样式设计
-- 使用Tailwind CSS进行样式设计
-- 响应式布局，支持不同屏幕尺寸
-- 统一的颜色方案
-- 拟态风格：高饱和度灰蓝色底色，135度光源，大圆角设计
-- 深色主题：深色背景配合霓虹色彩
-- 浅色主题：明亮简洁的设计
+### 3. 命运骰子
 
-## 图表系统
+- **随机任务生成**: 点击骰子获得随机任务
+- **任务分类**: 健康、效率、休闲三大类
+- **奖励机制**: 金币、经验值双重奖励
+- **每日限制**: 每日可使用骰子次数有限制
 
-### 图表分类
-1. **趋势图表**：
-   - 习惯完成率
-   - 专注时间统计
-   - 其他成长趋势
+### 4. 数据可视化
 
-2. **概念图形**：
-   - 舒适圈模型
-   - WOOP框架
-   - 其他概念图形
+- **属性雷达图**: 展示角色各项属性
+- **专注时间分布**: 展示每日专注时间
+- **各种成长曲线**: 展示不同成长模型
+- **概念模型**: 展示各种个人成长概念
 
-### 图表数据生成
-- 大部分图表使用useMemo生成模拟数据
-- 部分图表（如习惯完成率）使用真实数据
+## 开发流程
 
-### 图表优化
-- **佛格行为模型**：优化文字重叠问题，调整图表大小
-- **认知冲突图**：优化文字重叠问题
-- **人类需求层次表**：优化视觉效果
-- **登门卡效应**：优化文字重叠问题，调整图表大小
-- **刻意练习循环**：优化文字显示，调整图表大小
-- **艾森豪威尔矩阵**：优化文字紧凑问题，调整图表大小
-- **输出线模型**：重命名为"输入与输出模型"，优化表述和视觉效果
+### 1. 环境搭建
 
-## 交互功能
-
-### 拖拽排序
-- 使用DnD Kit库实现
-- 支持习惯、项目、子任务、图表的拖拽排序
-- 排序结果保存到localStorage
-
-### 响应式设计
-- 支持不同屏幕尺寸
-- 移动端友好设计
-
-### 帮助系统
-- 所有带问号的帮助按钮改为点击显示提示模块
-- 提示模块包含详细介绍和更新时间
-- 统一所有帮助提示的样式和交互
-
-## 番茄钟系统
-**功能**：专注计时工具
-**核心特性**：
-- 支持自定义时长（25分钟、45分钟、60分钟）
-- 自动记录专注时间到今日统计
-- 完成后获得金币和经验奖励
-- 支持背景音效（森林、海浪、雨声、咖啡馆等）
-- 沉浸式专注模式
-
-## 游戏化系统
-
-### 角色成长
-- **等级系统**：通过经验值升级
-- **属性系统**：STR、INT、DIS、CRE、SOC、WEA
-- **专注等级**：根据累计专注时间解锁不同头衔
-- **财富等级**：根据金币数量解锁不同称号
-
-### 奖励机制
-- **金币**：完成任务、习惯、专注时间获得
-- **经验值**：完成任务、习惯获得
-- **成就系统**：各种成就和勋章
-- **视觉反馈**：完成任务时的浮动奖励文字和动画
-- **庆祝效果**：成就解锁时的五彩纸屑效果
-
-### 装备和物品系统
-- **黑市系统**：可使用金币购买虚拟物品
-- **物品分类**：数码产品、装备、饮食、娱乐、服务、票务、会员、充值
-- **购买动画**：丰富的视觉反馈
-
-## 构建和部署
-
-### 构建命令
 ```bash
-npm run build
-```
-- 输出到dist目录
-- 支持生产环境优化
+# 安装依赖
+npm install
 
-### 开发命令
-```bash
+# 启动开发服务器
 npm run dev
-```
-- 启动开发服务器
-- 支持热更新
 
-### 测试命令
-```bash
-npm run lint
-npm run typecheck
-```
-
-## 打包成APK
-
-### 方案一：使用Capacitor
-1. 安装Capacitor
-```bash
-npm install @capacitor/core @capacitor/cli
-```
-
-2. 初始化Capacitor
-```bash
-npx cap init 反本能·主动进化系统 com.example.antiinstinct
-```
-
-3. 安装Android平台
-```bash
-npm install @capacitor/android
-npx cap add android
-```
-
-4. 构建项目
-```bash
+# 构建生产版本
 npm run build
+
+# 预览生产版本
+npm run preview
 ```
 
-5. 同步到Android平台
-```bash
-npx cap sync
-```
+### 2. 代码规范
 
-6. 打开Android Studio
-```bash
-npx cap open android
-```
-
-7. 在Android Studio中构建APK
-
-### 方案二：使用Cordova
-1. 安装Cordova
-```bash
-npm install -g cordova
-```
-
-2. 创建Cordova项目
-```bash
-cordova create anti-instinct com.example.antiinstinct 反本能·主动进化系统
-```
-
-3. 添加Android平台
-```bash
-cd anti-instinct
-cordova platform add android
-```
-
-4. 将React项目构建输出复制到Cordova项目
-```bash
-cp -r ../dist/* www/
-```
-
-5. 构建APK
-```bash
-cordova build android
-```
-
-## 开发注意事项
-
-### 类型安全
 - 使用TypeScript进行类型检查
-- 所有组件和函数都要有类型定义
-- 运行 `npm run typecheck` 进行类型检查
+- 使用ESLint进行代码 linting
+- 使用Prettier进行代码格式化
+- 遵循React最佳实践
 
-### 性能优化
-- 使用React.memo优化组件渲染
-- 使用useMemo缓存计算结果
-- 使用useCallback缓存函数
+### 3. 提交规范
 
-### 代码规范
-- 遵循ESLint和Prettier规范
-- 运行 `npm run lint` 检查代码规范
-
-### 测试
-- 手动测试所有功能
-- 确保在不同主题下都能正常工作
-- 测试移动端响应式布局
-
-## 更新日志
-
-### 2025-12-25 系统全面优化与改进
-- **命运骰子视觉与交互特效优化**：
-  - 骰子按钮采用3D立体效果，带有渐变和动态阴影
-  - 点击骰子触发2秒3D立体旋转动画，呈现"甩动旋转"的动态感
-  - 动画结束后播放"惊喜开箱音效"，强化"开盲盒"体验
-  - 替换现有骰子图标为高质感3D立体骰子样式，默认状态保持低速自转
-  - 骰子结果弹窗统一标注为"命运礼物"，强化礼物感
-- **任务管理系统内骰子相关配置**：
-  - 将"随机任务"改为「命运骰子」，搭配3D骰子小图标
-  - 点击「命运骰子」分组后，下方展示3个子分组：「健康微行动」「效率任务」「休闲小奖励」
-  - "添加随机任务"改为「添加命运选项」，支持新增/编辑/删除对应分类下的骰子内容
-- **指南（使用手册）同步更新**：
-  - 全局命名：所有组件旁的小问号对应的说明模块，统一命名为「XX模块/系统使用指南」
-  - 内容填充：在「命运骰子使用指南」中补充核心信息（原理、好处、规则）
-  - 样式统一：全局小问号图标及点击后弹出的指南面板，统一以「任务管理系统小问号」为标准样式
-  - 封装使用指南为独立模块（HelpSystem），支持全局统一管理、样式更新
-- **勋章管理系统优化**：
-  - 新增「任务勋章」分组
-  - 调整布局，单个小勋章无需嵌套大模块，直接展示
-  - 所有分组下勋章列表的背景模块圆角调小，贴近正方形
-  - 「任务勋章」分组下，选中具体任务后，新增勋章仅配置"勋章名称、完成次数、解锁奖励"
-  - 次数支持自定义正整数，解锁奖励联动积分/权益/盲盒等现有系统
-- **图表汇总模块优化**：
-  - **马斯洛需求层次图**：替换为大尺寸立体三角形，整体为金字塔造型，内部以横向分割线划分5个层次，每层填充不同渐变颜色（底层生理需求：红色、安全需求：橙色、归属需求：黄色、尊重需求：绿色、自我实现需求：蓝色）
-  - **认知洋葱图**：直接删除该图表，从图表汇总中移除相关入口及内容
-  - **福格行为模型**：名称修正为"福格"，替换为坐标图样式，横轴为"能力程度"，纵轴为"动机程度"，绘制"行为激活曲线"，曲线右上方标注"目标行为发生区"，曲线左下方标注"行为未发生区"
-  - 所有图表的深度解析模块均按"概念原理、使用方法与技巧、实践核心原则"三部分重构，每部分内容扩充至100-200字
-- **设置中心模块优化**：
-  - 视觉调整：「音效设置」「显示设置」「数据管理」「关于系统」等子模块，移除凹陷效果，改为凸起视觉效果（拟态风格的凸起质感）
-  - 封装使用指南为独立模块，支持全局统一管理
-  - 关于系统模块添加完整的按压感和阴影变化效果，点击时有明显的凹陷感
-  - 所有设置中心的小模块均添加按压感和阴影变化效果，提升交互体验
-- **帮助系统优化**：
-  - 封装为独立的HelpSystem组件，包括HelpModal、HelpTooltip、HelpContent
-  - 所有带问号的帮助按钮改为点击显示提示模块
-  - 提示模块包含详细介绍和更新时间
-  - 统一所有帮助提示的样式和交互
-  - 完善了命运骰子的详细介绍，包括娱乐性、优势、规则、逻辑、任务分类、奖励机制等
-  - 优化任务管理指南弹出面板，使其可滚动且大小合适，最大高度限制为80vh
-- **弹窗时间调整**：
-  - 所有奖励弹窗、勋章弹出等通知显示时间统一为2秒
-  - 优化用户体验，确保信息充分传达
-- **命运骰子模块布局优化**：
-  - 移除模块中的今日进度条，避免与顶部任务完成度重复
-  - 缩小模块尺寸，使其与任务管理系统模块大小一致
-  - 将命运骰子图标上移，放置在模块顶部
-  - 删除"命运骰子"标题文字，简化界面
-  - 优化任务管理指南弹出面板，使其可滑动且大小合适
-- **其他优化**：
-  - 修复荣誉殿堂勋章分组管理按钮的白色阴影，使其与整体风格一致
-  - 优化福格行为模型的深度解析排版，添加分点和细节优化
-
-### 2025-12-26 全局行动指南卡片统一管理方案实现
-- **创建GlobalGuideCard通用组件**：
-  - 实现了固定的4板块结构：产品介绍、底层原理、核心规则、使用方法
-  - 支持统一的样式参数：字体大小、卡片底色、圆角半径、凸起拟态阴影强度
-  - 所有模块的指南卡片均基于此组件生成
-  - 支持配置是否显示"底层原理"板块
-- **在设置中心添加指南卡片管理选项**：
-  - 视觉参数调整：字体大小（小/中/大）、圆角大小（小/中/大）、阴影强度（轻/中/强）
-  - 结构开关：可隐藏"底层原理"板块
-  - 一键同步功能：修改通用样式后，点击同步按钮即可更新所有指南卡片
-- **统一命名与调用方式**：
-  - 所有指南卡片标题统一为【{模块名称}】行动指南格式
-  - 所有模块旁的小问号图标绑定同一个点击事件
-- **标准化内容结构**：
-  - 每个模块的指南内容严格遵循4板块结构
-  - 内容要求：产品介绍、核心规则、使用方法为必填项，底层原理为复杂模块必填、简单模块可选
-  - 字数下限要求：每个板块至少100字
-- **优化组件在不同主题下的显示**：
-  - 支持浅色、深色、拟态三种主题
-  - 确保在所有主题下都能正常显示，保持视觉一致性
-- **更新相关文件**：
-  - 修改了`HelpModal.tsx`文件，将其重命名为`GlobalGuideCard`组件
-  - 更新了`HelpContent.tsx`文件，将所有模块的指南内容按新结构填充
-  - 修改了`Settings.tsx`文件，添加了指南卡片管理选项
-  - 更新了`types.ts`文件，添加了`GuideCardConfig`接口
-  - 修改了`App.tsx`文件，添加了默认的`guideCardConfig`配置
-  - 更新了`LifeGame.tsx`文件，将`HelpModal`替换为`GlobalGuideCard`组件
-  - 修改了`HelpSystem/index.tsx`文件，更新了导出结构
-
-### 2025-12-24 功能更新
-- **修复bug**：修复了黑屏和"2 条日志"显示错误
-- **图表优化**：增加图表汇总模块宽度，扩展为原宽度的1.5倍，方便展示更多图表内容
-- **商品库更新**：
-  - 删除商品：健康沙拉、下午茶套餐、游戏点卡、健身哑铃、智能手表、Netflix (月)
-  - 重命名商品：刷短视频30分钟→刷短视频半小时、刷短视频60分钟→刷短视频一小时、理发 (形象重置)→理发
-  - 新增商品：话费充值卡50元、365天日历(9.9元)、网课论坛会员(99元)、小众社群(99元)、约人爬山(9.9元)、扫地机器人(7200元)、戴森吹风机(1999元)
-- **界面优化**：优化锦囊库管理按钮位置，将编辑和删除按钮固定在每个金句模块最右边
-- **新增功能**：
-  - **盲盒系统**：在补给黑市中新增盲盒功能
-    - 预设盲盒售价档位：[5,10,20,30,50,100,200,1000,2000,3000,5000]
-    - 商品匹配规则：仅从商品库中抽取价格在 [盲盒售价×0.5, 盲盒售价×1.5] 区间内的商品
-    - 隐藏款机制：所有档位盲盒统一设置5%概率，触发后可抽取价格=盲盒售价×2的商品
-    - 盲盒UI：新增盲盒分类按钮，带有规则说明提示，点击查看盲盒规则
-    - 购买逻辑：用户用金币兑换盲盒后，系统随机返回1件符合区间的商品
-    - 视觉反馈：购买盲盒后显示获得的商品信息，带有动画效果
-  - **命运骰子系统**：替代原随机任务模块，新增趣味互动模块
-    - 核心功能：点击骰子旋转并随机弹出任务/奖励内容，支持用户"有事没事点一下"
-    - 触发方式：在任务管理系统右侧设置独立的「命运骰子」图标，点击后触发旋转动画
-    - 次数限制：每日可点击上限10次，点击后消耗1次次数
-    - 骰子设计：12面骰子，内容分类及占比为：
-      - 健康微行动类：4面
-      - 效率任务类：5面（侧重项目推进，占比最高）
-      - 休闲小奖励类：3面（平衡任务压力，提供即时甜头）
-    - 任务分类：
-      - 健康微行动类：15项，如专注5-60分钟、深蹲、俯卧撑等
-      - 效率任务类：22项，如寻找爆款作品、整理工作流、发布内容等
-      - 休闲小奖励类：18项，如喝水、吃水果、听音乐等
-    - 交互与动画：
-      - 骰子旋转动画：流畅，支持点击后手动暂停（1-2秒时长）
-      - 结果弹窗：附带「已完成」「稍后做」「跳过」三个按钮
-      - 点击「已完成」：发放对应积分，记录任务完成状态
-      - 点击「稍后做」：将任务加入待办列表，不发积分
-      - 点击「跳过」：不发积分，直接关闭弹窗，消耗当日次数
-    - 扩展性：预留任务池编辑入口，支持手动添加/删除任务、调整各类任务的占比权重、修改每日点击上限
-    - 记忆功能：记录用户历史抽取的任务，避免短时间内重复抽到相同内容
-    - 奖励机制：
-      - 休闲类：2-5金币
-      - 健康类：3-6金币
-      - 效率类：5-10金币
-      - 分值可配置
-    - 数据持久化：使用localStorage存储每日点击次数和历史记录
-    - 界面设计：
-      - 大骰子图标，点击后旋转
-      - 显示每日剩余次数
-      - 弹出任务详情和奖励信息
-      - 支持三种主题（light、dark、neomorphic）
-    - 管理界面：
-      - 新增命运骰子分组
-      - 支持添加对应分类的命运骰子任务
-      - 任务包含标题、属性、奖励、预估时间等信息
-    - 娱乐性与优势：
-      - 增加系统趣味性，提高用户粘性
-      - 提供随机惊喜，打破日常任务的单调性
-      - 平衡任务压力，穿插休闲小奖励
-      - 促进用户主动参与，"有事没事点一下"
-      - 覆盖多种任务类型，满足不同场景需求
-    - 逻辑设计：
-      - 基于概率分布的任务生成算法
-      - 智能避免重复任务
-      - 每日次数限制，防止过度使用
-      - 灵活的任务池管理
-      - 实时奖励计算与发放
-
-### 2025-12-23 代码优化
-- **目录结构优化**：创建了hooks、utils、constants等文件夹，实现模块化管理
-- **组件拆分**：将大型组件拆分为多个小型共享组件，确保单一职责原则
-- **自定义Hooks**：创建了useGameState、useHabits、useProjects等自定义Hooks，封装状态管理逻辑
-- **常量集中管理**：将App.tsx中的常量提取到constants/index.ts，实现集中式管理
-- **类型系统优化**：添加了详细的JSDoc注释，使用枚举类型替代字符串常量
-- **组件提取**：将RewardModal组件从App.tsx中提取为独立组件
-- **代码文档改进**：为类型定义、接口和函数添加了详细的JSDoc注释
-- **状态管理优化**：使用自定义Hooks封装状态管理逻辑，减少App.tsx的负担
-
-### 2025-12-23
-- 导航栏折叠按钮移动到导航栏内部右侧
-- 作战中心的签到模块改名为签到系统
-- 专注趋势模块改名为专注时间统计
-- 优化了导航栏布局
-
-### 2025-12-26 紧急修复与功能优化
-- **紧急修复问题**：
-  - 修复了成就管理按钮点击后黑屏问题（修复了未导入的List组件）
-  - 修复了荣誉殿堂勋章分组内的管理按钮点击后黑屏问题（修复了未导入的List组件）
-  - 修复了手动修改储备金误触发消费成就问题（确保手动调整储备金不会计入消费统计）
-  - 删除了补给黑市盲盒旁的多余小问号，仅保留储备金对应的小问号
-
-- **功能优化与新增**：
-  - 确认图表汇总已实现模块化管理，支持图表拖拽排序和分类管理
-  - 优化了任务完成率图表显示，将其设置为单独凸起模块，确保完整显示
-  - 为每个成就添加了「重置该成就」功能，重置后成就恢复为未达成状态，允许重新完成并获取成就
-
-- **技术细节**：
-  - 修复了组件导入问题，确保所有使用的组件都已正确导入
-  - 优化了状态管理逻辑，确保手动操作不会误触发成就
-  - 改进了图表布局，提升了用户体验
-  - 增强了成就系统的灵活性，支持成就重置功能
-
-### 2025-12-26 图表汇总相关优化
-- **图表汇总模块化管理**：
-  - 确认已实现模块化管理，支持图表拖拽排序和分类管理
-  - 优化了图表学习模块结构，将图表和深度解析组成一个统一的图表学习模块
-
-- **任务完成率图表优化**：
-  - 将任务完成率图表设置为单独凸起模块，确保完整显示，避免被遮挡或折叠
-  - 图表与深度解析均为悬浮凸起样式，两个小模块组成一个图表学习模块
-  - 优化了图表的响应式设计，确保横轴和纵轴完整显示
-
-- **技术实现**：
-  - 修改了`MissionControl.tsx`，将图表和深度解析模块包裹在一个新的图表学习模块中
-  - 统一了模块样式，确保所有模块都是悬浮凸起的设计
-  - 优化了模块间的间距和布局，提升了整体视觉效果
-
-## 命运骰子系统
-
-### 核心功能
-- **随机任务生成**：通过旋转骰子随机生成不同类型的任务
-- **任务分类**：健康微行动、效率任务、休闲小奖励
-- **每日限制**：每日可点击10次，完成任务推进进度条
-- **任务管理**：区分已完成和未完成任务，每日自动清空
-- **进度追踪**：完成一个任务推进10%进度条
-- **记忆功能**：记录用户历史抽取的任务，避免短时间内重复抽到相同内容
-- **任务列表展示**：在命运骰子模块下方展示未完成和已完成任务，类似日常任务的展示方式
-
-### 触发方式
-- 在任务管理系统右侧设置独立的「命运骰子」图标
-- 点击后触发旋转动画，随机生成任务
-- 支持三种主题（light、dark、neomorphic）适配
-
-### 骰子设计与概率
-- **12面骰子设计**：
-  - 健康微行动类：4面（33.3%概率）
-  - 效率任务类：5面（41.7%概率，侧重项目推进，占比最高）
-  - 休闲小奖励类：3面（25%概率，平衡任务压力）
-
-### 任务设计
-- **健康微行动类**：15项，如专注5-60分钟、深蹲、俯卧撑、喝一杯水、伸展运动等
-- **效率任务类**：22项，如寻找爆款作品、整理工作流、发布内容、学习新技能、制定计划等
-- **休闲小奖励类**：18项，如吃水果、听音乐10分钟、冥想5分钟、散步10分钟、和朋友聊天等
-
-### 交互与动画
-- 流畅的骰子旋转动画，支持手动暂停（1-2秒时长）
-- 结果弹窗附带「已完成」「稍后做」「跳过」三个按钮
-- 点击「已完成」：发放对应积分，记录任务完成状态
-- 点击「稍后做」：将任务加入待办列表，不发积分
-- 点击「跳过」：不发积分，直接关闭弹窗，消耗当日次数
-
-### 任务列表管理
-- **未完成任务**：置顶显示，方便用户查看和完成
-- **已完成任务**：置底显示，记录用户成就，带有勾选标记
-- **每日自动清空**：零点自动清空所有任务，重置进度
-- **进度条机制**：每日10次点击机会，完成一个任务推进10%进度条
-- **任务填充**：新任务自动添加到待办列表，完成的任务移至已完成列表
-
-### 数据持久化
-- 使用localStorage存储每日点击次数和历史记录
-- 每日自动清空任务列表
-- 进度条状态实时保存
-- 历史记录用于智能避免重复任务
-
-### 奖励机制
-- **休闲类**：2-5金币
-- **健康类**：3-6金币
-- **效率类**：5-10金币
-- 分值可配置，支持自定义调整
-
-### 帮助系统
-- **位置**：任务管理系统右侧小问号图标
-- **内容**：
-  - 命运骰子的娱乐性和优势
-  - 详细规则和逻辑说明
-  - 任务分类和概率占比
-  - 交互方式和奖励机制
-  - 更新时间：2025-12-25
-
-### 娱乐性与优势
-- **增加系统趣味性**：通过游戏化方式提高用户粘性
-- **提供随机惊喜**：打破日常任务的单调性，增加期待感
-- **平衡任务压力**：通过休闲小奖励类任务提供即时甜头
-- **促进主动参与**：鼓励用户"有事没事点一下"，增加系统使用频率
-- **覆盖多种场景**：不同类型任务满足用户在不同状态下的需求
-- **降低决策成本**：随机任务减少用户选择困难，直接行动
-- **培养微习惯**：通过简单的随机任务，帮助用户建立良好习惯
-
-### 任务池管理
-- **任务数量**：
-  - 健康微行动类：15项
-  - 效率任务类：22项
-  - 休闲小奖励类：18项
-- **扩展性**：预留任务池编辑入口，支持手动添加/删除任务
-- **权重调整**：支持调整各类任务的占比权重
-- **次数限制**：支持修改每日点击上限
-
-### 记忆功能
-- 记录用户历史抽取的任务，避免短时间内重复抽到相同内容
-- 智能算法确保任务多样性，提高用户体验
-- 历史记录定期清理，保持系统性能
-
-### 管理界面
-- **新增命运骰子分组**：在任务管理系统中独立分组
-- **任务编辑功能**：支持添加对应分类的命运骰子任务
-- **任务属性配置**：包含标题、属性、奖励、预估时间等信息
-- **占比调整**：支持调整各类任务的占比权重
-- **每日点击上限设置**：支持修改每日可点击次数
-
-### 技术实现
-- **动画效果**：流畅的骰子旋转动画，支持手动暂停
-- **主题适配**：支持三种主题（light、dark、neomorphic）
-- **性能优化**：使用React.memo和useMemo优化组件渲染
-- **状态管理**：使用自定义Hooks封装状态管理逻辑
-- **本地存储**：所有数据持久化到localStorage
-- **任务列表实现**：
-  - 新增`DiceTaskRecord`接口用于任务记录管理
-  - 更新`DiceState`添加`pendingTasks`和`completedTasks`数组
-  - 实现进度条组件，显示任务完成百分比
-  - 每日自动重置任务列表的逻辑实现
-
-### 最近更新
-- **2025-12-25**：
-  - 改进命运骰子模块，添加任务列表和进度条
-  - 实现每日清空功能，零点自动重置任务
-  - 优化任务展示，未完成任务置顶，已完成任务置底
-  - 完善帮助系统，添加详细介绍和更新时间
-  - 统一所有带问号的帮助按钮为点击显示提示模块
-  - 调整所有弹窗通知显示时间为2秒
-  - 新增`DiceTaskRecord`接口用于任务管理
-  - 更新`DiceState`接口，添加任务列表字段
-  - 实现进度条功能，显示任务完成百分比
-  - 优化任务列表UI，区分未完成和已完成任务
-
-### 帮助系统详细内容
-**命运骰子帮助中心**
-
-**娱乐性与优势**
-命运骰子系统通过游戏化方式增加了系统的趣味性，打破了日常任务的单调性，为用户提供随机惊喜。它能平衡任务压力，穿插休闲小奖励，促进用户主动参与，"有事没事点一下"，增加系统使用频率。同时，它覆盖多种任务类型，满足用户在不同状态下的需求，降低决策成本，帮助用户直接行动，培养微习惯。
-
-**骰子设计与概率**
-我们采用12面骰子设计，各类任务占比科学合理：
-- 健康微行动类：4面（33.3%概率）
-- 效率任务类：5面（41.7%概率，侧重项目推进，占比最高）
-- 休闲小奖励类：3面（25%概率，平衡任务压力）
-
-**任务分类与示例**
-- **健康微行动类**：专注5-60分钟、深蹲10次、俯卧撑10次、喝一杯水、伸展运动等
-- **效率任务类**：寻找爆款作品、整理工作流、发布内容、学习新技能、制定计划等
-- **休闲小奖励类**：吃水果、听音乐10分钟、冥想5分钟、散步10分钟、和朋友聊天等
-
-**交互规则**
-1. 点击命运骰子图标触发旋转动画
-2. 动画结束后显示随机任务
-3. 可选择「已完成」「稍后做」「跳过」三个选项
-4. 每日可点击10次，完成一个任务推进10%进度条
-5. 零点自动清空所有任务，重置进度
-
-**奖励机制**
-- 休闲类任务：2-5金币
-- 健康类任务：3-6金币
-- 效率类任务：5-10金币
-
-**更新时间**：2025-12-25
-
-## 代码优化最佳实践
-
-### 组件设计原则
-- **单一职责**：每个组件只负责一个功能
-- **可复用性**：将通用功能提取为共享组件
-- **组件大小限制**：单个组件代码量控制在500行以内
-- **明确的props接口**：为组件定义详细的props接口
-
-### Hook设计原则
-- **领域划分**：每个Hook负责一个特定领域的状态管理
-- **封装内部逻辑**：将状态、计算和本地存储逻辑封装在Hook内部
-- **清晰的返回值**：返回值结构清晰，易于理解和使用
-- **自动持久化**：重要状态自动保存到localStorage
-
-### 类型设计原则
-- **使用枚举替代字符串常量**：提高类型安全性
-- **详细的JSDoc注释**：为类型和接口添加详细注释
-- **统一的命名规范**：使用清晰、一致的命名规范
-- **接口分离**：根据不同用途定义不同的接口
-
-### 代码文档规范
-- **类型和接口注释**：为所有类型和接口添加JSDoc注释
-- **函数注释**：为重要函数添加JSDoc注释
-- **常量注释**：为常量添加注释说明用途
-- **组件注释**：为组件添加功能说明
-
-## 后续优化建议
-
-1. **移除旧文件**：删除不再使用的constants.ts文件
-2. **完善utils目录**：添加工具函数，封装通用逻辑
-3. **添加测试**：为自定义Hooks添加单元测试
-4. **优化性能**：使用React.memo和useMemo优化组件性能
-5. **完善文档**：为所有组件和Hooks添加完整的JSDoc注释
-6. **标准化命名**：统一组件和函数命名规范
-
-## 开发工作流
-
-1. **需求分析**：明确功能需求和技术要求
-2. **设计方案**：设计组件结构和状态管理方案
-3. **代码实现**：实现功能代码，遵循最佳实践
-4. **代码优化**：优化代码结构和性能
-5. **添加测试**：编写单元测试和集成测试
-6. **文档更新**：更新开发手册和API文档
-7. **代码审查**：进行代码审查，确保质量
-8. **部署上线**：构建和部署应用
-
-## 故障排除
-
-### 类型错误
-- 检查类型定义是否正确
-- 确保枚举使用正确
-- 检查导入导出是否正确
-
-### Hook使用错误
-- 确保Hook在组件顶层调用
-- 检查Hook依赖数组是否正确
-- 确保Hook返回值使用正确
-
-### 组件渲染问题
-- 检查组件props是否正确
-- 检查组件状态管理是否正确
-- 检查条件渲染逻辑是否正确
-
-## 核心优化成果
-
-### 代码结构优化
-- 模块化目录结构，便于维护和扩展
-- 清晰的组件层次结构
-- 集中式常量管理
-
-### 性能优化
-- 减少了大型组件的渲染负担
-- 优化了状态更新逻辑
-- 提高了代码复用率
-
-### 可维护性提升
-- 清晰的代码文档
-- 标准化的代码风格
-- 模块化的设计方案
-
-### 开发效率提升
-- 组件复用减少重复代码
-- 类型安全减少运行时错误
-- 清晰的代码结构便于理解和修改
-
-## 后续开发建议
-
-1. **添加更多图表类型**：扩展MissionControl中的图表种类
-2. **增强AI教练功能**：提供更智能的个性化建议
-3. **添加社交功能**：支持用户之间的互动
-4. **支持多平台同步**：实现云同步功能
-5. **增强数据可视化**：添加更多维度的数据分析
-6. **添加离线支持**：支持离线使用
-7. **增强番茄钟功能**：添加更多专注模式和统计
+- 使用Conventional Commits规范
+- 提交前运行lint和typecheck
 
 ## 部署说明
 
-1. 将dist目录部署到任意静态文件服务器
-2. 支持Vercel、Netlify、GitHub Pages等
-3. 配置自定义域名
+### 1. 本地部署
 
-## 故障排除
-
-### 图表无法显示
-- 检查CHARTS数组中是否有该图表定义
-- 检查是否有对应的渲染逻辑
-- 检查数据生成函数是否正常
-
-### 拖拽排序无法保存
-- 检查localStorage是否正常
-- 检查handleDragEnd函数是否正确更新状态
-- 检查useEffect是否正确保存数据
-
-### 主题切换不生效
-- 检查主题状态是否正确
-- 检查CSS类名是否正确切换
-- 检查localStorage是否正确保存主题
-
-### 番茄钟不工作
-- 检查CharacterProfile组件中的计时器逻辑
-- 检查音效文件是否能正常加载
-- 检查localStorage中的番茄钟状态
-
-## 核心工作流程
-
-### 1. 应用启动流程
-1. App组件初始化状态
-2. 从localStorage加载保存的数据
-3. 初始化各种状态
-4. 渲染Navigation和当前视图
-
-### 2. 任务完成流程
-1. 用户在LifeGame组件中完成任务
-2. 触发奖励计算（金币、经验值）
-3. 更新全局状态
-4. 保存到localStorage
-5. 显示浮动奖励动画
-
-### 3. 专注时间统计
-1. 番茄钟完成后调用onPomodoroComplete
-2. 更新todayStats.focusMinutes
-3. 保存到statsHistory
-4. 在MissionControl和实时情报卡中展示
-
-### 4. 签到流程
-1. 用户点击签到按钮
-2. 检查是否已签到
-3. 更新签到数据到localStorage
-4. 计算连续签到天数
-5. 发放奖励
-6. 更新UI状态
-
-## 关键API和工具函数
-
-### 数据持久化
-- `localStorage.getItem('aes-global-data-v3')`：保存全局游戏数据
-- `localStorage.getItem('life-game-stats-v2')`：保存角色统计数据
-- `localStorage.getItem('life-game-weekly-checkin')`：保存每周签到数据
-
-### 核心工具函数
-- `getAllLevels()`：获取所有等级信息
-- `getFocusInfo()`：计算专注等级
-- `getWealthInfo()`：计算财富等级
-- `getAllMilitaryRanks()`：获取军衔信息
-
-## 设计规范
-
-### 拟态风格设计
-- 背景色：#e0e5ec
-- 边框色：#a3b1c6
-- 阴影：10px 10px 20px rgba(163,177,198,0.6), -10px -10px 20px rgba(255,255,255,1)
-- 圆角：48px
-- 交互效果：悬停时阴影变化，点击时内阴影
-
-### 深色主题设计
-- 背景：bg-zinc-950
-- 边框：border-zinc-800
-- 文本：text-zinc-200
-- 强调色：emerald-500
-
-### 响应式设计
-- 移动端：折叠导航栏，使用汉堡菜单
-- 平板：自适应布局
-- 桌面端：完整侧边栏布局
-
-## 安全注意事项
-- 所有数据存储在localStorage中，避免敏感信息
-- 音频资源使用外部CDN链接，确保资源可访问
-- 遵循CSP策略，只允许安全的资源加载
-- 所有用户输入都经过适当处理，防止XSS攻击
-
-## 国际化
-- 所有文本内容均使用中文
-- 日期格式使用本地化格式
-- 数字格式使用中文习惯
-
-## 可访问性
-- 使用语义化HTML标签
-- 支持键盘导航
-- 适当的颜色对比度
-- 支持屏幕阅读器
-
-## 性能优化
-- 组件使用React.memo优化渲染
-- 计算结果使用useMemo缓存
-- 事件处理函数使用useCallback缓存
-- 图片资源优化
-- 延迟加载非关键资源
-
-## 开发环境搭建
-
-### 安装依赖
 ```bash
-npm install
-```
-
-### 启动开发服务器
-```bash
-npm run dev
-```
-
-### 构建生产版本
-```bash
+# 构建生产版本
 npm run build
+
+# 启动本地服务器
+npm run preview
 ```
 
-### 运行测试
-```bash
-npm run test
-```
+### 2. 线上部署
 
-### 代码质量检查
-```bash
-npm run lint
-npm run typecheck
-```
+可以部署到任何静态网站托管服务：
+
+- Vercel
+- Netlify
+- GitHub Pages
+- Cloudflare Pages
+
+## 未来规划
+
+1. **移动端适配**: 优化移动端体验
+2. **多端同步**: 添加云端数据同步功能
+3. **社交功能**: 添加好友系统和排行榜
+4. **更多游戏机制**: 添加装备系统、技能树等
+5. **AI助手**: 添加AI助手提供个性化建议
+6. **更多数据可视化**: 添加更多成长曲线和分析图表
+
+## 更新日志
+
+### 2025-12-27
+
+1. **数据可视化图表优化**
+   - 为所有图表添加描述性标题
+   - 为坐标轴添加清晰标签和单位
+   - 优化图例说明
+   - 设定清晰的边界范围
+
+2. **命运骰子功能增强**
+   - 实现磨砂质感效果
+   - 优化3D动画效果
+   - 完善结果弹窗设计
+
+3. **任务管理系统优化**
+   - 整理13个未分类任务到三个分类
+   - 实现任务分类切换功能
+   - 优化分类按钮样式和交互
+   - 确保每个分类任务数量不低于10个
+
+4. **代码优化**
+   - 修复className语法错误
+   - 优化状态管理
+   - 提高代码可读性
+
+### 2025-12-26
+
+1. **初始版本发布**
+   - 核心游戏机制实现
+   - 角色系统
+   - 任务管理系统
+   - 数据可视化功能
+   - 命运骰子系统
 
 ## 贡献指南
-1. 遵循现有的代码风格和模式
-2. 编写TypeScript类型定义
-3. 确保所有测试通过
-4. 添加新功能时编写相应的测试
-5. 提交前运行lint和typecheck
-6. 遵循Conventional Commits规范
 
-## 联系方式
+欢迎提交Issue和Pull Request！
 
-如有问题或建议，请联系项目维护者。
+## 许可证
 
-## 应用规则与开发要求
-
-### 1. 核心功能规则
-
-#### 1.1 游戏化系统规则
-- **等级系统**: 基于经验值累积，每级所需经验值递增
-- **属性系统**: 六大属性（STR、INT、DIS、CRE、SOC、WEA）独立计算
-- **勋章系统**: 六大分类（等级、专注、财富、战斗、签到、消费），自动检测解锁
-- **奖励机制**: 完成任务、专注时长、签到等行为获得经验和金币
-- **成就系统**: 达成特定条件自动解锁，显示通知并记录
-
-#### 1.2 专注系统规则
-- **番茄钟**: 支持25/45/60分钟预设，完成后自动记录并奖励
-- **专注统计**: 每日、每周、每月统计，影响专注等级和勋章解锁
-- **背景音效**: 支持多种环境音效，可自定义开关
-
-#### 1.3 任务系统规则
-- **任务分类**: 日常任务、主线任务、随机任务、休闲任务
-- **任务奖励**: 基于任务难度和类型提供不同奖励
-- **完成机制**: 点击完成按钮，自动更新状态并发放奖励
-- **拖拽排序**: 支持自定义任务顺序，保存到本地存储
-
-#### 1.4 签到系统规则
-- **连续签到**: 累计签到天数影响奖励倍数
-- **签到奖励**: 金币、经验值，随连续天数递增
-- **签到状态**: 7天滚动展示，已签到/未签到状态清晰区分
-
-### 2. 界面设计规范
-
-#### 2.1 布局规范
-- **模块化设计**: 所有功能采用模块化布局，独立封装
-- **响应式设计**: 支持移动端、平板、桌面端自适应
-- **间距统一**: 统一使用Tailwind间距类，确保界面一致性
-  - 组件间距: 8px/16px/24px/32px
-  - 内边距: 16px/24px/32px
-  - 外边距: 8px/16px/24px
-- **网格布局**: 勋章系统使用响应式网格，根据屏幕尺寸自动调整列数
-- **全屏模态框**: 编辑功能使用全屏覆盖模态框，确保操作流程完整
-
-#### 2.2 配色规范
-- **主题支持**: 三种主题（light、dark、neomorphic）
-- **拟态风格**: 背景色#e0e5ec，阴影10px 10px 20px rgba(163,177,198,0.6), -10px -10px 20px rgba(255,255,255,1)
-- **深色主题**: 深色背景配合霓虹色彩，强调色emerald-500
-- **浅色主题**: 明亮简洁，高对比度设计
-- **勋章配色**: 已解锁勋章使用动态渐变色，未解锁使用半透明灰色
-
-#### 2.3 字体与图标规范
-- **字体**: 系统默认字体，确保跨平台一致性
-- **字体大小**: 统一使用Tailwind字体大小类
-  - 标题: text-xl/text-2xl/text-3xl
-  - 正文: text-base
-  - 辅助文字: text-sm/text-xs
-- **图标**: 使用Lucide React图标库，统一图标风格
-- **图标尺寸**: 统一使用w-5 h-5/w-6 h-6/w-10 h-10
-
-#### 2.4 按钮与交互元素规范
-- **按钮样式**: 统一圆角设计，无阴影效果（除非特殊需要）
-- **状态反馈**: 悬停、点击状态清晰可见
-- **分组按钮**: 横向排列，激活状态高亮显示
-- **进度条**: 成就收集率进度条全屏宽度，文字靠右对齐
-
-### 3. 交互规则
-
-#### 3.1 用户操作规则
-- **单步操作**: 核心功能点击一次即可完成
-- **即时反馈**: 所有操作立即显示视觉反馈
-- **通知机制**: 成就解锁、任务完成等重要事件显示通知
-  - 通知位置: 屏幕中央（RewardModal）
-  - 通知时长: 2秒自动关闭
-  - 避免重复: 禁止同一通知多次弹出
-
-#### 3.2 拖拽交互规则
-- **拖拽范围**: 习惯、项目、子任务、图表支持拖拽排序
-- **视觉反馈**: 拖拽过程中显示占位符和动画效果
-- **数据保存**: 拖拽完成后自动保存到localStorage
-- **拖拽限制**: 仅允许在同一类型元素间拖拽
-
-#### 3.3 模态框交互规则
-- **打开方式**: 点击编辑按钮打开
-- **关闭方式**: 点击关闭按钮、点击背景或按ESC键
-- **数据验证**: 表单输入自动验证，错误提示清晰
-- **提交反馈**: 提交成功/失败显示明确反馈
-
-### 4. 开发要求
-
-#### 4.1 代码规范
-- **TypeScript**: 严格使用TypeScript，所有组件和函数必须有类型定义
-- **组件设计**: 单一职责原则，代码量控制在500行以内
-- **自定义Hooks**: 领域划分清晰，状态管理逻辑封装
-- **常量管理**: 所有常量集中管理在constants/index.ts
-- **类型系统**: 使用枚举替代字符串常量，添加详细JSDoc注释
-
-#### 4.2 性能优化要求
-- **React.memo**: 组件使用React.memo优化渲染
-- **useMemo**: 计算结果使用useMemo缓存
-- **useCallback**: 事件处理函数使用useCallback缓存
-- **避免不必要的重渲染**: 合理设置依赖数组，避免无效更新
-- **图片优化**: 图片资源压缩，使用适当格式
-
-#### 4.3 状态管理要求
-- **本地存储**: 所有游戏状态保存到localStorage
-- **状态流向**: 单向数据流，通过props传递
-- **自定义Hooks**: 状态管理逻辑封装在Hooks中
-- **数据加载**: 应用启动时自动加载本地存储数据
-
-#### 4.4 测试与验证要求
-- **类型检查**: 运行npm run typecheck确保无类型错误
-- **代码 lint**: 运行npm run lint确保代码规范
-- **手动测试**: 所有功能手动测试，确保正常工作
-- **多主题测试**: 确保在三种主题下均能正常显示
-- **响应式测试**: 测试不同屏幕尺寸下的显示效果
-
-#### 4.5 故障排除要求
-- **错误处理**: 所有异步操作必须有错误处理
-- **日志记录**: 关键操作添加日志记录
-- **故障恢复**: 应用崩溃后能正常恢复，数据不丢失
-- **调试信息**: 开发模式下显示调试信息，生产模式隐藏
-
-### 5. 文档要求
-
-#### 5.1 代码文档
-- **JSDoc注释**: 所有类型、接口、函数必须添加JSDoc注释
-- **组件注释**: 组件功能、props、状态详细说明
-- **Hooks注释**: Hook功能、参数、返回值详细说明
-- **常量注释**: 常量用途、取值范围说明
-
-#### 5.2 开发手册
-- **实时更新**: 功能变更、优化改进及时更新到开发手册
-- **分类清晰**: 按模块分类，便于查找
-- **细节完整**: 包含功能逻辑、界面设计、交互规则、技术实现
-- **可落地性**: 标注所有参数具体数值，确保可直接开发
-
-### 6. 版本控制与部署
-
-#### 6.1 Git工作流
-- **分支管理**: 主分支稳定，功能开发使用特性分支
-- **提交规范**: 遵循Conventional Commits规范
-- **代码审查**: 重要变更需进行代码审查
-
-#### 6.2 构建与部署
-- **构建命令**: 使用npm run build构建生产版本
-- **部署平台**: 支持Vercel、Netlify、GitHub Pages等
-- **自动部署**: 推送代码到主分支自动触发部署
-- **版本管理**: 重要功能更新添加版本号，记录更新日志
-
-### 7. 安全与隐私
-
-#### 7.1 数据安全
-- **本地存储**: 所有数据存储在localStorage，不涉及服务器
-- **数据备份**: 支持手动导出/导入数据
-- **敏感信息**: 禁止存储敏感信息
-
-#### 7.2 资源安全
-- **音频资源**: 使用安全的CDN链接
-- **图片资源**: 确保图片资源可访问，无版权问题
-- **CSP策略**: 遵循CSP策略，只允许安全资源加载
-
-### 8. 可访问性要求
-
-#### 8.1 无障碍设计
-- **语义化HTML**: 使用正确的HTML标签
-- **键盘导航**: 支持完全键盘操作
-- **颜色对比度**: 确保符合WCAG标准
-- **屏幕阅读器**: 支持屏幕阅读器
-
-#### 8.2 国际化支持
-- **文本内容**: 统一使用中文
-- **日期格式**: 使用本地化日期格式
-- **数字格式**: 符合中文阅读习惯
-
-### 9. 后续开发规则
-
-#### 9.1 功能扩展
-- **模块化设计**: 新功能采用模块化设计，便于集成
-- **向后兼容**: 确保新功能不影响现有功能
-- **文档更新**: 新功能必须更新开发手册
-
-#### 9.2 优化改进
-- **性能监控**: 定期检查性能，优化瓶颈
-- **用户反馈**: 收集用户反馈，持续改进
-- **技术升级**: 定期升级依赖包，确保安全性
-- **代码重构**: 定期重构旧代码，提高可维护性
-
-### 10. 常见问题与解决方案
-
-#### 10.1 黑屏问题
-- **排查步骤**: 检查控制台错误、类型错误、组件渲染问题
-- **解决方案**: 修复类型错误、调整组件渲染逻辑、检查依赖版本
-
-#### 10.2 通知闪烁问题
-- **排查步骤**: 检查通知状态管理、依赖数组设置
-- **解决方案**: 移除重复通知系统、调整useEffect依赖、优化状态更新
-
-#### 10.3 数据不保存问题
-- **排查步骤**: 检查localStorage API调用、数据结构、保存时机
-- **解决方案**: 修复保存逻辑、调整useEffect依赖、添加错误处理
-
-#### 10.4 主题切换不生效问题
-- **排查步骤**: 检查主题状态管理、CSS类名切换、localStorage保存
-- **解决方案**: 修复主题切换逻辑、确保CSS类名正确、检查localStorage操作
-
-### 11. 最佳实践
-
-#### 11.1 组件设计最佳实践
-- **单一职责**: 每个组件只负责一个功能
-- **可复用性**: 通用功能提取为共享组件
-- **Props接口**: 定义详细的Props接口
-- **状态管理**: 尽量使用父组件状态，避免组件内部复杂状态
-
-#### 11.2 Hook设计最佳实践
-- **领域划分**: 每个Hook负责一个特定领域
-- **封装逻辑**: 状态、计算、本地存储逻辑封装
-- **清晰返回值**: 返回值结构清晰，易于理解
-- **自动持久化**: 重要状态自动保存到localStorage
-
-#### 11.3 类型设计最佳实践
-- **枚举使用**: 使用枚举替代字符串常量
-- **接口分离**: 根据不同用途定义不同接口
-- **JSDoc注释**: 添加详细的JSDoc注释
-- **类型安全**: 确保类型定义完整，避免any类型
-
-#### 11.4 性能优化最佳实践
-- **组件优化**: 使用React.memo、useMemo、useCallback
-- **状态优化**: 合理设置依赖数组，避免无效更新
-- **数据优化**: 减少不必要的数据传递和计算
-- **资源优化**: 优化图片、音频等资源加载
-
-### 12. 开发工作流
-
-1. **需求分析**: 明确功能需求和技术要求
-2. **设计方案**: 设计组件结构和状态管理方案
-3. **代码实现**: 实现功能代码，遵循最佳实践
-4. **代码优化**: 优化代码结构和性能
-5. **测试验证**: 手动测试所有功能，确保正常工作
-6. **文档更新**: 更新开发手册和API文档
-7. **代码审查**: 进行代码审查，确保质量
-8. **部署上线**: 构建和部署应用
-
-### 13. 质量保证
-
-- **代码质量**: 严格遵循ESLint和Prettier规范
-- **类型安全**: 确保无TypeScript错误
-- **功能完整性**: 所有功能必须完整实现
-- **用户体验**: 界面美观、交互流畅、反馈及时
-- **稳定性**: 应用崩溃率为0，数据不丢失
-
-### 14. 版本更新规则
-
-- **版本号格式**: 主版本.次版本.修订号
-- **主版本更新**: 重大功能变更，可能不兼容旧版本
-- **次版本更新**: 新功能添加，兼容旧版本
-- **修订号更新**: bug修复、性能优化，兼容旧版本
-- **更新日志**: 每次更新必须记录详细的更新内容
-
-### 15. 团队协作规则
-
-- **代码规范**: 团队成员必须遵循统一的代码规范
-- **文档共享**: 开发手册实时更新，团队成员共同维护
-- **代码审查**: 重要变更必须进行代码审查
-- **沟通机制**: 定期召开技术会议，沟通开发进展
-- **知识分享**: 团队成员分享技术经验，共同成长
+MIT License

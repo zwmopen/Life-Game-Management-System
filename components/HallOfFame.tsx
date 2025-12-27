@@ -77,15 +77,15 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
         transition: 'transition-all duration-200'
     };
     
-    // 生成按钮样式的辅助函数
+    // 生成按钮样式的辅助函数 - 与商品分类与管理按钮样式完全一致
     const getButtonStyle = (isActive: boolean, isSpecial?: boolean) => {
         if (isActive) {
             return isSpecial ? 'bg-red-500 text-white border-red-500' : 'bg-blue-500 text-white border-blue-500';
         }
         if (isNeomorphic) {
-            return `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.transition}`;
+            return `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow} ${neomorphicStyles.hoverShadow} ${neomorphicStyles.activeShadow} ${neomorphicStyles.transition}`;
         }
-        return isDark ? 'bg-zinc-900 border-zinc-800 text-zinc-500 hover:border-zinc-700' : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300';
+        return isDark ? 'bg-zinc-900 border-zinc-800 text-zinc-500 hover:border-zinc-700' : 'bg-white border-slate-300 text-slate-600 hover:border-slate-200';
     };
     
     // 拟态风格卡片背景 - 符合设计规格的高饱和度灰蓝色底色，135度光源，增强阴影效果
@@ -393,50 +393,35 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                         </button>
                         </div>
                         <div className="flex gap-2 overflow-x-auto pb-2 custom-scrollbar items-center">
-                            {
-                                [
-                                    {id:'ALL', l:'全部', i: Layout}, 
-                                    {id:'LEVEL', l:'等级', i:Zap}, 
-                                    {id:'FOCUS', l:'专注', i:Clock}, 
-                                    {id:'WEALTH', l:'财富', i:Wallet}, 
-                                    {id:'COMBAT', l:'战斗', i:Target}, 
-                                    {id:'CHECKIN', l:'签到', i:Calendar}, 
-                                    {id:'SPEND', l:'消费', i:ShoppingBag}
-                                ].map(tab => {
-                                    // 优化按钮样式，去掉阴影效果
-                                    let buttonClass = '';
-                                    if (category === tab.id) {
-                                        // 激活状态：蓝色背景，白色文字，平滑过渡
-                                        buttonClass = 'bg-blue-500 text-white transition-all duration-300 rounded-[24px]';
-                                    } else if (isNeomorphic) {
-                                        // 非激活状态：去掉阴影效果，简化样式
-                                        buttonClass = 'bg-[#e0e5ec] transition-all duration-300 text-zinc-700 rounded-[24px]';
-                                    } else {
-                                        // 非拟态风格：简化样式，去掉阴影
-                                        buttonClass = isDark ? 'bg-zinc-900 hover:bg-zinc-800 text-zinc-500 transition-all duration-300 rounded-[24px]' : 'bg-white hover:bg-slate-100 text-slate-600 transition-all duration-300 rounded-[24px]';
-                                    }
-                                    
-                                    return (
-                                        <button 
-                                            key={tab.id} 
-                                            onClick={() => {
-                                                // 切换分组时清空上一分组的编辑缓存，避免跨分组操作冲突
-                                                resetEditCache(category);
-                                                setCategory(tab.id as any);
-                                            }}
-                                            className={`px-4 py-1.5 text-xs font-bold flex items-center gap-1.5 whitespace-nowrap transition-all ${buttonClass}`}
-                                        >
-                                            <tab.i size={12} /> {tab.l}
-                                        </button>
-                                    );
-                                })
-                            }
+                            {[
+                                {id:'ALL', l:'全部', i: Layout}, 
+                                {id:'LEVEL', l:'等级', i:Zap}, 
+                                {id:'FOCUS', l:'专注', i:Clock}, 
+                                {id:'WEALTH', l:'财富', i:Wallet}, 
+                                {id:'COMBAT', l:'战斗', i:Target}, 
+                                {id:'CHECKIN', l:'签到', i:Calendar}, 
+                                {id:'SPEND', l:'消费', i:ShoppingBag}
+                            ].map(tab => {
+                                return (
+                                    <button 
+                                        key={tab.id} 
+                                        onClick={() => {
+                                            // 切换分组时清空上一分组的编辑缓存，避免跨分组操作冲突
+                                            resetEditCache(category);
+                                            setCategory(tab.id as any);
+                                        }}
+                                        className={`px-6 py-2 rounded-[24px] text-xs font-bold border transition-all ${getButtonStyle(category === tab.id)}`}
+                                    >
+                                        <tab.i size={14} /> {tab.l}
+                                    </button>
+                                );
+                            })}
                             {/* 管理按钮 */}
                             <button 
-                                className={`px-4 py-1.5 text-xs font-bold flex items-center gap-1.5 whitespace-nowrap transition-all ${isNeomorphic ? 'bg-[#e0e5ec] border-[#e0e5ec] text-zinc-700 rounded-[24px] hover:shadow-[4px_4px_8px_rgba(163,177,198,0.5),-4px_-4px_8px_rgba(255,255,255,0.8)] active:shadow-[inset_3px_3px_6px_rgba(163,177,198,0.5),inset_-3px_-3px_6px_rgba(255,255,255,0.8)]' : (isDark ? 'bg-zinc-900 hover:bg-zinc-800 text-zinc-500 transition-all duration-300 rounded-[24px]' : 'bg-white hover:bg-slate-100 text-slate-600 transition-all duration-300 rounded-[24px]')}`}
+                                className={`px-6 py-2 rounded-[24px] text-xs font-bold ${getButtonStyle(false)}`}
                                 onClick={() => setShowManageModal(true)}
                             >
-                                <Edit3 size={12} /> 管理
+                                <Edit3 size={14} /> 管理
                             </button>
                         </div>
                     </div>
@@ -520,8 +505,7 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                                         }}
                                         className={`px-4 py-1.5 rounded-[24px] text-xs font-bold border flex items-center gap-1.5 whitespace-nowrap transition-all ${getButtonStyle(selectedCategory === group.id)}`}
                                     >
-                                        <Icon size={14} className={selectedCategory === group.id ? (isDark ? 'text-yellow-500' : 'text-blue-500') : 'text-zinc-500'} />
-                                        {group.l}
+                                        <Icon size={12} /> {group.l}
                                     </button>
                                 );
                             })}
@@ -533,7 +517,7 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                         {/* 新增勋章按钮 - 移动到顶部 */}
                         <div className="text-center">
                             <button 
-                                className={`w-full py-3 rounded-full transition-all ${isDark ? 'bg-zinc-800 hover:bg-zinc-700' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_8px_8px_16px_rgba(163,177,198,0.6),inset_-8px_-8px_16px_rgba(255,255,255,1)]' : 'bg-blue-50 hover:bg-blue-100'}`}
+                                className={`w-full py-1.5 rounded-[24px] text-xs font-bold border transition-all ${getButtonStyle(false)}`}
                                 onClick={() => {
                                     // 创建一个新的勋章模板
                                     const newBadge = {
@@ -557,7 +541,7 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                                     setEditingBadge(newBadge);
                                 }}
                             >
-                                <Plus size={16} className="inline-block mr-2" /> 新增勋章
+                                <Plus size={12} className="inline-block mr-1" /> 新增勋章
                             </button>
                         </div>
                         
@@ -577,15 +561,15 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                                             </div>
                                             <div className="flex gap-2">
                                                 <button 
-                                    className={`p-2 rounded-full transition-all duration-300 hover:scale-[1.2] ${isNeomorphic ? 'bg-[#e0e5ec] border-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]' : 'hover:bg-yellow-500/20'}`}
+                                    className={`px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all ${getButtonStyle(false)}`}
                                     onClick={() => setEditingGroup(group.id)}
                                 >
-                                    <Edit3 size={16} className={isDark ? 'text-yellow-400' : 'text-yellow-600'} />
+                                    <Edit3 size={12} className={isDark ? 'text-yellow-400' : 'text-yellow-600'} />
                                 </button>
                                 <button 
-                                    className={`p-2 rounded-full transition-all duration-300 hover:scale-[1.2] ${isNeomorphic ? 'bg-[#e0e5ec] border-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]' : 'hover:bg-red-500/20'}`}
+                                    className={`px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all ${getButtonStyle(false)}`}
                                 >
-                                    <Trash2 size={16} className={isDark ? 'text-red-400' : 'text-red-600'} />
+                                    <Trash2 size={12} className={isDark ? 'text-red-400' : 'text-red-600'} />
                                 </button>
                                             </div>
                                         </div>
@@ -608,13 +592,13 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                                                     </div>
                                                     <div className="flex gap-2 opacity-70 transition-opacity duration-300 group-hover:opacity-100">
                                 <button 
-                                    className={`p-2 rounded-lg transition-all duration-300 hover:scale-[1.2] ${isNeomorphic ? 'bg-[#e0e5ec] border-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]' : 'hover:bg-yellow-500/20'}`}
+                                    className={`px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all ${getButtonStyle(false)}`}
                                     onClick={() => setEditingBadge(badge)}
                                 >
-                                    <Edit3 size={16} className={isDark ? 'text-yellow-400' : 'text-yellow-600'} />
+                                    <Edit3 size={12} className={isDark ? 'text-yellow-400' : 'text-yellow-600'} />
                                 </button>
                                 <button 
-                                    className={`p-2 rounded-lg transition-all duration-300 hover:scale-[1.2] ${isNeomorphic ? 'bg-[#e0e5ec] border-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]' : 'hover:bg-blue-500/20'}`}
+                                    className={`px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all ${getButtonStyle(false)}`}
                                     onClick={() => {
                                         // 重置该成就：从claimedBadges中移除
                                         const updatedClaimedBadges = claimedBadges.filter(id => id !== badge.id);
@@ -623,12 +607,12 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                                         setForceRefresh(prev => !prev);
                                     }}
                                 >
-                                    <RotateCw size={16} className={isDark ? 'text-blue-400' : 'text-blue-600'} />
+                                    <RotateCw size={12} className={isDark ? 'text-blue-400' : 'text-blue-600'} />
                                 </button>
                                 <button 
-                                    className={`p-2 rounded-lg transition-all duration-300 hover:scale-[1.2] ${isNeomorphic ? 'bg-[#e0e5ec] border-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]' : 'hover:bg-red-500/20'}`}
+                                    className={`px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all ${getButtonStyle(false)}`}
                                 >
-                                    <Trash2 size={16} className={isDark ? 'text-red-400' : 'text-red-600'} />
+                                    <Trash2 size={12} className={isDark ? 'text-red-400' : 'text-red-600'} />
                                 </button>
                             </div>
                                                 </div>
@@ -642,9 +626,9 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                         {/* 新增分组按钮 */}
                         <div className="text-center">
                             <button 
-                                className={`w-full py-3 rounded-full transition-all ${isDark ? 'bg-zinc-800 hover:bg-zinc-700' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_8px_8px_16px_rgba(163,177,198,0.6),inset_-8px_-8px_16px_rgba(255,255,255,1)]' : 'bg-blue-50 hover:bg-blue-100'}`}
+                                className={`w-full py-1.5 rounded-[24px] text-xs font-bold border transition-all ${getButtonStyle(false)}`}
                             >
-                                <Plus size={16} className="inline-block mr-2" /> 新增分组
+                                <Plus size={12} className="inline-block mr-1" /> 新增分组
                             </button>
                         </div>
                     </div>

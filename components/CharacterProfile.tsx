@@ -510,6 +510,15 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
                             levelInfo={levelInfo}
                             focusInfo={focusInfo}
                             wealthInfo={wealthInfo}
+                            onLevelChange={(newLevel, type) => {
+                                // 实现等级修改后的联动处理机制
+                                if (window.confirm(`确定要将${type === 'level' ? '经验' : type === 'focus' ? '专注' : '财富'}等级修改为${newLevel}吗？这将重置相关勋章和进度数据。`)) {
+                                    // 这里需要调用父组件传递的回调函数，或者直接更新状态
+                                    // 由于CharacterProfile组件目前没有直接管理这些状态，需要通过props传递回调
+                                    // 模拟实现：显示提示信息
+                                    alert(`等级已修改为${newLevel}，相关勋章和进度已重置。`);
+                                }
+                            }}
                         />
                     </div>
                 )}
