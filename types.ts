@@ -1,4 +1,6 @@
 
+import React from 'react';
+
 /**
  * 应用视图枚举
  */
@@ -22,20 +24,22 @@ export type Theme = 'dark' | 'light' | 'neomorphic';
 /**
  * 属性类型枚举
  */
-export enum AttributeType {
+export const AttributeType = {
   /** 力量 */
-  STRENGTH = 'STR',
+  STRENGTH: 'STR',
   /** 智力 */
-  INTELLIGENCE = 'INT',
+  INTELLIGENCE: 'INT',
   /** 自律 */
-  DISCIPLINE = 'DIS',
+  DISCIPLINE: 'DIS',
   /** 创造力 */
-  CREATIVITY = 'CRE',
+  CREATIVITY: 'CRE',
   /** 社交能力 */
-  SOCIABILITY = 'SOC',
+  SOCIABILITY: 'SOC',
   /** 财富 */
-  WEALTH = 'WEA',
-}
+  WEALTH: 'WEA',
+} as const;
+
+export type AttributeTypeValue = typeof AttributeType[keyof typeof AttributeType];
 
 /**
  * 成就物品接口
@@ -164,7 +168,7 @@ export interface Habit {
   /** 习惯颜色 */
   color: string;
   /** 关联属性 */
-  attr?: AttributeType;
+  attr?: AttributeTypeValue;
   /** 历史记录 */
   history: { [dateString: string]: boolean };
   /** 日志记录 */
@@ -226,7 +230,7 @@ export interface Project {
   /** 今日专注时长 */
   todayFocusMinutes: number;
   /** 关联属性 */
-  attr?: AttributeType;
+  attr?: AttributeTypeValue;
 }
 
 /**
@@ -300,7 +304,7 @@ export interface Task {
   /** 原始数据 */
   originalData?: Habit | Project;
   /** 关联属性 */
-  attr?: AttributeType;
+  attr?: AttributeTypeValue;
 }
 
 /**
@@ -464,6 +468,34 @@ export interface GuideCardConfig {
     shadowIntensity: 'light' | 'medium' | 'strong';
     /** 是否显示底层原理板块 */
     showUnderlyingPrinciple: boolean;
+}
+
+/**
+ * 图表配置接口
+ */
+export interface Chart {
+  /** 图表唯一标识符 */
+  id: string;
+  /** 图表名称 */
+  name: string;
+  /** 图表显示标签 */
+  label: string;
+  /** 图表图标组件 */
+  icon: React.ComponentType<{ size?: number; className?: string }>;
+  /** 图表简短描述 */
+  description: string;
+  /** 图表深度分析 */
+  deepAnalysis: string;
+  /** 图表核心原则 */
+  principle: string;
+  /** 图表应用范围 */
+  scope: string;
+  /** 图表使用技巧 */
+  tips: string;
+  /** 图表实践建议 */
+  practice: string;
+  /** 图表可视化设计描述 */
+  visualizationDesign?: string;
 }
 
 /**

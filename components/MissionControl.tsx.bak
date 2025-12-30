@@ -7,7 +7,7 @@ import {
 import BaseChart from './BaseChart';
 import { chartConfig, getGridColor, getTooltipStyle } from './ChartConfig';
 import { Activity, BarChart2, Mountain, Zap, BrainCircuit, Pickaxe, Hexagon, TrendingUp, Anchor, Target, CircleDot, PieChart, RotateCw, Smile, Battery, TrendingDown, Scale, Compass, Layers, GitMerge, Shield, Eye, CheckCircle2, Clock, GripVertical, HelpCircle, Square, ArrowRight, Search, BookOpen, Repeat, FileSearch, Lightbulb, RefreshCw, Timer, Star, FileText, MessageCircle, User, ArrowLeftRight, Layout, Diamond } from 'lucide-react';
-import { Theme, Project, Habit, Chart } from '../types';
+import { Theme, Project, Habit } from '../types';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragEndEvent } from '@dnd-kit/core';
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy, horizontalListSortingStrategy, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -32,7 +32,8 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
   const textMain = isDark ? 'text-zinc-200' : isNeomorphic ? 'text-zinc-700' : 'text-slate-800';
   const textSub = isDark ? 'text-zinc-500' : isNeomorphic ? 'text-zinc-600' : 'text-slate-500';
 
-  const [activeChart, setActiveChart] = useState<string>('dip');
+  const [activeChart, setActiveChart] = useState<string>('dunning');
+  // 确保图表在页面加载时显示达克效应
   const [chartHeight, setChartHeight] = useState<number>(400);
   const [activeHelp, setActiveHelp] = useState<string | null>(null);
   const chartContainerRef = useRef<HTMLDivElement>(null);
@@ -208,19 +209,17 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
 
   // Get chart by id
   const getChartById = (id: string) => {
-    const chart = CHARTS.find(chart => chart.id === id);
-    if (chart) {
-      return {
-        ...chart,
-        visualizationDesign: chart.visualizationDesign || `这是${chart.label}的可视化设计描述，包含图表类型、视觉元素、配色方案等详细信息。`
-      };
-    }
-    return undefined;
+    return CHARTS.find(chart => chart.id === id);
   };
 
   // Chart rendering function to avoid complex nested conditional rendering
   const renderChart = () => {
     const activeChartObj = getChartById(activeChart);
+    
+    // 添加调试日志
+    console.log('activeChart:', activeChart);
+    console.log('activeChartObj:', activeChartObj);
+    console.log('dunningData:', dunningData);
     
     switch (activeChart) {
       case 'attributeRadar':
@@ -329,8 +328,10 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
         );
       case 'dunning':
         return (
-          <BaseChart data={dunningData} isDark={isDark} height={chartHeight}>
-            <AreaChart data={dunningData} animationDuration={1000} margin={{ top: 30, right: 30, left: 30, bottom: 60 }}>
+          <div style={{ height: chartHeight, width: '100%', backgroundColor: isDark ? '#1f2937' : '#ffffff', padding: '20px', borderRadius: '8px' }}>
+            <h2 style={{ textAlign: 'center', color: isDark ? '#ffffff' : '#000000', marginBottom: '20px' }}>达克效应 Dunning-Kruger effect</h2>
+            <BaseChart data={dunningData} isDark={isDark} height={chartHeight - 60}>
+              <LineChart data={dunningData} margin={{ top: 10, right: 30, left: 30, bottom: 30 }}>
               <defs>
                 {/* 自信爆棚区 */}
                 <linearGradient id="confidentExplosionGradient" x1="0" y1="0" x2="0" y2="1">
@@ -357,16 +358,16 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
               {/* X轴和Y轴 */}
               <XAxis 
                 dataKey="x" 
-                stroke="#000000" 
-                label={{ value: '智慧水平（知识与经验，低→高）', position: 'insideBottom', offset: -40, fill: '#000000', fontSize: 14 }} 
-                tick={{ fontSize: chartConfig.fontSize.axisTick, fill: '#000000' }}
+                stroke={isDark ? '#ffffff' : '#000000'} 
+                label={{ value: '智慧水平（知识与经验，低→高）', position: 'insideBottom', offset: -40, fill: isDark ? '#ffffff' : '#000000', fontSize: 14 }} 
+                tick={{ fontSize: chartConfig.fontSize.axisTick, fill: isDark ? '#ffffff' : '#000000' }}
                 domain={[0, 100]}
                 ticks={[0, 25, 55, 85, 100]}
               />
               <YAxis 
-                stroke="#000000" 
-                label={{ value: '自信程度（高→低）', angle: -90, position: 'insideLeft', offset: 10, fill: '#000000', fontSize: 14 }} 
-                tick={{ fontSize: chartConfig.fontSize.axisTick, fill: '#000000' }}
+                stroke={isDark ? '#ffffff' : '#000000'} 
+                label={{ value: '自信程度（高→低）', angle: -90, position: 'insideLeft', offset: 10, fill: isDark ? '#ffffff' : '#000000', fontSize: 14 }} 
+                tick={{ fontSize: chartConfig.fontSize.axisTick, fill: isDark ? '#ffffff' : '#000000' }}
                 domain={[0, 100]}
                 orientation="left"
               />
@@ -378,7 +379,7 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
               <ReferenceArea x1="85" x2="100" fill="url(#confidentMatureGradient)" stroke="#45b7d1" strokeOpacity={0.8} strokeWidth={1} />
               
               {/* 曲线 */}
-              <Area type="monotone" dataKey="confidence" stroke="#000000" strokeWidth={3} fill="none" name="自信度" />
+              <Area type="monotone" dataKey="confidence" stroke={isDark ? '#ffffff' : '#000000'} strokeWidth={3} fill="none" name="自信度" />
               
               {/* 区域标签 */}
               <text x="12.5" y="100" textAnchor="middle" fill="#ffd700" fontSize="12" fontWeight="bold">
@@ -464,7 +465,7 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
               <text x="175" y="15" textAnchor="middle" fill="#000000" fontSize="18" fontWeight="bold">
                 达克效应 Dunning-Kruger effect
               </text>
-            </AreaChart>
+            </LineChart>
           </BaseChart>
         );
       case 'jcurve':
@@ -3416,7 +3417,7 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
   };
 
   // Chart configuration data with detailed descriptions and deep analysis
-  const CHARTS: Chart[] = [
+  const CHARTS = [
     // 新增：系统思维类
     {
       id: 'systemFeedback',
@@ -4132,8 +4133,7 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '在新事物学习过程中，初期进步迅速，但随后会进入一个长期的瓶颈期，进步缓慢甚至停滞，坚持度过这个阶段，就能进入快速成长的上升期。',
       scope: '技能学习、项目开展、习惯养成、职业发展',
       tips: '1. 提前了解死亡谷的存在，做好心理准备；2. 分解目标，设置小里程碑，获得持续的成就感；3. 寻找同伴或导师，获得支持和指导；4. 保持规律的学习/工作节奏，避免三天打鱼两天晒网。',
-      practice: '1. 制定详细的学习计划，将大目标分解为小目标；2. 每周记录进度，关注微小的进步；3. 遇到瓶颈时，尝试换一种学习方法或休息一下再继续；4. 寻找成功案例，激励自己坚持下去。',
-      visualizationDesign: '请使用SVG标签结合HTML编写代码，精准绘制死亡谷效应图表，具体细节要求如下：\n1. 整体布局：采用二维坐标布局，X轴水平向右表示投入度，Y轴垂直向上表示产出率，整体为矩形可视化区域，风格简洁直观。\n2. 核心元素细节：\n   - 曲线：绘制一条先升后降再平缓上升的平滑曲线，贯穿整个图表区域，曲线线条粗细适中、样式清晰可辨。\n   - 文字标注：X轴下方标注「投入度」，Y轴左侧标注「产出率」，图表顶部标注「死亡谷效应」。\n   - 渐变：使用从左到右的渐变色填充曲线下方区域，增强视觉效果。\n   - 网格线：添加水平网格线，帮助读者理解数据点的位置。\n3. 代码要求：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码，支持内联样式或单独style标签，保证配色、元素大小、布局与描述一致，元素层级清晰。'
+      practice: '1. 制定详细的学习计划，将大目标分解为小目标；2. 每周记录进度，关注微小的进步；3. 遇到瓶颈时，尝试换一种学习方法或休息一下再继续；4. 寻找成功案例，激励自己坚持下去。'
     },
     { 
       id: 'dunning', 
@@ -4145,8 +4145,7 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '能力欠缺的人往往对自己的能力估计过高，而能力强的人则倾向于低估自己的能力，这种认知偏差会影响人们的学习和决策。',
       scope: '自我认知、学习态度、决策制定、团队管理',
       tips: '1. 保持谦虚，认识到自己的局限性；2. 主动寻求反馈，了解他人对自己的评价；3. 学习批判性思维，学会质疑自己的观点；4. 与不同水平的人交流，拓宽视野。',
-      practice: '1. 定期进行自我评估，记录自己的成长；2. 参加技能测试或比赛，客观了解自己的水平；3. 阅读相关书籍或课程，提升认知能力；4. 在做出重要决策前，征求他人的意见。',
-      visualizationDesign: '请使用SVG标签结合HTML编写代码，精准绘制达克效应图表，具体细节要求如下：\n1. 整体布局：采用二维坐标布局，X轴水平向右表示智慧水平（从低到高），Y轴垂直向上表示自信程度（从高到低），整体为矩形可视化区域。\n2. 背景分区：按X轴从左到右将图表背景分为4个连续的彩色分区，分别为自信爆棚区（黄色）、自信崩溃区（红色）、自信重建区（青色）、自信成熟区（蓝色），分区之间边界清晰。\n3. 核心曲线：绘制一条先升后降再平缓上升的平滑曲线，贯穿4个背景分区，曲线线条粗细适中、样式清晰可辨。\n4. 文字标注：\n   - 曲线关键节点标注红色文字：从左到右依次为「愚昧之巅」「绝望之谷」「开悟之坡」「平稳高原」；\n   - X轴下方标注：「智慧水平（知识与经验，低→高）」，Y轴左侧标注：「自信程度（高→低）」；\n   - 4个背景分区内对应标注区域名称：「自信爆棚区」「自信崩溃区」「自信重建区」「自信成熟区」；\n   - 图表最底部对应4个分区横向标注表现标签：「巨婴」「屌丝」「智者」「大师」；\n5. 图标：在4个背景分区内分别添加对应场景简笔画图标（自信爆棚区人物图标、自信崩溃区对应图标、自信重建区对应图标、自信成熟区大脑图标）；\n6. 代码要求：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码，支持内联样式或单独style标签，保证配色、元素大小、布局与描述一致，元素层级清晰。'
+      practice: '1. 定期进行自我评估，记录自己的成长；2. 参加技能测试或比赛，客观了解自己的水平；3. 阅读相关书籍或课程，提升认知能力；4. 在做出重要决策前，征求他人的意见。'
     },
     { 
       id: 'jcurve', 
@@ -4158,8 +4157,7 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '在投入初期收益为负，但随着时间推移，收益会呈指数级增长，长期坚持才能获得巨大回报。',
       scope: '学习投资、职业发展、健身养生、人际关系',
       tips: '1. 树立长期主义思维，不急于求成；2. 选择有长期价值的领域进行投入；3. 保持持续学习和进步；4. 定期复盘和调整策略。',
-      practice: '1. 制定5年或10年的长期计划；2. 每天坚持做一件对长期有价值的事情；3. 投资自己的技能和知识；4. 保持健康的生活方式，为长期发展奠定基础。',
-      visualizationDesign: '请使用SVG标签结合HTML编写代码，精准绘制J型曲线图表，具体细节要求如下：\n1. 整体布局：采用二维坐标布局，X轴水平向右表示时间，Y轴垂直向上表示回报值，整体为矩形可视化区域，风格简洁直观。\n2. 核心曲线：绘制一条先缓慢下降后快速上升的平滑曲线，呈现典型的J型形状，曲线线条粗细适中、样式清晰可辨，使用主色调填充。\n3. 辅助元素：\n   - 网格线：添加笛卡尔网格线，帮助读者理解数据点的位置；\n   - 坐标轴：X轴标注「时间」，Y轴标注「回报值」，字体清晰可读；\n   - 图例：添加图例，标注「J型曲线」；\n   - 标题：图表顶部标注「J型曲线 - 长期投资回报模式」，字体加粗。\n4. 代码要求：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码，支持内联样式或单独style标签，保证配色、元素大小、布局与描述一致，元素层级清晰。'
+      practice: '1. 制定5年或10年的长期计划；2. 每天坚持做一件对长期有价值的事情；3. 投资自己的技能和知识；4. 保持健康的生活方式，为长期发展奠定基础。'
     },
     { 
       id: 'antifragile', 
@@ -4171,8 +4169,7 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '系统不仅能在压力下恢复，还能从压力中获益，在不确定性中茁壮成长。',
       scope: '个人成长、企业管理、投资决策、风险管理',
       tips: '1. 主动接受适度的挑战和压力；2. 建立多元化的技能和收入来源；3. 培养适应变化的能力；4. 从失败中学习，不断改进。',
-      practice: '1. 定期尝试新事物，走出舒适区；2. 学习一项新技能，挑战自己的极限；3. 建立应急基金，应对突发情况；4. 记录失败经验，分析原因并改进。',
-      visualizationDesign: '请使用SVG标签结合HTML编写代码，精准绘制反脆弱曲线图表，具体细节要求如下：\n1. 整体布局：采用二维坐标布局，X轴水平向右表示压力水平，Y轴垂直向上表示韧性值，整体为矩形可视化区域。\n2. 核心曲线：绘制两条曲线，一条表示脆弱系统（下降趋势），一条表示反脆弱系统（上升趋势），曲线线条粗细适中、样式清晰可辨。\n3. 背景渐变：为两条曲线下方添加不同颜色的渐变填充，脆弱系统使用红色渐变，反脆弱系统使用绿色渐变，增强视觉效果。\n4. 辅助元素：\n   - 网格线：添加笛卡尔网格线，帮助读者理解数据点的位置；\n   - 坐标轴：X轴标注「压力水平」，Y轴标注「韧性值」，字体清晰可读；\n   - 图例：添加图例，分别标注「脆弱」和「反脆弱」；\n   - 标题：图表顶部标注「反脆弱 - 压力与韧性关系」，字体加粗。\n5. 代码要求：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码，支持内联样式或单独style标签，保证配色、元素大小、布局与描述一致，元素层级清晰。' 
+      practice: '1. 定期尝试新事物，走出舒适区；2. 学习一项新技能，挑战自己的极限；3. 建立应急基金，应对突发情况；4. 记录失败经验，分析原因并改进。'
     },
     { 
       id: 'secondcurve', 
@@ -5232,11 +5229,11 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
   ];
 
   return (
-    <div className="w-full h-full p-4" ref={containerRef}>
-      <div className="grid grid-rows-[1fr_2fr_2fr] gap-4 h-full">
+    <div className="w-full h-full p-4 overflow-y-auto" ref={containerRef}>
+      <div className="grid grid-rows-[auto,1fr,auto,auto] gap-4 h-full">
         {/* Chart Categories */}
-        <div className="row-span-1">
-          <div className={`p-4 rounded-lg ${cardBg} ${textMain} overflow-y-auto max-h-full`} style={{ maxHeight: '200px' }}>
+        <div>
+          <div className={`p-4 rounded-lg ${cardBg} ${textMain} overflow-y-auto max-h-40`}>
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-bold">图表分类</h2>
               {/* 使用指南按钮 */}
@@ -5272,9 +5269,9 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
         </div>
 
         {/* Chart Display - Middle Position */}
-        <div className="row-span-1">
+        <div>
           {/* 图表展示区 */}
-          <div className={`p-4 rounded-lg ${cardBg} ${textMain} h-full`}>
+          <div className={`p-4 rounded-lg ${cardBg} ${textMain} h-full overflow-hidden`}>
             {/* 左上角添加"图表展示区"文字 */}
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
@@ -5285,11 +5282,7 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
             </div>
             <div 
               ref={chartContainerRef}
-              className="rounded-lg overflow-hidden bg-opacity-5"
-              style={{
-                height: 'calc(100% - 5rem)',
-                minHeight: '300px'
-              }}
+              className={`rounded-lg overflow-hidden ${isDark ? 'bg-zinc-900' : 'bg-white'} h-80 p-2`}
             >
               {renderChart()}
             </div>
@@ -5297,9 +5290,9 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
         </div>
         
         {/* Chart Deep Analysis - Bottom Position */}
-        <div className="row-span-1">
+        <div>
           {/* 图表深度解析区 */}
-          <div className={`p-4 rounded-lg ${cardBg} ${textMain} h-full overflow-y-auto`}>
+          <div className={`p-4 rounded-lg ${cardBg} ${textMain} max-h-96 overflow-y-auto`}>
             <div className="flex items-center gap-2 mb-4">
               <BrainCircuit size={16} className="text-purple-500" />
               <h3 className="text-lg font-semibold">图表深度解析区</h3>
@@ -5357,19 +5350,117 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
               </div>
             </div>
             
-            {/* 深度解析 */}
+
             <div className="mb-4">
+              <h4 className="text-md font-medium mb-2 text-indigo-500">可视化设计描述</h4>
+              <div className="text-sm text-gray-600 dark:text-gray-300 space-y-2">
+                {activeChart === 'dunning' && (
+                  <>
+                    <h5 className="text-sm font-semibold text-indigo-600">核心维度提取</h5>
+                    <ul className="list-disc pl-5 space-y-1">
+                      <li>自变量：智慧水平（知识与经验，从低到高）</li>
+                      <li>因变量：自信程度（从高到低）</li>
+                      <li>阶段划分：自信爆棚区、自信崩溃区、自信重建区、自信成熟区</li>
+                      <li>关键节点：愚昧之巅（峰值）、绝望之谷（谷底）、开悟之坡（拐点）、平稳高原（平稳期）</li>
+                      <li>趋势规律：先上升后急剧下降，再缓慢上升，最后趋于平稳</li>
+                    </ul>
+                    
+                    <h5 className="text-sm font-semibold text-indigo-600 mt-3">可视化设计描述</h5>
+                    <ul className="list-disc pl-5 space-y-1">
+                      <li>图表类型：复合面积图，结合曲线趋势和阶段分区</li>
+                      <li>坐标轴定义：横轴（智慧水平）0-100，纵轴（自信程度）0-100</li>
+                      <li>视觉元素：
+                        <ul className="list-circle pl-5">
+                          <li>自信爆棚区：黄色渐变背景，标注"愚昧之巅"</li>
+                          <li>自信崩溃区：红色渐变背景，标注"绝望之谷"</li>
+                          <li>自信重建区：青色渐变背景，标注"开悟之坡"</li>
+                          <li>自信成熟区：蓝色渐变背景，标注"平稳高原"</li>
+                          <li>黑色曲线表示自信变化趋势</li>
+                          <li>红色圆点标记关键节点</li>
+                        </ul>
+                      </li>
+                      <li>概念融合：将原理、适用场景、使用技巧作为图表注释嵌入</li>
+                    </ul>
+                    
+                    <h5 className="text-sm font-semibold text-indigo-600 mt-3">设计特点</h5>
+                    <ul className="list-disc pl-5 space-y-1">
+                      <li>使用渐变色彩区分四个阶段，增强视觉层次感</li>
+                      <li>关键节点用特殊标记突出，便于理解模型核心</li>
+                      <li>曲线平滑过渡，直观展示自信变化趋势</li>
+                      <li>嵌入核心概念注释，提升图表信息密度</li>
+                      <li>商务简约风格配色，适合专业场景使用</li>
+                    </ul>
+                  </>
+                )}
+                {activeChart !== 'dunning' && (
+                  <p>请选择一个图表查看其可视化设计描述</p>
+                )}
+              </div>
+            </div>
+            
+            {/* 深度解析 */}
+            <div>
               <h4 className="text-md font-medium mb-2 text-indigo-500">深度解析</h4>
               <p className="text-sm text-gray-600 dark:text-gray-300">
                 {getChartById(activeChart)?.deepAnalysis || '请选择一个图表查看深度解析'}
               </p>
             </div>
+          </div>
+        </div>
+        
+        {/* Visual Design Description - Separate Module */}
+        <div>
+          {/* 可视化设计描述区 */}
+          <div className={`p-4 rounded-lg ${cardBg} ${textMain} max-h-96 overflow-y-auto`}>
+            <div className="flex items-center gap-2 mb-4">
+              <Layout size={16} className="text-indigo-500" />
+              <h3 className="text-lg font-semibold">可视化设计描述区</h3>
+            </div>
             
-            {/* 可视化设计描述 */}
-            <div>
+            <div className="mb-4">
               <h4 className="text-md font-medium mb-2 text-indigo-500">可视化设计描述</h4>
               <div className="text-sm text-gray-600 dark:text-gray-300 space-y-2">
-                {getChartById(activeChart)?.visualizationDesign ? (<p>{getChartById(activeChart)?.visualizationDesign}</p>) : (<p>请选择一个图表查看其可视化设计描述</p>)}
+                {activeChart === 'dunning' && (
+                  <>
+                    <h5 className="text-sm font-semibold text-indigo-600">核心维度提取</h5>
+                    <ul className="list-disc pl-5 space-y-1">
+                      <li>自变量：智慧水平（知识与经验，从低到高）</li>
+                      <li>因变量：自信程度（从高到低）</li>
+                      <li>阶段划分：自信爆棚区、自信崩溃区、自信重建区、自信成熟区</li>
+                      <li>关键节点：愚昧之巅（峰值）、绝望之谷（谷底）、开悟之坡（拐点）、平稳高原（平稳期）</li>
+                      <li>趋势规律：先上升后急剧下降，再缓慢上升，最后趋于平稳</li>
+                    </ul>
+                    
+                    <h5 className="text-sm font-semibold text-indigo-600 mt-3">可视化设计描述</h5>
+                    <ul className="list-disc pl-5 space-y-1">
+                      <li>图表类型：复合面积图，结合曲线趋势和阶段分区</li>
+                      <li>坐标轴定义：横轴（智慧水平）0-100，纵轴（自信程度）0-100</li>
+                      <li>视觉元素：
+                        <ul className="list-circle pl-5">
+                          <li>自信爆棚区：黄色渐变背景，标注"愚昧之巅"</li>
+                          <li>自信崩溃区：红色渐变背景，标注"绝望之谷"</li>
+                          <li>自信重建区：青色渐变背景，标注"开悟之坡"</li>
+                          <li>自信成熟区：蓝色渐变背景，标注"平稳高原"</li>
+                          <li>黑色曲线表示自信变化趋势</li>
+                          <li>红色圆点标记关键节点</li>
+                        </ul>
+                      </li>
+                      <li>概念融合：将原理、适用场景、使用技巧作为图表注释嵌入</li>
+                    </ul>
+                    
+                    <h5 className="text-sm font-semibold text-indigo-600 mt-3">设计特点</h5>
+                    <ul className="list-disc pl-5 space-y-1">
+                      <li>使用渐变色彩区分四个阶段，增强视觉层次感</li>
+                      <li>关键节点用特殊标记突出，便于理解模型核心</li>
+                      <li>曲线平滑过渡，直观展示自信变化趋势</li>
+                      <li>嵌入核心概念注释，提升图表信息密度</li>
+                      <li>商务简约风格配色，适合专业场景使用</li>
+                    </ul>
+                  </>
+                )}
+                {activeChart !== 'dunning' && (
+                  <p>请选择一个图表查看其可视化设计描述</p>
+                )}
               </div>
             </div>
           </div>

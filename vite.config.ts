@@ -29,6 +29,18 @@ export default defineConfig(({ mode }) => {
             drop_console: true,
             drop_debugger: true
           }
+        },
+        // 支持GitHub Pages部署
+        outDir: 'dist',
+        assetsDir: 'assets',
+        rollupOptions: {
+          output: {
+            manualChunks: {
+              react: ['react', 'react-dom'],
+              recharts: ['recharts'],
+              dndkit: ['@dnd-kit/core', '@dnd-kit/sortable', '@dnd-kit/utilities']
+            }
+          }
         }
       }
     };
