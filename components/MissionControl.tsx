@@ -571,21 +571,48 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
                 name="J型曲线" 
               />
               
-              {/* 关键节点标注 */}
-              <circle cx="120" cy={250} r={6} fill="#ef4444" stroke="#ffffff" strokeWidth={2} />
-              <text x="120" y={265} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
-                投入期
-              </text>
-              
-              <circle cx="200" cy={220} r={6} fill="#ef4444" stroke="#ffffff" strokeWidth={2} />
-              <text x="200" y={235} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
-                转折点
-              </text>
-              
-              <circle cx="350" cy={100} r={6} fill="#ef4444" stroke="#ffffff" strokeWidth={2} />
-              <text x="350" y={85} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
-                爆发期
-              </text>
+              {/* 关键节点标注 - 使用自定义dot点直接放在曲线上 */}
+              <Line 
+                type="monotone" 
+                dataKey="value" 
+                stroke="none" 
+                strokeWidth={0} 
+                dot={(props) => {
+                  const { cx, cy, payload } = props;
+                  if (payload.t === 3) {
+                    return (
+                      <g>
+                        <circle cx={cx} cy={cy} r={6} fill="#ef4444" stroke="#ffffff" strokeWidth={2} />
+                        <text x={cx} y={cy + 20} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
+                          投入期
+                        </text>
+                      </g>
+                    );
+                  }
+                  if (payload.t === 5) {
+                    return (
+                      <g>
+                        <circle cx={cx} cy={cy} r={6} fill="#ef4444" stroke="#ffffff" strokeWidth={2} />
+                        <text x={cx} y={cy + 20} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
+                          转折点
+                        </text>
+                      </g>
+                    );
+                  }
+                  if (payload.t === 9) {
+                    return (
+                      <g>
+                        <circle cx={cx} cy={cy} r={6} fill="#ef4444" stroke="#ffffff" strokeWidth={2} />
+                        <text x={cx} y={cy - 15} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
+                          爆发期
+                        </text>
+                      </g>
+                    );
+                  }
+                  return null;
+                }} 
+                name="关键节点" 
+              />
               
               {/* 标题 */}
               <text x="50%" y="20" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={chartConfig.fontSize.title} fontWeight="bold">
@@ -1033,14 +1060,14 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       case 'zone':
         return (
           <div className="w-full h-full flex items-center justify-center">
-            <svg width="100%" height="100%" viewBox="0 0 300 300" preserveAspectRatio="xMidYMid meet">
-              {/* 绘制三个同心圆 */}
+            <svg width="100%" height="100%" viewBox="0 0 250 250" preserveAspectRatio="xMidYMid meet">
+              {/* 绘制三个同心圆 - 适当缩小半径 */}
               {zoneData.map((item) => (
                 <circle 
                   key={item.id} 
-                  cx="150" 
-                  cy="150" 
-                  r={item.radius} 
+                  cx="125" 
+                  cy="125" 
+                  r={item.id === 'comfort' ? 40 : item.id === 'learning' ? 80 : 120} 
                   fill={item.color} 
                   fillOpacity={item.fillOpacity} 
                   stroke={item.color} 
@@ -1048,11 +1075,21 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
                 />
               ))}
               {/* 标签文字 */}
-              <text x="150" y="150" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="18" fontWeight="bold">
+              <text x="125" y="125" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
                 舒适区模型
               </text>
-              <text x="150" y="170" textAnchor="middle" fill={isDark ? "#a1a1aa" : "#64748b"} fontSize="12">
+              <text x="125" y="145" textAnchor="middle" fill={isDark ? "#a1a1aa" : "#64748b"} fontSize="10">
                 舒适区 → 学习区 → 恐惧区
+              </text>
+              {/* 区域名称 */}
+              <text x="125" y="90" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="12">
+                舒适区
+              </text>
+              <text x="125" y="125" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="12">
+                学习区
+              </text>
+              <text x="125" y="165" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="12">
+                恐惧区
               </text>
             </svg>
           </div>
@@ -1091,6 +1128,163 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
               <polygon points="250,84 262.5,87.5 250,91" fill={isDark ? "#a1a1aa" : "#64748b"} />
               
               {/* 水平连接线 - 底部 */}
+            </svg>
+          </div>
+        );
+      case 'peakEnd':
+        return (
+          <BaseChart data={peakEndData} isDark={isDark} height={chartHeight}>
+            <AreaChart data={peakEndData} animationDuration={1000} margin={{ top: 20, right: 40, left: 50, bottom: 50 }}>
+              <defs>
+                <linearGradient id="peakEndGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.4}/>
+                  <stop offset="95%" stopColor="#3b82f6" stopOpacity={0.05}/>
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray={chartConfig.grid.strokeDasharray} stroke={getGridColor(isDark)} />
+              <XAxis 
+                dataKey="time" 
+                stroke={chartConfig.axis.stroke} 
+                tick={{ fontSize: chartConfig.fontSize.axisTick }} 
+                label={{ 
+                  value: '时间', 
+                  position: 'insideBottom', 
+                  offset: -10, 
+                  fontSize: chartConfig.fontSize.axisLabel, 
+                  fontWeight: 'bold'
+                }} 
+              />
+              <YAxis 
+                stroke={chartConfig.axis.stroke} 
+                tick={{ fontSize: chartConfig.fontSize.axisTick }} 
+                label={{ 
+                  value: '体验强度', 
+                  angle: -90, 
+                  position: 'insideLeft', 
+                  offset: -5, 
+                  fontSize: chartConfig.fontSize.axisLabel, 
+                  fontWeight: 'bold'
+                }} 
+                domain={[0, 100]} 
+              />
+              <Legend wrapperStyle={chartConfig.legend.wrapperStyle} />
+              <Area 
+                type="monotone" 
+                dataKey="experience" 
+                stroke="#3b82f6" 
+                strokeWidth={3} 
+                fill="url(#peakEndGradient)" 
+                name="体验强度" 
+              />
+              <Line 
+                type="monotone" 
+                dataKey="experience" 
+                stroke="#3b82f6" 
+                strokeWidth={3} 
+                dot={false} 
+                name="体验强度" 
+              />
+              
+              {/* 关键节点标注 - 峰值 */}
+              <circle cx="240" cy={80} r={6} fill="#ef4444" stroke="#ffffff" strokeWidth={2} />
+              <text x="240" y={65} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
+                峰值体验
+              </text>
+              
+              {/* 关键节点标注 - 终值 */}
+              <circle cx="350" cy={140} r={6} fill="#ef4444" stroke="#ffffff" strokeWidth={2} />
+              <text x="350" y={125} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
+                终值体验
+              </text>
+              
+              {/* 标题 */}
+              <text x="50%" y="20" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={chartConfig.fontSize.title} fontWeight="bold">
+                峰终定律 - 体验记忆曲线
+              </text>
+              
+              {/* 副标题 */}
+              <text x="50%" y="40" textAnchor="middle" fill={isDark ? '#a1a1aa' : '#64748b'} fontSize={14}>
+                人们对体验的记忆由峰值体验和结束时的体验决定，而非平均体验
+              </text>
+            </AreaChart>
+          </BaseChart>
+        );
+      case 'valueVenn':
+        return (
+          <div className="w-full h-full flex items-center justify-center">
+            <svg width="100%" height="100%" viewBox="0 0 300 250" preserveAspectRatio="xMidYMid meet">
+              {/* 绘制三个相交的圆形 */}
+              {valueVennData.map((item) => (
+                <g key={item.id}>
+                  <circle 
+                    cx={item.x * 300} 
+                    cy={item.y * 250} 
+                    r={item.radius} 
+                    fill={item.color} 
+                    fillOpacity={item.fillOpacity} 
+                    stroke={item.color} 
+                    strokeWidth={2} 
+                  />
+                  <text x={item.x * 300} y={item.y * 250} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={14} fontWeight="bold">
+                    {item.label}
+                  </text>
+                </g>
+              ))}
+              
+              {/* 中心区域 - 核心价值区 */}
+              <text x="150" y="140" textAnchor="middle" fill="#f59e0b" fontSize={16} fontWeight="bold">
+                核心价值区
+              </text>
+              <text x="150" y="160" textAnchor="middle" fill={isDark ? '#a1a1aa' : '#64748b'} fontSize={12}>
+                激情 × 天赋 × 市场
+              </text>
+              
+              {/* 标题 */}
+              <text x="150" y="30" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={18} fontWeight="bold">
+                价值商圈
+              </text>
+              
+              {/* 副标题 */}
+              <text x="150" y="50" textAnchor="middle" fill={isDark ? '#a1a1aa' : '#64748b'} fontSize={14}>
+                寻找激情、天赋与市场需求的交集
+              </text>
+            </svg>
+          </div>
+        );
+      case 'purpose':
+        return (
+          <div className="w-full h-full flex items-center justify-center">
+            <svg width="100%" height="100%" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid meet">
+              {/* 绘制马斯洛需求层次金字塔 */}
+              <g transform="translate(200, 380)">
+                {purposeData.map((item, index) => {
+                  const width = 300 - index * 40;
+                  const height = 50;
+                  const y = -index * 60;
+                  return (
+                    <g key={item.id}>
+                      {/* 金字塔层级 */}
+                      <rect x={-width / 2} y={y - height} width={width} height={height} fill={item.color} fillOpacity={0.3} stroke={item.color} strokeWidth={2} />
+                      <text x={0} y={y - height / 2} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={14} fontWeight="bold" alignmentBaseline="middle">
+                        {item.label}
+                      </text>
+                      <text x={0} y={y - height / 2 + 20} textAnchor="middle" fill={isDark ? '#a1a1aa' : '#64748b'} fontSize={10} alignmentBaseline="middle">
+                        {item.description}
+                      </text>
+                    </g>
+                  );
+                })}
+              </g>
+              
+              {/* 标题 */}
+              <text x="200" y="40" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={18} fontWeight="bold">
+                马斯洛需求层次理论
+              </text>
+              
+              {/* 副标题 */}
+              <text x="200" y="60" textAnchor="middle" fill={isDark ? '#a1a1aa' : '#64748b'} fontSize={14}>
+                人类需求从低到高分为五个层次，依次为生理、安全、社交、尊重和自我实现
+              </text>
             </svg>
           </div>
         );
@@ -2859,31 +3053,26 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
           collisionDetection={closestCenter}
           onDragEnd={handleDragEnd}
         >
-          {Object.entries(chartCategories).map(([category, charts]) => (
-            <div key={category} className="mb-4">
-              <h3 className={`text-sm font-bold mb-2 ${textMain}`}>
-                {category === 'trend' ? '趋势类' : '概念类'}
-              </h3>
-              <SortableContext
-                items={charts}
-                strategy={verticalListSortingStrategy}
-              >
-                <div className="flex flex-wrap gap-2">
-                  {charts.map((chartId) => {
-                    const chart = getChartById(chartId);
-                    if (!chart) return null;
-                    return (
-                      <SortableButton
-                        key={chartId}
-                        id={chartId}
-                        chart={chart}
-                      />
-                    );
-                  })}
-                </div>
-              </SortableContext>
+          {/* 移除分类，将所有图表按钮堆在一起 */}
+          <SortableContext
+            items={Object.values(chartCategories).flat()}
+            strategy={verticalListSortingStrategy}
+          >
+            <div className="flex flex-wrap gap-2">
+              {/* 遍历所有图表分类的图表ID */}
+              {Object.values(chartCategories).flat().map((chartId) => {
+                const chart = getChartById(chartId);
+                if (!chart) return null;
+                return (
+                  <SortableButton
+                    key={chartId}
+                    id={chartId}
+                    chart={chart}
+                  />
+                );
+              })}
             </div>
-          ))}
+          </SortableContext>
         </DndContext>
         </div>
       </div>

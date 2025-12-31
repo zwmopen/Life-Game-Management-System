@@ -4,7 +4,8 @@ import MissionControl from './components/MissionControl';
 import LifeGame from './components/LifeGame';
 import HallOfFame from './components/HallOfFame';
 import Settings from './components/Settings';
-import { View, Transaction, ReviewLog, Habit, Task, TaskType, DailyStats, Theme, Project, AttributeType, AchievementItem, AutoTask, AutoTaskType, SoundType, DiceState, DiceTask, DiceCategory, DiceHistory } from './types';
+import { View, Transaction, ReviewLog, Habit, Task, TaskType, DailyStats, Theme, Project, AttributeTypeValue, AchievementItem, AutoTask, AutoTaskType, SoundType, DiceState, DiceTask, DiceCategory, DiceHistory } from './types';
+import { AttributeType } from './types';
 import { Wallet, Crown, Clock, Brain, Zap, Target, Crosshair, Skull, Star, Gift, Medal, Sparkles, Swords, Flame, Footprints, Calendar, ShoppingBag, Dumbbell, Shield } from 'lucide-react';
 import CharacterProfile, { getAllLevels, getAllFocusTitles, getAllWealthTitles, getAllMilitaryRanks, XP_PER_LEVEL, CharacterProfileHandle } from './components/CharacterProfile';
 import confetti from 'canvas-confetti';
@@ -1108,6 +1109,7 @@ const App: React.FC = () => {
                   xp={xp}
                   todayStats={todayStats}
                   statsHistory={statsHistory}
+                  onUpdateTodayStats={setTodayStats}
                   weeklyGoal={weeklyGoal}
                   setWeeklyGoal={setWeeklyGoal}
                   todayGoal={todayGoal}
@@ -1180,6 +1182,7 @@ const App: React.FC = () => {
                   xp={xp}
                   todayStats={todayStats}
                   statsHistory={statsHistory}
+                  onUpdateTodayStats={setTodayStats}
                   weeklyGoal={weeklyGoal}
                   setWeeklyGoal={setWeeklyGoal}
                   todayGoal={todayGoal}

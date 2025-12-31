@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Play, Pause, RotateCcw, VolumeX, Volume2, Maximize2, Sun, Moon, Coffee, Dumbbell, BookOpen, Activity, Waves, CloudRain, Trees, BrainCircuit } from 'lucide-react';
+import { Play, Pause, RotateCcw, VolumeX, Volume2, Maximize2, Sun, Moon, Coffee, Dumbbell, BookOpen, Activity, Waves, CloudRain, Trees, BrainCircuit, HelpCircle } from 'lucide-react';
 import { Theme } from '../../types';
 
 interface Sound {
@@ -22,6 +22,7 @@ interface TomatoTimerProps {
   onUpdateTimeLeft: (seconds: number) => void;
   onUpdateIsActive: (active: boolean) => void;
   onImmersiveModeChange?: (isImmersive: boolean) => void;
+  onHelpClick?: (helpId: string) => void;
 }
 
 // --- SOUNDS ---
@@ -51,7 +52,8 @@ const TomatoTimer: React.FC<TomatoTimerProps> = ({
   onChangeDuration,
   onUpdateTimeLeft,
   onUpdateIsActive,
-  onImmersiveModeChange
+  onImmersiveModeChange,
+  onHelpClick
 }) => {
   const [currentSoundId, setCurrentSoundId] = useState('mute');
   const [originalSoundId, setOriginalSoundId] = useState('forest'); // 默认播放的音乐
@@ -193,6 +195,11 @@ const TomatoTimer: React.FC<TomatoTimerProps> = ({
         <div className="text-xs text-zinc-500 uppercase font-bold flex items-center gap-1">
           <Coffee size={12}/> 番茄钟系统
         </div>
+        {onHelpClick && (
+          <button onClick={() => onHelpClick('pomodoro')} className={`p-0.5 rounded-full transition-all duration-300 hover:scale-[1.1] ${isNeomorphic ? 'hover:bg-blue-500/10' : 'hover:bg-blue-500/20'}`}>
+            <HelpCircle size={10} className="text-blue-500" />
+          </button>
+        )}
       </div>
       
       {/* 背景音乐选择菜单 */}

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Volume2, VolumeX, Music, Headphones, Sun, Moon, Zap, FileText, HelpCircle, Bell, Eye, Database, Info, ShieldAlert, Download, RefreshCw, Trash2, X, ChevronUp, ChevronDown } from 'lucide-react';
+import { Volume2, VolumeX, Music, Headphones, Sun, Moon, Zap, FileText, HelpCircle, Bell, Eye, Database, Info, ShieldAlert, Download, RefreshCw, Trash2, X, ChevronUp, ChevronDown, Upload, Cloud, CloudDownload, Save } from 'lucide-react';
 import { Theme, Settings as SettingsType } from '../types';
 import { GlobalGuideCard, HelpTooltip, helpContent } from './HelpSystem';
+import WebDAVClient, { WebDAVConfig } from '../utils/webdavClient';
 
 interface SettingsProps {
   theme: Theme;
@@ -27,26 +28,29 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
   const [showDocs, setShowDocs] = useState(false);
   // State to control display settings collapse/expand
   const [showDisplaySettings, setShowDisplaySettings] = useState(true);
-  // State to control help modal
-  const [activeHelp, setActiveHelp] = useState<string | null>(null);
   // State to control guide card settings collapse/expand
   const [showGuideCardSettings, setShowGuideCardSettings] = useState(true);
+  // State to control help modal
+  const [activeHelp, setActiveHelp] = useState<string | null>(null);
+  // State for WebDAV settings
+  const [webdavConfig, setWebdavConfig] = useState<WebDAVConfig>({
+    url: localStorage.getItem('webdav-url') || 'https://dav.jianguoyun.com/dav/',
+    username: localStorage.getItem('webdav-username') || '',
+    password: localStorage.getItem('webdav-password') || '',
+    basePath: '/人生游戏管理系统',
+  });
+  // State for WebDAV operation status
+  const [webdavStatus, setWebdavStatus] = useState<string>('');
+  const [isWebdavConfigCollapsed, setIsWebdavConfigCollapsed] = useState(true);
+  // State for backup/restore status
+  const [isBackingUp, setIsBackingUp] = useState(false);
+  const [isRestoring, setIsRestoring] = useState(false);
+  
 
 
 
   return (
     <div className={`h-full flex flex-col overflow-hidden`}>
-      {/* Global Guide Card - 使用统一的帮助系统组件 */}
-      <GlobalGuideCard
-        activeHelp={activeHelp}
-        helpContent={helpContent}
-        onClose={() => setActiveHelp(null)}
-        cardBg={cardBg}
-        textMain={textMain}
-        textSub={textSub}
-        config={settings.guideCardConfig}
-      />
-
       {/* Scrollable Content */}
       <div className="flex-1 overflow-y-auto p-2 custom-scrollbar">
         <div className="max-w-2xl mx-auto space-y-3">
@@ -481,6 +485,224 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
             )}
           </div>
           
+          {/* WebDAV Cloud Backup */}
+          <div className={`${cardBg} p-4 transition-all duration-300`}>
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-3">
+                <div className={`p-2 rounded-full ${isDark ? 'bg-zinc-800' : 'bg-slate-100'}`}>
+                  <Cloud size={20} className="text-blue-500" />
+                </div>
+                <div>
+                  <h3 className={`font-bold ${textMain}`}>云备份管理</h3>
+                  <p className={`text-xs ${textSub}`}>WebDAV 云存储备份与恢复</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <HelpTooltip helpId="data" onHelpClick={setActiveHelp}>
+                  <HelpCircle size={18} className="text-zinc-500 hover:text-blue-500 transition-colors cursor-help" />
+                </HelpTooltip>
+                {/* Collapse/Expand Button */}
+                <button
+                  onClick={() => setIsWebdavConfigCollapsed(!isWebdavConfigCollapsed)}
+                  className={`p-2 rounded-xl transition-all duration-300 bg-transparent hover:bg-transparent shadow-none active:shadow-none`}
+                  title={isWebdavConfigCollapsed ? '展开配置' : '折叠配置'}
+                >
+                  <span className={`text-xs ${textMain} transform transition-transform ${isWebdavConfigCollapsed ? 'rotate-180' : ''}`}>
+                    ▼
+                  </span>
+                </button>
+              </div>
+            </div>
+            
+            {/* WebDAV Configuration Form */}
+            {!isWebdavConfigCollapsed && (
+              <div className={`rounded-xl p-3 mb-4 overflow-y-auto ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-900/50' : 'bg-slate-50'}`}>
+                <div className="space-y-3">
+                  {/* URL Input */}
+                  <div>
+                    <label className={`block text-sm font-semibold mb-1 ${textMain}`}>WebDAV 服务器地址</label>
+                    <input
+                      type="text"
+                      value={webdavConfig.url}
+                      onChange={(e) => setWebdavConfig(prev => ({ ...prev, url: e.target.value }))}
+                      placeholder="https://dav.jianguoyun.com/dav/"
+                      className={`w-full p-2 rounded-xl border ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] border-none' : isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-300'} ${textMain}`}
+                    />
+                  </div>
+                  
+                  {/* Username Input */}
+                  <div>
+                    <label className={`block text-sm font-semibold mb-1 ${textMain}`}>用户名</label>
+                    <input
+                      type="text"
+                      value={webdavConfig.username}
+                      onChange={(e) => setWebdavConfig(prev => ({ ...prev, username: e.target.value }))}
+                      placeholder="坚果云用户名"
+                      className={`w-full p-2 rounded-xl border ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] border-none' : isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-300'} ${textMain}`}
+                    />
+                  </div>
+                  
+                  {/* Password Input */}
+                  <div>
+                    <label className={`block text-sm font-semibold mb-1 ${textMain}`}>密码</label>
+                    <input
+                      type="password"
+                      value={webdavConfig.password}
+                      onChange={(e) => setWebdavConfig(prev => ({ ...prev, password: e.target.value }))}
+                      placeholder="坚果云应用密码"
+                      className={`w-full p-2 rounded-xl border ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] border-none' : isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-300'} ${textMain}`}
+                    />
+                  </div>
+                  
+                  {/* Base Path Display */}
+                  <div>
+                    <label className={`block text-sm font-semibold mb-1 ${textMain}`}>存储目录</label>
+                    <input
+                      type="text"
+                      value={webdavConfig.basePath}
+                      readOnly
+                      className={`w-full p-2 rounded-xl border ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] border-none' : isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-300'} ${textMain}`}
+                    />
+                  </div>
+                  
+                  {/* Status Message */}
+                  {webdavStatus && (
+                    <div className={`p-2 rounded-xl text-sm ${webdavStatus.includes('成功') ? 'text-green-500' : 'text-red-500'}`}>
+                      {webdavStatus}
+                    </div>
+                  )}
+                  
+                  {/* Save Configuration Button */}
+                  <button 
+                    className={`w-full py-2 rounded-xl transition-all flex items-center justify-center gap-2 ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)] text-blue-600 font-bold' : isDark ? 'bg-blue-900/30 text-blue-400 hover:bg-blue-800/50' : 'bg-blue-100 text-blue-700 hover:bg-blue-200'}`}
+                    onClick={() => {
+                      // Save WebDAV config to localStorage
+                      localStorage.setItem('webdav-url', webdavConfig.url);
+                      localStorage.setItem('webdav-username', webdavConfig.username);
+                      localStorage.setItem('webdav-password', webdavConfig.password);
+                      setWebdavStatus('WebDAV 配置已保存');
+                      setTimeout(() => setWebdavStatus(''), 3000);
+                    }}
+                  >
+                    <Save size={18} />
+                    保存配置
+                  </button>
+                </div>
+              </div>
+            )}
+            
+            {/* Cloud Backup/Restore Buttons */}
+            <div className={`${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] transition-all duration-300 hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)] cursor-pointer' : isDark ? 'bg-zinc-900/50 hover:bg-zinc-800/70 cursor-pointer' : 'bg-slate-100 hover:bg-slate-200 cursor-pointer'} p-5 rounded-xl`}>
+              <div className="flex flex-col md:flex-row gap-3">
+                {/* Backup to Cloud Button */}
+                <button 
+                  className={`flex-1 px-4 py-4 rounded-xl transition-all flex items-center justify-center gap-2 ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)] text-green-600 font-bold' : isDark ? 'bg-green-900/30 text-green-400 hover:bg-green-800/50' : 'bg-green-100 text-green-700 hover:bg-green-200'}`}
+                  onClick={async () => {
+                    setIsBackingUp(true);
+                    setWebdavStatus('正在备份到云端...');
+                    try {
+                      const client = new WebDAVClient(webdavConfig);
+                      // 备份所有数据
+                      const allData = {
+                        'aes-global-data-v3': localStorage.getItem('aes-global-data-v3'),
+                        'life-game-stats-v2': localStorage.getItem('life-game-stats-v2'),
+                        'aes-checkin-streak': localStorage.getItem('aes-checkin-streak'),
+                        'life-game-weekly-checkin': localStorage.getItem('life-game-weekly-checkin'),
+                        'aes-dice-state': localStorage.getItem('aes-dice-state'),
+                        'life-game-bank': localStorage.getItem('life-game-bank'),
+                        'aes-global-mantras': localStorage.getItem('aes-global-mantras'),
+                        'claimedBadges': localStorage.getItem('claimedBadges'),
+                        'aes-level-thresholds': localStorage.getItem('aes-level-thresholds'),
+                        'aes-focus-thresholds': localStorage.getItem('aes-focus-thresholds'),
+                        'aes-wealth-thresholds': localStorage.getItem('aes-wealth-thresholds'),
+                        'aes-combat-thresholds': localStorage.getItem('aes-combat-thresholds'),
+                        'aes-checkin-thresholds': localStorage.getItem('aes-checkin-thresholds'),
+                        'aes-consumption-thresholds': localStorage.getItem('aes-consumption-thresholds'),
+                        'chartCategories': localStorage.getItem('chartCategories'),
+                        'aes-last-checkin-date': localStorage.getItem('aes-last-checkin-date'),
+                        'life-game-projects': localStorage.getItem('life-game-projects'),
+                        'life-game-project-order': localStorage.getItem('life-game-project-order'),
+                        'life-game-habits': localStorage.getItem('life-game-habits'),
+                        'life-game-today-stats': localStorage.getItem('life-game-today-stats'),
+                        'life-game-habit-order': localStorage.getItem('life-game-habit-order'),
+                        'life-game-last-date': localStorage.getItem('life-game-last-date'),
+                        'life-game-day': localStorage.getItem('life-game-day'),
+                        'life-game-balance': localStorage.getItem('life-game-balance'),
+                        'life-game-xp': localStorage.getItem('life-game-xp'),
+                        'life-game-streak': localStorage.getItem('life-game-streak'),
+                        'life-game-transactions': localStorage.getItem('life-game-transactions'),
+                      };
+                      const dataStr = JSON.stringify(allData, null, 2);
+                      const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+                      const backupFileName = `backup-${timestamp}.json`;
+                      await client.uploadFile(backupFileName, dataStr);
+                      setWebdavStatus('数据已成功备份到云端！');
+                    } catch (error) {
+                      console.error('Backup failed:', error);
+                      setWebdavStatus(`备份失败: ${error instanceof Error ? error.message : '未知错误'}`);
+                    } finally {
+                      setIsBackingUp(false);
+                      setTimeout(() => setWebdavStatus(''), 5000);
+                    }
+                  }}
+                  disabled={isBackingUp}
+                >
+                  <Cloud size={18} />
+                  {isBackingUp ? '备份中...' : '备份到云端'}
+                </button>
+                
+                {/* Restore from Cloud Button */}
+                <button 
+                  className={`flex-1 px-4 py-4 rounded-xl transition-all flex items-center justify-center gap-2 ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)] text-blue-600 font-bold' : isDark ? 'bg-blue-900/30 text-blue-400 hover:bg-blue-800/50' : 'bg-blue-100 text-blue-700 hover:bg-blue-200'}`}
+                  onClick={async () => {
+                    if (!confirm('确定要从云端恢复数据吗？此操作会覆盖当前本地数据！')) {
+                      return;
+                    }
+                    setIsRestoring(true);
+                    setWebdavStatus('正在从云端恢复...');
+                    try {
+                      const client = new WebDAVClient(webdavConfig);
+                      // 列出所有备份文件
+                      const files = await client.listFiles('');
+                      // 按时间排序，获取最新的备份文件
+                      const backupFiles = files
+                        .filter(file => file.name.startsWith('backup-') && file.name.endsWith('.json'))
+                        .sort((a, b) => b.mtime.getTime() - a.mtime.getTime());
+                      
+                      if (backupFiles.length === 0) {
+                        throw new Error('云端没有找到备份文件');
+                      }
+                      
+                      // 下载最新的备份文件
+                      const latestBackup = backupFiles[0];
+                      const backupData = await client.downloadFile(latestBackup.name);
+                      const data = JSON.parse(backupData);
+                      
+                      // 恢复数据到localStorage
+                      for (const [key, value] of Object.entries(data)) {
+                        if (value !== null && value !== undefined) {
+                          localStorage.setItem(key, value);
+                        }
+                      }
+                      
+                      setWebdavStatus('数据已成功从云端恢复！请刷新页面');
+                    } catch (error) {
+                      console.error('Restore failed:', error);
+                      setWebdavStatus(`恢复失败: ${error instanceof Error ? error.message : '未知错误'}`);
+                    } finally {
+                      setIsRestoring(false);
+                      setTimeout(() => setWebdavStatus(''), 5000);
+                    }
+                  }}
+                  disabled={isRestoring}
+                >
+                  <CloudDownload size={18} />
+                  {isRestoring ? '恢复中...' : '从云端恢复'}
+                </button>
+              </div>
+            </div>
+          </div>
+          
           {/* Data Management */}
           <div className={`${cardBg} p-4 transition-all duration-300`}>
             <div className="flex items-center justify-between mb-4">
@@ -489,8 +711,8 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                   <Database size={20} className="text-blue-500" />
                 </div>
                 <div>
-                  <h3 className={`font-bold ${textMain}`}>数据管理</h3>
-                  <p className={`text-xs ${textSub}`}>备份与恢复数据</p>
+                  <h3 className={`font-bold ${textMain}`}>本地数据管理</h3>
+                  <p className={`text-xs ${textSub}`}>备份与恢复本地数据</p>
                 </div>
               </div>
               <HelpTooltip helpId="data" onHelpClick={setActiveHelp}>
@@ -506,7 +728,30 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                     'aes-global-data-v3': localStorage.getItem('aes-global-data-v3'),
                     'life-game-stats-v2': localStorage.getItem('life-game-stats-v2'),
                     'aes-checkin-streak': localStorage.getItem('aes-checkin-streak'),
-                    'life-game-weekly-checkin': localStorage.getItem('life-game-weekly-checkin')
+                    'life-game-weekly-checkin': localStorage.getItem('life-game-weekly-checkin'),
+                    'aes-dice-state': localStorage.getItem('aes-dice-state'),
+                    'life-game-bank': localStorage.getItem('life-game-bank'),
+                    'aes-global-mantras': localStorage.getItem('aes-global-mantras'),
+                    'claimedBadges': localStorage.getItem('claimedBadges'),
+                    'aes-level-thresholds': localStorage.getItem('aes-level-thresholds'),
+                    'aes-focus-thresholds': localStorage.getItem('aes-focus-thresholds'),
+                    'aes-wealth-thresholds': localStorage.getItem('aes-wealth-thresholds'),
+                    'aes-combat-thresholds': localStorage.getItem('aes-combat-thresholds'),
+                    'aes-checkin-thresholds': localStorage.getItem('aes-checkin-thresholds'),
+                    'aes-consumption-thresholds': localStorage.getItem('aes-consumption-thresholds'),
+                    'chartCategories': localStorage.getItem('chartCategories'),
+                    'aes-last-checkin-date': localStorage.getItem('aes-last-checkin-date'),
+                    'life-game-projects': localStorage.getItem('life-game-projects'),
+                    'life-game-project-order': localStorage.getItem('life-game-project-order'),
+                    'life-game-habits': localStorage.getItem('life-game-habits'),
+                    'life-game-today-stats': localStorage.getItem('life-game-today-stats'),
+                    'life-game-habit-order': localStorage.getItem('life-game-habit-order'),
+                    'life-game-last-date': localStorage.getItem('life-game-last-date'),
+                    'life-game-day': localStorage.getItem('life-game-day'),
+                    'life-game-balance': localStorage.getItem('life-game-balance'),
+                    'life-game-xp': localStorage.getItem('life-game-xp'),
+                    'life-game-streak': localStorage.getItem('life-game-streak'),
+                    'life-game-transactions': localStorage.getItem('life-game-transactions'),
                   };
                   const dataStr = JSON.stringify(allData, null, 2);
                   const blob = new Blob([dataStr], { type: 'application/json' });
@@ -534,10 +779,11 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                         try {
                           const data = JSON.parse(e.target?.result as string);
                           // 恢复所有数据
-                          if (data['aes-global-data-v3']) localStorage.setItem('aes-global-data-v3', data['aes-global-data-v3']);
-                          if (data['life-game-stats-v2']) localStorage.setItem('life-game-stats-v2', data['life-game-stats-v2']);
-                          if (data['aes-checkin-streak']) localStorage.setItem('aes-checkin-streak', data['aes-checkin-streak']);
-                          if (data['life-game-weekly-checkin']) localStorage.setItem('life-game-weekly-checkin', data['life-game-weekly-checkin']);
+                          for (const [key, value] of Object.entries(data)) {
+                            if (value !== null && value !== undefined) {
+                              localStorage.setItem(key, value);
+                            }
+                          }
                           alert('数据恢复成功，请刷新页面');
                         } catch (error) {
                           alert('数据恢复失败，请检查文件格式');
@@ -554,10 +800,40 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                 <button className={`flex-1 px-4 py-4 rounded-xl transition-all flex items-center justify-center gap-2 ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)] text-red-600 font-bold' : isDark ? 'bg-red-900/30 text-red-400 hover:bg-red-800/50' : 'bg-red-100 text-red-700 hover:bg-red-200'}`} onClick={() => {
                   if (confirm('确定要重置整个系统数据吗？此操作会清空所有数据，包括经验、专注、财富等级、金钱储备和任务数据。')) {
                     // 重置所有数据
-                    localStorage.removeItem('aes-global-data-v3');
-                    localStorage.removeItem('life-game-stats-v2');
-                    localStorage.removeItem('aes-checkin-streak');
-                    localStorage.removeItem('life-game-weekly-checkin');
+                    const keysToRemove = [
+                      'aes-global-data-v3',
+                      'life-game-stats-v2',
+                      'aes-checkin-streak',
+                      'life-game-weekly-checkin',
+                      'aes-dice-state',
+                      'life-game-bank',
+                      'aes-global-mantras',
+                      'claimedBadges',
+                      'aes-level-thresholds',
+                      'aes-focus-thresholds',
+                      'aes-wealth-thresholds',
+                      'aes-combat-thresholds',
+                      'aes-checkin-thresholds',
+                      'aes-consumption-thresholds',
+                      'chartCategories',
+                      'aes-last-checkin-date',
+                      'life-game-projects',
+                      'life-game-project-order',
+                      'life-game-habits',
+                      'life-game-today-stats',
+                      'life-game-habit-order',
+                      'life-game-last-date',
+                      'life-game-day',
+                      'life-game-balance',
+                      'life-game-xp',
+                      'life-game-streak',
+                      'life-game-transactions',
+                    ];
+                    
+                    keysToRemove.forEach(key => {
+                      localStorage.removeItem(key);
+                    });
+                    
                     alert('系统数据已重置，请刷新页面');
                   }
                 }}>

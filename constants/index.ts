@@ -1,4 +1,5 @@
-import { AchievementItem, AttributeType, DiceCategory } from '../types';
+import { AchievementItem, DiceCategory } from '../types';
+import { AttributeType } from '../types';
 
 // --- Check-in Thresholds ---
 export const CHECKIN_THRESHOLDS = [

@@ -30,6 +30,12 @@ interface CharacterProfileProps {
   currentSoundId: string;
   onToggleMute: (muted: boolean) => void;
   onSoundChange: (soundId: string) => void;
+  // Help System
+  onHelpClick?: (helpId: string) => void;
+  // Character Level Change
+  onLevelChange?: (newLevel: number, type: 'level' | 'focus' | 'wealth') => void;
+  // Update today stats
+  onUpdateTodayStats?: (stats: any) => void;
   // Settings
   settings?: {
     showCharacterSystem?: boolean;
@@ -98,6 +104,12 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
         currentSoundId, 
         onToggleMute, 
         onSoundChange, 
+        // Help System
+        onHelpClick = undefined, 
+        // Character Level Change
+        onLevelChange = undefined,
+        // Update today stats
+        onUpdateTodayStats = undefined,
         // Settings
         settings = {
             showCharacterSystem: true,
@@ -426,9 +438,13 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
     
     const handleSaveKills = () => {
         const newKills = parseInt(tempKills);
-        if (!isNaN(newKills) && onUpdateBalance) {
-            // 这里可以添加更新歼敌数的逻辑
-            // 由于当前歼敌数是从totalKills传递而来，可能需要额外的回调函数
+        if (!isNaN(newKills) && onUpdateTodayStats) {
+            // 将新的歼敌数设置为tasksCompleted，habitsDone保持不变
+            // 这样totalKills = tasksCompleted + habitsDone就会更新
+            onUpdateTodayStats(prev => ({
+                ...prev,
+                tasksCompleted: newKills - prev.habitsDone
+            }));
         }
         setIsEditingKills(false);
     };
@@ -513,12 +529,13 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
                             onLevelChange={(newLevel, type) => {
                                 // 实现等级修改后的联动处理机制
                                 if (window.confirm(`确定要将${type === 'level' ? '经验' : type === 'focus' ? '专注' : '财富'}等级修改为${newLevel}吗？这将重置相关勋章和进度数据。`)) {
-                                    // 这里需要调用父组件传递的回调函数，或者直接更新状态
-                                    // 由于CharacterProfile组件目前没有直接管理这些状态，需要通过props传递回调
-                                    // 模拟实现：显示提示信息
-                                    alert(`等级已修改为${newLevel}，相关勋章和进度已重置。`);
+                                    // 调用父组件传递的onLevelChange回调函数
+                                    if (onLevelChange) {
+                                        onLevelChange(newLevel, type);
+                                    }
                                 }
                             }}
+                            onHelpClick={onHelpClick}
                         />
                     </div>
                 )}
@@ -537,6 +554,7 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
                             onUpdateTimeLeft={onUpdateTimeLeft}
                             onUpdateIsActive={onUpdateIsActive}
                             onImmersiveModeChange={(isImmersive) => setIsImmersive(true)}
+                            onHelpClick={onHelpClick}
                         />
                     </div>
                 )}

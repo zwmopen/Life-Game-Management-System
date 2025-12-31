@@ -71,7 +71,7 @@ const GlobalGuideCard: React.FC<GlobalGuideCardProps> = ({
 
   return (
     <div className="fixed inset-0 z-[100] bg-black/80 flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in">
-      <div className={`w-full max-w-md p-6 ${getBorderRadiusClass()} border ${cardBg} ${getShadowClass()} relative`}>
+      <div className={`w-full max-w-md p-6 ${getBorderRadiusClass()} ${cardBg} ${getShadowClass()} relative`}>
         <button 
           onClick={onClose} 
           className="absolute top-4 right-4 text-zinc-500 hover:text-white transition-colors"

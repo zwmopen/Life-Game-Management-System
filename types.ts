@@ -4,6 +4,49 @@ import React from 'react';
 /**
  * 应用视图枚举
  */
+/**
+ * 商品分类枚举
+ */
+export enum ProductCategory {
+  /** 食品 */
+  FOOD = '食品',
+  /** 穿搭 */
+  CLOTHING = '穿搭',
+  /** 体验 */
+  EXPERIENCE = '体验',
+  /** 娱乐 */
+  ENTERTAINMENT = '娱乐',
+  /** 数码家居 */
+  DIGITAL_HOME = '数码家居',
+  /** 数码 */
+  DIGITAL = '数码',
+  /** 家居 */
+  HOME = '家居',
+  /** 装备 */
+  GEAR = '装备',
+  /** 票务 */
+  TICKET = '票务',
+  /** 会员 */
+  VIP = '会员',
+  /** 充值 */
+  RECHARGE = '充值',
+  /** 房产 */
+  PROPERTY = '房产',
+  /** 车辆 */
+  CAR = '车辆',
+  /** 运动 */
+  SPORT = '运动',
+  /** 服务 */
+  SERVICE = '服务',
+  /** 礼品 */
+  GIFT = '礼品',
+  /** 其他 */
+  OTHER = '其他'
+}
+
+/**
+ * 应用视图枚举
+ */
 export enum View {
   RPG_MISSION_CENTER = 'RPG_MISSION_CENTER', // 作战中心 (原 RPG)
   BLACK_MARKET = 'BLACK_MARKET',     // 补给黑市 (New)
@@ -39,6 +82,7 @@ export const AttributeType = {
   WEALTH: 'WEA',
 } as const;
 
+export type AttributeType = typeof AttributeType;
 export type AttributeTypeValue = typeof AttributeType[keyof typeof AttributeType];
 
 /**
