@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>达克效应图表</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .chart-container {
+            width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        svg {
+            display: block;
+            margin: 0 auto;
+        }
+        .legend {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="chart-container">
+        <h1>达克效应</h1>
+        <svg width="800" height="500" viewBox="0 0 800 500">
+            <!-- 背景分区 -->
+            <rect x="50" y="50" width="175" height="300" fill="#FFE0B2" opacity="0.8" />
+            <rect x="225" y="50" width="175" height="300" fill="#FFCCBC" opacity="0.8" />
+            <rect x="400" y="50" width="175" height="300" fill="#C8E6C9" opacity="0.8" />
+            <rect x="575" y="50" width="175" height="300" fill="#BBDEFB" opacity="0.8" />
+            
+            <!-- Y轴 -->
+            <line x1="50" y1="50" x2="50" y2="350" stroke="#333" stroke-width="2" />
+            <text x="20" y="200" font-size="14" fill="#333" text-anchor="middle" transform="rotate(-90, 20, 200)">自信程度（高→低）</text>
+            
+            <!-- X轴 -->
+            <line x1="50" y1="350" x2="750" y2="350" stroke="#333" stroke-width="2" />
+            <text x="400" y="380" font-size="14" fill="#333" text-anchor="middle">智慧水平（知识与经验，低→高）</text>
+            
+            <!-- 曲线 -->
+            <path d="M75,200 C125,80 175,80 225,250 C275,320 325,320 375,280 C425,240 475,220 525,200 C575,180 625,170 675,165 C725,160 750,160 750,160" 
+                  stroke="#333" stroke-width="3" fill="none" />
+            
+            <!-- 关键节点标注 -->
+            <circle cx="125" cy="80" r="4" fill="red" />
+            <text x="125" y="70" font-size="14" fill="red" text-anchor="middle" font-weight="bold">愚昧之巅</text>
+            
+            <circle cx="300" cy="320" r="4" fill="red" />
+            <text x="300" y="330" font-size="14" fill="red" text-anchor="middle" font-weight="bold">绝望之谷</text>
+            
+            <circle cx="500" cy="200" r="4" fill="red" />
+            <text x="500" y="190" font-size="14" fill="red" text-anchor="middle" font-weight="bold">开悟之坡</text>
+            
+            <circle cx="700" cy="165" r="4" fill="red" />
+            <text x="700" y="155" font-size="14" fill="red" text-anchor="middle" font-weight="bold">平稳高原</text>
+            
+            <!-- 区域名称 -->
+            <text x="137.5" y="200" font-size="16" fill="#333" text-anchor="middle" font-weight="bold">自信爆棚区</text>
+            <text x="312.5" y="200" font-size="16" fill="#333" text-anchor="middle" font-weight="bold">自信崩溃区</text>
+            <text x="487.5" y="200" font-size="16" fill="#333" text-anchor="middle" font-weight="bold">自信重建区</text>
+            <text x="662.5" y="200" font-size="16" fill="#333" text-anchor="middle" font-weight="bold">自信成熟区</text>
+            
+            <!-- 表现标签 -->
+            <text x="137.5" y="400" font-size="16" fill="#333" text-anchor="middle" font-weight="bold">巨婴</text>
+            <text x="312.5" y="400" font-size="16" fill="#333" text-anchor="middle" font-weight="bold">屌丝</text>
+            <text x="487.5" y="400" font-size="16" fill="#333" text-anchor="middle" font-weight="bold">智者</text>
+            <text x="662.5" y="400" font-size="16" fill="#333" text-anchor="middle" font-weight="bold">大师</text>
+            
+            <!-- 图标：自信爆棚区 - 人物图标 -->
+            <circle cx="137.5" cy="150" r="20" fill="#FF9800" />
+            <circle cx="130" cy="145" r="3" fill="#333" />
+            <circle cx="145" cy="145" r="3" fill="#333" />
+            <path d="M130,155 Q137.5,160 145,155" stroke="#333" stroke-width="2" fill="none" />
+            
+            <!-- 图标：自信崩溃区 - 崩溃图标 -->
+            <rect x="292.5" y="130" width="40" height="40" fill="#F44336" rx="5" />
+            <line x1="295" y1="135" x2="327.5" y2="167.5" stroke="#333" stroke-width="2" />
+            <line x1="330" y1="135" x2="297.5" y2="167.5" stroke="#333" stroke-width="2" />
+            
+            <!-- 图标：自信重建区 - 上升图标 -->
+            <polygon points="487.5,130 505,170 470,170" fill="#4CAF50" />
+            <line x1="487.5" y1="170" x2="487.5" y2="190" stroke="#333" stroke-width="2" />
+            <line x1="480" y1="183" x2="495" y2="183" stroke="#333" stroke-width="2" />
+            
+            <!-- 图标：自信成熟区 - 大脑图标 -->
+            <ellipse cx="662.5" cy="150" rx="25" ry="20" fill="#2196F3" />
+            <circle cx="655" cy="145" r="5" fill="#333" />
+            <circle cx="670" cy="145" r="5" fill="#333" />
+            <path d="M650,155 Q662.5,165 675,155" stroke="#333" stroke-width="2" fill="none" />
+            <line x1="662.5" y1="130" x2="662.5" y2="170" stroke="#333" stroke-width="2" />
+        </svg>
+        <div class="legend">
+            达克效应描述了人们对自己能力的认知如何随着智慧水平的提高而变化
+        </div>
+    </div>
+</body>
+</html>

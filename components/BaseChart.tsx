@@ -19,7 +19,7 @@ const BaseChart: React.FC<BaseChartProps> = ({
   data,
   isDark,
   className = '',
-  height = 400,
+  height = 'auto',
   width = '100%',
   margin = { top: 10, right: 30, left: 0, bottom: 0 },
 }) => {

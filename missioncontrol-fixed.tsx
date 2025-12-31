@@ -7,7 +7,7 @@ import {
 import BaseChart from './BaseChart';
 import { chartConfig, getGridColor, getTooltipStyle } from './ChartConfig';
 import { Activity, BarChart2, Mountain, Zap, BrainCircuit, Pickaxe, Hexagon, TrendingUp, Anchor, Target, CircleDot, PieChart, RotateCw, Smile, Battery, TrendingDown, Scale, Compass, Layers, GitMerge, Shield, Eye, CheckCircle2, Clock, GripVertical, HelpCircle, Square, ArrowRight, Search, BookOpen, Repeat, FileSearch, Lightbulb, RefreshCw, Timer, Star, FileText, MessageCircle, User, ArrowLeftRight, Layout, Diamond } from 'lucide-react';
-import { Theme, Project, Habit } from '../types';
+import { Theme, Project, Habit, Chart } from '../types';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragEndEvent } from '@dnd-kit/core';
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy, horizontalListSortingStrategy, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -32,8 +32,7 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
   const textMain = isDark ? 'text-zinc-200' : isNeomorphic ? 'text-zinc-700' : 'text-slate-800';
   const textSub = isDark ? 'text-zinc-500' : isNeomorphic ? 'text-zinc-600' : 'text-slate-500';
 
-  const [activeChart, setActiveChart] = useState<string>('dunning');
-  // 确保图表在页面加载时显示达克效应
+  const [activeChart, setActiveChart] = useState<string>('dip');
   const [chartHeight, setChartHeight] = useState<number>(400);
   const [activeHelp, setActiveHelp] = useState<string | null>(null);
   const chartContainerRef = useRef<HTMLDivElement>(null);
@@ -209,17 +208,19 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
 
   // Get chart by id
   const getChartById = (id: string) => {
-    return CHARTS.find(chart => chart.id === id);
+    const chart = CHARTS.find(chart => chart.id === id);
+    if (chart) {
+      return {
+        ...chart,
+        visualizationDesign: chart.visualizationDesign || `这是${chart.label}的可视化设计描述，包含图表类型、视觉元素、配色方案等详细信息。`
+      };
+    }
+    return undefined;
   };
 
   // Chart rendering function to avoid complex nested conditional rendering
   const renderChart = () => {
     const activeChartObj = getChartById(activeChart);
-    
-    // 添加调试日志
-    console.log('activeChart:', activeChart);
-    console.log('activeChartObj:', activeChartObj);
-    console.log('dunningData:', dunningData);
     
     switch (activeChart) {
       case 'attributeRadar':
@@ -328,83 +329,87 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
         );
       case 'dunning':
         return (
-          <div style={{ height: chartHeight, width: '100%', backgroundColor: isDark ? '#1f2937' : '#ffffff', padding: '20px', borderRadius: '8px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <svg width="400" height="350" viewBox="0 0 400 350" xmlns="http://www.w3.org/2000/svg">
-              {/* 背景分区 */}
-              <rect x="50" y="50" width="90" height="200" fill="#FFD700" opacity="0.3" />
-              <rect x="140" y="50" width="90" height="200" fill="#FF6B6B" opacity="0.3" />
-              <rect x="230" y="50" width="90" height="200" fill="#4ECDC4" opacity="0.3" />
-              <rect x="320" y="50" width="30" height="200" fill="#45B7D1" opacity="0.3" />
+          <div className="w-full h-full flex items-center justify-center p-4">
+            <svg width="100%" height="100%" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+              {/* 背景网格和坐标轴 */}
+              <defs>
+                <linearGradient id="gridGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#f0f0f0;stop-opacity:1" />
+                  <stop offset="100%" style="stop-color:#ffffff;stop-opacity:1" />
+                </linearGradient>
+              </defs>
               
-              {/* 曲线 */}
-              <path d="M70,70 C90,50 110,90 130,110 C150,130 170,170 190,190 C210,170 230,130 250,110 C270,90 290,70 310,60 C330,50 350,50 370,55" 
-                    fill="none" stroke={isDark ? '#ffffff' : '#000000'} strokeWidth="3" strokeLinecap="round" />
-              
-              {/* 关键节点 */}
-              <circle cx="70" cy="70" r="6" fill="#FF0000" stroke="#FFFFFF" strokeWidth="2" />
-              <circle cx="190" cy="190" r="6" fill="#FF0000" stroke="#FFFFFF" strokeWidth="2" />
-              <circle cx="250" cy="110" r="6" fill="#FF0000" stroke="#FFFFFF" strokeWidth="2" />
-              <circle cx="370" cy="55" r="6" fill="#FF0000" stroke="#FFFFFF" strokeWidth="2" />
-              
-              {/* 关键节点标注 */}
-              <text x="70" y="55" textAnchor="middle" fill="#FF0000" fontSize="12" fontWeight="bold">愚昧之巅</text>
-              <text x="190" y="205" textAnchor="middle" fill="#FF0000" fontSize="12" fontWeight="bold">绝望之谷</text>
-              <text x="250" y="95" textAnchor="middle" fill="#FF0000" fontSize="12" fontWeight="bold">开悟之坡</text>
-              <text x="370" y="40" textAnchor="middle" fill="#FF0000" fontSize="12" fontWeight="bold">平稳高原</text>
-              
-              {/* 区域名称 */}
-              <text x="95" y="220" textAnchor="middle" fill="#FFD700" fontSize="12" fontWeight="bold">自信爆棚区</text>
-              <text x="185" y="220" textAnchor="middle" fill="#FF6B6B" fontSize="12" fontWeight="bold">自信崩溃区</text>
-              <text x="275" y="220" textAnchor="middle" fill="#4ECDC4" fontSize="12" fontWeight="bold">自信重建区</text>
-              <text x="335" y="220" textAnchor="middle" fill="#45B7D1" fontSize="12" fontWeight="bold">自信成熟区</text>
-              
-              {/* 表现标签 */}
-              <text x="95" y="290" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="14" fontWeight="bold">巨婴</text>
-              <text x="185" y="290" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="14" fontWeight="bold">屌丝</text>
-              <text x="275" y="290" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="14" fontWeight="bold">智者</text>
-              <text x="335" y="290" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="14" fontWeight="bold">大师</text>
-              
-              {/* 图标 - 自信爆棚区人物 */}
-              <g transform="translate(95, 140)">
-                <circle cx="0" cy="0" r="12" fill="#FFD700" opacity="0.8" />
-                <rect x="-10" y="12" width="20" height="25" fill="#FFD700" opacity="0.8" />
-                <line x1="-8" y1="18" x2="-15" y2="30" stroke="#FFD700" strokeWidth="2" />
-                <line x1="8" y1="18" x2="15" y2="30" stroke="#FFD700" strokeWidth="2" />
-                <line x1="-8" y1="37" x2="-12" y2="48" stroke="#FFD700" strokeWidth="2" />
-                <line x1="8" y1="37" x2="12" y2="48" stroke="#FFD700" strokeWidth="2" />
-              </g>
-              
-              {/* 图标 - 自信崩溃区 */}
-              <g transform="translate(185, 140)">
-                <circle cx="0" cy="0" r="12" fill="#FF6B6B" opacity="0.8" />
-                <path d="M-15,12 Q0,35 15,12" fill="none" stroke="#FF6B6B" strokeWidth="2" />
-                <line x1="-10" y1="5" x2="-15" y2="0" stroke="#FF6B6B" strokeWidth="2" />
-                <line x1="10" y1="5" x2="15" y2="0" stroke="#FF6B6B" strokeWidth="2" />
-                <line x1="-10" y1="10" x2="-15" y2="15" stroke="#FF6B6B" strokeWidth="2" />
-                <line x1="10" y1="10" x2="15" y2="15" stroke="#FF6B6B" strokeWidth="2" />
-              </g>
-              
-              {/* 图标 - 自信重建区 */}
-              <g transform="translate(275, 140)">
-                <path d="M0,25 L0,5 L15,20" fill="none" stroke="#4ECDC4" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-                <circle cx="15" cy="20" r="3" fill="#4ECDC4" />
-              </g>
-              
-              {/* 图标 - 自信成熟区大脑 */}
-              <g transform="translate(335, 140)">
-                <path d="M0,-15 C-18,-15 -22,0 -22,11 C-22,22 -11,30 0,30 C11,30 22,22 22,11 C22,0 18,-15 0,-15 Z" fill="#45B7D1" opacity="0.8" />
-                <line x1="-15" y1="0" x2="15" y2="0" stroke="#FFFFFF" strokeWidth="2" />
-                <line x1="-15" y1="7" x2="15" y2="7" stroke="#FFFFFF" strokeWidth="2" />
-                <line x1="-15" y1="14" x2="15" y2="14" stroke="#FFFFFF" strokeWidth="2" />
-              </g>
+              {/* 4个彩色背景分区 */}
+              <rect x="50" y="50" width="180" height="400" fill="#ff6b6b" rx="2" ry="2" />
+              <rect x="230" y="50" width="180" height="400" fill="#ffd93d" rx="2" ry="2" />
+              <rect x="410" y="50" width="180" height="400" fill="#6bcb77" rx="2" ry="2" />
+              <rect x="590" y="50" width="160" height="400" fill="#4dabf7" rx="2" ry="2" />
               
               {/* 坐标轴 */}
-              <line x1="50" y1="50" x2="50" y2="250" stroke={isDark ? '#ffffff' : '#000000'} strokeWidth="2" />
-              <line x1="50" y1="250" x2="390" y2="250" stroke={isDark ? '#ffffff' : '#000000'} strokeWidth="2" />
+              <line x1="50" y1="450" x2="750" y2="450" stroke="#333" stroke-width="2" />
+              <line x1="50" y1="50" x2="50" y2="450" stroke="#333" stroke-width="2" />
+              
+              {/* 坐标轴箭头 */}
+              <polygon points="750,450 740,445 740,455" fill="#333" />
+              <polygon points="50,50 45,60 55,60" fill="#333" />
               
               {/* 坐标轴标签 */}
-              <text x="20" y="150" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="12" fontWeight="bold" transform="rotate(-90, 20, 150)">自信程度（高→低）</text>
-              <text x="220" y="280" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="12" fontWeight="bold">智慧水平（知识与经验，低→高）</text>
+              <text x="400" y="480" font-size="14" fill="#333" text-anchor="middle">智慧水平（知识与经验，低→高）</text>
+              <text x="20" y="250" font-size="14" fill="#333" text-anchor="middle" transform="rotate(-90, 20, 250)">自信程度（高→低）</text>
+              
+              {/* 背景分区名称 */}
+              <text x="140" y="250" font-size="16" fill="white" text-anchor="middle">自信爆棚区</text>
+              <text x="320" y="250" font-size="16" fill="white" text-anchor="middle">自信崩溃区</text>
+              <text x="500" y="250" font-size="16" fill="white" text-anchor="middle">自信重建区</text>
+              <text x="670" y="250" font-size="16" fill="white" text-anchor="middle">自信成熟区</text>
+              
+              {/* 表现标签 */}
+              <text x="140" y="550" font-size="14" fill="#333" text-anchor="middle">巨婴</text>
+              <text x="320" y="550" font-size="14" fill="#333" text-anchor="middle">屌丝</text>
+              <text x="500" y="550" font-size="14" fill="#333" text-anchor="middle">智者</text>
+              <text x="670" y="550" font-size="14" fill="#333" text-anchor="middle">大师</text>
+              
+              {/* 平滑曲线 */}
+              <path d="M 100,100 C 150,80 200,150 250,350 C 300,420 350,380 400,320 C 450,260 500,220 550,180 C 600,140 650,120 700,100" 
+                    stroke="#333" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+              
+              {/* 曲线关键节点标注 */}
+              <text x="120" y="80" font-size="14" fill="red" font-weight="bold" text-anchor="middle">愚昧之巅</text>
+              <text x="280" y="370" font-size="14" fill="red" font-weight="bold" text-anchor="middle">绝望之谷</text>
+              <text x="460" y="300" font-size="14" fill="red" font-weight="bold" text-anchor="middle">开悟之坡</text>
+              <text x="680" y="80" font-size="14" fill="red" font-weight="bold" text-anchor="middle">平稳高原</text>
+              
+              {/* 图标：自信爆棚区 - 人物图标 */}
+              <circle cx="140" cy="150" r="30" fill="white" opacity="0.8" />
+              <circle cx="130" cy="140" r="5" fill="#333" />
+              <circle cx="150" cy="140" r="5" fill="#333" />
+              <path d="M 130,155 Q 140,165 150,155" stroke="#333" stroke-width="2" fill="none" />
+              <rect x="125" y="170" width="30" height="40" fill="white" stroke="#333" stroke-width="2" rx="5" ry="5" />
+              <line x1="140" y1="210" x2="140" y2="240" stroke="#333" stroke-width="2" />
+              <line x1="120" y1="220" x2="160" y2="220" stroke="#333" stroke-width="2" />
+              
+              {/* 图标：自信崩溃区 - 崩溃图标 */}
+              <circle cx="320" cy="250" r="30" fill="white" opacity="0.8" />
+              <path d="M 300,230 L 340,270 M 300,270 L 340,230" stroke="#333" stroke-width="3" />
+              <circle cx="310" cy="220" r="8" fill="#ff6b6b" opacity="0.8" />
+              <circle cx="330" cy="220" r="8" fill="#ff6b6b" opacity="0.8" />
+              <rect x="315" y="260" width="10" height="15" fill="#333" rx="2" ry="2" />
+              
+              {/* 图标：自信重建区 - 上升箭头图标 */}
+              <polygon points="500,200 520,220 480,220" fill="#333" />
+              <rect x="495" y="220" width="10" height="40" fill="#333" />
+              <circle cx="500" cy="270" r="20" fill="white" opacity="0.8" stroke="#333" stroke-width="2" />
+              <path d="M 490,265 L 510,265 M 500,255 L 500,275" stroke="#333" stroke-width="2" />
+              <line x1="485" y1="285" x2="515" y2="285" stroke="#333" stroke-width="2" />
+              
+              {/* 图标：自信成熟区 - 大脑图标 */}
+              <ellipse cx="670" cy="150" rx="35" ry="45" fill="white" opacity="0.8" stroke="#333" stroke-width="2" />
+              <path d="M 635,150 C 635,130 650,115 670,115 C 690,115 705,130 705,150" stroke="#333" stroke-width="2" fill="none" />
+              <path d="M 645,125 L 665,145 M 655,125 L 675,145 M 665,125 L 685,145" stroke="#333" stroke-width="1.5" />
+              <path d="M 645,175 L 665,155 M 655,175 L 675,155 M 665,175 L 685,155" stroke="#333" stroke-width="1.5" />
+              
+              {/* 图表标题 */}
+              <text x="400" y="30" font-size="20" font-weight="bold" text-anchor="middle" fill="#333">达克效应曲线</text>
             </svg>
           </div>
         );
@@ -649,352 +654,104 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
               {/* 水平连接线 - 顶部 */}
               <line x1="87.5" y1="87.5" x2="250" y2="87.5" stroke={isDark ? "#a1a1aa" : "#64748b"} strokeWidth="2" strokeDasharray="3 3" />
               {/* 箭头 - 顶部 */}
-              <polygon points="250,84 262.5,87.5 250,91" fill={isDark ? "#a1a1aa" : "#64748b"} />
-              
+              <polygon points="250,87.5 240,82.5 240,92.5" fill={isDark ? "#a1a1aa" : "#64748b"} />
               {/* 水平连接线 - 底部 */}
+              <line x1="87.5" y1="250" x2="250" y2="250" stroke={isDark ? "#a1a1aa" : "#64748b"} strokeWidth="2" strokeDasharray="3 3" />
+              {/* 箭头 - 底部 */}
+              <polygon points="250,250 240,245 240,255" fill={isDark ? "#a1a1aa" : "#64748b"} />
+              {/* 垂直连接线 - 左侧 */}
+              <line x1="87.5" y1="87.5" x2="87.5" y2="250" stroke={isDark ? "#a1a1aa" : "#64748b"} strokeWidth="2" strokeDasharray="3 3" />
+              {/* 箭头 - 左侧 */}
+              <polygon points="87.5,250 82.5,240 92.5,240" fill={isDark ? "#a1a1aa" : "#64748b"} />
+              {/* 垂直连接线 - 右侧 */}
+              <line x1="250" y1="87.5" x2="250" y2="250" stroke={isDark ? "#a1a1aa" : "#64748b"} strokeWidth="2" strokeDasharray="3 3" />
+              {/* 箭头 - 右侧 */}
+              <polygon points="250,250 245,240 255,240" fill={isDark ? "#a1a1aa" : "#64748b"} />
+              {/* 中心文字 */}
+              <text x="168.75" y="168.75" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="14" fontWeight="bold">
+                WOOP框架
+              </text>
             </svg>
           </div>
         );
-      default:
-        return <div>图表未找到</div>;
-    }
-  };
-
-  // 图表数据定义
-  const jCurveData = [
-    { t: 0, value: 10 },
-    { t: 1, value: 9 },
-    { t: 2, value: 8 },
-    { t: 3, value: 7 },
-    { t: 4, value: 6 },
-    { t: 5, value: 7 },
-    { t: 6, value: 9 },
-    { t: 7, value: 12 },
-    { t: 8, value: 16 },
-    { t: 9, value: 21 },
-    { t: 10, value: 27 },
-  ];
-
-  const antifragileData = [
-    { stress: 0, fragile: 100, antifragile: 50 },
-    { stress: 10, fragile: 90, antifragile: 55 },
-    { stress: 20, fragile: 80, antifragile: 60 },
-    { stress: 30, fragile: 70, antifragile: 65 },
-    { stress: 40, fragile: 60, antifragile: 75 },
-    { stress: 50, fragile: 50, antifragile: 90 },
-    { stress: 60, fragile: 40, antifragile: 110 },
-    { stress: 70, fragile: 30, antifragile: 130 },
-    { stress: 80, fragile: 20, antifragile: 150 },
-    { stress: 90, fragile: 10, antifragile: 170 },
-    { stress: 100, fragile: 0, antifragile: 190 },
-  ];
-
-  const secondCurveData = [
-    { t: 0, curve1: 10, curve2: 0 },
-    { t: 1, curve1: 20, curve2: 0 },
-    { t: 2, curve1: 40, curve2: 0 },
-    { t: 3, curve1: 70, curve2: 0 },
-    { t: 4, curve1: 100, curve2: 10 },
-    { t: 5, curve1: 130, curve2: 30 },
-    { t: 6, curve1: 160, curve2: 60 },
-    { t: 7, curve1: 180, curve2: 100 },
-    { t: 8, curve1: 190, curve2: 150 },
-    { t: 9, curve1: 195, curve2: 210 },
-    { t: 10, curve1: 198, curve2: 280 },
-  ];
-
-  const flywheelData = [
-    { time: 0, momentum: 10 },
-    { time: 1, momentum: 15 },
-    { time: 2, momentum: 22 },
-    { time: 3, momentum: 32 },
-    { time: 4, momentum: 46 },
-    { time: 5, momentum: 66 },
-    { time: 6, momentum: 95 },
-    { time: 7, momentum: 136 },
-    { time: 8, momentum: 194 },
-    { time: 9, momentum: 278 },
-    { time: 10, momentum: 395 },
-  ];
-
-  const regretData = [
-    { type: '没做的事', pain: 80 },
-    { type: '做错的事', pain: 40 },
-  ];
-
-  const energyData = [
-    { time: '6:00', energy: 60 },
-    { time: '9:00', energy: 85 },
-    { time: '12:00', energy: 70 },
-    { time: '15:00', energy: 65 },
-    { time: '18:00', energy: 80 },
-    { time: '21:00', energy: 60 },
-    { time: '24:00', energy: 40 },
-  ];
-
-  const compoundData = [
-    { day: 0, better: 100, worse: 100 },
-    { day: 30, better: 134.78, worse: 74.01 },
-    { day: 60, better: 181.67, worse: 54.72 },
-    { day: 90, better: 244.86, worse: 40.47 },
-    { day: 180, better: 609.82, worse: 16.37 },
-    { day: 365, better: 3778.34, worse: 2.69 },
-  ];
-
-  const dopamineData = [
-    { hour: '0:00', level: 50 },
-    { hour: '3:00', level: 40 },
-    { hour: '6:00', level: 70 },
-    { hour: '9:00', level: 85 },
-    { hour: '12:00', level: 75 },
-    { hour: '15:00', level: 65 },
-    { hour: '18:00', level: 80 },
-    { hour: '21:00', level: 60 },
-    { hour: '24:00', level: 50 },
-  ];
-
-  const flowData = [
-    { x: 10, y: 10, status: '无聊' },
-    { x: 30, y: 30, status: '心流' },
-    { x: 50, y: 50, status: '心流' },
-    { x: 70, y: 70, status: '心流' },
-    { x: 90, y: 90, status: '焦虑' },
-    { x: 90, y: 30, status: '焦虑' },
-  ];
-
-  // 达克效应数据
-  const dunningData = [
-    { x: 0, confidence: 90 },
-    { x: 10, confidence: 95 },
-    { x: 20, confidence: 98 },
-    { x: 30, confidence: 80 },
-    { x: 40, confidence: 60 },
-    { x: 50, confidence: 50 },
-    { x: 60, confidence: 60 },
-    { x: 70, confidence: 70 },
-    { x: 80, confidence: 80 },
-    { x: 90, confidence: 85 },
-    { x: 100, confidence: 90 },
-  ];
-
-  const zoneData = [
-    { id: 'comfort', radius: 50, color: '#3b82f6', fillOpacity: 0.3 },
-    { id: 'learning', radius: 100, color: '#10b981', fillOpacity: 0.2 },
-    { id: 'fear', radius: 150, color: '#ef4444', fillOpacity: 0.1 },
-  ];
-
-  const woopData = [
-    { id: 'wish', x: 0.3, y: 0.3, color: '#3b82f6', fillOpacity: 0.3, icon: '🎯', label: '愿望', description: '设定你的目标' },
-    { id: 'outcome', x: 0.7, y: 0.3, color: '#10b981', fillOpacity: 0.3, icon: '🏆', label: '结果', description: '想象理想结果' },
-    { id: 'obstacle', x: 0.3, y: 0.7, color: '#ef4444', fillOpacity: 0.3, icon: '⛰️', label: '障碍', description: '识别潜在障碍' },
-    { id: 'plan', x: 0.7, y: 0.7, color: '#f59e0b', fillOpacity: 0.3, icon: '📋', label: '计划', description: '制定行动计划' },
-  ];
-
-  const windLawData = [
-    { speed: 0, windResistance: 0, progress: 0 },
-    { speed: 10, windResistance: 100, progress: 50 },
-    { speed: 20, windResistance: 400, progress: 150 },
-    { speed: 30, windResistance: 900, progress: 300 },
-    { speed: 40, windResistance: 1600, progress: 500 },
-    { speed: 50, windResistance: 2500, progress: 750 },
-  ];
-
-  const peakEndData = [
-    { time: 0, experience: 50 },
-    { time: 1, experience: 60 },
-    { time: 2, experience: 80 },
-    { time: 3, experience: 40 },
-    { time: 4, experience: 30 },
-    { time: 5, experience: 20 },
-    { time: 6, experience: 50 },
-    { time: 7, experience: 70 },
-    { time: 8, experience: 90 },
-    { time: 9, experience: 30 },
-    { time: 10, experience: 40 },
-  ];
-
-  const valueVennData = [
-    { id: 'passion', x: 0.35, y: 0.4, radius: 70, color: '#ef4444', fillOpacity: 0.2, label: '激情' },
-    { id: 'talent', x: 0.65, y: 0.4, radius: 70, color: '#3b82f6', fillOpacity: 0.2, label: '天赋' },
-    { id: 'market', x: 0.5, y: 0.7, radius: 70, color: '#10b981', fillOpacity: 0.2, label: '市场' },
-  ];
-
-  const cognitiveOnionData = [
-    { id: 'core', radius: 20, color: '#3b82f6', fillOpacity: 0.5, label: '核心自我' },
-    { id: 'values', radius: 40, color: '#10b981', fillOpacity: 0.4, label: '价值观' },
-    { id: 'beliefs', radius: 60, color: '#f59e0b', fillOpacity: 0.3, label: '信念' },
-    { id: 'behaviors', radius: 80, color: '#ef4444', fillOpacity: 0.2, label: '行为' },
-    { id: 'identity', radius: 100, color: '#8b5cf6', fillOpacity: 0.1, label: '身份' },
-  ];
-
-  const learningCycleData = [
-    { id: 'input', color: '#3b82f6', name: '输入' },
-    { id: 'process', color: '#10b981', name: '处理' },
-    { id: 'output', color: '#f59e0b', name: '输出' },
-    { id: 'feedback', color: '#ef4444', name: '反馈' },
-  ];
-
-  const purposeData = [
-    { id: '生理需求', color: '#ef4444', label: '生理需求', description: '食物、水、睡眠等基本需求' },
-    { id: '安全需求', color: '#f59e0b', label: '安全需求', description: '安全、稳定、保障' },
-    { id: '社交需求', color: '#3b82f6', label: '社交需求', description: '爱、归属感、人际关系' },
-    { id: '尊重需求', color: '#8b5cf6', label: '尊重需求', description: '自尊、认可、地位' },
-    { id: '自我实现', color: '#10b981', label: '自我实现', description: '实现潜力、追求理想' },
-  ];
-
-  const johariWindowData = [
-    { id: 'open', x: 0.35, y: 0.35, color: '#3b82f6', fillOpacity: 0.2, label: '公开区', description: '自己知道，他人也知道', examples: '姓名、外貌' },
-    { id: 'blind', x: 0.65, y: 0.35, color: '#10b981', fillOpacity: 0.2, label: '盲区', description: '自己不知道，他人知道', examples: '坏习惯' },
-    { id: 'hidden', x: 0.35, y: 0.65, color: '#ef4444', fillOpacity: 0.2, label: '隐藏区', description: '自己知道，他人不知道', examples: '秘密' },
-    { id: 'unknown', x: 0.65, y: 0.65, color: '#f59e0b', fillOpacity: 0.2, label: '未知区', description: '自己不知道，他人也不知道', examples: '潜能' },
-  ];
-
-  const footInDoorData = [
-    { step: 1, acceptanceRate: 90 },
-    { step: 2, acceptanceRate: 85 },
-    { step: 3, acceptanceRate: 80 },
-  ];
-
-  // getButtonClass function
-  const getButtonClass = (isActive: boolean) => {
-    if (isActive) {
-      return 'bg-blue-500 text-white border-blue-500';
-    }
-    if (isNeomorphic) {
-      return `bg-[#e0e5ec] rounded-[32px] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)] hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] transition-all duration-200 active:shadow-[inset_8px_8px_16px_rgba(163,177,198,0.6),inset_-8px_-8px_16px_rgba(255,255,255,1)] text-zinc-700`;
-    }
-    return isDark ? 'bg-zinc-900 border-zinc-800 text-zinc-500 hover:border-zinc-700' : 'bg-white border-slate-300 text-slate-600 hover:border-slate-200';
-  };
-
-  // 从备份文件中复制的CHARTS数组
-  const CHARTS = [
-    { 
-      id: 'dunning', 
-      name: 'dunning', 
-      label: '达克效应', 
-      icon: BrainCircuit, 
-      description: '展示认知能力与自信程度的关系', 
-      deepAnalysis: '达克效应指出，能力欠缺的人往往对自己的能力估计过高，而能力强的人则倾向于低估自己的能力。了解达克效应有助于保持谦虚的学习态度，避免陷入过度自信的陷阱。',
-      principle: '能力欠缺的人往往对自己的能力估计过高，而能力强的人则倾向于低估自己的能力，这种认知偏差会影响人们的学习和决策。',
-      scope: '自我认知、学习态度、决策制定、团队管理',
-      tips: '1. 保持谦虚，认识到自己的局限性；2. 主动寻求反馈，了解他人对自己的评价；3. 学习批判性思维，学会质疑自己的观点；4. 与不同水平的人交流，拓宽视野。',
-      practice: '1. 定期进行自我评估，记录自己的成长；2. 参加技能测试或比赛，客观了解自己的水平；3. 阅读相关书籍或课程，提升认知能力；4. 在做出重要决策前，征求他人的意见。'
-    },
-    { 
-      id: 'dip', 
-      name: 'dip', 
-      label: '死亡谷效应', 
-      icon: Mountain, 
-      description: '展示在新事物学习过程中遇到的瓶颈期', 
-      deepAnalysis: '死亡谷效应是指在学习新技能或开展新项目时，初期进步迅速，但随后会进入一个长期的瓶颈期，进步缓慢甚至停滞。这是学习曲线中的正常现象，坚持度过这个阶段，就能进入快速成长的上升期。',
-      principle: '在新事物学习过程中，初期进步迅速，但随后会进入一个长期的瓶颈期，进步缓慢甚至停滞，坚持度过这个阶段，就能进入快速成长的上升期。',
-      scope: '技能学习、项目开展、习惯养成、职业发展',
-      tips: '1. 提前了解死亡谷的存在，做好心理准备；2. 分解目标，设置小里程碑，获得持续的成就感；3. 寻找同伴或导师，获得支持和指导；4. 保持规律的学习/工作节奏，避免三天打鱼两天晒网。',
-      practice: '1. 制定详细的学习计划，将大目标分解为小目标；2. 每周记录进度，关注微小的进步；3. 遇到瓶颈时，尝试换一种学习方法或休息一下再继续；4. 寻找成功案例，激励自己坚持下去。'
-    },
-    { 
-      id: 'jcurve', 
-      name: 'jcurve', 
-      label: 'J型曲线', 
-      icon: TrendingUp, 
-      description: '展示长期投资或努力的回报模式', 
-      deepAnalysis: 'J型曲线描述了在投入初期收益为负，但随着时间推移，收益会呈指数级增长的现象。这一规律适用于学习、投资、健身等多个领域，提醒我们要有长期主义思维，坚持积累。',
-      principle: '在投入初期收益为负，但随着时间推移，收益会呈指数级增长，长期坚持才能获得巨大回报。',
-      scope: '学习投资、职业发展、健身养生、人际关系',
-      tips: '1. 树立长期主义思维，不急于求成；2. 选择有长期价值的领域进行投入；3. 保持持续学习和进步；4. 定期复盘和调整策略。',
-      practice: '1. 制定5年或10年的长期计划；2. 每天坚持做一件对长期有价值的事情；3. 投资自己的技能和知识；4. 保持健康的生活方式，为长期发展奠定基础。'
-    },
-    { 
-      id: 'antifragile', 
-      name: 'antifragile', 
-      label: '反脆弱', 
-      icon: Shield, 
-      description: '展示系统在压力下的恢复和成长能力', 
-      deepAnalysis: '反脆弱是指系统不仅能在压力下恢复，还能从压力中获益。与脆弱和稳健不同，反脆弱系统在不确定性中茁壮成长。培养反脆弱能力有助于应对生活中的各种挑战。',
-      principle: '系统不仅能在压力下恢复，还能从压力中获益，在不确定性中茁壮成长。',
-      scope: '个人成长、企业管理、投资决策、风险管理',
-      tips: '1. 主动接受适度的挑战和压力；2. 建立多元化的技能和收入来源；3. 培养适应变化的能力；4. 从失败中学习，不断改进。',
-      practice: '1. 定期尝试新事物，走出舒适区；2. 学习一项新技能，挑战自己的极限；3. 建立应急基金，应对突发情况；4. 记录失败经验，分析原因并改进。'
-    },
-    { 
-      id: 'secondcurve', 
-      name: 'secondcurve', 
-      label: '第二曲线', 
-      icon: GitMerge, 
-      description: '展示从现有曲线向新增长曲线的转型', 
-      deepAnalysis: '第二曲线理论指出，任何事物的发展都有生命周期，当第一条曲线开始下降时，需要提前布局第二条增长曲线。这一理论适用于企业发展和个人成长，提醒我们要不断创新和转型。',
-      principle: '任何事物的发展都有生命周期，当第一条曲线开始下降时，需要提前布局第二条增长曲线，实现持续发展。',
-      scope: '职业规划、企业发展、产品创新、个人成长',
-      tips: '1. 提前预判现有曲线的发展趋势；2. 在现有曲线达到峰值前，开始布局第二条曲线；3. 勇于创新，尝试新的领域和方向；4. 资源合理分配，既要维护现有业务，又要发展新业务。',
-      practice: '1. 定期评估自己的职业发展状况；2. 学习新技能，为转型做准备；3. 关注行业趋势，寻找新的机会；4. 小步试错，逐步推进新的发展方向。'
-    }
-  ];
-
-  return (
-    <div className="w-full h-full flex flex-col">
-      {/* 图表分类和按钮区域 */}
-      <div className="p-4 overflow-auto">
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCenter}
-          onDragEnd={handleDragEnd}
-        >
-          {Object.entries(chartCategories).map(([category, charts]) => (
-            <div key={category} className="mb-4">
-              <h3 className="text-sm font-bold mb-2 text-zinc-700 dark:text-zinc-300">
-                {category === 'trend' ? '趋势类' : '概念类'}
-              </h3>
-              <SortableContext
-                items={charts}
-                strategy={verticalListSortingStrategy}
-              >
-                <div className="flex flex-wrap gap-2">
-                  {charts.map((chartId) => {
-                    const chart = getChartById(chartId);
-                    if (!chart) return null;
-                    return (
-                      <SortableButton
-                        key={chartId}
-                        id={chartId}
-                        chart={chart}
-                      />
-                    );
-                  })}
-                </div>
-              </SortableContext>
-            </div>
-          ))}
-        </DndContext>
-      </div>
-      {/* 图表显示区域 */}
-      <div className="flex-grow overflow-auto">
-        {renderChart()}
-      </div>
-      {/* 深度分析区域 */}
-      <div className="p-4 border-t border-gray-200 dark:border-gray-800">
-        {(() => {
-          const activeChartObj = getChartById(activeChart);
-          if (!activeChartObj) return null;
-          return (
-            <div>
-              <h3 className="text-lg font-bold mb-2">{activeChartObj.label}</h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">{activeChartObj.deepAnalysis}</p>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <h4 className="text-sm font-semibold mb-1">核心原理</h4>
-                  <p className="text-xs text-gray-500 dark:text-gray-500">{activeChartObj.principle}</p>
-                </div>
-                <div>
-                  <h4 className="text-sm font-semibold mb-1">适用范围</h4>
-                  <p className="text-xs text-gray-500 dark:text-gray-500">{activeChartObj.scope}</p>
-                </div>
-              </div>
-            </div>
-          );
-        })()}
-      </div>
-    </div>
-  );
-};
-
-export default MissionControl;
+      case 'peakEnd':
+        return (
+          <BaseChart data={peakEndData} isDark={isDark} height={chartHeight}>
+            <AreaChart data={peakEndData} animationDuration={1000}>
+              <defs>
+                <linearGradient id="colorPeakEnd" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor={chartConfig.colors.primary} stopOpacity={0.4}/>
+                  <stop offset="95%" stopColor={chartConfig.colors.primary} stopOpacity={0.05}/>
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray={chartConfig.grid.strokeDasharray} stroke={getGridColor(isDark)} />
+              <XAxis dataKey="time" stroke={chartConfig.axis.stroke} label={{ value: '时间', position: 'insideBottom', fontSize: chartConfig.fontSize.axisLabel }} />
+              <YAxis stroke={chartConfig.axis.stroke} label={{ value: '体验强度', angle: -90, position: 'insideLeft', fontSize: chartConfig.fontSize.axisLabel }} domain={[0, 'dataMax + 10']} />
+              <Legend wrapperStyle={chartConfig.legend.wrapperStyle} />
+              <Area type="monotone" dataKey="intensity" stroke={chartConfig.colors.primary} fill="url(#colorPeakEnd)" name="体验强度" />
+              {/* 标记峰值点 */}
+              <circle cx={peakEndData[3].time} cy={peakEndData[3].intensity} r={4} fill={chartConfig.colors.danger} stroke="white" strokeWidth={2} />
+              <text x={peakEndData[3].time} y={peakEndData[3].intensity - 10} fill={chartConfig.colors.danger} fontSize={12} textAnchor="middle">峰值</text>
+              {/* 标记结束点 */}
+              <circle cx={peakEndData[peakEndData.length - 1].time} cy={peakEndData[peakEndData.length - 1].intensity} r={4} fill={chartConfig.colors.secondary} stroke="white" strokeWidth={2} />
+              <text x={peakEndData[peakEndData.length - 1].time} y={peakEndData[peakEndData.length - 1].intensity - 10} fill={chartConfig.colors.secondary} fontSize={12} textAnchor="middle">结束点</text>
+              <text x="50%" y="20" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={chartConfig.fontSize.title} fontWeight="bold">
+                峰终定律 - 体验记忆曲线
+              </text>
+            </AreaChart>
+          </BaseChart>
+        );
+      case 'valueVenn':
+        return (
+          <div className="w-full h-full flex items-center justify-center">
+            <svg width="100%" height="100%" viewBox="0 0 300 300" preserveAspectRatio="xMidYMid meet">
+              {/* 绘制三个重叠的椭圆 */}
+              <ellipse cx="100" cy="150" rx="80" ry="80" fill={chartConfig.colors.purple} fillOpacity={0.3} stroke={chartConfig.colors.purple} strokeWidth={2} />
+              <ellipse cx="200" cy="150" rx="80" ry="80" fill={chartConfig.colors.blue} fillOpacity={0.3} stroke={chartConfig.colors.blue} strokeWidth={2} />
+              <ellipse cx="150" cy="100" rx="80" ry="80" fill={chartConfig.colors.green} fillOpacity={0.3} stroke={chartConfig.colors.green} strokeWidth={2} />
+              {/* 标签文字 */}
+              <text x="100" y="150" textAnchor="middle" fill={chartConfig.colors.purple} fontSize="14" fontWeight="bold">
+                我能做
+              </text>
+              <text x="200" y="150" textAnchor="middle" fill={chartConfig.colors.blue} fontSize="14" fontWeight="bold">
+                市场需要
+              </text>
+              <text x="150" y="60" textAnchor="middle" fill={chartConfig.colors.green} fontSize="14" fontWeight="bold">
+                我热爱
+              </text>
+              <text x="150" y="150" textAnchor="middle" fill="#333333" fontSize="18" fontWeight="bold">
+                价值甜蜜区
+              </text>
+            </svg>
+          </div>
+        );
+      case 'purpose':
+        return (
+          <BaseChart data={purposeData} isDark={isDark} height={chartHeight}>
+            <AreaChart data={purposeData} animationDuration={1000}>
+              <defs>
+                <linearGradient id="colorPurpose" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor={chartConfig.colors.primary} stopOpacity={0.4}/>
+                  <stop offset="95%" stopColor={chartConfig.colors.primary} stopOpacity={0.05}/>
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray={chartConfig.grid.strokeDasharray} stroke={getGridColor(isDark)} />
+              <XAxis dataKey="time" stroke={chartConfig.axis.stroke} label={{ value: '时间', position: 'insideBottom', fontSize: chartConfig.fontSize.axisLabel }} />
+              <YAxis stroke={chartConfig.axis.stroke} label={{ value: '人生意义感', angle: -90, position: 'insideLeft', fontSize: chartConfig.fontSize.axisLabel }} domain={[0, 'dataMax + 10']} />
+              <Legend wrapperStyle={chartConfig.legend.wrapperStyle} />
+              <Area type="monotone" dataKey="purpose" stroke={chartConfig.colors.primary} fill="url(#colorPurpose)" name="人生意义感" />
+              <text x="50%" y="20" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={chartConfig.fontSize.title} fontWeight="bold">
+                人生意义感曲线
+              </text>
+            </AreaChart>
+          </BaseChart>
+        );
+      case 'johariWindow':
+        return (
+          <div className="w-full h-full flex items-center justify-center">
+            <svg width="100%" height="100%" viewBox="0 0 300 300" preserveAspectRatio="xMidYMid meet">
+              {/* 绘制四个象限 */}
+              <rect x="50" y="50" width="100" height="100" fill="#ffd700" fillOpacity={0.3} stroke="#ffd700" strokeWidth={2} />
+              <rect x="150" y="50" width="100" height="100" fill="#4ecdc4" fillOpacity={0.3} stroke="#4ecdc4" strokeWidth={2} />
+              <rect x="50" y="150" width="100" height="100" fill="#ff6b6b" fillOpacity={0.3} stroke="#ff6b6b" strokeWidth={2} />
+              <rect x="1

@@ -7,7 +7,7 @@ import {
 import BaseChart from './BaseChart';
 import { chartConfig, getGridColor, getTooltipStyle } from './ChartConfig';
 import { Activity, BarChart2, Mountain, Zap, BrainCircuit, Pickaxe, Hexagon, TrendingUp, Anchor, Target, CircleDot, PieChart, RotateCw, Smile, Battery, TrendingDown, Scale, Compass, Layers, GitMerge, Shield, Eye, CheckCircle2, Clock, GripVertical, HelpCircle, Square, ArrowRight, Search, BookOpen, Repeat, FileSearch, Lightbulb, RefreshCw, Timer, Star, FileText, MessageCircle, User, ArrowLeftRight, Layout, Diamond } from 'lucide-react';
-import { Theme, Project, Habit, Chart } from '../types';
+import { Theme, Project, Habit } from '../types';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragEndEvent } from '@dnd-kit/core';
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy, horizontalListSortingStrategy, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -23,17 +23,29 @@ interface MissionControlProps {
 const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits }) => {
   const isDark = theme === 'dark';
   const isNeomorphic = theme === 'neomorphic';
+  
+  // 拟态风格样式变量 - 优化阴影效果，使其与按钮圆角匹配
+  const neomorphicStyles = {
+    bg: 'bg-[#e0e5ec]',
+    border: 'border-[#e0e5ec]',
+    shadow: 'shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] rounded-[24px]',
+    hoverShadow: 'hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] rounded-[24px]',
+    activeShadow: 'active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)] rounded-[24px]',
+    transition: 'transition-all duration-200'
+  };
+  
   const bgClass = isDark ? 'bg-zinc-950' : isNeomorphic ? 'bg-[#e0e5ec]' : 'bg-slate-50';
   const cardBg = isDark 
       ? 'bg-zinc-900' 
       : isNeomorphic 
-      ? 'bg-[#e0e5ec] rounded-[32px] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)] hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] transition-all duration-200 active:shadow-[inset_8px_8px_16px_rgba(163,177,198,0.6),inset_-8px_-8px_16px_rgba(255,255,255,1)]' 
+      ? `${neomorphicStyles.bg} rounded-[48px] ${neomorphicStyles.shadow} ${neomorphicStyles.hoverShadow} ${neomorphicStyles.activeShadow} ${neomorphicStyles.transition}` 
       : 'bg-white shadow-sm';
   const textMain = isDark ? 'text-zinc-200' : isNeomorphic ? 'text-zinc-700' : 'text-slate-800';
   const textSub = isDark ? 'text-zinc-500' : isNeomorphic ? 'text-zinc-600' : 'text-slate-500';
 
-  const [activeChart, setActiveChart] = useState<string>('dip');
-  const [chartHeight, setChartHeight] = useState<number>(400);
+  const [activeChart, setActiveChart] = useState<string>('dunning');
+  // 确保图表在页面加载时显示达克效应
+  const [chartHeight, setChartHeight] = useState<number>(600);
   const [activeHelp, setActiveHelp] = useState<string | null>(null);
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -45,13 +57,6 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
     shadowIntensity: 'medium' as const,
     showUnderlyingPrinciple: true
   };
-
-  // 组件挂载时确保图表容器有固定高度
-  useEffect(() => {
-    // 固定图表高度为400px，确保图表始终有有效高度
-    const chartHeight = 400;
-    setChartHeight(chartHeight);
-  }, []);
 
   // Drag and Drop state - 删除习惯完成率和专注时间趋势，添加新的成长型思维、沉没成本谬误和二八定律，以及新增的决策/行为/认知/学习类图表
   const [chartCategories, setChartCategories] = useState<{ [key: string]: string[] }>({
@@ -208,24 +213,22 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
 
   // Get chart by id
   const getChartById = (id: string) => {
-    const chart = CHARTS.find(chart => chart.id === id);
-    if (chart) {
-      return {
-        ...chart,
-        visualizationDesign: chart.visualizationDesign || `这是${chart.label}的可视化设计描述，包含图表类型、视觉元素、配色方案等详细信息。`
-      };
-    }
-    return undefined;
+    return CHARTS.find(chart => chart.id === id);
   };
 
   // Chart rendering function to avoid complex nested conditional rendering
   const renderChart = () => {
     const activeChartObj = getChartById(activeChart);
     
+    // 添加调试日志
+    console.log('activeChart:', activeChart);
+    console.log('activeChartObj:', activeChartObj);
+    console.log('dunningData:', dunningData);
+    
     switch (activeChart) {
       case 'attributeRadar':
         return (
-          <BaseChart data={attributeData} isDark={isDark} height={chartHeight}>
+          <BaseChart data={attributeData} isDark={isDark}>
             <RadarChart cx="50%" cy="50%" outerRadius="70%" data={attributeData} animationDuration={1000}>
               <PolarGrid stroke={getGridColor(isDark)} />
               <PolarAngleAxis dataKey="subject" tick={{ fill: isDark ? '#a1a1aa' : '#64748b', fontSize: chartConfig.fontSize.axisTick, fontWeight: 'bold' }} />
@@ -240,7 +243,7 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
         );
       case 'focusHeatmap':
         return (
-          <BaseChart data={dailyFocusData} isDark={isDark} height={chartHeight}>
+          <BaseChart data={dailyFocusData} isDark={isDark} >
             <BarChart data={dailyFocusData} animationDuration={1000}>
               <CartesianGrid strokeDasharray={chartConfig.grid.strokeDasharray} stroke={getGridColor(isDark)} vertical={false}/>
               <XAxis dataKey="name" stroke={chartConfig.axis.stroke} fontSize={chartConfig.fontSize.axisTick} tickLine={chartConfig.axis.tickLine} interval={0} label={{ value: '日期', position: chartConfig.axis.label.position, fontSize: chartConfig.fontSize.axisLabel }}/>
@@ -329,143 +332,85 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
         );
       case 'dunning':
         return (
-          <BaseChart data={dunningData} isDark={isDark} height={chartHeight}>
-            <AreaChart data={dunningData} animationDuration={1000} margin={{ top: 30, right: 30, left: 30, bottom: 60 }}>
-              <defs>
-                {/* 自信爆棚区 */}
-                <linearGradient id="confidentExplosionGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#ffd700" stopOpacity={0.3}/>
-                  <stop offset="95%" stopColor="#ffd700" stopOpacity={0.05}/>
-                </linearGradient>
-                {/* 自信崩溃区 */}
-                <linearGradient id="confidentCrashGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#ff6b6b" stopOpacity={0.3}/>
-                  <stop offset="95%" stopColor="#ff6b6b" stopOpacity={0.05}/>
-                </linearGradient>
-                {/* 自信重建区 */}
-                <linearGradient id="confidentRebuildGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#4ecdc4" stopOpacity={0.3}/>
-                  <stop offset="95%" stopColor="#4ecdc4" stopOpacity={0.05}/>
-                </linearGradient>
-                {/* 自信成熟区 */}
-                <linearGradient id="confidentMatureGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#45b7d1" stopOpacity={0.3}/>
-                  <stop offset="95%" stopColor="#45b7d1" stopOpacity={0.05}/>
-                </linearGradient>
-              </defs>
-              
-              {/* X轴和Y轴 */}
-              <XAxis 
-                dataKey="x" 
-                stroke="#000000" 
-                label={{ value: '智慧水平（知识与经验，低→高）', position: 'insideBottom', offset: -40, fill: '#000000', fontSize: 14 }} 
-                tick={{ fontSize: chartConfig.fontSize.axisTick, fill: '#000000' }}
-                domain={[0, 100]}
-                ticks={[0, 25, 55, 85, 100]}
-              />
-              <YAxis 
-                stroke="#000000" 
-                label={{ value: '自信程度（高→低）', angle: -90, position: 'insideLeft', offset: 10, fill: '#000000', fontSize: 14 }} 
-                tick={{ fontSize: chartConfig.fontSize.axisTick, fill: '#000000' }}
-                domain={[0, 100]}
-                orientation="left"
-              />
-              
-              {/* 区域背景 */}
-              <ReferenceArea x1="0" x2="25" fill="url(#confidentExplosionGradient)" stroke="#ffd700" strokeOpacity={0.8} strokeWidth={1} />
-              <ReferenceArea x1="25" x2="55" fill="url(#confidentCrashGradient)" stroke="#ff6b6b" strokeOpacity={0.8} strokeWidth={1} />
-              <ReferenceArea x1="55" x2="85" fill="url(#confidentRebuildGradient)" stroke="#4ecdc4" strokeOpacity={0.8} strokeWidth={1} />
-              <ReferenceArea x1="85" x2="100" fill="url(#confidentMatureGradient)" stroke="#45b7d1" strokeOpacity={0.8} strokeWidth={1} />
+          <div className="w-full h-full flex items-center justify-center">
+            <svg width="100%" height="100%" viewBox="0 0 400 350" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+              {/* 背景分区 */}
+              <rect x="50" y="50" width="90" height="200" fill="#FFD700" opacity="0.3" />
+              <rect x="140" y="50" width="90" height="200" fill="#FF6B6B" opacity="0.3" />
+              <rect x="230" y="50" width="90" height="200" fill="#4ECDC4" opacity="0.3" />
+              <rect x="320" y="50" width="30" height="200" fill="#45B7D1" opacity="0.3" />
               
               {/* 曲线 */}
-              <Area type="monotone" dataKey="confidence" stroke="#000000" strokeWidth={3} fill="none" name="自信度" />
+              <path d="M70,70 C90,50 110,90 130,110 C150,130 170,170 190,190 C210,170 230,130 250,110 C270,90 290,70 310,60 C330,50 350,50 370,55" 
+                    fill="none" stroke={isDark ? '#ffffff' : '#000000'} strokeWidth="3" strokeLinecap="round" />
               
-              {/* 区域标签 */}
-              <text x="12.5" y="100" textAnchor="middle" fill="#ffd700" fontSize="12" fontWeight="bold">
-                自信爆棚区
-              </text>
-              <text x="40" y="180" textAnchor="middle" fill="#ff6b6b" fontSize="12" fontWeight="bold">
-                自信崩溃区
-              </text>
-              <text x="70" y="120" textAnchor="middle" fill="#4ecdc4" fontSize="12" fontWeight="bold">
-                自信重建区
-              </text>
-              <text x="92.5" y="80" textAnchor="middle" fill="#45b7d1" fontSize="12" fontWeight="bold">
-                自信成熟区
-              </text>
+              {/* 关键节点 */}
+              <circle cx="70" cy="70" r="6" fill="#FF0000" stroke="#FFFFFF" strokeWidth="2" />
+              <circle cx="190" cy="190" r="6" fill="#FF0000" stroke="#FFFFFF" strokeWidth="2" />
+              <circle cx="250" cy="110" r="6" fill="#FF0000" stroke="#FFFFFF" strokeWidth="2" />
+              <circle cx="370" cy="55" r="6" fill="#FF0000" stroke="#FFFFFF" strokeWidth="2" />
               
-              {/* 曲线标注 - 愚昧之巅 */}
-              <circle cx={20} cy={95} r={6} fill="#ff0000" stroke="#ffffff" strokeWidth={2} />
-              <text x={20} y={88} textAnchor="middle" fill="#ff0000" fontSize="12" fontWeight="bold">
-                愚昧之巅
-              </text>
+              {/* 关键节点标注 */}
+              <text x="70" y="45" textAnchor="middle" fill="#FF0000" fontSize="10" fontWeight="bold">愚昧之巅</text>
+              <text x="190" y="210" textAnchor="middle" fill="#FF0000" fontSize="10" fontWeight="bold">绝望之谷</text>
+              <text x="250" y="85" textAnchor="middle" fill="#FF0000" fontSize="10" fontWeight="bold">开悟之坡</text>
+              <text x="370" y="30" textAnchor="middle" fill="#FF0000" fontSize="10" fontWeight="bold">平稳高原</text>
               
-              {/* 曲线标注 - 绝望之谷 */}
-              <circle cx={50} cy={40} r={6} fill="#ff0000" stroke="#ffffff" strokeWidth={2} />
-              <text x={50} y={33} textAnchor="middle" fill="#ff0000" fontSize="12" fontWeight="bold">
-                绝望之谷
-              </text>
+              {/* 区域名称 */}
+              <text x="95" y="215" textAnchor="middle" fill="#FFD700" fontSize="10" fontWeight="bold">自信爆棚区</text>
+              <text x="185" y="215" textAnchor="middle" fill="#FF6B6B" fontSize="10" fontWeight="bold">自信崩溃区</text>
+              <text x="275" y="215" textAnchor="middle" fill="#4ECDC4" fontSize="10" fontWeight="bold">自信重建区</text>
+              <text x="335" y="215" textAnchor="middle" fill="#45B7D1" fontSize="10" fontWeight="bold">自信成熟区</text>
               
-              {/* 曲线标注 - 开悟之坡 */}
-              <circle cx={70} cy={75} r={6} fill="#ff0000" stroke="#ffffff" strokeWidth={2} />
-              <text x={70} y={68} textAnchor="middle" fill="#ff0000" fontSize="12" fontWeight="bold">
-                开悟之坡
-              </text>
+              {/* 表现标签 */}
+              <text x="95" y="285" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="12" fontWeight="bold">巨婴</text>
+              <text x="185" y="285" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="12" fontWeight="bold">屌丝</text>
+              <text x="275" y="285" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="12" fontWeight="bold">智者</text>
+              <text x="335" y="285" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="12" fontWeight="bold">大师</text>
               
-              {/* 曲线标注 - 平稳高原 */}
-              <circle cx={90} cy={90} r={6} fill="#ff0000" stroke="#ffffff" strokeWidth={2} />
-              <text x={90} y={83} textAnchor="middle" fill="#ff0000" fontSize="12" fontWeight="bold">
-                平稳高原
-              </text>
-              
-              {/* 攻击谩骂标注 */}
-              <text x={40} y={220} textAnchor="middle" fill="#000000" fontSize="12" fontWeight="bold">
-                攻击谩骂
-              </text>
-              
-              {/* 小图标 - 自信爆棚区人物简笔画 */}
-              <g transform="translate(15, 120)">
-                <circle cx="0" cy="0" r="10" fill="#ffd700" fillOpacity="0.8" stroke="#ffd700" strokeWidth="2" />
-                <rect x="-8" y="10" width="16" height="20" fill="#ffd700" fillOpacity="0.8" stroke="#ffd700" strokeWidth="2" />
-                <line x1="-8" y1="15" x2="-15" y2="25" stroke="#ffd700" strokeWidth="2" />
-                <line x1="8" y1="15" x2="15" y2="25" stroke="#ffd700" strokeWidth="2" />
-                <line x1="-8" y1="30" x2="-12" y2="40" stroke="#ffd700" strokeWidth="2" />
-                <line x1="8" y1="30" x2="12" y2="40" stroke="#ffd700" strokeWidth="2" />
+              {/* 图标 - 自信爆棚区人物 */}
+              <g transform="translate(95, 140)">
+                <circle cx="0" cy="0" r="12" fill="#FFD700" opacity="0.8" />
+                <rect x="-10" y="12" width="20" height="25" fill="#FFD700" opacity="0.8" />
+                <line x1="-8" y1="18" x2="-15" y2="30" stroke="#FFD700" strokeWidth="2" />
+                <line x1="8" y1="18" x2="15" y2="30" stroke="#FFD700" strokeWidth="2" />
+                <line x1="-8" y1="37" x2="-12" y2="48" stroke="#FFD700" strokeWidth="2" />
+                <line x1="8" y1="37" x2="12" y2="48" stroke="#FFD700" strokeWidth="2" />
               </g>
               
-              {/* 小图标 - 自信成熟区大脑图标 */}
-              <g transform="translate(285, 100)">
-                <path d="M0,-15 C-18,-15 -22,0 -22,11 C-22,22 -11,30 0,30 C11,30 22,22 22,11 C22,0 18,-15 0,-15 Z" fill="#45b7d1" fillOpacity="0.8" stroke="#45b7d1" strokeWidth="2" />
-                <line x1="-15" y1="0" x2="15" y2="0" stroke="#ffffff" strokeWidth="2" />
-                <line x1="-15" y1="7" x2="15" y2="7" stroke="#ffffff" strokeWidth="2" />
-                <line x1="-15" y1="14" x2="15" y2="14" stroke="#ffffff" strokeWidth="2" />
+              {/* 图标 - 自信崩溃区 */}
+              <g transform="translate(185, 140)">
+                <circle cx="0" cy="0" r="12" fill="#FF6B6B" opacity="0.8" />
+                <path d="M-15,12 Q0,35 15,12" fill="none" stroke="#FF6B6B" strokeWidth="2" />
+                <line x1="-10" y1="5" x2="-15" y2="0" stroke="#FF6B6B" strokeWidth="2" />
+                <line x1="10" y1="5" x2="15" y2="0" stroke="#FF6B6B" strokeWidth="2" />
+                <line x1="-10" y1="10" x2="-15" y2="15" stroke="#FF6B6B" strokeWidth="2" />
+                <line x1="10" y1="10" x2="15" y2="15" stroke="#FF6B6B" strokeWidth="2" />
               </g>
               
-              {/* 底部表现标签 */}
-              <text x="12.5" y="340" textAnchor="middle" fill="#000000" fontSize="14" fontWeight="bold">
-                巨婴
-              </text>
-              <text x="40" y="340" textAnchor="middle" fill="#000000" fontSize="14" fontWeight="bold">
-                屌丝
-              </text>
-              <text x="70" y="340" textAnchor="middle" fill="#000000" fontSize="14" fontWeight="bold">
-                智者
-              </text>
-              <text x="92.5" y="340" textAnchor="middle" fill="#000000" fontSize="14" fontWeight="bold">
-                大师
-              </text>
+              {/* 图标 - 自信重建区 */}
+              <g transform="translate(275, 140)">
+                <path d="M0,25 L0,5 L15,20" fill="none" stroke="#4ECDC4" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                <circle cx="15" cy="20" r="3" fill="#4ECDC4" />
+              </g>
               
-              {/* 表现标签标题 */}
-              <text x="175" y="320" textAnchor="middle" fill="#000000" fontSize="14" fontWeight="bold">
-                表现
-              </text>
+              {/* 图标 - 自信成熟区大脑 */}
+              <g transform="translate(335, 140)">
+                <path d="M0,-15 C-18,-15 -22,0 -22,11 C-22,22 -11,30 0,30 C11,30 22,22 22,11 C22,0 18,-15 0,-15 Z" fill="#45B7D1" opacity="0.8" />
+                <line x1="-15" y1="0" x2="15" y2="0" stroke="#FFFFFF" strokeWidth="2" />
+                <line x1="-15" y1="7" x2="15" y2="7" stroke="#FFFFFF" strokeWidth="2" />
+                <line x1="-15" y1="14" x2="15" y2="14" stroke="#FFFFFF" strokeWidth="2" />
+              </g>
               
-              {/* 图表标题 */}
-              <text x="175" y="15" textAnchor="middle" fill="#000000" fontSize="18" fontWeight="bold">
-                达克效应 Dunning-Kruger effect
-              </text>
-            </AreaChart>
-          </BaseChart>
+              {/* 坐标轴 */}
+              <line x1="50" y1="50" x2="50" y2="250" stroke={isDark ? '#ffffff' : '#000000'} strokeWidth="2" />
+              <line x1="50" y1="250" x2="390" y2="250" stroke={isDark ? '#ffffff' : '#000000'} strokeWidth="2" />
+              
+              {/* 坐标轴标签 */}
+              <text x="15" y="150" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="10" fontWeight="bold" transform="rotate(-90, 15, 150)">自信程度（高→低）</text>
+              <text x="220" y="270" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="10" fontWeight="bold">智慧水平（知识与经验，低→高）</text>
+            </svg>
+          </div>
         );
       case 'jcurve':
         return (
@@ -711,2703 +656,228 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
               <polygon points="250,84 262.5,87.5 250,91" fill={isDark ? "#a1a1aa" : "#64748b"} />
               
               {/* 水平连接线 - 底部 */}
-              <line x1="87.5" y1="262.5" x2="250" y2="262.5" stroke={isDark ? "#a1a1aa" : "#64748b"} strokeWidth="2" strokeDasharray="3 3" />
-              {/* 箭头 - 底部 */}
-              <polygon points="250,259.5 262.5,262.5 250,265.5" fill={isDark ? "#a1a1aa" : "#64748b"} />
-              
-              {/* 垂直连接线 - 左侧 */}
-              <line x1="87.5" y1="87.5" x2="87.5" y2="250" stroke={isDark ? "#a1a1aa" : "#64748b"} strokeWidth="2" strokeDasharray="3 3" />
-              {/* 箭头 - 左侧 */}
-              <polygon points="84.5,250 87.5,262.5 90.5,250" fill={isDark ? "#a1a1aa" : "#64748b"} />
-              
-              {/* 垂直连接线 - 右侧 */}
-              <line x1="262.5" y1="87.5" x2="262.5" y2="250" stroke={isDark ? "#a1a1aa" : "#64748b"} strokeWidth="2" strokeDasharray="3 3" />
-              {/* 箭头 - 右侧 */}
-              <polygon points="259.5,250 262.5,262.5 265.5,250" fill={isDark ? "#a1a1aa" : "#64748b"} />
-              
-              {/* 中心文字 */}
-              <text x="175" y="175" textAnchor="middle" fill={isDark ? "#e2e8f0" : "#1e293b"} fontSize="18" fontWeight="bold">
-                WOOP框架
-              </text>
-              <text x="175" y="190" textAnchor="middle" fill={isDark ? "#a1a1aa" : "#64748b"} fontSize="12">
-                科学的目标设定方法
-              </text>
-              
-              {/* 添加WOOP框架说明 */}
-              <text x="175" y="330" textAnchor="middle" fill={isDark ? "#e2e8f0" : "#1e293b"} fontSize="12" fontWeight="bold">
-                WOOP: 愿望 → 结果 → 障碍 → 计划
-              </text>
             </svg>
           </div>
-        );
-      case 'windLaw':
-        return (
-          <BaseChart data={windLawData} isDark={isDark} height={chartHeight}>
-            <AreaChart data={windLawData} animationDuration={1000} margin={{ top: 10, right: 30, left: 0, bottom: 10 }}>
-              <defs>
-                <linearGradient id="colorWindResistance" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#ef4444" stopOpacity={0.4} />
-                  <stop offset="95%" stopColor="#ef4444" stopOpacity={0.05} />
-                </linearGradient>
-                <linearGradient id="colorProgress" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#10b981" stopOpacity={0.4} />
-                  <stop offset="95%" stopColor="#10b981" stopOpacity={0.05} />
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray={chartConfig.grid.strokeDasharray} stroke={getGridColor(isDark)} />
-              <XAxis dataKey="speed" stroke={chartConfig.axis.stroke} label={{ value: '速度/努力', position: 'insideBottom', fontSize: chartConfig.fontSize.axisLabel }} />
-              <YAxis stroke={chartConfig.axis.stroke} label={{ value: '数值', angle: -90, position: 'insideLeft', fontSize: chartConfig.fontSize.axisLabel }} domain={[0, 'dataMax + 10']} />
-              <Legend wrapperStyle={chartConfig.legend.wrapperStyle} />
-              <Area type="monotone" dataKey="windResistance" stroke="#ef4444" strokeWidth={2} fill="url(#colorWindResistance)" name="阻力" />
-              <Area type="monotone" dataKey="progress" stroke="#10b981" strokeWidth={2} fill="url(#colorProgress)" name="进展" />
-              <text x="50%" y="20" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={chartConfig.fontSize.title} fontWeight="bold">
-                风阻定律 - 速度与阻力的关系
-              </text>
-            </AreaChart>
-          </BaseChart>
-        );
-      case 'peakEnd':
-        return (
-          <BaseChart data={peakEndData} isDark={isDark} height={chartHeight}>
-            <AreaChart data={peakEndData} animationDuration={1000}>
-              <defs>
-                <linearGradient id="colorExperience" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.4} />
-                  <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0.05} />
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray={chartConfig.grid.strokeDasharray} stroke={getGridColor(isDark)} />
-              <XAxis dataKey="time" stroke={chartConfig.axis.stroke} label={{ value: '时间', position: 'insideBottom', fontSize: chartConfig.fontSize.axisLabel }} />
-              <YAxis stroke={chartConfig.axis.stroke} label={{ value: '体验值', angle: -90, position: 'insideLeft', fontSize: chartConfig.fontSize.axisLabel }} domain={[0, 'dataMax + 10']} />
-              <Legend wrapperStyle={chartConfig.legend.wrapperStyle} />
-              <Area type="monotone" dataKey="experience" stroke="#8b5cf6" strokeWidth={3} fill="url(#colorExperience)" name="体验值" />
-              <Line type="monotone" dataKey="experience" stroke="#8b5cf6" strokeWidth={1} dot={{ r: 4, fill: '#8b5cf6' }} activeDot={{ r: 6, fill: '#8b5cf6' }} />
-              <text x="50%" y="20" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={chartConfig.fontSize.title} fontWeight="bold">
-                峰终定律 - 体验值变化曲线
-              </text>
-            </AreaChart>
-          </BaseChart>
-        );
-      case 'valueVenn':
-        return (
-          <div className="w-full h-full flex items-center justify-center">
-            <svg width="100%" height="100%" viewBox="0 0 300 300" preserveAspectRatio="xMidYMid meet">
-              {/* 图表标题 */}
-              <text x="150" y="25" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="18" fontWeight="bold">
-                价值三圈模型
-              </text>
-              {/* 绘制三个重叠的圆圈 */}
-              {valueVennData.map((item) => {
-                const cx = item.x * 300;
-                const cy = item.y * 300;
-                return (
-                  <g key={item.id}>
-                    <circle cx={cx} cy={cy} r={item.radius} fill={item.color} fillOpacity={item.fillOpacity} stroke={item.color} strokeWidth={2} />
-                    {/* 图标 - 添加了图标元素 */}
-                    <text x={cx} y={cy - 5} textAnchor="middle" fill={item.color} fontSize="24">
-                      {item.id === 'passion' ? '❤️' : item.id === 'talent' ? '🧠' : '💼'}
-                    </text>
-                  </g>
-                );
-              })}
-              
-              {/* 标签和描述 */}
-              <text x="105" y="85" textAnchor="middle" fill="#ef4444" fontSize="16" fontWeight="bold">
-                {valueVennData[0].label}
-              </text>
-              <text x="195" y="85" textAnchor="middle" fill="#3b82f6" fontSize="16" fontWeight="bold">
-                {valueVennData[1].label}
-              </text>
-              <text x="150" y="225" textAnchor="middle" fill="#10b981" fontSize="16" fontWeight="bold">
-                {valueVennData[2].label}
-              </text>
-              
-              {/* 交集区域的文字 */}
-              <text x="150" y="150" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                人生使命
-              </text>
-              <text x="150" y="165" textAnchor="middle" fill={isDark ? "#a1a1aa" : "#64748b"} fontSize="12">
-                激情、天赋与市场的交集
-              </text>
-            </svg>
-          </div>
-        );
-      case 'cognitiveOnion':
-        return (
-          <div className="w-full h-full flex items-center justify-center">
-            <svg width="100%" height="100%" viewBox="0 0 300 300" preserveAspectRatio="xMidYMid meet">
-              {/* 绘制认知洋葱圈的多个同心圆 */}
-              {cognitiveOnionData.map((item, index) => (
-                <g key={item.id}>
-                  <circle cx="150" cy="150" r={item.radius} fill={item.color} fillOpacity={item.fillOpacity} stroke={item.color} strokeWidth={2} />
-                  <text x="150" y={150} textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="12" fontWeight="bold">
-                    {item.label}
-                  </text>
-                </g>
-              ))}
-              {/* 中心文字 */}
-              <text x="150" y="150" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="14" fontWeight="bold">
-                认知洋葱圈模型
-              </text>
-            </svg>
-          </div>
-        );
-      case 'learningCycle':
-        return (
-          <div className="w-full h-full flex items-center justify-center">
-            <svg width="100%" height="100%" viewBox="0 0 300 300" preserveAspectRatio="xMidYMid meet">
-              {/* 绘制环形图表 */}
-              <circle cx="150" cy="150" r="80" fill="none" stroke={isDark ? "#27272a" : "#e2e8f0"} strokeWidth="1" />
-              <circle cx="150" cy="150" r="50" fill="none" stroke={isDark ? "#27272a" : "#e2e8f0"} strokeWidth="1" />
-              
-              {/* 绘制四个象限 */}
-              <line x1="150" y1="70" x2="150" y2="230" stroke={isDark ? "#27272a" : "#e2e8f0"} strokeWidth="1" strokeDasharray="3 3" />
-              <line x1="70" y1="150" x2="230" y2="150" stroke={isDark ? "#27272a" : "#e2e8f0"} strokeWidth="1" strokeDasharray="3 3" />
-              
-              {/* 绘制学习循环的四个阶段 */}
-              {learningCycleData.map((item, index) => {
-                // 计算每个阶段的位置（环形分布）
-                const angle = (index * 90 - 45) * Math.PI / 180;
-                const outerX = 150 + Math.cos(angle) * 80;
-                const outerY = 150 + Math.sin(angle) * 80;
-                const innerX = 150 + Math.cos(angle) * 50;
-                const innerY = 150 + Math.sin(angle) * 50;
-                
-                return (
-                  <g key={item.id}>
-                    {/* 连接线 */}
-                    <line x1={innerX} y1={innerY} x2={outerX} y2={outerY} stroke={item.color} strokeWidth={2} />
-                    
-                    {/* 外部圆圈和文字 */}
-                    <circle cx={outerX} cy={outerY} r="25" fill={item.color} fillOpacity={0.2} stroke={item.color} strokeWidth={2} />
-                    <text x={outerX} y={outerY + 5} textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="12" fontWeight="bold">
-                      {item.name}
-                    </text>
-                  </g>
-                );
-              })}
-              
-              {/* 中心文字 */}
-              <text x="150" y="150" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                学习循环
-              </text>
-              <text x="150" y="165" textAnchor="middle" fill={isDark ? "#a1a1aa" : "#64748b"} fontSize="12">
-                输入 → 处理 → 输出 → 反馈
-              </text>
-            </svg>
-          </div>
-        );
-      case 'purpose':
-        return (
-          <div className="w-full h-full flex items-center justify-center">
-            <svg width="100%" height="100%" viewBox="0 0 300 400" preserveAspectRatio="xMidYMid meet">
-              {/* 绘制阶梯状的马斯洛需求层次 */}
-              {purposeData.map((item, index) => {
-                const y = 350 - index * 60;
-                return (
-                  <g key={item.id}>
-                    {/* 阶梯背景 */}
-                    <rect x="50" y={y - 30} width={200} height="60" fill={item.color} fillOpacity={0.2} stroke={item.color} strokeWidth={2} />
-                    {/* 图标 */}
-                    <text x="70" y={y + 5} fill={item.color} fontSize="24">
-                      {item.id === '生理需求' ? '🍞' : item.id === '安全需求' ? '🛡️' : item.id === '社交需求' ? '👥' : item.id === '尊重需求' ? '🏆' : '✨'}
-                    </text>
-                    {/* 需求名称 */}
-                    <text x="110" y={y + 5} fill={isDark ? "#ffffff" : "#000000"} fontSize="14" fontWeight="bold">
-                      {item.label}
-                    </text>
-                    {/* 需求描述 */}
-                    <text x="110" y={y + 25} fill={isDark ? "#a1a1aa" : "#64748b"} fontSize="10" width="180">
-                      {item.description}
-                    </text>
-                  </g>
-                );
-              })}
-              
-              {/* 图表标题 */}
-              <text x="150" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="20" fontWeight="bold">
-                人类需求层次
-              </text>
-            </svg>
-          </div>
-        );
-      case 'johariWindow':
-        return (
-          <div className="w-full h-full flex items-center justify-center">
-            <svg width="100%" height="100%" viewBox="0 0 350 350" preserveAspectRatio="xMidYMid meet">
-              {/* 绘制四个象限 */}
-              <rect x="50" y="50" width="125" height="125" fill={johariWindowData[0].color} fillOpacity={johariWindowData[0].fillOpacity} stroke={johariWindowData[0].color} strokeWidth={2} />
-              <rect x="175" y="50" width="125" height="125" fill={johariWindowData[1].color} fillOpacity={johariWindowData[1].fillOpacity} stroke={johariWindowData[1].color} strokeWidth={2} />
-              <rect x="50" y="175" width="125" height="125" fill={johariWindowData[2].color} fillOpacity={johariWindowData[2].fillOpacity} stroke={johariWindowData[2].color} strokeWidth={2} />
-              <rect x="175" y="175" width="125" height="125" fill={johariWindowData[3].color} fillOpacity={johariWindowData[3].fillOpacity} stroke={johariWindowData[3].color} strokeWidth={2} />
-              
-              {/* 分割线 */}
-              <line x1="175" y1="50" x2="175" y2="300" stroke={isDark ? "#a1a1aa" : "#64748b"} strokeWidth={1} />
-              <line x1="50" y1="175" x2="300" y2="175" stroke={isDark ? "#a1a1aa" : "#64748b"} strokeWidth={1} />
-              
-              {/* 标签文字 */}
-              {johariWindowData.map((item) => {
-                const x = item.x * 350;
-                const y = item.y * 350;
-                return (
-                  <g key={item.id}>
-                    <text x={x} y={y - 40} textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="14" fontWeight="bold">
-                      {item.label}
-                    </text>
-                    <text x={x} y={y - 25} textAnchor="middle" fill={isDark ? "#a1a1aa" : "#64748b"} fontSize="10">
-                      {item.description}
-                    </text>
-                    <text x={x} y={y - 10} textAnchor="middle" fill={isDark ? "#a1a1aa" : "#64748b"} fontSize="9">
-                      {item.examples}
-                    </text>
-                  </g>
-                );
-              })}
-              
-              {/* 图表标题 */}
-              <text x="175" y="25" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="18" fontWeight="bold">
-                乔哈里视窗
-              </text>
-              <text x="175" y="330" textAnchor="middle" fill={isDark ? "#a1a1aa" : "#64748b"} fontSize="12">
-                自我认知与他人认知的四个象限
-              </text>
-            </svg>
-          </div>
-        );
-      case 'footInDoor':
-        return (
-          <BaseChart data={footInDoorData} isDark={isDark} height={chartHeight}>
-            <AreaChart data={footInDoorData} animationDuration={1000}>
-              <defs>
-                <linearGradient id="colorFootInDoor" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor={chartConfig.colors.primary} stopOpacity={0.4} />
-                  <stop offset="95%" stopColor={chartConfig.colors.primary} stopOpacity={0.05} />
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray={chartConfig.grid.strokeDasharray} stroke={getGridColor(isDark)} />
-              <XAxis dataKey="step" stroke={chartConfig.axis.stroke} label={{ value: '请求难度', position: 'insideBottom' }} />
-              <YAxis stroke={chartConfig.axis.stroke} label={{ value: '接受率 (%)', angle: -90, position: 'insideLeft' }} />
-              <Area type="monotone" dataKey="acceptanceRate" stroke={chartConfig.colors.primary} strokeWidth={2} fill="url(#colorFootInDoor)" name="接受率" />
-            </AreaChart>
-          </BaseChart>
-        );
-      case 'deliberatePractice':
-        return (
-          <div className="w-full h-full flex items-center justify-center">
-            <svg width="100%" height="100%" viewBox="0 0 350 350" preserveAspectRatio="xMidYMid meet">
-              {/* 绘制四个阶段 */}
-              {deliberatePracticeData.map((item, index) => {
-                const cx = item.x * 350;
-                const cy = item.y * 350;
-                return (
-                  <g key={item.id}>
-                    {/* 背景圆圈 */}
-                    <circle cx={cx} cy={cy} r="40" fill={item.color} fillOpacity={0.2} stroke={item.color} strokeWidth={2} />
-                    <circle cx={cx} cy={cy} r="32" fill={isDark ? "#18181b" : "#ffffff"} stroke={item.color} strokeWidth={1} />
-                    {/* 图标和文字 */}
-                    <text x={cx} y={cy - 10} textAnchor="middle" fill={item.color} fontSize="20">
-                      {item.icon}
-                    </text>
-                    <text x={cx} y={cy + 5} textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="14" fontWeight="bold">
-                      {item.label}
-                    </text>
-                    <text x={cx} y={cy + 22} textAnchor="middle" fill={isDark ? "#a1a1aa" : "#64748b"} fontSize="9" width="80" textLength="80">
-                      {item.description}
-                    </text>
-                  </g>
-                );
-              })}
-              
-              {/* 绘制连接线 */}
-              {/* 连接线1 - 从中心到右上角 */}
-              <line x1="175" y1="80" x2="290" y2="125" stroke={isDark ? "#a1a1aa" : "#64748b"} strokeWidth={2} strokeDasharray="3 3" />
-              {/* 箭头1 */}
-              <polygon points="290,125 300,130 293,137" fill={isDark ? "#a1a1aa" : "#64748b"} />
-              
-              {/* 连接线2 - 从右上角到右下角 */}
-              <line x1="300" y1="170" x2="185" y2="215" stroke={isDark ? "#a1a1aa" : "#64748b"} strokeWidth={2} strokeDasharray="3 3" />
-              {/* 箭头2 */}
-              <polygon points="185,215 175,220 182,227" fill={isDark ? "#a1a1aa" : "#64748b"} />
-              
-              {/* 连接线3 - 从右下角到左下角 */}
-              <line x1="175" y1="270" x2="60" y2="175" stroke={isDark ? "#a1a1aa" : "#64748b"} strokeWidth={2} strokeDasharray="3 3" />
-              {/* 箭头3 */}
-              <polygon points="60,175 50,170 57,163" fill={isDark ? "#a1a1aa" : "#64748b"} />
-              
-              {/* 连接线4 - 从左下角到中心 */}
-              <line x1="50" y1="130" x2="165" y2="85" stroke={isDark ? "#a1a1aa" : "#64748b"} strokeWidth={2} strokeDasharray="3 3" />
-              {/* 箭头4 */}
-              <polygon points="165,85 175,80 168,73" fill={isDark ? "#a1a1aa" : "#64748b"} />
-              
-              {/* 中心文字 */}
-              <text x="175" y="175" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="18" fontWeight="bold">
-                刻意练习循环
-              </text>
-              <text x="175" y="190" textAnchor="middle" fill={isDark ? "#a1a1aa" : "#64748b"} fontSize="12">
-                目标 → 专注 → 反馈 → 优化
-              </text>
-            </svg>
-          </div>
-        );
-      case 'foggBehavior':
-        return (
-          <div className="w-full h-full flex items-center justify-center">
-            <svg width="100%" height="100%" viewBox="0 0 350 350" preserveAspectRatio="xMidYMid meet">
-              {/* 绘制图表背景 */}
-              <rect x="50" y="50" width="250" height="250" fill="none" stroke={isDark ? "#27272a" : "#e2e8f0"} strokeWidth={1} />
-              
-              {/* 绘制坐标轴 */}
-              <line x1="50" y1="300" x2="300" y2="300" stroke={isDark ? "#71717a" : "#64748b"} strokeWidth={2} />
-              <line x1="50" y1="50" x2="50" y2="300" stroke={isDark ? "#71717a" : "#64748b"} strokeWidth={2} />
-              
-              {/* 绘制行为激活曲线 */}
-              <path d="M50,300 C150,150 250,100 300,50" fill="none" stroke="#3b82f6" strokeWidth={3} />
-              
-              {/* 绘制三个关键要素 */}
-              {foggBehaviorData.elements.map((item) => {
-                const cx = item.x;
-                const cy = item.y;
-                return (
-                  <g key={item.id}>
-                    {/* 背景圆圈 */}
-                    <circle cx={cx} cy={cy} r="30" fill={item.color} fillOpacity={0.2} stroke={item.color} strokeWidth={2} />
-                    <circle cx={cx} cy={cy} r="22" fill={isDark ? "#18181b" : "#ffffff"} stroke={item.color} strokeWidth={1} />
-                    {/* 图标和文字 */}
-                    <text x={cx} y={cy + 5} textAnchor="middle" fill={item.color} fontSize="20">
-                      {item.icon}
-                    </text>
-                    <text x={cx} y={cy + 35} textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="14" fontWeight="bold">
-                      {item.label}
-                    </text>
-                    <text x={cx} y={cy + 50} textAnchor="middle" fill={isDark ? "#a1a1aa" : "#64748b"} fontSize="9" width="100">
-                      {item.description}
-                    </text>
-                  </g>
-                );
-              })}
-              
-              {/* 图表标题 */}
-              <text x="175" y="325" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="18" fontWeight="bold">
-                福格行为模型
-              </text>
-              <text x="175" y="340" textAnchor="middle" fill={isDark ? "#a1a1aa" : "#64748b"} fontSize="12">
-                行为 = 动机 + 能力 + 触发
-              </text>
-            </svg>
-          </div>
-        );
-      case 'eisenhowerMatrix':
-        return (
-          <div className="w-full h-full flex items-center justify-center">
-            <svg width="100%" height="100%" viewBox="0 0 350 350" preserveAspectRatio="xMidYMid meet">
-              {/* 绘制四个象限 */}
-              <rect x="50" y="50" width="125" height="125" fill={eisenhowerMatrixData[0].color} fillOpacity={0.2} stroke={eisenhowerMatrixData[0].color} strokeWidth={2} />
-              <rect x="175" y="50" width="125" height="125" fill={eisenhowerMatrixData[1].color} fillOpacity={0.2} stroke={eisenhowerMatrixData[1].color} strokeWidth={2} />
-              <rect x="50" y="175" width="125" height="125" fill={eisenhowerMatrixData[2].color} fillOpacity={0.2} stroke={eisenhowerMatrixData[2].color} strokeWidth={2} />
-              <rect x="175" y="175" width="125" height="125" fill={eisenhowerMatrixData[3].color} fillOpacity={0.2} stroke={eisenhowerMatrixData[3].color} strokeWidth={2} />
-              
-              {/* 分割线 */}
-              <line x1="175" y1="50" x2="175" y2="300" stroke={isDark ? "#a1a1aa" : "#64748b"} strokeWidth={1} />
-              <line x1="50" y1="175" x2="300" y2="175" stroke={isDark ? "#a1a1aa" : "#64748b"} strokeWidth={1} />
-              
-              {/* 象限标签 */}
-              <text x="112.5" y="110" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="14" fontWeight="bold">
-                重要紧急
-              </text>
-              <text x="237.5" y="110" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="14" fontWeight="bold">
-                紧急不重要
-              </text>
-              <text x="112.5" y="235" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="14" fontWeight="bold">
-                重要不紧急
-              </text>
-              <text x="237.5" y="235" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="14" fontWeight="bold">
-                不重要不紧急
-              </text>
-              
-              {/* 图表标题 */}
-              <text x="175" y="25" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="18" fontWeight="bold">
-                艾森豪威尔矩阵
-              </text>
-              <text x="175" y="330" textAnchor="middle" fill={isDark ? "#a1a1aa" : "#64748b"} fontSize="12">
-                时间管理的四象限法则
-              </text>
-            </svg>
-          </div>
-        );
-      case 'growthMindset':
-        return (
-          <div className="w-full h-full flex items-center justify-center">
-            <svg width="100%" height="100%" viewBox="0 0 350 350" preserveAspectRatio="xMidYMid meet">
-              {/* 背景和标题 */}
-              <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="18" fontWeight="bold">
-                成长型思维 VS 固定型思维
-              </text>
-              
-              {/* 两个对比区域 */}
-              <g transform="translate(75, 60)">
-                {/* 固定型思维 */}
-                <rect x="0" y="0" width="100" height="200" fill="#ef4444" fillOpacity={0.1} stroke="#ef4444" strokeWidth={2} rx="10" />
-                <text x="50" y="30" textAnchor="middle" fill="#ef4444" fontSize="16" fontWeight="bold">
-                  固定型思维
-                </text>
-                <text x="50" y="50" textAnchor="middle" fill={isDark ? "#a1a1aa" : "#64748b"} fontSize="12">
-                  能力固定
-                </text>
-                <text x="50" y="70" textAnchor="middle" fill={isDark ? "#a1a1aa" : "#64748b"} fontSize="12">
-                  害怕挑战
-                </text>
-                <text x="50" y="90" textAnchor="middle" fill={isDark ? "#a1a1aa" : "#64748b"} fontSize="12">
-                  回避失败
-                </text>
-                <text x="50" y="110" textAnchor="middle" fill={isDark ? "#a1a1aa" : "#64748b"} fontSize="12">
-                  否定自己
-                </text>
-                <text x="50" y="130" textAnchor="middle" fill={isDark ? "#a1a1aa" : "#64748b"} fontSize="12">
-                  停滞不前
-                </text>
-              </g>
-              
-              <g transform="translate(175, 60)">
-                {/* 成长型思维 */}
-                <rect x="0" y="0" width="100" height="200" fill="#10b981" fillOpacity={0.1} stroke="#10b981" strokeWidth={2} rx="10" />
-                <text x="50" y="30" textAnchor="middle" fill="#10b981" fontSize="16" fontWeight="bold">
-                  成长型思维
-                </text>
-                <text x="50" y="50" textAnchor="middle" fill={isDark ? "#a1a1aa" : "#64748b"} fontSize="12">
-                  能力可提升
-                </text>
-                <text x="50" y="70" textAnchor="middle" fill={isDark ? "#a1a1aa" : "#64748b"} fontSize="12">
-                  拥抱挑战
-                </text>
-                <text x="50" y="90" textAnchor="middle" fill={isDark ? "#a1a1aa" : "#64748b"} fontSize="12">
-                  从失败中学习
-                </text>
-                <text x="50" y="110" textAnchor="middle" fill={isDark ? "#a1a1aa" : "#64748b"} fontSize="12">
-                  肯定努力
-                </text>
-                <text x="50" y="130" textAnchor="middle" fill={isDark ? "#a1a1aa" : "#64748b"} fontSize="12">
-                  持续成长
-                </text>
-              </g>
-              
-              {/* 对比箭头 */}
-              <path d="M175 140 L175 110" stroke="#64748b" strokeWidth={2} strokeDasharray="5,5" />
-              <path d="M175 110 L180 115" stroke="#64748b" strokeWidth={2} />
-              <path d="M175 110 L170 115" stroke="#64748b" strokeWidth={2} />
-              
-              {/* 结论 */}
-              <text x="175" y="280" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="14" fontWeight="bold">
-                选择成长型思维，拥抱无限可能
-              </text>
-            </svg>
-          </div>
-        );
-      case 'sunkCost':
-        return (
-          <BaseChart data={[{}, {}]} isDark={isDark} height={chartHeight}>
-            <div className="w-full h-full flex items-center justify-center">
-              <svg width="100%" height="100%" viewBox="0 0 350 350" preserveAspectRatio="xMidYMid meet">
-                {/* 标题 */}
-                <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="18" fontWeight="bold">
-                  沉没成本谬误
-                </text>
-                
-                {/* 沉没成本图示 */}
-                <rect x="75" y="80" width="200" height="150" fill="#fcd34d" fillOpacity={0.1} stroke="#fcd34d" strokeWidth={2} rx="10" />
-                <text x="175" y="110" textAnchor="middle" fill="#fcd34d" fontSize="16" fontWeight="bold">
-                  已投入的成本
-                </text>
-                <text x="175" y="140" textAnchor="middle" fill={isDark ? "#a1a1aa" : "#64748b"} fontSize="12">
-                  时间、金钱、精力
-                </text>
-                <text x="175" y="170" textAnchor="middle" fill={isDark ? "#a1a1aa" : "#64748b"} fontSize="12">
-                  不可收回
-                </text>
-                
-                {/* 错误决策箭头 */}
-                <path d="M175 230 L175 260" stroke="#ef4444" strokeWidth={2} />
-                <circle cx="175" cy="260" r="30" fill="#ef4444" fillOpacity={0.1} stroke="#ef4444" strokeWidth={2} />
-                <text x="175" y="265" textAnchor="middle" fill="#ef4444" fontSize="12" fontWeight="bold">
-                  继续投入
-                </text>
-                <text x="175" y="285" textAnchor="middle" fill="#ef4444" fontSize="10">
-                  （错误决策）
-                </text>
-                
-                {/* 正确决策箭头 */}
-                <path d="M175 230 L125 260" stroke="#10b981" strokeWidth={2} />
-                <circle cx="125" cy="260" r="30" fill="#10b981" fillOpacity={0.1} stroke="#10b981" strokeWidth={2} />
-                <text x="125" y="265" textAnchor="middle" fill="#10b981" fontSize="12" fontWeight="bold">
-                  及时止损
-                </text>
-                <text x="125" y="285" textAnchor="middle" fill="#10b981" fontSize="10">
-                  （正确决策）
-                </text>
-                
-                {/* 理性决策箭头 */}
-                <path d="M175 230 L225 260" stroke="#3b82f6" strokeWidth={2} />
-                <circle cx="225" cy="260" r="30" fill="#3b82f6" fillOpacity={0.1} stroke="#3b82f6" strokeWidth={2} />
-                <text x="225" y="265" textAnchor="middle" fill="#3b82f6" fontSize="12" fontWeight="bold">
-                  理性决策
-                </text>
-                <text x="225" y="285" textAnchor="middle" fill="#3b82f6" fontSize="10">
-                  （关注未来）
-                </text>
-              </svg>
-            </div>
-          </BaseChart>
-        );
-      case 'pareto':
-        return (
-          <BaseChart data={paretoData} isDark={isDark} height={chartHeight}>
-            <BarChart data={paretoData} animationDuration={1000}>
-              <CartesianGrid strokeDasharray={chartConfig.grid.strokeDasharray} stroke={getGridColor(isDark)} vertical={false} />
-              <XAxis dataKey="name" stroke={chartConfig.axis.stroke} tick={{ fontSize: chartConfig.fontSize.axisTick }} />
-              <YAxis stroke={chartConfig.axis.stroke} tick={{ fontSize: chartConfig.fontSize.axisTick }} label={{ value: '产出 (%)', angle: -90, position: 'insideLeft' }} />
-              <Bar dataKey="output" fill={chartConfig.colors.primary} name="产出" />
-              <text x="175" y="20" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="14" fontWeight="bold">
-                二八定律：80%的结果由20%的关键行动产生
-              </text>
-            </BarChart>
-          </BaseChart>
-        );
-      case 'swot':
-        return (
-          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
-            <svg width="100%" height="100%" viewBox="0 0 350 350">
-              {/* 背景网格 */}
-              <rect x="0" y="0" width="350" height="350" fill={isDark ? "#1f2937" : "#ffffff"} />
-              <path d="M175 0 L175 350" stroke={isDark ? "#4b5563" : "#e5e7eb"} strokeWidth="2" />
-              <path d="M0 175 L350 175" stroke={isDark ? "#4b5563" : "#e5e7eb"} strokeWidth="2" />
-              
-              {/* SWOT 标题 */}
-              <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                SWOT 分析
-              </text>
-              
-              {/* 优势 - 左上 */}
-              <rect x="10" y="10" width="160" height="155" fill={isDark ? "rgba(16, 185, 129, 0.2)" : "rgba(16, 185, 129, 0.1)"} stroke="#10b981" strokeWidth="2" />
-              <text x="90" y="40" textAnchor="middle" fill="#10b981" fontSize="14" fontWeight="bold">
-                优势 (Strengths)
-              </text>
-              <text x="90" y="70" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                • 核心竞争力
-              </text>
-              <text x="90" y="90" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                • 资源优势
-              </text>
-              <text x="90" y="110" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                • 品牌影响力
-              </text>
-              <text x="90" y="130" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                • 团队优势
-              </text>
-              
-              {/* 劣势 - 左下 */}
-              <rect x="10" y="185" width="160" height="155" fill={isDark ? "rgba(239, 68, 68, 0.2)" : "rgba(239, 68, 68, 0.1)"} stroke="#ef4444" strokeWidth="2" />
-              <text x="90" y="215" textAnchor="middle" fill="#ef4444" fontSize="14" fontWeight="bold">
-                劣势 (Weaknesses)
-              </text>
-              <text x="90" y="245" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                • 资源不足
-              </text>
-              <text x="90" y="265" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                • 技术短板
-              </text>
-              <text x="90" y="285" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                • 经验不足
-              </text>
-              <text x="90" y="305" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                • 管理问题
-              </text>
-              
-              {/* 机会 - 右上 */}
-              <rect x="180" y="10" width="160" height="155" fill={isDark ? "rgba(59, 130, 246, 0.2)" : "rgba(59, 130, 246, 0.1)"} stroke="#3b82f6" strokeWidth="2" />
-              <text x="260" y="40" textAnchor="middle" fill="#3b82f6" fontSize="14" fontWeight="bold">
-                机会 (Opportunities)
-              </text>
-              <text x="260" y="70" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                • 市场增长
-              </text>
-              <text x="260" y="90" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                • 政策支持
-              </text>
-              <text x="260" y="110" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                • 技术创新
-              </text>
-              <text x="260" y="130" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                • 合作伙伴
-              </text>
-              
-              {/* 威胁 - 右下 */}
-              <rect x="180" y="185" width="160" height="155" fill={isDark ? "rgba(245, 158, 11, 0.2)" : "rgba(245, 158, 11, 0.1)"} stroke="#f59e0b" strokeWidth="2" />
-              <text x="260" y="215" textAnchor="middle" fill="#f59e0b" fontSize="14" fontWeight="bold">
-                威胁 (Threats)
-              </text>
-              <text x="260" y="245" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                • 竞争加剧
-              </text>
-              <text x="260" y="265" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                • 市场萎缩
-              </text>
-              <text x="260" y="285" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                • 政策变化
-              </text>
-              <text x="260" y="305" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                • 技术替代
-              </text>
-            </svg>
-          </BaseChart>
-        );
-      case 'goldenCircle':
-        return (
-          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
-            <svg width="100%" height="100%" viewBox="0 0 350 350">
-              {/* 背景 */}
-              <rect x="0" y="0" width="350" height="350" fill={isDark ? "#1f2937" : "#ffffff"} />
-              
-              {/* 黄金圈标题 */}
-              <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                黄金圈法则 (Golden Circle)
-              </text>
-              
-              {/* 最外层：What */}
-              <circle cx="175" cy="175" r="120" fill={isDark ? "rgba(239, 68, 68, 0.2)" : "rgba(239, 68, 68, 0.1)"} stroke="#ef4444" strokeWidth="3" />
-              <text x="175" y="140" textAnchor="middle" fill="#ef4444" fontSize="16" fontWeight="bold">
-                What
-              </text>
-              <text x="175" y="165" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                我们做什么
-              </text>
-              <text x="175" y="200" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                • 产品/服务
-              </text>
-              <text x="175" y="220" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                • 具体行动
-              </text>
-              <text x="175" y="240" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                • 外在表现
-              </text>
-              
-              {/* 中间层：How */}
-              <circle cx="175" cy="175" r="80" fill={isDark ? "rgba(37, 99, 235, 0.2)" : "rgba(37, 99, 235, 0.1)"} stroke="#3b82f6" strokeWidth="3" />
-              <text x="175" y="155" textAnchor="middle" fill="#3b82f6" fontSize="16" fontWeight="bold">
-                How
-              </text>
-              <text x="175" y="180" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                我们如何做
-              </text>
-              <text x="175" y="205" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                • 独特价值
-              </text>
-              <text x="175" y="225" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                • 实施方法
-              </text>
-              
-              {/* 最内层：Why */}
-              <circle cx="175" cy="175" r="40" fill={isDark ? "rgba(16, 185, 129, 0.2)" : "rgba(16, 185, 129, 0.1)"} stroke="#10b981" strokeWidth="3" />
-              <text x="175" y="175" textAnchor="middle" fill="#10b981" fontSize="16" fontWeight="bold">
-                Why
-              </text>
-              <text x="175" y="195" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                我们为什么做
-              </text>
-              
-              {/* 说明文字 */}
-              <text x="175" y="320" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="10">
-                从内向外思考：为什么 → 如何 → 做什么
-              </text>
-            </svg>
-          </BaseChart>
-        );
-      case 'fiveWhys':
-        return (
-          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
-            <svg width="100%" height="100%" viewBox="0 0 350 350">
-              {/* 背景 */}
-              <rect x="0" y="0" width="350" height="350" fill={isDark ? "#1f2937" : "#ffffff"} />
-              
-              {/* 5W分析法标题 */}
-              <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                5W分析法 (5W Analysis)
-              </text>
-              
-              {/* What */}
-              <rect x="80" y="60" width="190" height="40" fill={isDark ? "rgba(59, 130, 246, 0.2)" : "rgba(59, 130, 246, 0.1)"} stroke="#3b82f6" strokeWidth="2" rx="5" />
-              <text x="175" y="87" textAnchor="middle" fill="#3b82f6" fontSize="14" fontWeight="bold">
-                What (是什么)
-              </text>
-              
-              {/* 箭头1 */}
-              <path d="M175 100 L175 115" stroke={isDark ? "#d1d5db" : "#4b5563"} strokeWidth="2" />
-              {/* 箭头头部1 */}
-              <polygon points="175 115, 170 108, 180 108" fill={isDark ? "#d1d5db" : "#4b5563"} />
-              
-              {/* Why */}
-              <rect x="80" y="120" width="190" height="40" fill={isDark ? "rgba(239, 68, 68, 0.2)" : "rgba(239, 68, 68, 0.1)"} stroke="#ef4444" strokeWidth="2" rx="5" />
-              <text x="175" y="147" textAnchor="middle" fill="#ef4444" fontSize="14" fontWeight="bold">
-                Why (为什么)
-              </text>
-              
-              {/* 箭头2 */}
-              <path d="M175 160 L175 175" stroke={isDark ? "#d1d5db" : "#4b5563"} strokeWidth="2" />
-              {/* 箭头头部2 */}
-              <polygon points="175 175, 170 168, 180 168" fill={isDark ? "#d1d5db" : "#4b5563"} />
-              
-              {/* Who */}
-              <rect x="80" y="180" width="190" height="40" fill={isDark ? "rgba(16, 185, 129, 0.2)" : "rgba(16, 185, 129, 0.1)"} stroke="#10b981" strokeWidth="2" rx="5" />
-              <text x="175" y="207" textAnchor="middle" fill="#10b981" fontSize="14" fontWeight="bold">
-                Who (谁)
-              </text>
-              
-              {/* 箭头3 */}
-              <path d="M175 220 L175 235" stroke={isDark ? "#d1d5db" : "#4b5563"} strokeWidth="2" />
-              {/* 箭头头部3 */}
-              <polygon points="175 235, 170 228, 180 228" fill={isDark ? "#d1d5db" : "#4b5563"} />
-              
-              {/* When */}
-              <rect x="80" y="240" width="190" height="40" fill={isDark ? "rgba(245, 158, 11, 0.2)" : "rgba(245, 158, 11, 0.1)"} stroke="#f59e0b" strokeWidth="2" rx="5" />
-              <text x="175" y="267" textAnchor="middle" fill="#f59e0b" fontSize="14" fontWeight="bold">
-                When (何时)
-              </text>
-              
-              {/* 箭头4 */}
-              <path d="M175 280 L175 295" stroke={isDark ? "#d1d5db" : "#4b5563"} strokeWidth="2" />
-              {/* 箭头头部4 */}
-              <polygon points="175 295, 170 288, 180 288" fill={isDark ? "#d1d5db" : "#4b5563"} />
-              
-              {/* Where */}
-              <rect x="80" y="300" width="190" height="40" fill={isDark ? "rgba(139, 92, 246, 0.2)" : "rgba(139, 92, 246, 0.1)"} stroke="#8b5cf6" strokeWidth="2" rx="5" />
-              <text x="175" y="327" textAnchor="middle" fill="#8b5cf6" fontSize="14" fontWeight="bold">
-                Where (何地)
-              </text>
-              
-
-            </svg>
-          </BaseChart>
-        );
-      case 'brokenWindow':
-        return (
-          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
-            <svg width="100%" height="100%" viewBox="0 0 350 350">
-              {/* 背景 */}
-              <rect x="0" y="0" width="350" height="350" fill={isDark ? "#1f2937" : "#ffffff"} />
-              
-              {/* 破窗效应标题 */}
-              <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                破窗效应 (Broken Window Theory)
-              </text>
-              
-              {/* 建筑物主体 */}
-              <rect x="80" y="80" width="190" height="200" fill={isDark ? "#374151" : "#e5e7eb"} stroke={isDark ? "#4b5563" : "#9ca3af"} strokeWidth="2" />
-              
-              {/* 窗户格子 - 第一行 */}
-              <rect x="95" y="95" width="40" height="40" fill={isDark ? "#1f2937" : "#ffffff"} stroke={isDark ? "#4b5563" : "#9ca3af"} strokeWidth="1" />
-              <rect x="145" y="95" width="40" height="40" fill={isDark ? "#1f2937" : "#ffffff"} stroke={isDark ? "#4b5563" : "#9ca3af"} strokeWidth="1" />
-              <rect x="195" y="95" width="40" height="40" fill={isDark ? "#1f2937" : "#ffffff"} stroke={isDark ? "#4b5563" : "#9ca3af"} strokeWidth="1" />
-              
-              {/* 窗户格子 - 第二行 */}
-              <rect x="95" y="145" width="40" height="40" fill={isDark ? "#1f2937" : "#ffffff"} stroke={isDark ? "#4b5563" : "#9ca3af"} strokeWidth="1" />
-              {/* 破窗 - 中间的窗户 */}
-              <rect x="145" y="145" width="40" height="40" fill={isDark ? "rgba(239, 68, 68, 0.3)" : "rgba(239, 68, 68, 0.2)"} stroke="#ef4444" strokeWidth="2" />
-              <path d="M145 145 L185 185" stroke="#ef4444" strokeWidth="2" />
-              <path d="M185 145 L145 185" stroke="#ef4444" strokeWidth="2" />
-              <path d="M165 145 L165 185" stroke="#ef4444" strokeWidth="1" />
-              <path d="M145 165 L185 165" stroke="#ef4444" strokeWidth="1" />
-              
-              <rect x="195" y="145" width="40" height="40" fill={isDark ? "#1f2937" : "#ffffff"} stroke={isDark ? "#4b5563" : "#9ca3af"} strokeWidth="1" />
-              
-              {/* 窗户格子 - 第三行 */}
-              <rect x="95" y="195" width="40" height="40" fill={isDark ? "#1f2937" : "#ffffff"} stroke={isDark ? "#4b5563" : "#9ca3af"} strokeWidth="1" />
-              <rect x="145" y="195" width="40" height="40" fill={isDark ? "#1f2937" : "#ffffff"} stroke={isDark ? "#4b5563" : "#9ca3af"} strokeWidth="1" />
-              <rect x="195" y="195" width="40" height="40" fill={isDark ? "#1f2937" : "#ffffff"} stroke={isDark ? "#4b5563" : "#9ca3af"} strokeWidth="1" />
-              
-              {/* 门 */}
-              <rect x="155" y="230" width="40" height="50" fill={isDark ? "#111827" : "#d1d5db"} stroke={isDark ? "#4b5563" : "#9ca3af"} strokeWidth="2" />
-              <circle cx="185" cy="255" r="3" fill={isDark ? "#4b5563" : "#9ca3af"} />
-              
-              {/* 扩散效果 */}
-              <circle cx="165" cy="165" r="80" fill="none" stroke="#ef4444" strokeWidth="1" strokeDasharray="5,5" opacity="0.5" />
-              <circle cx="165" cy="165" r="120" fill="none" stroke="#ef4444" strokeWidth="1" strokeDasharray="3,3" opacity="0.3" />
-              
-              {/* 文字说明 */}
-              <text x="175" y="310" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                破窗效应：环境中的不良现象如果被放任存在
-              </text>
-              <text x="175" y="325" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                会诱使人们仿效，甚至变本加厉
-              </text>
-            </svg>
-          </BaseChart>
-        );
-      case 'matthewEffect':
-        return (
-          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
-            <svg width="100%" height="100%" viewBox="0 0 350 350">
-              {/* 背景 */}
-              <rect x="0" y="0" width="350" height="350" fill={isDark ? "#1f2937" : "#ffffff"} />
-              
-              {/* 马太效应标题 */}
-              <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                马太效应 (Matthew Effect)
-              </text>
-              
-              {/* 时间轴 */}
-              <line x1="50" y1="280" x2="300" y2="280" stroke={isDark ? "#4b5563" : "#9ca3af"} strokeWidth="2" />
-              <text x="50" y="300" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="10">
-                初始
-              </text>
-              <text x="130" y="300" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="10">
-                阶段1
-              </text>
-              <text x="210" y="300" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="10">
-                阶段2
-              </text>
-              <text x="300" y="300" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="10">
-                阶段3
-              </text>
-              
-              {/* 富者累积 */}
-              <rect x="30" y="240" width="40" height="40" fill="#3b82f6" stroke={isDark ? "#2563eb" : "#3b82f6"} strokeWidth="2" rx="5" />
-              <rect x="110" y="180" width="40" height="100" fill="#3b82f6" stroke={isDark ? "#2563eb" : "#3b82f6"} strokeWidth="2" rx="5" />
-              <rect x="190" y="100" width="40" height="180" fill="#3b82f6" stroke={isDark ? "#2563eb" : "#3b82f6"} strokeWidth="2" rx="5" />
-              <rect x="280" y="40" width="40" height="240" fill="#3b82f6" stroke={isDark ? "#2563eb" : "#3b82f6"} strokeWidth="2" rx="5" />
-              
-              {/* 富者标签 */}
-              <text x="50" y="220" textAnchor="middle" fill="#3b82f6" fontSize="12" fontWeight="bold">
-                富者
-              </text>
-              
-              {/* 贫者累积 */}
-              <rect x="30" y="260" width="40" height="20" fill="#ef4444" stroke={isDark ? "#dc2626" : "#ef4444"} strokeWidth="2" rx="5" />
-              <rect x="110" y="260" width="40" height="20" fill="#ef4444" stroke={isDark ? "#dc2626" : "#ef4444"} strokeWidth="2" rx="5" />
-              <rect x="190" y="270" width="40" height="10" fill="#ef4444" stroke={isDark ? "#dc2626" : "#ef4444"} strokeWidth="2" rx="5" />
-              <rect x="280" y="275" width="40" height="5" fill="#ef4444" stroke={isDark ? "#dc2626" : "#ef4444"} strokeWidth="2" rx="5" />
-              
-              {/* 贫者标签 */}
-              <text x="50" y="315" textAnchor="middle" fill="#ef4444" fontSize="12" fontWeight="bold">
-                贫者
-              </text>
-              
-              {/* 连线 */}
-              <path d="M50 240 L130 180 L210 100 L290 40" stroke="#3b82f6" strokeWidth="2" fill="none" />
-              {/* 富者箭头头部 */}
-              <polygon points="290 40, 282 45, 282 35" fill="#3b82f6" />
-              
-              <path d="M50 280 L130 280 L210 280 L290 280" stroke="#ef4444" strokeWidth="2" fill="none" />
-              {/* 贫者箭头头部 */}
-              <polygon points="290 280, 282 285, 282 275" fill="#ef4444" />
-              
-              {/* 文字说明 */}
-              <text x="175" y="325" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                马太效应：强者愈强，弱者愈弱
-              </text>
-            </svg>
-          </BaseChart>
-        );
-      // 新增的行为心理类图表
-      case 'exposureEffect':
-        return (
-          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
-            <svg width="100%" height="100%" viewBox="0 0 350 350">
-              {/* 背景 */}
-              <rect x="0" y="0" width="350" height="350" fill={isDark ? "#1f2937" : "#ffffff"} />
-              {/* 标题 */}
-              <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                曝光效应 (Exposure Effect)
-              </text>
-              {/* 曲线 */}
-              <line x1="50" y1="250" x2="300" y2="100" stroke="#3b82f6" strokeWidth="2" />
-              {/* 点 */}
-              <circle cx="50" cy="250" r="5" fill="#3b82f6" />
-              <circle cx="125" cy="200" r="5" fill="#3b82f6" />
-              <circle cx="200" cy="150" r="5" fill="#3b82f6" />
-              <circle cx="275" cy="100" r="5" fill="#3b82f6" />
-              {/* 标签 */}
-              <text x="50" y="270" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                初次接触
-              </text>
-              <text x="125" y="220" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                3次
-              </text>
-              <text x="200" y="170" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                7次
-              </text>
-              <text x="275" y="120" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                10次+
-              </text>
-              {/* 轴标签 */}
-              <text x="175" y="310" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                接触次数 →
-              </text>
-              <text x="20" y="175" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12" transform="rotate(-90, 20, 175)">
-                好感度 →
-              </text>
-            </svg>
-          </BaseChart>
-        );
-      case 'emotionABC':
-        return (
-          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
-            <svg width="100%" height="100%" viewBox="0 0 350 350">
-              {/* 背景 */}
-              <rect x="0" y="0" width="350" height="350" fill={isDark ? "#1f2937" : "#ffffff"} />
-              {/* 标题 */}
-              <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                情绪ABC理论 (Emotion ABC Theory)
-              </text>
-              {/* A - 事件 */}
-              <rect x="50" y="80" width="80" height="60" fill={isDark ? "rgba(59, 130, 246, 0.2)" : "rgba(59, 130, 246, 0.1)"} stroke="#3b82f6" strokeWidth="2" rx="10" />
-              <text x="90" y="115" textAnchor="middle" fill="#3b82f6" fontSize="14" fontWeight="bold">
-                A
-              </text>
-              <text x="90" y="135" textAnchor="middle" fill="#3b82f6" fontSize="12">
-                事件
-              </text>
-              {/* B - 认知 */}
-              <rect x="135" y="160" width="80" height="60" fill={isDark ? "rgba(245, 158, 11, 0.2)" : "rgba(245, 158, 11, 0.1)"} stroke="#f59e0b" strokeWidth="2" rx="10" />
-              <text x="175" y="195" textAnchor="middle" fill="#f59e0b" fontSize="14" fontWeight="bold">
-                B
-              </text>
-              <text x="175" y="215" textAnchor="middle" fill="#f59e0b" fontSize="12">
-                认知/信念
-              </text>
-              {/* C - 情绪 */}
-              <rect x="220" y="240" width="80" height="60" fill={isDark ? "rgba(239, 68, 68, 0.2)" : "rgba(239, 68, 68, 0.1)"} stroke="#ef4444" strokeWidth="2" rx="10" />
-              <text x="260" y="275" textAnchor="middle" fill="#ef4444" fontSize="14" fontWeight="bold">
-                C
-              </text>
-              <text x="260" y="295" textAnchor="middle" fill="#ef4444" fontSize="12">
-                情绪/行为
-              </text>
-              {/* 箭头 */}
-              {/* 箭头1 - 从A到B */}
-              <path d="M90 140 L135 170" stroke="#d1d5db" strokeWidth="2" />
-              {/* 箭头1头部 */}
-              <polygon points="135,170 128,166 128,174" fill={isDark ? "#d1d5db" : "#4b5563"} />
-              
-              {/* 箭头2 - 从B到C */}
-              <path d="M175 220 L220 250" stroke="#d1d5db" strokeWidth="2" />
-              {/* 箭头2头部 */}
-              <polygon points="220,250 213,246 213,254" fill={isDark ? "#d1d5db" : "#4b5563"} />
-            </svg>
-          </BaseChart>
-        );
-      case 'endowmentEffect':
-        return (
-          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
-            <svg width="100%" height="100%" viewBox="0 0 350 350">
-              {/* 背景 */}
-              <rect x="0" y="0" width="350" height="350" fill={isDark ? "#1f2937" : "#ffffff"} />
-              {/* 标题 */}
-              <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                禀赋效应 (Endowment Effect)
-              </text>
-              {/* 未拥有 */}
-              <rect x="50" y="100" width="100" height="80" fill={isDark ? "rgba(59, 130, 246, 0.2)" : "rgba(59, 130, 246, 0.1)"} stroke="#3b82f6" strokeWidth="2" rx="10" />
-              <text x="100" y="135" textAnchor="middle" fill="#3b82f6" fontSize="14" fontWeight="bold">
-                未拥有
-              </text>
-              <text x="100" y="155" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                愿意支付：¥50
-              </text>
-              {/* 已拥有 */}
-              <rect x="200" y="100" width="100" height="80" fill={isDark ? "rgba(16, 185, 129, 0.2)" : "rgba(16, 185, 129, 0.1)"} stroke="#10b981" strokeWidth="2" rx="10" />
-              <text x="250" y="135" textAnchor="middle" fill="#10b981" fontSize="14" fontWeight="bold">
-                已拥有
-              </text>
-              <text x="250" y="155" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                愿意出售：¥80
-              </text>
-              {/* 对比箭头 */}
-              <path d="M150 140 L180 140" stroke="#f59e0b" strokeWidth="2" />
-              <polygon points="180 140, 172 135, 172 145" fill="#f59e0b" />
-              <text x="165" y="135" fill="#f59e0b" fontSize="12" fontWeight="bold">
-                &gt;
-              </text>
-            </svg>
-          </BaseChart>
-        );
-      case 'bystanderEffect':
-        return (
-          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
-            <svg width="100%" height="100%" viewBox="0 0 350 350">
-              {/* 背景 */}
-              <rect x="0" y="0" width="350" height="350" fill={isDark ? "#1f2937" : "#ffffff"} />
-              {/* 标题 */}
-              <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                旁观者效应 (Bystander Effect)
-              </text>
-              {/* 曲线 */}
-              <line x1="50" y1="100" x2="300" y2="250" stroke="#ef4444" strokeWidth="2" />
-              {/* 点 */}
-              <circle cx="50" cy="100" r="5" fill="#ef4444" />
-              <circle cx="125" cy="150" r="5" fill="#ef4444" />
-              <circle cx="200" cy="200" r="5" fill="#ef4444" />
-              <circle cx="275" cy="250" r="5" fill="#ef4444" />
-              {/* 标签 */}
-              <text x="50" y="80" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                1人
-              </text>
-              <text x="125" y="130" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                3人
-              </text>
-              <text x="200" y="180" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                7人
-              </text>
-              <text x="275" y="230" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                15人+
-              </text>
-              {/* 轴标签 */}
-              <text x="175" y="280" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                人数 →
-              </text>
-              <text x="20" y="175" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12" transform="rotate(-90, 20, 175)">
-                帮助概率 →
-              </text>
-            </svg>
-          </BaseChart>
-        );
-      case 'birdcageEffect':
-        return (
-          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
-            <svg width="100%" height="100%" viewBox="0 0 350 350">
-              {/* 背景 */}
-              <rect x="0" y="0" width="350" height="350" fill={isDark ? "#1f2937" : "#ffffff"} />
-              {/* 标题 */}
-              <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                鸟笼效应 (Birdcage Effect)
-              </text>
-              {/* 鸟笼 */}
-              <rect x="150" y="80" width="50" height="100" fill="none" stroke="#3b82f6" strokeWidth="2" rx="5" />
-              <line x1="150" y1="100" x2="200" y2="100" stroke="#3b82f6" strokeWidth="2" />
-              <line x1="150" y1="120" x2="200" y2="120" stroke="#3b82f6" strokeWidth="2" />
-              <line x1="150" y1="140" x2="200" y2="140" stroke="#3b82f6" strokeWidth="2" />
-              <line x1="150" y1="160" x2="200" y2="160" stroke="#3b82f6" strokeWidth="2" />
-              <line x1="150" y1="180" x2="200" y2="180" stroke="#3b82f6" strokeWidth="2" />
-              {/* 触发物 */}
-              <text x="175" y="65" textAnchor="middle" fill="#3b82f6" fontSize="14" fontWeight="bold">
-                触发物
-              </text>
-              {/* 连锁反应 */}
-              <circle cx="80" cy="250" r="40" fill={isDark ? "rgba(245, 158, 11, 0.2)" : "rgba(245, 158, 11, 0.1)"} stroke="#f59e0b" strokeWidth="2" />
-              <text x="80" y="255" textAnchor="middle" fill="#f59e0b" fontSize="12" fontWeight="bold">
-                鸟食
-              </text>
-              
-              <circle cx="175" cy="250" r="40" fill={isDark ? "rgba(245, 158, 11, 0.2)" : "rgba(245, 158, 11, 0.1)"} stroke="#f59e0b" strokeWidth="2" />
-              <text x="175" y="255" textAnchor="middle" fill="#f59e0b" fontSize="12" fontWeight="bold">
-                水碗
-              </text>
-              
-              <circle cx="270" cy="250" r="40" fill={isDark ? "rgba(245, 158, 11, 0.2)" : "rgba(245, 158, 11, 0.1)"} stroke="#f59e0b" strokeWidth="2" />
-              <text x="270" y="255" textAnchor="middle" fill="#f59e0b" fontSize="12" fontWeight="bold">
-                玩具
-              </text>
-            </svg>
-          </BaseChart>
-        );
-      case 'metacognition':
-        return (
-          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
-            <svg width="100%" height="100%" viewBox="0 0 350 350">
-              {/* 背景 */}
-              <rect x="0" y="0" width="350" height="350" fill={isDark ? "#1f2937" : "#ffffff"} />
-              {/* 标题 */}
-              <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                元认知策略 (Metacognition)
-              </text>
-              {/* 圆环 */}
-              <circle cx="175" cy="175" r="100" fill="none" stroke={isDark ? "#4b5563" : "#9ca3af"} strokeWidth="2" />
-              {/* 学习 */}
-              <circle cx="175" cy="75" r="30" fill={isDark ? "rgba(59, 130, 246, 0.2)" : "rgba(59, 130, 246, 0.1)"} stroke="#3b82f6" strokeWidth="2" />
-              <text x="175" y="80" textAnchor="middle" fill="#3b82f6" fontSize="14" fontWeight="bold">
-                学习
-              </text>
-              {/* 监控 */}
-              <circle cx="275" cy="175" r="30" fill={isDark ? "rgba(245, 158, 11, 0.2)" : "rgba(245, 158, 11, 0.1)"} stroke="#f59e0b" strokeWidth="2" />
-              <text x="275" y="180" textAnchor="middle" fill="#f59e0b" fontSize="14" fontWeight="bold">
-                监控
-              </text>
-              {/* 反思 */}
-              <circle cx="175" cy="275" r="30" fill={isDark ? "rgba(16, 185, 129, 0.2)" : "rgba(16, 185, 129, 0.1)"} stroke="#10b981" strokeWidth="2" />
-              <text x="175" y="280" textAnchor="middle" fill="#10b981" fontSize="14" fontWeight="bold">
-                反思
-              </text>
-              {/* 调整 */}
-              <circle cx="75" cy="175" r="30" fill={isDark ? "rgba(239, 68, 68, 0.2)" : "rgba(239, 68, 68, 0.1)"} stroke="#ef4444" strokeWidth="2" />
-              <text x="75" y="180" textAnchor="middle" fill="#ef4444" fontSize="14" fontWeight="bold">
-                调整
-              </text>
-            </svg>
-          </BaseChart>
-        );
-      case 'transferLearning':
-        return (
-          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
-            <svg width="100%" height="100%" viewBox="0 0 350 350">
-              {/* 背景 */}
-              <rect x="0" y="0" width="350" height="350" fill={isDark ? "#1f2937" : "#ffffff"} />
-              {/* 标题 */}
-              <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                迁移学习思维 (Transfer Learning)
-              </text>
-              {/* 领域A */}
-              <rect x="50" y="100" width="100" height="80" fill={isDark ? "rgba(59, 130, 246, 0.2)" : "rgba(59, 130, 246, 0.1)"} stroke="#3b82f6" strokeWidth="2" rx="10" />
-              <text x="100" y="135" textAnchor="middle" fill="#3b82f6" fontSize="14" fontWeight="bold">
-                领域A
-              </text>
-              <text x="100" y="155" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                公众号文案
-              </text>
-              {/* 领域B */}
-              <rect x="200" y="180" width="100" height="80" fill={isDark ? "rgba(16, 185, 129, 0.2)" : "rgba(16, 185, 129, 0.1)"} stroke="#10b981" strokeWidth="2" rx="10" />
-              <text x="250" y="215" textAnchor="middle" fill="#10b981" fontSize="14" fontWeight="bold">
-                领域B
-              </text>
-              <text x="250" y="235" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                短视频脚本
-              </text>
-              {/* 迁移箭头 */}
-              <path d="M150 140 L200 220" stroke="#f59e0b" strokeWidth="3" />
-              <polygon points="200 220, 192 215, 192 225" fill="#f59e0b" />
-              <text x="175" y="180" textAnchor="middle" fill="#f59e0b" fontSize="12" fontWeight="bold">
-                迁移
-              </text>
-            </svg>
-          </BaseChart>
-        );
-      case 'singleTasking':
-        return (
-          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
-            <svg width="100%" height="100%" viewBox="0 0 350 350">
-              {/* 背景 */}
-              <rect x="0" y="0" width="350" height="350" fill={isDark ? "#1f2937" : "#ffffff"} />
-              {/* 标题 */}
-              <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                单任务处理原则 (Single Tasking)
-              </text>
-              {/* 单任务 */}
-              <rect x="50" y="100" width="120" height="80" fill={isDark ? "rgba(16, 185, 129, 0.2)" : "rgba(16, 185, 129, 0.1)"} stroke="#10b981" strokeWidth="2" rx="10" />
-              <text x="110" y="135" textAnchor="middle" fill="#10b981" fontSize="14" fontWeight="bold">
-                单任务
-              </text>
-              <text x="110" y="155" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                专注度：90%
-              </text>
-              <text x="110" y="175" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                效率：高
-              </text>
-              {/* 多任务 */}
-              <rect x="180" y="100" width="120" height="80" fill={isDark ? "rgba(239, 68, 68, 0.2)" : "rgba(239, 68, 68, 0.1)"} stroke="#ef4444" strokeWidth="2" rx="10" />
-              <text x="240" y="135" textAnchor="middle" fill="#ef4444" fontSize="14" fontWeight="bold">
-                多任务
-              </text>
-              <text x="240" y="155" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                专注度：30%
-              </text>
-              <text x="240" y="175" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                效率：低
-              </text>
-            </svg>
-          </BaseChart>
-        );
-      case 'parkinsonsLaw':
-        return (
-          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
-            <svg width="100%" height="100%" viewBox="0 0 350 350">
-              {/* 背景 */}
-              <rect x="0" y="0" width="350" height="350" fill={isDark ? "#1f2937" : "#ffffff"} />
-              {/* 标题 */}
-              <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                帕金森定律 (Parkinson's Law)
-              </text>
-              {/* 曲线 */}
-              <line x1="50" y1="250" x2="300" y2="100" stroke="#ef4444" strokeWidth="2" />
-              {/* 点 */}
-              <circle cx="50" cy="250" r="5" fill="#ef4444" />
-              <circle cx="125" cy="200" r="5" fill="#ef4444" />
-              <circle cx="200" cy="150" r="5" fill="#ef4444" />
-              <circle cx="275" cy="100" r="5" fill="#ef4444" />
-              {/* 标签 */}
-              <text x="50" y="270" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                1天
-              </text>
-              <text x="125" y="220" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                3天
-              </text>
-              <text x="200" y="170" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                7天
-              </text>
-              <text x="275" y="120" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                30天
-              </text>
-              {/* 轴标签 */}
-              <text x="175" y="300" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                可用时间 →
-              </text>
-              <text x="20" y="175" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12" transform="rotate(-90, 20, 175)">
-                工作内容量 →
-              </text>
-            </svg>
-          </BaseChart>
-        );
-      case 'nonviolentCommunication':
-        return (
-          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
-            <svg width="100%" height="100%" viewBox="0 0 350 350">
-              {/* 背景 */}
-              <rect x="0" y="0" width="350" height="350" fill={isDark ? "#1f2937" : "#ffffff"} />
-              {/* 标题 */}
-              <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                非暴力沟通模型 (NVC)
-              </text>
-              {/* 观察 */}
-              <rect x="60" y="90" width="80" height="60" fill={isDark ? "rgba(59, 130, 246, 0.2)" : "rgba(59, 130, 246, 0.1)"} stroke="#3b82f6" strokeWidth="2" rx="10" />
-              <text x="100" y="125" textAnchor="middle" fill="#3b82f6" fontSize="14" fontWeight="bold">
-                观察
-              </text>
-              {/* 感受 */}
-              <rect x="150" y="130" width="80" height="60" fill={isDark ? "rgba(239, 68, 68, 0.2)" : "rgba(239, 68, 68, 0.1)"} stroke="#ef4444" strokeWidth="2" rx="10" />
-              <text x="190" y="165" textAnchor="middle" fill="#ef4444" fontSize="14" fontWeight="bold">
-                感受
-              </text>
-              {/* 需要 */}
-              <rect x="240" y="170" width="80" height="60" fill={isDark ? "rgba(16, 185, 129, 0.2)" : "rgba(16, 185, 129, 0.1)"} stroke="#10b981" strokeWidth="2" rx="10" />
-              <text x="280" y="205" textAnchor="middle" fill="#10b981" fontSize="14" fontWeight="bold">
-                需要
-              </text>
-              {/* 请求 */}
-              <rect x="190" y="210" width="80" height="60" fill={isDark ? "rgba(245, 158, 11, 0.2)" : "rgba(245, 158, 11, 0.1)"} stroke="#f59e0b" strokeWidth="2" rx="10" />
-              <text x="230" y="245" textAnchor="middle" fill="#f59e0b" fontSize="14" fontWeight="bold">
-                请求
-              </text>
-              {/* 箭头 */}
-              {/* 箭头1 - 从观察到感受 */}
-              <path d="M140 120 L150 140" stroke="#d1d5db" strokeWidth="2" />
-              {/* 箭头1头部 */}
-              <polygon points="150,140 143,136 143,144" fill={isDark ? "#d1d5db" : "#4b5563"} />
-              
-              {/* 箭头2 - 从感受到需要 */}
-              <path d="M190 190 L240 180" stroke="#d1d5db" strokeWidth="2" />
-              {/* 箭头2头部 */}
-              <polygon points="240,180 233,176 233,184" fill={isDark ? "#d1d5db" : "#4b5563"} />
-              
-              {/* 箭头3 - 从需要到请求 */}
-              <path d="M280 230 L230 220" stroke="#d1d5db" strokeWidth="2" />
-              {/* 箭头3头部 */}
-              <polygon points="230,220 237,216 237,224" fill={isDark ? "#d1d5db" : "#4b5563"} />
-            </svg>
-          </BaseChart>
-        );
-      case 'reciprocityPrinciple':
-        return (
-          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
-            <svg width="100%" height="100%" viewBox="0 0 350 350">
-              {/* 背景 */}
-              <rect x="0" y="0" width="350" height="350" fill={isDark ? "#1f2937" : "#ffffff"} />
-              {/* 标题 */}
-              <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                互惠原理 (Reciprocity Principle)
-              </text>
-              {/* 给予 */}
-              <circle cx="100" cy="175" r="50" fill={isDark ? "rgba(59, 130, 246, 0.2)" : "rgba(59, 130, 246, 0.1)"} stroke="#3b82f6" strokeWidth="2" />
-              <text x="100" y="180" textAnchor="middle" fill="#3b82f6" fontSize="14" fontWeight="bold">
-                给予
-              </text>
-              <text x="100" y="200" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                帮助他人
-              </text>
-              {/* 回报 */}
-              <circle cx="250" cy="175" r="50" fill={isDark ? "rgba(16, 185, 129, 0.2)" : "rgba(16, 185, 129, 0.1)"} stroke="#10b981" strokeWidth="2" />
-              <text x="250" y="180" textAnchor="middle" fill="#10b981" fontSize="14" fontWeight="bold">
-                回报
-              </text>
-              <text x="250" y="200" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                获得帮助
-              </text>
-              {/* 双向箭头 */}
-              <path d="M150 175 L200 175" stroke="#f59e0b" strokeWidth="3" />
-              <polygon points="150 175, 157 180, 157 170" fill="#f59e0b" />
-              <polygon points="200 175, 193 180, 193 170" fill="#f59e0b" />
-            </svg>
-          </BaseChart>
-        );
-      // 新增：系统思维类
-      case 'systemFeedback':
-        return (
-          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
-            <svg width="100%" height="100%" viewBox="0 0 350 350">
-              {/* 背景 */}
-              <rect x="0" y="0" width="350" height="350" fill={isDark ? "#1f2937" : "#ffffff"} />
-              {/* 标题 */}
-              <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                系统反馈模型
-              </text>
-              {/* 正反馈循环 */}
-              <circle cx="100" cy="150" r="60" fill={isDark ? "rgba(16, 185, 129, 0.1)" : "rgba(16, 185, 129, 0.05)"} stroke="#10b981" strokeWidth="2" />
-              <text x="100" y="120" textAnchor="middle" fill="#10b981" fontSize="14" fontWeight="bold">
-                正反馈
-              </text>
-              <text x="100" y="140" textAnchor="middle" fill="#10b981" fontSize="12">
-                放大变化
-              </text>
-              <text x="100" y="160" textAnchor="middle" fill="#10b981" fontSize="10">
-                内容→流量→互动
-              </text>
-              {/* 正反馈箭头 */}
-              <path d="M100,90 A60,60 0 0,1 160,150" stroke="#10b981" strokeWidth="2" fill="none" />
-              <polygon points="160,150 150,145 150,155" fill="#10b981" />
-              
-              {/* 负反馈循环 */}
-              <circle cx="250" cy="200" r="60" fill={isDark ? "rgba(59, 130, 246, 0.1)" : "rgba(59, 130, 246, 0.05)"} stroke="#3b82f6" strokeWidth="2" />
-              <text x="250" y="170" textAnchor="middle" fill="#3b82f6" fontSize="14" fontWeight="bold">
-                负反馈
-              </text>
-              <text x="250" y="190" textAnchor="middle" fill="#3b82f6" fontSize="12">
-                抑制变化
-              </text>
-              <text x="250" y="210" textAnchor="middle" fill="#3b82f6" fontSize="10">
-                疲劳→休息→恢复
-              </text>
-              {/* 负反馈箭头 */}
-              <path d="M250,140 A60,60 0 0,0 190,200" stroke="#3b82f6" strokeWidth="2" fill="none" />
-              <polygon points="190,200 200,195 200,205" fill="#3b82f6" />
-              
-              {/* 中心文字 */}
-              <text x="175" y="320" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                利用正反馈加速目标，用负反馈维持系统稳定
-              </text>
-            </svg>
-          </BaseChart>
-        );
-      case 'bottleneckTheory':
-        return (
-          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
-            <svg width="100%" height="100%" viewBox="0 0 350 350">
-              {/* 背景 */}
-              <rect x="0" y="0" width="350" height="350" fill={isDark ? "#1f2937" : "#ffffff"} />
-              {/* 标题 */}
-              <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                瓶颈理论（TOC）
-              </text>
-              {/* 瓶颈管道 */}
-              <rect x="50" y="150" width="250" height="50" fill={isDark ? "rgba(239, 68, 68, 0.1)" : "rgba(239, 68, 68, 0.05)"} stroke="#ef4444" strokeWidth="2" rx="5" />
-              {/* 瓶颈 */}
-              <rect x="150" y="140" width="50" height="70" fill="#ef4444" fillOpacity={0.3} stroke="#ef4444" strokeWidth="3" rx="5" />
-              <text x="175" y="175" textAnchor="middle" fill="#ef4444" fontSize="14" fontWeight="bold">
-                瓶颈
-              </text>
-              {/* 瓶颈文字 */}
-              <text x="175" y="195" textAnchor="middle" fill="#ef4444" fontSize="10">
-                系统最薄弱环节
-              </text>
-              {/* 输入输出箭头 */}
-              <line x1="30" y1="175" x2="50" y2="175" stroke="#3b82f6" strokeWidth="2" />
-              <polygon points="50,175 40,170 40,180" fill="#3b82f6" />
-              <line x1="300" y1="175" x2="320" y2="175" stroke="#3b82f6" strokeWidth="2" />
-              <polygon points="320,175 310,170 310,180" fill="#3b82f6" />
-              {/* 输入输出文字 */}
-              <text x="20" y="170" textAnchor="end" fill="#3b82f6" fontSize="12">
-                输入
-              </text>
-              <text x="330" y="170" textAnchor="start" fill="#3b82f6" fontSize="12">
-                输出
-              </text>
-              {/* 中心文字 */}
-              <text x="175" y="320" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                聚焦瓶颈，突破瓶颈，循环优化
-              </text>
-            </svg>
-          </BaseChart>
-        );
-      
-      // 新增：价值创造类
-      case 'valueProposition':
-        return (
-          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
-            <svg width="100%" height="100%" viewBox="0 0 350 350">
-              {/* 背景 */}
-              <rect x="0" y="0" width="350" height="350" fill={isDark ? "#1f2937" : "#ffffff"} />
-              {/* 标题 */}
-              <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                价值主张画布
-              </text>
-              {/* 用户需求 */}
-              <rect x="50" y="80" width="120" height="80" fill={isDark ? "rgba(59, 130, 246, 0.1)" : "rgba(59, 130, 246, 0.05)"} stroke="#3b82f6" strokeWidth="2" rx="10" />
-              <text x="110" y="110" textAnchor="middle" fill="#3b82f6" fontSize="14" fontWeight="bold">
-                用户需求
-              </text>
-              <text x="110" y="130" textAnchor="middle" fill="#3b82f6" fontSize="12">
-                痛点
-              </text>
-              <text x="110" y="150" textAnchor="middle" fill="#3b82f6" fontSize="10">
-                职场新人Excel技巧
-              </text>
-              {/* 价值供给 */}
-              <rect x="180" y="80" width="120" height="80" fill={isDark ? "rgba(16, 185, 129, 0.1)" : "rgba(16, 185, 129, 0.05)"} stroke="#10b981" strokeWidth="2" rx="10" />
-              <text x="240" y="110" textAnchor="middle" fill="#10b981" fontSize="14" fontWeight="bold">
-                价值供给
-              </text>
-              <text x="240" y="130" textAnchor="middle" fill="#10b981" fontSize="12">
-                解决方案
-              </text>
-              <text x="240" y="150" textAnchor="middle" fill="#10b981" fontSize="10">
-                Excel零基础教程
-              </text>
-              {/* 匹配箭头 */}
-              <line x1="170" y1="120" x2="180" y2="120" stroke="#f59e0b" strokeWidth="2" />
-              <polygon points="180,120 172,115 172,125" fill="#f59e0b" />
-              <text x="175" y="110" textAnchor="middle" fill="#f59e0b" fontSize="12" fontWeight="bold">
-                匹配
-              </text>
-              {/* 中心文字 */}
-              <text x="175" y="320" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                用户需要什么，我就提供什么
-              </text>
-            </svg>
-          </BaseChart>
-        );
-      case 'opportunityCost':
-        return (
-          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
-            <svg width="100%" height="100%" viewBox="0 0 350 350">
-              {/* 背景 */}
-              <rect x="0" y="0" width="350" height="350" fill={isDark ? "#1f2937" : "#ffffff"} />
-              {/* 标题 */}
-              <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                机会成本思维
-              </text>
-              {/* 选择天平 */}
-              <rect x="150" y="100" width="50" height="20" fill={isDark ? "rgba(245, 158, 11, 0.1)" : "rgba(245, 158, 11, 0.05)"} stroke="#f59e0b" strokeWidth="2" rx="10" />
-              <rect x="172" y="120" width="6" height="60" fill="#f59e0b" />
-              <rect x="100" y="180" width="150" height="20" fill="#f59e0b" fillOpacity={0.3} stroke="#f59e0b" strokeWidth="2" rx="10" />
-              
-              {/* 选择1 */}
-              <rect x="70" y="200" width="60" height="50" fill={isDark ? "rgba(16, 185, 129, 0.1)" : "rgba(16, 185, 129, 0.05)"} stroke="#10b981" strokeWidth="2" rx="10" />
-              <text x="100" y="220" textAnchor="middle" fill="#10b981" fontSize="14" fontWeight="bold">
-                学习技能
-              </text>
-              <text x="100" y="240" textAnchor="middle" fill="#10b981" fontSize="10">
-                长期价值
-              </text>
-              
-              {/* 选择2 */}
-              <rect x="220" y="200" width="60" height="50" fill={isDark ? "rgba(59, 130, 246, 0.1)" : "rgba(59, 130, 246, 0.05)"} stroke="#3b82f6" strokeWidth="2" rx="10" />
-              <text x="250" y="220" textAnchor="middle" fill="#3b82f6" fontSize="14" fontWeight="bold">
-                刷短视频
-              </text>
-              <text x="250" y="240" textAnchor="middle" fill="#3b82f6" fontSize="10">
-                短期快乐
-              </text>
-              
-              {/* 机会成本文字 */}
-              <text x="175" y="280" textAnchor="middle" fill="#ef4444" fontSize="12" fontWeight="bold">
-                机会成本：放弃的最高价值
-              </text>
-              {/* 中心文字 */}
-              <text x="175" y="320" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                做选择前，先算放弃的成本
-              </text>
-            </svg>
-          </BaseChart>
-        );
-      
-      // 新增：迭代优化类
-      case 'mvpThinking':
-        return (
-          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
-            <svg width="100%" height="100%" viewBox="0 0 350 350">
-              {/* 背景 */}
-              <rect x="0" y="0" width="350" height="350" fill={isDark ? "#1f2937" : "#ffffff"} />
-              {/* 标题 */}
-              <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                最小可行产品思维
-              </text>
-              {/* MVP盒子 */}
-              <rect x="125" y="100" width="100" height="100" fill={isDark ? "rgba(59, 130, 246, 0.1)" : "rgba(59, 130, 246, 0.05)"} stroke="#3b82f6" strokeWidth="2" rx="10" />
-              <text x="175" y="130" textAnchor="middle" fill="#3b82f6" fontSize="16" fontWeight="bold">
-                MVP
-              </text>
-              <text x="175" y="150" textAnchor="middle" fill="#3b82f6" fontSize="12">
-                核心功能
-              </text>
-              <text x="175" y="170" textAnchor="middle" fill="#3b82f6" fontSize="10">
-                文字版读书摘要
-              </text>
-              {/* 反馈箭头 */}
-              <path d="M175,200 Q175,220 175,240" stroke="#10b981" strokeWidth="2" fill="none" />
-              <polygon points="175,240 170,230 180,230" fill="#10b981" />
-              <text x="175" y="230" textAnchor="middle" fill="#10b981" fontSize="12">
-                反馈
-              </text>
-              {/* 迭代文字 */}
-              <text x="175" y="260" textAnchor="middle" fill="#f59e0b" fontSize="14" fontWeight="bold">
-                迭代优化
-              </text>
-              <text x="175" y="280" textAnchor="middle" fill="#f59e0b" fontSize="12">
-                图文→视频→系列课程
-              </text>
-              {/* 中心文字 */}
-              <text x="175" y="320" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                先完成，再完美
-              </text>
-            </svg>
-          </BaseChart>
-        );
-      case 'buildMeasureLearn':
-        return (
-          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
-            <svg width="100%" height="100%" viewBox="0 0 350 350">
-              {/* 背景 */}
-              <rect x="0" y="0" width="350" height="350" fill={isDark ? "#1f2937" : "#ffffff"} />
-              {/* 标题 */}
-              <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                快速迭代循环
-              </text>
-              {/* 构建 */}
-              <circle cx="100" cy="150" r="40" fill={isDark ? "rgba(59, 130, 246, 0.1)" : "rgba(59, 130, 246, 0.05)"} stroke="#3b82f6" strokeWidth="2" />
-              <text x="100" y="155" textAnchor="middle" fill="#3b82f6" fontSize="14" fontWeight="bold">
-                构建
-              </text>
-              <text x="100" y="175" textAnchor="middle" fill="#3b82f6" fontSize="10">
-                写文案
-              </text>
-              
-              {/* 测量 */}
-              <circle cx="175" cy="250" r="40" fill={isDark ? "rgba(16, 185, 129, 0.1)" : "rgba(16, 185, 129, 0.05)"} stroke="#10b981" strokeWidth="2" />
-              <text x="175" y="255" textAnchor="middle" fill="#10b981" fontSize="14" fontWeight="bold">
-                测量
-              </text>
-              <text x="175" y="275" textAnchor="middle" fill="#10b981" fontSize="10">
-                统计数据
-              </text>
-              
-              {/* 学习 */}
-              <circle cx="250" cy="150" r="40" fill={isDark ? "rgba(245, 158, 11, 0.1)" : "rgba(245, 158, 11, 0.05)"} stroke="#f59e0b" strokeWidth="2" />
-              <text x="250" y="155" textAnchor="middle" fill="#f59e0b" fontSize="14" fontWeight="bold">
-                学习
-              </text>
-              <text x="250" y="175" textAnchor="middle" fill="#f59e0b" fontSize="10">
-                优化标题
-              </text>
-              
-              {/* 循环箭头 */}
-              <path d="M140,150 A40,40 0 0,1 175,210" stroke="#3b82f6" strokeWidth="2" fill="none" />
-              <polygon points="175,210 170,200 180,200" fill="#3b82f6" />
-              
-              <path d="M175,290 A40,40 0 0,1 210,250" stroke="#10b981" strokeWidth="2" fill="none" />
-              <polygon points="210,250 200,245 200,255" fill="#10b981" />
-              
-              <path d="M210,150 A40,40 0 0,1 175,110" stroke="#f59e0b" strokeWidth="2" fill="none" />
-              <polygon points="175,110 170,120 180,120" fill="#f59e0b" />
-              
-              {/* 中心文字 */}
-              <text x="175" y="320" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                构建→测量→学习，快速迭代
-              </text>
-            </svg>
-          </BaseChart>
-        );
-      
-      // 新增：系统洞察类
-      case 'butterflyEffect':
-        return (
-          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
-            <svg width="100%" height="100%" viewBox="0 0 350 350">
-              {/* 背景 */}
-              <rect x="0" y="0" width="350" height="350" fill={isDark ? "#1f2937" : "#ffffff"} />
-              {/* 标题 */}
-              <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                蝴蝶效应
-              </text>
-              {/* 蝴蝶 */}
-              <path d="M175,150 C190,120 220,120 235,150 C220,180 190,180 175,150" stroke="#3b82f6" strokeWidth="2" fill="none" />
-              <path d="M175,150 C160,120 130,120 115,150 C130,180 160,180 175,150" stroke="#3b82f6" strokeWidth="2" fill="none" />
-              <circle cx="175" cy="150" r="10" fill="#3b82f6" fillOpacity={0.3} stroke="#3b82f6" strokeWidth="2" />
-              <text x="175" y="155" textAnchor="middle" fill="#3b82f6" fontSize="12" fontWeight="bold">
-                初始动作
-              </text>
-              {/* 波纹 */}
-              <circle cx="175" cy="150" r="40" fill="none" stroke="#10b981" strokeWidth="1" strokeDasharray="3 3" />
-              <circle cx="175" cy="150" r="70" fill="none" stroke="#f59e0b" strokeWidth="1" strokeDasharray="3 3" />
-              <circle cx="175" cy="150" r="100" fill="none" stroke="#ef4444" strokeWidth="1" strokeDasharray="3 3" />
-              {/* 效果文字 */}
-              <text x="175" y="270" textAnchor="middle" fill="#ef4444" fontSize="14" fontWeight="bold">
-                巨大影响
-              </text>
-              <text x="175" y="290" textAnchor="middle" fill="#ef4444" fontSize="10">
-                细节决定成败
-              </text>
-              {/* 中心文字 */}
-              <text x="175" y="320" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                初始条件的微小变化，引发长期巨大连锁反应
-              </text>
-            </svg>
-          </BaseChart>
-        );
-      case 'pathDependency':
-        return (
-          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
-            <svg width="100%" height="100%" viewBox="0 0 350 350">
-              {/* 背景 */}
-              <rect x="0" y="0" width="350" height="350" fill={isDark ? "#1f2937" : "#ffffff"} />
-              {/* 标题 */}
-              <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                路径依赖理论
-              </text>
-              {/* 路径 */}
-              <path d="M50,200 C100,150 150,250 200,200 C250,150 300,250 350,200" stroke="#3b82f6" strokeWidth="3" fill="none" />
-              {/* 起点 */}
-              <circle cx="50" cy="200" r="8" fill="#10b981" />
-              <text x="50" y="190" textAnchor="middle" fill="#10b981" fontSize="12" fontWeight="bold">
-                初始选择
-              </text>
-              <text x="50" y="215" textAnchor="middle" fill="#10b981" fontSize="10">
-                选择Python
-              </text>
-              {/* 节点 */}
-              <circle cx="125" cy="175" r="6" fill="#f59e0b" />
-              <circle cx="175" cy="225" r="6" fill="#f59e0b" />
-              <circle cx="225" cy="175" r="6" fill="#f59e0b" />
-              <circle cx="275" cy="225" r="6" fill="#f59e0b" />
-              {/* 终点 */}
-              <circle cx="350" cy="200" r="8" fill="#ef4444" />
-              <text x="350" y="190" textAnchor="middle" fill="#ef4444" fontSize="12" fontWeight="bold">
-                最终结果
-              </text>
-              <text x="350" y="215" textAnchor="middle" fill="#ef4444" fontSize="10">
-                技术专家
-              </text>
-              {/* 中心文字 */}
-              <text x="175" y="320" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                一旦进入某一路径，就会因惯性不断强化
-              </text>
-            </svg>
-          </BaseChart>
-        );
-      
-      // 新增：价值取舍类
-      case 'opportunitySunkCost':
-        return (
-          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
-            <svg width="100%" height="100%" viewBox="0 0 350 350">
-              {/* 背景 */}
-              <rect x="0" y="0" width="350" height="350" fill={isDark ? "#1f2937" : "#ffffff"} />
-              {/* 标题 */}
-              <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                机会成本与沉没成本权衡
-              </text>
-              {/* 天平 */}
-              <rect x="150" y="100" width="50" height="20" fill={isDark ? "rgba(245, 158, 11, 0.1)" : "rgba(245, 158, 11, 0.05)"} stroke="#f59e0b" strokeWidth="2" rx="10" />
-              <rect x="172" y="120" width="6" height="60" fill="#f59e0b" />
-              <rect x="100" y="180" width="150" height="20" fill="#f59e0b" fillOpacity={0.3} stroke="#f59e0b" strokeWidth="2" rx="10" />
-              
-              {/* 沉没成本 */}
-              <rect x="70" y="200" width="60" height="50" fill={isDark ? "rgba(239, 68, 68, 0.1)" : "rgba(239, 68, 68, 0.05)"} stroke="#ef4444" strokeWidth="2" rx="10" />
-              <text x="100" y="220" textAnchor="middle" fill="#ef4444" fontSize="14" fontWeight="bold">
-                沉没成本
-              </text>
-              <text x="100" y="240" textAnchor="middle" fill="#ef4444" fontSize="10">
-                已投入1万元
-              </text>
-              
-              {/* 机会成本 */}
-              <rect x="220" y="200" width="60" height="50" fill={isDark ? "rgba(16, 185, 129, 0.1)" : "rgba(16, 185, 129, 0.05)"} stroke="#10b981" strokeWidth="2" rx="10" />
-              <text x="250" y="220" textAnchor="middle" fill="#10b981" fontSize="14" fontWeight="bold">
-                机会成本
-              </text>
-              <text x="250" y="240" textAnchor="middle" fill="#10b981" fontSize="10">
-                放弃其他副业
-              </text>
-              
-              {/* 决策文字 */}
-              <text x="175" y="280" textAnchor="middle" fill="#f59e0b" fontSize="14" fontWeight="bold">
-                决策：忽略沉没成本
-              </text>
-              <text x="175" y="300" textAnchor="middle" fill="#f59e0b" fontSize="12">
-                聚焦机会成本
-              </text>
-              {/* 中心文字 */}
-              <text x="175" y="320" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                不被过去的投入束缚，只看未来的价值
-              </text>
-            </svg>
-          </BaseChart>
-        );
-      case 'scarcityAbundance':
-        return (
-          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
-            <svg width="100%" height="100%" viewBox="0 0 350 350">
-              {/* 背景 */}
-              <rect x="0" y="0" width="350" height="350" fill={isDark ? "#1f2937" : "#ffffff"} />
-              {/* 标题 */}
-              <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                稀缺与丰饶思维
-              </text>
-              {/* 稀缺思维 */}
-              <rect x="50" y="80" width="100" height="80" fill={isDark ? "rgba(239, 68, 68, 0.1)" : "rgba(239, 68, 68, 0.05)"} stroke="#ef4444" strokeWidth="2" rx="10" />
-              <text x="100" y="110" textAnchor="middle" fill="#ef4444" fontSize="14" fontWeight="bold">
-                稀缺思维
-              </text>
-              <text x="100" y="130" textAnchor="middle" fill="#ef4444" fontSize="12">
-                资源有限
-              </text>
-              <text x="100" y="150" textAnchor="middle" fill="#ef4444" fontSize="10">
-                竞争和争抢
-              </text>
-              
-              {/* 丰饶思维 */}
-              <rect x="200" y="80" width="100" height="80" fill={isDark ? "rgba(16, 185, 129, 0.1)" : "rgba(16, 185, 129, 0.05)"} stroke="#10b981" strokeWidth="2" rx="10" />
-              <text x="250" y="110" textAnchor="middle" fill="#10b981" fontSize="14" fontWeight="bold">
-                丰饶思维
-              </text>
-              <text x="250" y="130" textAnchor="middle" fill="#10b981" fontSize="12">
-                资源无限
-              </text>
-              <text x="250" y="150" textAnchor="middle" fill="#10b981" fontSize="10">
-                合作和创造
-              </text>
-              
-              {/* 对比箭头 */}
-              <line x1="150" y1="120" x2="200" y2="120" stroke="#f59e0b" strokeWidth="2" />
-              <polygon points="200,120 190,115 190,125" fill="#f59e0b" />
-              <text x="175" y="110" textAnchor="middle" fill="#f59e0b" fontSize="12" fontWeight="bold">
-                转变
-              </text>
-              {/* 中心文字 */}
-              <text x="175" y="320" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                心态决定资源获取方式，丰饶思维更利于长期发展
-              </text>
-            </svg>
-          </BaseChart>
-        );
-      
-      // 新增：执行落地类
-      case 'minimalResistance':
-        return (
-          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
-            <svg width="100%" height="100%" viewBox="0 0 350 350">
-              {/* 背景 */}
-              <rect x="0" y="0" width="350" height="350" fill={isDark ? "#1f2937" : "#ffffff"} />
-              {/* 标题 */}
-              <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                最小阻力路径法则
-              </text>
-              {/* 路径 */}
-              <path d="M50,200 L100,200 L120,170 L150,170 L170,200 L200,200 L220,170 L250,170 L270,200 L320,200" stroke="#3b82f6" strokeWidth="2" fill="none" />
-              {/* 起点 */}
-              <circle cx="50" cy="200" r="8" fill="#10b981" />
-              <text x="50" y="190" textAnchor="middle" fill="#10b981" fontSize="12" fontWeight="bold">
-                起点
-              </text>
-              {/* 障碍 */}
-              <rect x="100" y="150" width="20" height="50" fill="#ef4444" fillOpacity={0.3} stroke="#ef4444" strokeWidth="2" rx="5" />
-              <rect x="200" y="150" width="20" height="50" fill="#ef4444" fillOpacity={0.3} stroke="#ef4444" strokeWidth="2" rx="5" />
-              <text x="110" y="185" textAnchor="middle" fill="#ef4444" fontSize="10" transform="rotate(-90, 110, 185)">
-                障碍
-              </text>
-              <text x="210" y="185" textAnchor="middle" fill="#ef4444" fontSize="10" transform="rotate(-90, 210, 185)">
-                障碍
-              </text>
-              {/* 终点 */}
-              <circle cx="320" cy="200" r="8" fill="#f59e0b" />
-              <text x="320" y="190" textAnchor="middle" fill="#f59e0b" fontSize="12" fontWeight="bold">
-                目标
-              </text>
-              {/* 路径选择文字 */}
-              <text x="175" y="230" textAnchor="middle" fill="#3b82f6" fontSize="14" fontWeight="bold">
-                选择阻力最小的路径
-              </text>
-              <text x="175" y="250" textAnchor="middle" fill="#3b82f6" fontSize="12">
-                绕开障碍，轻松达成目标
-              </text>
-              {/* 中心文字 */}
-              <text x="175" y="320" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                设计利于目标达成的环境，让好习惯的阻力最小
-              </text>
-            </svg>
-          </BaseChart>
-        );
-      case 'immediateFeedback':
-        return (
-          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
-            <svg width="100%" height="100%" viewBox="0 0 350 350">
-              {/* 背景 */}
-              <rect x="0" y="0" width="350" height="350" fill={isDark ? "#1f2937" : "#ffffff"} />
-              {/* 标题 */}
-              <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                反馈即时性法则
-              </text>
-              {/* 行动 */}
-              <rect x="50" y="100" width="80" height="60" fill={isDark ? "rgba(59, 130, 246, 0.1)" : "rgba(59, 130, 246, 0.05)"} stroke="#3b82f6" strokeWidth="2" rx="10" />
-              <text x="90" y="135" textAnchor="middle" fill="#3b82f6" fontSize="14" fontWeight="bold">
-                行动
-              </text>
-              <text x="90" y="155" textAnchor="middle" fill="#3b82f6" fontSize="10">
-                背单词
-              </text>
-              
-              {/* 即时反馈 */}
-              <rect x="140" y="100" width="80" height="60" fill={isDark ? "rgba(16, 185, 129, 0.1)" : "rgba(16, 185, 129, 0.05)"} stroke="#10b981" strokeWidth="2" rx="10" />
-              <text x="180" y="135" textAnchor="middle" fill="#10b981" fontSize="14" fontWeight="bold">
-                即时反馈
-              </text>
-              <text x="180" y="155" textAnchor="middle" fill="#10b981" fontSize="10">
-                正确率90%
-              </text>
-              
-              {/* 延迟反馈 */}
-              <rect x="230" y="100" width="80" height="60" fill={isDark ? "rgba(239, 68, 68, 0.1)" : "rgba(239, 68, 68, 0.05)"} stroke="#ef4444" strokeWidth="2" rx="10" />
-              <text x="270" y="135" textAnchor="middle" fill="#ef4444" fontSize="14" fontWeight="bold">
-                延迟反馈
-              </text>
-              <text x="270" y="155" textAnchor="middle" fill="#ef4444" fontSize="10">
-                下周才知道
-              </text>
-              
-              {/* 效果对比 */}
-              <rect x="100" y="180" width="150" height="80" fill={isDark ? "rgba(245, 158, 11, 0.1)" : "rgba(245, 158, 11, 0.05)"} stroke="#f59e0b" strokeWidth="2" rx="10" />
-              <text x="175" y="210" textAnchor="middle" fill="#f59e0b" fontSize="14" fontWeight="bold">
-                效果对比
-              </text>
-              <text x="175" y="230" textAnchor="middle" fill="#10b981" fontSize="12">
-                即时反馈：记忆牢固
-              </text>
-              <text x="175" y="250" textAnchor="middle" fill="#ef4444" fontSize="12">
-                延迟反馈：效果差
-              </text>
-              {/* 中心文字 */}
-              <text x="175" y="320" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                反馈越及时，行为重复的概率越高
-              </text>
-            </svg>
-          </BaseChart>
-        );
-      
-      // 新增：认知突破类
-      case 'perspectiveShift':
-        return (
-          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
-            <svg width="100%" height="100%" viewBox="0 0 350 350">
-              {/* 背景 */}
-              <rect x="0" y="0" width="350" height="350" fill={isDark ? "#1f2937" : "#ffffff"} />
-              {/* 标题 */}
-              <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                视角转换思维
-              </text>
-              {/* 中心问题 */}
-              <circle cx="175" cy="150" r="40" fill={isDark ? "rgba(59, 130, 246, 0.1)" : "rgba(59, 130, 246, 0.05)"} stroke="#3b82f6" strokeWidth="2" />
-              <text x="175" y="155" textAnchor="middle" fill="#3b82f6" fontSize="14" fontWeight="bold">
-                问题
-              </text>
-              
-              {/* 视角1 */}
-              <circle cx="100" cy="250" r="30" fill={isDark ? "rgba(16, 185, 129, 0.1)" : "rgba(16, 185, 129, 0.05)"} stroke="#10b981" strokeWidth="2" />
-              <text x="100" y="255" textAnchor="middle" fill="#10b981" fontSize="12" fontWeight="bold">
-                用户视角
-              </text>
-              <text x="100" y="270" textAnchor="middle" fill="#10b981" fontSize="10">
-                需求是什么？
-              </text>
-              
-              {/* 视角2 */}
-              <circle cx="175" cy="300" r="30" fill={isDark ? "rgba(245, 158, 11, 0.1)" : "rgba(245, 158, 11, 0.05)"} stroke="#f59e0b" strokeWidth="2" />
-              <text x="175" y="305" textAnchor="middle" fill="#f59e0b" fontSize="12" fontWeight="bold">
-                未来视角
-              </text>
-              <text x="175" y="320" textAnchor="middle" fill="#f59e0b" fontSize="10">
-                5年后怎么选？
-              </text>
-              
-              {/* 视角3 */}
-              <circle cx="250" cy="250" r="30" fill={isDark ? "rgba(239, 68, 68, 0.1)" : "rgba(239, 68, 68, 0.05)"} stroke="#ef4444" strokeWidth="2" />
-              <text x="250" y="255" textAnchor="middle" fill="#ef4444" fontSize="12" fontWeight="bold">
-                历史视角
-              </text>
-              <text x="250" y="270" textAnchor="middle" fill="#ef4444" fontSize="10">
-                类似问题怎么解决？
-              </text>
-              
-              {/* 连接线 */}
-              <line x1="175" y1="190" x2="100" y2="220" stroke="#3b82f6" strokeWidth="1" strokeDasharray="3 3" />
-              <line x1="175" y1="190" x2="175" y2="270" stroke="#3b82f6" strokeWidth="1" strokeDasharray="3 3" />
-              <line x1="175" y1="190" x2="250" y2="220" stroke="#3b82f6" strokeWidth="1" strokeDasharray="3 3" />
-              {/* 中心文字 */}
-              <text x="175" y="340" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                换个角度看问题，答案可能完全不同
-              </text>
-            </svg>
-          </BaseChart>
-        );
-      case 'firstPrincipleAdvanced':
-        return (
-          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
-            <svg width="100%" height="100%" viewBox="0 0 350 350">
-              {/* 背景 */}
-              <rect x="0" y="0" width="350" height="350" fill={isDark ? "#1f2937" : "#ffffff"} />
-              {/* 标题 */}
-              <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                第一性原理思维（进阶版）
-              </text>
-              {/* 本质 */}
-              <circle cx="175" cy="150" r="50" fill={isDark ? "rgba(59, 130, 246, 0.1)" : "rgba(59, 130, 246, 0.05)"} stroke="#3b82f6" strokeWidth="2" />
-              <text x="175" y="140" textAnchor="middle" fill="#3b82f6" fontSize="16" fontWeight="bold">
-                本质
-              </text>
-              <text x="175" y="160" textAnchor="middle" fill="#3b82f6" fontSize="12">
-                第一性原理
-              </text>
-              <text x="175" y="180" textAnchor="middle" fill="#3b82f6" fontSize="10">
-                用户需要持续价值
-              </text>
-              
-              {/* 推导 */}
-              <text x="175" y="220" textAnchor="middle" fill="#f59e0b" fontSize="14" fontWeight="bold">
-                推导
-              </text>
-              <line x1="175" y1="200" x2="175" y2="215" stroke="#f59e0b" strokeWidth="2" />
-              <polygon points="175,215 170,205 180,205" fill="#f59e0b" />
-              
-              {/* 解决方案 */}
-              <rect x="70" y="230" width="60" height="50" fill={isDark ? "rgba(16, 185, 129, 0.1)" : "rgba(16, 185, 129, 0.05)"} stroke="#10b981" strokeWidth="2" rx="10" />
-              <text x="100" y="250" textAnchor="middle" fill="#10b981" fontSize="12" fontWeight="bold">
-                方案1
-              </text>
-              <text x="100" y="270" textAnchor="middle" fill="#10b981" fontSize="10">
-                个性化内容
-              </text>
-              
-              <rect x="145" y="230" width="60" height="50" fill={isDark ? "rgba(16, 185, 129, 0.1)" : "rgba(16, 185, 129, 0.05)"} stroke="#10b981" strokeWidth="2" rx="10" />
-              <text x="175" y="250" textAnchor="middle" fill="#10b981" fontSize="12" fontWeight="bold">
-                方案2
-              </text>
-              <text x="175" y="270" textAnchor="middle" fill="#10b981" fontSize="10">
-                用户成长体系
-              </text>
-              
-              <rect x="220" y="230" width="60" height="50" fill={isDark ? "rgba(16, 185, 129, 0.1)" : "rgba(16, 185, 129, 0.05)"} stroke="#10b981" strokeWidth="2" rx="10" />
-              <text x="250" y="250" textAnchor="middle" fill="#10b981" fontSize="12" fontWeight="bold">
-                方案3
-              </text>
-              <text x="250" y="270" textAnchor="middle" fill="#10b981" fontSize="10">
-                社群互动
-              </text>
-              {/* 中心文字 */}
-              <text x="175" y="320" textAnchor="middle" fill={isDark ? "#d1d5db" : "#4b5563"} fontSize="12">
-                回归本质，重新推导解决方案，避免经验束缚
-              </text>
-            </svg>
-          </BaseChart>
-        );
-      
-      case 'antifragileThinking':
-        return (
-          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
-            <svg width="100%" height="100%" viewBox="0 0 350 350">
-              <rect x="0" y="0" width="350" height="350" fill={isDark ? "#1f2937" : "#ffffff"} />
-              <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                反脆弱思维
-              </text>
-              
-              {/* 三种状态对比 */}
-              {[
-                { x: 80, y: 175, label: "脆弱", desc: "压力下崩溃", color: "#ef4444", curve: "M50,200 Q80,150 110,200" },
-                { x: 175, y: 175, label: "稳健", desc: "压力下保持", color: "#f59e0b", curve: "M145,200 Q175,200 205,200" },
-                { x: 270, y: 175, label: "反脆弱", desc: "压力下成长", color: "#10b981", curve: "M240,200 Q270,150 300,100" }
-              ].map((state, index) => (
-                <g key={index}>
-                  {/* 曲线 */}
-                  <path d={state.curve} fill="none" stroke={state.color} strokeWidth={3} />
-                  
-                  {/* 状态圆圈 */}
-                  <circle cx={state.x} cy={state.y} r="30" fill={state.color} fillOpacity="0.2" stroke={state.color} strokeWidth={2} />
-                  <text x={state.x} y={state.y - 10} textAnchor="middle" fill={state.color} fontSize="14" fontWeight="bold">
-                    {state.label}
-                  </text>
-                  <text x={state.x} y={state.y + 10} textAnchor="middle" fill={isDark ? "#9ca3af" : "#6b7280"} fontSize="10">
-                    {state.desc}
-                  </text>
-                </g>
-              ))}
-              
-              {/* 压力线 */}
-              <line x1="50" y1="220" x2="300" y2="220" stroke="#9ca3af" strokeWidth={2} strokeDasharray="5 5" />
-              <text x="320" y="225" textAnchor="middle" fill={isDark ? "#9ca3af" : "#6b7280"} fontSize="12">
-                压力
-              </text>
-              
-              {/* 说明文字 */}
-              <text x="175" y="330" textAnchor="middle" fill={isDark ? "#9ca3af" : "#6b7280"} fontSize="12">
-                从脆弱到稳健再到反脆弱，在压力中茁壮成长
-              </text>
-            </svg>
-          </BaseChart>
-        );
-      case 'supplyDemandMismatch':
-        return (
-          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
-            <svg width="100%" height="100%" viewBox="0 0 350 350">
-              <rect x="0" y="0" width="350" height="350" fill={isDark ? "#1f2937" : "#ffffff"} />
-              <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                供需错配
-              </text>
-              
-              {/* 供应曲线 */}
-              <path d="M50,250 Q150,150 250,50" fill="none" stroke="#3b82f6" strokeWidth={3} />
-              <text x="270" y="40" textAnchor="middle" fill="#3b82f6" fontSize="12" fontWeight="bold">
-                供应
-              </text>
-              
-              {/* 需求曲线 */}
-              <path d="M50,50 Q150,150 250,250" fill="none" stroke="#ef4444" strokeWidth={3} />
-              <text x="270" y="260" textAnchor="middle" fill="#ef4444" fontSize="12" fontWeight="bold">
-                需求
-              </text>
-              
-              {/* 均衡点 */}
-              <circle cx="150" cy="150" r="8" fill="#10b981" fillOpacity="0.8" stroke="#10b981" strokeWidth={2} />
-              <text x="150" y="140" textAnchor="middle" fill="#10b981" fontSize="12" fontWeight="bold">
-                均衡点
-              </text>
-              
-              {/* 错配区域 */}
-              <path d="M100,200 Q150,150 200,100" fill="#f59e0b" fillOpacity="0.2" stroke="#f59e0b" strokeWidth={2} />
-              <text x="150" y="170" textAnchor="middle" fill="#f59e0b" fontSize="12" fontWeight="bold">
-                错配区域
-              </text>
-              
-              {/* 说明文字 */}
-              <text x="175" y="330" textAnchor="middle" fill={isDark ? "#9ca3af" : "#6b7280"} fontSize="12">
-                识别供需错配，发现市场机会
-              </text>
-            </svg>
-          </BaseChart>
-        );
-      case 'leverageThinking':
-        return (
-          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
-            <svg width="100%" height="100%" viewBox="0 0 350 350">
-              <rect x="0" y="0" width="350" height="350" fill={isDark ? "#1f2937" : "#ffffff"} />
-              <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                杠杆思维
-              </text>
-              
-              {/* 杠杆支点 */}
-              <circle cx="80" cy="250" r="15" fill="#3b82f6" fillOpacity="0.8" stroke="#3b82f6" strokeWidth={2} />
-              <text x="80" y="255" textAnchor="middle" fill="#ffffff" fontSize="12" fontWeight="bold">
-                支点
-              </text>
-              
-              {/* 杠杆 */}
-              <rect x="80" y="245" width="200" height="10" fill="#9ca3af" fillOpacity="0.5" stroke="#9ca3af" strokeWidth={2} rx="5" />
-              
-              {/* 输入力 */}
-              <rect x="70" y="220" width="20" height="50" fill="#ef4444" fillOpacity="0.7" stroke="#ef4444" strokeWidth={2} />
-              <text x="80" y="210" textAnchor="middle" fill="#ef4444" fontSize="12" fontWeight="bold">
-                输入力
-              </text>
-              
-              {/* 输出力 */}
-              <rect x="250" y="200" width="40" height="100" fill="#10b981" fillOpacity="0.7" stroke="#10b981" strokeWidth={2} />
-              <text x="270" y="190" textAnchor="middle" fill="#10b981" fontSize="12" fontWeight="bold">
-                输出力
-              </text>
-              
-              {/* 杠杆原理公式 */}
-              <text x="175" y="300" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="14" fontWeight="bold">
-                输出 = 输入 × 杠杆倍数
-              </text>
-              
-              {/* 说明文字 */}
-              <text x="175" y="330" textAnchor="middle" fill={isDark ? "#9ca3af" : "#6b7280"} fontSize="12">
-                利用杠杆放大投入的效果，实现以小博大
-              </text>
-            </svg>
-          </BaseChart>
-        );
-      case 'reverseEngineering':
-        return (
-          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
-            <svg width="100%" height="100%" viewBox="0 0 350 350">
-              <rect x="0" y="0" width="350" height="350" fill={isDark ? "#1f2937" : "#ffffff"} />
-              <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                逆向工程
-              </text>
-              
-              {/* 目标产品 */}
-              <rect x="120" y="80" width="110" height="60" fill="#3b82f6" fillOpacity="0.2" stroke="#3b82f6" strokeWidth={2} rx="10" />
-              <text x="175" y="115" textAnchor="middle" fill="#3b82f6" fontSize="14" fontWeight="bold">
-                目标产品
-              </text>
-              
-              {/* 分解箭头 */}
-              <line x1="175" y1="140" x2="175" y2="170" stroke="#f59e0b" strokeWidth={2} />
-              <polygon points="175,170 170,160 180,160" fill="#f59e0b" />
-              
-              {/* 分解组件 */}
-              {[
-                { x: 80, y: 220, label: "组件A" },
-                { x: 150, y: 220, label: "组件B" },
-                { x: 220, y: 220, label: "组件C" },
-                { x: 290, y: 220, label: "组件D" }
-              ].map((component, index) => (
-                <g key={index}>
-                  <rect x={component.x - 30} y={component.y - 20} width={60} height={40} fill="#10b981" fillOpacity="0.2" stroke="#10b981" strokeWidth={2} rx="5" />
-                  <text x={component.x} y={component.y + 5} textAnchor="middle" fill="#10b981" fontSize="12" fontWeight="bold">
-                    {component.label}
-                  </text>
-                </g>
-              ))}
-              
-              {/* 重组箭头 */}
-              <line x1="175" y1="260" x2="175" y2="290" stroke="#f59e0b" strokeWidth={2} />
-              <polygon points="175,290 170,280 180,280" fill="#f59e0b" />
-              
-              {/* 重组产品 */}
-              <rect x="120" y="300" width="110" height="30" fill="#ef4444" fillOpacity="0.2" stroke="#ef4444" strokeWidth={2} rx="5" />
-              <text x="175" y="315" textAnchor="middle" fill="#ef4444" fontSize="12" fontWeight="bold">
-                重组创新产品
-              </text>
-              
-              {/* 说明文字 */}
-              <text x="175" y="340" textAnchor="middle" fill={isDark ? "#9ca3af" : "#6b7280"} fontSize="12">
-                拆解目标产品，分析组件，重组创新
-              </text>
-            </svg>
-          </BaseChart>
-        );
-      case 'potentialEnergyAccumulation':
-        return (
-          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
-            <svg width="100%" height="100%" viewBox="0 0 350 350">
-              <rect x="0" y="0" width="350" height="350" fill={isDark ? "#1f2937" : "#ffffff"} />
-              <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                势能积累思维
-              </text>
-              
-              {/* 坐标轴 */}
-              <line x1="50" y1="300" x2="300" y2="300" stroke={isDark ? "#9ca3af" : "#6b7280"} strokeWidth="2" />
-              <line x1="50" y1="50" x2="50" y2="300" stroke={isDark ? "#9ca3af" : "#6b7280"} strokeWidth="2" />
-              <text x="175" y="325" textAnchor="middle" fill={isDark ? "#9ca3af" : "#6b7280"} fontSize="12">
-                时间/投入
-              </text>
-              <text x="25" y="175" textAnchor="middle" fill={isDark ? "#9ca3af" : "#6b7280"} fontSize="12" transform="rotate(-90, 25, 175)">
-                势能/价值
-              </text>
-              
-              {/* 势能积累曲线 */}
-              <path d="M50,280 Q100,270 150,250 Q200,220 250,180 Q275,120 300,80" fill="none" stroke="#3b82f6" strokeWidth="3" />
-              
-              {/* 临界点 */}
-              <circle cx="250" cy="180" r="8" fill="#f59e0b" fillOpacity="0.8" stroke="#f59e0b" strokeWidth="2" />
-              <text x="250" y="160" textAnchor="middle" fill="#f59e0b" fontSize="14" fontWeight="bold">
-                临界点
-              </text>
-              
-              {/* 阶段标签 */}
-              <text x="150" y="280" textAnchor="middle" fill="#3b82f6" fontSize="12" fontWeight="bold">
-                积累阶段
-              </text>
-              <text x="275" y="120" textAnchor="middle" fill="#3b82f6" fontSize="12" fontWeight="bold">
-                爆发阶段
-              </text>
-              
-              {/* 说明文字 */}
-              <text x="175" y="340" textAnchor="middle" fill={isDark ? "#9ca3af" : "#6b7280"} fontSize="12">
-                价值的爆发源于前期持续的势能积累，先蓄势，后爆发
-              </text>
-            </svg>
-          </BaseChart>
-        );
-      case 'valueMultiplication':
-        return (
-          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
-            <svg width="100%" height="100%" viewBox="0 0 350 350">
-              <rect x="0" y="0" width="350" height="350" fill={isDark ? "#1f2937" : "#ffffff"} />
-              <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                价值倍增思维
-              </text>
-              
-              {/* 单一价值 */}
-              <rect x="70" y="100" width="80" height="60" fill="#3b82f6" fillOpacity="0.2" stroke="#3b82f6" strokeWidth="2" rx="10" />
-              <text x="110" y="135" textAnchor="middle" fill="#3b82f6" fontSize="14" fontWeight="bold">
-                单一价值
-              </text>
-              <text x="110" y="155" textAnchor="middle" fill={isDark ? "#9ca3af" : "#6b7280"} fontSize="12">
-                价值 = 1
-              </text>
-              
-              {/* 乘法符号 */}
-              <text x="175" y="140" textAnchor="middle" fill="#f59e0b" fontSize="24" fontWeight="bold">
-                ×
-              </text>
-              
-              {/* 乘数因子 */}
-              <rect x="190" y="100" width="80" height="60" fill="#f59e0b" fillOpacity="0.2" stroke="#f59e0b" strokeWidth="2" rx="10" />
-              <text x="230" y="135" textAnchor="middle" fill="#f59e0b" fontSize="14" fontWeight="bold">
-                乘数因子
-              </text>
-              <text x="230" y="155" textAnchor="middle" fill={isDark ? "#9ca3af" : "#6b7280"} fontSize="12">
-                因子 = 3
-              </text>
-              
-              {/* 等号 */}
-              <text x="175" y="200" textAnchor="middle" fill="#f59e0b" fontSize="24" fontWeight="bold">
-                =
-              </text>
-              
-              {/* 倍增价值 */}
-              <rect x="110" y="210" width="130" height="80" fill="#10b981" fillOpacity="0.3" stroke="#10b981" strokeWidth="3" rx="10" />
-              <text x="175" y="250" textAnchor="middle" fill="#10b981" fontSize="18" fontWeight="bold">
-                倍增价值
-              </text>
-              <text x="175" y="275" textAnchor="middle" fill={isDark ? "#9ca3af" : "#6b7280"} fontSize="14">
-                价值 = 3 (1×3)
-              </text>
-              
-              {/* 乘数因子示例 */}
-              <text x="175" y="310" textAnchor="middle" fill={isDark ? "#9ca3af" : "#6b7280"} fontSize="12">
-                乘数因子：技能+社群、内容+多平台、产品+服务
-              </text>
-              
-              {/* 说明文字 */}
-              <text x="175" y="340" textAnchor="middle" fill={isDark ? "#9ca3af" : "#6b7280"} fontSize="12">
-                通过资源整合、模式创新，让单一价值产生倍数级放大
-              </text>
-            </svg>
-          </BaseChart>
-        );
-      case 'essenceThinking':
-        return (
-          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
-            <svg width="100%" height="100%" viewBox="0 0 350 350">
-              <rect x="0" y="0" width="350" height="350" fill={isDark ? "#1f2937" : "#ffffff"} />
-              <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                本质思维
-              </text>
-              
-              {/* 现象云层 */}
-              <circle cx="175" cy="120" r="80" fill="#f0f9ff" fillOpacity="0.6" stroke="#3b82f6" strokeWidth="2" />
-              <text x="175" y="100" textAnchor="middle" fill="#3b82f6" fontSize="14" fontWeight="bold">
-                现象
-              </text>
-              
-              {/* 现象示例 */}
-              <text x="120" y="130" textAnchor="middle" fill="#3b82f6" fontSize="12">
-                短视频带货火
-              </text>
-              <text x="230" y="130" textAnchor="middle" fill="#3b82f6" fontSize="12">
-                职场晋升快
-              </text>
-              <text x="90" y="160" textAnchor="middle" fill="#3b82f6" fontSize="12">
-                课程销量高
-              </text>
-              <text x="260" y="160" textAnchor="middle" fill="#3b82f6" fontSize="12">
-                产品受欢迎
-              </text>
-              
-              {/* 本质核心 */}
-              <circle cx="175" cy="250" r="60" fill="#10b981" fillOpacity="0.3" stroke="#10b981" strokeWidth="3" />
-              <text x="175" y="240" textAnchor="middle" fill="#10b981" fontSize="18" fontWeight="bold">
-                本质
-              </text>
-              <text x="175" y="265" textAnchor="middle" fill="#10b981" fontSize="14">
-                人货场重构
-              </text>
-              <text x="175" y="285" textAnchor="middle" fill="#10b981" fontSize="14">
-                价值创造大
-              </text>
-              
-              {/* 向下箭头 */}
-              <path d="M175,200 L175,230" fill="none" stroke="#f59e0b" strokeWidth="3" />
-              <polygon points="175,230 170,220 180,220" fill="#f59e0b" />
-              <text x="195" y="220" textAnchor="middle" fill="#f59e0b" fontSize="12" fontWeight="bold">
-                透过现象
-              </text>
-              
-              {/* 说明文字 */}
-              <text x="175" y="340" textAnchor="middle" fill={isDark ? "#9ca3af" : "#6b7280"} fontSize="12">
-                拨开迷雾，直击核心，找到最简洁的解决路径
-              </text>
-            </svg>
-          </BaseChart>
-        );
-      case 'reverseThinking':
-        return (
-          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
-            <svg width="100%" height="100%" viewBox="0 0 350 350">
-              <rect x="0" y="0" width="350" height="350" fill={isDark ? "#1f2937" : "#ffffff"} />
-              <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                逆向思维
-              </text>
-              
-              {/* 正向目标 */}
-              <rect x="70" y="100" width="100" height="80" fill="#3b82f6" fillOpacity="0.2" stroke="#3b82f6" strokeWidth="2" rx="10" />
-              <text x="120" y="135" textAnchor="middle" fill="#3b82f6" fontSize="14" fontWeight="bold">
-                正向目标
-              </text>
-              <text x="120" y="155" textAnchor="middle" fill={isDark ? "#9ca3af" : "#6b7280"} fontSize="12">
-                副业月入5000元
-              </text>
-              
-              {/* 逆向箭头 */}
-              <path d="M170,140 Q200,175 170,210" fill="none" stroke="#f59e0b" strokeWidth="3" />
-              <polygon points="170,210 165,200 175,200" fill="#f59e0b" />
-              <text x="190" y="175" textAnchor="middle" fill="#f59e0b" fontSize="12" fontWeight="bold">
-                逆向思考
-              </text>
-              
-              {/* 逆向分析 */}
-              <rect x="190" y="180" width="100" height="80" fill="#ef4444" fillOpacity="0.2" stroke="#ef4444" strokeWidth="2" rx="10" />
-              <text x="240" y="215" textAnchor="middle" fill="#ef4444" fontSize="14" fontWeight="bold">
-                逆向分析
-              </text>
-              <text x="240" y="235" textAnchor="middle" fill={isDark ? "#9ca3af" : "#6b7280"} fontSize="12">
-                失败因素：选题错误
-              </text>
-              <text x="240" y="255" textAnchor="middle" fill={isDark ? "#9ca3af" : "#6b7280"} fontSize="12">
-                执行力差、定价不合理
-              </text>
-              
-              {/* 解决方案 */}
-              <rect x="110" y="280" width="130" height="50" fill="#10b981" fillOpacity="0.3" stroke="#10b981" strokeWidth="2" rx="10" />
-              <text x="175" y="310" textAnchor="middle" fill="#10b981" fontSize="14" fontWeight="bold">
-                解决方案：提前规避风险
-              </text>
-              
-              {/* 说明文字 */}
-              <text x="175" y="340" textAnchor="middle" fill={isDark ? "#9ca3af" : "#6b7280"} fontSize="12">
-                反过来想，总是反过来想，打破正向思维的惯性陷阱
-              </text>
-            </svg>
-          </BaseChart>
-        );
-      case 'nodeControlThinking':
-        return (
-          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
-            <svg width="100%" height="100%" viewBox="0 0 350 350">
-              <rect x="0" y="0" width="350" height="350" fill={isDark ? "#1f2937" : "#ffffff"} />
-              <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                节点把控思维
-              </text>
-              
-              {/* 长期目标 */}
-              <rect x="110" y="50" width="130" height="60" fill="#3b82f6" fillOpacity="0.2" stroke="#3b82f6" strokeWidth="3" rx="10" />
-              <text x="175" y="85" textAnchor="middle" fill="#3b82f6" fontSize="16" fontWeight="bold">
-                长期目标
-              </text>
-              <text x="175" y="105" textAnchor="middle" fill={isDark ? "#9ca3af" : "#6b7280"} fontSize="12">
-                掌握数据分析技能
-              </text>
-              
-              {/* 节点连接线 */}
-              <line x1="175" y1="110" x2="175" y2="140" stroke="#f59e0b" strokeWidth="2" strokeDasharray="5 5" />
-              
-              {/* 关键节点 */}
-              {[
-                { x: 80, y: 200, label: "节点1", desc: "Excel数据分析" },
-                { x: 175, y: 200, label: "节点2", desc: "Python基础" },
-                { x: 270, y: 200, label: "节点3", desc: "实战项目" },
-              ].map((node, index) => (
-                <g key={index}>
-                  <circle cx={node.x} cy={node.y} r="40" fill="#10b981" fillOpacity="0.3" stroke="#10b981" strokeWidth="2" />
-                  <text x={node.x} y={node.y - 10} textAnchor="middle" fill="#10b981" fontSize="14" fontWeight="bold">
-                    {node.label}
-                  </text>
-                  <text x={node.x} y={node.y + 5} textAnchor="middle" fill={isDark ? "#9ca3af" : "#6b7280"} fontSize="12">
-                    {node.desc}
-                  </text>
-                  <text x={node.x} y={node.y + 20} textAnchor="middle" fill={isDark ? "#9ca3af" : "#6b7280"} fontSize="10">
-                    季度{index + 1}
-                  </text>
-                </g>
-              ))}
-              
-              {/* 节点连接线 */}
-              <line x1="120" y1="200" x2="135" y2="200" stroke="#10b981" strokeWidth="2" />
-              <line x1="215" y1="200" x2="230" y2="200" stroke="#10b981" strokeWidth="2" />
-              <polygon points="135,200 125,195 125,205" fill="#10b981" />
-              <polygon points="230,200 220,195 220,205" fill="#10b981" />
-              
-              {/* 最终节点 */}
-              <circle cx={175} cy={280} r="50" fill="#8b5cf6" fillOpacity="0.3" stroke="#8b5cf6" strokeWidth="3" />
-              <text x={175} y={270} textAnchor="middle" fill="#8b5cf6" fontSize="16" fontWeight="bold">
-                最终节点
-              </text>
-              <text x={175} y={295} textAnchor="middle" fill={isDark ? "#9ca3af" : "#6b7280"} fontSize="12">
-                形成作品集
-              </text>
-              <text x={175} y={315} textAnchor="middle" fill={isDark ? "#9ca3af" : "#6b7280"} fontSize="12">
-                季度4
-              </text>
-              
-              {/* 节点到最终节点的连接线 */}
-              {[
-                { x: 80, y: 240 },
-                { x: 175, y: 240 },
-                { x: 270, y: 240 }
-              ].map((point, index) => (
-                <line key={index} x1={point.x} y1={point.y} x2={175} y2={230} stroke="#f59e0b" strokeWidth="2" strokeDasharray="3 3" />
-              ))}
-              
-              {/* 说明文字 */}
-              <text x="175" y="340" textAnchor="middle" fill={isDark ? "#9ca3af" : "#6b7280"} fontSize="12">
-                抓节点、控进度、保质量，确保整体目标实现
-              </text>
-            </svg>
-          </BaseChart>
-        );
-      case 'actionCalibrationThinking':
-        return (
-          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
-            <svg width="100%" height="100%" viewBox="0 0 350 350">
-              <rect x="0" y="0" width="350" height="350" fill={isDark ? "#1f2937" : "#ffffff"} />
-              <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                行动校准思维
-              </text>
-              
-              {/* 目标线 */}
-              <line x1="50" y1="150" x2="300" y2="150" stroke="#3b82f6" strokeWidth="3" />
-              <text x="320" y="155" textAnchor="middle" fill="#3b82f6" fontSize="12" fontWeight="bold">
-                目标线
-              </text>
-              <text x="320" y="170" textAnchor="middle" fill={isDark ? "#9ca3af" : "#6b7280"} fontSize="10">
-                每周瘦1斤
-              </text>
-              
-              {/* 实际行动线 */}
-              <line x1="50" y1="170" x2="150" y2="190" stroke="#ef4444" strokeWidth="3" />
-              <text x="320" y="200" textAnchor="middle" fill="#ef4444" fontSize="12" fontWeight="bold">
-                实际行动线
-              </text>
-              <text x="320" y="215" textAnchor="middle" fill={isDark ? "#9ca3af" : "#6b7280"} fontSize="10">
-                实际瘦0.3斤
-              </text>
-              
-              {/* 偏差区域 */}
-              <path d="M50,150 L150,190 L150,150 Z" fill="#f59e0b" fillOpacity="0.2" stroke="#f59e0b" strokeWidth="2" />
-              <text x="100" y="165" textAnchor="middle" fill="#f59e0b" fontSize="12" fontWeight="bold">
-                偏差区域
-              </text>
-              
-              {/* 校准箭头 */}
-              <path d="M150,190 Q200,220 250,180" fill="none" stroke="#10b981" strokeWidth="3" />
-              <polygon points="250,180 240,175 240,185" fill="#10b981" />
-              <text x="200" y="230" textAnchor="middle" fill="#10b981" fontSize="12" fontWeight="bold">
-                行动校准
-              </text>
-              
-              {/* 校准后行动线 */}
-              <line x1="250" y1="180" x2="300" y2="160" stroke="#10b981" strokeWidth="3" />
-              
-              {/* 校准措施 */}
-              <rect x="110" y="250" width="130" height="60" fill="#10b981" fillOpacity="0.3" stroke="#10b981" strokeWidth="2" rx="10" />
-              <text x="175" y="285" textAnchor="middle" fill="#10b981" fontSize="14" fontWeight="bold">
-                校准措施
-              </text>
-              <text x="175" y="305" textAnchor="middle" fill={isDark ? "#9ca3af" : "#6b7280"} fontSize="12">
-                增加饮食记录，控制碳水
-              </text>
-              
-              {/* 说明文字 */}
-              <text x="175" y="340" textAnchor="middle" fill={isDark ? "#9ca3af" : "#6b7280"} fontSize="12">
-                边做边校准，避免南辕北辙
-              </text>
-            </svg>
-          </BaseChart>
-        );
-      case 'platformLeverageThinking':
-        return (
-          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
-            <svg width="100%" height="100%" viewBox="0 0 350 350">
-              <rect x="0" y="0" width="350" height="350" fill={isDark ? "#1f2937" : "#ffffff"} />
-              <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                平台借势思维
-              </text>
-              
-              {/* 平台大山 */}
-              <polygon points="100,300 250,300 200,150" fill="#3b82f6" fillOpacity="0.3" stroke="#3b82f6" strokeWidth="3" />
-              <text x="175" y="225" textAnchor="middle" fill="#3b82f6" fontSize="18" fontWeight="bold">
-                平台
-              </text>
-              <text x="175" y="245" textAnchor="middle" fill={isDark ? "#9ca3af" : "#6b7280"} fontSize="12">
-                小红书/抖音
-              </text>
-              
-              {/* 个人 */}
-              <circle cx="175" cy="130" r="20" fill="#10b981" fillOpacity="0.8" stroke="#10b981" strokeWidth="2" />
-              <text x="175" y="135" textAnchor="middle" fill="#ffffff" fontSize="14" fontWeight="bold">
-                我
-              </text>
-              
-              {/* 借势箭头 */}
-              <path d="M175,150 L175,180" fill="none" stroke="#f59e0b" strokeWidth="3" />
-              <polygon points="175,180 170,170 180,170" fill="#f59e0b" />
-              <text x="195" y="170" textAnchor="middle" fill="#f59e0b" fontSize="12" fontWeight="bold">
-                借势
-              </text>
-              
-              {/* 放大效果 */}
-              <circle cx="250" cy="250" r="30" fill="#f59e0b" fillOpacity="0.3" stroke="#f59e0b" strokeWidth="2" />
-              <text x="250" y="245" textAnchor="middle" fill="#f59e0b" fontSize="14" fontWeight="bold">
-                放大效果
-              </text>
-              <text x="250" y="265" textAnchor="middle" fill={isDark ? "#9ca3af" : "#6b7280"} fontSize="12">
-                精准流量
-              </text>
-              <text x="250" y="285" textAnchor="middle" fill={isDark ? "#9ca3af" : "#6b7280"} fontSize="12">
-                快速成长
-              </text>
-              
-              {/* 连接箭头 */}
-              <path d="M175,200 Q200,225 220,245" fill="none" stroke="#f59e0b" strokeWidth="2" strokeDasharray="5 5" />
-              <polygon points="220,245 213,240 213,250" fill="#f59e0b" />
-              
-              {/* 说明文字 */}
-              <text x="175" y="340" textAnchor="middle" fill={isDark ? "#9ca3af" : "#6b7280"} fontSize="12">
-                借力打力，顺势而为，避免从零开始的低效摸索
-              </text>
-            </svg>
-          </BaseChart>
-        );
-      case 'ecologicalFeedbackThinking':
-        return (
-          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
-            <svg width="100%" height="100%" viewBox="0 0 350 350">
-              <rect x="0" y="0" width="350" height="350" fill={isDark ? "#1f2937" : "#ffffff"} />
-              <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                生态反哺思维
-              </text>
-              
-              {/* 生态循环 */}
-              <circle cx="175" cy="175" r="100" fill="#3b82f6" fillOpacity="0.1" stroke="#3b82f6" strokeWidth="2" />
-              
-              {/* 生态核心 */}
-              <circle cx="175" cy="175" r="30" fill="#10b981" fillOpacity="0.8" stroke="#10b981" strokeWidth="2" />
-              <text x="175" y="180" textAnchor="middle" fill="#ffffff" fontSize="14" fontWeight="bold">
-                生态
-              </text>
-              
-              {/* 个人贡献 */}
-              <circle cx="100" cy="100" r="20" fill="#f59e0b" fillOpacity="0.8" stroke="#f59e0b" strokeWidth="2" />
-              <text x="100" y="105" textAnchor="middle" fill="#ffffff" fontSize="12" fontWeight="bold">
-                贡献
-              </text>
-              <text x="100" y="125" textAnchor="middle" fill={isDark ? "#9ca3af" : "#6b7280"} fontSize="10">
-                分享干货
-              </text>
-              
-              {/* 生态赋能 */}
-              <circle cx="250" cy="100" r="20" fill="#8b5cf6" fillOpacity="0.8" stroke="#8b5cf6" strokeWidth="2" />
-              <text x="250" y="105" textAnchor="middle" fill="#ffffff" fontSize="12" fontWeight="bold">
-                赋能
-              </text>
-              <text x="250" y="125" textAnchor="middle" fill={isDark ? "#9ca3af" : "#6b7280"} fontSize="10">
-                流量扶持
-              </text>
-              
-              {/* 个人成长 */}
-              <circle cx="250" cy="250" r="20" fill="#10b981" fillOpacity="0.8" stroke="#10b981" strokeWidth="2" />
-              <text x="250" y="255" textAnchor="middle" fill="#ffffff" fontSize="12" fontWeight="bold">
-                成长
-              </text>
-              <text x="250" y="275" textAnchor="middle" fill={isDark ? "#9ca3af" : "#6b7280"} fontSize="10">
-                订单增长
-              </text>
-              
-              {/* 循环箭头 */}
-              <path d="M120,100 A50,50 0 0,1 230,100" fill="none" stroke="#f59e0b" strokeWidth="3" />
-              <path d="M250,120 A80,80 0 0,1 250,230" fill="none" stroke="#8b5cf6" strokeWidth="3" />
-              <path d="M230,250 A50,50 0 0,1 120,250" fill="none" stroke="#10b981" strokeWidth="3" />
-              <path d="M100,230 A80,80 0 0,1 100,120" fill="none" stroke="#3b82f6" strokeWidth="3" />
-              
-              {/* 箭头 */}
-              <polygon points="230,100 220,95 220,105" fill="#f59e0b" />
-              <polygon points="250,230 245,220 255,220" fill="#8b5cf6" />
-              <polygon points="120,250 110,245 110,255" fill="#10b981" />
-              <polygon points="100,120 95,110 105,110" fill="#3b82f6" />
-              
-              {/* 说明文字 */}
-              <text x="175" y="340" textAnchor="middle" fill={isDark ? "#9ca3af" : "#6b7280"} fontSize="12">
-                先贡献，后索取，实现和生态的长期共生
-              </text>
-            </svg>
-          </BaseChart>
-        );
-      case 'firstPrincipleMigration':
-        return (
-          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
-            <svg width="100%" height="100%" viewBox="0 0 350 350">
-              <rect x="0" y="0" width="350" height="350" fill={isDark ? "#1f2937" : "#ffffff"} />
-              <text x="175" y="30" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                第一性原理迁移
-              </text>
-              
-              {/* 原领域 */}
-              <circle cx="100" cy="175" r="50" fill="#3b82f6" fillOpacity="0.2" stroke="#3b82f6" strokeWidth={2} />
-              <text x="100" y="150" textAnchor="middle" fill="#3b82f6" fontSize="16" fontWeight="bold">
-                原领域
-              </text>
-              <text x="100" y="175" textAnchor="middle" fill={isDark ? "#9ca3af" : "#6b7280"} fontSize="12">
-                第一性原理A
-              </text>
-              <text x="100" y="200" textAnchor="middle" fill={isDark ? "#9ca3af" : "#6b7280"} fontSize="10">
-                应用1、应用2、应用3
-              </text>
-              
-              {/* 迁移箭头 */}
-              <path d="M150,175 Q200,150 250,175" fill="none" stroke="#f59e0b" strokeWidth={3} />
-              <polygon points="250,175 240,170 240,180" fill="#f59e0b" />
-              <text x="200" y="135" textAnchor="middle" fill="#f59e0b" fontSize="12" fontWeight="bold">
-                原理迁移
-              </text>
-              
-              {/* 新领域 */}
-              <circle cx="250" cy="175" r="50" fill="#10b981" fillOpacity="0.2" stroke="#10b981" strokeWidth={2} />
-              <text x="250" y="150" textAnchor="middle" fill="#10b981" fontSize="16" fontWeight="bold">
-                新领域
-              </text>
-              <text x="250" y="175" textAnchor="middle" fill={isDark ? "#9ca3af" : "#6b7280"} fontSize="12">
-                第一性原理A'
-              </text>
-              <text x="250" y="200" textAnchor="middle" fill={isDark ? "#9ca3af" : "#6b7280"} fontSize="10">
-                新应用1、新应用2、新应用3
-              </text>
-              
-              {/* 说明文字 */}
-              <text x="175" y="330" textAnchor="middle" fill={isDark ? "#9ca3af" : "#6b7280"} fontSize="12">
-                将第一性原理从原领域迁移到新领域，创造新应用
-              </text>
-            </svg>
-          </BaseChart>
         );
       default:
-        return (
-          <div className="w-full h-full flex items-center justify-center">
-            <div className="text-center">
-              <h3 className="text-xl font-bold text-gray-500">图表加载中...</h3>
-              <p className="text-sm text-gray-400 mt-2">请选择一个图表类型</p>
-            </div>
-          </div>
-        );
+        return <div>图表未找到</div>;
     }
   };
 
-  // 拟态风格样式定义 - 与商品分类与管理按钮样式完全一致
-  const neomorphicStyles = {
-    bg: 'bg-[#e0e5ec]',
-    border: 'border-[#e0e5ec]',
-    shadow: 'shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]',
-    hoverShadow: 'hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)]',
-    activeShadow: 'active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]',
-    transition: 'transition-all duration-200'
-  };
+  // 图表数据定义
+  const jCurveData = [
+    { t: 0, value: 10 },
+    { t: 1, value: 9 },
+    { t: 2, value: 8 },
+    { t: 3, value: 7 },
+    { t: 4, value: 6 },
+    { t: 5, value: 7 },
+    { t: 6, value: 9 },
+    { t: 7, value: 12 },
+    { t: 8, value: 16 },
+    { t: 9, value: 21 },
+    { t: 10, value: 27 },
+  ];
 
-  // Helper function to get button class based on active state - 与商品分类与管理按钮样式完全一致
-  const getButtonClass = (isActive: boolean) => {
+  const antifragileData = [
+    { stress: 0, fragile: 100, antifragile: 50 },
+    { stress: 10, fragile: 90, antifragile: 55 },
+    { stress: 20, fragile: 80, antifragile: 60 },
+    { stress: 30, fragile: 70, antifragile: 65 },
+    { stress: 40, fragile: 60, antifragile: 75 },
+    { stress: 50, fragile: 50, antifragile: 90 },
+    { stress: 60, fragile: 40, antifragile: 110 },
+    { stress: 70, fragile: 30, antifragile: 130 },
+    { stress: 80, fragile: 20, antifragile: 150 },
+    { stress: 90, fragile: 10, antifragile: 170 },
+    { stress: 100, fragile: 0, antifragile: 190 },
+  ];
+
+  const secondCurveData = [
+    { t: 0, curve1: 10, curve2: 0 },
+    { t: 1, curve1: 20, curve2: 0 },
+    { t: 2, curve1: 40, curve2: 0 },
+    { t: 3, curve1: 70, curve2: 0 },
+    { t: 4, curve1: 100, curve2: 10 },
+    { t: 5, curve1: 130, curve2: 30 },
+    { t: 6, curve1: 160, curve2: 60 },
+    { t: 7, curve1: 180, curve2: 100 },
+    { t: 8, curve1: 190, curve2: 150 },
+    { t: 9, curve1: 195, curve2: 210 },
+    { t: 10, curve1: 198, curve2: 280 },
+  ];
+
+  const flywheelData = [
+    { time: 0, momentum: 10 },
+    { time: 1, momentum: 15 },
+    { time: 2, momentum: 22 },
+    { time: 3, momentum: 32 },
+    { time: 4, momentum: 46 },
+    { time: 5, momentum: 66 },
+    { time: 6, momentum: 95 },
+    { time: 7, momentum: 136 },
+    { time: 8, momentum: 194 },
+    { time: 9, momentum: 278 },
+    { time: 10, momentum: 395 },
+  ];
+
+  const regretData = [
+    { type: '没做的事', pain: 80 },
+    { type: '做错的事', pain: 40 },
+  ];
+
+  const energyData = [
+    { time: '6:00', energy: 60 },
+    { time: '9:00', energy: 85 },
+    { time: '12:00', energy: 70 },
+    { time: '15:00', energy: 65 },
+    { time: '18:00', energy: 80 },
+    { time: '21:00', energy: 60 },
+    { time: '24:00', energy: 40 },
+  ];
+
+  const compoundData = [
+    { day: 0, better: 100, worse: 100 },
+    { day: 30, better: 134.78, worse: 74.01 },
+    { day: 60, better: 181.67, worse: 54.72 },
+    { day: 90, better: 244.86, worse: 40.47 },
+    { day: 180, better: 609.82, worse: 16.37 },
+    { day: 365, better: 3778.34, worse: 2.69 },
+  ];
+
+  // 死亡谷效应数据
+  const dipData = [
+    { x: 0, results: 50 },
+    { x: 10, results: 45 },
+    { x: 20, results: 40 },
+    { x: 30, results: 35 },
+    { x: 40, results: 30 },
+    { x: 50, results: 35 },
+    { x: 60, results: 45 },
+    { x: 70, results: 60 },
+    { x: 80, results: 80 },
+    { x: 90, results: 100 },
+    { x: 100, results: 130 },
+  ];
+
+  const dopamineData = [
+    { hour: '0:00', level: 50 },
+    { hour: '3:00', level: 40 },
+    { hour: '6:00', level: 70 },
+    { hour: '9:00', level: 85 },
+    { hour: '12:00', level: 75 },
+    { hour: '15:00', level: 65 },
+    { hour: '18:00', level: 80 },
+    { hour: '21:00', level: 60 },
+    { hour: '24:00', level: 50 },
+  ];
+
+  const flowData = [
+    { x: 10, y: 10, status: '无聊' },
+    { x: 30, y: 30, status: '心流' },
+    { x: 50, y: 50, status: '心流' },
+    { x: 70, y: 70, status: '心流' },
+    { x: 90, y: 90, status: '焦虑' },
+    { x: 90, y: 30, status: '焦虑' },
+  ];
+
+  // 达克效应数据
+  const dunningData = [
+    { x: 0, confidence: 90 },
+    { x: 10, confidence: 95 },
+    { x: 20, confidence: 98 },
+    { x: 30, confidence: 80 },
+    { x: 40, confidence: 60 },
+    { x: 50, confidence: 50 },
+    { x: 60, confidence: 60 },
+    { x: 70, confidence: 70 },
+    { x: 80, confidence: 80 },
+    { x: 90, confidence: 85 },
+    { x: 100, confidence: 90 },
+  ];
+
+  const zoneData = [
+    { id: 'comfort', radius: 50, color: '#3b82f6', fillOpacity: 0.3 },
+    { id: 'learning', radius: 100, color: '#10b981', fillOpacity: 0.2 },
+    { id: 'fear', radius: 150, color: '#ef4444', fillOpacity: 0.1 },
+  ];
+
+  const woopData = [
+    { id: 'wish', x: 0.3, y: 0.3, color: '#3b82f6', fillOpacity: 0.3, icon: '🎯', label: '愿望', description: '设定你的目标' },
+    { id: 'outcome', x: 0.7, y: 0.3, color: '#10b981', fillOpacity: 0.3, icon: '🏆', label: '结果', description: '想象理想结果' },
+    { id: 'obstacle', x: 0.3, y: 0.7, color: '#ef4444', fillOpacity: 0.3, icon: '⛰️', label: '障碍', description: '识别潜在障碍' },
+    { id: 'plan', x: 0.7, y: 0.7, color: '#f59e0b', fillOpacity: 0.3, icon: '📋', label: '计划', description: '制定行动计划' },
+  ];
+
+  const windLawData = [
+    { speed: 0, windResistance: 0, progress: 0 },
+    { speed: 10, windResistance: 100, progress: 50 },
+    { speed: 20, windResistance: 400, progress: 150 },
+    { speed: 30, windResistance: 900, progress: 300 },
+    { speed: 40, windResistance: 1600, progress: 500 },
+    { speed: 50, windResistance: 2500, progress: 750 },
+  ];
+
+  const peakEndData = [
+    { time: 0, experience: 50 },
+    { time: 1, experience: 60 },
+    { time: 2, experience: 80 },
+    { time: 3, experience: 40 },
+    { time: 4, experience: 30 },
+    { time: 5, experience: 20 },
+    { time: 6, experience: 50 },
+    { time: 7, experience: 70 },
+    { time: 8, experience: 90 },
+    { time: 9, experience: 30 },
+    { time: 10, experience: 40 },
+  ];
+
+  const valueVennData = [
+    { id: 'passion', x: 0.35, y: 0.4, radius: 70, color: '#ef4444', fillOpacity: 0.2, label: '激情' },
+    { id: 'talent', x: 0.65, y: 0.4, radius: 70, color: '#3b82f6', fillOpacity: 0.2, label: '天赋' },
+    { id: 'market', x: 0.5, y: 0.7, radius: 70, color: '#10b981', fillOpacity: 0.2, label: '市场' },
+  ];
+
+  const cognitiveOnionData = [
+    { id: 'core', radius: 20, color: '#3b82f6', fillOpacity: 0.5, label: '核心自我' },
+    { id: 'values', radius: 40, color: '#10b981', fillOpacity: 0.4, label: '价值观' },
+    { id: 'beliefs', radius: 60, color: '#f59e0b', fillOpacity: 0.3, label: '信念' },
+    { id: 'behaviors', radius: 80, color: '#ef4444', fillOpacity: 0.2, label: '行为' },
+    { id: 'identity', radius: 100, color: '#8b5cf6', fillOpacity: 0.1, label: '身份' },
+  ];
+
+  const learningCycleData = [
+    { id: 'input', color: '#3b82f6', name: '输入' },
+    { id: 'process', color: '#10b981', name: '处理' },
+    { id: 'output', color: '#f59e0b', name: '输出' },
+    { id: 'feedback', color: '#ef4444', name: '反馈' },
+  ];
+
+  const purposeData = [
+    { id: '生理需求', color: '#ef4444', label: '生理需求', description: '食物、水、睡眠等基本需求' },
+    { id: '安全需求', color: '#f59e0b', label: '安全需求', description: '安全、稳定、保障' },
+    { id: '社交需求', color: '#3b82f6', label: '社交需求', description: '爱、归属感、人际关系' },
+    { id: '尊重需求', color: '#8b5cf6', label: '尊重需求', description: '自尊、认可、地位' },
+    { id: '自我实现', color: '#10b981', label: '自我实现', description: '实现潜力、追求理想' },
+  ];
+
+  const johariWindowData = [
+    { id: 'open', x: 0.35, y: 0.35, color: '#3b82f6', fillOpacity: 0.2, label: '公开区', description: '自己知道，他人也知道', examples: '姓名、外貌' },
+    { id: 'blind', x: 0.65, y: 0.35, color: '#10b981', fillOpacity: 0.2, label: '盲区', description: '自己不知道，他人知道', examples: '坏习惯' },
+    { id: 'hidden', x: 0.35, y: 0.65, color: '#ef4444', fillOpacity: 0.2, label: '隐藏区', description: '自己知道，他人不知道', examples: '秘密' },
+    { id: 'unknown', x: 0.65, y: 0.65, color: '#f59e0b', fillOpacity: 0.2, label: '未知区', description: '自己不知道，他人也不知道', examples: '潜能' },
+  ];
+
+  const footInDoorData = [
+    { step: 1, acceptanceRate: 90 },
+    { step: 2, acceptanceRate: 85 },
+    { step: 3, acceptanceRate: 80 },
+  ];
+
+  // getButtonClass function - 与商品分类与管理保持一致的按钮样式
+  const getButtonClass = (isActive: boolean, isSpecial?: boolean) => {
     if (isActive) {
-      return 'bg-blue-500 text-white border-blue-500';
+      return isSpecial ? 'bg-red-500 text-white border-red-500' : 'bg-blue-500 text-white border-blue-500';
     }
     if (isNeomorphic) {
       return `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow} ${neomorphicStyles.hoverShadow} ${neomorphicStyles.activeShadow} ${neomorphicStyles.transition}`;
@@ -3415,8 +885,8 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
     return isDark ? 'bg-zinc-900 border-zinc-800 text-zinc-500 hover:border-zinc-700' : 'bg-white border-slate-300 text-slate-600 hover:border-slate-200';
   };
 
-  // Chart configuration data with detailed descriptions and deep analysis
-  const CHARTS: Chart[] = [
+  // 完整的CHARTS数组
+  const CHARTS = [
     // 新增：系统思维类
     {
       id: 'systemFeedback',
@@ -4133,7 +1603,7 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       scope: '技能学习、项目开展、习惯养成、职业发展',
       tips: '1. 提前了解死亡谷的存在，做好心理准备；2. 分解目标，设置小里程碑，获得持续的成就感；3. 寻找同伴或导师，获得支持和指导；4. 保持规律的学习/工作节奏，避免三天打鱼两天晒网。',
       practice: '1. 制定详细的学习计划，将大目标分解为小目标；2. 每周记录进度，关注微小的进步；3. 遇到瓶颈时，尝试换一种学习方法或休息一下再继续；4. 寻找成功案例，激励自己坚持下去。',
-      visualizationDesign: '请使用SVG标签结合HTML编写代码，精准绘制死亡谷效应图表，具体细节要求如下：\n1. 整体布局：采用二维坐标布局，X轴水平向右表示投入度，Y轴垂直向上表示产出率，整体为矩形可视化区域，风格简洁直观。\n2. 核心元素细节：\n   - 曲线：绘制一条先升后降再平缓上升的平滑曲线，贯穿整个图表区域，曲线线条粗细适中、样式清晰可辨。\n   - 文字标注：X轴下方标注「投入度」，Y轴左侧标注「产出率」，图表顶部标注「死亡谷效应」。\n   - 渐变：使用从左到右的渐变色填充曲线下方区域，增强视觉效果。\n   - 网格线：添加水平网格线，帮助读者理解数据点的位置。\n3. 代码要求：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码，支持内联样式或单独style标签，保证配色、元素大小、布局与描述一致，元素层级清晰。'
+      visualDesign: '1. 图表绘制思路：以曲线形式展示投入度与产出率的关系，突出学习过程中的瓶颈期；2. 设计细节：使用线性渐变填充曲线下区域，增强视觉层次感；移除垂直网格线，突出曲线趋势；3. 视觉元素选择：采用蓝绿渐变色表示成长过程，坐标轴标签清晰标注投入度和产出率，标题突出主题，增强可读性。'
     },
     { 
       id: 'dunning', 
@@ -4141,12 +1611,12 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       label: '达克效应', 
       icon: BrainCircuit, 
       description: '展示认知能力与自信程度的关系', 
-      deepAnalysis: '达克效应指出，能力欠缺的人往往对自己的能力估计过高，而能力强的人则倾向于低估自己的能力。了解达克效应有助于保持谦虚的学习态度，避免陷入过度自信的陷阱。',
+      deepAnalysis: '达克效应指出，能力欠缺的人往往对自己的能力估计过高，而能力强的人则倾向于低估自己的能力。了解达克效应有助于保持谦虚的学习态度，避免陷入过度自信的陷阱。大明成化款，是明朝成化年间烧制的瓷器，以其精美工艺和稀缺性而闻名于世，常被用作比喻珍贵、稀有的事物。',
       principle: '能力欠缺的人往往对自己的能力估计过高，而能力强的人则倾向于低估自己的能力，这种认知偏差会影响人们的学习和决策。',
       scope: '自我认知、学习态度、决策制定、团队管理',
       tips: '1. 保持谦虚，认识到自己的局限性；2. 主动寻求反馈，了解他人对自己的评价；3. 学习批判性思维，学会质疑自己的观点；4. 与不同水平的人交流，拓宽视野。',
       practice: '1. 定期进行自我评估，记录自己的成长；2. 参加技能测试或比赛，客观了解自己的水平；3. 阅读相关书籍或课程，提升认知能力；4. 在做出重要决策前，征求他人的意见。',
-      visualizationDesign: '请使用SVG标签结合HTML编写代码，精准绘制达克效应图表，具体细节要求如下：\n1. 整体布局：采用二维坐标布局，X轴水平向右表示智慧水平（从低到高），Y轴垂直向上表示自信程度（从高到低），整体为矩形可视化区域。\n2. 背景分区：按X轴从左到右将图表背景分为4个连续的彩色分区，分别为自信爆棚区（黄色）、自信崩溃区（红色）、自信重建区（青色）、自信成熟区（蓝色），分区之间边界清晰。\n3. 核心曲线：绘制一条先升后降再平缓上升的平滑曲线，贯穿4个背景分区，曲线线条粗细适中、样式清晰可辨。\n4. 文字标注：\n   - 曲线关键节点标注红色文字：从左到右依次为「愚昧之巅」「绝望之谷」「开悟之坡」「平稳高原」；\n   - X轴下方标注：「智慧水平（知识与经验，低→高）」，Y轴左侧标注：「自信程度（高→低）」；\n   - 4个背景分区内对应标注区域名称：「自信爆棚区」「自信崩溃区」「自信重建区」「自信成熟区」；\n   - 图表最底部对应4个分区横向标注表现标签：「巨婴」「屌丝」「智者」「大师」；\n5. 图标：在4个背景分区内分别添加对应场景简笔画图标（自信爆棚区人物图标、自信崩溃区对应图标、自信重建区对应图标、自信成熟区大脑图标）；\n6. 代码要求：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码，支持内联样式或单独style标签，保证配色、元素大小、布局与描述一致，元素层级清晰。'
+      visualDesign: '1. 图表绘制思路：通过曲线展示智慧水平与自信程度的关系，将认知过程划分为四个阶段；2. 设计细节：使用不同颜色的矩形块区分四个认知阶段，红色圆点标记关键节点（愚昧之巅、绝望之谷、开悟之坡、平稳高原），简洁的文字标注各阶段特点；3. 视觉元素选择：采用生动的图标表示不同认知阶段的人物状态，坐标轴清晰标注智慧水平和自信程度，使用渐变色增强视觉层次感，整体设计直观易懂，便于理解达克效应的核心概念。'
     },
     { 
       id: 'jcurve', 
@@ -4158,8 +1628,7 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '在投入初期收益为负，但随着时间推移，收益会呈指数级增长，长期坚持才能获得巨大回报。',
       scope: '学习投资、职业发展、健身养生、人际关系',
       tips: '1. 树立长期主义思维，不急于求成；2. 选择有长期价值的领域进行投入；3. 保持持续学习和进步；4. 定期复盘和调整策略。',
-      practice: '1. 制定5年或10年的长期计划；2. 每天坚持做一件对长期有价值的事情；3. 投资自己的技能和知识；4. 保持健康的生活方式，为长期发展奠定基础。',
-      visualizationDesign: '请使用SVG标签结合HTML编写代码，精准绘制J型曲线图表，具体细节要求如下：\n1. 整体布局：采用二维坐标布局，X轴水平向右表示时间，Y轴垂直向上表示回报值，整体为矩形可视化区域，风格简洁直观。\n2. 核心曲线：绘制一条先缓慢下降后快速上升的平滑曲线，呈现典型的J型形状，曲线线条粗细适中、样式清晰可辨，使用主色调填充。\n3. 辅助元素：\n   - 网格线：添加笛卡尔网格线，帮助读者理解数据点的位置；\n   - 坐标轴：X轴标注「时间」，Y轴标注「回报值」，字体清晰可读；\n   - 图例：添加图例，标注「J型曲线」；\n   - 标题：图表顶部标注「J型曲线 - 长期投资回报模式」，字体加粗。\n4. 代码要求：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码，支持内联样式或单独style标签，保证配色、元素大小、布局与描述一致，元素层级清晰。'
+      practice: '1. 制定5年或10年的长期计划；2. 每天坚持做一件对长期有价值的事情；3. 投资自己的技能和知识；4. 保持健康的生活方式，为长期发展奠定基础。'
     },
     { 
       id: 'antifragile', 
@@ -4171,8 +1640,7 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '系统不仅能在压力下恢复，还能从压力中获益，在不确定性中茁壮成长。',
       scope: '个人成长、企业管理、投资决策、风险管理',
       tips: '1. 主动接受适度的挑战和压力；2. 建立多元化的技能和收入来源；3. 培养适应变化的能力；4. 从失败中学习，不断改进。',
-      practice: '1. 定期尝试新事物，走出舒适区；2. 学习一项新技能，挑战自己的极限；3. 建立应急基金，应对突发情况；4. 记录失败经验，分析原因并改进。',
-      visualizationDesign: '请使用SVG标签结合HTML编写代码，精准绘制反脆弱曲线图表，具体细节要求如下：\n1. 整体布局：采用二维坐标布局，X轴水平向右表示压力水平，Y轴垂直向上表示韧性值，整体为矩形可视化区域。\n2. 核心曲线：绘制两条曲线，一条表示脆弱系统（下降趋势），一条表示反脆弱系统（上升趋势），曲线线条粗细适中、样式清晰可辨。\n3. 背景渐变：为两条曲线下方添加不同颜色的渐变填充，脆弱系统使用红色渐变，反脆弱系统使用绿色渐变，增强视觉效果。\n4. 辅助元素：\n   - 网格线：添加笛卡尔网格线，帮助读者理解数据点的位置；\n   - 坐标轴：X轴标注「压力水平」，Y轴标注「韧性值」，字体清晰可读；\n   - 图例：添加图例，分别标注「脆弱」和「反脆弱」；\n   - 标题：图表顶部标注「反脆弱 - 压力与韧性关系」，字体加粗。\n5. 代码要求：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码，支持内联样式或单独style标签，保证配色、元素大小、布局与描述一致，元素层级清晰。' 
+      practice: '1. 定期尝试新事物，走出舒适区；2. 学习一项新技能，挑战自己的极限；3. 建立应急基金，应对突发情况；4. 记录失败经验，分析原因并改进。'
     },
     { 
       id: 'secondcurve', 
@@ -4940,452 +2408,89 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
     }
   ];
 
-  // Mock data for charts
-  const attributeData = [
-    { subject: '健康', A: 120 },
-    { subject: '学习', A: 98 },
-    { subject: '事业', A: 86 },
-    { subject: '社交', A: 99 },
-    { subject: '家庭', A: 85 },
-    { subject: '娱乐', A: 70 },
-  ];
-
-  const dailyFocusData = [
-    { name: '周一', projects: 120, habits: 60 },
-    { name: '周二', projects: 190, habits: 45 },
-    { name: '周三', projects: 130, habits: 55 },
-    { name: '周四', projects: 140, habits: 60 },
-    { name: '周五', projects: 180, habits: 40 },
-    { name: '周六', projects: 110, habits: 30 },
-    { name: '周日', projects: 80, habits: 25 },
-  ];
-
-  const miningData = [
-    { day: 1, resistance: 10, yield: 2 },
-    { day: 2, resistance: 15, yield: 3 },
-    { day: 3, resistance: 20, yield: 5 },
-    { day: 4, resistance: 25, yield: 8 },
-    { day: 5, resistance: 30, yield: 12 },
-    { day: 6, resistance: 35, yield: 17 },
-    { day: 7, resistance: 40, yield: 23 },
-    { day: 8, resistance: 45, yield: 30 },
-    { day: 9, resistance: 50, yield: 38 },
-    { day: 10, resistance: 55, yield: 47 },
-  ];
-
-  const entropyData = [
-    { t: 0, chaos: 50, order: 50 },
-    { t: 1, chaos: 55, order: 55 },
-    { t: 2, chaos: 60, order: 60 },
-    { t: 3, chaos: 65, order: 55 },
-    { t: 4, chaos: 70, order: 50 },
-    { t: 5, chaos: 75, order: 60 },
-    { t: 6, chaos: 80, order: 70 },
-    { t: 7, chaos: 85, order: 80 },
-    { t: 8, chaos: 90, order: 90 },
-    { t: 9, chaos: 95, order: 85 },
-    { t: 10, chaos: 100, order: 80 },
-  ];
-
-  const dipData = [
-    { x: 0, results: 50 },
-    { x: 10, results: 45 },
-    { x: 20, results: 40 },
-    { x: 30, results: 35 },
-    { x: 40, results: 30 },
-    { x: 50, results: 35 },
-    { x: 60, results: 45 },
-    { x: 70, results: 60 },
-    { x: 80, results: 80 },
-    { x: 90, results: 100 },
-    { x: 100, results: 130 },
-  ];
-
-  const dunningData = [
-    { x: 0, confidence: 90 },
-    { x: 10, confidence: 95 },
-    { x: 20, confidence: 98 },
-    { x: 30, confidence: 80 },
-    { x: 40, confidence: 60 },
-    { x: 50, confidence: 50 },
-    { x: 60, confidence: 60 },
-    { x: 70, confidence: 70 },
-    { x: 80, confidence: 80 },
-    { x: 90, confidence: 85 },
-    { x: 100, confidence: 90 },
-  ];
-
-  const jCurveData = [
-    { t: 0, value: 10 },
-    { t: 1, value: 9 },
-    { t: 2, value: 8 },
-    { t: 3, value: 7 },
-    { t: 4, value: 6 },
-    { t: 5, value: 7 },
-    { t: 6, value: 9 },
-    { t: 7, value: 12 },
-    { t: 8, value: 16 },
-    { t: 9, value: 21 },
-    { t: 10, value: 27 },
-  ];
-
-  const antifragileData = [
-    { stress: 0, fragile: 100, antifragile: 50 },
-    { stress: 10, fragile: 90, antifragile: 55 },
-    { stress: 20, fragile: 80, antifragile: 60 },
-    { stress: 30, fragile: 70, antifragile: 65 },
-    { stress: 40, fragile: 60, antifragile: 75 },
-    { stress: 50, fragile: 50, antifragile: 90 },
-    { stress: 60, fragile: 40, antifragile: 110 },
-    { stress: 70, fragile: 30, antifragile: 130 },
-    { stress: 80, fragile: 20, antifragile: 150 },
-    { stress: 90, fragile: 10, antifragile: 170 },
-    { stress: 100, fragile: 0, antifragile: 190 },
-  ];
-
-  const secondCurveData = [
-    { t: 0, curve1: 10, curve2: 0 },
-    { t: 1, curve1: 20, curve2: 0 },
-    { t: 2, curve1: 40, curve2: 0 },
-    { t: 3, curve1: 70, curve2: 0 },
-    { t: 4, curve1: 100, curve2: 10 },
-    { t: 5, curve1: 130, curve2: 30 },
-    { t: 6, curve1: 160, curve2: 60 },
-    { t: 7, curve1: 180, curve2: 100 },
-    { t: 8, curve1: 190, curve2: 150 },
-    { t: 9, curve1: 195, curve2: 210 },
-    { t: 10, curve1: 198, curve2: 280 },
-  ];
-
-  const flywheelData = [
-    { time: 0, momentum: 10 },
-    { time: 1, momentum: 15 },
-    { time: 2, momentum: 22 },
-    { time: 3, momentum: 32 },
-    { time: 4, momentum: 46 },
-    { time: 5, momentum: 66 },
-    { time: 6, momentum: 95 },
-    { time: 7, momentum: 136 },
-    { time: 8, momentum: 194 },
-    { time: 9, momentum: 278 },
-    { time: 10, momentum: 395 },
-  ];
-
-  const regretData = [
-    { type: '没做的事', pain: 80 },
-    { type: '做错的事', pain: 40 },
-  ];
-
-  const energyData = [
-    { time: '6:00', energy: 60 },
-    { time: '9:00', energy: 85 },
-    { time: '12:00', energy: 70 },
-    { time: '15:00', energy: 65 },
-    { time: '18:00', energy: 80 },
-    { time: '21:00', energy: 60 },
-    { time: '24:00', energy: 40 },
-  ];
-
-  const compoundData = [
-    { day: 0, better: 100, worse: 100 },
-    { day: 30, better: 134.78, worse: 74.01 },
-    { day: 60, better: 181.67, worse: 54.72 },
-    { day: 90, better: 244.86, worse: 40.47 },
-    { day: 180, better: 609.82, worse: 16.37 },
-    { day: 365, better: 3778.34, worse: 2.69 },
-  ];
-
-  const paretoData = [
-    { name: '20%', output: 80 },
-    { name: '40%', output: 10 },
-    { name: '60%', output: 5 },
-    { name: '80%', output: 3 },
-    { name: '100%', output: 2 },
-  ];
-
-  const dopamineData = [
-    { hour: '0:00', level: 50 },
-    { hour: '3:00', level: 40 },
-    { hour: '6:00', level: 70 },
-    { hour: '9:00', level: 85 },
-    { hour: '12:00', level: 75 },
-    { hour: '15:00', level: 65 },
-    { hour: '18:00', level: 80 },
-    { hour: '21:00', level: 60 },
-    { hour: '24:00', level: 50 },
-  ];
-
-  const flowData = [
-    { x: 10, y: 10, status: '无聊' },
-    { x: 30, y: 30, status: '心流' },
-    { x: 50, y: 50, status: '心流' },
-    { x: 70, y: 70, status: '心流' },
-    { x: 90, y: 90, status: '焦虑' },
-    { x: 90, y: 30, status: '焦虑' },
-  ];
-
-  const zoneData = [
-    { id: 'comfort', radius: 50, color: '#3b82f6', fillOpacity: 0.3 },
-    { id: 'learning', radius: 100, color: '#10b981', fillOpacity: 0.2 },
-    { id: 'fear', radius: 150, color: '#ef4444', fillOpacity: 0.1 },
-  ];
-
-  const woopData = [
-    { id: 'wish', x: 0.3, y: 0.3, color: '#3b82f6', fillOpacity: 0.3, icon: '🎯', label: '愿望', description: '设定你的目标' },
-    { id: 'outcome', x: 0.7, y: 0.3, color: '#10b981', fillOpacity: 0.3, icon: '🏆', label: '结果', description: '想象理想结果' },
-    { id: 'obstacle', x: 0.3, y: 0.7, color: '#ef4444', fillOpacity: 0.3, icon: '⛰️', label: '障碍', description: '识别潜在障碍' },
-    { id: 'plan', x: 0.7, y: 0.7, color: '#f59e0b', fillOpacity: 0.3, icon: '📋', label: '计划', description: '制定行动计划' },
-  ];
-
-  const windLawData = [
-    { speed: 0, windResistance: 0, progress: 0 },
-    { speed: 10, windResistance: 100, progress: 50 },
-    { speed: 20, windResistance: 400, progress: 150 },
-    { speed: 30, windResistance: 900, progress: 300 },
-    { speed: 40, windResistance: 1600, progress: 500 },
-    { speed: 50, windResistance: 2500, progress: 750 },
-  ];
-
-  const peakEndData = [
-    { time: 0, experience: 50 },
-    { time: 1, experience: 60 },
-    { time: 2, experience: 80 },
-    { time: 3, experience: 40 },
-    { time: 4, experience: 30 },
-    { time: 5, experience: 20 },
-    { time: 6, experience: 50 },
-    { time: 7, experience: 70 },
-    { time: 8, experience: 90 },
-    { time: 9, experience: 30 },
-    { time: 10, experience: 40 },
-  ];
-
-  const valueVennData = [
-    { id: 'passion', x: 0.35, y: 0.4, radius: 70, color: '#ef4444', fillOpacity: 0.2, label: '激情' },
-    { id: 'talent', x: 0.65, y: 0.4, radius: 70, color: '#3b82f6', fillOpacity: 0.2, label: '天赋' },
-    { id: 'market', x: 0.5, y: 0.7, radius: 70, color: '#10b981', fillOpacity: 0.2, label: '市场' },
-  ];
-
-  const cognitiveOnionData = [
-    { id: 'core', radius: 20, color: '#3b82f6', fillOpacity: 0.5, label: '核心自我' },
-    { id: 'values', radius: 40, color: '#10b981', fillOpacity: 0.4, label: '价值观' },
-    { id: 'beliefs', radius: 60, color: '#f59e0b', fillOpacity: 0.3, label: '信念' },
-    { id: 'behaviors', radius: 80, color: '#ef4444', fillOpacity: 0.2, label: '行为' },
-    { id: 'identity', radius: 100, color: '#8b5cf6', fillOpacity: 0.1, label: '身份' },
-  ];
-
-  const learningCycleData = [
-    { id: 'input', color: '#3b82f6', name: '输入' },
-    { id: 'process', color: '#10b981', name: '处理' },
-    { id: 'output', color: '#f59e0b', name: '输出' },
-    { id: 'feedback', color: '#ef4444', name: '反馈' },
-  ];
-
-  const purposeData = [
-    { id: '生理需求', color: '#ef4444', label: '生理需求', description: '食物、水、睡眠等基本需求' },
-    { id: '安全需求', color: '#f59e0b', label: '安全需求', description: '安全、稳定、保障' },
-    { id: '社交需求', color: '#3b82f6', label: '社交需求', description: '爱、归属感、人际关系' },
-    { id: '尊重需求', color: '#8b5cf6', label: '尊重需求', description: '自尊、认可、地位' },
-    { id: '自我实现', color: '#10b981', label: '自我实现', description: '实现潜力、追求理想' },
-  ];
-
-  const johariWindowData = [
-    { id: 'open', x: 0.35, y: 0.35, color: '#3b82f6', fillOpacity: 0.2, label: '公开区', description: '自己知道，他人也知道', examples: '姓名、外貌' },
-    { id: 'blind', x: 0.65, y: 0.35, color: '#10b981', fillOpacity: 0.2, label: '盲区', description: '自己不知道，他人知道', examples: '坏习惯' },
-    { id: 'hidden', x: 0.35, y: 0.65, color: '#ef4444', fillOpacity: 0.2, label: '隐藏区', description: '自己知道，他人不知道', examples: '秘密' },
-    { id: 'unknown', x: 0.65, y: 0.65, color: '#f59e0b', fillOpacity: 0.2, label: '未知区', description: '自己不知道，他人也不知道', examples: '潜能' },
-  ];
-
-  const footInDoorData = [
-    { step: 1, acceptanceRate: 90 },
-    { step: 2, acceptanceRate: 85 },
-    { step: 3, acceptanceRate: 80 },
-    { step: 4, acceptanceRate: 75 },
-    { step: 5, acceptanceRate: 70 },
-    { step: 6, acceptanceRate: 65 },
-    { step: 7, acceptanceRate: 60 },
-    { step: 8, acceptanceRate: 55 },
-    { step: 9, acceptanceRate: 50 },
-    { step: 10, acceptanceRate: 45 },
-  ];
-
-  const deliberatePracticeData = [
-    { id: 'goal', x: 0.7, y: 0.3, color: '#3b82f6', fillOpacity: 0.3, icon: '🎯', label: '设定目标', description: '明确具体的学习目标' },
-    { id: 'focus', x: 0.7, y: 0.7, color: '#10b981', fillOpacity: 0.3, icon: '🔥', label: '专注练习', description: '高度集中注意力' },
-    { id: 'feedback', x: 0.3, y: 0.7, color: '#f59e0b', fillOpacity: 0.3, icon: '📊', label: '获取反馈', description: '收集并分析反馈' },
-    { id: 'improve', x: 0.3, y: 0.3, color: '#ef4444', fillOpacity: 0.3, icon: '🔄', label: '优化改进', description: '根据反馈调整' },
-  ];
-
-  const foggBehaviorData = {
-    elements: [
-      { id: 'motivation', x: 100, y: 100, color: '#ef4444', fillOpacity: 0.3, icon: '🔥', label: '动机', description: '行为的内在驱动力' },
-      { id: 'ability', x: 200, y: 150, color: '#3b82f6', fillOpacity: 0.3, icon: '💪', label: '能力', description: '完成行为的技能' },
-      { id: 'trigger', x: 150, y: 220, color: '#10b981', fillOpacity: 0.3, icon: '🚀', label: '触发', description: '启动行为的提示' },
-    ],
-  };
-
-  const eisenhowerMatrixData = [
-    { id: 'urgentImportant', color: '#ef4444' },
-    { id: 'urgentNotImportant', color: '#f59e0b' },
-    { id: 'notUrgentImportant', color: '#3b82f6' },
-    { id: 'notUrgentNotImportant', color: '#10b981' },
-  ];
-
   return (
-    <div className="w-full h-full p-4" ref={containerRef}>
-      <div className="grid grid-rows-[1fr_2fr_2fr] gap-4 h-full">
-        {/* Chart Categories */}
-        <div className="row-span-1">
-          <div className={`p-4 rounded-lg ${cardBg} ${textMain} overflow-y-auto max-h-full`} style={{ maxHeight: '200px' }}>
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold">图表分类</h2>
-              {/* 使用指南按钮 */}
-              <button 
-                className="text-blue-500 hover:text-blue-700 transition-colors"
-                title="使用指南"
-                onClick={() => setActiveHelp('charts')}
+    <div className={`w-full h-full flex flex-col ${bgClass} p-4 gap-4`}>
+      {/* 1. 图表切换模块 - 位于界面顶部，包含图表分类选择功能及相关操作按钮 */}
+      <div className={`${cardBg} rounded-2xl p-4 shadow-lg`}>
+        <h2 className={`text-lg font-bold mb-4 ${textMain}`}>图表切换模块</h2>
+        <div className="overflow-y-auto max-h-32">
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
+          {Object.entries(chartCategories).map(([category, charts]) => (
+            <div key={category} className="mb-4">
+              <h3 className={`text-sm font-bold mb-2 ${textMain}`}>
+                {category === 'trend' ? '趋势类' : '概念类'}
+              </h3>
+              <SortableContext
+                items={charts}
+                strategy={verticalListSortingStrategy}
               >
-                <HelpCircle size={18} />
-              </button>
-            </div>
-            <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-              {Object.entries(chartCategories).map(([category, charts]) => (
-                <div key={category} className="mb-6">
-                  <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-                    {category === 'trend' ? <Activity size={18} /> : <Hexagon size={18} />}
-                    {category === 'trend' ? '趋势图表' : '概念模型'}
-                  </h3>
-                  <div id={`category-${category}`} className="flex flex-wrap gap-2">
-                    <SortableContext items={charts} strategy={horizontalListSortingStrategy}>
-                      {charts.map((chartId) => {
-                        const chart = getChartById(chartId);
-                        return chart ? (
-                          <SortableButton key={chartId} id={chartId} chart={chart} />
-                        ) : null;
-                      })}
-                    </SortableContext>
-                  </div>
+                <div className="flex flex-wrap gap-2">
+                  {charts.map((chartId) => {
+                    const chart = getChartById(chartId);
+                    if (!chart) return null;
+                    return (
+                      <SortableButton
+                        key={chartId}
+                        id={chartId}
+                        chart={chart}
+                      />
+                    );
+                  })}
                 </div>
-              ))}
-            </DndContext>
-          </div>
-        </div>
-
-        {/* Chart Display - Middle Position */}
-        <div className="row-span-1">
-          {/* 图表展示区 */}
-          <div className={`p-4 rounded-lg ${cardBg} ${textMain} h-full`}>
-            {/* 左上角添加"图表展示区"文字 */}
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2">
-                <BarChart2 size={16} className="text-blue-500" />
-                <h3 className="text-lg font-semibold">图表展示区</h3>
-              </div>
-              <h2 className="text-xl font-bold">{getChartById(activeChart)?.label || '图表展示'}</h2>
+              </SortableContext>
             </div>
-            <div 
-              ref={chartContainerRef}
-              className="rounded-lg overflow-hidden bg-opacity-5"
-              style={{
-                height: 'calc(100% - 5rem)',
-                minHeight: '300px'
-              }}
-            >
-              {renderChart()}
-            </div>
-          </div>
-        </div>
-        
-        {/* Chart Deep Analysis - Bottom Position */}
-        <div className="row-span-1">
-          {/* 图表深度解析区 */}
-          <div className={`p-4 rounded-lg ${cardBg} ${textMain} h-full overflow-y-auto`}>
-            <div className="flex items-center gap-2 mb-4">
-              <BrainCircuit size={16} className="text-purple-500" />
-              <h3 className="text-lg font-semibold">图表深度解析区</h3>
-            </div>
-            
-            {/* 图表详细描述 */}
-            <div className="mb-4">
-              <h4 className="text-md font-medium mb-2 text-blue-500">图表描述</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-300">
-                {getChartById(activeChart)?.description || '请选择一个图表查看详细描述'}
-              </p>
-            </div>
-            
-            {/* 原理概念 */}
-            <div className="mb-4">
-              <h4 className="text-md font-medium mb-2 text-purple-500">原理概念</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-300">
-                {getChartById(activeChart)?.principle || '请选择一个图表查看原理概念'}
-              </p>
-            </div>
-            
-            {/* 适用范围 */}
-            <div className="mb-4">
-              <h4 className="text-md font-medium mb-2 text-green-500">适用范围</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-300">
-                {getChartById(activeChart)?.scope || '请选择一个图表查看适用范围'}
-              </p>
-            </div>
-            
-            {/* 使用技巧 */}
-            <div className="mb-4">
-              <h4 className="text-md font-medium mb-2 text-yellow-500">使用技巧</h4>
-              <div className="text-sm text-gray-600 dark:text-gray-300 space-y-1">
-                {getChartById(activeChart)?.tips ? (
-                  getChartById(activeChart)?.tips.split('\n').map((tip: string, index: number) => (
-                    <p key={index}>{tip}</p>
-                  ))
-                ) : (
-                  <p>请选择一个图表查看使用技巧</p>
-                )}
-              </div>
-            </div>
-            
-            {/* 实践方法 */}
-            <div className="mb-4">
-              <h4 className="text-md font-medium mb-2 text-red-500">实践方法</h4>
-              <div className="text-sm text-gray-600 dark:text-gray-300 space-y-1">
-                {getChartById(activeChart)?.practice ? (
-                  getChartById(activeChart)?.practice.split('\n').map((practice: string, index: number) => (
-                    <p key={index}>{practice}</p>
-                  ))
-                ) : (
-                  <p>请选择一个图表查看实践方法</p>
-                )}
-              </div>
-            </div>
-            
-            {/* 深度解析 */}
-            <div className="mb-4">
-              <h4 className="text-md font-medium mb-2 text-indigo-500">深度解析</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-300">
-                {getChartById(activeChart)?.deepAnalysis || '请选择一个图表查看深度解析'}
-              </p>
-            </div>
-            
-            {/* 可视化设计描述 */}
-            <div>
-              <h4 className="text-md font-medium mb-2 text-indigo-500">可视化设计描述</h4>
-              <div className="text-sm text-gray-600 dark:text-gray-300 space-y-2">
-                {getChartById(activeChart)?.visualizationDesign ? (<p>{getChartById(activeChart)?.visualizationDesign}</p>) : (<p>请选择一个图表查看其可视化设计描述</p>)}
-              </div>
-            </div>
-          </div>
+          ))}
+        </DndContext>
         </div>
       </div>
       
-      {/* 全局指南卡片 */}
-      <GlobalGuideCard
-        activeHelp={activeHelp}
-        helpContent={helpContent}
-        onClose={() => setActiveHelp(null)}
-        cardBg={cardBg}
-        textMain={textMain}
-        textSub={textSub}
-        config={guideCardConfig}
-      />
+      {/* 2. 图表展示模块 - 作为核心图和表区域，用于可视化展示选定的图表数据 */}
+      <div className={`${cardBg} rounded-2xl p-6 shadow-lg flex-grow`}>
+        <h2 className={`text-lg font-bold mb-4 ${textMain}`}>图表展示</h2>
+        {renderChart()}
+      </div>
+      
+      {/* 3. 图表解析模块 - 位于界面底部区域，用于对当前展示图表进行详细解析 */}
+      <div className={`${cardBg} rounded-2xl p-6 shadow-lg`}>
+        <h2 className={`text-lg font-bold mb-4 ${textMain}`}>图表深度解析模块</h2>
+        {(() => {
+          const activeChartObj = getChartById(activeChart);
+          if (!activeChartObj) return null;
+          return (
+            <div>
+              <h3 className={`text-lg font-bold mb-2 ${textMain}`}>{activeChartObj.label}</h3>
+              <p className={`text-sm ${textSub} mb-4`}>{activeChartObj.deepAnalysis}</p>
+              
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <h4 className={`text-sm font-semibold mb-1 ${textMain}`}>核心原理</h4>
+                  <p className={`text-xs ${textSub}`}>{activeChartObj.principle}</p>
+                </div>
+                <div>
+                  <h4 className={`text-sm font-semibold mb-1 ${textMain}`}>适用范围</h4>
+                  <p className={`text-xs ${textSub}`}>{activeChartObj.scope}</p>
+                </div>
+                <div>
+                  <h4 className={`text-sm font-semibold mb-1 ${textMain}`}>操作建议</h4>
+                  <p className={`text-xs ${textSub}`}>{activeChartObj.tips}</p>
+                </div>
+                <div>
+                  <h4 className={`text-sm font-semibold mb-1 ${textMain}`}>实践案例</h4>
+                  <p className={`text-xs ${textSub}`}>{activeChartObj.practice}</p>
+                </div>
+                <div className="col-span-2">
+                  <h4 className={`text-sm font-semibold mb-1 ${textMain}`}>可视化设计描述</h4>
+                  <p className={`text-xs ${textSub}`}>{activeChartObj.visualDesign || '暂无可视化设计描述'}</p>
+                </div>
+              </div>
+            </div>
+          );
+        })()}
+      </div>
     </div>
   );
 };

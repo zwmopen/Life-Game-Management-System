@@ -107,6 +107,43 @@ export const useStorage = (setIsDataLoaded: React.Dispatch<React.SetStateAction<
         if (data.weeklyGoal) setWeeklyGoal(data.weeklyGoal);
         if (data.todayGoal) setTodayGoal(data.todayGoal);
 
+        // 检查是否是新的一天，如果是则重置所有任务
+        const todayStr = new Date().toLocaleDateString();
+        if (data.lastLoginDate !== todayStr) {
+          // 重置所有习惯任务的历史记录
+          setHabits(prevHabits => prevHabits.map(habit => ({
+            ...habit,
+            history: {}, // 清空历史记录
+            streak: 0 // 重置连续天数
+          })));
+          
+          // 重置所有项目任务的子任务状态
+          setProjects(prevProjects => prevProjects.map(project => ({
+            ...project,
+            subTasks: project.subTasks.map(subTask => ({
+              ...subTask,
+              completed: false
+            })),
+            status: 'active' // 重置项目状态为活跃
+          })));
+          
+          // 清空已放弃任务列表
+          setGivenUpTasks([]);
+          
+          // 重置今日统计数据
+          setTodayStats({ focusMinutes: 0, tasksCompleted: 0, habitsDone: 0, earnings: 0, spending: 0 });
+          
+          // 生成新的每日挑战
+          const shuffled = [...(data.challengePool || INITIAL_CHALLENGES)].sort(() => 0.5 - Math.random());
+          setTodaysChallenges({
+            date: todayStr,
+            tasks: shuffled.slice(0, 3)
+          });
+          
+          // 清空当日完成的随机任务
+          setCompletedRandomTasks(prev => ({ ...prev, [todayStr]: [] }));
+        }
+
         const startDate = data.startDate ? new Date(data.startDate) : new Date();
         const diff = Math.floor((Date.now() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
         setDay(diff);

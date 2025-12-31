@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>达克效应可视化</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+        .chart-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        svg {
+            display: block;
+        }
+        .axis-label {
+            font-size: 14px;
+            font-weight: bold;
+            fill: #333;
+        }
+        .section-label {
+            font-size: 16px;
+            font-weight: bold;
+            fill: white;
+            text-anchor: middle;
+        }
+        .behavior-label {
+            font-size: 14px;
+            font-weight: bold;
+            fill: #333;
+            text-anchor: middle;
+        }
+        .curve-node {
+            font-size: 14px;
+            font-weight: bold;
+            fill: red;
+            text-anchor: middle;
+        }
+        .curve {
+            fill: none;
+            stroke: #333;
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+    </style>
+</head>
+<body>
+    <div class="chart-container">
+        <svg width="800" height="500" viewBox="0 0 800 500">
+            <!-- 背景分区 -->
+            <rect x="50" y="50" width="180" height="300" fill="#FFB6C1" />
+            <rect x="230" y="50" width="180" height="300" fill="#FFD700" />
+            <rect x="410" y="50" width="180" height="300" fill="#98FB98" />
+            <rect x="590" y="50" width="160" height="300" fill="#87CEEB" />
+            
+            <!-- 平滑曲线 -->
+            <path class="curve" d="M 80,250 C 120,80 180,80 200,120 C 220,160 260,280 320,320 C 380,360 420,300 480,250 C 540,200 580,180 640,180 C 700,180 740,180 760,180" />
+            
+            <!-- 曲线关键节点标注 -->
+            <text class="curve-node" x="150" y="60">愚昧之巅</text>
+            <text class="curve-node" x="320" y="340">绝望之谷</text>
+            <text class="curve-node" x="480" y="230">开悟之坡</text>
+            <text class="curve-node" x="700" y="160">平稳高原</text>
+            
+            <!-- 轴标签 -->
+            <text class="axis-label" x="400" y="420">智慧水平（知识与经验，低→高）</text>
+            <text class="axis-label" x="20" y="200" transform="rotate(-90, 20, 200)">自信程度（高→低）</text>
+            
+            <!-- 区域名称 -->
+            <text class="section-label" x="140" y="200">自信爆棚区</text>
+            <text class="section-label" x="320" y="200">自信崩溃区</text>
+            <text class="section-label" x="500" y="200">自信重建区</text>
+            <text class="section-label" x="670" y="200">自信成熟区</text>
+            
+            <!-- 表现标签 -->
+            <text class="behavior-label" x="140" y="460">巨婴</text>
+            <text class="behavior-label" x="320" y="460">屌丝</text>
+            <text class="behavior-label" x="500" y="460">智者</text>
+            <text class="behavior-label" x="670" y="460">大师</text>
+            
+            <!-- 图标 -->
+            
+            <!-- 自信爆棚区 - 人物图标 -->
+            <circle cx="140" cy="150" r="30" fill="#FF69B4" />
+            <circle cx="130" cy="140" r="5" fill="white" />
+            <circle cx="150" cy="140" r="5" fill="white" />
+            <path d="M 135,155 Q 140,160 145,155" stroke="white" stroke-width="2" fill="none" />
+            <rect x="125" y="170" width="30" height="40" fill="#FF69B4" />
+            <line x1="125" y1="180" x2="110" y2="200" stroke="#FF69B4" stroke-width="3" />
+            <line x1="155" y1="180" x2="170" y2="200" stroke="#FF69B4" stroke-width="3" />
+            <line x1="125" y1="210" x2="110" y2="230" stroke="#FF69B4" stroke-width="3" />
+            <line x1="155" y1="210" x2="170" y2="230" stroke="#FF69B4" stroke-width="3" />
+            
+            <!-- 自信崩溃区 - 崩溃图标 -->
+            <circle cx="320" cy="150" r="30" fill="#FF6347" />
+            <line x1="300" y1="130" x2="340" y2="170" stroke="white" stroke-width="3" />
+            <line x1="340" y1="130" x2="300" y2="170" stroke="white" stroke-width="3" />
+            <path d="M 305,190 Q 320,200 335,190" stroke="white" stroke-width="2" fill="none" />
+            <rect x="310" y="200" width="20" height="30" fill="#FF6347" />
+            <line x1="310" y1="210" x2="295" y2="230" stroke="#FF6347" stroke-width="3" />
+            <line x1="330" y1="210" x2="345" y2="230" stroke="#FF6347" stroke-width="3" />
+            
+            <!-- 自信重建区 - 向上箭头图标 -->
+            <polygon points="500,130 520,170 480,170" fill="#228B22" />
+            <rect x="495" y="170" width="10" height="30" fill="#228B22" />
+            <circle cx="500" cy="150" r="40" fill="none" stroke="#228B22" stroke-width="3" />
+            <text x="500" y="195" class="section-label" style="fill: #228B22;">↑</text>
+            
+            <!-- 自信成熟区 - 大脑图标 -->
+            <ellipse cx="670" cy="150" rx="35" ry="45" fill="#4682B4" />
+            <ellipse cx="645" cy="140" rx="15" ry="20" fill="#4682B4" />
+            <ellipse cx="695" cy="140" rx="15" ry="20" fill="#4682B4" />
+            <path d="M 650,130 Q 670,120 690,130" stroke="white" stroke-width="2" fill="none" />
+            <path d="M 650,150 Q 670,140 690,150" stroke="white" stroke-width="2" fill="none" />
+            <path d="M 650,170 Q 670,160 690,170" stroke="white" stroke-width="2" fill="none" />
+            
+            <!-- 坐标轴 -->
+            <line x1="50" y1="350" x2="750" y2="350" stroke="#333" stroke-width="2" />
+            <line x1="50" y1="50" x2="50" y2="350" stroke="#333" stroke-width="2" />
+        </svg>
+    </div>
+</body>
+</html>

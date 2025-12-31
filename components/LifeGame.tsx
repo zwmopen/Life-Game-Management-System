@@ -462,7 +462,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
       
       return {
           id: p.id, text: p.name, attr: p.attr || 'WEA', xp: baseRewardXP, gold: baseRewardGold, type: TaskType.MAIN,
-          completed: p.status === 'completed', frequency: 'once' as const, isExpanded: false,
+          completed: p.status === 'completed', frequency: 'once' as const, isExpanded: true,
           originalData: p,
           subTasks: p.subTasks.map(st => ({
               id: st.id, text: st.title, completed: st.completed, 
