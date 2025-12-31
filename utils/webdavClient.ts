@@ -53,21 +53,32 @@ class WebDAVClient {
     const url = this.buildUrl(path);
     const authHeader = this.getAuthHeader();
     
-    const response = await fetch(url, {
-      method,
-      headers: {
-        'Authorization': authHeader,
-        'Content-Type': 'application/json',
-        ...headers,
-      },
-      body,
-    });
+    try {
+      const response = await fetch(url, {
+        method,
+        headers: {
+          'Authorization': authHeader,
+          'Content-Type': 'application/json',
+          ...headers,
+        },
+        body,
+        credentials: 'include',
+        mode: 'cors',
+      });
 
-    if (!response.ok) {
-      throw new Error(`WebDAV request failed: ${response.status} ${response.statusText}`);
+      if (!response.ok) {
+        throw new Error(`WebDAV request failed: ${response.status} ${response.statusText}`);
+      }
+
+      return response;
+    } catch (error) {
+      console.error('WebDAV request failed:', error);
+      // 添加更详细的错误信息，帮助用户理解可能的原因
+      if (error instanceof TypeError && error.message === 'Failed to fetch') {
+        throw new Error('备份失败：可能是由于跨域资源共享(CORS)限制。请确保您的WebDAV服务允许来自当前域名的请求，或者尝试使用支持CORS的WebDAV服务。');
+      }
+      throw error;
     }
-
-    return response;
   }
 
   // 列出目录内容

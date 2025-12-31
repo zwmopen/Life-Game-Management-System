@@ -15,6 +15,16 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
   const isDark = theme === 'dark';
   const isNeomorphic = theme === 'neomorphic';
   
+  // 拟态风格样式定义，确保与其他组件风格统一
+  const neomorphicStyles = {
+    bg: 'bg-[#e0e5ec]',
+    border: 'border-[#e0e5ec]',
+    shadow: 'shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)]',
+    hoverShadow: 'hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)]',
+    activeShadow: 'active:shadow-[inset_8px_8px_16px_rgba(163,177,198,0.6),inset_-8px_-8px_16px_rgba(255,255,255,1)]',
+    transition: 'transition-all duration-300'
+  };
+
   // 优化拟态风格样式，确保与其他组件风格统一
   const cardBg = isNeomorphic
     ? 'bg-[#e0e5ec] rounded-xl shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)] transition-all duration-300 hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] active:shadow-[inset_8px_8px_16px_rgba(163,177,198,0.6),inset_-8px_-8px_16px_rgba(255,255,255,1)]'
@@ -34,9 +44,9 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
   const [activeHelp, setActiveHelp] = useState<string | null>(null);
   // State for WebDAV settings
   const [webdavConfig, setWebdavConfig] = useState<WebDAVConfig>({
-    url: localStorage.getItem('webdav-url') || 'https://dav.jianguoyun.com/dav/',
-    username: localStorage.getItem('webdav-username') || '',
-    password: localStorage.getItem('webdav-password') || '',
+    url: localStorage.getItem('webdav-url') || 'http://localhost:3000/webdav/',
+    username: localStorage.getItem('webdav-username') || 'admin',
+    password: localStorage.getItem('webdav-password') || 'password',
     basePath: '/人生游戏管理系统',
   });
   // State for WebDAV operation status
@@ -46,8 +56,16 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
   const [isBackingUp, setIsBackingUp] = useState(false);
   const [isRestoring, setIsRestoring] = useState(false);
   
-
-
+  // 生成按钮样式的辅助函数 - 与商品分类与管理按钮样式完全一致
+  const getButtonStyle = (isActive: boolean, isSpecial?: boolean) => {
+    if (isActive) {
+      return isSpecial ? 'bg-red-500 text-white border-red-500' : 'bg-blue-500 text-white border-blue-500';
+    }
+    if (isNeomorphic) {
+      return `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow} ${neomorphicStyles.hoverShadow} ${neomorphicStyles.activeShadow} ${neomorphicStyles.transition}`;
+    }
+    return isDark ? 'bg-zinc-900 border-zinc-800 text-zinc-500 hover:border-zinc-700' : 'bg-white border-slate-300 text-slate-600 hover:border-slate-200';
+  };
 
   return (
     <div className={`h-full flex flex-col overflow-hidden`}>
@@ -477,7 +495,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                     // 这里可以添加同步逻辑，当前设计中设置会实时生效
                     alert('所有指南卡片已同步更新！');
                   }}>
-                    <RefreshCw size={18} />
+                    <RefreshCw size={12} />
                     同步所有指南卡片
                   </button>
                 </div>
@@ -574,7 +592,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                   
                   {/* Save Configuration Button */}
                   <button 
-                    className={`w-full py-2 rounded-xl transition-all flex items-center justify-center gap-2 ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)] text-blue-600 font-bold' : isDark ? 'bg-blue-900/30 text-blue-400 hover:bg-blue-800/50' : 'bg-blue-100 text-blue-700 hover:bg-blue-200'}`}
+                    className={`w-full py-1.5 rounded-[24px] text-xs font-bold border transition-all flex items-center justify-center gap-2 ${getButtonStyle(false)}`}
                     onClick={() => {
                       // Save WebDAV config to localStorage
                       localStorage.setItem('webdav-url', webdavConfig.url);
@@ -584,7 +602,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                       setTimeout(() => setWebdavStatus(''), 3000);
                     }}
                   >
-                    <Save size={18} />
+                    <Save size={12} />
                     保存配置
                   </button>
                 </div>
@@ -596,7 +614,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
               <div className="flex flex-col md:flex-row gap-3">
                 {/* Backup to Cloud Button */}
                 <button 
-                  className={`flex-1 px-4 py-4 rounded-xl transition-all flex items-center justify-center gap-2 ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)] text-green-600 font-bold' : isDark ? 'bg-green-900/30 text-green-400 hover:bg-green-800/50' : 'bg-green-100 text-green-700 hover:bg-green-200'}`}
+                  className={`flex-1 px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all flex items-center justify-center gap-2 ${getButtonStyle(false)}`}
                   onClick={async () => {
                     setIsBackingUp(true);
                     setWebdavStatus('正在备份到云端...');
@@ -647,13 +665,13 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                   }}
                   disabled={isBackingUp}
                 >
-                  <Cloud size={18} />
+                  <Cloud size={12} />
                   {isBackingUp ? '备份中...' : '备份到云端'}
                 </button>
                 
                 {/* Restore from Cloud Button */}
                 <button 
-                  className={`flex-1 px-4 py-4 rounded-xl transition-all flex items-center justify-center gap-2 ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)] text-blue-600 font-bold' : isDark ? 'bg-blue-900/30 text-blue-400 hover:bg-blue-800/50' : 'bg-blue-100 text-blue-700 hover:bg-blue-200'}`}
+                  className={`flex-1 px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all flex items-center justify-center gap-2 ${getButtonStyle(false)}`}
                   onClick={async () => {
                     if (!confirm('确定要从云端恢复数据吗？此操作会覆盖当前本地数据！')) {
                       return;
@@ -662,7 +680,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                     setWebdavStatus('正在从云端恢复...');
                     try {
                       const client = new WebDAVClient(webdavConfig);
-                      // 列出所有备份文件
+                      // 列出备份文件
                       const files = await client.listFiles('');
                       // 按时间排序，获取最新的备份文件
                       const backupFiles = files
@@ -696,7 +714,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                   }}
                   disabled={isRestoring}
                 >
-                  <CloudDownload size={18} />
+                  <CloudDownload size={12} />
                   {isRestoring ? '恢复中...' : '从云端恢复'}
                 </button>
               </div>
@@ -722,7 +740,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
             {/* 凸起框设计 - 添加点击效果 */}
             <div className={`${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] transition-all duration-300 hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)] cursor-pointer' : isDark ? 'bg-zinc-900/50 hover:bg-zinc-800/70 cursor-pointer' : 'bg-slate-100 hover:bg-slate-200 cursor-pointer'} p-5 rounded-xl`}>
               <div className="flex flex-col md:flex-row gap-3">
-                <button className={`flex-1 px-4 py-4 rounded-xl transition-all flex items-center justify-center gap-2 ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)] text-green-600 font-bold' : isDark ? 'bg-green-900/30 text-green-400 hover:bg-green-800/50' : 'bg-green-100 text-green-700 hover:bg-green-200'}`} onClick={() => {
+                <button className={`flex-1 px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all flex items-center justify-center gap-2 ${getButtonStyle(false)}`} onClick={() => {
                   // 备份所有数据
                   const allData = {
                     'aes-global-data-v3': localStorage.getItem('aes-global-data-v3'),
@@ -764,10 +782,10 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                   document.body.removeChild(a);
                   URL.revokeObjectURL(url);
                 }}>
-                  <Download size={18} />
+                  <Download size={12} />
                   备份数据
                 </button>
-                <button className={`flex-1 px-4 py-4 rounded-xl transition-all flex items-center justify-center gap-2 ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)] text-blue-600 font-bold' : isDark ? 'bg-blue-900/30 text-blue-400 hover:bg-blue-800/50' : 'bg-blue-100 text-blue-700 hover:bg-blue-200'}`} onClick={() => {
+                <button className={`flex-1 px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all flex items-center justify-center gap-2 ${getButtonStyle(false)}`} onClick={() => {
                   const input = document.createElement('input');
                   input.type = 'file';
                   input.accept = '.json';
@@ -794,10 +812,10 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                   };
                   input.click();
                 }}>
-                  <RefreshCw size={18} />
+                  <RefreshCw size={12} />
                   恢复数据
                 </button>
-                <button className={`flex-1 px-4 py-4 rounded-xl transition-all flex items-center justify-center gap-2 ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)] text-red-600 font-bold' : isDark ? 'bg-red-900/30 text-red-400 hover:bg-red-800/50' : 'bg-red-100 text-red-700 hover:bg-red-200'}`} onClick={() => {
+                <button className={`flex-1 px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all flex items-center justify-center gap-2 ${getButtonStyle(false, true)}`} onClick={() => {
                   if (confirm('确定要重置整个系统数据吗？此操作会清空所有数据，包括经验、专注、财富等级、金钱储备和任务数据。')) {
                     // 重置所有数据
                     const keysToRemove = [
@@ -837,7 +855,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                     alert('系统数据已重置，请刷新页面');
                   }
                 }}>
-                  <Trash2 size={18} />
+                  <Trash2 size={12} />
                   重置数据
                 </button>
               </div>

@@ -104,14 +104,14 @@ const SHOP_CATALOG = [
   { id: 'p_dig_12', name: '戴森吹风机', description: '高端吹风机', cost: 1999, type: 'physical', owned: false, icon: <Wind size={24} className="text-pink-500"/>, category: '数码' },
   
   // 装备
-  { id: 'p_gear_1', name: '人体工学椅', description: '脊椎防御系统', cost: 1500, type: 'physical', owned: false, icon: <Armchair size={24} className="text-orange-400"/>, category: '装备' },
-  { id: 'p_gear_2', name: '乳胶枕头', description: '深度睡眠加速器', cost: 300, type: 'physical', owned: false, icon: <Sofa size={24} className="text-purple-400"/>, category: '装备' },
-  { id: 'p_gear_3', name: '新战靴 (鞋子)', description: '行动力 +10%', cost: 800, type: 'physical', owned: false, icon: <Footprints size={24} className="text-yellow-600"/>, category: '装备' },
-  { id: 'p_gear_4', name: '防蓝光眼镜', description: '护眼 Buff', cost: 400, type: 'physical', owned: false, icon: <Glasses size={24} className="text-cyan-400"/>, category: '装备' },
-  { id: 'p_gear_5', name: '智能台灯', description: '护眼照明，专注模式', cost: 350, type: 'physical', owned: false, icon: <Sun size={24} className="text-yellow-500"/>, category: '装备' },
+  { id: 'p_gear_1', name: '人体工学椅', description: '脊椎防御系统', cost: 1500, type: 'physical', owned: false, icon: <Armchair size={24} className="text-orange-400"/>, category: '家居' },
+  { id: 'p_gear_2', name: '乳胶枕头', description: '深度睡眠加速器', cost: 300, type: 'physical', owned: false, icon: <Sofa size={24} className="text-purple-400"/>, category: '家居' },
+  { id: 'p_gear_3', name: '新战靴 (鞋子)', description: '行动力 +10%', cost: 800, type: 'physical', owned: false, icon: <Footprints size={24} className="text-yellow-600"/>, category: '形象设计与穿搭' },
+  { id: 'p_gear_4', name: '防蓝光眼镜', description: '护眼 Buff', cost: 400, type: 'physical', owned: false, icon: <Glasses size={24} className="text-cyan-400"/>, category: '形象设计与穿搭' },
+  { id: 'p_gear_5', name: '智能台灯', description: '护眼照明，专注模式', cost: 350, type: 'physical', owned: false, icon: <Sun size={24} className="text-yellow-500"/>, category: '数码' },
   
   // 饮食
-  { id: 's_food_1', name: '辣条一包', description: '廉价多巴胺 (慎用)', cost: 1, type: 'leisure', owned: false, icon: <Utensils size={24} className="text-red-500"/>, category: '饮食' },
+  { id: 's_food_1', name: '辣条一包', description: '廉价多巴胺 (慎用)', cost: 1, type: 'leisure', owned: false, icon: <Utensils size={24} className="text-red-500"/>, category: '吃喝' },
   { id: 's_food_2', name: '快乐水', description: '瞬间恢复心情', cost: 5, type: 'leisure', owned: false, icon: <Coffee size={24} className="text-amber-700"/>, category: '饮食' },
   { id: 's_food_3', name: '疯狂星期四', description: '高热量补给', cost: 68, type: 'leisure', owned: false, icon: <Gift size={24} className="text-yellow-500"/>, category: '饮食' },
   { id: 's_food_6', name: '买一瓶饮料', description: '解渴又提神', cost: 5, type: 'leisure', owned: false, icon: <Coffee size={24} className="text-blue-500"/>, category: '饮食' },
@@ -124,35 +124,48 @@ const SHOP_CATALOG = [
   { id: 's_food_13', name: '香辣大鸡腿', description: '香辣可口', cost: 1.99, type: 'leisure', owned: false, icon: <Utensils size={24} className="text-red-500"/>, category: '饮食' },
   
   // 娱乐
-  { id: 's_ent_1', name: '看小说半小时', description: '沉浸式阅读体验', cost: 30, type: 'leisure', owned: false, icon: <BookOpen size={24} className="text-purple-500"/>, category: '娱乐' },
-  { id: 's_ent_2', name: '刷短视频半小时', description: '短平快的娱乐方式', cost: 30, type: 'leisure', owned: false, icon: <Video size={24} className="text-red-500"/>, category: '娱乐' },
-  { id: 's_ent_3', name: '看小说一小时', description: '长时间沉浸式阅读', cost: 60, type: 'leisure', owned: false, icon: <BookOpen size={24} className="text-purple-600"/>, category: '娱乐' },
-  { id: 's_ent_4', name: '刷短视频一小时', description: '长时间刷短视频', cost: 60, type: 'leisure', owned: false, icon: <Video size={24} className="text-red-600"/>, category: '娱乐' },
+  { id: 's_ent_1', name: '看小说半小时', description: '沉浸式阅读体验', cost: 30, type: 'leisure', owned: false, icon: <BookOpen size={24} className="text-purple-500"/>, category: '休闲娱乐' },
+  { id: 's_ent_2', name: '刷短视频半小时', description: '短平快的娱乐方式', cost: 30, type: 'leisure', owned: false, icon: <Video size={24} className="text-red-500"/>, category: '休闲娱乐' },
+  { id: 's_ent_3', name: '看小说一小时', description: '长时间沉浸式阅读', cost: 60, type: 'leisure', owned: false, icon: <BookOpen size={24} className="text-purple-600"/>, category: '休闲娱乐' },
+  { id: 's_ent_4', name: '刷短视频一小时', description: '长时间刷短视频', cost: 60, type: 'leisure', owned: false, icon: <Video size={24} className="text-red-600"/>, category: '休闲娱乐' },
   
   // 服务
-  { id: 's_hair_1', name: '理发', description: '魅力值回升', cost: 48, type: 'leisure', owned: false, icon: <Scissors size={24} className="text-pink-400"/>, category: '服务' },
-  { id: 's_spa_1', name: '按摩放松', description: '缓解疲劳，恢复精力', cost: 198, type: 'leisure', owned: false, icon: <Armchair size={24} className="text-blue-400"/>, category: '服务' },
-  { id: 's_books_1', name: '书籍购买', description: '知识获取，思维升级', cost: 98, type: 'leisure', owned: false, icon: <BookOpen size={24} className="text-amber-600"/>, category: '服务' },
+  { id: 's_hair_1', name: '理发', description: '魅力值回升', cost: 48, type: 'leisure', owned: false, icon: <Scissors size={24} className="text-pink-400"/>, category: '休闲娱乐' },
+  { id: 's_spa_1', name: '按摩放松', description: '缓解疲劳，恢复精力', cost: 198, type: 'leisure', owned: false, icon: <Armchair size={24} className="text-blue-400"/>, category: '休闲娱乐' },
+  { id: 's_books_1', name: '书籍购买', description: '知识获取，思维升级', cost: 98, type: 'leisure', owned: false, icon: <BookOpen size={24} className="text-amber-600"/>, category: '休闲娱乐' },
   
   // 票务
-  { id: 'r_tick_1', name: '旅游车票 x1', description: '探索新地图', cost: 298, type: 'rights', owned: false, icon: <Ticket size={24} className="text-green-500"/>, category: '票务' },
-  { id: 'r_tick_2', name: '电影票', description: '娱乐放松，情感共鸣', cost: 45, type: 'rights', owned: false, icon: <Video size={24} className="text-red-600"/>, category: '票务' },
-  { id: 'r_tick_3', name: '演唱会门票', description: '音乐盛宴，情感释放', cost: 498, type: 'rights', owned: false, icon: <Music size={24} className="text-purple-600"/>, category: '票务' },
+  { id: 'r_tick_1', name: '旅游车票 x1', description: '探索新地图', cost: 298, type: 'rights', owned: false, icon: <Ticket size={24} className="text-green-500"/>, category: '休闲娱乐' },
+  { id: 'r_tick_2', name: '电影票', description: '娱乐放松，情感共鸣', cost: 45, type: 'rights', owned: false, icon: <Video size={24} className="text-red-600"/>, category: '休闲娱乐' },
+  { id: 'r_tick_3', name: '演唱会门票', description: '音乐盛宴，情感释放', cost: 498, type: 'rights', owned: false, icon: <Music size={24} className="text-purple-600"/>, category: '休闲娱乐' },
   
   // 会员
-  { id: 'r_vip_1', name: '网易云 VIP (月)', description: '听觉享受', cost: 15, type: 'rights', owned: false, icon: <Music size={24} className="text-red-600"/>, category: '会员' },
-  { id: 'r_vip_3', name: '健身会员 (月)', description: '健身特权，健康生活', cost: 298, type: 'rights', owned: false, icon: <Dumbbell size={24} className="text-blue-500"/>, category: '会员' },
-  { id: 'r_vip_4', name: '网课论坛会员', description: '学习资源，交流平台', cost: 99, type: 'rights', owned: false, icon: <BookOpen size={24} className="text-purple-500"/>, category: '会员' },
-  { id: 'r_vip_5', name: '小众社群', description: '兴趣交流，人脉拓展', cost: 99, type: 'rights', owned: false, icon: <Users size={24} className="text-green-500"/>, category: '会员' },
+  { id: 'r_vip_1', name: '网易云 VIP (月)', description: '听觉享受', cost: 15, type: 'rights', owned: false, icon: <Music size={24} className="text-red-600"/>, category: '会员/权益/充值' },
+  { id: 'r_vip_3', name: '健身会员 (月)', description: '健身特权，健康生活', cost: 298, type: 'rights', owned: false, icon: <Dumbbell size={24} className="text-blue-500"/>, category: '会员/权益/充值' },
+  { id: 'r_vip_4', name: '网课论坛会员', description: '学习资源，交流平台', cost: 99, type: 'rights', owned: false, icon: <BookOpen size={24} className="text-purple-500"/>, category: '会员/权益/充值' },
+  { id: 'r_vip_5', name: '小众社群', description: '兴趣交流，人脉拓展', cost: 99, type: 'rights', owned: false, icon: <Users size={24} className="text-green-500"/>, category: '会员/权益/充值' },
+  { id: 'r_vip_6', name: '知识星球会员', description: '优质知识分享社群', cost: 199, type: 'rights', owned: false, icon: <BookOpen size={24} className="text-amber-600"/>, category: '会员/权益/充值' },
+  { id: 'r_vip_7', name: '行业交流群', description: '专业人脉拓展平台', cost: 299, type: 'rights', owned: false, icon: <Users size={24} className="text-blue-500"/>, category: '会员/权益/充值' },
+  { id: 'r_vip_8', name: '兴趣爱好社群', description: '志同道合者的聚集地', cost: 88, type: 'rights', owned: false, icon: <Users size={24} className="text-pink-500"/>, category: '会员/权益/充值' },
+  { id: 'r_vip_9', name: '专业论坛会员', description: '深度专业交流平台', cost: 159, type: 'rights', owned: false, icon: <BookOpen size={24} className="text-cyan-500"/>, category: '会员/权益/充值' },
+  { id: 'r_vip_10', name: '线下活动社群', description: '定期线下聚会活动', cost: 399, type: 'rights', owned: false, icon: <Users size={24} className="text-orange-500"/>, category: '会员/权益/充值' },
   
   // 充值
-  { id: 'r_char_1', name: '话费充值卡', description: '通讯保障', cost: 99, type: 'rights', owned: false, icon: <Wifi size={24} className="text-blue-500"/>, category: '充值' },
-  { id: 'r_char_1_50', name: '话费充值卡50元', description: '通讯保障', cost: 50, type: 'rights', owned: false, icon: <Wifi size={24} className="text-blue-500"/>, category: '充值' },
-  { id: 'r_char_3', name: '云存储空间', description: '数据安全，便捷访问', cost: 118, type: 'rights', owned: false, icon: <Box size={24} className="text-purple-500"/>, category: '充值' },
+  { id: 'r_char_1', name: '话费充值卡', description: '通讯保障', cost: 99, type: 'rights', owned: false, icon: <Wifi size={24} className="text-blue-500"/>, category: '会员/权益/充值' },
+  { id: 'r_char_1_50', name: '话费充值卡50元', description: '通讯保障', cost: 50, type: 'rights', owned: false, icon: <Wifi size={24} className="text-blue-500"/>, category: '会员/权益/充值' },
+  { id: 'r_char_3', name: '云存储空间', description: '数据安全，便捷访问', cost: 118, type: 'rights', owned: false, icon: <Box size={24} className="text-purple-500"/>, category: '会员/权益/充值' },
   
   // 新增商品
-  { id: 'r_misc_1', name: '365天日历', description: '时间管理，记录生活', cost: 9.9, type: 'physical', owned: false, icon: <Calendar size={24} className="text-yellow-500"/>, category: '其他' },
-  { id: 'r_misc_2', name: '约人爬山', description: '户外活动，锻炼身体', cost: 9.9, type: 'leisure', owned: false, icon: <Mountain size={24} className="text-green-500"/>, category: '其他' },
+  { id: 'r_misc_1', name: '365天日历', description: '时间管理，记录生活', cost: 9.9, type: 'physical', owned: false, icon: <Calendar size={24} className="text-yellow-500"/>, category: '家居' },
+  { id: 'r_misc_2', name: '约人爬山', description: '户外活动，锻炼身体', cost: 9.9, type: 'leisure', owned: false, icon: <Mountain size={24} className="text-green-500"/>, category: '休闲娱乐' },
+  { id: 'r_misc_3', name: '智能手表', description: '健康监测与通讯', cost: 1299, type: 'physical', owned: false, icon: <Smartphone size={24} className="text-blue-400"/>, category: '数码' },
+  { id: 'r_misc_4', name: '咖啡机', description: '自制美味咖啡', cost: 899, type: 'physical', owned: false, icon: <Coffee size={24} className="text-amber-700"/>, category: '家居' },
+  { id: 'r_misc_5', name: '瑜伽垫', description: '居家健身必备', cost: 89, type: 'physical', owned: false, icon: <Dumbbell size={24} className="text-purple-500"/>, category: '家居' },
+  { id: 'r_misc_6', name: '电影会员年卡', description: '全年电影观看特权', cost: 199, type: 'rights', owned: false, icon: <Video size={24} className="text-red-500"/>, category: '会员/权益/充值' },
+  { id: 'r_misc_7', name: '在线课程', description: '专业技能提升', cost: 399, type: 'rights', owned: false, icon: <BookOpen size={24} className="text-blue-600"/>, category: '会员/权益/充值' },
+  { id: 'r_misc_8', name: '演唱会周边', description: '限量版演唱会纪念品', cost: 199, type: 'physical', owned: false, icon: <Music size={24} className="text-purple-600"/>, category: '休闲娱乐' },
+  { id: 'r_misc_9', name: '定制T恤', description: '个性化服装定制', cost: 129, type: 'physical', owned: false, icon: <Shirt size={24} className="text-pink-500"/>, category: '形象设计与穿搭' },
+  { id: 'r_misc_10', name: '宠物食品', description: '优质宠物粮', cost: 159, type: 'physical', owned: false, icon: <Fish size={24} className="text-orange-500"/>, category: '家居' },
   
   // 新增用户要求商品
   // 家居类
@@ -160,39 +173,39 @@ const SHOP_CATALOG = [
   { id: 'p_home_2', name: '厨房套装', description: '全套厨房设备', cost: 3500, type: 'physical', owned: false, icon: <Utensils size={24} className="text-blue-500"/>, category: '家居' },
   
   // 房产类
-  { id: 'p_property_1', name: '房子一间', description: '温馨小屋', cost: 500000, type: 'physical', owned: false, icon: <Home size={24} className="text-red-500"/>, category: '房产' },
+  { id: 'p_property_1', name: '房子一间', description: '温馨小屋', cost: 500000, type: 'physical', owned: false, icon: <Home size={24} className="text-red-500"/>, category: '家居' },
   
   // 车辆类
-  { id: 'p_car_1', name: '理想汽车', description: '新能源汽车', cost: 250000, type: 'physical', owned: false, icon: <Car size={24} className="text-green-500"/>, category: '车辆' },
+  { id: 'p_car_1', name: '理想汽车', description: '新能源汽车', cost: 250000, type: 'physical', owned: false, icon: <Car size={24} className="text-green-500"/>, category: '家居' },
   
   // 饮食类
-  { id: 's_food_14', name: '酱骨头套餐', description: '酱骨头、牛骨头、调料一条龙', cost: 158, type: 'leisure', owned: false, icon: <Utensils size={24} className="text-red-500"/>, category: '饮食' },
-  { id: 's_food_15', name: '烧烤套餐（自制）', description: '自己动手做烧烤', cost: 88, type: 'leisure', owned: false, icon: <Utensils size={24} className="text-orange-500"/>, category: '饮食' },
-  { id: 's_food_16', name: '烧烤套餐（外买）', description: '购买现成烧烤', cost: 158, type: 'leisure', owned: false, icon: <Utensils size={24} className="text-orange-500"/>, category: '饮食' },
-  { id: 's_food_17', name: '烤鱼（外买）', description: '美味烤鱼188元', cost: 188, type: 'leisure', owned: false, icon: <Fish size={24} className="text-blue-500"/>, category: '饮食' },
-  { id: 's_food_18', name: '烤鱼（自制）', description: '自己做烤鱼55元', cost: 55, type: 'leisure', owned: false, icon: <Fish size={24} className="text-blue-500"/>, category: '饮食' },
-  { id: 's_food_19', name: '临沂炒鸡', description: '正宗临沂炒鸡', cost: 33, type: 'leisure', owned: false, icon: <Utensils size={24} className="text-yellow-500"/>, category: '饮食' },
+  { id: 's_food_14', name: '酱骨头套餐', description: '酱骨头、牛骨头、调料一条龙', cost: 158, type: 'leisure', owned: false, icon: <Utensils size={24} className="text-red-500"/>, category: '吃喝' },
+  { id: 's_food_15', name: '烧烤套餐（自制）', description: '自己动手做烧烤', cost: 88, type: 'leisure', owned: false, icon: <Utensils size={24} className="text-orange-500"/>, category: '吃喝' },
+  { id: 's_food_16', name: '烧烤套餐（外买）', description: '购买现成烧烤', cost: 158, type: 'leisure', owned: false, icon: <Utensils size={24} className="text-orange-500"/>, category: '吃喝' },
+  { id: 's_food_17', name: '烤鱼（外买）', description: '美味烤鱼188元', cost: 188, type: 'leisure', owned: false, icon: <Fish size={24} className="text-blue-500"/>, category: '吃喝' },
+  { id: 's_food_18', name: '烤鱼（自制）', description: '自己做烤鱼55元', cost: 55, type: 'leisure', owned: false, icon: <Fish size={24} className="text-blue-500"/>, category: '吃喝' },
+  { id: 's_food_19', name: '临沂炒鸡', description: '正宗临沂炒鸡', cost: 33, type: 'leisure', owned: false, icon: <Utensils size={24} className="text-yellow-500"/>, category: '吃喝' },
   
   // 旅游类
-  { id: 'r_tick_4', name: '挪威旅行', description: '去挪威旅行一次', cost: 15000, type: 'rights', owned: false, icon: <Mountain size={24} className="text-blue-500"/>, category: '票务' },
-  { id: 'r_tick_5', name: '家庭旅游', description: '带家人出去旅游', cost: 3000, type: 'rights', owned: false, icon: <Users size={24} className="text-green-500"/>, category: '票务' },
+  { id: 'r_tick_4', name: '挪威旅行', description: '去挪威旅行一次', cost: 15000, type: 'rights', owned: false, icon: <Mountain size={24} className="text-blue-500"/>, category: '休闲娱乐' },
+  { id: 'r_tick_5', name: '家庭旅游', description: '带家人出去旅游', cost: 3000, type: 'rights', owned: false, icon: <Users size={24} className="text-green-500"/>, category: '休闲娱乐' },
   
   // 服务类
-  { id: 's_service_1', name: '体检套餐', description: '带爸爸妈妈做体检', cost: 1200, type: 'rights', owned: false, icon: <Heart size={24} className="text-red-500"/>, category: '服务' },
+  { id: 's_service_1', name: '体检套餐', description: '带爸爸妈妈做体检', cost: 1200, type: 'rights', owned: false, icon: <Heart size={24} className="text-red-500"/>, category: '休闲娱乐' },
   
   // 运动类
-  { id: 's_sport_1', name: '爬山', description: '去爬山30分钟', cost: 20, type: 'leisure', owned: false, icon: <Mountain size={24} className="text-green-500"/>, category: '运动' },
-  { id: 's_sport_2', name: '跑步', description: '去跑步30分钟', cost: 10, type: 'leisure', owned: false, icon: <Footprints size={24} className="text-blue-500"/>, category: '运动' },
-  { id: 's_sport_3', name: '健身', description: '去健身房30分钟', cost: 50, type: 'leisure', owned: false, icon: <Dumbbell size={24} className="text-red-500"/>, category: '运动' },
+  { id: 's_sport_1', name: '爬山', description: '去爬山30分钟', cost: 20, type: 'leisure', owned: false, icon: <Mountain size={24} className="text-green-500"/>, category: '休闲娱乐' },
+  { id: 's_sport_2', name: '跑步', description: '去跑步30分钟', cost: 10, type: 'leisure', owned: false, icon: <Footprints size={24} className="text-blue-500"/>, category: '休闲娱乐' },
+  { id: 's_sport_3', name: '健身', description: '去健身房30分钟', cost: 50, type: 'leisure', owned: false, icon: <Dumbbell size={24} className="text-red-500"/>, category: '休闲娱乐' },
   
   // 服装类
-  { id: 'p_cloth_1', name: '衣服一件', description: '时尚服装', cost: 299, type: 'physical', owned: false, icon: <Shirt size={24} className="text-purple-500"/>, category: '服装' },
-  { id: 'p_cloth_2', name: '裤子一条', description: '休闲裤子', cost: 199, type: 'physical', owned: false, icon: <Shirt size={24} className="text-blue-500"/>, category: '服装' },
-  { id: 'p_cloth_3', name: '家人衣服', description: '给家人买衣服', cost: 399, type: 'physical', owned: false, icon: <Users size={24} className="text-pink-500"/>, category: '服装' },
-  { id: 'p_cloth_4', name: '家人裤子', description: '给家人买裤子', cost: 299, type: 'physical', owned: false, icon: <Users size={24} className="text-green-500"/>, category: '服装' },
+  { id: 'p_cloth_1', name: '衣服一件', description: '时尚服装', cost: 299, type: 'physical', owned: false, icon: <Shirt size={24} className="text-purple-500"/>, category: '形象设计与穿搭' },
+  { id: 'p_cloth_2', name: '裤子一条', description: '休闲裤子', cost: 199, type: 'physical', owned: false, icon: <Shirt size={24} className="text-blue-500"/>, category: '形象设计与穿搭' },
+  { id: 'p_cloth_3', name: '家人衣服', description: '给家人买衣服', cost: 399, type: 'physical', owned: false, icon: <Users size={24} className="text-pink-500"/>, category: '形象设计与穿搭' },
+  { id: 'p_cloth_4', name: '家人裤子', description: '给家人买裤子', cost: 299, type: 'physical', owned: false, icon: <Users size={24} className="text-green-500"/>, category: '形象设计与穿搭' },
   
   // 礼品类
-  { id: 'p_gift_1', name: '朋友礼物', description: '常用但贵的小礼物', cost: 1000, type: 'physical', owned: false, icon: <Gift size={24} className="text-yellow-500"/>, category: '礼品' },
+  { id: 'p_gift_1', name: '朋友礼物', description: '常用但贵的小礼物', cost: 1000, type: 'physical', owned: false, icon: <Gift size={24} className="text-yellow-500"/>, category: '休闲娱乐' },
 
 ];
 
@@ -887,7 +900,11 @@ const LifeGame: React.FC<LifeGameProps> = ({
     if (shopFilter === 'owned') {
       return i.owned === true;
     }
-    return shopFilter === 'all' || i.type === shopFilter;
+    if (shopFilter === 'all') {
+      return true;
+    }
+    // 基于商品分类筛选
+    return i.category === shopFilter;
   });
   const sortedInventory = [...filteredInventory].sort((a, b) => {
       const timeA = a.lastPurchased || 0;
@@ -1746,10 +1763,26 @@ const LifeGame: React.FC<LifeGameProps> = ({
                              <h3 className={`text-xs font-bold uppercase ${textSub}`}>商品分类与管理</h3>
                          </div>
                          <div className="flex flex-wrap justify-between items-center gap-4">
-                             <div className="flex gap-2">
-                                {[{ id: 'all', label: '全部' }, { id: 'physical', label: '实物' }, { id: 'rights', label: '权益' }, { id: 'leisure', label: '休闲' }, { id: 'owned', label: '已购买' }, { id: 'blindbox', label: '盲盒' }].map(f => (
-                                    <button key={f.id} onClick={() => setShopFilter(f.id as any)} className={`px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all ${getButtonStyle(shopFilter === f.id)}`}>{f.label}</button>
-                                ))}
+                             <div className="flex flex-wrap gap-2">
+                                {/* 计算各分类商品数量 */}
+                                {(() => {
+                                    const categories = [
+                                        { id: 'all', label: '全部', count: inventory.length },
+                                        { id: '吃喝', label: '吃喝', count: inventory.filter(i => i.category === '吃喝').length },
+                                        { id: '形象设计与穿搭', label: '形象设计与穿搭', count: inventory.filter(i => i.category === '形象设计与穿搭').length },
+                                        { id: '休闲娱乐', label: '休闲娱乐', count: inventory.filter(i => i.category === '休闲娱乐').length },
+                                        { id: '数码', label: '数码', count: inventory.filter(i => i.category === '数码').length },
+                                        { id: '家居', label: '家居', count: inventory.filter(i => i.category === '家居').length },
+                                        { id: '会员/权益/充值', label: '会员/权益/充值', count: inventory.filter(i => i.category === '会员/权益/充值').length },
+                                        { id: 'blindbox', label: '盲盒', count: BLIND_BOX_PRICES.length },
+                                        { id: 'owned', label: '已购买', count: inventory.filter(i => i.owned).length }
+                                    ];
+                                    return categories.map(f => (
+                                        <button key={f.id} onClick={() => setShopFilter(f.id as any)} className={`px-2 py-1.5 rounded-[24px] text-xs font-bold border transition-all whitespace-nowrap ${getButtonStyle(shopFilter === f.id)}`}>
+                                            {f.label} <span className="text-[9px] opacity-80">({f.count})</span>
+                                        </button>
+                                    ));
+                                })()}
                                 
                              </div>
                              <div className="flex gap-2 items-center">

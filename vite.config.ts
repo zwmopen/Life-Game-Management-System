@@ -9,7 +9,15 @@ export default defineConfig(({ mode }) => {
         port: 3000,
         host: '0.0.0.0',
         // 减少开发服务器日志输出
-        logLevel: 'warn'
+        logLevel: 'warn',
+        // 添加WebDAV代理配置
+        proxy: {
+          '/webdav': {
+            target: 'http://localhost:3001',
+            changeOrigin: true,
+            rewrite: (path) => path.replace(/^\/webdav/, '')
+          }
+        }
       },
       plugins: [react()],
       define: {

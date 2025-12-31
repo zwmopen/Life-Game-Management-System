@@ -392,40 +392,38 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                             <HelpCircle size={14} className="text-blue-500" />
                         </button>
                         </div>
-                        <div className="flex gap-2 overflow-x-auto pb-2 custom-scrollbar items-center justify-between">
-                            <div className="flex gap-2 flex-1">
-                                {[
-                                    {id:'ALL', l:'全部', i: Layout}, 
-                                    {id:'LEVEL', l:'等级', i:Zap}, 
-                                    {id:'FOCUS', l:'专注', i:Clock}, 
-                                    {id:'WEALTH', l:'财富', i:Wallet}, 
-                                    {id:'COMBAT', l:'战斗', i:Target}, 
-                                    {id:'CHECKIN', l:'签到', i:Calendar}, 
-                                    {id:'SPEND', l:'消费', i:ShoppingBag}
-                                ].map(tab => {
-                                    // 计算该分类下的勋章数量
-                                    const badgeCount = allBadges.filter(b => b.category === tab.id).length;
-                                    return (
-                                        <button 
-                                            key={tab.id} 
-                                            onClick={() => {
-                                                // 切换分组时清空上一分组的编辑缓存，避免跨分组操作冲突
-                                                resetEditCache(category);
-                                                setCategory(tab.id as any);
-                                            }}
-                                            className={`px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all min-w-[80px] flex items-center justify-center gap-2 whitespace-nowrap ${getButtonStyle(category === tab.id)} hover:scale-105 hover:shadow-lg active:scale-95`}
-                                        >
-                                            <tab.i size={14} /> {tab.l} <span className={`text-xs ${isDark ? 'text-zinc-400' : 'text-slate-500'}`}>({badgeCount})</span>
-                                        </button>
-                                    );
-                                })}
-                            </div>
-                            {/* 管理按钮 - 向右移动，统一样式，添加数量显示 */}
+                        <div className="flex flex-wrap gap-2 items-center justify-start">
+                            {[
+                                {id:'ALL', l:'全部', i: Layout}, 
+                                {id:'LEVEL', l:'等级', i:Zap}, 
+                                {id:'FOCUS', l:'专注', i:Clock}, 
+                                {id:'WEALTH', l:'财富', i:Wallet}, 
+                                {id:'COMBAT', l:'战斗', i:Target}, 
+                                {id:'CHECKIN', l:'签到', i:Calendar}, 
+                                {id:'SPEND', l:'消费', i:ShoppingBag}
+                            ].map(tab => {
+                                // 计算该分类下的勋章数量
+                                const badgeCount = allBadges.filter(b => b.category === tab.id).length;
+                                return (
+                                    <button 
+                                        key={tab.id} 
+                                        onClick={() => {
+                                            // 切换分组时清空上一分组的编辑缓存，避免跨分组操作冲突
+                                            resetEditCache(category);
+                                            setCategory(tab.id as any);
+                                        }}
+                                        className={`px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all flex items-center justify-center gap-2 whitespace-nowrap ${getButtonStyle(category === tab.id)}`}
+                                    >
+                                        <tab.i size={12} /> {tab.l} <span className={`text-xs ${isDark ? 'text-zinc-400' : 'text-slate-500'}`}>({badgeCount})</span>
+                                    </button>
+                                );
+                            })}
+                            {/* 管理按钮 - 统一样式，添加数量显示 */}
                             <button 
-                                className={`px-6 py-2.5 rounded-[24px] text-xs font-bold border transition-all min-w-[120px] flex items-center justify-center gap-2 whitespace-nowrap ${getButtonStyle(false)}`}
+                                className={`px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all flex items-center justify-center gap-2 whitespace-nowrap ${getButtonStyle(false)}`}
                                 onClick={() => setShowManageModal(true)}
                             >
-                                <Edit3 size={14} /> 管理勋章 <span className={`text-xs ${isDark ? 'text-zinc-400' : 'text-slate-500'}`}>({allBadges.length})</span>
+                                <Edit3 size={12} /> 管理勋章 <span className={`text-xs ${isDark ? 'text-zinc-400' : 'text-slate-500'}`}>({allBadges.length})</span>
                             </button>
                         </div>
                     </div>
@@ -493,8 +491,8 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                     </div>
                     
                     {/* 分类切换按钮 */}
-                    <div className="mb-6 overflow-x-auto pb-2">
-                        <div className="flex gap-2">
+                    <div className="mb-6">
+                        <div className="flex flex-wrap gap-2">
                             {[{id:'ALL', l:'全部', i:Grid3X3}, {id:'LEVEL', l:'等级', i:Zap}, {id:'FOCUS', l:'专注', i:Clock}, {id:'WEALTH', l:'财富', i:Wallet}, {id:'COMBAT', l:'战斗', i:Target}, {id:'CHECKIN', l:'签到', i:Calendar}, {id:'SPEND', l:'消费', i:ShoppingBag}, {id:'TASK', l:'任务勋章', i:List}].map(group => {
                                 const Icon = group.i;
                                 return (
