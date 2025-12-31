@@ -28,9 +28,9 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
   const neomorphicStyles = {
     bg: 'bg-[#e0e5ec]',
     border: 'border-[#e0e5ec]',
-    shadow: 'shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] rounded-[24px]',
-    hoverShadow: 'hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] rounded-[24px]',
-    activeShadow: 'active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)] rounded-[24px]',
+    shadow: 'shadow-[8px_8px_16px_rgba(163,177,198,0.2),-8px_-8px_16px_rgba(255,255,255,0.8)] rounded-[24px]',
+    hoverShadow: 'hover:shadow-[10px_10px_20px_rgba(163,177,198,0.3),-10px_-10px_20px_rgba(255,255,255,0.9)] rounded-[24px]',
+    activeShadow: 'active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.3),inset_-5px_-5px_10px_rgba(255,255,255,0.8)] rounded-[24px]',
     transition: 'transition-all duration-200'
   };
   
@@ -312,20 +312,97 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       case 'dip':
         return (
           <BaseChart data={dipData} isDark={isDark} height={chartHeight}>
-            <AreaChart data={dipData} margin={{ top: 10, right: 30, left: 30, bottom: 30 }} animationDuration={1000}>
+            <AreaChart data={dipData} margin={{ top: 20, right: 40, left: 50, bottom: 50 }} animationDuration={1000}>
               <defs>
                 <linearGradient id="colorDip" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="5%" stopColor={chartConfig.colors.primary} stopOpacity={0.8}/>
-                  <stop offset="95%" stopColor={chartConfig.colors.secondary} stopOpacity={0.8}/>
+                  <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.8}/>
+                  <stop offset="95%" stopColor="#10b981" stopOpacity={0.8}/>
+                </linearGradient>
+                <linearGradient id="areaDip" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
+                  <stop offset="95%" stopColor="#10b981" stopOpacity={0.3}/>
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray={chartConfig.grid.strokeDasharray} stroke={getGridColor(isDark)} vertical={false} />
-              <XAxis dataKey="x" stroke={chartConfig.axis.stroke} tick={{ fontSize: chartConfig.fontSize.axisTick }} label={{ value: '投入度', position: 'insideBottom', offset: 0, fontSize: chartConfig.fontSize.axisLabel }} domain={[0, 100]} />
-              <YAxis stroke={chartConfig.axis.stroke} tick={{ fontSize: chartConfig.fontSize.axisTick }} label={{ value: '产出率', angle: -90, position: 'insideLeft', offset: 0, fontSize: chartConfig.fontSize.axisLabel }} domain={[0, 100]} />
+              <XAxis 
+                dataKey="x" 
+                stroke={chartConfig.axis.stroke} 
+                tick={{ fontSize: chartConfig.fontSize.axisTick }} 
+                label={{ 
+                  value: '投入度 (%)', 
+                  position: 'insideBottom', 
+                  offset: -10, 
+                  fontSize: chartConfig.fontSize.axisLabel, 
+                  fontWeight: 'bold'
+                }} 
+                domain={[0, 100]} 
+              />
+              <YAxis 
+                stroke={chartConfig.axis.stroke} 
+                tick={{ fontSize: chartConfig.fontSize.axisTick }} 
+                label={{ 
+                  value: '产出率 (%)', 
+                  angle: -90, 
+                  position: 'insideLeft', 
+                  offset: -5, 
+                  fontSize: chartConfig.fontSize.axisLabel, 
+                  fontWeight: 'bold'
+                }} 
+                domain={[0, 130]} 
+              />
               <Legend wrapperStyle={chartConfig.legend.wrapperStyle} />
-              <Line type="monotone" dataKey="results" stroke={chartConfig.colors.primary} strokeWidth={3} dot={false} name="产出率" />
+              <Area 
+                type="monotone" 
+                dataKey="results" 
+                stroke="#3b82f6" 
+                strokeWidth={3} 
+                fill="url(#areaDip)" 
+                name="产出率" 
+              />
+              <Line 
+                type="monotone" 
+                dataKey="results" 
+                stroke="#3b82f6" 
+                strokeWidth={3} 
+                dot={false} 
+                name="产出率" 
+              />
+              
+              {/* 关键节点标注 */}
+              <circle cx={50} cy={230} r={6} fill="#ef4444" stroke="#ffffff" strokeWidth={2} />
+              <text x={50} y={245} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
+                初始阶段
+              </text>
+              
+              <circle cx={200} cy={280} r={6} fill="#ef4444" stroke="#ffffff" strokeWidth={2} />
+              <text x={200} y={295} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
+                死亡谷底部
+              </text>
+              
+              <circle cx={350} cy={100} r={6} fill="#ef4444" stroke="#ffffff" strokeWidth={2} />
+              <text x={350} y={115} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
+                突破阶段
+              </text>
+              
+              {/* 区域标注 */}
+              <text x={100} y={150} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={14} fontWeight="bold" fillOpacity={0.7}>
+                快速进步期
+              </text>
+              <text x={200} y={220} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={14} fontWeight="bold" fillOpacity={0.7}>
+                瓶颈期
+              </text>
+              <text x={300} y={150} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={14} fontWeight="bold" fillOpacity={0.7}>
+                指数增长期
+              </text>
+              
+              {/* 标题 */}
               <text x="50%" y="20" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={chartConfig.fontSize.title} fontWeight="bold">
                 死亡谷效应
+              </text>
+              
+              {/* 副标题 */}
+              <text x="50%" y="40" textAnchor="middle" fill={isDark ? '#a1a1aa' : '#64748b'} fontSize={14}>
+                投入度与产出率的关系曲线
               </text>
             </AreaChart>
           </BaseChart>
