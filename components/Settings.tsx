@@ -198,7 +198,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
     <div className={`h-full flex flex-col overflow-hidden`}>
       {/* Scrollable Content */}
       <div className="flex-1 overflow-y-auto p-2 custom-scrollbar">
-        <div className="max-w-2xl mx-auto space-y-3">
+        <div className="w-full space-y-3">
           {/* 统一的帮助指南卡片 */}
           <GlobalGuideCard
             activeHelp={activeHelp}
@@ -291,7 +291,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
               {settings.enableSoundEffects && (
                 <div className="mt-3">
                   <h4 className={`font-bold text-xs ${textMain} mb-2`}>按位置分类音效</h4>
-                  <div className={`rounded-xl p-2 h-[250px] overflow-y-auto ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-900/50' : 'bg-slate-50'}`}>
+                  <div className={`rounded-xl p-2 max-h-[250px] overflow-y-auto ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-900/50' : 'bg-slate-50'}`}>
                     <h5 className={`text-[9px] font-mono uppercase mb-2 ${textSub}`}>位置列表</h5>
                     <div className="space-y-2">
                       {[
@@ -412,13 +412,17 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
 
 
           {/* Display Settings */}
-
+          <div className={`${cardBg} p-4 transition-all duration-300`}>
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-3">
+                <div className={`p-2 rounded-full ${isDark ? 'bg-zinc-800' : 'bg-slate-100'}`}>
                   <Eye size={20} className="text-blue-500" />
                 </div>
                 <div>
                   <h3 className={`font-bold ${textMain}`}>显示设置</h3>
                   <p className={`text-xs ${textSub}`}>控制界面显示</p>
                 </div>
+              </div>
               </div>
               <div className="flex items-center gap-2">
                 <HelpTooltip helpId="display" onHelpClick={setActiveHelp}>
@@ -438,7 +442,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
             </div>
             {/* Conditionally render display settings based on collapse state */}
             {showDisplaySettings && (
-              <div className={`rounded-xl p-3 h-[250px] overflow-y-auto ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-900/50' : 'bg-slate-50'}`}>
+              <div className={`rounded-xl p-3 max-h-[250px] overflow-y-auto ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-900/50' : 'bg-slate-50'}`}>
                 <h5 className={`text-[9px] font-mono uppercase mb-2 ${textSub}`}>显示选项</h5>
                 <div className="space-y-3">
                   <div className={`flex justify-between items-center p-2 rounded-xl transition-all cursor-pointer ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-900/30 hover:bg-zinc-800/50' : 'bg-white/50 hover:bg-slate-100'}`}>
@@ -913,185 +917,6 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                 </div>
               </div>
             )}
-          </div>
-          <div className={`${cardBg} p-4 transition-all duration-300`}>
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-3">
-                <div className={`p-2 rounded-full ${isDark ? 'bg-zinc-800' : 'bg-slate-100'}`}>
-                  <Cloud size={20} className="text-blue-500" />
-                </div>
-                <div>
-                  <h3 className={`font-bold ${textMain}`}>云备份管理</h3>
-                  <p className={`text-xs ${textSub}`}>WebDAV 云存储备份与恢复</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <HelpTooltip helpId="data" onHelpClick={setActiveHelp}>
-                  <HelpCircle size={18} className="text-zinc-500 hover:text-white transition-colors" />
-                </HelpTooltip>
-                {/* Collapse/Expand Button */}
-                <button
-                  onClick={() => setIsWebdavConfigCollapsed(!isWebdavConfigCollapsed)}
-                  className={`p-2 rounded-xl transition-all duration-300 bg-transparent hover:bg-transparent shadow-none active:shadow-none`}
-                  title={isWebdavConfigCollapsed ? '展开配置' : '折叠配置'}
-                >
-                  <span className={`text-xs ${textMain} transform transition-transform ${isWebdavConfigCollapsed ? 'rotate-180' : ''}`}>
-                    ▼
-                  </span>
-                </button>
-              </div>
-            </div>
-            
-            {/* WebDAV Configuration Form */}
-            {!isWebdavConfigCollapsed && (
-              <div className={`rounded-xl p-3 mb-4 overflow-y-auto ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-900/50' : 'bg-slate-50'}`}>
-                <div className="space-y-3">
-                  {/* URL Input */}
-                  <div>
-                    <label className={`block text-sm font-semibold mb-1 ${textMain}`}>WebDAV 服务器地址</label>
-                    <input
-                      type="text"
-                      value={webdavConfig.url}
-                      onChange={(e) => setWebdavConfig(prev => ({ ...prev, url: e.target.value }))}
-                      placeholder="https://dav.jianguoyun.com/dav/"
-                      className={`w-full p-2 rounded-xl border ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] border-none' : isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-300'} ${textMain}`}
-                    />
-                  </div>
-                  
-                  {/* Username Input */}
-                  <div>
-                    <label className={`block text-sm font-semibold mb-1 ${textMain}`}>用户名</label>
-                    <input
-                      type="text"
-                      value={webdavConfig.username}
-                      onChange={(e) => setWebdavConfig(prev => ({ ...prev, username: e.target.value }))}
-                      placeholder="坚果云用户名"
-                      className={`w-full p-2 rounded-xl border ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] border-none' : isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-300'} ${textMain}`}
-                    />
-                  </div>
-                  
-                  {/* Password Input */}
-                  <div>
-                    <label className={`block text-sm font-semibold mb-1 ${textMain}`}>密码</label>
-                    <input
-                      type="password"
-                      value={webdavConfig.password}
-                      onChange={(e) => setWebdavConfig(prev => ({ ...prev, password: e.target.value }))}
-                      placeholder="坚果云应用密码"
-                      className={`w-full p-2 rounded-xl border ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] border-none' : isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-300'} ${textMain}`}
-                    />
-                  </div>
-                  
-                  {/* Base Path Display */}
-                  <div>
-                    <label className={`block text-sm font-semibold mb-1 ${textMain}`}>存储目录</label>
-                    <input
-                      type="text"
-                      value={webdavConfig.basePath}
-                      readOnly
-                      className={`w-full p-2 rounded-xl border ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] border-none' : isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-300'} ${textMain}`}
-                    />
-                  </div>
-                  
-                  {/* Status Message */}
-                  {webdavStatus && (
-                    <div className={`p-2 rounded-xl text-sm ${webdavStatus.includes('成功') ? 'text-green-500' : 'text-red-500'}`}>
-                      {webdavStatus}
-                    </div>
-                  )}
-                  
-                  {/* Save Configuration Button */}
-                  <button 
-                    className={`w-full py-1.5 rounded-[24px] text-xs font-bold border transition-all flex items-center justify-center gap-2 ${getButtonStyle(false)}`}
-                    onClick={() => {
-                      // Save WebDAV config to localStorage
-                      localStorage.setItem('webdav-url', webdavConfig.url);
-                      localStorage.setItem('webdav-username', webdavConfig.username);
-                      localStorage.setItem('webdav-password', webdavConfig.password);
-                      setWebdavStatus('WebDAV 配置已保存');
-                      setTimeout(() => setWebdavStatus(''), 3000);
-                    }}
-                  >
-                    <Save size={12} />
-                    保存配置
-                  </button>
-                </div>
-              </div>
-            )}
-            
-            {/* Cloud Backup/Restore Buttons */}
-            <div className={`${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] transition-all duration-300 hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)] cursor-pointer' : isDark ? 'bg-zinc-900/50 hover:bg-zinc-800/70 cursor-pointer' : 'bg-slate-100 hover:bg-slate-200 cursor-pointer'} p-5 rounded-xl`}>
-              <div className="flex flex-col md:flex-row gap-3">
-                {/* Backup to Cloud Button */}
-                <button 
-                  className={`flex-1 px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all flex items-center justify-center gap-2 ${getButtonStyle(false)}`}
-                  onClick={async () => {
-                    setIsBackingUp(true);
-                    setWebdavStatus('正在备份到云端...');
-                    try {
-                      const client = new WebDAVClient(webdavConfig);
-                      // 这里需要获取实际的游戏数据，暂时用模拟数据
-                      const gameData = {
-                        settings,
-                        projects: [],
-                        habits: [],
-                        characters: [],
-                        achievements: [],
-                        timestamp: new Date().toISOString()
-                      };
-                      const backupSuccess = await client.backupData(JSON.stringify(gameData, null, 2));
-                      if (backupSuccess) {
-                        setWebdavStatus('备份成功！');
-                      } else {
-                        setWebdavStatus('备份失败，请检查配置！');
-                      }
-                    } catch (error) {
-                      console.error('Backup error:', error);
-                      setWebdavStatus('备份失败：' + (error as Error).message);
-                    } finally {
-                      setIsBackingUp(false);
-                      setTimeout(() => setWebdavStatus(''), 3000);
-                    }
-                  }}
-                  disabled={isBackingUp}
-                >
-                  <CloudDownload size={12} />
-                  {isBackingUp ? '备份中...' : '备份到云端'}
-                </button>
-                
-                {/* Restore from Cloud Button */}
-                <button 
-                  className={`flex-1 px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all flex items-center justify-center gap-2 ${getButtonStyle(false)}`}
-                  onClick={async () => {
-                    setIsRestoring(true);
-                    setWebdavStatus('正在从云端恢复...');
-                    try {
-                      const client = new WebDAVClient(webdavConfig);
-                      const backupData = await client.restoreData();
-                      if (backupData) {
-                        const parsedData = JSON.parse(backupData);
-                        // 这里需要处理恢复逻辑，暂时用模拟数据
-                        setWebdavStatus('恢复成功！');
-                        // 可以在这里添加更新状态的逻辑
-                      } else {
-                        setWebdavStatus('恢复失败，请检查配置！');
-                      }
-                    } catch (error) {
-                      console.error('Restore error:', error);
-                      setWebdavStatus('恢复失败：' + (error as Error).message);
-                    } finally {
-                      setIsRestoring(false);
-                      setTimeout(() => setWebdavStatus(''), 3000);
-                    }
-                  }}
-                  disabled={isRestoring}
-                >
-                  <Upload size={12} />
-                  {isRestoring ? '恢复中...' : '从云端恢复'}
-                </button>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>

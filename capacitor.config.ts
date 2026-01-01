@@ -1,9 +1,12 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.example.antiinstinct',
-  appName: '反本能主动进化系统',
-  webDir: 'dist'
+  appId: 'com.lifegame.manager',
+  appName: '人生游戏管理系统',
+  webDir: 'dist',
+  server: {
+    androidScheme: 'https'
+  }
 };
 
 export default config;

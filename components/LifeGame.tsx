@@ -9,7 +9,7 @@ import {
   Radar as RadarIcon, Container, Filter, Wrench, User, Crosshair, TrendingUp, Lock, Unlock, Skull, ArrowLeft, GripVertical, Star, Package, List, RefreshCw, Dice5, Hammer, Edit2, Layout,
   HelpCircle, Smartphone, Laptop, Shirt, Ticket, Music, Wifi, Video, Square, CheckSquare, Dice1,
   Headphones, Armchair, Scissors, Glasses, Footprints, Utensils, Sofa, Activity, Power, ChevronRight, Sun, Wallet,
-  Camera, Tablet, Wind, Fish, Mountain, Home, Car, Heart
+  Camera, Tablet, Wind, Fish, Mountain, Home, Car, Heart, Globe, Palette
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { Theme, AttributeType, Habit, Project, SubTask, TaskType, AutoTaskType, Task, DiceState, DiceTask, DiceCategory, DiceHistory, Settings as SettingsType } from '../types';
@@ -140,20 +140,20 @@ const SHOP_CATALOG = [
   { id: 'r_tick_3', name: '演唱会门票', description: '音乐盛宴，情感释放', cost: 498, type: 'rights', owned: false, icon: <Music size={24} className="text-purple-600"/>, category: '休闲娱乐' },
   
   // 会员
-  { id: 'r_vip_1', name: '网易云 VIP (月)', description: '听觉享受', cost: 15, type: 'rights', owned: false, icon: <Music size={24} className="text-red-600"/>, category: '会员/权益/充值' },
-  { id: 'r_vip_3', name: '健身会员 (月)', description: '健身特权，健康生活', cost: 298, type: 'rights', owned: false, icon: <Dumbbell size={24} className="text-blue-500"/>, category: '会员/权益/充值' },
-  { id: 'r_vip_4', name: '网课论坛会员', description: '学习资源，交流平台', cost: 99, type: 'rights', owned: false, icon: <BookOpen size={24} className="text-purple-500"/>, category: '会员/权益/充值' },
-  { id: 'r_vip_5', name: '小众社群', description: '兴趣交流，人脉拓展', cost: 99, type: 'rights', owned: false, icon: <Users size={24} className="text-green-500"/>, category: '会员/权益/充值' },
-  { id: 'r_vip_6', name: '知识星球会员', description: '优质知识分享社群', cost: 199, type: 'rights', owned: false, icon: <BookOpen size={24} className="text-amber-600"/>, category: '会员/权益/充值' },
-  { id: 'r_vip_7', name: '行业交流群', description: '专业人脉拓展平台', cost: 299, type: 'rights', owned: false, icon: <Users size={24} className="text-blue-500"/>, category: '会员/权益/充值' },
-  { id: 'r_vip_8', name: '兴趣爱好社群', description: '志同道合者的聚集地', cost: 88, type: 'rights', owned: false, icon: <Users size={24} className="text-pink-500"/>, category: '会员/权益/充值' },
-  { id: 'r_vip_9', name: '专业论坛会员', description: '深度专业交流平台', cost: 159, type: 'rights', owned: false, icon: <BookOpen size={24} className="text-cyan-500"/>, category: '会员/权益/充值' },
-  { id: 'r_vip_10', name: '线下活动社群', description: '定期线下聚会活动', cost: 399, type: 'rights', owned: false, icon: <Users size={24} className="text-orange-500"/>, category: '会员/权益/充值' },
+  { id: 'r_vip_1', name: '网易云 VIP (月)', description: '听觉享受', cost: 15, type: 'rights', owned: false, icon: <Music size={24} className="text-red-600"/>, category: '会员充值' },
+  { id: 'r_vip_3', name: '健身会员 (月)', description: '健身特权，健康生活', cost: 298, type: 'rights', owned: false, icon: <Dumbbell size={24} className="text-blue-500"/>, category: '会员充值' },
+  { id: 'r_vip_4', name: '网课论坛会员', description: '学习资源，交流平台', cost: 99, type: 'rights', owned: false, icon: <BookOpen size={24} className="text-purple-500"/>, category: '会员充值' },
+  { id: 'r_vip_5', name: '小众社群', description: '兴趣交流，人脉拓展', cost: 99, type: 'rights', owned: false, icon: <Users size={24} className="text-green-500"/>, category: '会员充值' },
+  { id: 'r_vip_6', name: '知识星球会员', description: '优质知识分享社群', cost: 199, type: 'rights', owned: false, icon: <BookOpen size={24} className="text-amber-600"/>, category: '会员充值' },
+  { id: 'r_vip_7', name: '行业交流群', description: '专业人脉拓展平台', cost: 299, type: 'rights', owned: false, icon: <Users size={24} className="text-blue-500"/>, category: '会员充值' },
+  { id: 'r_vip_8', name: '兴趣爱好社群', description: '志同道合者的聚集地', cost: 88, type: 'rights', owned: false, icon: <Users size={24} className="text-pink-500"/>, category: '会员充值' },
+  { id: 'r_vip_9', name: '专业论坛会员', description: '深度专业交流平台', cost: 159, type: 'rights', owned: false, icon: <BookOpen size={24} className="text-cyan-500"/>, category: '会员充值' },
+  { id: 'r_vip_10', name: '线下活动社群', description: '定期线下聚会活动', cost: 399, type: 'rights', owned: false, icon: <Users size={24} className="text-orange-500"/>, category: '会员充值' },
   
   // 充值
-  { id: 'r_char_1', name: '话费充值卡', description: '通讯保障', cost: 99, type: 'rights', owned: false, icon: <Wifi size={24} className="text-blue-500"/>, category: '会员/权益/充值' },
-  { id: 'r_char_1_50', name: '话费充值卡50元', description: '通讯保障', cost: 50, type: 'rights', owned: false, icon: <Wifi size={24} className="text-blue-500"/>, category: '会员/权益/充值' },
-  { id: 'r_char_3', name: '云存储空间', description: '数据安全，便捷访问', cost: 118, type: 'rights', owned: false, icon: <Box size={24} className="text-purple-500"/>, category: '会员/权益/充值' },
+  { id: 'r_char_1', name: '话费充值卡', description: '通讯保障', cost: 99, type: 'rights', owned: false, icon: <Wifi size={24} className="text-blue-500"/>, category: '会员充值' },
+  { id: 'r_char_1_50', name: '话费充值卡50元', description: '通讯保障', cost: 50, type: 'rights', owned: false, icon: <Wifi size={24} className="text-blue-500"/>, category: '会员充值' },
+  { id: 'r_char_3', name: '云存储空间', description: '数据安全，便捷访问', cost: 118, type: 'rights', owned: false, icon: <Box size={24} className="text-purple-500"/>, category: '会员充值' },
   
   // 新增商品
   { id: 'r_misc_1', name: '365天日历', description: '时间管理，记录生活', cost: 9.9, type: 'physical', owned: false, icon: <Calendar size={24} className="text-yellow-500"/>, category: '家居' },
@@ -161,8 +161,8 @@ const SHOP_CATALOG = [
   { id: 'r_misc_3', name: '智能手表', description: '健康监测与通讯', cost: 1299, type: 'physical', owned: false, icon: <Smartphone size={24} className="text-blue-400"/>, category: '数码' },
   { id: 'r_misc_4', name: '咖啡机', description: '自制美味咖啡', cost: 899, type: 'physical', owned: false, icon: <Coffee size={24} className="text-amber-700"/>, category: '家居' },
   { id: 'r_misc_5', name: '瑜伽垫', description: '居家健身必备', cost: 89, type: 'physical', owned: false, icon: <Dumbbell size={24} className="text-purple-500"/>, category: '家居' },
-  { id: 'r_misc_6', name: '电影会员年卡', description: '全年电影观看特权', cost: 199, type: 'rights', owned: false, icon: <Video size={24} className="text-red-500"/>, category: '会员/权益/充值' },
-  { id: 'r_misc_7', name: '在线课程', description: '专业技能提升', cost: 399, type: 'rights', owned: false, icon: <BookOpen size={24} className="text-blue-600"/>, category: '会员/权益/充值' },
+  { id: 'r_misc_6', name: '电影会员年卡', description: '全年电影观看特权', cost: 199, type: 'rights', owned: false, icon: <Video size={24} className="text-red-500"/>, category: '会员充值' },
+  { id: 'r_misc_7', name: '在线课程', description: '专业技能提升', cost: 399, type: 'rights', owned: false, icon: <BookOpen size={24} className="text-blue-600"/>, category: '会员充值' },
   { id: 'r_misc_8', name: '演唱会周边', description: '限量版演唱会纪念品', cost: 199, type: 'physical', owned: false, icon: <Music size={24} className="text-purple-600"/>, category: '休闲娱乐' },
   { id: 'r_misc_9', name: '定制T恤', description: '个性化服装定制', cost: 129, type: 'physical', owned: false, icon: <Shirt size={24} className="text-pink-500"/>, category: '形象设计与穿搭' },
   { id: 'r_misc_10', name: '宠物食品', description: '优质宠物粮', cost: 159, type: 'physical', owned: false, icon: <Fish size={24} className="text-orange-500"/>, category: '家居' },
@@ -206,6 +206,24 @@ const SHOP_CATALOG = [
   
   // 礼品类
   { id: 'p_gift_1', name: '朋友礼物', description: '常用但贵的小礼物', cost: 1000, type: 'physical', owned: false, icon: <Gift size={24} className="text-yellow-500"/>, category: '休闲娱乐' },
+
+  // 第一批新增商品（饮食类/休闲娱乐类）
+  { id: 's_food_20', name: '一桶泡面', description: '方便快捷的美食', cost: 5, type: 'leisure', owned: false, icon: <Utensils size={24} className="text-red-500"/>, category: '吃喝' },
+  { id: 'r_tick_6', name: '说走就走的短途旅行', description: '短途旅行，放松心情', cost: 1100, type: 'rights', owned: false, icon: <Mountain size={24} className="text-green-500"/>, category: '休闲娱乐' },
+  { id: 'r_tick_7', name: '说走就走的长途旅行', description: '长途旅行，探索世界', cost: 5000, type: 'rights', owned: false, icon: <Mountain size={24} className="text-blue-500"/>, category: '休闲娱乐' },
+  { id: 'r_tick_8', name: '说走就走的国际旅行', description: '国际旅行，开阔视野', cost: 50000, type: 'rights', owned: false, icon: <Globe size={24} className="text-purple-500"/>, category: '休闲娱乐' },
+
+  // 第二批新增商品（娱乐类/形象设计与穿搭类）
+  { id: 's_spa_2', name: '按摩', description: '缓解疲劳，放松身心', cost: 200, type: 'leisure', owned: false, icon: <Armchair size={24} className="text-blue-400"/>, category: '休闲娱乐' },
+  { id: 'r_tick_9', name: '兴趣组队门票', description: '加入兴趣组队活动', cost: 50, type: 'rights', owned: false, icon: <Users size={24} className="text-yellow-500"/>, category: '休闲娱乐' },
+  { id: 'p_cloth_5', name: '素颜霜', description: '提升气色，自然妆容', cost: 100, type: 'physical', owned: false, icon: <Palette size={24} className="text-pink-500"/>, category: '形象设计与穿搭' },
+  { id: 'p_cloth_6', name: '夹板', description: '打造百变发型', cost: 30, type: 'physical', owned: false, icon: <Scissors size={24} className="text-purple-500"/>, category: '形象设计与穿搭' },
+  { id: 'p_cloth_7', name: '头发烫染', description: '时尚发型，提升魅力', cost: 100, type: 'physical', owned: false, icon: <Scissors size={24} className="text-red-500"/>, category: '形象设计与穿搭' },
+  { id: 'r_vip_11', name: '社群门票(1000元)', description: '加入高端社群', cost: 1000, type: 'rights', owned: false, icon: <Users size={24} className="text-green-500"/>, category: '会员充值' },
+  { id: 'r_vip_12', name: '社群门票(3000元)', description: '加入精英社群', cost: 3000, type: 'rights', owned: false, icon: <Users size={24} className="text-blue-500"/>, category: '会员充值' },
+  { id: 'r_vip_13', name: '社群门票(5000元)', description: '加入顶级社群', cost: 5000, type: 'rights', owned: false, icon: <Users size={24} className="text-purple-500"/>, category: '会员充值' },
+  { id: 'r_vip_14', name: '社群门票(10000元)', description: '加入尊享社群', cost: 10000, type: 'rights', owned: false, icon: <Users size={24} className="text-yellow-500"/>, category: '会员充值' },
+  { id: 'r_vip_15', name: '社群门票(20000元)', description: '加入至尊社群', cost: 20000, type: 'rights', owned: false, icon: <Users size={24} className="text-red-500"/>, category: '会员充值' },
 
 ];
 
@@ -1230,6 +1248,11 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                     <div className="text-xs text-blue-500 uppercase tracking-widest font-bold flex items-center gap-1">
                                         <Calendar size={10}/> 签到系统
                                     </div>
+                                    {settings.guideCardConfig && (
+                                        <button onClick={() => { /* 显示签到系统指南 */ }} className={`p-0.5 rounded-full transition-all duration-300 hover:scale-[1.1] ${isNeomorphic ? 'hover:bg-blue-500/10' : 'hover:bg-blue-500/20'}`}>
+                                            <HelpCircle size={10} className="text-blue-500" />
+                                        </button>
+                                    )}
                                 </div>
                                 
                                 {/* 签到按钮 - 圆形勋章样式，带跳动动画 */}
@@ -1773,7 +1796,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                         { id: '休闲娱乐', label: '休闲娱乐', count: inventory.filter(i => i.category === '休闲娱乐').length },
                                         { id: '数码', label: '数码', count: inventory.filter(i => i.category === '数码').length },
                                         { id: '家居', label: '家居', count: inventory.filter(i => i.category === '家居').length },
-                                        { id: '会员/权益/充值', label: '会员/权益/充值', count: inventory.filter(i => i.category === '会员/权益/充值').length },
+                                        { id: '会员充值', label: '会员充值', count: inventory.filter(i => i.category === '会员充值').length },
                                         { id: 'blindbox', label: '盲盒', count: BLIND_BOX_PRICES.length },
                                         { id: 'owned', label: '已购买', count: inventory.filter(i => i.owned).length }
                                     ];

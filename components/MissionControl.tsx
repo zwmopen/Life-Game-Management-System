@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect, useRef } from 'react';
 import {
-  BarChart, Bar, XAxis, YAxis, Legend, CartesianGrid,
+  BarChart, Bar, XAxis, YAxis, Legend, CartesianGrid, Tooltip,
   ComposedChart, Area, Line, ReferenceLine,
   AreaChart, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ReferenceArea, ScatterChart, Scatter, ZAxis, Cell, LineChart, Pie, ResponsiveContainer
 } from 'recharts';
@@ -227,133 +227,30 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
     
     switch (activeChart) {
       case 'attributeRadar':
+        // 暂时禁用该图表，因为 attributeData 未定义
         return (
-          <BaseChart data={attributeData} isDark={isDark}>
-            <RadarChart cx="50%" cy="50%" outerRadius="70%" data={attributeData} animationDuration={1000}>
-              <PolarGrid stroke={getGridColor(isDark)} />
-              <PolarAngleAxis dataKey="subject" tick={{ fill: isDark ? '#a1a1aa' : '#64748b', fontSize: chartConfig.fontSize.axisTick, fontWeight: 'bold' }} />
-              <PolarRadiusAxis angle={30} domain={[0, 150]} tick={{ fontSize: 8 }} axisLine={false} label={{ value: '能力值', angle: -90, position: 'insideLeft', fontSize: chartConfig.fontSize.axisLabel }} />
-              <Radar name="能力值" dataKey="A" stroke={chartConfig.colors.purple} strokeWidth={2} fill={chartConfig.colors.purple} fillOpacity={0.3} />
-              <Legend wrapperStyle={chartConfig.legend.wrapperStyle} />
-              <text x="50%" y="20" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={chartConfig.fontSize.title} fontWeight="bold">
-                角色属性雷达图
-              </text>
-            </RadarChart>
+          <BaseChart data={[]} isDark={isDark}>
+            <div className="flex items-center justify-center h-full">
+              <p className={isDark ? 'text-gray-400' : 'text-gray-500'}>该图表暂不可用</p>
+            </div>
           </BaseChart>
         );
       case 'focusHeatmap':
+        // 暂时禁用该图表，因为 dailyFocusData 未定义
         return (
-          <BaseChart data={dailyFocusData} isDark={isDark} >
-            <BarChart data={dailyFocusData} animationDuration={1000}>
-              <CartesianGrid strokeDasharray={chartConfig.grid.strokeDasharray} stroke={getGridColor(isDark)} vertical={false}/>
-              <XAxis dataKey="name" stroke={chartConfig.axis.stroke} fontSize={chartConfig.fontSize.axisTick} tickLine={chartConfig.axis.tickLine} interval={0} label={{ value: '日期', position: chartConfig.axis.label.position, fontSize: chartConfig.fontSize.axisLabel }}/>
-              <YAxis stroke={chartConfig.axis.stroke} fontSize={chartConfig.fontSize.axisTick} tickLine={chartConfig.axis.tickLine} label={{ value: '专注时间 (分钟)', angle: -90, position: 'insideLeft', fontSize: chartConfig.fontSize.axisLabel }} />
-              <Legend wrapperStyle={chartConfig.legend.wrapperStyle}/>
-              <Bar dataKey="projects" name="主线攻坚" stackId="a" fill={chartConfig.colors.danger} radius={[0,0,0,0]} />
-              <Bar dataKey="habits" name="日常维持" stackId="a" fill={chartConfig.colors.primary} radius={[4,4,0,0]} />
-              <text x="50%" y="20" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={chartConfig.fontSize.title} fontWeight="bold">
-                每日专注时间分布
-              </text>
-            </BarChart>
-          </BaseChart>
-        );
-      case 'mining':
-        return (
-          <BaseChart data={miningData} isDark={isDark} height={chartHeight}>
-            <AreaChart data={miningData} animationDuration={1000} margin={{ top: 20, right: 40, left: 50, bottom: 50 }}>
-              <defs>
-                <linearGradient id="colorResistance" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#ef4444" stopOpacity={0.4}/>
-                  <stop offset="95%" stopColor="#ef4444" stopOpacity={0.05}/>
-                </linearGradient>
-                <linearGradient id="colorYield" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#10b981" stopOpacity={0.4}/>
-                  <stop offset="95%" stopColor="#10b981" stopOpacity={0.05}/>
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray={chartConfig.grid.strokeDasharray} stroke={getGridColor(isDark)} />
-              <XAxis 
-                dataKey="day" 
-                stroke={chartConfig.axis.stroke} 
-                label={{ 
-                  value: '天数', 
-                  position: 'insideBottom', 
-                  offset: -10, 
-                  fontSize: chartConfig.fontSize.axisLabel, 
-                  fontWeight: 'bold'
-                }} 
-              />
-              <YAxis 
-                stroke={chartConfig.axis.stroke} 
-                label={{ 
-                  value: '数值', 
-                  angle: -90, 
-                  position: 'insideLeft', 
-                  offset: -5, 
-                  fontSize: chartConfig.fontSize.axisLabel, 
-                  fontWeight: 'bold'
-                }} 
-                domain={[0, 'dataMax + 10']} 
-              />
-              <Legend wrapperStyle={chartConfig.legend.wrapperStyle} />
-              <Area type="monotone" dataKey="resistance" stroke={chartConfig.colors.danger} strokeWidth={2} fill="url(#colorResistance)" name="阻力" />
-              <Area type="monotone" dataKey="yield" stroke={chartConfig.colors.secondary} strokeWidth={2} fill="url(#colorYield)" name="收益" />
-              
-              {/* 关键节点标注 */}
-              <circle cx="200" cy={150} r={6} fill="#f59e0b" stroke="#ffffff" strokeWidth={2} />
-              <text x="200" y={165} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
-                平衡点: 收益=阻力
-              </text>
-              
-              <circle cx="350" cy={100} r={6} fill="#10b981" stroke="#ffffff" strokeWidth={2} />
-              <text x="350" y={115} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
-                收益爆发点
-              </text>
-              
-              {/* 区域标注 */}
-              <text x="100" y="150" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={14} fontWeight="bold" fillOpacity={0.7}>
-                积累期
-              </text>
-              <text x="250" y="150" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={14} fontWeight="bold" fillOpacity={0.7}>
-                收获期
-              </text>
-              
-              {/* 标题 */}
-              <text x="50%" y="20" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={chartConfig.fontSize.title} fontWeight="bold">
-                阻力与收益对比曲线
-              </text>
-              
-              {/* 副标题 */}
-              <text x="50%" y="40" textAnchor="middle" fill={isDark ? '#a1a1aa' : '#64748b'} fontSize={14}>
-                展示长期投资中阻力与收益的动态关系，前期阻力大于收益，后期收益爆发增长
-              </text>
-            </AreaChart>
+          <BaseChart data={[]} isDark={isDark} >
+            <div className="flex items-center justify-center h-full">
+              <p className={isDark ? 'text-gray-400' : 'text-gray-500'}>该图表暂不可用</p>
+            </div>
           </BaseChart>
         );
       case 'entropy':
+        // 暂时禁用该图表，因为 entropyData 未定义
         return (
-          <BaseChart data={entropyData} isDark={isDark} height={chartHeight}>
-            <AreaChart data={entropyData} animationDuration={1000}>
-              <defs>
-                <linearGradient id="colorChaos" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#ef4444" stopOpacity={0.4}/>
-                  <stop offset="95%" stopColor="#ef4444" stopOpacity={0.05}/>
-                </linearGradient>
-                <linearGradient id="colorOrder" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#10b981" stopOpacity={0.4}/>
-                  <stop offset="95%" stopColor="#10b981" stopOpacity={0.05}/>
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray={chartConfig.grid.strokeDasharray} stroke={getGridColor(isDark)} />
-              <XAxis dataKey="t" stroke={chartConfig.axis.stroke} label={{ value: '时间', position: chartConfig.axis.label.position, fontSize: chartConfig.fontSize.axisLabel }} />
-              <YAxis stroke={chartConfig.axis.stroke} label={{ value: '熵值', angle: -90, position: 'insideLeft', fontSize: chartConfig.fontSize.axisLabel }} domain={[0, 'dataMax + 20']} />
-              <Legend wrapperStyle={chartConfig.legend.wrapperStyle} />
-              <Area type="monotone" dataKey="chaos" stackId="1" stroke={chartConfig.colors.danger} fill="url(#colorChaos)" fillOpacity={0.3} name="自然熵增" />
-              <Area type="monotone" dataKey="order" stackId="1" stroke={chartConfig.colors.secondary} fill="url(#colorOrder)" fillOpacity={0.3} name="人为有序" />
-              <text x="50%" y="20" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={chartConfig.fontSize.title} fontWeight="bold">
-                熵增与熵减的动态平衡
-              </text>
-            </AreaChart>
+          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
+            <div className="flex items-center justify-center h-full">
+              <p className={isDark ? 'text-gray-400' : 'text-gray-500'}>该图表暂不可用</p>
+            </div>
           </BaseChart>
         );
       case 'dip':
@@ -499,104 +396,110 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
         );
       case 'dunning':
         return (
-          <div className="w-full h-full flex items-center justify-center">
-            <svg width="100%" height="100%" viewBox="0 0 400 350" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
-              {/* 背景分区 - 调整自信成熟区范围 */}
-              <rect x="50" y="50" width="80" height="200" fill="#FFD700" opacity="0.3" />
-              <rect x="130" y="50" width="80" height="200" fill="#FF6B6B" opacity="0.3" />
-              <rect x="210" y="50" width="80" height="200" fill="#4ECDC4" opacity="0.3" />
-              <rect x="290" y="50" width="60" height="200" fill="#45B7D1" opacity="0.3" />
+          <div className="flex flex-col w-full h-full">
+            <BaseChart data={dunningKrugerData} isDark={isDark} height={chartHeight}>
+              <LineChart data={dunningKrugerData} animationDuration={1000} margin={{ top: 20, right: 40, left: 50, bottom: 50 }}>
+                <CartesianGrid strokeDasharray={chartConfig.grid.strokeDasharray} stroke={getGridColor(isDark)} />
+                <XAxis 
+                  dataKey="knowledge" 
+                  name="知识水平" 
+                  label={{ value: '知识水平', position: 'insideBottomRight', offset: -10, fontSize: chartConfig.fontSize.axisLabel }}
+                  tick={{ fontSize: chartConfig.fontSize.axisTick }}
+                  stroke={chartConfig.axis.stroke}
+                />
+                <YAxis 
+                  name="自信程度" 
+                  label={{ value: '自信程度', angle: -90, position: 'insideLeft', fontSize: chartConfig.fontSize.axisLabel }}
+                  tick={{ fontSize: chartConfig.fontSize.axisTick }}
+                  stroke={chartConfig.axis.stroke}
+                />
+                <Tooltip 
+                  contentStyle={getTooltipStyle(isDark).contentStyle} 
+                  cursor={getTooltipStyle(isDark).cursor}
+                />
+                <Legend wrapperStyle={chartConfig.legend.wrapperStyle} />
+                <ReferenceLine y={40} stroke="#ef4444" strokeDasharray={chartConfig.grid.strokeDasharray} label={{ value: '绝望之谷', position: 'right', fontSize: chartConfig.fontSize.axisLabel }} />
+                <ReferenceLine x={30} stroke="#ef4444" strokeDasharray={chartConfig.grid.strokeDasharray} />
+                <Line 
+                  type="monotone" 
+                  dataKey="confidence" 
+                  stroke="#ec4899" 
+                  strokeWidth={3} 
+                  dot={{ r: 4 }}
+                  activeDot={{ r: 6 }}
+                  name="自信程度"
+                />
+                <Scatter 
+                  data={[
+                    { knowledge: 0, confidence: 95, special: true },
+                    { knowledge: 30, confidence: 40, special: true },
+                    { knowledge: 60, confidence: 70, special: true },
+                    { knowledge: 100, confidence: 90, special: true }
+                  ]} 
+                  fill="#ef4444"
+                  name="关键阶段"
+                  shape={<circle r={6} stroke="#ffffff" strokeWidth={2} />}
+                />
+                {/* 标题 */}
+                <text x="50%" y="30" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={chartConfig.fontSize.title} fontWeight="bold">
+                  达克效应
+                </text>
+                <text x="50%" y="50" textAnchor="middle" fill={isDark ? '#a1a1aa' : '#64748b'} fontSize={14}>
+                  描述人们对自己能力的认知随知识水平变化的过程
+                </text>
+              </LineChart>
+            </BaseChart>
+            
+            {/* 优化后的达克效应阶段图标 */}
+            <div className="grid grid-cols-4 gap-2 p-4">
+              {/* 愚昧之巅 */}
+              <div className="flex flex-col items-center text-center">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-yellow-400 to-orange-600 flex items-center justify-center mb-1">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="12" y1="8" x2="12" y2="12" />
+                    <line x1="12" y1="16" x2="12.01" y2="16" />
+                    <line x1="8" y1="12" x2="12" y2="12" />
+                    <line x1="16" y1="12" x2="12" y2="12" />
+                  </svg>
+                </div>
+                <span className="text-xs font-medium">愚昧之巅</span>
+              </div>
               
-              {/* 曲线 - 优化流畅度 */}
-              <path d="M70,70 C90,50 110,90 130,110 C150,130 170,170 190,190 C210,170 230,130 250,110 C270,90 290,70 310,60 C330,50 350,45 370,50" 
-                    fill="none" stroke={isDark ? '#ffffff' : '#000000'} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+              {/* 绝望之谷 */}
+              <div className="flex flex-col items-center text-center">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center mb-1">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                  </svg>
+                </div>
+                <span className="text-xs font-medium">绝望之谷</span>
+              </div>
               
-              {/* 关键节点 - 优化样式 */}
-              <circle cx="70" cy="70" r="6" fill="#FF0000" stroke="#FFFFFF" strokeWidth="2" />
-              <circle cx="190" cy="190" r="6" fill="#FF0000" stroke="#FFFFFF" strokeWidth="2" />
-              <circle cx="250" cy="110" r="6" fill="#FF0000" stroke="#FFFFFF" strokeWidth="2" />
-              <circle cx="370" cy="50" r="6" fill="#FF0000" stroke="#FFFFFF" strokeWidth="2" />
+              {/* 开悟之坡 */}
+              <div className="flex flex-col items-center text-center">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center mb-1">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                  </svg>
+                </div>
+                <span className="text-xs font-medium">开悟之坡</span>
+              </div>
               
-              {/* 关键节点标注 - 优化位置和样式 */}
-              <text x="70" y="45" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="12" fontWeight="bold">愚昧之巅</text>
-              <text x="190" y="210" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="12" fontWeight="bold">绝望之谷</text>
-              <text x="250" y="85" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="12" fontWeight="bold">开悟之坡</text>
-              <text x="370" y="30" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="12" fontWeight="bold">平稳高原</text>
-              
-              {/* 区域名称 - 统一文本颜色为黑色 */}
-              <text x="90" y="215" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="12" fontWeight="bold">自信爆棚区</text>
-              <text x="170" y="215" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="12" fontWeight="bold">自信崩溃区</text>
-              <text x="250" y="215" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="12" fontWeight="bold">自信重建区</text>
-              <text x="320" y="215" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="12" fontWeight="bold">自信成熟区</text>
-              
-              {/* 表现标签 - 优化位置 */}
-              <text x="90" y="285" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="14" fontWeight="bold">巨婴</text>
-              <text x="170" y="285" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="14" fontWeight="bold">屌丝</text>
-              <text x="250" y="285" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="14" fontWeight="bold">智者</text>
-              <text x="320" y="285" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="14" fontWeight="bold">大师</text>
-              
-              {/* 图标 - 自信爆棚区人物 - 优化精致度 */}
-              <g transform="translate(90, 140)">
-                <circle cx="0" cy="0" r="15" fill="#FFD700" opacity="0.9" />
-                <circle cx="-5" cy="-3" r="2" fill="#000000" />
-                <circle cx="5" cy="-3" r="2" fill="#000000" />
-                <path d="M-5,3 Q0,7 5,3" stroke="#000000" strokeWidth="2" fill="none" />
-                <rect x="-12" y="15" width="24" height="28" fill="#FFD700" opacity="0.9" rx="3" />
-                <rect x="-18" y="22" width="10" height="2" fill="#FFD700" opacity="0.9" rx="1" />
-                <rect x="8" y="22" width="10" height="2" fill="#FFD700" opacity="0.9" rx="1" />
-                <path d="M-12,32 L-20,45" stroke="#FFD700" strokeWidth="3" strokeLinecap="round" />
-                <path d="M12,32 L20,45" stroke="#FFD700" strokeWidth="3" strokeLinecap="round" />
-                <path d="M-12,40 L-18,52" stroke="#FFD700" strokeWidth="3" strokeLinecap="round" />
-                <path d="M12,40 L18,52" stroke="#FFD700" strokeWidth="3" strokeLinecap="round" />
-              </g>
-              
-              {/* 图标 - 自信崩溃区（绝望之谷） - 重新设计 */}
-              <g transform="translate(170, 140)">
-                <circle cx="0" cy="0" r="15" fill="#FF6B6B" opacity="0.9" />
-                <path d="M-8,2 Q0,8 8,2" stroke="#000000" strokeWidth="2" fill="none" />
-                <path d="M-10,-5 L-15,-10" stroke="#000000" strokeWidth="2" strokeLinecap="round" />
-                <path d="M10,-5 L15,-10" stroke="#000000" strokeWidth="2" strokeLinecap="round" />
-                <path d="M-12,15 Q-6,25 -6,35" stroke="#FF6B6B" strokeWidth="3" fill="none" />
-                <path d="M12,15 Q6,25 6,35" stroke="#FF6B6B" strokeWidth="3" fill="none" />
-                <path d="M-6,35 L-12,45" stroke="#FF6B6B" strokeWidth="3" strokeLinecap="round" />
-                <path d="M6,35 L12,45" stroke="#FF6B6B" strokeWidth="3" strokeLinecap="round" />
-              </g>
-              
-              {/* 图标 - 自信重建区 - 重新设计 */}
-              <g transform="translate(250, 140)">
-                <path d="M0,35 L0,10 L20,25" fill="none" stroke="#4ECDC4" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
-                <circle cx="20" cy="25" r="4" fill="#4ECDC4" />
-                <path d="M0,10 L-10,15" fill="none" stroke="#4ECDC4" strokeWidth="2" strokeLinecap="round" />
-                <path d="M0,15 L-8,20" fill="none" stroke="#4ECDC4" strokeWidth="2" strokeLinecap="round" />
-                <path d="M0,20 L-6,25" fill="none" stroke="#4ECDC4" strokeWidth="2" strokeLinecap="round" />
-              </g>
-              
-              {/* 图标 - 自信成熟区大脑 - 重新设计 */}
-              <g transform="translate(320, 140)">
-                <path d="M0,-18 C-20,-18 -25,0 -25,12 C-25,24 -12,32 0,32 C12,32 25,24 25,12 C25,0 20,-18 0,-18 Z" fill="#45B7D1" opacity="0.9" />
-                <path d="M-20,5 Q0,15 20,5" stroke="#FFFFFF" strokeWidth="2" fill="none" />
-                <path d="M-20,12 Q0,22 20,12" stroke="#FFFFFF" strokeWidth="2" fill="none" />
-                <path d="M-15,-5 Q0,5 15,-5" stroke="#FFFFFF" strokeWidth="2" fill="none" />
-                <circle cx="-12" cy="3" r="2" fill="#FFFFFF" />
-                <circle cx="12" cy="3" r="2" fill="#FFFFFF" />
-              </g>
-              
-              {/* 坐标轴 - 优化样式 */}
-              <line x1="50" y1="50" x2="50" y2="250" stroke={isDark ? '#ffffff' : '#000000'} strokeWidth="2" />
-              <line x1="50" y1="250" x2="390" y2="250" stroke={isDark ? '#ffffff' : '#000000'} strokeWidth="2" />
-              
-              {/* 坐标轴刻度 - 新增 */}
-              {[50, 100, 150, 200, 250].map(y => (
-                <line key={`y-${y}`} x1="47" y1={y} x2="53" y2={y} stroke={isDark ? '#ffffff' : '#000000'} strokeWidth="1" />
-              ))}
-              {[100, 150, 200, 250, 300, 350, 390].map(x => (
-                <line key={`x-${x}`} x1={x} y1={247} x2={x} y2={253} stroke={isDark ? '#ffffff' : '#000000'} strokeWidth="1" />
-              ))}
-              
-              {/* 坐标轴标签 - 优化位置和样式 */}
-              <text x="20" y="150" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="12" fontWeight="bold" transform="rotate(-90, 20, 150)">自信程度（高→低）</text>
-              <text x="220" y="285" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="12" fontWeight="bold">智慧水平（知识与经验，低→高）</text>
-            </svg>
+              {/* 大师境界 */}
+              <div className="flex flex-col items-center text-center">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-400 to-indigo-600 flex items-center justify-center mb-1">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="12" y1="16" x2="12" y2="12" />
+                    <line x1="12" y1="8" x2="12.01" y2="8" />
+                  </svg>
+                </div>
+                <span className="text-xs font-medium">大师境界</span>
+              </div>
+            </div>
           </div>
         );
       case 'jcurve':
@@ -691,52 +594,54 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
         );
       case 'antifragile':
         return (
-          <BaseChart data={antifragileData} isDark={isDark} height={chartHeight}>
-            <AreaChart data={antifragileData} animationDuration={1000} margin={{ top: 20, right: 40, left: 50, bottom: 50 }}>
+          <BaseChart data={antifragilityData} isDark={isDark} height={chartHeight}>
+            <AreaChart data={antifragilityData} animationDuration={1000} margin={{ top: 20, right: 40, left: 50, bottom: 50 }}>
               <defs>
-                <linearGradient id="colorFragile" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#ef4444" stopOpacity={0.4}/>
-                  <stop offset="95%" stopColor="#ef4444" stopOpacity={0.05}/>
-                </linearGradient>
-                <linearGradient id="colorRobust" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.4}/>
-                  <stop offset="95%" stopColor="#3b82f6" stopOpacity={0.05}/>
-                </linearGradient>
-                <linearGradient id="colorAntifragile" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#10b981" stopOpacity={0.4}/>
-                  <stop offset="95%" stopColor="#10b981" stopOpacity={0.05}/>
+                <linearGradient id="colorAntifragility" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#10b981" stopOpacity={isDark ? 0.4 : 0.3} />
+                  <stop offset="95%" stopColor="#10b981" stopOpacity={0.05} />
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray={chartConfig.grid.strokeDasharray} stroke={getGridColor(isDark)} />
-              <XAxis dataKey="stress" stroke={chartConfig.axis.stroke} tick={{ fontSize: chartConfig.fontSize.axisTick }} label={{ value: '压力水平', position: 'insideBottom', offset: 0, fontSize: chartConfig.fontSize.axisLabel }} domain={[0, 100]} />
-              <YAxis stroke={chartConfig.axis.stroke} tick={{ fontSize: chartConfig.fontSize.axisTick }} label={{ value: '韧性值', angle: -90, position: 'insideLeft', offset: 0, fontSize: chartConfig.fontSize.axisLabel }} domain={[0, 'dataMax + 20']} />
+              <XAxis 
+                dataKey="stress" 
+                name="压力水平" 
+                label={{ value: '压力水平', position: 'insideBottomRight', offset: -5, fontSize: chartConfig.fontSize.axisLabel }}
+                tick={{ fontSize: chartConfig.fontSize.axisTick }}
+                stroke={chartConfig.axis.stroke}
+              />
+              <YAxis 
+                name="表现水平" 
+                label={{ value: '表现水平', angle: -90, position: 'insideLeft', fontSize: chartConfig.fontSize.axisLabel }}
+                tick={{ fontSize: chartConfig.fontSize.axisTick }}
+                stroke={chartConfig.axis.stroke}
+              />
               <Legend wrapperStyle={chartConfig.legend.wrapperStyle} />
-              <Area type="monotone" dataKey="fragile" stroke={chartConfig.colors.danger} fill="url(#colorFragile)" name="脆弱系统" />
-              <Area type="monotone" dataKey="robust" stroke={chartConfig.colors.primary} fill="url(#colorRobust)" name="强韧系统" />
-              <Area type="monotone" dataKey="antifragile" stroke={chartConfig.colors.secondary} fill="url(#colorAntifragile)" name="反脆弱系统" />
-              
-              {/* 关键节点标注 */}
-              <circle cx="50" cy={200} r={6} fill="#ef4444" stroke="#ffffff" strokeWidth={2} />
-              <text x="50" y={215} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
-                低压力区
-              </text>
-              
-              <circle cx="200" cy={100} r={6} fill="#3b82f6" stroke="#ffffff" strokeWidth={2} />
-              <text x="200" y={115} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
-                中等压力区
-              </text>
-              
-              <circle cx="350" cy={60} r={6} fill="#10b981" stroke="#ffffff" strokeWidth={2} />
-              <text x="350" y={45} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
-                高压力区
-              </text>
-              
+              <ReferenceLine x={50} stroke="#ef4444" strokeDasharray={chartConfig.grid.strokeDasharray} label={{ value: '崩溃点', position: 'top', fontSize: chartConfig.fontSize.axisLabel }} />
+              <ReferenceLine x={20} stroke="#3b82f6" strokeDasharray={chartConfig.grid.strokeDasharray} label={{ value: '恢复点', position: 'top', fontSize: chartConfig.fontSize.axisLabel }} />
+              <Area 
+                type="monotone" 
+                dataKey="performance" 
+                stroke="#10b981" 
+                strokeWidth={3} 
+                fillOpacity={1} 
+                fill="url(#colorAntifragility)"
+                name="反脆弱表现"
+              />
+              <Scatter 
+                data={[
+                  { stress: 20, performance: 55, special: true },
+                  { stress: 35, performance: 100, special: true },
+                  { stress: 50, performance: 40, special: true }
+                ]} 
+                fill="#ef4444"
+                name="关键转折点"
+                shape={<circle r={6} stroke="#ffffff" strokeWidth={2} />}
+              />
               {/* 标题 */}
               <text x="50%" y="20" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={chartConfig.fontSize.title} fontWeight="bold">
-                反脆弱 - 压力与韧性关系
+                反脆弱效应
               </text>
-              
-              {/* 副标题 */}
               <text x="50%" y="40" textAnchor="middle" fill={isDark ? '#a1a1aa' : '#64748b'} fontSize={14}>
                 脆弱系统随压力增加而崩溃，强韧系统保持稳定，反脆弱系统从压力中获益
               </text>
@@ -746,84 +651,53 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       case 'secondcurve':
         return (
           <BaseChart data={secondCurveData} isDark={isDark} height={chartHeight}>
-            <AreaChart data={secondCurveData} animationDuration={1000} margin={{ top: 20, right: 40, left: 50, bottom: 50 }}>
-              <defs>
-                <linearGradient id="colorCurve1" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor={chartConfig.colors.primary} stopOpacity={0.4}/>
-                  <stop offset="95%" stopColor={chartConfig.colors.primary} stopOpacity={0.05}/>
-                </linearGradient>
-                <linearGradient id="colorCurve2" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor={chartConfig.colors.secondary} stopOpacity={0.4}/>
-                  <stop offset="95%" stopColor={chartConfig.colors.secondary} stopOpacity={0.05}/>
-                </linearGradient>
-              </defs>
+            <LineChart data={secondCurveData} animationDuration={1000} margin={{ top: 20, right: 40, left: 50, bottom: 50 }}>
               <CartesianGrid strokeDasharray={chartConfig.grid.strokeDasharray} stroke={getGridColor(isDark)} />
               <XAxis 
-                dataKey="t" 
-                stroke={chartConfig.axis.stroke} 
-                tick={{ fontSize: chartConfig.fontSize.axisTick }} 
-                label={{ 
-                  value: '时间', 
-                  position: 'insideBottom', 
-                  offset: -10, 
-                  fontSize: chartConfig.fontSize.axisLabel, 
-                  fontWeight: 'bold'
-                }} 
+                dataKey="time" 
+                name="时间" 
+                label={{ value: '时间', position: 'insideBottomRight', offset: -5, fontSize: chartConfig.fontSize.axisLabel }}
+                tick={{ fontSize: chartConfig.fontSize.axisTick }}
+                stroke={chartConfig.axis.stroke}
               />
               <YAxis 
-                stroke={chartConfig.axis.stroke} 
-                tick={{ fontSize: chartConfig.fontSize.axisTick }} 
-                label={{ 
-                  value: '增长值', 
-                  angle: -90, 
-                  position: 'insideLeft', 
-                  offset: -5, 
-                  fontSize: chartConfig.fontSize.axisLabel, 
-                  fontWeight: 'bold'
-                }} 
-                domain={[0, 'dataMax + 20']} 
+                name="业务规模" 
+                label={{ value: '业务规模', angle: -90, position: 'insideLeft', fontSize: chartConfig.fontSize.axisLabel }}
+                tick={{ fontSize: chartConfig.fontSize.axisTick }}
+                stroke={chartConfig.axis.stroke}
+                domain={[0, 'dataMax + 20']}
               />
               <Legend wrapperStyle={chartConfig.legend.wrapperStyle} />
-              <Area type="monotone" dataKey="curve1" stroke={chartConfig.colors.primary} fill="url(#colorCurve1)" name="第一曲线" />
-              <Area type="monotone" dataKey="curve2" stroke={chartConfig.colors.secondary} fill="url(#colorCurve2)" name="第二曲线" />
-              
-              {/* 关键节点标注 */}
-              <circle cx="250" cy={180} r={6} fill="#3b82f6" stroke="#ffffff" strokeWidth={2} />
-              <text x="250" y={195} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
-                第一曲线峰值
-              </text>
-              
-              <circle cx="350" cy={150} r={6} fill="#10b981" stroke="#ffffff" strokeWidth={2} />
-              <text x="350" y={165} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
-                第二曲线超越点
-              </text>
-              
-              <circle cx="200" cy={250} r={6} fill="#ef4444" stroke="#ffffff" strokeWidth={2} />
-              <text x="200" y={265} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
-                第二曲线启动
-              </text>
-              
-              {/* 阶段划分标识 */}
-              <line x1="100" y1="50" x2="100" y2="300" stroke="#ef4444" strokeWidth={2} strokeDasharray="3 3" />
-              <text x="80" y="70" textAnchor="end" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
-                转型期
-              </text>
-              
-              <line x1="250" y1="50" x2="250" y2="300" stroke="#10b981" strokeWidth={2} strokeDasharray="3 3" />
-              <text x="270" y="70" textAnchor="start" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
-                超越期
-              </text>
-              
-              {/* 标题 */}
-              <text x="50%" y="20" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={chartConfig.fontSize.title} fontWeight="bold">
-                第二曲线 - 持续增长模型
-              </text>
-              
-              {/* 副标题 */}
-              <text x="50%" y="40" textAnchor="middle" fill={isDark ? '#a1a1aa' : '#64748b'} fontSize={14}>
-                展示企业或个人发展的生命周期，通过第二曲线实现持续增长
-              </text>
-            </AreaChart>
+              <ReferenceLine x={7} stroke="#f59e0b" strokeDasharray={chartConfig.grid.strokeDasharray} label={{ value: '交叉点', position: 'top', fontSize: chartConfig.fontSize.axisLabel }} />
+              <Line 
+                type="monotone" 
+                dataKey="first" 
+                stroke="#3b82f6" 
+                strokeWidth={3} 
+                dot={{ r: 4 }}
+                activeDot={{ r: 6 }}
+                name="第一曲线"
+              />
+              <Line 
+                type="monotone" 
+                dataKey="second" 
+                stroke="#8b5cf6" 
+                strokeWidth={3} 
+                dot={{ r: 4 }}
+                activeDot={{ r: 6 }}
+                name="第二曲线"
+              />
+              <Scatter 
+                data={[
+                  { time: 5, first: 90, second: 0, special: true },
+                  { time: 7, first: 75, second: 55, special: true },
+                  { time: 10, first: 20, second: 130, special: true }
+                ]} 
+                fill="#f59e0b"
+                name="关键节点"
+                shape={<circle r={6} stroke="#ffffff" strokeWidth={2} />}
+              />
+            </LineChart>
           </BaseChart>
         );
       case 'flywheel':
@@ -885,76 +759,75 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
         );
       case 'compound':
         return (
-          <BaseChart data={compoundData} isDark={isDark} height={chartHeight}>
-            <AreaChart data={compoundData} animationDuration={1000} margin={{ top: 20, right: 40, left: 50, bottom: 50 }}>
+          <BaseChart data={compoundInterestData} isDark={isDark} height={chartHeight}>
+            <AreaChart data={compoundInterestData} animationDuration={1000} margin={{ top: 20, right: 40, left: 50, bottom: 50 }}>
               <defs>
-                <linearGradient id="colorBetter" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#10b981" stopOpacity={0.4}/>
-                  <stop offset="95%" stopColor="#10b981" stopOpacity={0.05}/>
+                <linearGradient id="colorPrincipal" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#3b82f6" stopOpacity={isDark ? 0.4 : 0.3} />
+                  <stop offset="95%" stopColor="#3b82f6" stopOpacity={0.05} />
                 </linearGradient>
-                <linearGradient id="colorWorse" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#ef4444" stopOpacity={0.4}/>
-                  <stop offset="95%" stopColor="#ef4444" stopOpacity={0.05}/>
+                <linearGradient id="colorCompound" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#f59e0b" stopOpacity={isDark ? 0.4 : 0.3} />
+                  <stop offset="95%" stopColor="#f59e0b" stopOpacity={0.05} />
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray={chartConfig.grid.strokeDasharray} stroke={getGridColor(isDark)} />
               <XAxis 
-                dataKey="day" 
-                stroke={chartConfig.axis.stroke} 
-                label={{ 
-                  value: '天数', 
-                  position: 'insideBottom', 
-                  offset: -10, 
-                  fontSize: chartConfig.fontSize.axisLabel, 
-                  fontWeight: 'bold'
-                }} 
+                dataKey="year" 
+                name="年份" 
+                label={{ value: '年份', position: 'insideBottomRight', offset: -5, fontSize: chartConfig.fontSize.axisLabel }}
+                tick={{ fontSize: chartConfig.fontSize.axisTick }}
+                stroke={chartConfig.axis.stroke}
               />
               <YAxis 
-                stroke={chartConfig.axis.stroke} 
-                label={{ 
-                  value: '累积效应 (倍数)', 
-                  angle: -90, 
-                  position: 'insideLeft', 
-                  offset: -5, 
-                  fontSize: chartConfig.fontSize.axisLabel, 
-                  fontWeight: 'bold'
-                }} 
-                domain={[0, 'dataMax + 50']} 
-                tickFormatter={(value) => value.toFixed(0) + 'x'}
+                name="金额" 
+                label={{ value: '金额 (元)', angle: -90, position: 'insideLeft', fontSize: chartConfig.fontSize.axisLabel }}
+                tick={{ fontSize: chartConfig.fontSize.axisTick }}
+                stroke={chartConfig.axis.stroke}
+                tickFormatter={(value) => `¥${value}`}
               />
               <Legend wrapperStyle={chartConfig.legend.wrapperStyle} />
-              <Area type="monotone" dataKey="better" stroke="#10b981" fill="url(#colorBetter)" name="每天进步1%" />
-              <Area type="monotone" dataKey="worse" stroke="#ef4444" fill="url(#colorWorse)" name="每天退步1%" />
-              
-              {/* 关键节点标注 */}
-              <circle cx="120" cy={200} r={6} fill="#10b981" stroke="#ffffff" strokeWidth={2} />
-              <text x="120" y={215} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
-                30天: 1.35倍
+              <ReferenceLine x={10} stroke="#10b981" strokeDasharray={chartConfig.grid.strokeDasharray} label={{ value: '10年', position: 'top', fontSize: chartConfig.fontSize.axisLabel }} />
+              <ReferenceLine x={20} stroke="#10b981" strokeDasharray={chartConfig.grid.strokeDasharray} label={{ value: '20年', position: 'top', fontSize: chartConfig.fontSize.axisLabel }} />
+              <ReferenceLine x={30} stroke="#10b981" strokeDasharray={chartConfig.grid.strokeDasharray} label={{ value: '30年', position: 'top', fontSize: chartConfig.fontSize.axisLabel }} />
+              <Area 
+                type="monotone" 
+                dataKey="principal" 
+                stroke="#3b82f6" 
+                strokeWidth={3} 
+                fillOpacity={1} 
+                fill="url(#colorPrincipal)"
+                name="本金增长"
+              />
+              <Area 
+                type="monotone" 
+                dataKey="compound" 
+                stroke="#f59e0b" 
+                strokeWidth={3} 
+                fillOpacity={1} 
+                fill="url(#colorCompound)"
+                name="复利增长"
+              />
+              <Scatter 
+                data={[
+                  { year: 10, principal: 2000, compound: 2594, special: true },
+                  { year: 20, principal: 3000, compound: 6727, special: true },
+                  { year: 30, principal: 4000, compound: 17449, special: true }
+                ]} 
+                fill="#10b981"
+                name="关键时间点"
+                shape={<circle r={6} stroke="#ffffff" strokeWidth={2} />}
+              />
+              {/* 标题 */}
+              <text x="50%" y="20" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={chartConfig.fontSize.title} fontWeight="bold">
+                复利效应
               </text>
-              
+              <text x="50%" y="40" textAnchor="middle" fill={isDark ? '#a1a1aa' : '#64748b'} fontSize={14}>
+                本金增长与复利增长的对比，展示时间对投资增长的巨大影响
+              </text>
               <circle cx="180" cy={150} r={6} fill="#10b981" stroke="#ffffff" strokeWidth={2} />
               <text x="180" y={165} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
                 60天: 1.82倍
-              </text>
-              
-              <circle cx="240" cy={100} r={6} fill="#10b981" stroke="#ffffff" strokeWidth={2} />
-              <text x="240" y={115} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
-                90天: 2.45倍
-              </text>
-              
-              <circle cx="350" cy={60} r={6} fill="#10b981" stroke="#ffffff" strokeWidth={2} />
-              <text x="350" y={75} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
-                1年: 37.78倍
-              </text>
-              
-              {/* 标题 */}
-              <text x="50%" y="20" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={chartConfig.fontSize.title} fontWeight="bold">
-                复利效应 - 每天1%的力量
-              </text>
-              
-              {/* 副标题 */}
-              <text x="50%" y={40} textAnchor="middle" fill={isDark ? '#a1a1aa' : '#64748b'} fontSize={14}>
-                展示时间维度与增长倍数的直观对比，每天1%的差异带来巨大累积效应
               </text>
             </AreaChart>
           </BaseChart>
@@ -1385,18 +1258,68 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
     { stress: 100, fragile: 0, robust: 75, antifragile: 190 },
   ];
 
+  // 反脆弱图表数据
+  const antifragilityData = [
+    { stress: 0, performance: 50, label: '稳定状态' },
+    { stress: 5, performance: 48, label: '轻微压力' },
+    { stress: 10, performance: 45, label: '适度压力' },
+    { stress: 15, performance: 40, label: '较大压力' },
+    { stress: 20, performance: 55, label: '恢复点' },
+    { stress: 25, performance: 65, label: '成长点' },
+    { stress: 30, performance: 80, label: '快速成长' },
+    { stress: 35, performance: 100, label: '反脆弱峰值' },
+    { stress: 40, performance: 95, label: '持续成长' },
+    { stress: 45, performance: 90, label: '接近极限' },
+    { stress: 50, performance: 40, label: '崩溃点' },
+  ];
+
+  // 第二曲线图表数据
   const secondCurveData = [
-    { t: 0, curve1: 10, curve2: 0 },
-    { t: 1, curve1: 20, curve2: 0 },
-    { t: 2, curve1: 40, curve2: 0 },
-    { t: 3, curve1: 70, curve2: 0 },
-    { t: 4, curve1: 100, curve2: 10 },
-    { t: 5, curve1: 130, curve2: 30 },
-    { t: 6, curve1: 160, curve2: 60 },
-    { t: 7, curve1: 180, curve2: 100 },
-    { t: 8, curve1: 190, curve2: 150 },
-    { t: 9, curve1: 195, curve2: 210 },
-    { t: 10, curve1: 198, curve2: 280 },
+    { time: 0, first: 0, second: 0, label: '起点' },
+    { time: 1, first: 10, second: 0, label: '第一曲线启动' },
+    { time: 2, first: 25, second: 0, label: '第一曲线增长' },
+    { time: 3, first: 45, second: 0, label: '第一曲线加速' },
+    { time: 4, first: 70, second: 5, label: '第二曲线启动' },
+    { time: 5, first: 90, second: 15, label: '第一曲线峰值' },
+    { time: 6, first: 85, second: 30, label: '第二曲线增长' },
+    { time: 7, first: 75, second: 55, label: '交叉点' },
+    { time: 8, first: 60, second: 85, label: '第二曲线超越' },
+    { time: 9, first: 40, second: 110, label: '第二曲线加速' },
+    { time: 10, first: 20, second: 130, label: '第二曲线峰值' },
+  ];
+
+  // 复利效应图表数据
+  const compoundInterestData = [
+    { year: 0, principal: 1000, compound: 1000, label: '初始投资' },
+    { year: 1, principal: 1100, compound: 1100, label: '第1年' },
+    { year: 2, principal: 1200, compound: 1210, label: '第2年' },
+    { year: 3, principal: 1300, compound: 1331, label: '第3年' },
+    { year: 4, principal: 1400, compound: 1464, label: '第4年' },
+    { year: 5, principal: 1500, compound: 1611, label: '第5年' },
+    { year: 6, principal: 1600, compound: 1772, label: '第6年' },
+    { year: 7, principal: 1700, compound: 1949, label: '第7年' },
+    { year: 8, principal: 1800, compound: 2144, label: '第8年' },
+    { year: 9, principal: 1900, compound: 2358, label: '第9年' },
+    { year: 10, principal: 2000, compound: 2594, label: '第10年' },
+    { year: 15, principal: 2500, compound: 4177, label: '第15年' },
+    { year: 20, principal: 3000, compound: 6727, label: '第20年' },
+    { year: 25, principal: 3500, compound: 10835, label: '第25年' },
+    { year: 30, principal: 4000, compound: 17449, label: '第30年' },
+  ];
+
+  // 达克效应图表数据
+  const dunningKrugerData = [
+    { knowledge: 0, confidence: 95, label: '愚昧之巅' },
+    { knowledge: 10, confidence: 90, label: '过度自信' },
+    { knowledge: 20, confidence: 75, label: '开始质疑' },
+    { knowledge: 30, confidence: 40, label: '绝望之谷' },
+    { knowledge: 40, confidence: 50, label: '开始觉悟' },
+    { knowledge: 50, confidence: 60, label: '稳步提升' },
+    { knowledge: 60, confidence: 70, label: '开悟之坡' },
+    { knowledge: 70, confidence: 75, label: '持续成长' },
+    { knowledge: 80, confidence: 80, label: '专业水平' },
+    { knowledge: 90, confidence: 85, label: '精通领域' },
+    { knowledge: 100, confidence: 90, label: '大师境界' },
   ];
 
   const flywheelData = [
@@ -4772,18 +4695,18 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
             >
               {/* 移除分类，将所有图表按钮堆在一起 */}
               <SortableContext
-                items={Object.values(chartCategories).flat()}
+                items={Object.values(chartCategories).flat() as string[]}
                 strategy={verticalListSortingStrategy}
               >
                 <div className="flex flex-wrap gap-3">
                   {/* 遍历所有图表分类的图表ID */}
                   {Object.values(chartCategories).flat().map((chartId) => {
-                    const chart = getChartById(chartId);
+                    const chart = getChartById(chartId as string);
                     if (!chart) return null;
                     return (
                       <SortableButton
                         key={chartId}
-                        id={chartId}
+                        id={chartId as string}
                         chart={chart}
                       />
                     );
