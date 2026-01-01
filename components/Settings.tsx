@@ -15,22 +15,22 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
   const isDark = theme === 'dark';
   const isNeomorphic = theme === 'neomorphic';
   
-  // 拟态风格样式定义，确保与其他组件风格统一
+  // 拟态风格样式定义，确保与作战中心组件风格统一
   const neomorphicStyles = {
     bg: 'bg-[#e0e5ec]',
     border: 'border-[#e0e5ec]',
-    shadow: 'shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)]',
-    hoverShadow: 'hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)]',
-    activeShadow: 'active:shadow-[inset_8px_8px_16px_rgba(163,177,198,0.6),inset_-8px_-8px_16px_rgba(255,255,255,1)]',
-    transition: 'transition-all duration-300'
+    shadow: 'shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]',
+    hoverShadow: 'hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)]',
+    activeShadow: 'active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]',
+    transition: 'transition-all duration-200'
   };
-
-  // 优化拟态风格样式，确保与其他组件风格统一
-  const cardBg = isNeomorphic
-    ? 'bg-[#e0e5ec] rounded-xl shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)] transition-all duration-300 hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] active:shadow-[inset_8px_8px_16px_rgba(163,177,198,0.6),inset_-8px_-8px_16px_rgba(255,255,255,1)]'
-    : isDark
-    ? 'bg-gradient-to-br from-zinc-900 to-zinc-800 shadow-lg'
-    : 'bg-gradient-to-br from-white to-slate-50 shadow-lg';
+  
+  // 卡片背景 - 与作战中心保持一致
+  const cardBg = isNeomorphic 
+      ? `${neomorphicStyles.bg} ${neomorphicStyles.border} rounded-[48px] ${neomorphicStyles.shadow} ${neomorphicStyles.hoverShadow} ${neomorphicStyles.activeShadow} ${neomorphicStyles.transition}` 
+      : isDark 
+      ? 'bg-zinc-900 border-zinc-800 shadow-[inset_-15px_-15px_30px_rgba(255,255,255,0.05),inset_15px_15px_30px_rgba(0,0,0,0.3)]' 
+      : 'bg-white border-slate-200 shadow-[inset_-15px_-15px_30px_rgba(255,255,255,0.8),inset_15px_15px_30px_rgba(0,0,0,0.1)]';
   const textMain = isDark ? 'text-zinc-200' : isNeomorphic ? 'text-zinc-700' : 'text-slate-800';
   const textSub = isDark ? 'text-zinc-500' : isNeomorphic ? 'text-zinc-600' : 'text-slate-500';
   
