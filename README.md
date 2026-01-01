@@ -1,3 +1,10 @@
+<img width="1165" height="860" alt="20260101_140432_105" src="https://github.com/user-attachments/assets/83df7f9c-7ade-4538-af95-cef8f5d205ca" />
+<img width="1165" height="860" alt="20260101_140432_285" src="https://github.com/user-attachments/assets/bee28d35-42b3-4a06-9963-20f2b7249ab0" />
+<img width="1158" height="864" alt="20260101_140500_696" src="https://github.com/user-attachments/assets/f06cbe62-a67b-4f84-8df1-53ad634030d7" />
+<img width="1160" height="855" alt="20260101_140531_036" src="https://github.com/user-attachments/assets/e4d2c49e-f571-450f-8d00-e0f9e6efad75" />
+<img width="1186" height="840" alt="20260101_140546_398" src="https://github.com/user-attachments/assets/105285e4-369c-420c-b977-40ac20e2bfd8" />
+<img width="1184" height="850" alt="20260101_140553_222" src="https://github.com/user-attachments/assets/133cf5e2-7d89-4de4-9664-5bd90cdbde8e" />
+
 # 人生游戏管理系统
 
 一个基于React和Vite构建的人生模拟游戏系统，集成了角色成长、任务管理、商品购买、思维模型可视化等多种功能。
