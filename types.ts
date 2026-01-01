@@ -490,8 +490,6 @@ export interface GuideCardConfig {
     borderRadius: 'small' | 'medium' | 'large';
     /** 阴影强度 */
     shadowIntensity: 'light' | 'medium' | 'strong';
-    /** 是否显示底层原理板块 */
-    showUnderlyingPrinciple: boolean;
 }
 
 /**

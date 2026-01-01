@@ -136,7 +136,7 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
     return (
       <div
         ref={setNodeRef}
-        className={`flex items-center px-4 py-1.5 rounded-[24px] text-xs font-bold transition-all ${getButtonClass(activeChart === id)}`}
+        className={`flex items-center px-4 py-2 rounded-2xl text-xs font-bold transition-all duration-300 ${getButtonClass(activeChart === id)} hover:scale-105 hover:shadow-lg transform hover:-translate-y-0.5`}
         style={style}
         {...attributes}
         onClick={handleClick} // 将点击事件移到外层div，确保整个按钮区域都可以点击
@@ -363,10 +363,12 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
               <defs>
                 <linearGradient id="colorDip" x1="0" y1="0" x2="1" y2="0">
                   <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.8}/>
+                  <stop offset="50%" stopColor="#ef4444" stopOpacity={0.8}/>
                   <stop offset="95%" stopColor="#10b981" stopOpacity={0.8}/>
                 </linearGradient>
                 <linearGradient id="areaDip" x1="0" y1="0" x2="1" y2="1">
                   <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
+                  <stop offset="50%" stopColor="#ef4444" stopOpacity={0.3}/>
                   <stop offset="95%" stopColor="#10b981" stopOpacity={0.3}/>
                 </linearGradient>
               </defs>
@@ -398,6 +400,8 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
                 domain={[0, 130]} 
               />
               <Legend wrapperStyle={chartConfig.legend.wrapperStyle} />
+              
+              {/* 面积填充 */}
               <Area 
                 type="monotone" 
                 dataKey="results" 
@@ -406,6 +410,8 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
                 fill="url(#areaDip)" 
                 name="产出率" 
               />
+              
+              {/* 曲线 - 优化流畅度 */}
               <Line 
                 type="monotone" 
                 dataKey="results" 
@@ -415,30 +421,67 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
                 name="产出率" 
               />
               
-              {/* 关键节点标注 */}
-              <circle cx={50} cy={230} r={6} fill="#ef4444" stroke="#ffffff" strokeWidth={2} />
-              <text x={50} y={245} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
-                初始阶段
-              </text>
+              {/* 关键节点标注 - 使用自定义dot直接放在曲线上 */}
+              <Line 
+                type="monotone" 
+                dataKey="results" 
+                stroke="none" 
+                strokeWidth={0} 
+                dot={(props) => {
+                  const { cx, cy, payload } = props;
+                  if (payload.x === 15) {
+                    return (
+                      <g>
+                        <circle cx={cx} cy={cy} r={6} fill="#ef4444" stroke="#ffffff" strokeWidth={2} />
+                        <text x={cx} y={cy + 20} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
+                          初始阶段
+                        </text>
+                      </g>
+                    );
+                  }
+                  if (payload.x === 50) {
+                    return (
+                      <g>
+                        <circle cx={cx} cy={cy} r={6} fill="#ef4444" stroke="#ffffff" strokeWidth={2} />
+                        <text x={cx} y={cy + 20} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
+                          死亡谷底部
+                        </text>
+                      </g>
+                    );
+                  }
+                  if (payload.x === 75) {
+                    return (
+                      <g>
+                        <circle cx={cx} cy={cy} r={6} fill="#ef4444" stroke="#ffffff" strokeWidth={2} />
+                        <text x={cx} y={cy - 15} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
+                          突破阶段
+                        </text>
+                      </g>
+                    );
+                  }
+                  if (payload.x === 90) {
+                    return (
+                      <g>
+                        <circle cx={cx} cy={cy} r={6} fill="#ef4444" stroke="#ffffff" strokeWidth={2} />
+                        <text x={cx} y={cy - 15} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
+                          指数增长期
+                        </text>
+                      </g>
+                    );
+                  }
+                  return null;
+                }} 
+                name="关键节点" 
+              />
               
-              <circle cx={200} cy={280} r={6} fill="#ef4444" stroke="#ffffff" strokeWidth={2} />
-              <text x={200} y={295} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
-                死亡谷底部
-              </text>
-              
-              <circle cx={350} cy={100} r={6} fill="#ef4444" stroke="#ffffff" strokeWidth={2} />
-              <text x={350} y={115} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
-                突破阶段
-              </text>
-              
-              {/* 区域标注 */}
-              <text x={100} y={150} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={14} fontWeight="bold" fillOpacity={0.7}>
+              {/* 区域标注 - 优化位置和样式 */}
+              <text x="120" y="180" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={14} fontWeight="bold" fillOpacity={0.8}>
                 快速进步期
               </text>
-              <text x={200} y={220} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={14} fontWeight="bold" fillOpacity={0.7}>
+              <text x="200" y="240" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={14} fontWeight="bold" fillOpacity={0.8}>
                 瓶颈期
               </text>
-              <text x={300} y={150} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={14} fontWeight="bold" fillOpacity={0.7}>
+              <text x="300" y="120" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={14} fontWeight="bold" fillOpacity={0.8}>
                 指数增长期
               </text>
               
@@ -447,9 +490,9 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
                 死亡谷效应
               </text>
               
-              {/* 副标题 */}
+              {/* 副标题 - 优化描述 */}
               <text x="50%" y="40" textAnchor="middle" fill={isDark ? '#a1a1aa' : '#64748b'} fontSize={14}>
-                投入度与产出率的关系曲线
+                投入初期快速进步，随后进入瓶颈期，突破后呈指数级增长
               </text>
             </AreaChart>
           </BaseChart>
@@ -458,81 +501,101 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
         return (
           <div className="w-full h-full flex items-center justify-center">
             <svg width="100%" height="100%" viewBox="0 0 400 350" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
-              {/* 背景分区 */}
-              <rect x="50" y="50" width="90" height="200" fill="#FFD700" opacity="0.3" />
-              <rect x="140" y="50" width="90" height="200" fill="#FF6B6B" opacity="0.3" />
-              <rect x="230" y="50" width="90" height="200" fill="#4ECDC4" opacity="0.3" />
-              <rect x="320" y="50" width="30" height="200" fill="#45B7D1" opacity="0.3" />
+              {/* 背景分区 - 调整自信成熟区范围 */}
+              <rect x="50" y="50" width="80" height="200" fill="#FFD700" opacity="0.3" />
+              <rect x="130" y="50" width="80" height="200" fill="#FF6B6B" opacity="0.3" />
+              <rect x="210" y="50" width="80" height="200" fill="#4ECDC4" opacity="0.3" />
+              <rect x="290" y="50" width="60" height="200" fill="#45B7D1" opacity="0.3" />
               
-              {/* 曲线 */}
-              <path d="M70,70 C90,50 110,90 130,110 C150,130 170,170 190,190 C210,170 230,130 250,110 C270,90 290,70 310,60 C330,50 350,50 370,55" 
-                    fill="none" stroke={isDark ? '#ffffff' : '#000000'} strokeWidth="3" strokeLinecap="round" />
+              {/* 曲线 - 优化流畅度 */}
+              <path d="M70,70 C90,50 110,90 130,110 C150,130 170,170 190,190 C210,170 230,130 250,110 C270,90 290,70 310,60 C330,50 350,45 370,50" 
+                    fill="none" stroke={isDark ? '#ffffff' : '#000000'} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
               
-              {/* 关键节点 */}
+              {/* 关键节点 - 优化样式 */}
               <circle cx="70" cy="70" r="6" fill="#FF0000" stroke="#FFFFFF" strokeWidth="2" />
               <circle cx="190" cy="190" r="6" fill="#FF0000" stroke="#FFFFFF" strokeWidth="2" />
               <circle cx="250" cy="110" r="6" fill="#FF0000" stroke="#FFFFFF" strokeWidth="2" />
-              <circle cx="370" cy="55" r="6" fill="#FF0000" stroke="#FFFFFF" strokeWidth="2" />
+              <circle cx="370" cy="50" r="6" fill="#FF0000" stroke="#FFFFFF" strokeWidth="2" />
               
-              {/* 关键节点标注 */}
-              <text x="70" y="45" textAnchor="middle" fill="#FF0000" fontSize="10" fontWeight="bold">愚昧之巅</text>
-              <text x="190" y="210" textAnchor="middle" fill="#FF0000" fontSize="10" fontWeight="bold">绝望之谷</text>
-              <text x="250" y="85" textAnchor="middle" fill="#FF0000" fontSize="10" fontWeight="bold">开悟之坡</text>
-              <text x="370" y="30" textAnchor="middle" fill="#FF0000" fontSize="10" fontWeight="bold">平稳高原</text>
+              {/* 关键节点标注 - 优化位置和样式 */}
+              <text x="70" y="45" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="12" fontWeight="bold">愚昧之巅</text>
+              <text x="190" y="210" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="12" fontWeight="bold">绝望之谷</text>
+              <text x="250" y="85" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="12" fontWeight="bold">开悟之坡</text>
+              <text x="370" y="30" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="12" fontWeight="bold">平稳高原</text>
               
-              {/* 区域名称 */}
-              <text x="95" y="215" textAnchor="middle" fill="#FFD700" fontSize="10" fontWeight="bold">自信爆棚区</text>
-              <text x="185" y="215" textAnchor="middle" fill="#FF6B6B" fontSize="10" fontWeight="bold">自信崩溃区</text>
-              <text x="275" y="215" textAnchor="middle" fill="#4ECDC4" fontSize="10" fontWeight="bold">自信重建区</text>
-              <text x="335" y="215" textAnchor="middle" fill="#45B7D1" fontSize="10" fontWeight="bold">自信成熟区</text>
+              {/* 区域名称 - 统一文本颜色为黑色 */}
+              <text x="90" y="215" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="12" fontWeight="bold">自信爆棚区</text>
+              <text x="170" y="215" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="12" fontWeight="bold">自信崩溃区</text>
+              <text x="250" y="215" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="12" fontWeight="bold">自信重建区</text>
+              <text x="320" y="215" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="12" fontWeight="bold">自信成熟区</text>
               
-              {/* 表现标签 */}
-              <text x="95" y="285" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="12" fontWeight="bold">巨婴</text>
-              <text x="185" y="285" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="12" fontWeight="bold">屌丝</text>
-              <text x="275" y="285" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="12" fontWeight="bold">智者</text>
-              <text x="335" y="285" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="12" fontWeight="bold">大师</text>
+              {/* 表现标签 - 优化位置 */}
+              <text x="90" y="285" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="14" fontWeight="bold">巨婴</text>
+              <text x="170" y="285" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="14" fontWeight="bold">屌丝</text>
+              <text x="250" y="285" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="14" fontWeight="bold">智者</text>
+              <text x="320" y="285" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="14" fontWeight="bold">大师</text>
               
-              {/* 图标 - 自信爆棚区人物 */}
-              <g transform="translate(95, 140)">
-                <circle cx="0" cy="0" r="12" fill="#FFD700" opacity="0.8" />
-                <rect x="-10" y="12" width="20" height="25" fill="#FFD700" opacity="0.8" />
-                <line x1="-8" y1="18" x2="-15" y2="30" stroke="#FFD700" strokeWidth="2" />
-                <line x1="8" y1="18" x2="15" y2="30" stroke="#FFD700" strokeWidth="2" />
-                <line x1="-8" y1="37" x2="-12" y2="48" stroke="#FFD700" strokeWidth="2" />
-                <line x1="8" y1="37" x2="12" y2="48" stroke="#FFD700" strokeWidth="2" />
+              {/* 图标 - 自信爆棚区人物 - 优化精致度 */}
+              <g transform="translate(90, 140)">
+                <circle cx="0" cy="0" r="15" fill="#FFD700" opacity="0.9" />
+                <circle cx="-5" cy="-3" r="2" fill="#000000" />
+                <circle cx="5" cy="-3" r="2" fill="#000000" />
+                <path d="M-5,3 Q0,7 5,3" stroke="#000000" strokeWidth="2" fill="none" />
+                <rect x="-12" y="15" width="24" height="28" fill="#FFD700" opacity="0.9" rx="3" />
+                <rect x="-18" y="22" width="10" height="2" fill="#FFD700" opacity="0.9" rx="1" />
+                <rect x="8" y="22" width="10" height="2" fill="#FFD700" opacity="0.9" rx="1" />
+                <path d="M-12,32 L-20,45" stroke="#FFD700" strokeWidth="3" strokeLinecap="round" />
+                <path d="M12,32 L20,45" stroke="#FFD700" strokeWidth="3" strokeLinecap="round" />
+                <path d="M-12,40 L-18,52" stroke="#FFD700" strokeWidth="3" strokeLinecap="round" />
+                <path d="M12,40 L18,52" stroke="#FFD700" strokeWidth="3" strokeLinecap="round" />
               </g>
               
-              {/* 图标 - 自信崩溃区 */}
-              <g transform="translate(185, 140)">
-                <circle cx="0" cy="0" r="12" fill="#FF6B6B" opacity="0.8" />
-                <path d="M-15,12 Q0,35 15,12" fill="none" stroke="#FF6B6B" strokeWidth="2" />
-                <line x1="-10" y1="5" x2="-15" y2="0" stroke="#FF6B6B" strokeWidth="2" />
-                <line x1="10" y1="5" x2="15" y2="0" stroke="#FF6B6B" strokeWidth="2" />
-                <line x1="-10" y1="10" x2="-15" y2="15" stroke="#FF6B6B" strokeWidth="2" />
-                <line x1="10" y1="10" x2="15" y2="15" stroke="#FF6B6B" strokeWidth="2" />
+              {/* 图标 - 自信崩溃区（绝望之谷） - 重新设计 */}
+              <g transform="translate(170, 140)">
+                <circle cx="0" cy="0" r="15" fill="#FF6B6B" opacity="0.9" />
+                <path d="M-8,2 Q0,8 8,2" stroke="#000000" strokeWidth="2" fill="none" />
+                <path d="M-10,-5 L-15,-10" stroke="#000000" strokeWidth="2" strokeLinecap="round" />
+                <path d="M10,-5 L15,-10" stroke="#000000" strokeWidth="2" strokeLinecap="round" />
+                <path d="M-12,15 Q-6,25 -6,35" stroke="#FF6B6B" strokeWidth="3" fill="none" />
+                <path d="M12,15 Q6,25 6,35" stroke="#FF6B6B" strokeWidth="3" fill="none" />
+                <path d="M-6,35 L-12,45" stroke="#FF6B6B" strokeWidth="3" strokeLinecap="round" />
+                <path d="M6,35 L12,45" stroke="#FF6B6B" strokeWidth="3" strokeLinecap="round" />
               </g>
               
-              {/* 图标 - 自信重建区 */}
-              <g transform="translate(275, 140)">
-                <path d="M0,25 L0,5 L15,20" fill="none" stroke="#4ECDC4" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-                <circle cx="15" cy="20" r="3" fill="#4ECDC4" />
+              {/* 图标 - 自信重建区 - 重新设计 */}
+              <g transform="translate(250, 140)">
+                <path d="M0,35 L0,10 L20,25" fill="none" stroke="#4ECDC4" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+                <circle cx="20" cy="25" r="4" fill="#4ECDC4" />
+                <path d="M0,10 L-10,15" fill="none" stroke="#4ECDC4" strokeWidth="2" strokeLinecap="round" />
+                <path d="M0,15 L-8,20" fill="none" stroke="#4ECDC4" strokeWidth="2" strokeLinecap="round" />
+                <path d="M0,20 L-6,25" fill="none" stroke="#4ECDC4" strokeWidth="2" strokeLinecap="round" />
               </g>
               
-              {/* 图标 - 自信成熟区大脑 */}
-              <g transform="translate(335, 140)">
-                <path d="M0,-15 C-18,-15 -22,0 -22,11 C-22,22 -11,30 0,30 C11,30 22,22 22,11 C22,0 18,-15 0,-15 Z" fill="#45B7D1" opacity="0.8" />
-                <line x1="-15" y1="0" x2="15" y2="0" stroke="#FFFFFF" strokeWidth="2" />
-                <line x1="-15" y1="7" x2="15" y2="7" stroke="#FFFFFF" strokeWidth="2" />
-                <line x1="-15" y1="14" x2="15" y2="14" stroke="#FFFFFF" strokeWidth="2" />
+              {/* 图标 - 自信成熟区大脑 - 重新设计 */}
+              <g transform="translate(320, 140)">
+                <path d="M0,-18 C-20,-18 -25,0 -25,12 C-25,24 -12,32 0,32 C12,32 25,24 25,12 C25,0 20,-18 0,-18 Z" fill="#45B7D1" opacity="0.9" />
+                <path d="M-20,5 Q0,15 20,5" stroke="#FFFFFF" strokeWidth="2" fill="none" />
+                <path d="M-20,12 Q0,22 20,12" stroke="#FFFFFF" strokeWidth="2" fill="none" />
+                <path d="M-15,-5 Q0,5 15,-5" stroke="#FFFFFF" strokeWidth="2" fill="none" />
+                <circle cx="-12" cy="3" r="2" fill="#FFFFFF" />
+                <circle cx="12" cy="3" r="2" fill="#FFFFFF" />
               </g>
               
-              {/* 坐标轴 */}
+              {/* 坐标轴 - 优化样式 */}
               <line x1="50" y1="50" x2="50" y2="250" stroke={isDark ? '#ffffff' : '#000000'} strokeWidth="2" />
               <line x1="50" y1="250" x2="390" y2="250" stroke={isDark ? '#ffffff' : '#000000'} strokeWidth="2" />
               
-              {/* 坐标轴标签 */}
-              <text x="15" y="150" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="10" fontWeight="bold" transform="rotate(-90, 15, 150)">自信程度（高→低）</text>
-              <text x="220" y="270" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="10" fontWeight="bold">智慧水平（知识与经验，低→高）</text>
+              {/* 坐标轴刻度 - 新增 */}
+              {[50, 100, 150, 200, 250].map(y => (
+                <line key={`y-${y}`} x1="47" y1={y} x2="53" y2={y} stroke={isDark ? '#ffffff' : '#000000'} strokeWidth="1" />
+              ))}
+              {[100, 150, 200, 250, 300, 350, 390].map(x => (
+                <line key={`x-${x}`} x1={x} y1={247} x2={x} y2={253} stroke={isDark ? '#ffffff' : '#000000'} strokeWidth="1" />
+              ))}
+              
+              {/* 坐标轴标签 - 优化位置和样式 */}
+              <text x="20" y="150" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="12" fontWeight="bold" transform="rotate(-90, 20, 150)">自信程度（高→低）</text>
+              <text x="220" y="285" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="12" fontWeight="bold">智慧水平（知识与经验，低→高）</text>
             </svg>
           </div>
         );
@@ -1511,7 +1574,7 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
     if (isNeomorphic) {
       return `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow} ${neomorphicStyles.hoverShadow} ${neomorphicStyles.activeShadow} ${neomorphicStyles.transition}`;
     }
-    return isDark ? 'bg-zinc-900 border-zinc-800 text-zinc-500 hover:border-zinc-700' : 'bg-white border-slate-300 text-slate-600 hover:border-slate-200';
+    return isDark ? 'bg-zinc-800 border-zinc-700 text-zinc-400 hover:border-zinc-600 hover:shadow-xl' : 'bg-white border-slate-200 text-slate-700 hover:border-slate-100 hover:shadow-xl';
   };
 
   // 完整的CHARTS数组
@@ -1527,7 +1590,33 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '系统中存在正反馈（放大变化）和负反馈（抑制变化），通过识别和调整反馈回路，可以控制系统的发展方向和稳定性。',
       scope: '目标增长加速、习惯稳定维持、项目风险管控、自媒体运营',
       tips: '1. 找到能触发正反馈的关键节点，强化正向循环；2. 识别负反馈的预警信号，及时调整避免系统崩溃；3. 设计平衡的反馈机制，避免系统过度波动。',
-      practice: '1. 运营自媒体账号时，聚焦"优质内容创作"这个正反馈节点，形成"内容→流量→互动→更多流量"的正循环；2. 学习时，当出现"注意力不集中、错题率上升"的负反馈信号，及时切换任务或休息。'
+      practice: '1. 运营自媒体账号时，聚焦"优质内容创作"这个正反馈节点，形成"内容→流量→互动→更多流量"的正循环；2. 学习时，当出现"注意力不集中、错题率上升"的负反馈信号，及时切换任务或休息。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张系统反馈模型图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用二维坐标布局，X轴水平向右（时间由短到长）、Y轴垂直向上（系统状态由低到高），整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 图表背景采用浅色渐变填充，增强视觉层次感，无明显分区。
+
+  2. 核心元素细节：
+  - 曲线：绘制两条平滑曲线，分别代表不同反馈对系统的影响：
+    1. 正反馈曲线（红色曲线）：随时间呈指数级增长趋势，代表系统变化被放大；
+    2. 负反馈曲线（蓝色曲线）：随时间先上升后趋于稳定，代表系统变化被抑制；
+    3. 综合效果曲线（紫色曲线）：展示正负反馈共同作用下的系统状态变化；
+    曲线线条粗细适中（3px），均使用实线样式；
+  - 区域填充：使用对应颜色的渐变填充每条曲线下方区域，增强视觉表现力，渐变透明度从0.4过渡到0.05；
+  - 文字标注（位置精准，样式工整）：
+    1. 曲线标注文字：在每条曲线旁添加对应颜色的反馈类型文字标注；
+    2. X轴下方标注：「时间」，Y轴左侧标注：「系统状态」；
+    3. 图表顶部中央标注标题：「系统反馈模型」，下方标注副标题：「展示正反馈与负反馈对系统发展的影响」；
+  - 反馈回路图示：在图表右侧添加正反馈和负反馈的回路示意图，用箭头和文字说明反馈机制；
+  - 数据点：在各曲线的关键节点上添加对应颜色的圆点标记（半径5px），增强视觉焦点；
+  - 图例说明：清晰标注三条曲线分别代表的含义，放置在图表右上角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：曲线平滑无锯齿、文字居中/对齐工整、渐变颜色均匀，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     {
       id: 'bottleneckTheory',
@@ -1539,7 +1628,28 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '系统的整体性能由最薄弱的环节（瓶颈）决定，聚焦瓶颈并突破，是提升系统效率的关键。',
       scope: '效率提升优化、项目进度推进、技能短板弥补、工作流程优化',
       tips: '1. 通过数据分析找到当前系统的核心瓶颈；2. 集中资源解决瓶颈问题，而非在非瓶颈环节浪费精力；3. 瓶颈突破后，立刻进入下一轮瓶颈识别。',
-      practice: '1. 发现"数据分析能力不足"是职场提升的瓶颈，集中1个月时间学习数据分析工具和方法；2. 项目推进中，若"供应商交货慢"是瓶颈，优先协调供应商提升交货速度。'
+      practice: '1. 发现"数据分析能力不足"是职场提升的瓶颈，集中1个月时间学习数据分析工具和方法；2. 项目推进中，若"供应商交货慢"是瓶颈，优先协调供应商提升交货速度。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张瓶颈理论图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用流程图布局，展示系统中各个环节的性能瓶颈，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用水平排列的矩形代表系统中的不同环节，通过箭头连接表示流程顺序。
+
+  2. 核心元素细节：
+  - 矩形节点：绘制5-6个水平排列的矩形，代表系统的不同环节，其中一个矩形使用红色填充（代表瓶颈环节），其他使用蓝色填充；
+  - 连接箭头：使用黑色实线箭头连接各个矩形节点，箭头粗细适中；
+  - 文字标注（位置精准，样式工整）：
+    1. 每个矩形节点内标注环节名称，红色矩形标注「瓶颈环节」；
+    2. 矩形下方标注每个环节的性能值；
+    3. 图表顶部中央标注标题：「瓶颈理论（TOC）」，下方标注副标题：「系统的整体性能由最薄弱的环节决定」；
+  - 瓶颈突破图示：在图表下方添加瓶颈突破前后的对比示意图，用文字说明突破瓶颈后的系统性能提升；
+  - 图例说明：清晰标注红色矩形代表瓶颈环节，蓝色矩形代表正常环节，放置在图表右上角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：矩形边角圆润、文字居中/对齐工整、颜色均匀，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     
     // 新增：价值创造类
@@ -1553,7 +1663,31 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '价值的本质是满足他人需求，只有当自身供给与市场需求精准匹配时，才能创造最大价值。',
       scope: '个人优势定位、副业项目设计、职场能力提升、产品功能设计',
       tips: '1. 先站在用户视角列出痛点和需求；2. 对应列出自己能提供的价值；3. 确保价值与需求强相关，能直接解决用户痛点。',
-      practice: '1. 想做职场技能分享副业，先调研目标用户痛点，再设计对应的价值内容；2. 搭建"价值-需求"匹配表，定期更新用户需求。'
+      practice: '1. 想做职场技能分享副业，先调研目标用户痛点，再设计对应的价值内容；2. 搭建"价值-需求"匹配表，定期更新用户需求。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张价值主张画布图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用两栏布局，左侧为用户需求侧，右侧为产品价值侧，中间用虚线分隔，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 每栏内部分为多个区域，分别展示不同类型的需求和价值。
+
+  2. 核心元素细节：
+  - 分区设计：
+    1. 左侧用户侧：分为「用户痛点」「用户需求」「用户增益」三个区域；
+    2. 右侧价值侧：分为「产品功能」「解决方案」「价值主张」三个区域；
+    3. 中间用双向箭头连接，表示需求与价值的匹配关系；
+  - 矩形框：使用浅色背景的矩形框划分各个区域，边框为黑色实线；
+  - 文字标注（位置精准，样式工整）：
+    1. 每个区域内标注对应内容的示例文字；
+    2. 左侧顶部标注「用户侧」，右侧顶部标注「产品/价值侧」；
+    3. 图表顶部中央标注标题：「价值主张画布」，下方标注副标题：「展示用户需求与产品价值的匹配关系」；
+  - 匹配连线：使用彩色虚线连接左侧需求与右侧价值，展示对应匹配关系；
+  - 图例说明：清晰标注各个区域的含义，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：矩形边角圆润、文字居中/对齐工整、颜色均匀，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     {
       id: 'opportunityCost',
@@ -1565,7 +1699,30 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '选择的成本不仅包括直接投入，还包括放弃的最高价值选项，做决策时需综合考虑。',
       scope: '决策权衡优化、资源分配选择、目标优先级排序、职业选择',
       tips: '1. 每次做决策时，列出所有可选方案，并评估每个方案的潜在价值；2. 对比选择方案和被放弃方案的价值，判断决策是否合理；3. 优先选择机会成本最低、长期价值最高的选项。',
-      practice: '1. 纠结"下班后刷短视频"还是"学习技能"，计算机会成本后选择学习技能；2. 设置"决策机会成本分析"功能，辅助理性决策。'
+      practice: '1. 纠结"下班后刷短视频"还是"学习技能"，计算机会成本后选择学习技能；2. 设置"决策机会成本分析"功能，辅助理性决策。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张机会成本思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用对比布局，展示不同选择方案的成本和收益，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用左右或上下对比的方式展示不同选择方案。
+
+  2. 核心元素细节：
+  - 选择方案：
+    1. 设计2-3个选择方案的对比卡片，每个卡片包含「直接成本」「机会成本」「总收益」三个部分；
+    2. 每个卡片使用不同颜色区分，例如方案1用蓝色，方案2用红色，方案3用绿色；
+  - 条形图：在每个卡片内使用水平条形图展示成本和收益的数值对比；
+  - 文字标注（位置精准，样式工整）：
+    1. 每个卡片内标注方案名称和具体数值；
+    2. 图表顶部中央标注标题：「机会成本思维」，下方标注副标题：「展示选择的隐性成本」；
+    3. 在图表底部添加文字说明，解释机会成本的概念；
+  - 对比箭头：使用双向箭头连接不同方案的关键数值，突出对比效果；
+  - 图例说明：清晰标注不同颜色卡片代表的方案，放置在图表右上角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：卡片边角圆润、文字居中/对齐工整、颜色均匀，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     
     // 新增：迭代优化类
@@ -1579,7 +1736,29 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '通过最简版本快速验证价值，再根据反馈迭代优化，比追求完美更高效。',
       scope: '项目快速启动、技能实践落地、副业产品测试、内容创作',
       tips: '1. 提炼目标的核心需求，砍掉非必要的功能和细节；2. 快速推出最简版本，收集用户或市场的反馈；3. 小步快跑，每次迭代只解决1-2个核心问题。',
-      practice: '1. 想做读书分享自媒体，先发布"文字版读书摘要"这个MVP版本，收集反馈后逐步升级；2. 学习写作时，先完成"一篇完整的短文"，再根据反馈修改细节。'
+      practice: '1. 想做读书分享自媒体，先发布"文字版读书摘要"这个MVP版本，收集反馈后逐步升级；2. 学习写作时，先完成"一篇完整的短文"，再根据反馈修改细节。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张最小可行产品思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用流程迭代布局，展示MVP从构思到迭代的完整过程，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用环形或线性流程展示MVP的迭代周期。
+
+  2. 核心元素细节：
+  - 流程节点：设计5个流程节点，分别为「核心需求提炼」「MVP开发」「市场验证」「反馈收集」「迭代优化」，形成一个闭环；
+  - 连接箭头：使用带箭头的曲线连接各个流程节点，形成闭环，箭头方向表示流程顺序；
+  - 节点设计：每个节点使用圆形设计，内部包含对应阶段的图标和文字，节点颜色从浅到深渐变，表示流程推进；
+  - 文字标注（位置精准，样式工整）：
+    1. 每个节点内标注阶段名称和简短描述；
+    2. 图表顶部中央标注标题：「最小可行产品思维」，下方标注副标题：「展示快速验证产品价值的方法」；
+    3. 在图表底部添加文字说明，解释MVP的核心原则；
+  - 迭代图示：在图表右侧添加MVP版本迭代的对比示意图，展示从最简版本到完整产品的演变过程；
+  - 图例说明：清晰标注流程节点的含义，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：节点圆润、文字居中/对齐工整、颜色渐变均匀，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     {
       id: 'buildMeasureLearn',
@@ -1591,7 +1770,30 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '通过"构建→测量→学习"的快速闭环，不断优化方案，实现持续改进。',
       scope: '项目优化推进、习惯调整改进、技能提升训练、内容创作优化',
       tips: '1. 每次循环的时间不宜过长（如1周/1个月），确保迭代速度；2. 测量环节要聚焦核心数据；3. 学习环节要总结可落地的经验，避免空泛的反思。',
-      practice: '1. 优化自媒体内容时，遵循"构建→测量→学习"循环：写文案→统计数据→优化标题写法；2. 设置"迭代循环记录"功能，记录每次构建、测量和学习的经验。'
+      practice: '1. 优化自媒体内容时，遵循"构建→测量→学习"循环：写文案→统计数据→优化标题写法；2. 设置"迭代循环记录"功能，记录每次构建、测量和学习的经验。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张快速迭代循环图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用三角形闭环布局，展示"构建→测量→学习"的迭代循环，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用三角形的三个顶点分别代表循环的三个阶段，形成一个闭环。
+
+  2. 核心元素细节：
+  - 三角形结构：绘制一个等边三角形，三个顶点分别标注「构建」「测量」「学习」；
+  - 循环箭头：使用带箭头的曲线连接三个顶点，形成顺时针的闭环箭头；
+  - 阶段设计：每个顶点使用圆形设计，内部包含对应阶段的图标和文字，圆形颜色分别为蓝色（构建）、红色（测量）、绿色（学习）；
+  - 内容区域：在三角形内部添加每个阶段的具体内容和操作步骤；
+  - 文字标注（位置精准，样式工整）：
+    1. 每个顶点标注阶段名称和简短描述；
+    2. 图表顶部中央标注标题：「快速迭代循环」，下方标注副标题：「展示迭代优化的闭环过程」；
+    3. 在图表底部添加文字说明，解释快速迭代的核心原则；
+  - 迭代次数标识：在三角形外侧添加迭代次数的环形标识，展示循环次数；
+  - 图例说明：清晰标注三个阶段的含义，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：三角形线条平滑、文字居中/对齐工整、颜色均匀，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     // 系统洞察类
     {
@@ -1604,7 +1806,30 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '初始条件的微小变化，可能引发系统长期而巨大的连锁反应，细节对长期结果至关重要。',
       scope: '习惯细节优化、项目风险预判、长期目标初始动作设计、人生规划起点选择',
       tips: '1. 重视长期目标的"初始动作"，确保第一步的方向正确；2. 警惕可能引发负面连锁反应的小漏洞，及时修复；3. 放大正向微小行为的影响，形成复利效应。',
-      practice: '1. 培养"早起"习惯，初始动作是"睡前把闹钟放在床头，且不刷手机"；2. 项目初期，发现小的流程漏洞立刻制定统一标准，避免后期混乱。'
+      practice: '1. 培养"早起"习惯，初始动作是"睡前把闹钟放在床头，且不刷手机"；2. 项目初期，发现小的流程漏洞立刻制定统一标准，避免后期混乱。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张蝴蝶效应图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用对比布局，展示初始微小变化与最终巨大影响的对比关系，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用左右或上下对比的方式展示蝴蝶振翅与风暴的关系。
+
+  2. 核心元素细节：
+  - 初始条件：左侧绘制一只蝴蝶振翅的简化图形，使用蓝色渐变填充，周围有轻微的波纹效果；
+  - 中间过程：使用一系列渐变色的波纹或曲线连接初始条件和最终结果，展示连锁反应的传播过程；
+  - 最终结果：右侧绘制一个简化的风暴或波浪图形，使用红色渐变填充，展示巨大的影响；
+  - 文字标注（位置精准，样式工整）：
+    1. 左侧蝴蝶下方标注「初始微小变化」；
+    2. 中间连接部分标注「连锁反应」；
+    3. 右侧风暴下方标注「最终巨大影响」；
+    4. 图表顶部中央标注标题：「蝴蝶效应」，下方标注副标题：「初始条件微小变化对系统的巨大影响」；
+  - 箭头指示：使用带箭头的曲线连接蝴蝶和风暴，清晰展示因果关系；
+  - 图例说明：清晰标注初始条件、连锁反应和最终结果的含义，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：蝴蝶和风暴图形简洁美观、文字居中/对齐工整、颜色渐变均匀，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     {
       id: 'pathDependency',
@@ -1616,7 +1841,31 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '一旦进入某一路径，就会因惯性力量不断自我强化，初始选择对后续发展方向至关重要。',
       scope: '职业方向选择、技能学习路径规划、习惯养成初始设定、大学专业选择',
       tips: '1. 在做关键选择时，多花时间调研，选择长期有发展潜力的路径；2. 若发现当前路径有误，要及时止损，避免惯性带来的更大损失；3. 利用路径依赖的正向作用，强化有益的初始习惯。',
-      practice: '1. 入门数据分析，选择学习Python而非小众工具，借助路径依赖的惯性不断提升；2. 若发现副业方向市场需求小，及时转型到更有潜力的方向。'
+      practice: '1. 入门数据分析，选择学习Python而非小众工具，借助路径依赖的惯性不断提升；2. 若发现副业方向市场需求小，及时转型到更有潜力的方向。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张路径依赖理论图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用分叉路径布局，展示不同初始选择导致的不同发展路径，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用树状或网状结构展示从初始选择到后续发展的路径分叉。
+
+  2. 核心元素细节：
+  - 初始选择节点：左侧绘制一个圆形节点，标注「初始选择」，使用蓝色渐变填充；
+  - 分叉路径：从初始节点向右延伸出2-3条不同颜色的路径，每条路径代表一种选择方向；
+  - 路径节点：每条路径上设置2-3个节点，标注路径上的关键事件或阶段；
+  - 路径宽度：路径的宽度随发展逐渐变化，展示路径依赖的强化过程；
+  - 终点节点：每条路径的右端设置终点节点，标注该路径的最终结果；
+  - 文字标注（位置精准，样式工整）：
+    1. 每条路径标注路径名称和方向；
+    2. 每个节点标注关键事件或阶段；
+    3. 图表顶部中央标注标题：「路径依赖理论」，下方标注副标题：「初始选择对后续发展的影响」；
+  - 箭头指示：使用带箭头的曲线连接各个节点，清晰展示路径的发展方向；
+  - 图例说明：清晰标注不同路径的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：路径线条平滑、节点设计简洁美观、文字居中/对齐工整、颜色渐变均匀，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     // 价值取舍类
     {
@@ -1629,7 +1878,30 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '做决策时应忽略不可收回的沉没成本，聚焦于未来的机会成本，选择长期价值最高的选项。',
       scope: '项目止损决策、资源重新分配、目标调整优化、是否放弃亏损副业',
       tips: '1. 遇到决策困境时，列出现有选项的机会成本，对比哪个选项的长期价值更高；2. 不要因为"已经投入了很多时间/金钱"而继续坚持无意义的事；3. 优先选择机会成本低、长期收益高的选项。',
-      practice: '1. 已经投入1万元和3个月时间做亏损电商产品，忽略沉没成本，分析机会成本后果断止损；2. 纠结是否继续学习冷门语言，计算机会成本后转而学习热门技能。'
+      practice: '1. 已经投入1万元和3个月时间做亏损电商产品，忽略沉没成本，分析机会成本后果断止损；2. 纠结是否继续学习冷门语言，计算机会成本后转而学习热门技能。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张机会成本与沉没成本权衡图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用对比权衡布局，展示不同成本类型的对比和权衡，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用左右或上下对比的方式展示沉没成本和机会成本的关系。
+
+  2. 核心元素细节：
+  - 天平结构：中央绘制一个天平图形，代表决策权衡；
+  - 沉没成本侧：左侧天平托盘绘制"已投入成本"的图形，使用红色渐变填充，标注「沉没成本」；
+  - 机会成本侧：右侧天平托盘绘制"未来价值"的图形，使用绿色渐变填充，标注「机会成本」；
+  - 对比图表：在天平下方添加对比条形图，展示不同决策选项的沉没成本和机会成本数值；
+  - 决策建议：在图表底部添加决策建议文字，标注「决策原则：忽略沉没成本，聚焦机会成本」；
+  - 文字标注（位置精准，样式工整）：
+    1. 天平两侧标注对应成本类型；
+    2. 对比图表标注不同决策选项；
+    3. 图表顶部中央标注标题：「机会成本与沉没成本权衡」，下方标注副标题：「在决策中权衡不同成本」；
+  - 图例说明：清晰标注沉没成本和机会成本的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：天平图形简洁美观、对比图表清晰、文字居中/对齐工整、颜色渐变均匀，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     {
       id: 'scarcityAbundance',
@@ -1641,7 +1913,31 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '稀缺思维导致竞争和争抢，丰饶思维促进合作和创新，心态决定资源获取方式。',
       scope: '人脉拓展、资源整合、目标实现路径设计、职场合作',
       tips: '1. 遇到资源不足时，不要只想着"争抢"，而是思考"如何合作创造新资源"；2. 主动分享自己的资源，吸引更多人合作；3. 用丰饶思维看待机会，相信总有新的机会出现。',
-      practice: '1. 职场中遇到"晋升名额有限"的情况，主动和同事合作完成重要项目，共同创造价值；2. 学习时缺少资料，主动分享自己的资料到学习群，吸引其他群友分享。'
+      practice: '1. 职场中遇到"晋升名额有限"的情况，主动和同事合作完成重要项目，共同创造价值；2. 学习时缺少资料，主动分享自己的资料到学习群，吸引其他群友分享。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张稀缺与丰饶思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用对比思维布局，展示稀缺思维和丰饶思维的对比，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用左右或上下对比的方式展示两种思维模式的差异。
+
+  2. 核心元素细节：
+  - 稀缺思维侧：左侧绘制一个"有限资源竞争"的图形，使用红色渐变填充，包含少数资源和多个竞争个体；
+  - 丰饶思维侧：右侧绘制一个"无限资源创造"的图形，使用绿色渐变填充，包含丰富资源和多个合作个体；
+  - 对比元素：
+    1. 稀缺侧：有限的资源图标、竞争的人物图标、缩小的箭头；
+    2. 丰饶侧：丰富的资源图标、合作的人物图标、扩大的箭头；
+  - 文字标注（位置精准，样式工整）：
+    1. 左侧标注「稀缺思维」和「资源有限，竞争争抢」；
+    2. 右侧标注「丰饶思维」和「资源无限，合作创新」；
+    3. 图表顶部中央标注标题：「稀缺与丰饶思维」，下方标注副标题：「不同思维模式对资源获取的影响」；
+  - 对比数据：在图表下方添加对比数据，展示两种思维模式下的资源利用效率；
+  - 图例说明：清晰标注稀缺思维和丰饶思维的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：图形简洁美观、对比鲜明、文字居中/对齐工整、颜色渐变均匀，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     // 执行落地类
     {
@@ -1654,7 +1950,30 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '行为倾向于选择阻力最小的路径，通过设计环境可以引导行为朝向目标方向。',
       scope: '习惯养成环境设计、任务执行流程优化、目标启动门槛降低、专注学习环境搭建',
       tips: '1. 优化物理环境，减少好习惯的执行阻力；2. 增加坏习惯的执行阻力；3. 简化任务流程，降低启动门槛。',
-      practice: '1. 想养成"下班回家后健身"的习惯，把健身服放在门口，同时把电视遥控器收起来；2. 优化工作流程，把常用文件放在桌面，设置快捷键简化操作。'
+      practice: '1. 想养成"下班回家后健身"的习惯，把健身服放在门口，同时把电视遥控器收起来；2. 优化工作流程，把常用文件放在桌面，设置快捷键简化操作。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张最小阻力路径法则图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用路径对比布局，展示不同阻力路径的对比，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用上下或左右对比的方式展示阻力大小不同的路径。
+
+  2. 核心元素细节：
+  - 起点和终点：左侧绘制起点节点，右侧绘制终点节点，分别标注「起点」和「终点」；
+  - 阻力路径：
+    1. 低阻力路径：一条平滑的曲线，使用绿色渐变填充，标注「低阻力路径」；
+    2. 高阻力路径：一条曲折的曲线，使用红色渐变填充，标注「高阻力路径」；
+  - 阻力元素：在高阻力路径上添加阻力图标，如障碍物、陡峭的山坡等；
+  - 行为箭头：使用箭头指示从起点到终点的行进方向；
+  - 文字标注（位置精准，样式工整）：
+    1. 每条路径标注阻力大小和路径特点；
+    2. 图表顶部中央标注标题：「最小阻力路径法则」，下方标注副标题：「设计利于目标达成的环境」；
+  - 图例说明：清晰标注低阻力路径和高阻力路径的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：路径线条平滑、阻力元素简洁美观、文字居中/对齐工整、颜色渐变均匀，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     {
       id: 'immediateFeedback',
@@ -1666,7 +1985,30 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '反馈越及时，对行为的强化效果越强，延迟反馈难以起到有效激励或纠正作用。',
       scope: '习惯打卡奖励、技能学习纠错、项目进度调整、每日打卡积分奖励',
       tips: '1. 完成目标行为后，立刻给予反馈；2. 发现错误时，及时纠正，避免错误行为固化；3. 将长期目标拆解为小任务，每个小任务完成后都给予即时反馈。',
-      practice: '1. 学习英语单词，背完一组后立刻显示正确率和解析；2. 项目推进中，每天下班前开10分钟短会，反馈当天进度和问题。'
+      practice: '1. 学习英语单词，背完一组后立刻显示正确率和解析；2. 项目推进中，每天下班前开10分钟短会，反馈当天进度和问题。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张反馈即时性法则图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用时间序列布局，展示反馈及时性与行为强化效果的关系，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用横向时间轴展示反馈延迟时间，纵向轴展示行为强化效果。
+
+  2. 核心元素细节：
+  - 坐标系统：绘制X轴（反馈延迟时间）和Y轴（行为强化效果）；
+  - 效果曲线：绘制一条从左上到右下的平滑曲线，展示反馈延迟时间与行为强化效果的反比关系；
+  - 对比节点：在曲线上设置3个关键节点，分别标注「即时反馈」「短期延迟」「长期延迟」；
+  - 效果区域：使用渐变填充曲线下方区域，展示不同反馈延迟下的效果差异；
+  - 文字标注（位置精准，样式工整）：
+    1. X轴标注「反馈延迟时间（秒/分钟/小时/天）」；
+    2. Y轴标注「行为强化效果（%）」；
+    3. 每个关键节点标注反馈延迟时间和对应的强化效果；
+    4. 图表顶部中央标注标题：「反馈即时性法则」，下方标注副标题：「反馈及时性对行为的影响」；
+  - 图例说明：清晰标注不同反馈延迟区间的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：曲线线条平滑、节点设计简洁美观、文字居中/对齐工整、颜色渐变均匀，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     // 认知突破类
     {
@@ -1679,7 +2021,33 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '从不同角度看待问题，能打破固有认知局限，发现新的解决方案。',
       scope: '问题解决创新、人际矛盾处理、目标复盘优化、产品设计优化',
       tips: '1. 遇到问题时，尝试站在对方的角度思考；2. 用未来的视角看当下的选择；3. 用历史的视角借鉴同类问题的解决方案。',
-      practice: '1. 设计学习APP，站在学生、家长、老师三个视角优化功能；2. 职场中与同事发生矛盾，站在同事角度思考，找到利益共同点。'
+      practice: '1. 设计学习APP，站在学生、家长、老师三个视角优化功能；2. 职场中与同事发生矛盾，站在同事角度思考，找到利益共同点。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张视角转换思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用多视角布局，展示从不同角度看待同一问题的效果，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用中心发散或环绕式布局展示不同视角。
+
+  2. 核心元素细节：
+  - 中心问题：中央绘制一个问题图标，使用灰色渐变填充，标注「核心问题」；
+  - 视角环绕：围绕核心问题绘制3-4个不同视角的图标，每个视角使用不同颜色：
+    1. 他人视角：使用蓝色渐变填充，标注「他人视角」；
+    2. 未来视角：使用绿色渐变填充，标注「未来视角」；
+    3. 历史视角：使用黄色渐变填充，标注「历史视角」；
+    4. 系统视角：使用紫色渐变填充，标注「系统视角」；
+  - 连接线条：使用带箭头的曲线连接核心问题和各个视角，展示视角转换的关系；
+  - 解决方案：在每个视角图标下方标注该视角下的解决方案；
+  - 文字标注（位置精准，样式工整）：
+    1. 中心问题标注具体问题示例；
+    2. 每个视角标注视角名称和解决方案；
+    3. 图表顶部中央标注标题：「视角转换思维」，下方标注副标题：「不同视角对问题解决的影响」；
+  - 图例说明：清晰标注不同视角的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：图标设计简洁美观、连接线条平滑、文字居中/对齐工整、颜色渐变均匀，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     {
       id: 'firstPrincipleAdvanced',
@@ -1691,7 +2059,30 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '回归事物的本质属性，从基础公理出发重新推导解决方案，避免被固有经验束缚。',
       scope: '创新方案设计、复杂问题解决、知识体系重构、产品创新',
       tips: '1. 遇到复杂问题时，问自己"这件事的本质是什么？""最基础的原则是什么？"；2. 抛开现有的解决方案，从本质出发重新思考；3. 用简单的逻辑推导复杂的问题。',
-      practice: '1. 思考"如何提升用户粘性"，本质是"如何让用户获得持续价值"，推导解决方案：个性化内容、用户成长体系、社群互动；2. 重构数学知识体系，从三个本质模块出发梳理知识点。'
+      practice: '1. 思考"如何提升用户粘性"，本质是"如何让用户获得持续价值"，推导解决方案：个性化内容、用户成长体系、社群互动；2. 重构数学知识体系，从三个本质模块出发梳理知识点。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张第一性原理思维（进阶版）图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用本质推导布局，展示从本质公理到解决方案的推导过程，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用垂直或水平层级布局展示从本质到现象的推导链条。
+
+  2. 核心元素细节：
+  - 本质层：顶部绘制本质公理区域，使用蓝色渐变填充，包含2-3个本质公理节点；
+  - 推导层：中间绘制逻辑推导区域，使用绿色渐变填充，包含推导过程的逻辑节点；
+  - 现象层：底部绘制解决方案区域，使用紫色渐变填充，包含具体的解决方案；
+  - 推导箭头：使用带箭头的线条连接不同层级的节点，展示推导关系；
+  - 对比元素：在图表右侧添加"传统经验法"的对比，展示两种方法的差异；
+  - 文字标注（位置精准，样式工整）：
+    1. 每层标注层级名称和核心内容；
+    2. 每个节点标注具体的公理、逻辑或解决方案；
+    3. 图表顶部中央标注标题：「第一性原理思维（进阶版）」，下方标注副标题：「从本质出发解决问题」；
+  - 图例说明：清晰标注不同层级的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：层级结构清晰、推导箭头流畅、文字居中/对齐工整、颜色渐变均匀，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     // 价值跃迁类
     {
@@ -1704,7 +2095,34 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '价值的爆发源于前期持续的势能积累，通过小步快跑的积累，等待临界点的突破。',
       scope: '个人品牌打造、副业赛道突破、技能能力跃升',
       tips: '1. 找到势能积累的核心动作；2. 降低单次积累的难度，保持高频次投入；3. 当积累达到临界点时，主动抓住机会放大成果。',
-      practice: '1. 做职场干货自媒体，前期每天输出1条短干货，持续积累3个月，粉丝达到1万临界点后，推出系列课程；2. 练习PPT技能，每天做1页高质量排版，积累100页后整理成作品集，对接副业平台。'
+      practice: '1. 做职场干货自媒体，前期每天输出1条短干货，持续积累3个月，粉丝达到1万临界点后，推出系列课程；2. 练习PPT技能，每天做1页高质量排版，积累100页后整理成作品集，对接副业平台。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张势能积累思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用势能曲线布局，展示势能积累到爆发的过程，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用横向时间轴展示积累时间，纵向轴展示势能值。
+
+  2. 核心元素细节：
+  - 坐标系统：绘制X轴（积累时间）和Y轴（势能值）；
+  - 势能曲线：绘制一条S形或J形曲线，展示从缓慢积累到爆发增长的过程；
+  - 阶段划分：将曲线分为三个阶段：
+    1. 缓慢积累期：使用蓝色渐变填充，标注「缓慢积累期」；
+    2. 加速积累期：使用黄色渐变填充，标注「加速积累期」；
+    3. 爆发增长期：使用红色渐变填充，标注「爆发增长期」；
+  - 临界点：在曲线的拐点处绘制一个明显的节点，标注「临界点」；
+  - 积累动作：在曲线下方添加积累动作的图标，展示不同阶段的核心动作；
+  - 文字标注（位置精准，样式工整）：
+    1. X轴标注「积累时间（天/周/月/年）」；
+    2. Y轴标注「势能值（影响力/价值/粉丝数）」；
+    3. 每个阶段标注阶段名称和特点；
+    4. 图表顶部中央标注标题：「势能积累思维」，下方标注副标题：「价值爆发前的势能积累过程」；
+  - 图例说明：清晰标注不同阶段的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：曲线线条平滑、阶段划分清晰、文字居中/对齐工整、颜色渐变均匀，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     {
       id: 'valueMultiplication',
@@ -1716,7 +2134,35 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '通过资源整合、模式创新、跨界组合，让单一价值产生倍数级的放大效应。',
       scope: '副业收益放大、职场价值提升、内容创作增效',
       tips: '1. 识别能放大价值的乘数因子；2. 将单一价值打包成组合方案，提升整体价值密度；3. 通过跨界合作引入外部乘数因子，实现价值倍增。',
-      practice: '1. 做文案接单副业，打包成"文案+排版+发布指导"的套餐服务，价值和收益比单篇写作提升3倍以上；2. 职场中负责活动策划，整合市场、设计、技术等部门资源，推出"线上+线下"的组合活动。'
+      practice: '1. 做文案接单副业，打包成"文案+排版+发布指导"的套餐服务，价值和收益比单篇写作提升3倍以上；2. 职场中负责活动策划，整合市场、设计、技术等部门资源，推出"线上+线下"的组合活动。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张价值倍增思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用价值放大布局，展示从单一价值到倍数价值的放大过程，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用中心发散或层级递进的方式展示价值放大的路径。
+
+  2. 核心元素细节：
+  - 单一价值节点：左侧绘制一个圆形节点，标注「单一价值」，使用蓝色渐变填充；
+  - 乘数因子：围绕单一价值节点绘制3-4个乘数因子图标，每个因子使用不同颜色：
+    1. 资源整合：使用绿色渐变填充，标注「资源整合」；
+    2. 模式创新：使用黄色渐变填充，标注「模式创新」；
+    3. 跨界组合：使用紫色渐变填充，标注「跨界组合」；
+    4. 杠杆放大：使用橙色渐变填充，标注「杠杆放大」；
+  - 倍数价值节点：右侧绘制一个放大的圆形节点，标注「倍数价值」，使用红色渐变填充；
+  - 放大箭头：使用带箭头的曲线连接单一价值节点、乘数因子和倍数价值节点，展示价值放大的过程；
+  - 放大倍数：在箭头旁标注放大倍数，如「×3」「×5」「×10」；
+  - 文字标注（位置精准，样式工整）：
+    1. 单一价值节点标注具体的单一价值；
+    2. 每个乘数因子标注因子名称和作用；
+    3. 倍数价值节点标注最终的倍数价值；
+    4. 图表顶部中央标注标题：「价值倍增思维」，下方标注副标题：「通过资源整合实现价值倍数级放大」；
+  - 图例说明：清晰标注不同乘数因子的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：节点设计简洁美观、放大箭头流畅、文字居中/对齐工整、颜色渐变均匀，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     
     // 认知破界类
@@ -1730,7 +2176,31 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '任何事物都有其底层本质，看透本质就能绕过表象的干扰，找到最简洁的解决路径。',
       scope: '复杂问题解决、趋势判断决策、目标定位校准',
       tips: '1. 面对问题时，从"是什么、为什么、怎么办"三个层面追问本质；2. 区分"相关性"和"因果性"，避免把偶然关联当作必然规律；3. 用第一性原理推导，不依赖经验和类比。',
-      practice: '1. 分析"为什么短视频带货越来越火"的本质：不是因为视频形式新颖，而是因为"人货场"的重构，缩短了消费者的决策路径；2. 思考"职场晋升的本质"：不是因为加班时间长，而是因为创造的价值大。'
+      practice: '1. 分析"为什么短视频带货越来越火"的本质：不是因为视频形式新颖，而是因为"人货场"的重构，缩短了消费者的决策路径；2. 思考"职场晋升的本质"：不是因为加班时间长，而是因为创造的价值大。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张本质思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用表象本质对比布局，展示从现象到本质的洞察过程，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用上下或左右对比的方式展示现象和本质的关系。
+
+  2. 核心元素细节：
+  - 表象层：顶部绘制一个复杂的表象图形，使用灰色渐变填充，包含多个表面现象元素；
+  - 本质层：底部绘制一个简洁的本质图形，使用蓝色渐变填充，展示事物的核心本质；
+  - 洞察箭头：使用带箭头的曲线从表象层指向本质层，标注「洞察本质」；
+  - 追问过程：在箭头旁添加3-4个追问节点，标注「是什么？」「为什么？」「怎么办？」；
+  - 解决路径：在本质层下方绘制简洁的解决路径，使用绿色渐变填充；
+  - 文字标注（位置精准，样式工整）：
+    1. 表象层标注「复杂表象」和具体现象示例；
+    2. 本质层标注「核心本质」和具体本质；
+    3. 解决路径标注「简洁解决方案」；
+    4. 图表顶部中央标注标题：「本质思维」，下方标注副标题：「透过现象看本质」；
+  - 图例说明：清晰标注表象层、本质层和解决路径的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：表象图形复杂但有序、本质图形简洁明了、文字居中/对齐工整、颜色渐变均匀，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     {
       id: 'reverseThinking',
@@ -1742,7 +2212,32 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '反常规、反直觉地思考问题，从目标的对立面出发寻找解决方案，打破正向思维的惯性陷阱。',
       scope: '问题反向求解、风险提前规避、创新方案设计',
       tips: '1. 设定目标后，先思考"哪些因素会导致目标失败"，并提前规避；2. 遇到瓶颈时，从"不做什么"的角度思考，排除无效动作；3. 借鉴"逆向工程"的思路，从结果倒推过程。',
-      practice: '1. 目标是"3个月内副业月入5000元"，逆向思考：哪些因素会导致失败？（选题错误、执行力差、定价不合理），提前制定应对策略；2. 设计学习APP，逆向思考：用户最讨厌的学习痛点是什么？（广告多、操作复杂、内容枯燥），据此设计功能。'
+      practice: '1. 目标是"3个月内副业月入5000元"，逆向思考：哪些因素会导致失败？（选题错误、执行力差、定价不合理），提前制定应对策略；2. 设计学习APP，逆向思考：用户最讨厌的学习痛点是什么？（广告多、操作复杂、内容枯燥），据此设计功能。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张逆向思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用逆向对比布局，展示正向思维和逆向思维的对比，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用左右或上下对比的方式展示两种思维模式的差异。
+
+  2. 核心元素细节：
+  - 正向思维侧：左侧绘制一个常规的正向思维流程，使用灰色渐变填充，从起点到终点的直线路径；
+  - 逆向思维侧：右侧绘制一个反常规的逆向思维流程，使用蓝色渐变填充，从终点到起点的曲线路径；
+  - 目标节点：中央绘制一个目标节点，使用黄色渐变填充，标注「目标」；
+  - 正向路径：从起点到目标的直线，标注「正向思维：从起点到目标」；
+  - 逆向路径：从目标到起点的曲线，标注「逆向思维：从目标到起点」；
+  - 风险规避：在逆向路径上添加风险规避节点，标注「规避失败因素」；
+  - 文字标注（位置精准，样式工整）：
+    1. 正向思维侧标注「常规路径」和具体流程；
+    2. 逆向思维侧标注「逆向路径」和具体流程；
+    3. 目标节点标注具体目标示例；
+    4. 图表顶部中央标注标题：「逆向思维」，下方标注副标题：「反常规思考问题」；
+  - 图例说明：清晰标注正向思维和逆向思维的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：路径线条流畅、节点设计简洁美观、文字居中/对齐工整、颜色渐变均匀，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     
     // 执行闭环类
@@ -1756,7 +2251,34 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '将长期目标拆解为关键节点，通过把控每个节点的完成质量，确保整体目标的实现。',
       scope: '长期项目推进、技能学习规划、副业周期运营',
       tips: '1. 根据目标的时间跨度，设置阶段性关键节点；2. 为每个节点设定明确的交付标准和验收条件；3. 节点完成后及时复盘，调整下阶段的执行策略。',
-      practice: '1. 年度学习目标是"掌握数据分析技能"，设置关键节点：季度1（掌握Excel数据分析）、季度2（掌握Python基础）、季度3（实战项目练习）、季度4（形成作品集）；2. 副业季度目标是"月入5000元"，设置节点：月度1（积累10个潜在客户）、月度2（完成5单基础订单）、月度3（推出高客单价套餐）。'
+      practice: '1. 年度学习目标是"掌握数据分析技能"，设置关键节点：季度1（掌握Excel数据分析）、季度2（掌握Python基础）、季度3（实战项目练习）、季度4（形成作品集）；2. 副业季度目标是"月入5000元"，设置节点：月度1（积累10个潜在客户）、月度2（完成5单基础订单）、月度3（推出高客单价套餐）。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张节点把控思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用节点拆解布局，展示从长期目标到关键节点的拆解过程，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用水平时间轴或垂直层级的方式展示节点的顺序。
+
+  2. 核心元素细节：
+  - 长期目标节点：顶部绘制一个大型目标节点，使用蓝色渐变填充，标注「长期目标」；
+  - 关键节点：从长期目标节点向下或向右延伸出4-5个关键节点，每个节点使用不同颜色：
+    1. 节点1：使用绿色渐变填充，标注「节点1：初始阶段」；
+    2. 节点2：使用黄色渐变填充，标注「节点2：发展阶段」；
+    3. 节点3：使用橙色渐变填充，标注「节点3：关键阶段」；
+    4. 节点4：使用红色渐变填充，标注「节点4：完成阶段」；
+  - 时间轴：在节点下方绘制时间轴，标注每个节点的时间点；
+  - 交付标准：在每个节点旁标注该节点的交付标准和验收条件；
+  - 连接线条：使用带箭头的直线连接长期目标和各个关键节点，展示拆解关系；
+  - 文字标注（位置精准，样式工整）：
+    1. 长期目标节点标注具体目标；
+    2. 每个关键节点标注节点名称、时间点和交付标准；
+    3. 图表顶部中央标注标题：「节点把控思维」，下方标注副标题：「将长期目标拆解为关键节点」；
+  - 图例说明：清晰标注不同关键节点的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：节点设计简洁美观、连接线条流畅、文字居中/对齐工整、颜色渐变均匀，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     {
       id: 'actionCalibrationThinking',
@@ -1768,7 +2290,33 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '在执行过程中，定期对比目标和实际行动的偏差，及时调整行动方向和方法，避免盲目坚持错误的执行路径。',
       scope: '习惯养成调整、项目执行优化、学习方法改进',
       tips: '1. 设定固定的校准周期（如每天、每周）；2. 对比行动结果和目标的偏差值，分析偏差产生的原因；3. 根据原因调整行动策略，如更换方法、调整时间、优化资源。',
-      practice: '1. 健身计划是"每周瘦1斤"，执行1周后发现只瘦了0.3斤，校准分析：运动时间足够但饮食控制不到位，调整策略：增加饮食记录环节，控制碳水摄入；2. 学习计划是"每天背50个单词"，执行3天后发现记忆效率低，校准分析：死记硬背效果差，调整策略：改用"词根词缀+例句"的方法。'
+      practice: '1. 健身计划是"每周瘦1斤"，执行1周后发现只瘦了0.3斤，校准分析：运动时间足够但饮食控制不到位，调整策略：增加饮食记录环节，控制碳水摄入；2. 学习计划是"每天背50个单词"，执行3天后发现记忆效率低，校准分析：死记硬背效果差，调整策略：改用"词根词缀+例句"的方法。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张行动校准思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用闭环校准布局，展示从目标设定到行动校准的闭环过程，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用环形或线性流程展示校准周期。
+
+  2. 核心元素细节：
+  - 目标设定节点：绘制一个目标节点，使用蓝色渐变填充，标注「目标设定」；
+  - 行动执行节点：绘制一个行动节点，使用绿色渐变填充，标注「行动执行」；
+  - 偏差分析节点：绘制一个分析节点，使用黄色渐变填充，标注「偏差分析」；
+  - 行动校准节点：绘制一个校准节点，使用红色渐变填充，标注「行动校准」；
+  - 闭环箭头：使用带箭头的曲线连接各个节点，形成一个闭环；
+  - 偏差对比：在偏差分析节点旁添加偏差对比图表，展示目标与实际行动的偏差；
+  - 校准策略：在校准节点旁添加校准策略，展示调整方法；
+  - 文字标注（位置精准，样式工整）：
+    1. 每个节点标注节点名称和具体内容；
+    2. 偏差对比图表标注目标值和实际值；
+    3. 校准策略标注具体调整方法；
+    4. 图表顶部中央标注标题：「行动校准思维」，下方标注副标题：「定期对比目标和实际行动的偏差」；
+  - 图例说明：清晰标注不同节点的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：节点设计简洁美观、闭环箭头流畅、文字居中/对齐工整、颜色渐变均匀，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     
     // 生态共生类
@@ -1782,7 +2330,31 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '不自建生态，而是依托现有平台的流量、资源和规则，快速放大自身价值，避免从零开始的低效摸索。',
       scope: '副业快速启动、个人品牌曝光、产品快速推广',
       tips: '1. 选择和自身价值匹配的平台；2. 研究平台的流量规则和推荐机制，优化内容展示形式；3. 借助平台的活动和扶持政策，加速成长。',
-      practice: '1. 做职场PPT模板副业，依托小红书平台，研究"干货内容+实用模板"的推荐规则，快速获得精准流量；2. 做知识付费课程，依托抖音平台的"知识分享"扶持计划，参与课程推广活动。'
+      practice: '1. 做职场PPT模板副业，依托小红书平台，研究"干货内容+实用模板"的推荐规则，快速获得精准流量；2. 做知识付费课程，依托抖音平台的"知识分享"扶持计划，参与课程推广活动。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张平台借势思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用平台借势布局，展示依托平台放大自身价值的过程，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用层级结构展示平台与自身价值的关系。
+
+  2. 核心元素细节：
+  - 平台基础层：底部绘制一个大型平台图标，使用蓝色渐变填充，标注「现有平台」；
+  - 流量资源层：在平台图标上方绘制流量资源图标，使用绿色渐变填充，标注「流量/资源/规则」；
+  - 自身价值层：在流量资源层上方绘制自身价值图标，使用紫色渐变填充，标注「自身价值」；
+  - 放大价值层：在自身价值层上方绘制放大的价值图标，使用红色渐变填充，标注「放大后的价值」；
+  - 借势箭头：使用带箭头的曲线从平台基础层指向放大价值层，展示价值放大的路径；
+  - 平台特性：在平台图标旁标注平台的核心特性，如「流量大」「规则完善」「扶持政策」；
+  - 文字标注（位置精准，样式工整）：
+    1. 各层标注层级名称和具体内容；
+    2. 平台特性标注平台的核心优势；
+    3. 图表顶部中央标注标题：「平台借势思维」，下方标注副标题：「依托现有平台快速放大自身价值」；
+  - 图例说明：清晰标注不同层级的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：层级结构清晰、借势箭头流畅、文字居中/对齐工整、颜色渐变均匀，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     {
       id: 'ecologicalFeedbackThinking',
@@ -1794,7 +2366,33 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '在依托平台或融入生态的过程中，主动为生态贡献价值，从而获得生态的持续赋能，实现和生态的长期共生。',
       scope: '社群长期运营、平台账号成长、行业人脉积累',
       tips: '1. 识别生态的核心需求；2. 主动输出符合需求的价值；3. 通过持续贡献，获得生态的资源倾斜和用户认可。',
-      practice: '1. 加入Excel学习社群，主动分享"Excel快捷键大全"和"实战案例"，成为社群核心成员，获得更多副业订单；2. 运营小红书职场账号，参与平台的"职场干货挑战"活动，获得平台流量扶持。'
+      practice: '1. 加入Excel学习社群，主动分享"Excel快捷键大全"和"实战案例"，成为社群核心成员，获得更多副业订单；2. 运营小红书职场账号，参与平台的"职场干货挑战"活动，获得平台流量扶持。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张生态反哺思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用生态共生布局，展示生态与个体之间的相互赋能关系，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用环形或双向箭头的方式展示生态与个体的互动。
+
+  2. 核心元素细节：
+  - 生态系统：中央绘制一个生态系统图标，使用蓝色渐变填充，标注「生态系统」；
+  - 个体节点：围绕生态系统图标绘制一个个体节点，使用绿色渐变填充，标注「个体/参与者」；
+  - 贡献路径：从个体节点指向生态系统的箭头，标注「主动贡献价值」；
+  - 赋能路径：从生态系统指向个体节点的箭头，标注「获得生态赋能」；
+  - 价值循环：使用双向箭头形成一个闭环，展示贡献与赋能的循环；
+  - 贡献内容：在贡献路径旁标注具体的贡献内容，如「分享优质内容」「参与社群活动」「提供实用工具」；
+  - 赋能内容：在赋能路径旁标注具体的赋能内容，如「流量扶持」「资源倾斜」「用户认可」；
+  - 文字标注（位置精准，样式工整）：
+    1. 生态系统标注生态的核心需求；
+    2. 个体节点标注个体的角色；
+    3. 贡献内容和赋能内容标注具体内容；
+    4. 图表顶部中央标注标题：「生态反哺思维」，下方标注副标题：「为生态贡献价值以获得持续赋能」；
+  - 图例说明：清晰标注贡献路径和赋能路径的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：图标设计简洁美观、双向箭头流畅、文字居中/对齐工整、颜色渐变均匀，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     
     // 全维度通用思维模型
@@ -1809,7 +2407,33 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '每个个体都有独特的生态位，找到差异化优势，避免同质化竞争，实现价值最大化。',
       scope: '个人优势定位、副业赛道选择、职场竞争力打造、自媒体内容定位',
       tips: '1. 分析自身资源、能力和市场需求的交集，找到"别人做不好、自己能做好"的细分领域；2. 避免进入饱和赛道，优先选择有潜力的小众生态位。',
-      practice: '1. 想做美食内容分享，聚焦"上班族快手减脂餐"这个细分生态位；2. 职场中，深耕"数据分析+行业洞察"的复合生态位，成为不可替代的角色。'
+      practice: '1. 想做美食内容分享，聚焦"上班族快手减脂餐"这个细分生态位；2. 职场中，深耕"数据分析+行业洞察"的复合生态位，成为不可替代的角色。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张生态位思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用生态系统布局，展示不同个体在系统中的生态位，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用六边形或圆形布局展示生态系统中的各个生态位。
+
+  2. 核心元素细节：
+  - 生态系统背景：绘制一个大型六边形或圆形，使用浅蓝色渐变填充，标注「生态系统」；
+  - 生态位节点：在生态系统内绘制多个不同大小、颜色的六边形或圆形节点，每个节点代表一个生态位：
+    1. 竞争激烈生态位：使用红色渐变填充，标注「竞争激烈生态位」；
+    2. 饱和生态位：使用黄色渐变填充，标注「饱和生态位」；
+    3. 空白生态位：使用绿色渐变填充，标注「空白生态位」；
+    4. 个人生态位：使用紫色渐变填充，标注「个人生态位」；
+  - 差异化优势：在个人生态位节点旁标注差异化优势，如「独特价值」「差异化能力」；
+  - 竞争关系：在竞争激烈生态位节点旁标注竞争关系，如「同质化竞争」；
+  - 文字标注（位置精准，样式工整）：
+    1. 每个生态位节点标注生态位类型和特点；
+    2. 个人生态位标注差异化优势；
+    3. 图表顶部中央标注标题：「生态位思维」，下方标注副标题：「个体在系统中的独特定位」；
+  - 图例说明：清晰标注不同生态位的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：生态位节点设计简洁美观、颜色区分明显、文字居中/对齐工整，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     {
       id: 'symbiosisEffect',
@@ -1821,7 +2445,32 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '通过互利互惠的合作，不同个体实现共同发展，合作能弥补自身短板，放大整体价值。',
       scope: '人脉协作搭建、项目资源整合、技能互补发展、创业合伙人选择',
       tips: '1. 找到与自身能力互补的合作对象；2. 明确合作中的利益分配和责任划分，确保互利共赢；3. 长期维护合作关系，形成稳定的共生系统。',
-      practice: '1. 做自媒体账号，找擅长视频剪辑的伙伴合作，分工协作产出内容，共享收益；2. 加入"互补型学习小组"，成员之间互相辅导，实现共同进步。'
+      practice: '1. 做自媒体账号，找擅长视频剪辑的伙伴合作，分工协作产出内容，共享收益；2. 加入"互补型学习小组"，成员之间互相辅导，实现共同进步。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张共生效应图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用互利合作布局，展示不同个体间的共生关系，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用两个或多个相互连接的图形展示共生关系。
+
+  2. 核心元素细节：
+  - 个体节点：绘制2-3个不同颜色的个体节点，每个节点代表一个合作个体：
+    1. 个体A：使用蓝色渐变填充，标注「个体A」；
+    2. 个体B：使用绿色渐变填充，标注「个体B」；
+    3. 个体C（可选）：使用黄色渐变填充，标注「个体C」；
+  - 互补优势：在每个个体节点旁标注其独特优势，如「内容创作」「视频剪辑」「运营推广」；
+  - 共生连接：使用双向箭头或重叠区域连接各个个体节点，标注「共生关系」；
+  - 共同价值：在连接区域标注共同创造的价值，如「1+1>2的放大价值」；
+  - 文字标注（位置精准，样式工整）：
+    1. 每个个体节点标注个体名称和独特优势；
+    2. 共生连接区域标注共同价值；
+    3. 图表顶部中央标注标题：「共生效应」，下方标注副标题：「不同个体间的互利合作」；
+  - 图例说明：清晰标注不同个体的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：个体节点设计简洁美观、连接关系清晰、文字居中/对齐工整，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     // 价值迭代类
     {
@@ -1834,7 +2483,34 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '在知识、技能、人脉、习惯等多个维度持续投入，让不同维度的复利效应相互叠加，产生指数级增长。',
       scope: '长期成长规划、多维度能力提升、资源积累策略、个人知识体系搭建',
       tips: '1. 选择2-3个核心维度持续投入；2. 定期梳理不同维度之间的关联，让它们相互赋能；3. 避免分散精力在过多维度，导致每个维度都无法形成复利。',
-      practice: '1. 职场中，持续深耕专业技能，同时提升写作能力和人脉资源，三者形成多维复利；2. 学习中，在"专业知识+学习方法+复盘习惯"三个维度持续投入。'
+      practice: '1. 职场中，持续深耕专业技能，同时提升写作能力和人脉资源，三者形成多维复利；2. 学习中，在"专业知识+学习方法+复盘习惯"三个维度持续投入。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张多维复利思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用多维叠加布局，展示多个维度的复利效应叠加，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用同心圆或层级递进的方式展示不同维度。
+
+  2. 核心元素细节：
+  - 中心原点：绘制一个中心原点，使用蓝色渐变填充，标注「复利起点」；
+  - 维度圈层：从中心原点向外绘制多个同心圆，每个圈层代表一个维度：
+    1. 知识维度：使用蓝色渐变填充，标注「知识维度」；
+    2. 技能维度：使用绿色渐变填充，标注「技能维度」；
+    3. 人脉维度：使用黄色渐变填充，标注「人脉维度」；
+    4. 习惯维度：使用紫色渐变填充，标注「习惯维度」；
+  - 复利曲线：在每个维度圈层内绘制一条复利曲线，展示该维度的复利增长；
+  - 叠加效应：在最外层绘制一条综合叠加曲线，标注「多维叠加效应」；
+  - 时间轴：在图表右侧绘制时间轴，标注不同阶段的复利效果；
+  - 文字标注（位置精准，样式工整）：
+    1. 每个维度圈层标注维度名称和复利特点；
+    2. 综合叠加曲线标注「指数级增长」；
+    3. 图表顶部中央标注标题：「多维复利思维」，下方标注副标题：「多维度投入的复利效应」；
+  - 图例说明：清晰标注不同维度的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：维度圈层清晰、复利曲线平滑、文字居中/对齐工整，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     {
       id: 'valueDensity',
@@ -1846,7 +2522,32 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '单位资源内创造的价值越高，价值密度越大，重视小众需求的聚合价值。',
       scope: '时间管理优化、任务优先级排序、资源分配策略、工作任务筛选',
       tips: '1. 用"价值/时间"的公式评估每件事的价值密度；2. 优先做"高价值、低时间成本"的事，延后或放弃"低价值、高时间成本"的事；3. 定期清理低价值的事务，避免占用宝贵资源。',
-      practice: '1. 职场中，优先完成"写核心项目方案"等高价值密度任务；2. 学习时，选择"行业核心知识"和"高频实用技能"，淘汰低价值内容。'
+      practice: '1. 职场中，优先完成"写核心项目方案"等高价值密度任务；2. 学习时，选择"行业核心知识"和"高频实用技能"，淘汰低价值内容。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张价值密度思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用价值对比布局，展示不同任务或活动的价值密度对比，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用横向条形图或气泡图展示价值密度。
+
+  2. 核心元素细节：
+  - 坐标系统：绘制X轴（时间/资源投入）和Y轴（价值产出）；
+  - 价值密度气泡：在坐标系统中绘制多个不同大小、颜色的气泡，每个气泡代表一个任务或活动，气泡大小代表价值密度：
+    1. 高价值密度任务：使用红色渐变填充，标注「高价值密度任务」；
+    2. 中价值密度任务：使用黄色渐变填充，标注「中价值密度任务」；
+    3. 低价值密度任务：使用绿色渐变填充，标注「低价值密度任务」；
+  - 价值密度计算公式：在图表角落标注「价值密度 = 价值产出 / 资源投入」；
+  - 优先顺序：在气泡旁标注执行优先顺序，如「优先执行」「延后执行」「淘汰」；
+  - 文字标注（位置精准，样式工整）：
+    1. 每个气泡标注任务名称和价值密度；
+    2. 坐标轴标注「时间/资源投入」和「价值产出」；
+    3. 图表顶部中央标注标题：「价值密度思维」，下方标注副标题：「提升单位资源的价值产出」；
+  - 图例说明：清晰标注不同价值密度任务的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：气泡大小区分明显、颜色对应正确、文字居中/对齐工整，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     // 认知边界类
     {
@@ -1859,7 +2560,32 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '人的认知分为舒适区、学习区和恐慌区，主动停留在学习区，能实现持续成长，避免舒适区的安逸和恐慌区的挫败。',
       scope: '能力提升规划、学习目标设定、挑战难度调整、技能学习难度把控',
       tips: '1. 设定的目标要略高于现有能力，确保处于学习区；2. 当学习区的任务变得熟练后，及时升级难度；3. 避免直接挑战恐慌区的任务，防止因挫败感放弃。',
-      practice: '1. 学习英语，当前水平是"能看懂简单短文"，选择"看带少量生词的短文+写短句"的学习区任务；2. 职场中，完成常规工作后，主动申请"略高于现有能力的项目"。'
+      practice: '1. 学习英语，当前水平是"能看懂简单短文"，选择"看带少量生词的短文+写短句"的学习区任务；2. 职场中，完成常规工作后，主动申请"略高于现有能力的项目"。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张认知圈思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用同心圆布局，展示认知的三个区域，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用三个同心圆分别代表舒适区、学习区和恐慌区。
+
+  2. 核心元素细节：
+  - 舒适区：最内层同心圆，使用绿色渐变填充，标注「舒适区」；
+  - 学习区：中间层同心圆，使用黄色渐变填充，标注「学习区」；
+  - 恐慌区：最外层同心圆，使用红色渐变填充，标注「恐慌区」；
+  - 认知边界：在每个区域的边界绘制虚线，标注「认知边界」；
+  - 成长路径：从舒适区指向学习区的箭头，标注「主动成长」；
+  - 风险警告：从学习区指向恐慌区的箭头，标注「避免过度挑战」；
+  - 文字标注（位置精准，样式工整）：
+    1. 每个区域标注区域名称和特点，如「舒适区：熟悉的知识和技能」；
+    2. 认知边界标注「认知边界」；
+    3. 成长路径标注「主动成长路径」；
+    4. 图表顶部中央标注标题：「认知圈思维」，下方标注副标题：「认知的三个区域」；
+  - 图例说明：清晰标注不同认知区域的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：同心圆边界清晰、颜色区分明显、文字居中/对齐工整，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     {
       id: 'boundaryBreaking',
@@ -1871,7 +2597,31 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '打破固有的认知边界、行业边界和能力边界，从更广阔的视角寻找新的机会和解决方案。',
       scope: '创新方案设计、赛道转型规划、能力跨界拓展、商业模式创新',
       tips: '1. 遇到瓶颈时，问自己"这个问题的边界是什么？""如果跳出边界，还有哪些解决方案？"；2. 主动学习其他领域的知识和思维方式；3. 小步试错，在可控范围内突破边界。',
-      practice: '1. 传统实体店结合"线上直播带货+社群运营"，打造"线下体验+线上销售"的新模式；2. 程序员学习"产品思维"和"运营知识"，转型为"技术+产品"的复合型人才。'
+      practice: '1. 传统实体店结合"线上直播带货+社群运营"，打造"线下体验+线上销售"的新模式；2. 程序员学习"产品思维"和"运营知识"，转型为"技术+产品"的复合型人才。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张破界思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用边界突破布局，展示打破认知边界的过程，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用一个被打破的框架或边界线展示破界过程。
+
+  2. 核心元素细节：
+  - 旧边界框架：绘制一个矩形框架，部分边框被打破，使用灰色渐变填充，标注「旧认知边界」；
+  - 新视角区域：在框架外绘制一个扩展区域，使用蓝色渐变填充，标注「新视角区域」；
+  - 破界箭头：从旧边界指向新视角的箭头，标注「打破边界」；
+  - 创新方案：在新视角区域绘制创新方案图标，标注「创新解决方案」；
+  - 旧思维局限：在旧边界内标注旧思维的局限，如「固有框架」「思维定势」；
+  - 文字标注（位置精准，样式工整）：
+    1. 旧边界框架标注「旧认知边界」和思维局限；
+    2. 新视角区域标注「新视角区域」和创新方案；
+    3. 破界箭头标注「打破边界」；
+    4. 图表顶部中央标注标题：「破界思维」，下方标注副标题：「打破认知边界」；
+  - 图例说明：清晰标注旧边界和新视角的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：框架边界清晰、破界效果明显、文字居中/对齐工整，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     // 执行保障类
     {
@@ -1884,7 +2634,32 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '预留冗余资源或备份方案，应对突发风险，避免因单一环节失效导致系统崩溃。',
       scope: '风险管控规划、项目应急方案、资源储备策略、工作项目备份',
       tips: '1. 识别系统中的关键环节，为每个关键环节设置备份方案；2. 预留10%-20%的冗余资源，应对突发情况；3. 定期测试备份方案的有效性。',
-      practice: '1. 做项目时，为核心数据设置"本地+云端"双重备份；2. 学习时，备份重要的学习资料和笔记，准备两套学习计划。'
+      practice: '1. 做项目时，为核心数据设置"本地+云端"双重备份；2. 学习时，备份重要的学习资料和笔记，准备两套学习计划。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张冗余备份思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用风险应对布局，展示冗余备份的设计，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用主系统和备份系统的对比展示冗余备份。
+
+  2. 核心元素细节：
+  - 主系统：左侧绘制一个系统图标，使用蓝色渐变填充，标注「主系统」；
+  - 备份系统：右侧绘制一个备用系统图标，使用绿色渐变填充，标注「备份系统」；
+  - 冗余连接：使用双向箭头连接主系统和备份系统，标注「冗余连接」；
+  - 风险事件：在主系统旁绘制风险事件图标，标注「突发风险」；
+  - 切换机制：在连接线上绘制切换机制图标，标注「自动切换」；
+  - 文字标注（位置精准，样式工整）：
+    1. 主系统标注「主系统：正常运行」；
+    2. 备份系统标注「备份系统：随时待命」；
+    3. 风险事件标注「突发风险：系统故障」；
+    4. 切换机制标注「自动切换：确保系统持续运行」；
+    5. 图表顶部中央标注标题：「冗余备份思维」，下方标注副标题：「应对突发风险」；
+  - 图例说明：清晰标注主系统、备份系统和风险事件的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：系统图标设计简洁美观、冗余连接清晰、文字居中/对齐工整，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     {
       id: 'rhythmControl',
@@ -1896,7 +2671,33 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '保持张弛有度的节奏，避免过度紧绷或过度松弛，找到适合自己的节奏，保持长期稳定输出。',
       scope: '学习计划制定、工作节奏调整、长期目标推进、备考计划安排',
       tips: '1. 根据自身精力曲线，安排高难度任务和低难度任务的交替进行；2. 设置"专注期"和"休息期"，专注期高效执行，休息期彻底放松；3. 避免"突击式努力"，追求"细水长流"的稳定节奏。',
-      practice: '1. 备考时，采用"2小时专注学习+30分钟休息"的节奏；2. 推进长期项目时，设定"每周固定进度"，避免前期拖延、后期赶工。'
+      practice: '1. 备考时，采用"2小时专注学习+30分钟休息"的节奏；2. 推进长期项目时，设定"每周固定进度"，避免前期拖延、后期赶工。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张节奏把控思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用波形图布局，展示张弛有度的节奏，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用波浪线展示精力和输出的节奏变化。
+
+  2. 核心元素细节：
+  - 时间轴：绘制X轴（时间）和Y轴（精力/输出）；
+  - 节奏曲线：绘制一条波浪线，展示精力和输出的起伏变化，使用蓝色渐变填充；
+  - 专注期：在波浪线的波峰区域标注「专注期」，使用绿色渐变填充；
+  - 休息期：在波浪线的波谷区域标注「休息期」，使用黄色渐变填充；
+  - 疲劳警告：在过度紧绷区域标注「疲劳警告」，使用红色渐变填充；
+  - 低效警告：在过度松弛区域标注「低效警告」，使用橙色渐变填充；
+  - 文字标注（位置精准，样式工整）：
+    1. 专注期标注「专注期：高效执行」；
+    2. 休息期标注「休息期：彻底放松」；
+    3. 疲劳警告标注「疲劳警告：过度紧绷」；
+    4. 低效警告标注「低效警告：过度松弛」；
+    5. 图表顶部中央标注标题：「节奏把控思维」，下方标注副标题：「保持张弛有度的节奏」；
+  - 图例说明：清晰标注专注期、休息期和警告区域的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：波浪线平滑、区域划分清晰、文字居中/对齐工整，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     // 全场景通用思维模型
     // 生态价值类
@@ -1910,7 +2711,31 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '避开竞争对手的优势领域，在其薄弱环节或未覆盖的细分领域建立自身优势，避免正面竞争。',
       scope: '个人赛道定位、副业差异化设计、职场竞争力打造、自媒体内容定位',
       tips: '1. 分析竞争对手的核心优势和短板，找到他们忽略的用户需求；2. 聚焦细分需求，打造差异化的产品或服务，形成独特竞争力。',
-      practice: '1. 多数健身博主聚焦"减脂增肌"，选择主打"上班族15分钟办公室健身"；2. 职场中，深耕"行业专属数据建模"，成为处理复杂行业数据的专家。'
+      practice: '1. 多数健身博主聚焦"减脂增肌"，选择主打"上班族15分钟办公室健身"；2. 职场中，深耕"行业专属数据建模"，成为处理复杂行业数据的专家。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张错位竞争思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用竞争避开布局，展示错位竞争的策略，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用竞争对手和自身定位的对比展示错位竞争。
+
+  2. 核心元素细节：
+  - 竞争对手领域：左侧绘制竞争对手的优势领域，使用红色渐变填充，标注「竞争对手优势领域」；
+  - 自身定位：右侧绘制自身的错位定位，使用蓝色渐变填充，标注「自身错位定位」；
+  - 避开箭头：从竞争对手领域指向自身定位的箭头，标注「避开正面竞争」；
+  - 差异化优势：在自身定位旁标注差异化优势，如「独特价值」「细分需求」；
+  - 竞争激烈区域：在竞争对手领域旁标注「竞争激烈区域」；
+  - 文字标注（位置精准，样式工整）：
+    1. 竞争对手领域标注「竞争对手优势领域：竞争激烈」；
+    2. 自身定位标注「自身错位定位：差异化优势」；
+    3. 差异化优势标注「差异化优势：独特价值」；
+    4. 图表顶部中央标注标题：「错位竞争思维」，下方标注副标题：「避免正面竞争」；
+  - 图例说明：清晰标注竞争对手领域和自身定位的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：领域划分清晰、错位关系明显、文字居中/对齐工整，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     {
       id: 'networkEffect',
@@ -1922,7 +2747,32 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '产品或服务的价值随用户数量的增加而指数级增长，形成"用户越多-价值越高-更多用户"的正向循环。',
       scope: '社群搭建运营、人脉网络拓展、工具产品推广、学习社群裂变',
       tips: '1. 设计能促进用户互动的机制，让用户之间产生连接；2. 优先积累第一批核心用户，通过他们的口碑吸引更多用户；3. 不断优化用户体验，强化网络效应。',
-      practice: '1. 搭建英语学习社群，设置"每日打卡互评""组队背单词"等互动机制；2. 推广学习笔记工具，先免费开放给学霸用户，他们分享的优质笔记吸引更多用户。'
+      practice: '1. 搭建英语学习社群，设置"每日打卡互评""组队背单词"等互动机制；2. 推广学习笔记工具，先免费开放给学霸用户，他们分享的优质笔记吸引更多用户。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张网络效应思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用网络扩张布局，展示用户数量与产品价值的关系，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用节点连接图展示网络效应。
+
+  2. 核心元素细节：
+  - 初始用户节点：中心绘制初始用户节点，使用蓝色渐变填充，标注「初始用户」；
+  - 扩张节点：从初始节点向外扩张多个用户节点，使用不同颜色填充，标注「新用户」；
+  - 连接线条：使用双向箭头连接各个用户节点，标注「用户连接」；
+  - 价值增长曲线：右侧绘制价值增长曲线，展示价值随用户数量的增长，使用红色渐变填充；
+  - 正向循环：在图表角落标注「正向循环：用户越多→价值越高→更多用户」；
+  - 文字标注（位置精准，样式工整）：
+    1. 初始用户节点标注「初始用户：核心用户」；
+    2. 扩张节点标注「新用户：通过口碑吸引」；
+    3. 连接线条标注「用户连接：互动产生价值」；
+    4. 价值增长曲线标注「价值增长：指数级增长」；
+    5. 图表顶部中央标注标题：「网络效应思维」，下方标注副标题：「用户数量对产品价值的影响」；
+  - 图例说明：清晰标注初始用户、新用户和价值增长的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：节点连接清晰、价值增长曲线平滑、文字居中/对齐工整，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     // 价值沉淀类
     {
@@ -1935,7 +2785,32 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '将日常投入转化为可复用、可增值、可持续产生收益的资产，注重长期价值积累而非短期利益。',
       scope: '长期价值积累、技能资产打造、副业模式设计、知识产品创作',
       tips: '1. 识别哪些投入可以转化为长期资产；2. 减少一次性的劳务输出，多做可复用的资产建设；3. 定期盘点和优化已有资产，提升其价值。',
-      practice: '1. 做自媒体时，花时间写系列干货文章、开发小课程，形成"内容资产"；2. 职场中，把解决复杂问题的经验整理成"方法论手册"，沉淀为"经验资产"。'
+      practice: '1. 做自媒体时，花时间写系列干货文章、开发小课程，形成"内容资产"；2. 职场中，把解决复杂问题的经验整理成"方法论手册"，沉淀为"经验资产"。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张资产化思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用资产转化布局，展示投入到资产的转化过程，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用线性流程展示从投入到资产的转化。
+
+  2. 核心元素细节：
+  - 投入阶段：左侧绘制投入阶段图标，使用蓝色渐变填充，标注「投入阶段」；
+  - 转化过程：中间绘制转化过程图标，使用黄色渐变填充，标注「转化过程」；
+  - 资产阶段：右侧绘制资产阶段图标，使用绿色渐变填充，标注「资产阶段」；
+  - 转化箭头：使用带箭头的曲线连接各个阶段，标注「转化为资产」；
+  - 资产类型：在资产阶段旁绘制不同类型的资产图标，标注「资产类型：内容资产、经验资产、技能资产」；
+  - 文字标注（位置精准，样式工整）：
+    1. 投入阶段标注「投入阶段：时间、精力、技能」；
+    2. 转化过程标注「转化过程：整理、优化、沉淀」；
+    3. 资产阶段标注「资产阶段：可复用、可增值、可持续收益」；
+    4. 资产类型标注「资产类型：内容资产、经验资产、技能资产」；
+    5. 图表顶部中央标注标题：「资产化思维」，下方标注副标题：「将投入转化为长期资产」；
+  - 图例说明：清晰标注投入阶段、转化过程和资产阶段的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：阶段划分清晰、转化过程明显、文字居中/对齐工整，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     {
       id: 'moatThinking',
@@ -1947,7 +2822,31 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '打造核心竞争力壁垒，建立别人难以复制的优势，保障长期生存和发展。',
       scope: '核心能力深耕、个人品牌打造、副业壁垒建设、专业技能深耕',
       tips: '1. 护城河可以是稀缺技能、个人品牌、资源人脉等；2. 持续投入，不断加宽护城河，避免被轻易超越。',
-      practice: '1. 深耕"短视频脚本创作"，积累行业案例和用户数据，形成"技巧+数据"的双重壁垒；2. 打造个人品牌，通过持续输出优质内容，建立"靠谱、专业"的形象。'
+      practice: '1. 深耕"短视频脚本创作"，积累行业案例和用户数据，形成"技巧+数据"的双重壁垒；2. 打造个人品牌，通过持续输出优质内容，建立"靠谱、专业"的形象。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张护城河思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用壁垒防护布局，展示核心竞争力壁垒，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用护城河围绕核心竞争力展示壁垒。
+
+  2. 核心元素细节：
+  - 核心竞争力：中央绘制核心竞争力图标，使用蓝色渐变填充，标注「核心竞争力」；
+  - 护城河：围绕核心竞争力绘制护城河，使用绿色渐变填充，标注「护城河」；
+  - 壁垒类型：在护城河旁绘制不同类型的壁垒图标，标注「壁垒类型：稀缺技能、个人品牌、资源人脉」；
+  - 竞争对手：在护城河外绘制竞争对手图标，标注「竞争对手：难以突破壁垒」；
+  - 文字标注（位置精准，样式工整）：
+    1. 核心竞争力标注「核心竞争力：别人拿不走的优势」；
+    2. 护城河标注「护城河：难以复制的壁垒」；
+    3. 壁垒类型标注「壁垒类型：稀缺技能、个人品牌、资源人脉」；
+    4. 竞争对手标注「竞争对手：难以突破壁垒」；
+    5. 图表顶部中央标注标题：「护城河思维」，下方标注副标题：「建立核心竞争力壁垒」；
+  - 图例说明：清晰标注核心竞争力、护城河和壁垒类型的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：壁垒防护明显、护城河环绕清晰、文字居中/对齐工整，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     // 认知行动类
     {
@@ -1960,7 +2859,32 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '知识必须通过行动来验证和内化，行动是知识的最终目的，避免"纸上谈兵"。',
       scope: '知识转化落地、技能实践提升、学习效果检验、读书复盘',
       tips: '1. 学到一个新知识点或方法后，必须在24小时内进行一次小实践；2. 将知识拆解为可执行的动作，而非停留在"知道了"的层面；3. 通过行动中的反馈，修正和完善知识体系。',
-      practice: '1. 读完《高效能人士的七个习惯》，第二天就实践"要事第一"的原则；2. 学习"数据透视表"的用法后，立刻用自己的工作数据做一次分析。'
+      practice: '1. 读完《高效能人士的七个习惯》，第二天就实践"要事第一"的原则；2. 学习"数据透视表"的用法后，立刻用自己的工作数据做一次分析。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张知行合一思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用知识行动融合布局，展示知识与行动的关系，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用两个相互融合的图形展示知行合一。
+
+  2. 核心元素细节：
+  - 知识部分：左侧绘制知识图标，使用蓝色渐变填充，标注「知识部分」；
+  - 行动部分：右侧绘制行动图标，使用绿色渐变填充，标注「行动部分」；
+  - 融合区域：在知识和行动的交界处绘制融合区域，使用黄色渐变填充，标注「融合区域」；
+  - 融合箭头：使用双向箭头连接知识和行动，标注「知行合一」；
+  - 纸上谈兵警告：在知识部分旁标注「纸上谈兵警告：知而不行，只是未知」；
+  - 文字标注（位置精准，样式工整）：
+    1. 知识部分标注「知识部分：理论学习」；
+    2. 行动部分标注「行动部分：实践验证」；
+    3. 融合区域标注「融合区域：知行合一」；
+    4. 纸上谈兵警告标注「纸上谈兵警告：知而不行，只是未知」；
+    5. 图表顶部中央标注标题：「知行合一思维」，下方标注副标题：「知识与行动的关系」；
+  - 图例说明：清晰标注知识部分、行动部分和融合区域的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：融合效果明显、箭头连接清晰、文字居中/对齐工整，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     {
       id: 'microHabitCompounding',
@@ -1972,7 +2896,33 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '微小的习惯通过长期坚持和复利效应，会带来巨大改变，从极小的动作开始，利用习惯惯性逐步放大效果。',
       scope: '习惯养成启动、长期目标推进、意志力消耗优化、阅读写作习惯培养',
       tips: '1. 设定的微习惯要小到"不可能失败"；2. 坚持21天形成惯性后，再逐步增加难度；3. 记录每次的微小进步，强化正向反馈。',
-      practice: '1. 想养成写作习惯，从"每天写1句话"开始；2. 培养复盘习惯，每天只花5分钟记录"1个收获+1个改进点"。'
+      practice: '1. 想养成写作习惯，从"每天写1句话"开始；2. 培养复盘习惯，每天只花5分钟记录"1个收获+1个改进点"。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张微习惯复利思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用增长曲线布局，展示微小习惯的长期复利效应，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用一条平滑的曲线展示从微小习惯到巨大成果的增长过程。
+
+  2. 核心元素细节：
+  - 微习惯起点：左侧绘制微习惯起点，使用蓝色渐变填充，标注「微习惯起点」；
+  - 坚持过程：中间绘制坚持过程的曲线，使用绿色渐变填充，标注「坚持过程」；
+  - 成果节点：右侧绘制成果节点，使用红色渐变填充，标注「成果节点」；
+  - 复利曲线：绘制一条从左下到右上的平滑曲线，展示复利增长，使用紫色渐变填充；
+  - 时间轴：在曲线下方绘制时间轴，标注「第1天」「第21天」「第3个月」「第1年」等关键时间点；
+  - 关键节点：在曲线上标注关键节点，如「习惯形成」「效果显现」「成果爆发」；
+  - 文字标注（位置精准，样式工整）：
+    1. 微习惯起点标注「微习惯起点：极小的、毫无压力的动作」；
+    2. 坚持过程标注「坚持过程：长期坚持，利用惯性」；
+    3. 成果节点标注「成果节点：巨大的改变」；
+    4. 关键节点标注「关键节点：习惯形成、效果显现、成果爆发」；
+    5. 图表顶部中央标注标题：「微习惯复利思维」，下方标注副标题：「微小习惯的长期影响」；
+  - 图例说明：清晰标注微习惯起点、坚持过程和成果节点的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：曲线平滑、节点清晰、文字居中/对齐工整，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     // 风险收益类
     {
@@ -1985,7 +2935,31 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '将资源分为低风险稳健部分（大部分）和高风险投机部分（小部分），中间部分避免投入，实现"保本+博取高收益"。',
       scope: '资源分配规划、副业风险管控、投资策略制定、时间分配',
       tips: '1. 大部分资源投入到稳健的领域，保障基本生存和发展；2. 小部分资源投入到高风险、高回报的领域，尝试突破；3. 不做"中等风险、中等收益"的投入，避免得不偿失。',
-      practice: '1. 时间分配：80%用于本职工作和核心技能学习，20%用于尝试新的副业赛道；2. 资金投资：80%用于低风险理财，20%用于高风险投资。'
+      practice: '1. 时间分配：80%用于本职工作和核心技能学习，20%用于尝试新的副业赛道；2. 资金投资：80%用于低风险理财，20%用于高风险投资。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张杠铃策略图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用两极平衡布局，展示杠铃策略的风险收益平衡，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用杠铃形状展示两极资源分配。
+
+  2. 核心元素细节：
+  - 稳健部分：左侧绘制稳健部分，使用绿色渐变填充，标注「稳健部分」，占大部分面积；
+  - 投机部分：右侧绘制投机部分，使用红色渐变填充，标注「投机部分」，占小部分面积；
+  - 杠铃杆：中间绘制杠铃杆，连接稳健部分和投机部分，标注「杠铃杆」；
+  - 风险收益标注：在每个部分旁标注风险和收益，如「低风险、低收益」「高风险、高收益」；
+  - 避免区域：在中间部分标注「避免区域」，使用灰色渐变填充；
+  - 文字标注（位置精准，样式工整）：
+    1. 稳健部分标注「稳健部分：低风险、低收益，占大部分资源」；
+    2. 投机部分标注「投机部分：高风险、高收益，占小部分资源」；
+    3. 避免区域标注「避免区域：中等风险、中等收益，不投入」；
+    4. 图表顶部中央标注标题：「杠铃策略」，下方标注副标题：「平衡风险和收益」；
+  - 图例说明：清晰标注稳健部分、投机部分和避免区域的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：杠铃形状明显、资源分配比例合理、文字居中/对齐工整，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     {
       id: 'antifragileThinking',
@@ -1997,7 +2971,32 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '事物不仅能抵御风险、承受冲击，还能在冲击和波动中变得更强大，从不确定性中获益。',
       scope: '风险应对策略、挫折成长规划、系统韧性建设、职场危机应对',
       tips: '1. 主动接受可控的小风险和小挫折，积累应对经验；2. 在系统中设置"波动触发器"，当遇到冲击时，启动优化机制；3. 把挫折和失败看作成长的机会，而非灾难。',
-      practice: '1. 职场中，主动申请参与有挑战性的项目，即使失败也能积累经验；2. 做副业时，接受"收入波动"的常态，当遇到订单减少时，优化产品或服务。'
+      practice: '1. 职场中，主动申请参与有挑战性的项目，即使失败也能积累经验；2. 做副业时，接受"收入波动"的常态，当遇到订单减少时，优化产品或服务。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张反脆弱思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用风险获益布局，展示从风险中获益的过程，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用冲击和成长的对比展示反脆弱思维。
+
+  2. 核心元素细节：
+  - 脆弱系统：左侧绘制脆弱系统图标，使用红色渐变填充，标注「脆弱系统」；
+  - 强韧系统：中间绘制强韧系统图标，使用蓝色渐变填充，标注「强韧系统」；
+  - 反脆弱系统：右侧绘制反脆弱系统图标，使用绿色渐变填充，标注「反脆弱系统」；
+  - 冲击事件：在每个系统旁绘制冲击事件图标，标注「冲击事件」；
+  - 系统反应：在每个系统旁标注系统反应，如「崩溃」「承受」「变得更强大」；
+  - 文字标注（位置精准，样式工整）：
+    1. 脆弱系统标注「脆弱系统：遇到冲击崩溃」；
+    2. 强韧系统标注「强韧系统：遇到冲击承受」；
+    3. 反脆弱系统标注「反脆弱系统：遇到冲击变得更强大」；
+    4. 冲击事件标注「冲击事件：风险、挫折、波动」；
+    5. 图表顶部中央标注标题：「反脆弱思维」，下方标注副标题：「从风险中获益」；
+  - 图例说明：清晰标注脆弱系统、强韧系统和反脆弱系统的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：系统对比明显、冲击事件清晰、文字居中/对齐工整，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     // 全场景通用思维模型 - 价值创造类
     {
@@ -2010,7 +3009,32 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '市场的机会往往藏在供需错配的缝隙里——即现有供给满足不了用户的真实需求，或供给的方式、形态与需求不匹配。核心是"找到未被满足的需求，提供精准解决方案"。',
       scope: '系统的「副业赛道挖掘」「产品功能设计」「职场价值提升」模块，如小众需求服务、现有产品优化、职场痛点解决。',
       tips: '通过用户调研、场景观察、痛点收集，识别"用户想要但市面上没有"或"有但做得不好"的需求；从需求出发设计供给，而非从自身优势出发自嗨。',
-      practice: '1. 观察到"宝妈带娃出行时，很难买到小份、健康的零食"这个供需错配点，推出"宝妈便携小份零食组合"，精准匹配需求。2. 职场中发现"同事们做周报时，总是重复整理数据"的痛点，开发一个"周报数据自动汇总模板"，解决效率问题。'
+      practice: '1. 观察到"宝妈带娃出行时，很难买到小份、健康的零食"这个供需错配点，推出"宝妈便携小份零食组合"，精准匹配需求。2. 职场中发现"同事们做周报时，总是重复整理数据"的痛点，开发一个"周报数据自动汇总模板"，解决效率问题。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张供需错配洞察思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用供需对比布局，展示供需错配的机会，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用左右或上下对比的方式展示供给和需求的关系。
+
+  2. 核心元素细节：
+  - 需求侧：左侧绘制需求侧图标，使用蓝色渐变填充，标注「需求侧」；
+  - 供给侧：右侧绘制供给侧图标，使用红色渐变填充，标注「供给侧」；
+  - 错配区域：在需求和供给的交界处绘制错配区域，使用黄色渐变填充，标注「错配区域」；
+  - 机会箭头：从错配区域指向解决方案的箭头，标注「机会点」；
+  - 解决方案：在图表下方绘制解决方案图标，标注「精准解决方案」；
+  - 文字标注（位置精准，样式工整）：
+    1. 需求侧标注「需求侧：用户真实需求」；
+    2. 供给侧标注「供给侧：现有供给」；
+    3. 错配区域标注「错配区域：供需不匹配的机会」；
+    4. 解决方案标注「精准解决方案：满足未被满足的需求」；
+    5. 图表顶部中央标注标题：「供需错配洞察思维」，下方标注副标题：「市场的机会往往藏在供需错配的缝隙里」；
+  - 图例说明：清晰标注需求侧、供给侧和错配区域的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：供需对比明显、错配区域清晰、文字居中/对齐工整，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     {
       id: 'leverageThinking',
@@ -2022,7 +3046,33 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '通过撬动核心资源（如人脉、技能、平台），用极小的自身投入，获得放大倍数的收益。核心是"找到支点，撬动更多价值"，避免"事必躬亲"的低效努力。',
       scope: '系统的「资源整合利用」「效率提升优化」「收益放大设计」模块，如人脉变现、技能复用、平台借势。',
       tips: '识别自己的核心杠杆资源（如某领域的专业技能、优质的人脉网络、高流量的平台账号）；找到能放大资源价值的支点（如合作、工具、趋势）；以小博大，聚焦杠杆点发力。',
-      practice: '1. 拥有"数据分析"的核心技能，作为支点，撬动"帮企业做数据报告""开发数据模板售卖""做数据分析培训"等多个收益渠道，实现技能价值放大。2. 借助"短视频平台"这个杠杆，用一条优质内容撬动百万流量，相比传统线下推广，投入小、收益大。'
+      practice: '1. 拥有"数据分析"的核心技能，作为支点，撬动"帮企业做数据报告""开发数据模板售卖""做数据分析培训"等多个收益渠道，实现技能价值放大。2. 借助"短视频平台"这个杠杆，用一条优质内容撬动百万流量，相比传统线下推广，投入小、收益大。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张杠杆思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用杠杆撬动布局，展示杠杆思维的核心原理，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用杠杆和支点的图形展示杠杆原理。
+
+  2. 核心元素细节：
+  - 杠杆：绘制一个杠杆图形，使用蓝色渐变填充，标注「杠杆」；
+  - 支点：在杠杆的支点位置绘制支点，使用红色渐变填充，标注「支点」；
+  - 自身投入：在杠杆的一端绘制自身投入，使用绿色渐变填充，标注「自身投入」；
+  - 放大收益：在杠杆的另一端绘制放大收益，使用黄色渐变填充，标注「放大收益」；
+  - 杠杆比例：在杠杆旁标注「杠杆比例：1:10」，表示放大倍数；
+  - 核心资源：在支点旁标注「核心资源：人脉、技能、平台」；
+  - 文字标注（位置精准，样式工整）：
+    1. 杠杆标注「杠杆：撬动核心资源」；
+    2. 支点标注「支点：找到杠杆点」；
+    3. 自身投入标注「自身投入：极小的投入」；
+    4. 放大收益标注「放大收益：倍数级收益」；
+    5. 图表顶部中央标注标题：「杠杆思维」，下方标注副标题：「通过撬动核心资源，用极小的自身投入，获得放大倍数的收益」；
+  - 图例说明：清晰标注杠杆、支点、自身投入和放大收益的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：杠杆原理清晰、支点位置准确、文字居中/对齐工整，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     // 价值跃迁类
     {
@@ -2035,7 +3085,32 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '复利是基础，杠杆是加速器，通过叠加杠杆让复利效应呈指数级放大，实现价值的跨越式增长。',
       scope: '个人成长加速、副业收益裂变、品牌影响力放大',
       tips: '1. 先通过高频次的小行动积累复利基础；2. 找到能放大成果的杠杆；3. 让复利和杠杆相互赋能，加速价值增长。',
-      practice: '1. 每天输出1条职场干货，积累3个月形成内容复利；再对接职场类公众号平台投稿，借助平台流量杠杆，让内容触达更多用户，实现个人IP影响力的指数级增长。2. 做设计接单副业，先通过低价单积累作品和口碑的复利；再和本地广告公司合作，借助公司的客户资源杠杆，快速获得高客单价订单，实现收益的跨越式提升。'
+      practice: '1. 每天输出1条职场干货，积累3个月形成内容复利；再对接职场类公众号平台投稿，借助平台流量杠杆，让内容触达更多用户，实现个人IP影响力的指数级增长。2. 做设计接单副业，先通过低价单积累作品和口碑的复利；再和本地广告公司合作，借助公司的客户资源杠杆，快速获得高客单价订单，实现收益的跨越式提升。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张复利杠杆思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用复利叠加杠杆布局，展示复利和杠杆的叠加效应，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用复利曲线和杠杆图形的组合展示叠加效应。
+
+  2. 核心元素细节：
+  - 复利曲线：底部绘制复利曲线，使用蓝色渐变填充，标注「复利曲线」；
+  - 杠杆图形：在复利曲线的上方绘制杠杆图形，使用红色渐变填充，标注「杠杆图形」；
+  - 叠加区域：在复利曲线和杠杆图形的交界处绘制叠加区域，使用绿色渐变填充，标注「叠加区域」；
+  - 指数增长标注：在叠加区域标注「指数级增长」；
+  - 线性增长标注：在复利曲线旁标注「线性复利增长」；
+  - 文字标注（位置精准，样式工整）：
+    1. 复利曲线标注「复利曲线：线性增长基础」；
+    2. 杠杆图形标注「杠杆：加速器」；
+    3. 叠加区域标注「叠加区域：指数级增长」；
+    4. 线性增长标注「线性增长：仅靠复利」；
+    5. 图表顶部中央标注标题：「复利杠杆思维」，下方标注副标题：「复利效应基础上叠加杠杆，实现指数级增长」；
+  - 图例说明：清晰标注复利曲线、杠杆图形和叠加区域的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：复利曲线平滑、杠杆图形清晰、叠加效果明显、文字居中/对齐工整，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     {
       id: 'valueNetwork',
@@ -2047,7 +3122,34 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '通过接入多个互补的价值网络，利用网络间的协同效应，实现自身价值的放大。',
       scope: '资源整合拓展、副业渠道裂变、职场机会挖掘',
       tips: '1. 梳理自身的核心价值；2. 找到和核心价值互补的价值网络；3. 主动接入网络，提供价值并获取网络红利。',
-      practice: '1. 核心价值是"文案写作"，接入自媒体内容生态、电商品牌推广生态、企业内刊编辑生态，为不同网络提供定制化文案服务，实现一单多收的价值放大。2. 核心价值是"数据分析"，接入公司业务部门、市场调研团队、外部咨询机构的价值网络，为不同场景提供数据分析支持，挖掘更多职场晋升机会。'
+      practice: '1. 核心价值是"文案写作"，接入自媒体内容生态、电商品牌推广生态、企业内刊编辑生态，为不同网络提供定制化文案服务，实现一单多收的价值放大。2. 核心价值是"数据分析"，接入公司业务部门、市场调研团队、外部咨询机构的价值网络，为不同场景提供数据分析支持，挖掘更多职场晋升机会。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张价值网络思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用价值网络布局，展示自身价值节点接入多个价值网络的协同效应，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用节点和连接线条的网络布局展示价值网络。
+
+  2. 核心元素细节：
+  - 自身价值节点：中央绘制自身价值节点，使用蓝色渐变填充，标注「自身价值节点」；
+  - 价值网络：从自身价值节点向外连接多个价值网络，每个网络使用不同颜色填充：
+    1. 价值网络1：使用绿色渐变填充，标注「价值网络1」；
+    2. 价值网络2：使用红色渐变填充，标注「价值网络2」；
+    3. 价值网络3：使用黄色渐变填充，标注「价值网络3」；
+  - 连接线条：使用双向箭头连接自身价值节点和各个价值网络，标注「价值连接」；
+  - 协同效应：在连接线条的交界处标注「协同效应」；
+  - 文字标注（位置精准，样式工整）：
+    1. 自身价值节点标注「自身价值节点：核心价值」；
+    2. 每个价值网络标注「价值网络：互补生态」；
+    3. 连接线条标注「价值连接：接入网络」；
+    4. 协同效应标注「协同效应：放大价值」；
+    5. 图表顶部中央标注标题：「价值网络思维」，下方标注副标题：「接入多个互补的价值网络，放大自身价值」；
+  - 图例说明：清晰标注自身价值节点、价值网络和协同效应的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：网络布局清晰、连接线条流畅、文字居中/对齐工整，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     {
       id: 'thresholdBreakthrough',
@@ -2059,7 +3161,32 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '成长和价值变现存在临界阈值，前期缓慢积累，突破阈值后迎来指数级增长。',
       scope: '技能深耕突破、副业变现爆发、个人品牌破圈',
       tips: '1. 识别所在领域的阈值节点；2. 聚焦核心动作持续积累，不被短期波动干扰；3. 阈值临近时，主动加码关键动作加速突破。',
-      practice: '1. 做职场干货自媒体，前期持续日更3个月积累到8000粉，临近1万粉阈值时，策划"粉丝专属干货礼包"活动，快速突破阈值，之后流量和变现效率显著提升。2. 做插画接单副业，坚持积累20个优质商业案例，突破"案例量阈值"后，主动对接设计平台，凭借作品集获得高客单价订单，实现收入跃迁。'
+      practice: '1. 做职场干货自媒体，前期持续日更3个月积累到8000粉，临近1万粉阈值时，策划"粉丝专属干货礼包"活动，快速突破阈值，之后流量和变现效率显著提升。2. 做插画接单副业，坚持积累20个优质商业案例，突破"案例量阈值"后，主动对接设计平台，凭借作品集获得高客单价订单，实现收入跃迁。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张阈值突破思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用阈值曲线布局，展示从积累期到突破期的价值增长过程，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用横向时间轴展示积累时间，纵向轴展示价值增长。
+
+  2. 核心元素细节：
+  - 坐标系统：绘制X轴（积累时间）和Y轴（价值/成果）；
+  - 阈值曲线：绘制一条S形或J形曲线，从左下缓慢上升，到某一点后陡峭上升，使用蓝色渐变填充，标注「价值增长曲线」；
+  - 积累期：在曲线平缓上升的区域标注「积累期」，使用绿色渐变填充；
+  - 阈值点：在曲线陡峭上升的拐点处绘制明显的节点，使用红色渐变填充，标注「临界阈值」；
+  - 爆发期：在曲线陡峭上升的区域标注「爆发期」，使用黄色渐变填充；
+  - 积累动作：在积累期下方添加积累动作的图标，如「持续学习」「日更内容」等；
+  - 文字标注（位置精准，样式工整）：
+    1. 积累期标注「积累期：缓慢增长，前期投入大，回报小」；
+    2. 阈值点标注「临界阈值：突破点，量变引发质变」；
+    3. 爆发期标注「爆发期：指数级增长，投入产出比大幅提升」；
+    4. 图表顶部中央标注标题：「阈值突破思维」，下方标注副标题：「前期积累，突破阈值后指数增长」；
+  - 图例说明：清晰标注积累期、阈值点和爆发期的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：曲线线条平滑、阈值点明显、文字居中/对齐工整，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     {
       id: 'valueAnchorUpgrade',
@@ -2071,7 +3198,33 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '通过设置更高维度的价值锚点，重新定义自身价值，实现从低价值到高价值的跃迁。',
       scope: '个人定位升级、副业赛道进阶、职场角色跃迁',
       tips: '1. 每个阶段结束后，复盘当前价值锚点的局限；2. 找到更高维度的锚点；3. 围绕新锚点打磨能力，输出更高价值的成果。',
-      practice: '1. 副业初期锚点是"写单篇文案"，升级后锚点是"提供品牌文案全案"，围绕新锚点学习营销策略、品牌定位知识，服务从中小客户升级为品牌客户，客单价提升5倍以上。2. 职场初期锚点是"执行数据录入"，升级后锚点是"输出数据洞察报告"，学习数据分析和可视化技能，为团队提供决策支持，实现从执行层到分析层的跃迁。'
+      practice: '1. 副业初期锚点是"写单篇文案"，升级后锚点是"提供品牌文案全案"，围绕新锚点学习营销策略、品牌定位知识，服务从中小客户升级为品牌客户，客单价提升5倍以上。2. 职场初期锚点是"执行数据录入"，升级后锚点是"输出数据洞察报告"，学习数据分析和可视化技能，为团队提供决策支持，实现从执行层到分析层的跃迁。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张价值锚点升级思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用锚点升级布局，展示从低维度到高维度价值锚点的升级过程，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用垂直或水平层级布局展示不同阶段的价值锚点。
+
+  2. 核心元素细节：
+  - 锚点层级：
+    1. 低价值锚点：底部绘制低价值锚点，使用蓝色渐变填充，标注「低价值锚点」；
+    2. 中价值锚点：中间绘制中价值锚点，使用绿色渐变填充，标注「中价值锚点」；
+    3. 高价值锚点：顶部绘制高价值锚点，使用紫色渐变填充，标注「高价值锚点」；
+  - 升级箭头：使用带箭头的曲线连接不同层级的锚点，标注「价值升级」；
+  - 能力支撑：在每个锚点下方绘制支撑该锚点的能力图标，如「基础技能」「专业能力」「核心竞争力」；
+  - 价值变化：在锚点右侧绘制价值变化的条形图，展示价值提升的幅度；
+  - 文字标注（位置精准，样式工整）：
+    1. 低价值锚点标注「低价值锚点：执行层，被动接受任务，价值低」；
+    2. 中价值锚点标注「中价值锚点：专业层，解决专业问题，价值中等」；
+    3. 高价值锚点标注「高价值锚点：决策层，制定战略方向，价值高」；
+    4. 图表顶部中央标注标题：「价值锚点升级思维」，下方标注副标题：「设置更高维度的价值锚点，实现价值跃迁」；
+  - 图例说明：清晰标注不同价值锚点的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：锚点设计简洁美观、升级箭头流畅、文字居中/对齐工整，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     // 认知破界类
     {
@@ -2084,7 +3237,33 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '通过监控、反思和优化自己的认知过程，提升认知的底层能力，实现所有领域的认知升级。',
       scope: '学习效率提升、决策质量优化、思维模式重构',
       tips: '1. 在学习或决策后，定期复盘"我是如何思考这个问题的？""我的思考方式存在哪些漏洞？"；2. 学习高效的思维模型；3. 用元认知监控自己的思维过程，及时纠正偏差。',
-      practice: '1. 学习Python编程时，发现自己总是死记硬背代码，通过元认知反思："我的学习方式是\'机械记忆\'，缺少对逻辑的理解"，调整为"先理解代码逻辑，再动手实操"，学习效率大幅提升。2. 做项目决策时，元认知监控到自己"只关注短期收益，忽略长期风险"，立刻引入"风险收益比思维"，重新评估方案，提升决策的科学性。'
+      practice: '1. 学习Python编程时，发现自己总是死记硬背代码，通过元认知反思："我的学习方式是\'机械记忆\'，缺少对逻辑的理解"，调整为"先理解代码逻辑，再动手实操"，学习效率大幅提升。2. 做项目决策时，元认知监控到自己"只关注短期收益，忽略长期风险"，立刻引入"风险收益比思维"，重新评估方案，提升决策的科学性。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张元认知思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用监控反思布局，展示元认知对认知过程的监控和优化，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用嵌套或环绕式布局展示认知过程和元认知监控。
+
+  2. 核心元素细节：
+  - 认知过程：中央绘制一个大脑图标，代表认知过程，使用蓝色渐变填充，标注「认知过程」；
+  - 元认知监控：在大脑图标外围绘制监控环，使用绿色渐变填充，标注「元认知监控」；
+  - 监控箭头：从监控环指向认知过程的箭头，标注「监控」；
+  - 反思箭头：从认知过程指向监控环的箭头，标注「反思」；
+  - 优化箭头：从监控环指向认知过程的箭头，标注「优化」；
+  - 认知阶段：在认知过程内绘制不同的认知阶段，如「感知」「分析」「决策」「行动」；
+  - 监控节点：在监控环上绘制监控节点，如「观察思考方式」「评估逻辑漏洞」「调整思维模型」；
+  - 文字标注（位置精准，样式工整）：
+    1. 认知过程标注「认知过程：感知、分析、决策、行动」；
+    2. 元认知监控标注「元认知监控：思考自己的思考，监控、反思、优化」；
+    3. 监控节点标注「监控节点：观察、评估、调整」；
+    4. 图表顶部中央标注标题：「元认知思维」，下方标注副标题：「思考自己的思考方式，提升认知能力」；
+  - 图例说明：清晰标注认知过程、元认知监控和监控节点的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：大脑图标设计简洁美观、监控环清晰、箭头连接流畅、文字居中/对齐工整，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     {
       id: 'firstPrincipleInnovation',
@@ -2096,7 +3275,32 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '从事物最基础的公理和本质出发，重新推导解决方案，实现颠覆性创新。',
       scope: '模式创新设计、产品功能重构、赛道重新定义',
       tips: '1. 面对问题时，问自己"这件事的本质是什么？""最基础的公理是什么？"；2. 抛开所有现有的解决方案，从本质出发推导新的路径；3. 用"本质+公理"验证推导结果的可行性。',
-      practice: '1. 思考"学习打卡工具的本质"，不是"记录打卡次数"，而是"提升学习动力"，从这个本质出发，设计"打卡+同伴监督+奖励机制"的创新功能，区别于传统的打卡工具。2. 思考"副业的本质"，不是"赚零花钱"，而是"价值变现"，从这个本质出发，放弃"低价值的苦力单"，选择"和自身核心能力匹配的高价值服务"，重新定义副业赛道。'
+      practice: '1. 思考"学习打卡工具的本质"，不是"记录打卡次数"，而是"提升学习动力"，从这个本质出发，设计"打卡+同伴监督+奖励机制"的创新功能，区别于传统的打卡工具。2. 思考"副业的本质"，不是"赚零花钱"，而是"价值变现"，从这个本质出发，放弃"低价值的苦力单"，选择"和自身核心能力匹配的高价值服务"，重新定义副业赛道。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张第一性原理创新思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用本质推导布局，展示从本质公理到创新解决方案的推导过程，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用垂直或水平层级布局展示从本质到创新的推导链条。
+
+  2. 核心元素细节：
+  - 本质层：底部绘制本质层，使用蓝色渐变填充，标注「本质层」，包含「事物本质」和「基础公理」；
+  - 推导层：中间绘制推导层，使用绿色渐变填充，标注「推导层」，包含「逻辑推导」和「路径重构」；
+  - 创新层：顶部绘制创新层，使用紫色渐变填充，标注「创新层」，包含「颠覆性创新」和「解决方案」；
+  - 传统路径对比：在左侧绘制传统路径，使用灰色渐变填充，标注「传统路径：经验类比，跟风模仿」；
+  - 创新路径：在右侧绘制创新路径，使用橙色渐变填充，标注「创新路径：本质推导，从零开始」；
+  - 推导箭头：使用带箭头的曲线连接不同层级，标注「创新推导」；
+  - 文字标注（位置精准，样式工整）：
+    1. 本质层标注「本质层：事物本质，最基础的公理」；
+    2. 推导层标注「推导层：逻辑推导，路径重构」；
+    3. 创新层标注「创新层：颠覆性创新，全新解决方案」；
+    4. 图表顶部中央标注标题：「第一性原理创新思维」，下方标注副标题：「从事物本质出发，实现颠覆性创新」；
+  - 图例说明：清晰标注本质层、推导层和创新层的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：层级结构清晰、推导箭头流畅、文字居中/对齐工整，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     {
       id: 'paradigmShift',
@@ -2108,7 +3312,33 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '主动打破旧的认知范式，切换到新的范式思考和行动，用新框架解决问题。',
       scope: '创新问题解决、赛道重构突破、困境破局突围',
       tips: '1. 识别当前的认知范式瓶颈；2. 寻找跨领域的新范式参考；3. 用新范式重构解决方案，跳出旧框架的束缚。',
-      practice: '1. 陷入"PPT接单低价内卷"的旧范式，打破后切换到"PPT模板产品化"新范式，开发行业专属模板，通过多平台售卖实现被动收入，摆脱内卷困境。2. 职场陷入"靠加班提升业绩"的旧范式，打破后切换到"靠效率提升+资源整合"新范式，优化工作流程、对接跨部门资源，用更少时间做出更好成果。'
+      practice: '1. 陷入"PPT接单低价内卷"的旧范式，打破后切换到"PPT模板产品化"新范式，开发行业专属模板，通过多平台售卖实现被动收入，摆脱内卷困境。2. 职场陷入"靠加班提升业绩"的旧范式，打破后切换到"靠效率提升+资源整合"新范式，优化工作流程、对接跨部门资源，用更少时间做出更好成果。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张范式转移思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用框架打破布局，展示从旧范式到新范式的转移过程，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用对比或转换式布局展示旧范式和新范式的差异。
+
+  2. 核心元素细节：
+  - 旧范式：左侧绘制旧范式框架，部分边框被打破，使用灰色渐变填充，标注「旧范式」；
+  - 新范式：右侧绘制新范式框架，使用蓝色渐变填充，标注「新范式」；
+  - 打破动作：中间绘制打破旧框架的图标，如锤子或爆炸效果，标注「打破旧框架」；
+  - 问题节点：在旧范式内绘制无法解决的问题，使用红色渐变填充，标注「问题」；
+  - 解决方案：在新范式内绘制创新解决方案，使用绿色渐变填充，标注「解决方案」；
+  - 转移箭头：使用带箭头的曲线连接旧范式和新范式，标注「范式转移」；
+  - 文字标注（位置精准，样式工整）：
+    1. 旧范式标注「旧范式：原有框架，无法解决新问题，思维局限」；
+    2. 新范式标注「新范式：全新框架，解决旧问题，创新突破」；
+    3. 问题节点标注「问题：旧范式无法解决的问题」；
+    4. 解决方案标注「解决方案：新范式下的创新方案」；
+    5. 图表顶部中央标注标题：「范式转移思维」，下方标注副标题：「打破旧框架，切换新范式，解决新问题」；
+  - 图例说明：清晰标注旧范式、新范式和转移过程的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：框架对比明显、打破效果生动、文字居中/对齐工整，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     {
       id: 'probabilityRight',
@@ -2120,7 +3350,31 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '通过计算每个选项的概率权，理性选择概率权更高的选项，避免凭感觉决策。',
       scope: '项目选择决策、副业赛道筛选、职场机会把握',
       tips: '1. 列出所有可选方案，量化每个方案的成功概率、潜在收益、失败成本；2. 计算每个方案的概率权值；3. 优先投入资源到概率权最高的方案，同时为低概率权方案保留小额试错空间。',
-      practice: '1. 面临两个副业选择：A是"小红书好物推荐"（成功概率60%，收益5000元，成本500元），B是"线下手工摆摊"（成功概率30%，收益8000元，成本2000元），计算得A概率权更高，优先选择A，同时用小额资金试错B。2. 职场有两个项目可选：A是成熟项目（成功概率90%，收益中等，成本低），B是创新项目（成功概率40%，收益高，成本高），选择A为主、B为辅的策略，兼顾稳收益和高潜力。'
+      practice: '1. 面临两个副业选择：A是"小红书好物推荐"（成功概率60%，收益5000元，成本500元），B是"线下手工摆摊"（成功概率30%，收益8000元，成本2000元），计算得A概率权更高，优先选择A，同时用小额资金试错B。2. 职场有两个项目可选：A是成熟项目（成功概率90%，收益中等，成本低），B是创新项目（成功概率40%，收益高，成本高），选择A为主、B为辅的策略，兼顾稳收益和高潜力。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张概率权思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用对比决策布局，展示不同选项的概率权对比，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用横向对比或矩阵布局展示不同选项的概率权。
+
+  2. 核心元素细节：
+  - 选项卡片：绘制2-3个选项卡片，每个卡片包含「成功概率」「潜在收益」「失败成本」「概率权计算」；
+  - 概率权计算：每个卡片内使用公式展示概率权计算过程，如「概率权 = 成功概率×收益 - 失败概率×成本」；
+  - 对比图表：在卡片下方绘制概率权对比的条形图，使用不同颜色区分选项；
+  - 决策建议：在图表底部绘制决策建议，标注「优先选择概率权最高的选项」；
+  - 文字标注（位置精准，样式工整）：
+    1. 选项卡片标注「选项A：成功概率60%，收益5000元，成本500元，概率权=2750」；
+    2. 选项卡片标注「选项B：成功概率30%，收益8000元，成本2000元，概率权=400」；
+    3. 对比图表标注「概率权对比：选项A > 选项B」；
+    4. 决策建议标注「决策建议：优先选择选项A，为选项B保留小额试错空间」；
+    5. 图表顶部中央标注标题：「概率权思维」，下方标注副标题：「计算概率权，理性选择最优方案」；
+  - 图例说明：清晰标注不同选项的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：选项卡片设计简洁、计算过程清晰、对比图表直观、文字居中/对齐工整，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     // 执行落地类
     {
@@ -2133,7 +3387,32 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '将所有资源聚焦于一个核心目标，排除干扰，实现单点突破。',
       scope: '核心技能攻坚、高难度任务突破、关键目标达成',
       tips: '1. 设定一个明确的核心目标；2. 在目标周期内，砍掉所有无关的任务和干扰；3. 将80%的时间和资源投入到核心目标上，确保单点突破。',
-      practice: '1. 核心目标是"3个月掌握深度学习基础"，期间卸载所有游戏和短视频APP，每天投入4小时专注学习，拒绝朋友的无效聚会邀请，集中精力攻克核心知识点，实现技能的快速突破。2. 核心目标是"完成公司年度核心项目"，期间暂停所有非核心的日常琐事，将团队资源集中到项目上，每天召开进度推进会，确保项目按时高质量完成。'
+      practice: '1. 核心目标是"3个月掌握深度学习基础"，期间卸载所有游戏和短视频APP，每天投入4小时专注学习，拒绝朋友的无效聚会邀请，集中精力攻克核心知识点，实现技能的快速突破。2. 核心目标是"完成公司年度核心项目"，期间暂停所有非核心的日常琐事，将团队资源集中到项目上，每天召开进度推进会，确保项目按时高质量完成。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张极致专注思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用聚焦目标布局，展示资源集中于核心目标的过程，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用中心聚焦或径向布局展示资源向核心目标的汇聚。
+
+  2. 核心元素细节：
+  - 核心目标：中央绘制一个大型目标图标，使用红色渐变填充，标注「核心目标」；
+  - 资源汇聚：从四周向核心目标绘制资源汇聚的箭头，使用不同颜色代表不同类型的资源，如「时间」「精力」「注意力」；
+  - 干扰元素：在资源汇聚的路径上绘制被排除的干扰元素，使用灰色渐变填充，标注「干扰项：游戏、短视频、无效社交」；
+  - 聚焦效果：在核心目标周围绘制聚焦光环，使用黄色渐变填充，标注「聚焦效果：高效突破」；
+  - 资源分配：在图表底部绘制资源分配的饼图，标注「80%资源投入核心目标，20%处理必要事务」；
+  - 文字标注（位置精准，样式工整）：
+    1. 核心目标标注「核心目标：3个月掌握深度学习基础」；
+    2. 资源汇聚标注「资源汇聚：时间、精力、注意力向核心目标集中」；
+    3. 干扰元素标注「干扰项：被排除的无关任务和干扰」；
+    4. 聚焦效果标注「聚焦效果：高效突破，快速达成目标」；
+    5. 图表顶部中央标注标题：「极致专注思维」，下方标注副标题：「资源聚焦，实现单点突破」；
+  - 图例说明：清晰标注核心目标、资源汇聚和干扰元素的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：聚焦效果明显、资源汇聚流畅、干扰元素清晰、文字居中/对齐工整，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     {
       id: 'fastIteration',
@@ -2145,7 +3424,35 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '用最小的成本、最快的速度进行多次试错，从错误中获取反馈，快速迭代方案。',
       scope: '新赛道探索、新产品测试、新技能验证',
       tips: '1. 将大目标拆解为可测试的小假设；2. 用最小的成本验证假设；3. 根据测试结果快速调整方向，要么放大有效动作，要么放弃无效路径。',
-      practice: '1. 想探索"小红书职场干货"的副业赛道，提出假设"职场PPT技巧内容在小红书有流量"，用7天时间每天发1条PPT技巧笔记，测试后发现流量不错，立刻加大投入；若流量差，则快速切换选题。2. 想验证"费曼学习法"是否适合自己，用1周时间尝试用该方法学习一个小知识点，测试后发现理解效率提升，就将该方法推广到所有学习中；若效果差，则换其他方法。'
+      practice: '1. 想探索"小红书职场干货"的副业赛道，提出假设"职场PPT技巧内容在小红书有流量"，用7天时间每天发1条PPT技巧笔记，测试后发现流量不错，立刻加大投入；若流量差，则快速切换选题。2. 想验证"费曼学习法"是否适合自己，用1周时间尝试用该方法学习一个小知识点，测试后发现理解效率提升，就将该方法推广到所有学习中；若效果差，则换其他方法。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张快速试错思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用迭代循环布局，展示从假设到验证、调整的快速迭代过程，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用环形或线性流程展示迭代循环。
+
+  2. 核心元素细节：
+  - 假设节点：绘制假设节点，使用蓝色渐变填充，标注「假设」；
+  - 验证节点：绘制验证节点，使用绿色渐变填充，标注「验证」；
+  - 反馈节点：绘制反馈节点，使用黄色渐变填充，标注「反馈」；
+  - 调整节点：绘制调整节点，使用红色渐变填充，标注「调整」；
+  - 放大节点：绘制放大节点，使用紫色渐变填充，标注「放大有效动作」；
+  - 放弃节点：绘制放弃节点，使用灰色渐变填充，标注「放弃无效路径」；
+  - 迭代箭头：使用带箭头的曲线连接不同节点，形成闭环，标注「快速迭代」；
+  - 成本时间标注：在每个节点旁标注「最小成本」「最快速度」；
+  - 文字标注（位置精准，样式工整）：
+    1. 假设节点标注「假设：职场PPT技巧内容在小红书有流量」；
+    2. 验证节点标注「验证：7天时间，每天发1条PPT技巧笔记」；
+    3. 反馈节点标注「反馈：流量不错，用户喜欢」；
+    4. 放大节点标注「放大：加大投入，持续输出PPT技巧内容」；
+    5. 图表顶部中央标注标题：「快速试错思维」，下方标注副标题：「最小成本、最快速度，从试错中找到可行路径」；
+  - 图例说明：清晰标注不同节点的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：迭代循环流畅、节点设计简洁、文字居中/对齐工整，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     {
       id: 'minimalResistancePath',
@@ -2157,7 +3464,32 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '找到阻力最小的行动路径，降低执行门槛，提升行动持续性。',
       scope: '习惯养成启动、任务执行推进、项目落地攻坚',
       tips: '1. 梳理执行过程中的关键阻力点；2. 针对阻力点设计替代方案；3. 让行动路径贴合现有生活习惯，而非强行改变。',
-      practice: '1. 想养成健身习惯，阻力是"下班累不想去健身房"，选择阻力最小的路径："睡前10分钟拉伸+5分钟平板支撑"，贴合睡前习惯，容易坚持，后期再逐步升级为完整训练。2. 推进项目时，阻力是"跨部门沟通效率低"，找到最小阻力路径："提前整理需求文档+预约15分钟短会"，避免反复沟通，提升协作效率。'
+      practice: '1. 想养成健身习惯，阻力是"下班累不想去健身房"，选择阻力最小的路径："睡前10分钟拉伸+5分钟平板支撑"，贴合睡前习惯，容易坚持，后期再逐步升级为完整训练。2. 推进项目时，阻力是"跨部门沟通效率低"，找到最小阻力路径："提前整理需求文档+预约15分钟短会"，避免反复沟通，提升协作效率。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张最小阻力路径思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用路径对比布局，展示不同阻力路径的对比，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用上下或左右对比的方式展示高阻力路径和低阻力路径。
+
+  2. 核心元素细节：
+  - 起点和终点：左侧绘制起点节点，右侧绘制终点节点，分别标注「起点：目标开始」和「终点：目标达成」；
+  - 高阻力路径：一条曲折的曲线，使用红色渐变填充，标注「高阻力路径」，路径上有多个障碍物图标，如「拖延」「复杂流程」「外部干扰」；
+  - 低阻力路径：一条平滑的曲线，使用绿色渐变填充，标注「低阻力路径」，路径上有辅助元素图标，如「简化流程」「贴合习惯」「降低门槛」；
+  - 阻力对比：在两条路径下方绘制阻力对比的条形图，使用不同颜色区分；
+  - 执行持续性：在图表底部绘制执行持续性的对比，标注「高阻力路径：执行困难，容易放弃」「低阻力路径：执行顺畅，持续行动」；
+  - 文字标注（位置精准，样式工整）：
+    1. 高阻力路径标注「高阻力路径：复杂流程，外部干扰多，执行门槛高」；
+    2. 低阻力路径标注「低阻力路径：简化流程，贴合现有习惯，执行门槛低」；
+    3. 阻力对比标注「阻力对比：低阻力路径 < 高阻力路径」；
+    4. 执行持续性标注「执行持续性：低阻力路径 > 高阻力路径」；
+    5. 图表顶部中央标注标题：「最小阻力路径思维」，下方标注副标题：「找到阻力最小的行动路径，提升行动持续性」；
+  - 图例说明：清晰标注高阻力路径、低阻力路径和对比数据的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：路径对比明显、障碍物和辅助元素设计简洁、文字居中/对齐工整，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     {
       id: 'resultVisualization',
@@ -2169,7 +3501,32 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '通过可视化阶段性结果，强化正向反馈，激发持续行动的动力。',
       scope: '习惯养成激励、学习进度跟踪、项目成果展示',
       tips: '1. 选择适合的可视化工具；2. 设定固定的更新频率；3. 将可视化成果展示在显眼位置。',
-      practice: '1. 学习Python编程，制作"知识点掌握进度条"，每学会一个知识点就填充一段进度条，挂在书桌前，看着进度条逐渐填满，学习动力持续增强。2. 做副业接单，用Excel制作"月度订单增长柱状图"，每周更新数据，直观看到订单增长趋势，及时调整运营策略，同时也能获得成就感。'
+      practice: '1. 学习Python编程，制作"知识点掌握进度条"，每学会一个知识点就填充一段进度条，挂在书桌前，看着进度条逐渐填满，学习动力持续增强。2. 做副业接单，用Excel制作"月度订单增长柱状图"，每周更新数据，直观看到订单增长趋势，及时调整运营策略，同时也能获得成就感。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张结果可视化强化思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用可视化反馈布局，展示阶段性结果的可视化过程和正向反馈，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用左右或上下布局展示可视化过程和反馈效果。
+
+  2. 核心元素细节：
+  - 执行过程：左侧绘制执行过程的流程图，使用蓝色渐变填充，标注「执行过程：学习/行动」；
+  - 结果收集：中间绘制结果收集的图标，使用绿色渐变填充，标注「结果收集：数据/成就」；
+  - 可视化呈现：右侧绘制多种可视化图表，如「进度条」「柱状图」「折线图」，使用紫色渐变填充，标注「可视化呈现：直观展示」；
+  - 正向反馈：在可视化图表下方绘制正向反馈的图标，如「成就感」「动力增强」「持续行动」，使用黄色渐变填充，标注「正向反馈：激发动力」；
+  - 示例可视化：绘制具体的可视化示例，如「知识点掌握进度条」「月度订单增长柱状图」；
+  - 文字标注（位置精准，样式工整）：
+    1. 执行过程标注「执行过程：学习Python知识点」；
+    2. 结果收集标注「结果收集：掌握10个知识点」；
+    3. 可视化呈现标注「可视化呈现：知识点掌握进度条（已填充60%）」；
+    4. 正向反馈标注「正向反馈：看到进度条填充，学习动力持续增强」；
+    5. 图表顶部中央标注标题：「结果可视化强化思维」，下方标注副标题：「让进步看得见，激发持续行动的动力」；
+  - 图例说明：清晰标注执行过程、结果收集、可视化呈现和正向反馈的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：可视化图表设计简洁、反馈效果明显、文字居中/对齐工整，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     // 生态共生类
     {
@@ -2182,7 +3539,35 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '找到独一无二的生态位，建立长期的竞争壁垒。',
       scope: '个人品牌定位、副业赛道选择、职场角色塑造',
       tips: '1. 分析生态中的竞争格局，找到未被覆盖或覆盖薄弱的细分领域；2. 聚焦该领域，打造差异化的价值输出；3. 持续深耕，成为该领域的权威。',
-      practice: '1. 分析Excel教程的竞争格局，发现多数教程聚焦"功能讲解"，缺少"新人避坑"内容，立刻卡位"职场新人Excel避坑指南"的生态位，持续输出避坑技巧和实战案例，成为该细分领域的小权威。2. 分析公司的职场生态，发现"项目数据可视化汇报"的岗位需求被忽视，立刻深耕该领域，打造"数据可视化+职场汇报"的复合能力，成为公司该领域的核心人才。'
+      practice: '1. 分析Excel教程的竞争格局，发现多数教程聚焦"功能讲解"，缺少"新人避坑"内容，立刻卡位"职场新人Excel避坑指南"的生态位，持续输出避坑技巧和实战案例，成为该细分领域的小权威。2. 分析公司的职场生态，发现"项目数据可视化汇报"的岗位需求被忽视，立刻深耕该领域，打造"数据可视化+职场汇报"的复合能力，成为公司该领域的核心人才。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张生态位卡位思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用生态系统布局，展示不同生态位的竞争格局和卡位策略，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用六边形或网格布局展示生态系统中的各个生态位。
+
+  2. 核心元素细节：
+  - 生态系统：绘制一个大型的生态系统背景，使用浅蓝色渐变填充，标注「价值生态」；
+  - 生态位节点：在生态系统内绘制多个不同的生态位节点：
+    1. 竞争激烈生态位：使用红色渐变填充，标注「竞争激烈生态位」，节点内有多个竞争个体；
+    2. 饱和生态位：使用黄色渐变填充，标注「饱和生态位」，节点内有多个相似个体；
+    3. 空白生态位：使用绿色渐变填充，标注「空白生态位」，节点内有少量或无个体；
+    4. 卡位生态位：使用紫色渐变填充，标注「卡位生态位：职场新人Excel避坑指南」，节点内有突出的核心个体；
+  - 卡位动作：在卡位生态位旁绘制卡位动作的图标，如「差异化定位」「持续输出」「建立壁垒」；
+  - 竞争格局：在图表底部绘制竞争格局的对比，标注「竞争激烈生态位：利润低，难以突围」「卡位生态位：利润高，不可替代」；
+  - 文字标注（位置精准，样式工整）：
+    1. 生态系统标注「价值生态：Excel教程市场」；
+    2. 空白生态位标注「空白生态位：新人避坑内容」；
+    3. 卡位生态位标注「卡位生态位：职场新人Excel避坑指南，差异化价值输出」；
+    4. 卡位动作标注「卡位动作：聚焦细分领域，持续输出避坑技巧」；
+    5. 图表顶部中央标注标题：「生态位卡位思维」，下方标注副标题：「找到独一无二的生态位，建立长期竞争壁垒」；
+  - 图例说明：清晰标注不同生态位的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：生态位布局清晰、卡位效果明显、竞争格局直观、文字居中/对齐工整，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     {
       id: 'valueSymbiosisNetwork',
@@ -2194,7 +3579,36 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '联合互补的价值节点，构建互利共赢的共生网络，实现价值倍增。',
       scope: '资源整合联盟、副业合作共同体、职场团队协作',
       tips: '1. 找到和自身价值互补的合作伙伴；2. 明确网络的共同目标；3. 制定公平的利益分配机制；4. 通过网络协同，放大整体价值。',
-      practice: '1. 联合文案写手、设计师、运营，构建"职场干货内容联盟"，文案写手负责内容创作，设计师负责视觉呈现，运营负责平台推广，联盟产出的内容质量和流量远超个人单打独斗，收益按贡献分配。2. 联合公司市场部、技术部、销售部，构建"新产品推广协作网络"，市场部负责调研，技术部负责开发，销售部负责渠道，网络协同推进新产品上市，效率和效果大幅提升。'
+      practice: '1. 联合文案写手、设计师、运营，构建"职场干货内容联盟"，文案写手负责内容创作，设计师负责视觉呈现，运营负责平台推广，联盟产出的内容质量和流量远超个人单打独斗，收益按贡献分配。2. 联合公司市场部、技术部、销售部，构建"新产品推广协作网络"，市场部负责调研，技术部负责开发，销售部负责渠道，网络协同推进新产品上市，效率和效果大幅提升。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张价值共生网络思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用网络协同布局，展示价值共生网络的构建和价值放大效应，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用节点和连接线条的网络布局展示价值共生网络。
+
+  2. 核心元素细节：
+  - 核心节点：中央绘制核心节点，使用蓝色渐变填充，标注「核心节点：职场技能分享博主」；
+  - 互补节点：围绕核心节点绘制多个互补节点：
+    1. 节点1：使用绿色渐变填充，标注「节点1：文案写手」；
+    2. 节点2：使用黄色渐变填充，标注「节点2：设计师」；
+    3. 节点3：使用紫色渐变填充，标注「节点3：运营」；
+    4. 节点4：使用橙色渐变填充，标注「节点4：职场教练」；
+  - 价值连接：使用双向箭头连接不同节点，标注「价值流动」，箭头颜色代表价值流动的方向；
+  - 价值放大区域：在网络外围绘制价值放大区域，使用红色渐变填充，标注「价值放大：1+1>2的协同效应」；
+  - 互动活动：在网络下方绘制节点间的互动活动，如「联合创作」「资源共享」「合作举办活动」；
+  - 文字标注（位置精准，样式工整）：
+    1. 核心节点标注「核心节点：职场技能分享博主，提供技能分享内容」；
+    2. 互补节点标注「互补节点：文案写手、设计师、运营、职场教练，提供互补服务」；
+    3. 价值连接标注「价值连接：互相引流，资源共享，价值流动」；
+    4. 价值放大区域标注「价值放大：构建职场干货内容联盟，实现价值放大效应」；
+    5. 图表顶部中央标注标题：「价值共生网络思维」，下方标注副标题：「构建互利共赢的价值共生网络，实现1+1>2的协同效应」；
+  - 图例说明：清晰标注核心节点、互补节点、价值连接和价值放大区域的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：网络布局清晰、连接线条流畅、节点设计简洁、文字居中/对齐工整，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     {
       id: 'ecologicalEmpowerment',
@@ -2206,7 +3620,33 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '融入优质生态，借助生态资源赋能自身，同时为生态贡献价值。',
       scope: '个人品牌曝光、副业流量获取、职场资源拓展',
       tips: '1. 选择和自身价值匹配的优质生态；2. 研究生态的赋能规则；3. 主动为生态贡献价值，获得生态倾斜。',
-      practice: '1. 做职场干货内容，加入领英职场创作者生态，参与平台的"职场干货周更计划"，凭借优质内容获得平台流量扶持，账号曝光量提升10倍以上。2. 职场中主动加入公司的核心项目生态，为项目提供数据分析支持，借助项目资源对接高层人脉，同时提升自身的项目经验和影响力。'
+      practice: '1. 做职场干货内容，加入领英职场创作者生态，参与平台的"职场干货周更计划"，凭借优质内容获得平台流量扶持，账号曝光量提升10倍以上。2. 职场中主动加入公司的核心项目生态，为项目提供数据分析支持，借助项目资源对接高层人脉，同时提升自身的项目经验和影响力。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张生态赋能思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用生态融入布局，展示融入生态获得赋能的过程，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用层级或嵌套布局展示生态与个体的关系。
+
+  2. 核心元素细节：
+  - 生态系统：底部绘制大型生态系统，使用蓝色渐变填充，标注「优质生态：领英职场创作者生态」；
+  - 生态资源：在生态系统上绘制生态资源图标，如「流量」「规则」「资源」「扶持政策」；
+  - 个体元素：在生态资源上绘制个体元素，使用绿色渐变填充，标注「个体：职场干货创作者」；
+  - 赋能箭头：使用带箭头的曲线从生态资源指向个体，标注「生态赋能」；
+  - 贡献箭头：使用带箭头的曲线从个体指向生态资源，标注「个体贡献」；
+  - 成长效果：在个体元素上方绘制成长效果，使用黄色渐变填充，标注「成长效果：曝光量提升10倍」；
+  - 文字标注（位置精准，样式工整）：
+    1. 生态系统标注「优质生态：领英职场创作者生态，提供流量和扶持政策」；
+    2. 生态资源标注「生态资源：平台流量、扶持计划、创作规则」；
+    3. 个体元素标注「个体：职场干货创作者，提供优质内容」；
+    4. 赋能箭头标注「生态赋能：平台流量扶持、推荐曝光」；
+    5. 图表顶部中央标注标题：「生态赋能思维」，下方标注副标题：「借势生态资源，实现双向成长」；
+  - 图例说明：清晰标注生态系统、生态资源、个体元素和成长效果的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：生态系统设计简洁、赋能关系清晰、文字居中/对齐工整，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     {
       id: 'symbiosisBarrier',
@@ -2218,7 +3658,36 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '与核心伙伴建立深度绑定的共生关系，形成共生壁垒，抵御外部竞争。',
       scope: '副业合作深化、职场团队绑定、个人品牌联盟',
       tips: '1. 找到生态中的核心互补伙伴；2. 建立深度绑定机制；3. 共同打造标志性成果，强化共生壁垒。',
-      practice: '1. 和文案、设计伙伴建立副业共生联盟，分工负责内容创作、视觉设计、平台运营，利益按贡献分成，共同打造"职场高效技能系列课程"，凭借组合优势抵御单打独斗的竞争。2. 职场中，和核心同事建立共生团队，共同负责公司的重点项目，分工协作、共享成果，形成的项目经验和人脉资源成为团队的共生壁垒，提升团队在公司的话语权。'
+      practice: '1. 和文案、设计伙伴建立副业共生联盟，分工负责内容创作、视觉设计、平台运营，利益按贡献分成，共同打造"职场高效技能系列课程"，凭借组合优势抵御单打独斗的竞争。2. 职场中，和核心同事建立共生团队，共同负责公司的重点项目，分工协作、共享成果，形成的项目经验和人脉资源成为团队的共生壁垒，提升团队在公司的话语权。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张共生壁垒思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用壁垒防护布局，展示共生壁垒的构建和防御效果，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 使用中心环绕或防护墙布局展示共生壁垒。
+
+  2. 核心元素细节：
+  - 共生团队：中央绘制共生团队，使用蓝色渐变填充，标注「共生团队：职场干货内容联盟」；
+  - 核心伙伴：在共生团队内绘制多个核心伙伴：
+    1. 伙伴1：使用绿色渐变填充，标注「伙伴1：文案写手」；
+    2. 伙伴2：使用黄色渐变填充，标注「伙伴2：设计师」；
+    3. 伙伴3：使用紫色渐变填充，标注「伙伴3：运营」；
+  - 共生壁垒：在共生团队外围绘制坚固的壁垒，使用红色渐变填充，标注「共生壁垒：深度绑定，互利共赢」；
+  - 外部竞争：在壁垒外绘制外部竞争的图标，使用灰色渐变填充，标注「外部竞争：单打独斗的创作者」；
+  - 防御效果：在壁垒上绘制防御效果的图标，如「抵御竞争」「保护利益」「巩固地位」；
+  - 标志性成果：在团队下方绘制标志性成果，如「职场高效技能系列课程」；
+  - 文字标注（位置精准，样式工整）：
+    1. 共生团队标注「共生团队：职场干货内容联盟，分工协作，利益共享」；
+    2. 核心伙伴标注「核心伙伴：文案写手、设计师、运营，深度绑定，互利共赢」；
+    3. 共生壁垒标注「共生壁垒：标志性成果+深度绑定机制，抵御外部竞争」；
+    4. 外部竞争标注「外部竞争：单打独斗的创作者，难以突破壁垒」；
+    5. 图表顶部中央标注标题：「共生壁垒思维」，下方标注副标题：「深度绑定核心伙伴，形成抵御外部竞争的共生壁垒」；
+  - 图例说明：清晰标注共生团队、核心伙伴、共生壁垒和外部竞争的含义和颜色对应关系，放置在图表右下角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：共生壁垒设计坚固、团队关系清晰、文字居中/对齐工整，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     // 原有图表
     { 
@@ -2232,7 +3701,27 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       scope: '技能学习、项目开展、习惯养成、职业发展',
       tips: '1. 提前了解死亡谷的存在，做好心理准备；2. 分解目标，设置小里程碑，获得持续的成就感；3. 寻找同伴或导师，获得支持和指导；4. 保持规律的学习/工作节奏，避免三天打鱼两天晒网。',
       practice: '1. 制定详细的学习计划，将大目标分解为小目标；2. 每周记录进度，关注微小的进步；3. 遇到瓶颈时，尝试换一种学习方法或休息一下再继续；4. 寻找成功案例，激励自己坚持下去。',
-      visualDesign: '1. 图表绘制思路：以曲线形式展示投入度与产出率的关系，突出学习过程中的瓶颈期；2. 设计细节：使用线性渐变填充曲线下区域，增强视觉层次感；移除垂直网格线，突出曲线趋势；3. 视觉元素选择：采用蓝绿渐变色表示成长过程，坐标轴标签清晰标注投入度和产出率，标题突出主题，增强可读性。'
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张死亡谷效应图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用二维坐标布局，X轴水平向右（投入度由低到高）、Y轴垂直向上（产出率由低到高），整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 背景采用平滑渐变填充，增强视觉层次感，无明显分区。
+
+  2. 核心元素细节：
+  - 曲线：绘制一条先快速上升，然后下降至最低点，最后急剧上升的平滑曲线，代表产出率随投入度的变化趋势，曲线线条粗细适中、样式清晰可辨；
+  - 区域填充：使用蓝红渐变填充曲线下方区域，增强视觉表现力；
+  - 文字标注（位置精准，样式工整）：
+    1. 曲线关键节点标注红色文字：从左到右依次为「初始阶段」「死亡谷底部」「突破阶段」「指数增长期」；
+    2. X轴下方标注：「投入度 (%)」，Y轴左侧标注：「产出率 (%)」；
+    3. 曲线下方标注阶段名称：「快速进步期」「瓶颈期」「指数增长期」；
+    4. 图表顶部中央标注标题：「死亡谷效应」，下方标注副标题：「投入初期快速进步，随后进入瓶颈期，突破后呈指数级增长」；
+  - 数据点：在曲线的关键节点上添加红色圆点标记，增强视觉焦点。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：曲线平滑无锯齿、文字居中/对齐工整、渐变颜色均匀，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     { 
       id: 'dunning', 
@@ -2245,7 +3734,26 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       scope: '自我认知、学习态度、决策制定、团队管理',
       tips: '1. 保持谦虚，认识到自己的局限性；2. 主动寻求反馈，了解他人对自己的评价；3. 学习批判性思维，学会质疑自己的观点；4. 与不同水平的人交流，拓宽视野。',
       practice: '1. 定期进行自我评估，记录自己的成长；2. 参加技能测试或比赛，客观了解自己的水平；3. 阅读相关书籍或课程，提升认知能力；4. 在做出重要决策前，征求他人的意见。',
-      visualDesign: '1. 图表绘制思路：通过曲线展示智慧水平与自信程度的关系，将认知过程划分为四个阶段；2. 设计细节：使用不同颜色的矩形块区分四个认知阶段，红色圆点标记关键节点（愚昧之巅、绝望之谷、开悟之坡、平稳高原），简洁的文字标注各阶段特点；3. 视觉元素选择：采用生动的图标表示不同认知阶段的人物状态，坐标轴清晰标注智慧水平和自信程度，使用渐变色增强视觉层次感，整体设计直观易懂，便于理解达克效应的核心概念。'
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张达克效应图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用二维坐标布局，X轴水平向右、Y轴垂直向上，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 按X轴从左到右（智慧水平由低到高），将图表背景分为4个连续的彩色分区（保持视觉区分度），分区之间无重叠、边界清晰。
+
+  2. 核心元素细节：
+  - 曲线：绘制一条先升后降再平缓上升的平滑曲线，贯穿4个背景分区，曲线线条粗细适中、样式清晰可辨；
+  - 文字标注（位置精准，样式工整）：
+    1. 曲线关键节点标注红色文字：从左到右依次为「愚昧之巅」「绝望之谷」「开悟之坡」「平稳高原」；
+    2. X轴下方标注：「智慧水平（知识与经验，低→高）」，Y轴左侧标注：「自信程度（高→低）」；
+    3. 4个背景分区内对应标注区域名称：「自信爆棚区」「自信崩溃区」「自信重建区」「自信成熟区」；
+    4. 图表最底部对应4个分区横向标注表现标签：「巨婴」「屌丝」「智者」「大师」；
+  - 图标：在4个背景分区内分别添加对应场景简笔画图标（自信爆棚区人物图标、自信崩溃区对应图标、自信重建区对应图标、自信成熟区大脑图标，样式简洁明了）。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：曲线平滑无锯齿、文字居中/对齐工整、背景分区颜色均匀，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     { 
       id: 'jcurve', 
@@ -2258,7 +3766,29 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       scope: '学习投资、职业发展、健身养生、人际关系',
       tips: '1. 树立长期主义思维，不急于求成；2. 选择有长期价值的领域进行投入；3. 保持持续学习和进步；4. 定期复盘和调整策略。',
       practice: '1. 制定5年或10年的长期计划；2. 每天坚持做一件对长期有价值的事情；3. 投资自己的技能和知识；4. 保持健康的生活方式，为长期发展奠定基础。',
-      visualDesign: '1. 图表绘制思路：以单条曲线展示时间与回报的关系，突出初期投入期的负收益与后期的指数级增长；2. 设计细节：使用平滑曲线连接数据点，添加明确的时间节点标注，突出曲线的J型特征；3. 视觉元素选择：采用蓝色渐变填充曲线下区域，增强视觉层次感；4. 数据标注：在曲线上标注关键时间点（如投入期、转折期、爆发期）的具体回报值；5. 图例说明：清晰标注曲线代表的含义，添加数据来源说明；6. 关键节点解释：在图表中添加文本框解释J型曲线的三个阶段（投入期、转折点、增长期）及其特征。'
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张J型曲线图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用二维坐标布局，X轴水平向右（时间由短到长）、Y轴垂直向上（回报值由低到高），整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 图表背景采用浅色渐变填充，增强视觉层次感，无明显分区。
+
+  2. 核心元素细节：
+  - 曲线：绘制一条先下降至负值区域，然后平缓增长，最后急剧上升的平滑J型曲线，代表回报值随时间的变化趋势，曲线线条粗细适中（3px）、样式清晰可辨，颜色为蓝色；
+  - 区域填充：使用蓝白渐变填充曲线下方区域，增强视觉表现力，渐变从蓝色（透明度0.4）过渡到白色（透明度0.05）；
+  - 文字标注（位置精准，样式工整）：
+    1. 曲线关键节点标注红色文字：从左到右依次为「投入期」「转折点」「爆发期」；
+    2. X轴下方标注：「时间」，Y轴左侧标注：「回报值」；
+    3. 曲线下方标注阶段名称：「投入期」「增长期」「爆发期」；
+    4. 图表顶部中央标注标题：「J型曲线 - 长期投资回报模式」，下方标注副标题：「投入初期收益为负，突破转折点后呈指数级增长」；
+  - 数据点：在曲线的关键节点上添加红色圆点标记（半径6px），增强视觉焦点，圆点边框为白色（边框宽度2px）；
+  - 参考线：添加垂直参考线标注转折点位置，使用虚线样式；
+  - 图例说明：清晰标注曲线代表的含义，放置在图表右上角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：曲线平滑无锯齿、文字居中/对齐工整、渐变颜色均匀，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     { 
       id: 'antifragile', 
@@ -2271,7 +3801,33 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       scope: '个人成长、企业管理、投资决策、风险管理',
       tips: '1. 主动接受适度的挑战和压力；2. 建立多元化的技能和收入来源；3. 培养适应变化的能力；4. 从失败中学习，不断改进。',
       practice: '1. 定期尝试新事物，走出舒适区；2. 学习一项新技能，挑战自己的极限；3. 建立应急基金，应对突发情况；4. 记录失败经验，分析原因并改进。',
-      visualDesign: '1. 图表绘制思路：采用对比式设计，同时展示脆弱、稳健和反脆弱三种系统在压力下的表现差异；2. 设计细节：使用三条不同颜色的曲线分别代表三种系统，添加压力梯度标注，突出反脆弱系统在压力下的成长特性；3. 视觉元素选择：脆弱系统用红色曲线表示，稳健系统用蓝色曲线表示，反脆弱系统用绿色曲线表示，使用不同的线条样式区分（虚线、实线、点划线）；4. 对比增强：在图表中添加垂直参考线，标注不同压力区间下三种系统的表现差异；5. 图例说明：清晰标注三条曲线分别代表的系统类型，添加数据来源说明；6. 关键节点解释：在图表中添加文本框解释三种系统在不同压力下的表现特征，重点突出反脆弱系统的独特优势。'
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张反脆弱图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用二维坐标布局，X轴水平向右（压力水平由低到高）、Y轴垂直向上（韧性值由低到高），整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 图表背景采用浅色渐变填充，增强视觉层次感，无明显分区。
+
+  2. 核心元素细节：
+  - 曲线：绘制三条平滑曲线，分别代表不同系统在压力下的表现：
+    1. 脆弱系统（红色曲线）：随压力增加，韧性值快速下降；
+    2. 稳健系统（蓝色曲线）：随压力增加，韧性值保持相对稳定；
+    3. 反脆弱系统（绿色曲线）：随压力增加，韧性值先稳定后快速上升；
+    曲线线条粗细适中（3px），使用不同线条样式区分：脆弱系统用虚线，稳健系统用实线，反脆弱系统用点划线；
+  - 区域填充：使用对应颜色的渐变填充每条曲线下方区域，增强视觉表现力，渐变透明度从0.4过渡到0.05；
+  - 文字标注（位置精准，样式工整）：
+    1. 曲线关键节点标注文字：在各曲线转折点添加对应颜色的文字标注；
+    2. X轴下方标注：「压力水平」，Y轴左侧标注：「韧性值」；
+    3. 曲线下方标注区域名称：「低压力区」「中等压力区」「高压力区」；
+    4. 图表顶部中央标注标题：「反脆弱 - 压力与韧性关系」，下方标注副标题：「脆弱系统随压力崩溃，强韧系统保持稳定，反脆弱系统从压力中获益」；
+  - 数据点：在各曲线的关键节点上添加对应颜色的圆点标记（半径5px），增强视觉焦点；
+  - 参考线：添加垂直参考线标注不同压力区间的分界，使用虚线样式；
+  - 图例说明：清晰标注三条曲线分别代表的系统类型，放置在图表右上角，对应使用相同的颜色和线条样式。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：曲线平滑无锯齿、文字居中/对齐工整、渐变颜色均匀，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     { 
       id: 'secondcurve', 
@@ -2284,7 +3840,32 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       scope: '职业规划、企业发展、产品创新、个人成长',
       tips: '1. 提前预判现有曲线的发展趋势；2. 在现有曲线达到峰值前，开始布局第二条曲线；3. 勇于创新，尝试新的领域和方向；4. 资源合理分配，既要维护现有业务，又要发展新业务。',
       practice: '1. 定期评估自己的职业发展状况；2. 学习新技能，为转型做准备；3. 关注行业趋势，寻找新的机会；4. 小步试错，逐步推进新的发展方向。',
-      visualDesign: '1. 图表绘制思路：展示两条曲线的发展周期，突出第一条曲线的衰退与第二条曲线的崛起；2. 设计细节：使用不同颜色区分两条曲线，明确标注曲线的发展阶段（启动期、增长期、成熟期、衰退期）；3. 视觉元素选择：第一条曲线使用蓝色，第二条曲线使用绿色，添加明确的阶段划分标识；4. 阶段划分：在每条曲线上标注四个发展阶段，使用垂直虚线分隔不同阶段；5. 转折点标注：在图表中明确标记第一条曲线的峰值点和第二条曲线的交叉点；6. 图例说明：清晰标注两条曲线分别代表的含义，添加数据来源说明；7. 关键节点解释：在图表中添加文本框解释两条曲线的发展周期和转型时机，重点突出第二曲线的布局时机。'
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张第二曲线图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用二维坐标布局，X轴水平向右（时间由短到长）、Y轴垂直向上（增长值由低到高），整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 图表背景采用浅色渐变填充，增强视觉层次感，无明显分区。
+
+  2. 核心元素细节：
+  - 曲线：绘制两条平滑曲线，分别代表不同阶段的发展周期：
+    1. 第一曲线（蓝色曲线）：随时间先快速上升，达到峰值后逐渐下降；
+    2. 第二曲线（绿色曲线）：在第一曲线达到峰值前开始启动，逐渐上升并最终超越第一曲线；
+    曲线线条粗细适中（3px），均使用实线样式；
+  - 区域填充：使用对应颜色的渐变填充每条曲线下方区域，增强视觉表现力，渐变透明度从0.4过渡到0.05；
+  - 文字标注（位置精准，样式工整）：
+    1. 曲线关键节点标注文字：在各曲线的启动期、增长期、成熟期、衰退期添加对应颜色的文字标注；
+    2. X轴下方标注：「时间」，Y轴左侧标注：「增长值」；
+    3. 曲线下方标注阶段名称：「转型期」「超越期」；
+    4. 图表顶部中央标注标题：「第二曲线 - 持续增长模型」，下方标注副标题：「展示企业或个人发展的生命周期，通过第二曲线实现持续增长」；
+  - 数据点：在各曲线的关键节点（启动点、峰值点、交叉点）上添加对应颜色的圆点标记（半径6px），增强视觉焦点，圆点边框为白色（边框宽度2px）；
+  - 参考线：添加垂直虚线标注第一曲线的峰值点和两条曲线的交叉点位置；
+  - 图例说明：清晰标注两条曲线分别代表的含义（「第一曲线」和「第二曲线」），放置在图表右上角，对应使用相同的颜色。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：曲线平滑无锯齿、文字居中/对齐工整、渐变颜色均匀，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     { 
       id: 'compound', 
@@ -2297,7 +3878,33 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       scope: '投资理财、学习成长、习惯养成、健康管理',
       tips: '1. 关注“每日增量”，忽略短期无明显效果的焦虑；2. 时间越长，复利效果越明显，坚持比单次投入更重要；3. 选择正向的行动方向；4. 保持行动的连续性，避免中断。',
       practice: '1. 选择正向微行动：挑选能长期坚持的小事（如“每天读20页书”“每天写50字复盘”“每天存10元钱”）；2. 保持连续性：哪怕当天状态差，也做“最低版本”的行动；3. 定期复盘：每月统计一次累计成果，直观看到复利效果；4. 持续优化：根据实际情况调整行动内容和强度。',
-      visualDesign: '1. 图表绘制思路：展示时间与增长倍数的关系，突出复利的指数级增长特性；2. 设计细节：使用对数坐标系展示增长倍数，添加明确的时间维度标注；3. 视觉元素选择：采用绿色渐变填充曲线下区域，增强视觉层次感；4. 数据呈现：同时展示不同增长率（如1%、3%、5%）的增长曲线，进行直观对比；5. 时间维度：在X轴清晰标注时间刻度（天、周、月、年），在曲线上标注关键时间点的增长倍数；6. 增长倍数对比：添加对比表格，展示不同时间点不同增长率的具体增长倍数；7. 图例说明：清晰标注不同增长率曲线的含义，添加数据来源说明；8. 关键节点解释：在图表中添加文本框解释复利效应的计算方式和关键时间节点，重点突出长期积累的重要性。'
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张复利效应图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用二维坐标布局，X轴水平向右（时间由短到长）、Y轴垂直向上（增长倍数由低到高），整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 图表背景采用浅色渐变填充，增强视觉层次感，无明显分区。
+
+  2. 核心元素细节：
+  - 曲线：绘制三条平滑曲线，分别代表不同增长率的复利效果：
+    1. 1%增长率（浅蓝色曲线）：随时间缓慢增长；
+    2. 3%增长率（中蓝色曲线）：随时间中等速度增长；
+    3. 5%增长率（深蓝色曲线）：随时间快速增长，呈现明显的指数级增长趋势；
+    曲线线条粗细适中（3px），均使用实线样式；
+  - 区域填充：使用对应颜色的渐变填充每条曲线下方区域，增强视觉表现力，渐变透明度从0.4过渡到0.05；
+  - 文字标注（位置精准，样式工整）：
+    1. 曲线标注文字：在每条曲线旁添加对应颜色的增长率文字标注；
+    2. X轴下方标注：「时间」，Y轴左侧标注：「增长倍数」；
+    3. 曲线下方标注阶段名称：「短期」「中期」「长期」；
+    4. 图表顶部中央标注标题：「复利效应 - 长期增长模型」，下方标注副标题：「微小的正向行动，通过时间的持续积累，最终产生指数级的结果」；
+  - 数据点：在各曲线的关键时间节点上添加对应颜色的圆点标记（半径5px），并标注具体的增长倍数；
+  - 参考线：添加垂直参考线标注不同时间阶段的分界，使用虚线样式；
+  - 图例说明：清晰标注三条曲线分别代表的增长率（「1%增长率」「3%增长率」「5%增长率」），放置在图表右上角，对应使用相同的颜色。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：曲线平滑无锯齿、文字居中/对齐工整、渐变颜色均匀，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     { 
       id: 'mining', 
@@ -2310,7 +3917,32 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       scope: '技能学习、项目攻坚、困难克服、目标实现',
       tips: '1. 认识到阻力是成长的必经之路；2. 分解阻力，逐步克服；3. 保持耐心，坚持到突破阈值；4. 从克服阻力中获得成就感和成长。',
       practice: '1. 遇到困难时，先分析阻力的来源和大小；2. 将大的阻力分解为小的、可克服的阻力；3. 制定详细的克服计划，逐步实施；4. 每克服一个阻力，记录下来，增强信心。',
-      visualDesign: '1. 图表绘制思路：展示阻力强度与收益大小的关系，突出突破阈值后的收益爆发；2. 设计细节：使用双坐标轴设计，左侧Y轴表示阻力强度，右侧Y轴表示收益大小，X轴表示时间或阶段；3. 视觉元素选择：阻力曲线使用红色，收益曲线使用绿色，添加明确的数据分组标识；4. 坐标轴设计：优化坐标轴刻度，使用对数刻度展示收益增长，增强数据可读性；5. 数据分组：将阻力分为低、中、高三个等级，对应展示不同等级阻力下的收益表现；6. 阈值标注：在图表中明确标记阻力阈值点，添加垂直参考线；7. 图例说明：清晰标注两条曲线分别代表的含义，添加数据来源说明；8. 关键节点解释：在图表中添加文本框解释不同阻力等级下的收益特征，重点突出突破阈值后的收益变化。'
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张阻力与收益图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用二维坐标布局，X轴水平向右（时间或阶段由早到晚），左侧Y轴垂直向上（阻力强度由低到高），右侧Y轴垂直向上（收益大小由低到高），整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 图表背景采用浅色渐变填充，增强视觉层次感，无明显分区。
+
+  2. 核心元素细节：
+  - 曲线：绘制两条平滑曲线，分别代表阻力和收益的变化趋势：
+    1. 阻力曲线（红色曲线）：随时间先上升后下降，形成一个峰值；
+    2. 收益曲线（绿色曲线）：随时间先缓慢上升，当阻力突破阈值后快速上升；
+    曲线线条粗细适中（3px），均使用实线样式；
+  - 区域填充：使用对应颜色的渐变填充每条曲线下方区域，增强视觉表现力，渐变透明度从0.4过渡到0.05；
+  - 文字标注（位置精准，样式工整）：
+    1. 曲线关键节点标注文字：在阻力曲线的峰值点和收益曲线的突破点添加对应颜色的文字标注；
+    2. X轴下方标注：「时间/阶段」，左侧Y轴标注：「阻力强度」，右侧Y轴标注：「收益大小」；
+    3. 曲线下方标注阶段名称：「积累期」「收获期」；
+    4. 图表顶部中央标注标题：「阻力与收益对比曲线」，下方标注副标题：「展示长期投资中阻力与收益的动态关系，前期阻力大于收益，后期收益爆发增长」；
+  - 数据点：在阻力曲线的峰值点和收益曲线的突破点上添加对应颜色的圆点标记（半径6px），增强视觉焦点，圆点边框为白色（边框宽度2px）；
+  - 参考线：添加垂直参考线标注阻力阈值点，使用虚线样式；
+  - 图例说明：清晰标注两条曲线分别代表的含义（「阻力」和「收益」），放置在图表右上角，对应使用相同的颜色。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：曲线平滑无锯齿、文字居中/对齐工整、渐变颜色均匀，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     { 
       id: 'dopamine', 
@@ -2322,7 +3954,30 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '多巴胺是一种神经递质，与愉悦感和奖励机制相关，影响人们的动机和行为。',
       scope: '情绪管理、动机激发、习惯养成、延迟满足',
       tips: '1. 了解多巴胺的作用机制，避免过度追求即时满足；2. 培养延迟满足的能力；3. 设置合理的奖励机制；4. 保持健康的生活方式，维持多巴胺的平衡。',
-      practice: '1. 制定长期目标，并将奖励与长期目标挂钩；2. 避免过度使用手机、游戏等容易产生即时满足的事物；3. 进行有氧运动，促进多巴胺的自然分泌；4. 学习新技能，获得成就感和满足感。'
+      practice: '1. 制定长期目标，并将奖励与长期目标挂钩；2. 避免过度使用手机、游戏等容易产生即时满足的事物；3. 进行有氧运动，促进多巴胺的自然分泌；4. 学习新技能，获得成就感和满足感。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张多巴胺曲线图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用二维坐标布局，X轴水平向右（时间由短到长）、Y轴垂直向上（多巴胺水平由低到高），整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 图表背景采用浅色渐变填充，增强视觉层次感，无明显分区。
+
+  2. 核心元素细节：
+  - 曲线：绘制一条先快速上升至峰值，然后迅速下降，最后缓慢恢复到基线水平的平滑曲线，代表多巴胺水平随时间的变化趋势，曲线线条粗细适中（3px），颜色为橙色；
+  - 区域填充：使用橙白渐变填充曲线下方区域，增强视觉表现力，渐变从橙色（透明度0.4）过渡到白色（透明度0.05）；
+  - 文字标注（位置精准，样式工整）：
+    1. 曲线关键节点标注文字：从左到右依次为「期待阶段」「峰值释放」「快速下降」「恢复基线」；
+    2. X轴下方标注：「时间」，Y轴左侧标注：「多巴胺水平」；
+    3. 曲线下方标注区域名称：「即时满足区」「延迟满足区」；
+    4. 图表顶部中央标注标题：「多巴胺曲线」，下方标注副标题：「展示多巴胺水平随时间的变化，帮助管理情绪和动机」；
+  - 数据点：在曲线的关键节点上添加橙色圆点标记（半径6px），增强视觉焦点，圆点边框为白色（边框宽度2px）；
+  - 参考线：添加水平虚线标注多巴胺基线水平；
+  - 图例说明：清晰标注曲线代表的含义，放置在图表右上角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：曲线平滑无锯齿、文字居中/对齐工整、渐变颜色均匀，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     { 
       id: 'flow', 
@@ -2334,17 +3989,65 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '当任务挑战难度与个人能力水平高度匹配时，人会进入全神贯注、忘记时间、享受其中的最优体验状态。',
       scope: '学习工作、创意创作、运动竞技、兴趣爱好',
       tips: '1. 调整任务难度，使其与当前能力“匹配”；2. 营造无干扰的环境，减少外界打断；3. 设定明确的目标和反馈机制；4. 保持专注，避免 multitasking。',
-      practice: '1. 匹配难度：学习/工作时，选择“跳一跳够得着”的内容；2. 营造专注环境：关闭手机通知、找安静的房间、用番茄钟；3. 及时调整状态：若感到焦虑，降低任务难度；若感到无聊，提升难度；4. 记录心流体验，总结进入心流的条件和方法。'
+      practice: '1. 匹配难度：学习/工作时，选择“跳一跳够得着”的内容；2. 营造专注环境：关闭手机通知、找安静的房间、用番茄钟；3. 及时调整状态：若感到焦虑，降低任务难度；若感到无聊，提升难度；4. 记录心流体验，总结进入心流的条件和方法。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张心流通道图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用二维坐标布局，X轴水平向右（挑战难度由低到高）、Y轴垂直向上（个人能力由低到高），整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 图表背景分为四个区域：焦虑区（能力低、挑战高）、心流区（能力与挑战匹配）、无聊区（能力高、挑战低）、放松区（能力与挑战都低），区域之间用虚线分隔。
+
+  2. 核心元素细节：
+  - 曲线：绘制一条从原点出发，向右上方延伸的45度对角线，代表心流通道的理想状态；
+  - 区域填充：使用不同颜色填充四个区域，增强视觉区分度：
+    1. 焦虑区：红色渐变（透明度0.3）；
+    2. 心流区：绿色渐变（透明度0.3）；
+    3. 无聊区：黄色渐变（透明度0.3）；
+    4. 放松区：蓝色渐变（透明度0.3）；
+  - 文字标注（位置精准，样式工整）：
+    1. 四个区域分别标注名称：「焦虑区」「心流区」「无聊区」「放松区」；
+    2. X轴下方标注：「挑战难度」，Y轴左侧标注：「个人能力」；
+    3. 图表顶部中央标注标题：「心流通道」，下方标注副标题：「当任务挑战难度与个人能力水平高度匹配时，人会进入全神贯注的最优体验状态」；
+  - 图标：在四个区域内分别添加对应场景的简笔画图标：焦虑区（皱眉的人）、心流区（专注工作的人）、无聊区（打哈欠的人）、放松区（躺椅上休息的人）；
+  - 参考线：添加45度对角线作为心流通道的理想线，使用实线样式；
+  - 图例说明：清晰标注四个区域的含义，放置在图表右上角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：曲线平滑无锯齿、文字居中/对齐工整、背景分区颜色均匀，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     { 
-      id: 'windLaw', 
-      name: 'windLaw', 
-      label: '风阻定律', 
-      icon: Zap, 
-      description: '展示速度与阻力的关系', 
+      id: 'windLaw',
+      name: 'windLaw',
+      label: '风阻定律',
+      icon: Zap,
+      description: '展示速度与阻力的关系',
       deepAnalysis: '风阻定律指出，阻力与速度的平方成正比。这一规律提醒我们，随着事业的发展，遇到的阻力会呈指数级增长，需要不断提升能力才能保持前进。',
       principle: '阻力与速度的平方成正比，随着事业的发展，遇到的阻力会呈指数级增长。',
       scope: '职业发展、企业扩张、个人成长、目标实现',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张风阻定律图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用二维坐标布局，X轴水平向右（速度由慢到快）、Y轴垂直向上（阻力大小由小到大），整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 图表背景采用浅色渐变填充，增强视觉层次感，无明显分区。
+
+  2. 核心元素细节：
+  - 曲线：绘制一条从原点出发，随速度增加而呈指数级增长的平滑曲线，代表阻力大小随速度变化的趋势，曲线线条粗细适中（3px），颜色为红色；
+  - 区域填充：使用红白渐变填充曲线下方区域，增强视觉表现力，渐变从红色（透明度0.4）过渡到白色（透明度0.05）；
+  - 文字标注（位置精准，样式工整）：
+    1. 曲线关键节点标注文字：从左到右依次为「低速区」「中速区」「高速区」；
+    2. X轴下方标注：「速度」，Y轴左侧标注：「阻力大小」；
+    3. 图表顶部中央标注标题：「风阻定律」，下方标注副标题：「阻力与速度的平方成正比，随着事业发展，阻力会呈指数级增长」；
+  - 数据点：在曲线的关键节点上添加红色圆点标记（半径6px），增强视觉焦点，圆点边框为白色（边框宽度2px）；
+  - 公式标注：在图表右上角标注风阻定律公式：F = k * v²（F表示阻力，k表示风阻系数，v表示速度）；
+  - 图例说明：清晰标注曲线代表的含义，放置在图表右上角。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：曲线平滑无锯齿、文字居中/对齐工整、渐变颜色均匀，所有标注文字的字体大小、颜色与整体设计匹配。`,
       tips: '1. 认识到随着发展，阻力会越来越大；2. 提前做好应对阻力的准备；3. 不断提升自己的能力和资源；4. 保持谦虚和学习的态度。',
       practice: '1. 定期评估自己的能力和资源，是否能应对当前的阻力；2. 持续学习和提升，保持能力与发展速度匹配；3. 建立强大的支持网络，获得他人的帮助；4. 制定灵活的策略，适应不断变化的环境。'
     },
@@ -3044,36 +4747,51 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
 
   return (
     <div className={`w-full h-full flex flex-col ${bgClass} p-4 gap-4`}>
-      {/* 1. 图表切换模块 - 位于界面顶部，包含图表分类选择功能及相关操作按钮 */}
-      <div className={`${cardBg} rounded-2xl p-4 shadow-lg`}>
-        <h2 className={`text-lg font-bold mb-4 ${textMain}`}>图表切换模块</h2>
-        <div className="overflow-y-auto max-h-32">
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCenter}
-          onDragEnd={handleDragEnd}
-        >
-          {/* 移除分类，将所有图表按钮堆在一起 */}
-          <SortableContext
-            items={Object.values(chartCategories).flat()}
-            strategy={verticalListSortingStrategy}
-          >
-            <div className="flex flex-wrap gap-2">
-              {/* 遍历所有图表分类的图表ID */}
-              {Object.values(chartCategories).flat().map((chartId) => {
-                const chart = getChartById(chartId);
-                if (!chart) return null;
-                return (
-                  <SortableButton
-                    key={chartId}
-                    id={chartId}
-                    chart={chart}
-                  />
-                );
-              })}
-            </div>
-          </SortableContext>
-        </DndContext>
+      {/* 1. 图表切换模块 - 完全参照商品分类与管理模块实现 */}
+      <div className={`${cardBg} rounded-2xl p-6 transition-all duration-300 border border-slate-300 dark:border-zinc-800 relative shadow-lg hover:shadow-xl`}>
+        {/* 左上角小图标和文字 */}
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <BarChart2 size={14} className="text-yellow-500" />
+            <h3 className={`text-xs font-bold uppercase ${textSub}`}>图表切换模块</h3>
+          </div>
+          {/* 右侧帮助指南小卡片 */}
+          <button onClick={() => setActiveHelp('chart')} className="text-zinc-500 hover:text-white transition-colors">
+            <HelpCircle size={16} />
+          </button>
+        </div>
+        
+        {/* 悬浮内框容器 - 第一层悬浮 */}
+        <div className={`${cardBg} rounded-xl shadow-sm transition-all duration-300 transform hover:translate-y-[-2px]`}>
+          {/* 滚动容器 - 第二层悬浮 */}
+          <div className="max-h-32 overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-slate-300 dark:scrollbar-thumb-zinc-800 scrollbar-track-transparent p-4">
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragEnd={handleDragEnd}
+            >
+              {/* 移除分类，将所有图表按钮堆在一起 */}
+              <SortableContext
+                items={Object.values(chartCategories).flat()}
+                strategy={verticalListSortingStrategy}
+              >
+                <div className="flex flex-wrap gap-3">
+                  {/* 遍历所有图表分类的图表ID */}
+                  {Object.values(chartCategories).flat().map((chartId) => {
+                    const chart = getChartById(chartId);
+                    if (!chart) return null;
+                    return (
+                      <SortableButton
+                        key={chartId}
+                        id={chartId}
+                        chart={chart}
+                      />
+                    );
+                  })}
+                </div>
+              </SortableContext>
+            </DndContext>
+          </div>
         </div>
       </div>
       
@@ -3085,7 +4803,13 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       
       {/* 3. 图表解析模块 - 位于界面底部区域，用于对当前展示图表进行详细解析 */}
       <div className={`${cardBg} rounded-2xl p-6 shadow-lg`}>
-        <h2 className={`text-lg font-bold mb-4 ${textMain}`}>图表深度解析模块</h2>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className={`text-lg font-bold ${textMain}`}>图表深度解析模块</h2>
+          {/* 统一的帮助按钮 */}
+          <button onClick={() => setActiveHelp('chartDetail')} className="text-zinc-500 hover:text-white transition-colors">
+            <HelpCircle size={16} />
+          </button>
+        </div>
         {(() => {
           const activeChartObj = getChartById(activeChart);
           if (!activeChartObj) return null;
@@ -3120,6 +4844,17 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
           );
         })()}
       </div>
+      
+      {/* 统一的帮助指南卡片 */}
+      <GlobalGuideCard
+        activeHelp={activeHelp}
+        helpContent={helpContent}
+        onClose={() => setActiveHelp(null)}
+        cardBg={cardBg}
+        textMain={textMain}
+        textSub={textSub}
+        config={guideCardConfig}
+      />
     </div>
   );
 };

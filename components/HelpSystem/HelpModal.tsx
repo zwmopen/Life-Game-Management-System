@@ -97,15 +97,7 @@ const GlobalGuideCard: React.FC<GlobalGuideCardProps> = ({
             </div>
           </div>
           
-          {/* 底层原理（可配置显示/隐藏） */}
-          {config.showUnderlyingPrinciple && (
-            <div className="space-y-2">
-              <h4 className={`text-lg font-semibold ${textMain}`}>底层原理</h4>
-              <div className={`${getFontSizeClass()} ${textSub} leading-relaxed`}>
-                {content.underlyingPrinciple}
-              </div>
-            </div>
-          )}
+
           
           {/* 核心规则 */}
           <div className="space-y-2">

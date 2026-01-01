@@ -15,13 +15,13 @@ const HelpTooltip: React.FC<HelpTooltipProps> = ({
   className = ''
 }) => {
   return (
-    <div className="relative inline-block cursor-help">
+    <div className="relative inline-block cursor-pointer">
       <button
         onClick={() => onHelpClick(helpId)}
-        className={`text-zinc-500 hover:text-blue-500 transition-colors ${className}`}
+        className={`transition-colors ${className}`}
         aria-label="打开帮助"
       >
-        {children || <HelpCircle size={16} />}
+        {children || <HelpCircle size={16} className="text-zinc-500 hover:text-white transition-colors" />}
       </button>
     </div>
   );
