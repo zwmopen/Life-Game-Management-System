@@ -43,8 +43,8 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
   const textMain = isDark ? 'text-zinc-200' : isNeomorphic ? 'text-zinc-700' : 'text-slate-800';
   const textSub = isDark ? 'text-zinc-500' : isNeomorphic ? 'text-zinc-600' : 'text-slate-500';
 
-  const [activeChart, setActiveChart] = useState<string>('dunning');
-  // 确保图表在页面加载时显示达克效应
+  const [activeChart, setActiveChart] = useState<string>('systemFeedback');
+  // 确保图表在页面加载时显示系统反馈模型
   const [chartHeight, setChartHeight] = useState<number>(600);
   const [activeHelp, setActiveHelp] = useState<string | null>(null);
   const chartContainerRef = useRef<HTMLDivElement>(null);
@@ -220,11 +220,6 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
   const renderChart = () => {
     const activeChartObj = getChartById(activeChart);
     
-    // 添加调试日志
-    console.log('activeChart:', activeChart);
-    console.log('activeChartObj:', activeChartObj);
-    console.log('dunningData:', dunningData);
-    
     switch (activeChart) {
       case 'attributeRadar':
         // 暂时禁用该图表，因为 attributeData 未定义
@@ -255,450 +250,616 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
         );
       case 'dip':
         return (
-          <BaseChart data={dipData} isDark={isDark} height={chartHeight}>
-            <AreaChart data={dipData} margin={{ top: 20, right: 40, left: 50, bottom: 50 }} animationDuration={1000}>
+          <div className="w-full h-full">
+            <svg width="100%" height="100%" viewBox="0 0 900 700" style={{ fontFamily: 'Microsoft YaHei, sans-serif' }}>
+              {/* 1. 背景平滑渐变填充 */}
               <defs>
-                <linearGradient id="colorDip" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.8}/>
-                  <stop offset="50%" stopColor="#ef4444" stopOpacity={0.8}/>
-                  <stop offset="95%" stopColor="#10b981" stopOpacity={0.8}/>
+                {/* 背景渐变 */}
+                <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#f0f8ff" stopOpacity="1"/>
+                  <stop offset="100%" stopColor="#e6f7ff" stopOpacity="1"/>
                 </linearGradient>
-                <linearGradient id="areaDip" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
-                  <stop offset="50%" stopColor="#ef4444" stopOpacity={0.3}/>
-                  <stop offset="95%" stopColor="#10b981" stopOpacity={0.3}/>
+                {/* 曲线下方区域蓝红渐变 */}
+                <linearGradient id="areaGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#3498db" stopOpacity="0.2"/>
+                  <stop offset="50%" stopColor="#e74c3c" stopOpacity="0.2"/>
+                  <stop offset="100%" stopColor="#2ecc71" stopOpacity="0.2"/>
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray={chartConfig.grid.strokeDasharray} stroke={getGridColor(isDark)} vertical={false} />
-              <XAxis 
-                dataKey="x" 
-                stroke={chartConfig.axis.stroke} 
-                tick={{ fontSize: chartConfig.fontSize.axisTick }} 
-                label={{ 
-                  value: '投入度 (%)', 
-                  position: 'insideBottom', 
-                  offset: -10, 
-                  fontSize: chartConfig.fontSize.axisLabel, 
-                  fontWeight: 'bold'
-                }} 
-                domain={[0, 100]} 
-              />
-              <YAxis 
-                stroke={chartConfig.axis.stroke} 
-                tick={{ fontSize: chartConfig.fontSize.axisTick }} 
-                label={{ 
-                  value: '产出率 (%)', 
-                  angle: -90, 
-                  position: 'insideLeft', 
-                  offset: -5, 
-                  fontSize: chartConfig.fontSize.axisLabel, 
-                  fontWeight: 'bold'
-                }} 
-                domain={[0, 130]} 
-              />
-              <Legend wrapperStyle={chartConfig.legend.wrapperStyle} />
-              
-              {/* 面积填充 */}
-              <Area 
-                type="monotone" 
-                dataKey="results" 
-                stroke="#3b82f6" 
-                strokeWidth={3} 
-                fill="url(#areaDip)" 
-                name="产出率" 
-              />
-              
-              {/* 曲线 - 优化流畅度 */}
-              <Line 
-                type="monotone" 
-                dataKey="results" 
-                stroke="#3b82f6" 
-                strokeWidth={3} 
-                dot={false} 
-                name="产出率" 
-              />
-              
-              {/* 关键节点标注 - 使用自定义dot直接放在曲线上 */}
-              <Line 
-                type="monotone" 
-                dataKey="results" 
-                stroke="none" 
-                strokeWidth={0} 
-                dot={(props) => {
-                  const { cx, cy, payload } = props;
-                  if (payload.x === 15) {
-                    return (
-                      <g>
-                        <circle cx={cx} cy={cy} r={6} fill="#ef4444" stroke="#ffffff" strokeWidth={2} />
-                        <text x={cx} y={cy + 20} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
-                          初始阶段
-                        </text>
-                      </g>
-                    );
-                  }
-                  if (payload.x === 50) {
-                    return (
-                      <g>
-                        <circle cx={cx} cy={cy} r={6} fill="#ef4444" stroke="#ffffff" strokeWidth={2} />
-                        <text x={cx} y={cy + 20} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
-                          死亡谷底部
-                        </text>
-                      </g>
-                    );
-                  }
-                  if (payload.x === 75) {
-                    return (
-                      <g>
-                        <circle cx={cx} cy={cy} r={6} fill="#ef4444" stroke="#ffffff" strokeWidth={2} />
-                        <text x={cx} y={cy - 15} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
-                          突破阶段
-                        </text>
-                      </g>
-                    );
-                  }
-                  if (payload.x === 90) {
-                    return (
-                      <g>
-                        <circle cx={cx} cy={cy} r={6} fill="#ef4444" stroke="#ffffff" strokeWidth={2} />
-                        <text x={cx} y={cy - 15} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
-                          指数增长期
-                        </text>
-                      </g>
-                    );
-                  }
-                  return null;
-                }} 
-                name="关键节点" 
-              />
-              
-              {/* 区域标注 - 优化位置和样式 */}
-              <text x="120" y="180" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={14} fontWeight="bold" fillOpacity={0.8}>
-                快速进步期
-              </text>
-              <text x="200" y="240" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={14} fontWeight="bold" fillOpacity={0.8}>
-                瓶颈期
-              </text>
-              <text x="300" y="120" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={14} fontWeight="bold" fillOpacity={0.8}>
-                指数增长期
-              </text>
-              
-              {/* 标题 */}
-              <text x="50%" y="20" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={chartConfig.fontSize.title} fontWeight="bold">
-                死亡谷效应
-              </text>
-              
-              {/* 副标题 - 优化描述 */}
-              <text x="50%" y="40" textAnchor="middle" fill={isDark ? '#a1a1aa' : '#64748b'} fontSize={14}>
-                投入初期快速进步，随后进入瓶颈期，突破后呈指数级增长
-              </text>
-            </AreaChart>
-          </BaseChart>
+              {/* 背景矩形 */}
+              <rect x="50" y="100" width="800" height="500" fill="url(#bgGradient)" rx="2" ry="2"/>
+
+              {/* 2. 坐标轴绘制 */}
+              <line x1="100" y1="600" x2="850" y2="600" stroke="#333" strokeWidth="2"/> {/* X轴 */}
+              <line x1="100" y1="150" x2="100" y2="600" stroke="#333" strokeWidth="2"/> {/* Y轴 */}
+              {/* X轴刻度（简易标注，增强可读性） */}
+              <line x1="100" y1="600" x2="100" y2="610" stroke="#333" strokeWidth="2"/>
+              <line x1="250" y1="600" x2="250" y2="610" stroke="#333" strokeWidth="2"/>
+              <line x1="400" y1="600" x2="400" y2="610" stroke="#333" strokeWidth="2"/>
+              <line x1="550" y1="600" x2="550" y2="610" stroke="#333" strokeWidth="2"/>
+              <line x1="700" y1="600" x2="700" y2="610" stroke="#333" strokeWidth="2"/>
+              <line x1="850" y1="600" x2="850" y2="610" stroke="#333" strokeWidth="2"/>
+              <text x="100" y="630" fontSize="12" fill="#333">0</text>
+              <text x="250" y="630" fontSize="12" fill="#333">20</text>
+              <text x="400" y="630" fontSize="12" fill="#333">40</text>
+              <text x="550" y="630" fontSize="12" fill="#333">60</text>
+              <text x="700" y="630" fontSize="12" fill="#333">80</text>
+              <text x="850" y="630" fontSize="12" fill="#333">100</text>
+              {/* Y轴刻度（简易标注，增强可读性） */}
+              <line x1="100" y1="600" x2="90" y2="600" stroke="#333" strokeWidth="2"/>
+              <line x1="100" y1="480" x2="90" y2="480" stroke="#333" strokeWidth="2"/>
+              <line x1="100" y1="360" x2="90" y2="360" stroke="#333" strokeWidth="2"/>
+              <line x1="100" y1="240" x2="90" y2="240" stroke="#333" strokeWidth="2"/>
+              <line x1="100" y1="150" x2="90" y2="150" stroke="#333" strokeWidth="2"/>
+              <text x="70" y="600" fontSize="12" fill="#333">0</text>
+              <text x="70" y="480" fontSize="12" fill="#333">25</text>
+              <text x="70" y="360" fontSize="12" fill="#333">50</text>
+              <text x="70" y="240" fontSize="12" fill="#333">75</text>
+              <text x="70" y="150" fontSize="12" fill="#333">100</text>
+
+              {/* 3. 曲线绘制 + 下方区域填充 */}
+              {/* 曲线下方区域填充（蓝红渐变） */}
+              <path d="M100,600 Q180,400 250,350 T400,500 T550,480 T700,200 T850,150 L850,600 Z"
+                    fill="url(#areaGradient)" stroke="none"/>
+              {/* 平滑曲线（先快速上升→下降→急剧上升） */}
+              <path d="M100,600 Q180,400 250,350 T400,500 T550,480 T700,200 T850,150"
+                    stroke="#2c3e50" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+
+              {/* 4. 关键数据点（红色圆点） */}
+              <circle cx="100" cy="600" r="6" fill="red" stroke="#333" strokeWidth="1"/> {/* 起点（初始阶段） */}
+              <circle cx="250" cy="350" r="6" fill="red" stroke="#333" strokeWidth="1"/> {/* 初始阶段终点 */}
+              <circle cx="400" cy="500" r="6" fill="red" stroke="#333" strokeWidth="1"/> {/* 死亡谷底部 */}
+              <circle cx="550" cy="480" r="6" fill="red" stroke="#333" strokeWidth="1"/> {/* 突破阶段 */}
+              <circle cx="850" cy="150" r="6" fill="red" stroke="#333" strokeWidth="1"/> {/* 指数增长期 */}
+
+              {/* 5. 文字标注 */}
+              {/* 图表标题 + 副标题 */}
+              <text x="450" y="60" fontSize="24" fill="#333" fontWeight="bold">死亡谷效应</text>
+              <text x="450" y="90" fontSize="14" fill="#666">投入初期快速进步，随后进入瓶颈期，突破后呈指数级增长</text>
+              {/* 曲线关键节点（红色文字） */}
+              <text x="100" y="580" fontSize="14" fill="red" fontWeight="bold">初始阶段</text>
+              <text x="400" y="520" fontSize="14" fill="red" fontWeight="bold">死亡谷底部</text>
+              <text x="550" y="460" fontSize="14" fill="red" fontWeight="bold">突破阶段</text>
+              <text x="850" y="130" fontSize="14" fill="red" fontWeight="bold">指数增长期</text>
+              {/* 坐标轴标注 */}
+              <text x="475" y="650" fontSize="16" fill="#333" fontWeight="normal">投入度 (%)</text>
+              <text x="40" y="375" fontSize="16" fill="#333" fontWeight="normal" transform="rotate(-90,40,375)">产出率 (%)</text>
+              {/* 曲线下方阶段名称 */}
+              <text x="175" y="450" fontSize="14" fill="#333" fontWeight="bold">快速进步期</text>
+              <text x="475" y="550" fontSize="14" fill="#333" fontWeight="bold">瓶颈期</text>
+              <text x="700" y="300" fontSize="14" fill="#333" fontWeight="bold">指数增长期</text>
+            </svg>
+          </div>
         );
       case 'dunning':
         return (
           <div className="flex flex-col w-full h-full">
-            <BaseChart data={dunningKrugerData} isDark={isDark} height={chartHeight}>
-              <LineChart data={dunningKrugerData} animationDuration={1000} margin={{ top: 20, right: 40, left: 50, bottom: 50 }}>
-                <CartesianGrid strokeDasharray={chartConfig.grid.strokeDasharray} stroke={getGridColor(isDark)} />
-                <XAxis 
-                  dataKey="knowledge" 
-                  name="知识水平" 
-                  label={{ value: '知识水平', position: 'insideBottomRight', offset: -10, fontSize: chartConfig.fontSize.axisLabel }}
-                  tick={{ fontSize: chartConfig.fontSize.axisTick }}
-                  stroke={chartConfig.axis.stroke}
-                />
-                <YAxis 
-                  name="自信程度" 
-                  label={{ value: '自信程度', angle: -90, position: 'insideLeft', fontSize: chartConfig.fontSize.axisLabel }}
-                  tick={{ fontSize: chartConfig.fontSize.axisTick }}
-                  stroke={chartConfig.axis.stroke}
-                />
-                <Tooltip 
-                  contentStyle={getTooltipStyle(isDark).contentStyle} 
-                  cursor={getTooltipStyle(isDark).cursor}
-                />
-                <Legend wrapperStyle={chartConfig.legend.wrapperStyle} />
-                <ReferenceLine y={40} stroke="#ef4444" strokeDasharray={chartConfig.grid.strokeDasharray} label={{ value: '绝望之谷', position: 'right', fontSize: chartConfig.fontSize.axisLabel }} />
-                <ReferenceLine x={30} stroke="#ef4444" strokeDasharray={chartConfig.grid.strokeDasharray} />
-                <Line 
-                  type="monotone" 
-                  dataKey="confidence" 
-                  stroke="#ec4899" 
-                  strokeWidth={3} 
-                  dot={{ r: 4 }}
-                  activeDot={{ r: 6 }}
-                  name="自信程度"
-                />
-                <Scatter 
-                  data={[
-                    { knowledge: 0, confidence: 95, special: true },
-                    { knowledge: 30, confidence: 40, special: true },
-                    { knowledge: 60, confidence: 70, special: true },
-                    { knowledge: 100, confidence: 90, special: true }
-                  ]} 
-                  fill="#ef4444"
-                  name="关键阶段"
-                  shape={<circle r={6} stroke="#ffffff" strokeWidth={2} />}
-                />
-                {/* 标题 */}
-                <text x="50%" y="30" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={chartConfig.fontSize.title} fontWeight="bold">
-                  达克效应
-                </text>
-                <text x="50%" y="50" textAnchor="middle" fill={isDark ? '#a1a1aa' : '#64748b'} fontSize={14}>
-                  描述人们对自己能力的认知随知识水平变化的过程
-                </text>
-              </LineChart>
-            </BaseChart>
+            <div className="w-full h-[calc(100%-200px)]">
+              <svg width="100%" height="100%" viewBox="0 0 800 600" style={{ fontFamily: 'Microsoft YaHei, sans-serif' }}>
+                {/* 1. 背景分区（4个彩色区域，边界清晰） */}
+                <rect x="100" y="100" width="150" height="400" fill="#ffd6e0" stroke="#333" strokeWidth="1"/> {/* 自信爆棚区 */}
+                <rect x="250" y="100" width="150" height="400" fill="#d6e4ff" stroke="#333" strokeWidth="1"/> {/* 自信崩溃区 */}
+                <rect x="400" y="100" width="150" height="400" fill="#d6ffed" stroke="#333" strokeWidth="1"/> {/* 自信重建区 */}
+                <rect x="550" y="100" width="150" height="400" fill="#fff3d6" stroke="#333" strokeWidth="1"/> {/* 自信成熟区 */}
+
+                {/* 2. 坐标轴绘制 */}
+                <line x1="100" y1="500" x2="700" y2="500" stroke="#333" strokeWidth="2"/> {/* X轴 */}
+                <line x1="100" y1="100" x2="100" y2="500" stroke="#333" strokeWidth="2"/> {/* Y轴 */}
+
+                {/* 3. 平滑曲线（先升后降再平缓上升，贯穿4个分区） */}
+                <path d="M100,400 Q175,150 250,200 T400,450 T550,350 T700,300" 
+                      stroke="#2f5496" strokeWidth="3" fill="none" strokeLinecap="round"/>
+
+                {/* 4. 文字标注 - 曲线关键节点（红色文字） */}
+                <text x="175" y="130" fontSize="14" fill="red" fontWeight="bold">愚昧之巅</text>
+                <text x="325" y="220" fontSize="14" fill="red" fontWeight="bold">绝望之谷</text>
+                <text x="475" y="470" fontSize="14" fill="red" fontWeight="bold">开悟之坡</text>
+                <text x="625" y="280" fontSize="14" fill="red" fontWeight="bold">平稳高原</text>
+
+                {/* 5. 文字标注 - 坐标轴说明 */}
+                <text x="400" y="530" fontSize="14" fill="#333" fontWeight="normal">智慧水平（知识与经验，低→高）</text>
+                <text x="60" y="300" fontSize="14" fill="#333" fontWeight="normal" transform="rotate(-90,60,300)">自信程度（高→低）</text>
+
+                {/* 6. 文字标注 - 背景分区名称（对应区域内） */}
+                <text x="175" y="50" fontSize="14" fill="#333" fontWeight="bold">自信爆棚区</text>
+                <text x="325" y="50" fontSize="14" fill="#333" fontWeight="bold">自信崩溃区</text>
+                <text x="475" y="50" fontSize="14" fill="#333" fontWeight="bold">自信重建区</text>
+                <text x="625" y="50" fontSize="14" fill="#333" fontWeight="bold">自信成熟区</text>
+
+                {/* 7. 文字标注 - 底部表现标签 */}
+                <text x="175" y="560" fontSize="16" fill="#333" fontWeight="bold">巨婴</text>
+                <text x="325" y="560" fontSize="16" fill="#333" fontWeight="bold">屌丝</text>
+                <text x="475" y="560" fontSize="16" fill="#333" fontWeight="bold">智者</text>
+                <text x="625" y="560" fontSize="16" fill="#333" fontWeight="bold">大师</text>
+
+                {/* 8. 简笔画图标 - 4个分区对应图标（无外部资源，纯SVG绘制） */}
+                {/* 自信爆棚区：人物图标（自信姿态） */}
+                <g transform="translate(175, 300) scale(0.8)">
+                    <circle cx="0" cy="-20" r="15" fill="#333" /> {/* 头部 */}
+                    <rect x="-10" y="5" width="20" height="25" fill="#333" /> {/* 身体 */}
+                    <line x1="-10" y1="5" x2="-18" y2="15" stroke="#333" strokeWidth="2" /> {/* 左臂 */}
+                    <line x1="10" y1="5" x2="18" y2="15" stroke="#333" strokeWidth="2" /> {/* 右臂 */}
+                    <line x1="-10" y1="30" x2="-18" y2="40" stroke="#333" strokeWidth="2" /> {/* 左腿 */}
+                    <line x1="10" y1="30" x2="18" y2="40" stroke="#333" strokeWidth="2" /> {/* 右腿 */}
+                </g>
+
+                {/* 自信崩溃区：沮丧人物图标 */}
+                <g transform="translate(325, 300) scale(0.8)">
+                    <circle cx="0" cy="-15" r="15" fill="#333" /> {/* 头部 */}
+                    <path d="M-10,0 L0,25 L10,0" fill="#333" /> {/* 弯腰身体 */}
+                    <line x1="-5" y1="5" x2="-12" y2="15" stroke="#333" strokeWidth="2" /> {/* 左臂 */}
+                    <line x1="5" y1="5" x2="12" y2="15" stroke="#333" strokeWidth="2" /> {/* 右臂 */}
+                    <line x1="-5" y1="25" x2="-12" y2="35" stroke="#333" strokeWidth="2" /> {/* 左腿 */}
+                    <line x1="5" y1="25" x2="12" y2="35" stroke="#333" strokeWidth="2" /> {/* 右腿 */}
+                </g>
+
+                {/* 自信重建区：学习人物图标（持书） */}
+                <g transform="translate(475, 300) scale(0.8)">
+                    <circle cx="0" cy="-20" r="15" fill="#333" /> {/* 头部 */}
+                    <rect x="-10" y="5" width="20" height="25" fill="#333" /> {/* 身体 */}
+                    <line x1="-10" y1="15" x2="-18" y2="25" stroke="#333" strokeWidth="2" /> {/* 左臂 */}
+                    <rect x="5" y="10" width="8" height="12" fill="#333" /> {/* 书本 */}
+                    <line x1="10" y1="30" x2="18" y2="40" stroke="#333" strokeWidth="2" /> {/* 右腿 */}
+                    <line x1="-10" y1="30" x2="-18" y2="40" stroke="#333" strokeWidth="2" /> {/* 左腿 */}
+                </g>
+
+                {/* 自信成熟区：大脑图标 */}
+                <g transform="translate(625, 300) scale(0.8)">
+                    <path d="M-20,0 C-30,-15 -30,-35 -15,-45 C0,-55 20,-55 35,-45 C50,-35 50,-15 40,0 C45,15 40,35 25,45 C10,55 -10,55 -25,45 C-40,35 -35,15 -20,0 Z" fill="#333" /> {/* 大脑轮廓 */}
+                    <line x1="-15" y1="-10" x2="-15" y2="30" stroke="#fff" strokeWidth="1" /> {/* 大脑纹理 */}
+                    <line x1="0" y1="-10" x2="0" y2="30" stroke="#fff" strokeWidth="1" /> {/* 大脑纹理 */}
+                    <line x1="15" y1="-10" x2="15" y2="30" stroke="#fff" strokeWidth="1" /> {/* 大脑纹理 */}
+                    <path d="M-25,-20 Q0,-30 25,-20" stroke="#fff" strokeWidth="1" fill="none" /> {/* 大脑纹理 */}
+                    <path d="M-20,10 Q0,20 20,10" stroke="#fff" strokeWidth="1" fill="none" /> {/* 大脑纹理 */}
+                </g>
+              </svg>
+            </div>
             
-            {/* 优化后的达克效应阶段图标 */}
-            <div className="grid grid-cols-4 gap-2 p-4">
-              {/* 愚昧之巅 */}
-              <div className="flex flex-col items-center text-center">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-yellow-400 to-orange-600 flex items-center justify-center mb-1">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10" />
-                    <line x1="12" y1="8" x2="12" y2="12" />
-                    <line x1="12" y1="16" x2="12.01" y2="16" />
-                    <line x1="8" y1="12" x2="12" y2="12" />
-                    <line x1="16" y1="12" x2="12" y2="12" />
-                  </svg>
-                </div>
-                <span className="text-xs font-medium">愚昧之巅</span>
+            {/* 阶段说明卡片 */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 p-4 mt-2 overflow-y-auto max-h-[200px]">
+              <div className={`p-3 rounded-xl transition-all duration-300 ${isDark ? 'bg-zinc-800/80' : 'bg-white/80'} shadow-lg border ${isDark ? 'border-zinc-700' : 'border-gray-200'}`}>
+                <h4 className="text-md font-bold mb-1 flex items-center gap-2">
+                  <span className="w-5 h-5 rounded-full bg-yellow-500 flex items-center justify-center text-white text-xs font-bold">1</span>
+                  愚昧之巅
+                </h4>
+                <p className={`text-xs ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
+                  知识水平低但自信程度极高，对自己的能力缺乏客观认识，往往高估自己。
+                </p>
               </div>
-              
-              {/* 绝望之谷 */}
-              <div className="flex flex-col items-center text-center">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center mb-1">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10" />
-                    <line x1="18" y1="6" x2="6" y2="18" />
-                    <line x1="6" y1="6" x2="18" y2="18" />
-                  </svg>
-                </div>
-                <span className="text-xs font-medium">绝望之谷</span>
+              <div className={`p-3 rounded-xl transition-all duration-300 ${isDark ? 'bg-zinc-800/80' : 'bg-white/80'} shadow-lg border ${isDark ? 'border-zinc-700' : 'border-gray-200'}`}>
+                <h4 className="text-md font-bold mb-1 flex items-center gap-2">
+                  <span className="w-5 h-5 rounded-full bg-red-500 flex items-center justify-center text-white text-xs font-bold">2</span>
+                  绝望之谷
+                </h4>
+                <p className={`text-xs ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
+                  随着知识的增加，开始意识到自己的不足，自信程度急剧下降，进入自我怀疑阶段。
+                </p>
               </div>
-              
-              {/* 开悟之坡 */}
-              <div className="flex flex-col items-center text-center">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center mb-1">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-                  </svg>
-                </div>
-                <span className="text-xs font-medium">开悟之坡</span>
+              <div className={`p-3 rounded-xl transition-all duration-300 ${isDark ? 'bg-zinc-800/80' : 'bg-white/80'} shadow-lg border ${isDark ? 'border-zinc-700' : 'border-gray-200'}`}>
+                <h4 className="text-md font-bold mb-1 flex items-center gap-2">
+                  <span className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center text-white text-xs font-bold">3</span>
+                  开悟之坡
+                </h4>
+                <p className={`text-xs ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
+                  通过持续学习和实践，知识水平不断提高，自信程度也逐渐恢复并稳步增长。
+                </p>
               </div>
-              
-              {/* 大师境界 */}
-              <div className="flex flex-col items-center text-center">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-400 to-indigo-600 flex items-center justify-center mb-1">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10" />
-                    <line x1="12" y1="16" x2="12" y2="12" />
-                    <line x1="12" y1="8" x2="12.01" y2="8" />
-                  </svg>
-                </div>
-                <span className="text-xs font-medium">大师境界</span>
+              <div className={`p-3 rounded-xl transition-all duration-300 ${isDark ? 'bg-zinc-800/80' : 'bg-white/80'} shadow-lg border ${isDark ? 'border-zinc-700' : 'border-gray-200'}`}>
+                <h4 className="text-md font-bold mb-1 flex items-center gap-2">
+                  <span className="w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs font-bold">4</span>
+                  大师境界
+                </h4>
+                <p className={`text-xs ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
+                  达到极高的知识水平，能够客观认识自己的能力，自信程度稳定在高水平，成为领域专家。
+                </p>
               </div>
             </div>
           </div>
         );
       case 'jcurve':
         return (
-          <BaseChart data={jCurveData} isDark={isDark} height={chartHeight}>
-            <LineChart data={jCurveData} animationDuration={1000} margin={{ top: 20, right: 40, left: 50, bottom: 50 }}>
+          <div className="w-full h-full">
+            <svg width="100%" height="100%" viewBox="0 0 900 700" style={{ fontFamily: 'Microsoft YaHei, sans-serif' }}>
+              {/* 1. 渐变定义：背景渐变 + 曲线下方填充渐变 */}
               <defs>
-                <linearGradient id="jcurveGradient" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.8}/>
-                  <stop offset="95%" stopColor="#10b981" stopOpacity={0.8}/>
+                {/* 图表背景平滑渐变 */}
+                <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#f8f9fa" stopOpacity="1"/>
+                  <stop offset="100%" stopColor="#e9ecef" stopOpacity="1"/>
                 </linearGradient>
-                <linearGradient id="jcurveArea" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
-                  <stop offset="95%" stopColor="#10b981" stopOpacity={0.3}/>
+                {/* 曲线下方蓝白渐变填充 */}
+                <linearGradient id="areaGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#2196f3" stopOpacity="0.4"/>
+                  <stop offset="100%" stopColor="#ffffff" stopOpacity="0.05"/>
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray={chartConfig.grid.strokeDasharray} stroke={getGridColor(isDark)} />
-              <XAxis dataKey="t" stroke={chartConfig.axis.stroke} tick={{ fontSize: chartConfig.fontSize.axisTick }} label={{ value: '时间', position: 'insideBottom', offset: 0, fontSize: chartConfig.fontSize.axisLabel }} />
-              <YAxis stroke={chartConfig.axis.stroke} tick={{ fontSize: chartConfig.fontSize.axisTick }} label={{ value: '回报值', angle: -90, position: 'insideLeft', offset: 0, fontSize: chartConfig.fontSize.axisLabel }} domain={[0, 'dataMax + 10']} />
-              <Legend wrapperStyle={chartConfig.legend.wrapperStyle} />
-              <Area 
-                type="monotone" 
-                dataKey="value" 
-                stroke="#3b82f6" 
-                strokeWidth={3} 
-                fill="url(#jcurveArea)" 
-                name="J型曲线" 
-              />
-              <Line 
-                type="monotone" 
-                dataKey="value" 
-                stroke="#3b82f6" 
-                strokeWidth={3} 
-                dot={false} 
-                name="J型曲线" 
-              />
-              
-              {/* 关键节点标注 - 使用自定义dot点直接放在曲线上 */}
-              <Line 
-                type="monotone" 
-                dataKey="value" 
-                stroke="none" 
-                strokeWidth={0} 
-                dot={(props) => {
-                  const { cx, cy, payload } = props;
-                  if (payload.t === 3) {
-                    return (
-                      <g>
-                        <circle cx={cx} cy={cy} r={6} fill="#ef4444" stroke="#ffffff" strokeWidth={2} />
-                        <text x={cx} y={cy + 20} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
-                          投入期
-                        </text>
-                      </g>
-                    );
-                  }
-                  if (payload.t === 5) {
-                    return (
-                      <g>
-                        <circle cx={cx} cy={cy} r={6} fill="#ef4444" stroke="#ffffff" strokeWidth={2} />
-                        <text x={cx} y={cy + 20} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
-                          转折点
-                        </text>
-                      </g>
-                    );
-                  }
-                  if (payload.t === 9) {
-                    return (
-                      <g>
-                        <circle cx={cx} cy={cy} r={6} fill="#ef4444" stroke="#ffffff" strokeWidth={2} />
-                        <text x={cx} y={cy - 15} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
-                          爆发期
-                        </text>
-                      </g>
-                    );
-                  }
-                  return null;
-                }} 
-                name="关键节点" 
-              />
-              
-              {/* 标题 */}
-              <text x="50%" y="20" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={chartConfig.fontSize.title} fontWeight="bold">
-                J型曲线 - 长期投资回报模式
-              </text>
-              
-              {/* 副标题 */}
-              <text x="50%" y="40" textAnchor="middle" fill={isDark ? '#a1a1aa' : '#64748b'} fontSize={14}>
-                投入初期收益为负，突破转折点后呈指数级增长
-              </text>
-            </LineChart>
-          </BaseChart>
+
+              {/* 2. 背景绘制 */}
+              <rect x="50" y="100" width="800" height="500" fill="url(#bgGradient)" rx="2" ry="2"/>
+
+              {/* 3. 坐标轴绘制 */}
+              {/* X轴（时间：由短到长） */}
+              <line x1="100" y1="450" x2="850" y2="450" stroke="#333" strokeWidth="2"/>
+              {/* Y轴（回报值：由低到高，包含负值区域） */}
+              <line x1="100" y1="150" x2="100" y2="550" stroke="#333" strokeWidth="2"/>
+              {/* X轴刻度与标注 */}
+              <line x1="100" y1="450" x2="100" y2="460" stroke="#333" strokeWidth="2"/>
+              <line x1="250" y1="450" x2="250" y2="460" stroke="#333" strokeWidth="2"/>
+              <line x1="400" y1="450" x2="400" y2="460" stroke="#333" strokeWidth="2"/>
+              <line x1="550" y1="450" x2="550" y2="460" stroke="#333" strokeWidth="2"/>
+              <line x1="700" y1="450" x2="700" y2="460" stroke="#333" strokeWidth="2"/>
+              <line x1="850" y1="450" x2="850" y2="460" stroke="#333" strokeWidth="2"/>
+              <text x="100" y="480" fontSize="12" fill="#333">0</text>
+              <text x="250" y="480" fontSize="12" fill="#333">2</text>
+              <text x="400" y="480" fontSize="12" fill="#333">4</text>
+              <text x="550" y="480" fontSize="12" fill="#333">6</text>
+              <text x="700" y="480" fontSize="12" fill="#333">8</text>
+              <text x="850" y="480" fontSize="12" fill="#333">10</text>
+              {/* Y轴刻度与标注（包含负值） */}
+              <line x1="100" y1="550" x2="90" y2="550" stroke="#333" strokeWidth="2"/>
+              <line x1="100" y1="450" x2="90" y2="450" stroke="#333" strokeWidth="2"/>
+              <line x1="100" y1="350" x2="90" y2="350" stroke="#333" strokeWidth="2"/>
+              <line x1="100" y1="250" x2="90" y2="250" stroke="#333" strokeWidth="2"/>
+              <line x1="100" y1="150" x2="90" y2="150" stroke="#333" strokeWidth="2"/>
+              <text x="70" y="550" fontSize="12" fill="#333">-50</text>
+              <text x="70" y="450" fontSize="12" fill="#333">0</text>
+              <text x="70" y="350" fontSize="12" fill="#333">50</text>
+              <text x="70" y="250" fontSize="12" fill="#333">100</text>
+              <text x="70" y="150" fontSize="12" fill="#333">150</text>
+
+              {/* 4. 转折点垂直虚线参考线 */}
+              <line x1="400" y1="150" x2="400" y2="550" stroke="#666" strokeWidth="1" strokeDasharray="5,5"/>
+
+              {/* 5. 曲线绘制 + 下方区域填充 */}
+              {/* 曲线下方蓝白渐变填充 */}
+              <path d="M100,480 Q180,520 250,500 T400,460 T550,380 T700,250 T850,150 L850,450 L100,450 Z"
+                    fill="url(#areaGradient)" stroke="none"/>
+              {/* J型平滑曲线（蓝色，3px粗细） */}
+              <path d="M100,480 Q180,520 250,500 T400,460 T550,380 T700,250 T850,150"
+                    stroke="#2196f3" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+
+              {/* 6. 关键数据点（红色圆点，白色边框2px） */}
+              <circle cx="100" cy="480" r="6" fill="red" stroke="#fff" strokeWidth="2"/>
+              <circle cx="400" cy="460" r="6" fill="red" stroke="#fff" strokeWidth="2"/>
+              <circle cx="850" cy="150" r="6" fill="red" stroke="#fff" strokeWidth="2"/>
+
+              {/* 7. 文字标注 */}
+              {/* 图表标题 + 副标题 */}
+              <text x="450" y="60" fontSize="24" fill="#333" fontWeight="bold">J型曲线 - 长期投资回报模式</text>
+              <text x="450" y="90" fontSize="14" fill="#666">投入初期收益为负，突破转折点后呈指数级增长</text>
+              {/* 曲线关键节点（红色文字） */}
+              <text x="100" y="500" fontSize="14" fill="red" fontWeight="bold">投入期</text>
+              <text x="400" y="480" fontSize="14" fill="red" fontWeight="bold">转折点</text>
+              <text x="850" y="130" fontSize="14" fill="red" fontWeight="bold">爆发期</text>
+              {/* 坐标轴标注 */}
+              <text x="475" y="510" fontSize="16" fill="#333" fontWeight="normal">时间</text>
+              <text x="40" y="350" fontSize="16" fill="#333" fontWeight="normal" transform="rotate(-90,40,350)">回报值</text>
+              {/* 曲线下方阶段名称 */}
+              <text x="175" y="530" fontSize="14" fill="#333" fontWeight="bold">投入期</text>
+              <text x="475" y="500" fontSize="14" fill="#333" fontWeight="bold">增长期</text>
+              <text x="700" y="300" fontSize="14" fill="#333" fontWeight="bold">爆发期</text>
+              {/* 右上角图例说明 */}
+              <rect x="750" y="120" width="20" height="10" fill="url(#areaGradient)" stroke="#2196f3" strokeWidth="1"/>
+              <text x="800" y="125" fontSize="12" fill="#333" textAnchor="start">J型曲线：回报值随时间变化趋势</text>
+            </svg>
+          </div>
         );
       case 'antifragile':
         return (
-          <BaseChart data={antifragilityData} isDark={isDark} height={chartHeight}>
-            <AreaChart data={antifragilityData} animationDuration={1000} margin={{ top: 20, right: 40, left: 50, bottom: 50 }}>
-              <defs>
-                <linearGradient id="colorAntifragility" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#10b981" stopOpacity={isDark ? 0.4 : 0.3} />
-                  <stop offset="95%" stopColor="#10b981" stopOpacity={0.05} />
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray={chartConfig.grid.strokeDasharray} stroke={getGridColor(isDark)} />
-              <XAxis 
-                dataKey="stress" 
-                name="压力水平" 
-                label={{ value: '压力水平', position: 'insideBottomRight', offset: -5, fontSize: chartConfig.fontSize.axisLabel }}
-                tick={{ fontSize: chartConfig.fontSize.axisTick }}
-                stroke={chartConfig.axis.stroke}
-              />
-              <YAxis 
-                name="表现水平" 
-                label={{ value: '表现水平', angle: -90, position: 'insideLeft', fontSize: chartConfig.fontSize.axisLabel }}
-                tick={{ fontSize: chartConfig.fontSize.axisTick }}
-                stroke={chartConfig.axis.stroke}
-              />
-              <Legend wrapperStyle={chartConfig.legend.wrapperStyle} />
-              <ReferenceLine x={50} stroke="#ef4444" strokeDasharray={chartConfig.grid.strokeDasharray} label={{ value: '崩溃点', position: 'top', fontSize: chartConfig.fontSize.axisLabel }} />
-              <ReferenceLine x={20} stroke="#3b82f6" strokeDasharray={chartConfig.grid.strokeDasharray} label={{ value: '恢复点', position: 'top', fontSize: chartConfig.fontSize.axisLabel }} />
-              <Area 
-                type="monotone" 
-                dataKey="performance" 
-                stroke="#10b981" 
-                strokeWidth={3} 
-                fillOpacity={1} 
-                fill="url(#colorAntifragility)"
-                name="反脆弱表现"
-              />
-              <Scatter 
-                data={[
-                  { stress: 20, performance: 55, special: true },
-                  { stress: 35, performance: 100, special: true },
-                  { stress: 50, performance: 40, special: true }
-                ]} 
-                fill="#ef4444"
-                name="关键转折点"
-                shape={<circle r={6} stroke="#ffffff" strokeWidth={2} />}
-              />
-              {/* 标题 */}
-              <text x="50%" y="20" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={chartConfig.fontSize.title} fontWeight="bold">
-                反脆弱效应
-              </text>
-              <text x="50%" y="40" textAnchor="middle" fill={isDark ? '#a1a1aa' : '#64748b'} fontSize={14}>
-                脆弱系统随压力增加而崩溃，强韧系统保持稳定，反脆弱系统从压力中获益
-              </text>
-            </AreaChart>
-          </BaseChart>
+          <div className="w-full h-full">
+            <div className="container" style={{ maxWidth: '100%', padding: '20px' }}>
+              <div className="header" style={{ textAlign: 'center', marginBottom: '10px' }}>
+                <h1 style={{ fontSize: '28px', margin: '0 0 10px 0', color: isDark ? '#f1f5f9' : '#2d3748', letterSpacing: '-0.5px' }}>反脆弱 - 压力与韧性关系</h1>
+                <p style={{ fontSize: '16px', color: isDark ? '#94a3b8' : '#718096', maxWidth: '600px', margin: '0 auto', lineHeight: '1.6' }}>
+                  脆弱系统随压力崩溃，强韧系统保持稳定，反脆弱系统从压力中获益。<br />"风会熄灭蜡烛，却能使火越烧越旺。"
+                </p>
+              </div>
+              
+              {/* 核心图表区 */}
+              <div className="chart-wrapper" style={{ position: 'relative', background: isDark ? 'linear-gradient(180deg, #0f172a 0%, #1e293b 100%)' : 'linear-gradient(180deg, #ffffff 0%, #f7fafc 100%)', borderRadius: '20px', border: `1px solid ${isDark ? '#334155' : '#e2e8f0'}`, padding: '20px', marginTop: '10px' }}>
+                <svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    {/* 渐变定义：脆弱 (红色) */}
+                    <linearGradient id="gradFragile" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" style={{ stopColor: '#EF4444', stopOpacity: 0.4 }} />
+                      <stop offset="100%" style={{ stopColor: '#EF4444', stopOpacity: 0.05 }} />
+                    </linearGradient>
+                    {/* 渐变定义：稳健 (蓝色) */}
+                    <linearGradient id="gradRobust" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" style={{ stopColor: '#3B82F6', stopOpacity: 0.4 }} />
+                      <stop offset="100%" style={{ stopColor: '#3B82F6', stopOpacity: 0.05 }} />
+                    </linearGradient>
+                    {/* 渐变定义：反脆弱 (绿色) */}
+                    <linearGradient id="gradAntifragile" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" style={{ stopColor: '#10B981', stopOpacity: 0.4 }} />
+                      <stop offset="100%" style={{ stopColor: '#10B981', stopOpacity: 0.05 }} />
+                    </linearGradient>
+                    
+                    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                      <feDropShadow dx="0" dy="2" stdDeviation="2" floodColor="#000" floodOpacity="0.1"/>
+                    </filter>
+                  </defs>
+  
+                  {/* 坐标轴 */}
+                  <line x1="50" y1="400" x2="750" y2="400" stroke={isDark ? '#475569' : '#CBD5E0'} strokeWidth="2" markerEnd="url(#arrow)" />
+                  <line x1="50" y1="400" x2="50" y2="50" stroke={isDark ? '#475569' : '#CBD5E0'} strokeWidth="2" markerEnd="url(#arrow)" />
+                  
+                  {/* 坐标标签 */}
+                  <text x="750" y="430" textAnchor="end" fontSize="14" fill={isDark ? '#94a3b8' : '#718096'} fontWeight="bold">压力水平 (Pressure) →</text>
+                  <text x="40" y="50" textAnchor="end" fontSize="14" fill={isDark ? '#94a3b8' : '#718096'} fontWeight="bold" writingMode="tb">← 韧性值 (Resilience)</text>
+  
+                  {/* 区域分割参考线 (垂直虚线) */}
+                  <line x1="283" y1="50" x2="283" y2="400" stroke={isDark ? '#334155' : '#E2E8F0'} strokeWidth="2" strokeDasharray="6,4" />
+                  <line x1="516" y1="50" x2="516" y2="400" stroke={isDark ? '#334155' : '#E2E8F0'} strokeWidth="2" strokeDasharray="6,4" />
+                  
+                  {/* 区域名称 */}
+                  <text x="166" y="420" textAnchor="middle" fontSize="12" fill={isDark ? '#64748b' : '#A0AEC0'} fontWeight="bold">低压力区</text>
+                  <text x="400" y="420" textAnchor="middle" fontSize="12" fill={isDark ? '#64748b' : '#A0AEC0'} fontWeight="bold">中等压力区</text>
+                  <text x="633" y="420" textAnchor="middle" fontSize="12" fill={isDark ? '#64748b' : '#A0AEC0'} fontWeight="bold">高压力区</text>
+  
+                  {/* 1. 脆弱系统 (红色虚线): 下降 */}
+                  {/* Path: Start(50, 250) -> Drop -> End(750, 400) */}
+                  {/* 初始状态在中间，随着压力增大，表现急剧下降 */}
+                  <path d="M50 250 Q 200 250, 400 280 T 750 400" fill="none" stroke="#EF4444" strokeWidth="3" strokeDasharray="8,4" />
+                  <path d="M50 250 Q 200 250, 400 280 T 750 400 V 400 H 50 Z" fill="url(#gradFragile)" style={{ mixBlendMode: 'multiply' }} />
+  
+                  {/* 2. 稳健系统 (蓝色实线): 持平 */}
+                  {/* Path: Start(50, 250) -> Flat -> End(750, 250) */}
+                  <path d="M50 250 L 750 250" fill="none" stroke="#3B82F6" strokeWidth="3" />
+                  <path d="M50 250 L 750 250 V 400 H 50 Z" fill="url(#gradRobust)" style={{ mixBlendMode: 'multiply' }} />
+  
+                  {/* 3. 反脆弱系统 (绿色点划线): 上升 */}
+                  {/* Path: Start(50, 250) -> Rise -> End(750, 50) */}
+                  {/* 初期稳定，压力增大后爆发式增长 */}
+                  <path d="M50 250 Q 300 250, 500 200 T 750 50" fill="none" stroke="#10B981" strokeWidth="3" strokeDasharray="2,2,8,2" />
+                  <path d="M50 250 Q 300 250, 500 200 T 750 50 V 400 H 50 Z" fill="url(#gradAntifragile)" style={{ mixBlendMode: 'multiply' }} />
+  
+                  {/* 箭头定义 */}
+                  <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+                    <path d="M0,0 L0,6 L9,3 z" fill={isDark ? '#475569' : '#CBD5E0'} />
+                  </marker>
+  
+                  {/* 关键节点数据点 (圆点+白边) */}
+                  
+                  {/* 脆弱: 崩溃点 */}
+                  <circle cx="750" cy="400" r="6" fill="#EF4444" stroke="white" strokeWidth="2" />
+                  <text x="740" y="390" textAnchor="end" fontSize="12" fill="#EF4444" fontWeight="bold">崩溃/受损</text>
+  
+                  {/* 稳健: 维持点 */}
+                  <circle cx="750" cy="250" r="6" fill="#3B82F6" stroke="white" strokeWidth="2" />
+                  <text x="760" y="245" textAnchor="start" fontSize="12" fill="#3B82F6" fontWeight="bold">维持原状</text>
+  
+                  {/* 反脆弱: 获益点 */}
+                  <circle cx="750" cy="50" r="6" fill="#10B981" stroke="white" strokeWidth="2" />
+                  <text x="740" y="70" textAnchor="end" fontSize="12" fill="#10B981" fontWeight="bold">收益/进化</text>
+                  
+                  {/* 起始点 (三线合一) */}
+                  <circle cx="50" cy="250" r="6" fill={isDark ? '#94a3b8' : '#718096'} stroke="white" strokeWidth="2" />
+                  <text x="60" y="240" fontSize="12" fill={isDark ? '#94a3b8' : '#718096'}>初始状态</text>
+  
+                  {/* 图例 */}
+                  <g transform="translate(630, 30)">
+                    <rect x="0" y="0" width="130" height="90" fill={isDark ? 'rgba(15, 23, 42, 0.95)' : 'rgba(255,255,255,0.95)'} stroke={isDark ? '#334155' : '#E2E8F0'} rx="4" />
+                    
+                    {/* Legend 1 */}
+                    <line x1="15" y1="20" x2="45" y2="20" stroke="#EF4444" strokeWidth="3" strokeDasharray="8,4" />
+                    <text x="55" y="24" fontSize="12" fill={isDark ? '#f1f5f9' : '#4A5568'}>脆弱系统</text>
+                    
+                    {/* Legend 2 */}
+                    <line x1="15" y1="45" x2="45" y2="45" stroke="#3B82F6" strokeWidth="3" />
+                    <text x="55" y="49" fontSize="12" fill={isDark ? '#f1f5f9' : '#4A5568'}>稳健系统</text>
+                    
+                    {/* Legend 3 */}
+                    <line x1="15" y1="70" x2="45" y2="70" stroke="#10B981" strokeWidth="3" strokeDasharray="2,2,8,2" />
+                    <text x="55" y="74" fontSize="12" fill={isDark ? '#f1f5f9' : '#4A5568'}>反脆弱系统</text>
+                  </g>
+                </svg>
+              </div>
+              
+              {/* 核心概念卡片 */}
+              <div className="cards-container" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px', marginTop: '20px' }}>
+                {/* 核心原理 */}
+                <div className="card" style={{ 
+                  background: isDark ? '#1e293b' : '#ffffff', 
+                  borderRadius: '16px', 
+                  padding: '24px 20px', 
+                  textAlign: 'center', 
+                  transition: 'transform 0.3s ease, boxShadow 0.3s ease', 
+                  border: `1px solid ${isDark ? '#334155' : '#e2e8f0'}`, 
+                  position: 'relative', 
+                  overflow: 'hidden', 
+                  display: 'flex', 
+                  flexDirection: 'column', 
+                  alignItems: 'center', 
+                  boxShadow: `0 4px 6px ${isDark ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.02)'}`, 
+                  hover: { 
+                    transform: 'translateY(-5px)', 
+                    boxShadow: `0 10px 25px ${isDark ? 'rgba(0, 0, 0, 0.3)' : 'rgba(0, 0, 0, 0.08)'}`, 
+                    borderColor: `${isDark ? '#475569' : '#cbd5e0'}` 
+                  } 
+                }}>
+                  <span className="card-icon" style={{ fontSize: '42px', marginBottom: '15px', display: 'block', height: '50px', lineHeight: '50px' }}>🔥</span>
+                  <h3 style={{ margin: '0 0 12px 0', fontSize: '18px', fontWeight: 700, color: isDark ? '#f1f5f9' : '#4a5568' }}>核心原理</h3>
+                  <p style={{ fontSize: '13px', color: isDark ? '#cbd5e0' : '#4a5568', margin: 0, lineHeight: '1.6', textAlign: 'left', width: '100%' }}>
+                    反脆弱不仅是"坚韧"或"复原力"（那是回到原状）。反脆弱是指系统能在冲击、压力和混乱中<strong>进化</strong>，变得比原来更好。
+                  </p>
+                </div>
+                {/* 操作建议 */}
+                <div className="card" style={{ 
+                  background: isDark ? '#1e293b' : '#ffffff', 
+                  borderRadius: '16px', 
+                  padding: '24px 20px', 
+                  textAlign: 'center', 
+                  transition: 'transform 0.3s ease, boxShadow 0.3s ease', 
+                  border: `1px solid ${isDark ? '#334155' : '#e2e8f0'}`, 
+                  position: 'relative', 
+                  overflow: 'hidden', 
+                  display: 'flex', 
+                  flexDirection: 'column', 
+                  alignItems: 'center', 
+                  boxShadow: `0 4px 6px ${isDark ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.02)'}`, 
+                  hover: { 
+                    transform: 'translateY(-5px)', 
+                    boxShadow: `0 10px 25px ${isDark ? 'rgba(0, 0, 0, 0.3)' : 'rgba(0, 0, 0, 0.08)'}`, 
+                    borderColor: `${isDark ? '#475569' : '#cbd5e0'}` 
+                  } 
+                }}>
+                  <span className="card-icon" style={{ fontSize: '42px', marginBottom: '15px', display: 'block', height: '50px', lineHeight: '50px' }}>🏗️</span>
+                  <h3 style={{ margin: '0 0 12px 0', fontSize: '18px', fontWeight: 700, color: isDark ? '#f1f5f9' : '#4a5568' }}>操作建议</h3>
+                  <p style={{ fontSize: '13px', color: isDark ? '#cbd5e0' : '#4a5568', margin: 0, lineHeight: '1.6', textAlign: 'left', width: '100%' }}>
+                    1. 拥抱适度压力（如疫苗原理）。<br />2. 建立"杠铃策略"：极度保守 + 极度冒险。<br />3. 避免单一依赖，建立冗余。<br />4. 快速试错，低成本失败。
+                  </p>
+                </div>
+                {/* 实践案例 */}
+                <div className="card" style={{ 
+                  background: isDark ? '#1e293b' : '#ffffff', 
+                  borderRadius: '16px', 
+                  padding: '24px 20px', 
+                  textAlign: 'center', 
+                  transition: 'transform 0.3s ease, boxShadow 0.3s ease', 
+                  border: `1px solid ${isDark ? '#334155' : '#e2e8f0'}`, 
+                  position: 'relative', 
+                  overflow: 'hidden', 
+                  display: 'flex', 
+                  flexDirection: 'column', 
+                  alignItems: 'center', 
+                  boxShadow: `0 4px 6px ${isDark ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.02)'}`, 
+                  hover: { 
+                    transform: 'translateY(-5px)', 
+                    boxShadow: `0 10px 25px ${isDark ? 'rgba(0, 0, 0, 0.3)' : 'rgba(0, 0, 0, 0.08)'}`, 
+                    borderColor: `${isDark ? '#475569' : '#cbd5e0'}` 
+                  } 
+                }}>
+                  <span className="card-icon" style={{ fontSize: '42px', marginBottom: '15px', display: 'block', height: '50px', lineHeight: '50px' }}>🛡️</span>
+                  <h3 style={{ margin: '0 0 12px 0', fontSize: '18px', fontWeight: 700, color: isDark ? '#f1f5f9' : '#4a5568' }}>实践案例</h3>
+                  <p style={{ fontSize: '13px', color: isDark ? '#cbd5e0' : '#4a5568', margin: 0, lineHeight: '1.6', textAlign: 'left', width: '100%' }}>
+                    1. <strong>职业</strong>：一份稳定工作 + 一个高风险副业。<br />2. <strong>生活</strong>：主动进行高强度间歇运动（给身体施压）。<br />3. <strong>财务</strong>：持有现金 + 投资初创企业。
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         );
       case 'secondcurve':
         return (
-          <BaseChart data={secondCurveData} isDark={isDark} height={chartHeight}>
-            <LineChart data={secondCurveData} animationDuration={1000} margin={{ top: 20, right: 40, left: 50, bottom: 50 }}>
-              <CartesianGrid strokeDasharray={chartConfig.grid.strokeDasharray} stroke={getGridColor(isDark)} />
-              <XAxis 
-                dataKey="time" 
-                name="时间" 
-                label={{ value: '时间', position: 'insideBottomRight', offset: -5, fontSize: chartConfig.fontSize.axisLabel }}
-                tick={{ fontSize: chartConfig.fontSize.axisTick }}
-                stroke={chartConfig.axis.stroke}
-              />
-              <YAxis 
-                name="业务规模" 
-                label={{ value: '业务规模', angle: -90, position: 'insideLeft', fontSize: chartConfig.fontSize.axisLabel }}
-                tick={{ fontSize: chartConfig.fontSize.axisTick }}
-                stroke={chartConfig.axis.stroke}
-                domain={[0, 'dataMax + 20']}
-              />
-              <Legend wrapperStyle={chartConfig.legend.wrapperStyle} />
-              <ReferenceLine x={7} stroke="#f59e0b" strokeDasharray={chartConfig.grid.strokeDasharray} label={{ value: '交叉点', position: 'top', fontSize: chartConfig.fontSize.axisLabel }} />
-              <Line 
-                type="monotone" 
-                dataKey="first" 
-                stroke="#3b82f6" 
-                strokeWidth={3} 
-                dot={{ r: 4 }}
-                activeDot={{ r: 6 }}
-                name="第一曲线"
-              />
-              <Line 
-                type="monotone" 
-                dataKey="second" 
-                stroke="#8b5cf6" 
-                strokeWidth={3} 
-                dot={{ r: 4 }}
-                activeDot={{ r: 6 }}
-                name="第二曲线"
-              />
-              <Scatter 
-                data={[
-                  { time: 5, first: 90, second: 0, special: true },
-                  { time: 7, first: 75, second: 55, special: true },
-                  { time: 10, first: 20, second: 130, special: true }
-                ]} 
-                fill="#f59e0b"
-                name="关键节点"
-                shape={<circle r={6} stroke="#ffffff" strokeWidth={2} />}
-              />
-            </LineChart>
-          </BaseChart>
+          <div className="w-full h-full">
+            <div className="wrap" style={{ width: '100%', margin: '0 auto', padding: '40px 20px 30px', backgroundColor: '#ffffff', borderRadius: '18px', boxShadow: '0 18px 40px rgba(0,0,0,0.08)' }}>
+              <div className="title" style={{ textAlign: 'center', fontSize: '44px', fontWeight: 400, letterSpacing: '2px', marginBottom: '8px' }}>第二曲线 · 持续增长模型</div>
+              <div className="subtitle" style={{ textAlign: 'center', fontSize: '20px', color: '#666', marginBottom: '26px' }}>展示企业或个人发展的生命周期，通过第二曲线实现持续增长</div>
+              
+              <svg width="100%" height="520" viewBox="0 0 1000 520" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  {/* 背景渐变 */}
+                  <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#eef4ff" />
+                    <stop offset="100%" stopColor="#ffffff" />
+                  </linearGradient>
+                  
+                  {/* 第一曲线填充 */}
+                  <linearGradient id="blueArea" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="rgba(70,130,255,0.4)" />
+                    <stop offset="100%" stopColor="rgba(255,255,255,0.05)" />
+                  </linearGradient>
+                  
+                  {/* 第二曲线填充 */}
+                  <linearGradient id="greenArea" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="rgba(80,200,120,0.4)" />
+                    <stop offset="100%" stopColor="rgba(255,255,255,0.05)" />
+                  </linearGradient>
+                </defs>
+                
+                {/* 背景 */}
+                <rect x="0" y="0" width="1000" height="520" rx="14" fill="url(#bgGrad)" />
+                
+                {/* 坐标轴区域 */}
+                <g transform="translate(90,60)">
+                  
+                  {/* 坐标轴 */}
+                  <line x1="0" y1="360" x2="780" y2="360" stroke="#bbb" strokeWidth="1" />
+                  <line x1="0" y1="40" x2="0" y2="360" stroke="#bbb" strokeWidth="1" />
+                  
+                  {/* 第一曲线面积 */}
+                  <path d="
+                    M 0 340
+                    C 120 300, 200 120, 320 120
+                    C 420 120, 500 200, 560 260
+                    C 640 330, 720 350, 780 360
+                    L 780 360 L 0 360 Z
+                  " fill="url(#blueArea)" />
+                  
+                  {/* 第二曲线面积 */}
+                  <path d="
+                    M 200 360
+                    C 300 350, 360 260, 460 220
+                    C 560 180, 660 140, 780 120
+                    L 780 360 L 200 360 Z
+                  " fill="url(#greenArea)" />
+                  
+                  {/* 第一曲线 */}
+                  <path d="
+                    M 0 340
+                    C 120 300, 200 120, 320 120
+                    C 420 120, 500 200, 560 260
+                    C 640 330, 720 350, 780 360
+                  " fill="none" stroke="#4682ff" strokeWidth="3" />
+                  
+                  {/* 第二曲线 */}
+                  <path d="
+                    M 200 360
+                    C 300 350, 360 260, 460 220
+                    C 560 180, 660 140, 780 120
+                  " fill="none" stroke="#50c878" strokeWidth="3" />
+                  
+                  {/* 关键点 */}
+                  <g stroke="#fff" strokeWidth="2">
+                    {/* 第一曲线 */}
+                    <circle cx="0" cy="340" r="6" fill="#4682ff" />
+                    <circle cx="320" cy="120" r="6" fill="#4682ff" />
+                    {/* 第二曲线 */}
+                    <circle cx="200" cy="360" r="6" fill="#50c878" />
+                    <circle cx="780" cy="120" r="6" fill="#50c878" />
+                    {/* 交叉点 */}
+                    <circle cx="460" cy="220" r="6" fill="#50c878" />
+                  </g>
+                  
+                  {/* 垂直参考线 */}
+                  <line x1="320" y1="40" x2="320" y2="360" stroke="#999" strokeDasharray="6 6" />
+                  <line x1="460" y1="40" x2="460" y2="360" stroke="#999" strokeDasharray="6 6" />
+                  
+                  {/* 阶段文字 */}
+                  <g fontSize="15" textAnchor="middle">
+                    <text x="160" y="390" fill="#4682ff">第一曲线 · 成熟期</text>
+                    <text x="320" y="100" fill="#4682ff">峰值</text>
+                    <text x="560" y="390" fill="#4682ff">衰退期</text>
+                    
+                    <text x="260" y="330" fill="#50c878">启动期</text>
+                    <text x="460" y="200" fill="#50c878">转型期</text>
+                    <text x="700" y="120" fill="#50c878">超越期</text>
+                  </g>
+                  
+                  {/* 区域标注 */}
+                  <g fontSize="15" fill="#333" opacity="0.85">
+                    <text x="390" y="320" textAnchor="middle">转型期</text>
+                    <text x="640" y="260" textAnchor="middle">超越期</text>
+                  </g>
+                  
+                  {/* 轴标题 */}
+                  <text x="390" y="430" fontSize="16" fill="#555">时间</text>
+                  <text x="-60" y="200" fontSize="16" fill="#555" transform="rotate(-90 -60 200)">增长值</text>
+                  
+                  {/* 图例 */}
+                  <g transform="translate(560,20)">
+                    <rect x="0" y="0" width="220" height="70" rx="10" fill="#fff" opacity="0.95" stroke="#eee" />
+                    <line x1="16" y1="26" x2="46" y2="26" stroke="#4682ff" strokeWidth="3" />
+                    <text x="56" y="30" fontSize="14" fill="#333">第一曲线（现有发展）</text>
+                    <line x1="16" y1="48" x2="46" y2="48" stroke="#50c878" strokeWidth="3" />
+                    <text x="56" y="52" fontSize="14" fill="#333">第二曲线（新增长）</text>
+                  </g>
+                  
+                </g>
+              </svg>
+            </div>
+          </div>
         );
       case 'flywheel':
         return (
@@ -711,13 +872,10 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray={chartConfig.grid.strokeDasharray} stroke={getGridColor(isDark)} />
-              <XAxis dataKey="time" stroke={chartConfig.axis.stroke} label={{ value: '时间', position: 'insideBottom', fontSize: chartConfig.fontSize.axisLabel }} />
+              <XAxis dataKey="time" stroke={chartConfig.axis.stroke} label={{ value: '时间', position: 'insideBottom', offset: 0, fontSize: chartConfig.fontSize.axisLabel }} />
               <YAxis stroke={chartConfig.axis.stroke} label={{ value: '动能值', angle: -90, position: 'insideLeft', fontSize: chartConfig.fontSize.axisLabel }} domain={[0, 'dataMax + 10']} />
               <Legend wrapperStyle={chartConfig.legend.wrapperStyle} />
               <Area type="monotone" dataKey="momentum" stroke={chartConfig.colors.primary} fill="url(#colorMomentum)" name="飞轮动能" />
-              <text x="50%" y="20" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={chartConfig.fontSize.title} fontWeight="bold">
-                飞轮效应 - 动能积累模型
-              </text>
             </AreaChart>
           </BaseChart>
         );
@@ -730,9 +888,7 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
               <YAxis stroke={chartConfig.axis.stroke} tick={{ fontSize: chartConfig.fontSize.axisTick }} label={{ value: '痛苦程度', angle: -90, position: 'insideLeft', fontSize: chartConfig.fontSize.axisLabel }} domain={[0, 'dataMax + 10']} />
               <Legend wrapperStyle={chartConfig.legend.wrapperStyle} />
               <Bar dataKey="pain" fill={chartConfig.colors.danger} name="痛苦程度" />
-              <text x="50%" y="20" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={chartConfig.fontSize.title} fontWeight="bold">
-                后悔程度比较 - 行动与不行动的痛苦对比
-              </text>
+
             </BarChart>
           </BaseChart>
         );
@@ -751,440 +907,1498 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
               <YAxis stroke={chartConfig.axis.stroke} label={{ value: '精力值', angle: -90, position: 'insideLeft', fontSize: chartConfig.fontSize.axisLabel }} domain={[0, 100]} />
               <Legend wrapperStyle={chartConfig.legend.wrapperStyle} />
               <Area type="monotone" dataKey="energy" stroke={chartConfig.colors.primary} fill="url(#colorEnergy)" name="精力值" />
-              <text x="50%" y="20" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={chartConfig.fontSize.title} fontWeight="bold">
-                每日精力曲线变化
-              </text>
+
             </AreaChart>
           </BaseChart>
         );
       case 'compound':
         return (
-          <BaseChart data={compoundInterestData} isDark={isDark} height={chartHeight}>
-            <AreaChart data={compoundInterestData} animationDuration={1000} margin={{ top: 20, right: 40, left: 50, bottom: 50 }}>
+          <div className="w-full h-full">
+            <svg width="100%" height="100%" viewBox="0 0 1000 800" style={{ fontFamily: 'Microsoft YaHei, PingFang SC, Hiragino Sans GB, sans-serif' }}>
+              {/* 1. 渐变与滤镜定义：浅色系优化+增强立体质感 */}
               <defs>
-                <linearGradient id="colorPrincipal" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#3b82f6" stopOpacity={isDark ? 0.4 : 0.3} />
-                  <stop offset="95%" stopColor="#3b82f6" stopOpacity={0.05} />
+                {/* 图表背景：更浅的渐变，视觉更清爽 */}
+                <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#fcfdff" stopOpacity="1"/>
+                  <stop offset="100%" stopColor="#f5f8ff" stopOpacity="1"/>
                 </linearGradient>
-                <linearGradient id="colorCompound" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#f59e0b" stopOpacity={isDark ? 0.4 : 0.3} />
-                  <stop offset="95%" stopColor="#f59e0b" stopOpacity={0.05} />
+                {/* 1%增长率（极浅蓝）：浅色系优化，降低深度 */}
+                <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#bdd8f7" stopOpacity="0.45"/>
+                  <stop offset="50%" stopColor="#d9e6fc" stopOpacity="0.3"/>
+                  <stop offset="100%" stopColor="#ffffff" stopOpacity="0.05"/>
                 </linearGradient>
+                {/* 3%增长率（浅蓝）：浅色系优化，降低深度 */}
+                <linearGradient id="gradient3" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#9fc5e8" stopOpacity="0.45"/>
+                  <stop offset="50%" stopColor="#b9d4ec" stopOpacity="0.3"/>
+                  <stop offset="100%" stopColor="#ffffff" stopOpacity="0.05"/>
+                </linearGradient>
+                {/* 5%增长率（淡蓝）：浅色系优化，降低深度（核心曲线仍有区分度） */}
+                <linearGradient id="gradient5" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#7ba7d6" stopOpacity="0.45"/>
+                  <stop offset="50%" stopColor="#9ab9e0" stopOpacity="0.3"/>
+                  <stop offset="100%" stopColor="#ffffff" stopOpacity="0.05"/>
+                </linearGradient>
+                {/* 阴影滤镜：给数据点和填充区域加轻微阴影，增强立体感 */}
+                <filter id="shadowFilter" x="-20%" y="-20%" width="140%" height="140%">
+                  <feDropShadow dx="1" dy="2" stdDeviation="2" floodOpacity="0.2"/>
+                </filter>
+                {/* 高光滤镜：曲线高亮效果，提升精致度 */}
+                <filter id="highlightFilter" x="-10%" y="-10%" width="120%" height="120%">
+                  <feGaussianBlur stdDeviation="1" result="blur"/>
+                  <feMerge>
+                    <feMergeNode in="blur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                  </feMerge>
+                </filter>
               </defs>
-              <CartesianGrid strokeDasharray={chartConfig.grid.strokeDasharray} stroke={getGridColor(isDark)} />
-              <XAxis 
-                dataKey="year" 
-                name="年份" 
-                label={{ value: '年份', position: 'insideBottomRight', offset: -5, fontSize: chartConfig.fontSize.axisLabel }}
-                tick={{ fontSize: chartConfig.fontSize.axisTick }}
-                stroke={chartConfig.axis.stroke}
-              />
-              <YAxis 
-                name="金额" 
-                label={{ value: '金额 (元)', angle: -90, position: 'insideLeft', fontSize: chartConfig.fontSize.axisLabel }}
-                tick={{ fontSize: chartConfig.fontSize.axisTick }}
-                stroke={chartConfig.axis.stroke}
-                tickFormatter={(value) => `¥${value}`}
-              />
-              <Legend wrapperStyle={chartConfig.legend.wrapperStyle} />
-              <ReferenceLine x={10} stroke="#10b981" strokeDasharray={chartConfig.grid.strokeDasharray} label={{ value: '10年', position: 'top', fontSize: chartConfig.fontSize.axisLabel }} />
-              <ReferenceLine x={20} stroke="#10b981" strokeDasharray={chartConfig.grid.strokeDasharray} label={{ value: '20年', position: 'top', fontSize: chartConfig.fontSize.axisLabel }} />
-              <ReferenceLine x={30} stroke="#10b981" strokeDasharray={chartConfig.grid.strokeDasharray} label={{ value: '30年', position: 'top', fontSize: chartConfig.fontSize.axisLabel }} />
-              <Area 
-                type="monotone" 
-                dataKey="principal" 
-                stroke="#3b82f6" 
-                strokeWidth={3} 
-                fillOpacity={1} 
-                fill="url(#colorPrincipal)"
-                name="本金增长"
-              />
-              <Area 
-                type="monotone" 
-                dataKey="compound" 
-                stroke="#f59e0b" 
-                strokeWidth={3} 
-                fillOpacity={1} 
-                fill="url(#colorCompound)"
-                name="复利增长"
-              />
-              <Scatter 
-                data={[
-                  { year: 10, principal: 2000, compound: 2594, special: true },
-                  { year: 20, principal: 3000, compound: 6727, special: true },
-                  { year: 30, principal: 4000, compound: 17449, special: true }
-                ]} 
-                fill="#10b981"
-                name="关键时间点"
-                shape={<circle r={6} stroke="#ffffff" strokeWidth={2} />}
-              />
-              {/* 标题 */}
-              <text x="50%" y="20" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={chartConfig.fontSize.title} fontWeight="bold">
-                复利效应
+
+              {/* 2. 背景绘制：双层矩形+圆角，营造立体层次感（背景更浅） */}
+              {/* 底层阴影矩形（更浅颜色，降低视觉重量） */}
+              <rect x="40" y="90" width="920" height="600" fill="#f0f4f9" rx="6" ry="6" opacity="0.5"/>
+              {/* 上层主背景矩形（浅色系渐变） */}
+              <rect x="50" y="100" width="900" height="600" fill="url(#bgGradient)" rx="6" ry="6"/>
+
+              {/* 3. 坐标轴优化：加粗线条+刻度装饰，更精致清晰（颜色不变，保证可读性） */}
+              {/* X轴（时间：0-30，优化刻度密度） */}
+              <line x1="120" y1="600" x2="900" y2="600" stroke="#2d3748" strokeWidth="2.5"/>
+              {/* X轴底部装饰线：增强视觉边界 */}
+              <line x1="120" y1="600" x2="900" y2="605" stroke="#cbd5e1" strokeWidth="1"/>
+              {/* Y轴（增长倍数：0-20，优化刻度分布） */}
+              <line x1="120" y1="150" x2="120" y2="600" stroke="#2d3748" strokeWidth="2.5"/>
+              {/* Y轴左侧装饰线：增强视觉边界 */}
+              <line x1="115" y1="150" x2="115" y2="600" stroke="#cbd5e1" strokeWidth="1"/>
+              
+              {/* X轴刻度与标注（优化间距，更整齐） */}
+              <g id="x-axis-ticks">
+                <line x1="120" y1="600" x2="120" y2="610" stroke="#2d3748" strokeWidth="2.5"/>
+                <line x1="280" y1="600" x2="280" y2="610" stroke="#2d3748" strokeWidth="2.5"/>
+                <line x1="440" y1="600" x2="440" y2="610" stroke="#2d3748" strokeWidth="2.5"/>
+                <line x1="600" y1="600" x2="600" y2="610" stroke="#2d3748" strokeWidth="2.5"/>
+                <line x1="760" y1="600" x2="760" y2="610" stroke="#2d3748" strokeWidth="2.5"/>
+                <line x1="900" y1="600" x2="900" y2="610" stroke="#2d3748" strokeWidth="2.5"/>
+                <text x="120" y="635" fontSize="13" fill="#4a5568" fontWeight="500">0</text>
+                <text x="280" y="635" fontSize="13" fill="#4a5568" fontWeight="500">10</text>
+                <text x="440" y="635" fontSize="13" fill="#4a5568" fontWeight="500">20</text>
+                <text x="600" y="635" fontSize="13" fill="#4a5568" fontWeight="500">25</text>
+                <text x="760" y="635" fontSize="13" fill="#4a5568" fontWeight="500">28</text>
+                <text x="900" y="635" fontSize="13" fill="#4a5568" fontWeight="500">30</text>
+              </g>
+              
+              {/* Y轴刻度与标注（增加半刻度，更精准） */}
+              <g id="y-axis-ticks">
+                <line x1="120" y1="600" x2="110" y2="600" stroke="#2d3748" strokeWidth="2.5"/>
+                <line x1="120" y1="550" x2="110" y2="550" stroke="#2d3748" strokeWidth="1.5"/>
+                <line x1="120" y1="500" x2="110" y2="500" stroke="#2d3748" strokeWidth="2.5"/>
+                <line x1="120" y1="450" x2="110" y2="450" stroke="#2d3748" strokeWidth="1.5"/>
+                <line x1="120" y1="400" x2="110" y2="400" stroke="#2d3748" strokeWidth="2.5"/>
+                <line x1="120" y1="350" x2="110" y2="350" stroke="#2d3748" strokeWidth="1.5"/>
+                <line x1="120" y1="300" x2="110" y2="300" stroke="#2d3748" strokeWidth="2.5"/>
+                <line x1="120" y1="250" x2="110" y2="250" stroke="#2d3748" strokeWidth="1.5"/>
+                <line x1="120" y1="200" x2="110" y2="200" stroke="#2d3748" strokeWidth="2.5"/>
+                <line x1="120" y1="150" x2="110" y2="150" stroke="#2d3748" strokeWidth="2.5"/>
+                <text x="85" y="600" fontSize="13" fill="#4a5568" fontWeight="500">0</text>
+                <text x="85" y="500" fontSize="13" fill="#4a5568" fontWeight="500">5</text>
+                <text x="85" y="400" fontSize="13" fill="#4a5568" fontWeight="500">10</text>
+                <text x="85" y="300" fontSize="13" fill="#4a5568" fontWeight="500">15</text>
+                <text x="85" y="200" fontSize="13" fill="#4a5568" fontWeight="500">20</text>
+                <text x="85" y="150" fontSize="13" fill="#4a5568" fontWeight="500">25</text>
+              </g>
+
+              {/* 4. 时间阶段参考线：浅色系虚线，降低视觉深度 */}
+              {/* 短期/中期分界 */}
+              <line x1="280" y1="150" x2="280" y2="600" stroke="#b0bccc" strokeWidth="1.2" strokeDasharray="6,4"/>
+              {/* 中期/长期分界 */}
+              <line x1="760" y1="150" x2="760" y2="600" stroke="#b0bccc" strokeWidth="1.2" strokeDasharray="6,4"/>
+              {/* 阶段标签背景（浅色矩形，突出文字，无重叠） */}
+              <rect x="150" y="570" width="120" height="25" fill="#e0e7ff" rx="4" ry="4" opacity="0.6"/>
+              <rect x="350" y="570" width="120" height="25" fill="#e0e7ff" rx="4" ry="4" opacity="0.6"/>
+              <rect x="700" y="570" width="120" height="25" fill="#e0e7ff" rx="4" ry="4" opacity="0.6"/>
+              {/* 时间阶段名称 */}
+              <text x="210" y="585" fontSize="15" fill="#2d3748" fontWeight="bold">短期</text>
+              <text x="410" y="585" fontSize="15" fill="#2d3748" fontWeight="bold">中期</text>
+              <text x="760" y="585" fontSize="15" fill="#2d3748" fontWeight="bold">长期</text>
+
+              {/* 5. 三条复利曲线：优化路径+添加滤镜，更平滑形象（浅色系） */}
+              {/* 5.1 1%增长率（极浅蓝）：填充+阴影滤镜 */}
+              <path d="M120,600 Q200,570 280,540 T440,500 T600,470 T760,440 T900,410 L900,600 L120,600 Z"
+                    fill="url(#gradient1)" stroke="none" filter="url(#shadowFilter)"/>
+              <path d="M120,600 Q200,570 280,540 T440,500 T600,470 T760,440 T900,410"
+                    stroke="#bdd8f7" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round"
+                    filter="url(#highlightFilter)"/>
+
+              {/* 5.2 3%增长率（浅蓝）：填充+阴影滤镜 */}
+              <path d="M120,600 Q200,530 280,480 T440,400 T600,320 T760,250 T900,180 L900,600 L120,600 Z"
+                    fill="url(#gradient3)" stroke="none" filter="url(#shadowFilter)"/>
+              <path d="M120,600 Q200,530 280,480 T440,400 T600,320 T760,250 T900,180"
+                    stroke="#9fc5e8" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round"
+                    filter="url(#highlightFilter)"/>
+
+              {/* 5.3 5%增长率（淡蓝）：填充+阴影滤镜，突出指数增长 */}
+              <path d="M120,600 Q200,500 280,430 T440,300 T600,200 T760,160 T900,150 L900,600 L120,600 Z"
+                    fill="url(#gradient5)" stroke="none" filter="url(#shadowFilter)"/>
+              <path d="M120,600 Q200,500 280,430 T440,300 T600,200 T760,160 T900,150"
+                    stroke="#7ba7d6" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round"
+                    filter="url(#highlightFilter)"/>
+
+              {/* 6. 关键数据点：优化样式+双层圆点，更精致醒目（浅色系） */}
+              {/* 1%增长率数据点（双层圆点：底色+描边，立体感） */}
+              <g fill="#bdd8f7" filter="url(#shadowFilter)">
+                  <circle cx="120" cy="600" r="6" stroke="#fff" strokeWidth="2"/>
+                  <circle cx="120" cy="600" r="5" stroke="#9fc5e8" strokeWidth="1"/>
+                  <circle cx="280" cy="540" r="6" stroke="#fff" strokeWidth="2"/>
+                  <circle cx="280" cy="540" r="5" stroke="#9fc5e8" strokeWidth="1"/>
+                  <circle cx="440" cy="500" r="6" stroke="#fff" strokeWidth="2"/>
+                  <circle cx="440" cy="500" r="5" stroke="#9fc5e8" strokeWidth="1"/>
+                  <circle cx="900" cy="410" r="6" stroke="#fff" strokeWidth="2"/>
+                  <circle cx="900" cy="410" r="5" stroke="#9fc5e8" strokeWidth="1"/>
+              </g>
+              {/* 1%增长率倍数标注（添加背景框，更清晰，无重叠） */}
+              <text x="280" y="520" fontSize="12" fill="#2d3748" fontWeight="bold">≈1.3倍</text>
+              <text x="440" y="480" fontSize="12" fill="#2d3748" fontWeight="bold">≈1.7倍</text>
+              <text x="900" y="390" fontSize="12" fill="#2d3748" fontWeight="bold">≈2.1倍</text>
+
+              {/* 3%增长率数据点 */}
+              <g fill="#9fc5e8" filter="url(#shadowFilter)">
+                  <circle cx="120" cy="600" r="6" stroke="#fff" strokeWidth="2"/>
+                  <circle cx="120" cy="600" r="5" stroke="#7ba7d6" strokeWidth="1"/>
+                  <circle cx="280" cy="480" r="6" stroke="#fff" strokeWidth="2"/>
+                  <circle cx="280" cy="480" r="5" stroke="#7ba7d6" strokeWidth="1"/>
+                  <circle cx="440" cy="400" r="6" stroke="#fff" strokeWidth="2"/>
+                  <circle cx="440" cy="400" r="5" stroke="#7ba7d6" strokeWidth="1"/>
+                  <circle cx="900" cy="180" r="6" stroke="#fff" strokeWidth="2"/>
+                  <circle cx="900" cy="180" r="5" stroke="#7ba7d6" strokeWidth="1"/>
+              </g>
+              {/* 3%增长率倍数标注 */}
+              <text x="280" y="460" fontSize="12" fill="#2d3748" fontWeight="bold">≈2.5倍</text>
+              <text x="440" y="380" fontSize="12" fill="#2d3748" fontWeight="bold">≈4.8倍</text>
+              <text x="900" y="160" fontSize="12" fill="#2d3748" fontWeight="bold">≈8.1倍</text>
+
+              {/* 5%增长率数据点（突出显示，强调指数增长） */}
+              <g fill="#7ba7d6" filter="url(#shadowFilter)">
+                  <circle cx="120" cy="600" r="7" stroke="#fff" strokeWidth="2"/>
+                  <circle cx="120" cy="600" r="5.5" stroke="#6a93c5" strokeWidth="1"/>
+                  <circle cx="280" cy="430" r="7" stroke="#fff" strokeWidth="2"/>
+                  <circle cx="280" cy="430" r="5.5" stroke="#6a93c5" strokeWidth="1"/>
+                  <circle cx="440" cy="300" r="7" stroke="#fff" strokeWidth="2"/>
+                  <circle cx="440" cy="300" r="5.5" stroke="#6a93c5" strokeWidth="1"/>
+                  <circle cx="900" cy="150" r="7" stroke="#fff" strokeWidth="2"/>
+                  <circle cx="900" cy="150" r="5.5" stroke="#6a93c5" strokeWidth="1"/>
+              </g>
+              {/* 5%增长率倍数标注（加大字体，更醒目） */}
+              <text x="280" y="410" fontSize="13" fill="#2d3748" fontWeight="bold">≈4.5倍</text>
+              <text x="440" y="280" fontSize="13" fill="#2d3748" fontWeight="bold">≈12.2倍</text>
+              <text x="900" y="130" fontSize="13" fill="#2d3748" fontWeight="bold">≈20.1倍</text>
+
+              {/* 7. 文字标注：优化层级+样式，更精致易读（移除右上角重叠元素） */}
+              {/* 主标题（加大字体+加粗，突出主题） */}
+              <text x="500" y="65" fontSize="28" fill="#1a202c" fontWeight="bold">复利效应 - 长期增长模型</text>
+              {/* 副标题（添加文字阴影，增强可读性） */}
+              <text x="500" y="95" fontSize="15" fill="#718096" style={{ textShadow: '0 1px 0 rgba(255,255,255,0.8)' }}>
+                  微小的正向行动，通过时间的持续积累，最终产生指数级的结果
               </text>
-              <text x="50%" y="40" textAnchor="middle" fill={isDark ? '#a1a1aa' : '#64748b'} fontSize={14}>
-                本金增长与复利增长的对比，展示时间对投资增长的巨大影响
+              
+              {/* 曲线标注（添加背景矩形，突出文字，无重叠） */}
+              <rect x="820" y="395" width="70" height="20" fill="#fff" rx="3" ry="3" opacity="0.7"/>
+              <text x="855" y="405" fontSize="14" fill="#bdd8f7" fontWeight="bold">1%增长率</text>
+              <rect x="820" y="165" width="70" height="20" fill="#fff" rx="3" ry="3" opacity="0.7"/>
+              <text x="855" y="175" fontSize="14" fill="#9fc5e8" fontWeight="bold">3%增长率</text>
+              <rect x="820" y="135" width="70" height="20" fill="#fff" rx="3" ry="3" opacity="0.7"/>
+              <text x="855" y="145" fontSize="14" fill="#7ba7d6" fontWeight="bold">5%增长率</text>
+              
+              {/* 坐标轴标题（加大字体+加粗，更醒目） */}
+              <text x="510" y="670" fontSize="18" fill="#2d3748" fontWeight="500">时间（单位：年/周期）</text>
+              <text x="40" y="375" fontSize="18" fill="#2d3748" fontWeight="500" transform="rotate(-90,40,375)">增长倍数（倍）</text>
+
+              {/* 8. 增长率说明（移至底部，避免重叠，布局整洁） */}
+              <g id="legend" transform="translate(350, 700)">
+                  {/* 图例标题 */}
+                  <text x="100" y="0" fontSize="14" fill="#2d3748" fontWeight="bold" textAnchor="middle">增长率说明</text>
+                  {/* 1%增长率图例（横向排列，无重叠） */}
+                  <rect x="50" y="20" width="18" height="10" fill="url(#gradient1)" stroke="#bdd8f7" strokeWidth="1.5" rx="2" ry="2"/>
+                  <text x="80" y="25" fontSize="13" fill="#4a5568" textAnchor="start">1% 每日/每期增长率</text>
+                  {/* 3%增长率图例 */}
+                  <rect x="200" y="20" width="18" height="10" fill="url(#gradient3)" stroke="#9fc5e8" strokeWidth="1.5" rx="2" ry="2"/>
+                  <text x="230" y="25" fontSize="13" fill="#4a5568" textAnchor="start">3% 每日/每期增长率</text>
+                  {/* 5%增长率图例 */}
+                  <rect x="350" y="20" width="18" height="10" fill="url(#gradient5)" stroke="#7ba7d6" strokeWidth="1.5" rx="2" ry="2"/>
+                  <text x="380" y="25" fontSize="13" fill="#4a5568" textAnchor="start">5% 每日/每期增长率</text>
+              </g>
+
+              {/* 9. 底部备注：补充说明，更实用形象（与图例分层，无重叠） */}
+              <text x="500" y="750" fontSize="12" fill="#718096" style={{ textAnchor: 'middle' }}>
+                  备注：以上数据基于复利公式 FV = PV × (1 + r)^n 模拟，仅作视觉演示，不构成投资建议
               </text>
-              <circle cx="180" cy={150} r={6} fill="#10b981" stroke="#ffffff" strokeWidth={2} />
-              <text x="180" y={165} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
-                60天: 1.82倍
-              </text>
-            </AreaChart>
-          </BaseChart>
+            </svg>
+          </div>
         );
       case 'dopamine':
         return (
-          <BaseChart data={dopamineData} isDark={isDark} height={chartHeight}>
-            <AreaChart data={dopamineData} animationDuration={1000} margin={{ top: 20, right: 40, left: 50, bottom: 50 }}>
-              <defs>
-                <linearGradient id="colorDopamine" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.4}/>
-                  <stop offset="95%" stopColor="#f59e0b" stopOpacity={0.05}/>
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray={chartConfig.grid.strokeDasharray} stroke={getGridColor(isDark)} />
-              <XAxis 
-                dataKey="hour" 
-                stroke={chartConfig.axis.stroke} 
-                tick={{ fontSize: chartConfig.fontSize.axisTick }} 
-                label={{ 
-                  value: '时间（小时）', 
-                  position: 'insideBottom', 
-                  offset: -10, 
-                  fontSize: chartConfig.fontSize.axisLabel, 
-                  fontWeight: 'bold'
-                }} 
-              />
-              <YAxis 
-                stroke={chartConfig.axis.stroke} 
-                label={{ 
-                  value: '多巴胺水平', 
-                  angle: -90, 
-                  position: 'insideLeft', 
-                  offset: -5, 
-                  fontSize: chartConfig.fontSize.axisLabel, 
-                  fontWeight: 'bold'
-                }} 
-                domain={[0, 'dataMax + 10']} 
-              />
-              <Legend wrapperStyle={chartConfig.legend.wrapperStyle} />
-              <Area type="monotone" dataKey="level" stroke="#f59e0b" fill="url(#colorDopamine)" name="多巴胺水平" />
-              <Line type="monotone" dataKey="baseline" stroke="#71717a" strokeDasharray="3 3" name="基线水平" />
+          <div className="w-full h-full">
+            <div className="container" style={{ maxWidth: '100%', padding: '20px' }}>
+              <div className="header">
+                <h1>多巴胺曲线 - 情绪与动机管理</h1>
+                <p>展示多巴胺水平随时间的变化，帮助管理情绪和动机。<br />“理解快乐的代价，培养延迟满足的能力。”</p>
+              </div>
               
-              {/* 关键节点标注 */}
-              <circle cx="150" cy="100" r={6} fill="#f59e0b" stroke="#ffffff" strokeWidth={2} />
-              <text x="150" y="85" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
-                峰值: 85
-              </text>
+              {/* 核心概念卡片 */}
+              <div className="cards-container" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px', marginTop: '10px' }}>
+                {/* 核心原理 */}
+                <div className="card" style={{ background: '#fff5f5', borderRadius: '16px', padding: '24px 20px', textAlign: 'center', transition: 'transform 0.3s ease, boxShadow 0.3s ease', border: '1px solid #fed7d7', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                  <span className="card-icon" style={{ fontSize: '42px', marginBottom: '15px', display: 'block', height: '50px', lineHeight: '50px' }}>🧠</span>
+                  <h3 style={{ margin: '0 0 12px 0', fontSize: '18px', fontWeight: 700, color: '#c05621' }}>核心原理</h3>
+                  <p style={{ fontSize: '13px', color: '#744210', margin: 0, lineHeight: '1.6', textAlign: 'left' }}>多巴胺是“欲望分子”，通过奖赏预测误差机制运作。即时满足（如刷视频）会导致多巴胺飙升后迅速跌落至基线以下，引发空虚感。</p>
+                </div>
+                {/* 操作建议 */}
+                <div className="card" style={{ background: '#fff5f5', borderRadius: '16px', padding: '24px 20px', textAlign: 'center', transition: 'transform 0.3s ease, boxShadow 0.3s ease', border: '1px solid #fed7d7', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                  <span className="card-icon" style={{ fontSize: '42px', marginBottom: '15px', display: 'block', height: '50px', lineHeight: '50px' }}>🛡️</span>
+                  <h3 style={{ margin: '0 0 12px 0', fontSize: '18px', fontWeight: 700, color: '#c05621' }}>操作建议</h3>
+                  <p style={{ fontSize: '13px', color: '#744210', margin: 0, lineHeight: '1.6', textAlign: 'left' }}>1. 觉察“多巴胺陷阱”，避免成瘾行为。<br />2. 练习<strong>延迟满足</strong>，忍受初期的不适。<br />3. 建立健康的“多巴胺基线”（运动、睡眠）。<br />4. 设置阶梯式奖励。</p>
+                </div>
+                {/* 实践案例 */}
+                <div className="card" style={{ background: '#fff5f5', borderRadius: '16px', padding: '24px 20px', textAlign: 'center', transition: 'transform 0.3s ease, boxShadow 0.3s ease', border: '1px solid #fed7d7', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                  <span className="card-icon" style={{ fontSize: '42px', marginBottom: '15px', display: 'block', height: '50px', lineHeight: '50px' }}>🏃</span>
+                  <h3 style={{ margin: '0 0 12px 0', fontSize: '18px', fontWeight: 700, color: '#c05621' }}>实践案例</h3>
+                  <p style={{ fontSize: '13px', color: '#744210', margin: 0, lineHeight: '1.6', textAlign: 'left' }}><strong>行动：</strong>限制短视频时间，改为阅读或散步。<br /><strong>策略：</strong>完成困难任务后再奖励自己一杯咖啡，而非边做边享受。</p>
+                </div>
+              </div>
               
-              <circle cx="300" cy="120" r={6} fill="#f59e0b" stroke="#ffffff" strokeWidth={2} />
-              <text x="300" y="105" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
-                次高峰: 80
-              </text>
-              
-              <circle cx="80" cy="200" r={6} fill="#f59e0b" stroke="#ffffff" strokeWidth={2} />
-              <text x="80" y="215" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
-                低谷: 40
-              </text>
-              
-              {/* 区域标注 */}
-              <text x="100" y="150" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={14} fontWeight="bold" fillOpacity={0.7}>
-                早晨高峰
-              </text>
-              <text x="300" y="180" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={14} fontWeight="bold" fillOpacity={0.7}>
-                晚上活跃期
-              </text>
-              
-              {/* 标题 */}
-              <text x="50%" y="20" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={chartConfig.fontSize.title} fontWeight="bold">
-                每日多巴胺水平变化曲线
-              </text>
-              
-              {/* 副标题 */}
-              <text x="50%" y="40" textAnchor="middle" fill={isDark ? '#a1a1aa' : '#64748b'} fontSize={14}>
-                展示一天中多巴胺水平的自然波动，帮助理解注意力和动力的变化规律
-              </text>
-            </AreaChart>
-          </BaseChart>
+              {/* 核心图表区 */}
+              <div className="chart-wrapper" style={{ position: 'relative', background: 'linear-gradient(180deg, #ffffff 0%, #fffaf0 100%)', borderRadius: '20px', border: '1px solid #feebc8', padding: '20px', marginTop: '10px' }}>
+                
+                <svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    {/* 渐变定义 */}
+                    <linearGradient id="gradDopamine" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" style={{ stopColor: '#ED8936', stopOpacity: 0.4 }} />
+                      <stop offset="100%" style={{ stopColor: '#FFFFFF', stopOpacity: 0.05 }} />
+                    </linearGradient>
+                    
+                    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                      <feDropShadow dx={0} dy={2} stdDeviation={2} floodColor="#000" floodOpacity={0.1} />
+                    </filter>
+                    
+                    {/* 箭头标记 */}
+                    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+                      <path d="M0,0 L0,6 L9,3 z" fill="#CBD5E0" />
+                    </marker>
+                  </defs>
+                  
+                  {/* 坐标轴 */}
+                  <line x1="50" y1="400" x2="750" y2="400" stroke="#CBD5E0" strokeWidth="2" markerEnd="url(#arrow)" />
+                  <line x1="50" y1="400" x2="50" y2="50" stroke="#CBD5E0" strokeWidth="2" markerEnd="url(#arrow)" />
+                  
+                  {/* 坐标标签 */}
+                  <text x="750" y="430" textAnchor="end" fontSize="14" fill="#718096" fontWeight="bold">时间 (Time) →</text>
+                  <text x="40" y="50" textAnchor="end" fontSize="14" fill="#718096" fontWeight="bold" writingMode="tb">← 多巴胺水平 (Level)</text>
+                  
+                  {/* 基线参考线 (Baseline) */}
+                  <line x1="50" y1="300" x2="750" y2="300" stroke="#A0AEC0" strokeWidth="1" strokeDasharray="6,4" />
+                  <text x="60" y="290" fontSize="12" fill="#718096" fontStyle="italic">基线水平 (Baseline)</text>
+                  
+                  {/* 多巴胺曲线 (Orange): Rise -> Peak -> Drop -> Recover */}
+                  <path d="M50 300 C 100 300, 150 100, 200 100 C 250 100, 300 350, 350 350 C 500 350, 600 300, 750 300" fill="none" stroke="#ED8936" strokeWidth="3" />
+                  <path d="M50 300 C 100 300, 150 100, 200 100 C 250 100, 300 350, 350 350 C 500 350, 600 300, 750 300 V 400 H 50 Z" fill="url(#gradDopamine)" style={{ mixBlendMode: 'normal' }} />
+                  
+                  {/* 关键节点数据点 (White border circles) */}
+                  
+                  {/* 1. 期待阶段 Start */}
+                  <circle cx="100" cy="250" r="6" fill="#ED8936" stroke="white" strokeWidth="2" />
+                  <text x="100" y="235" textAnchor="middle" fontSize="12" fill="#C05621" fontWeight="bold">期待阶段</text>
+                  
+                  {/* 2. 峰值释放 Peak */}
+                  <circle cx="200" cy="100" r="6" fill="#ED8936" stroke="white" strokeWidth="2" />
+                  <text x="200" y="85" textAnchor="middle" fontSize="12" fill="#C05621" fontWeight="bold">峰值释放</text>
+                  <text x="200" y="65" textAnchor="middle" fontSize="10" fill="#DD6B20">(即时满足)</text>
+                  
+                  {/* 3. 快速下降 Crash */}
+                  <circle cx="350" cy="350" r="6" fill="#ED8936" stroke="white" strokeWidth="2" />
+                  <text x="350" y="375" textAnchor="middle" fontSize="12" fill="#C05621" fontWeight="bold">快速下降</text>
+                  <text x="350" y="390" textAnchor="middle" fontSize="10" fill="#DD6B20">(戒断/空虚)</text>
+                  
+                  {/* 4. 恢复基线 Recovery */}
+                  <circle cx="650" cy="305" r="6" fill="#ED8936" stroke="white" strokeWidth="2" />
+                  <text x="650" y="290" textAnchor="middle" fontSize="12" fill="#C05621" fontWeight="bold">恢复基线</text>
+                  
+                  {/* 区域标注 */}
+                  <text x="200" y="420" textAnchor="middle" fontSize="12" fill="#DD6B20" fontWeight="bold">即时满足区 (高刺激)</text>
+                  <text x="550" y="420" textAnchor="middle" fontSize="12" fill="#718096" fontWeight="bold">延迟满足区 (平稳恢复)</text>
+                  
+                  {/* 图例 */}
+                  <g transform="translate(630, 30)">
+                    <rect x="0" y="0" width="120" height="40" fill="rgba(255,255,255,0.9)" stroke="#FEEBC8" rx="4" />
+                    <line x1="15" y1="20" x2="45" y2="20" stroke="#ED8936" strokeWidth="3" />
+                    <text x="55" y="24" fontSize="12" fill="#C05621">多巴胺水平</text>
+                  </g>
+                </svg>
+              </div>
+            </div>
+          </div>
         );
       case 'flow':
         return (
-          <BaseChart data={flowData} isDark={isDark} height={chartHeight}>
-            <ScatterChart data={flowData} animationDuration={1000} margin={{ top: 20, right: 40, left: 50, bottom: 50 }}>
-              <CartesianGrid strokeDasharray={chartConfig.grid.strokeDasharray} stroke={getGridColor(isDark)} />
-              <XAxis 
-                dataKey="x" 
-                stroke={chartConfig.axis.stroke} 
-                label={{ 
-                  value: '挑战难度', 
-                  position: 'insideBottom', 
-                  offset: -10, 
-                  fontSize: chartConfig.fontSize.axisLabel, 
-                  fontWeight: 'bold'
-                }} 
-                domain={[0, 100]} 
-              />
-              <YAxis 
-                dataKey="y" 
-                stroke={chartConfig.axis.stroke} 
-                label={{ 
-                  value: '技能水平', 
-                  angle: -90, 
-                  position: 'insideLeft', 
-                  offset: -5, 
-                  fontSize: chartConfig.fontSize.axisLabel, 
-                  fontWeight: 'bold'
-                }} 
-                domain={[0, 100]} 
-              />
-              <Legend wrapperStyle={chartConfig.legend.wrapperStyle} />
-              {/* 心流通道参考线 */}
-              <Line 
-                type="monotone" 
-                data={[{ x: 0, y: 0 }, { x: 100, y: 100 }]} 
-                dataKey="y" 
-                stroke="#10b981" 
-                strokeWidth={2} 
-                strokeDasharray="5 5" 
-                dot={false} 
-                name="心流通道" 
-              />
+          <div className="w-full h-full">
+            <div className="container" style={{ maxWidth: '100%', padding: '20px' }}>
+              <div className="header">
+                <h1>心流通道 - 专注与幸福的模型</h1>
+                <p>当任务挑战与个人能力完美匹配时，我们将进入全神贯注的最优体验状态。<br />“忘记时间，享受当下。”</p>
+              </div>
               
-              {/* 不同状态的散点 */}
-              <Scatter 
-                name="心流" 
-                data={flowData.filter(item => item.status === '心流')} 
-                fill="#10b981" 
-                shape={(props) => <circle {...props} r={6} />} 
-              />
-              <Scatter 
-                name="无聊" 
-                data={flowData.filter(item => item.status === '无聊')} 
-                fill="#3b82f6" 
-                shape={(props) => <circle {...props} r={6} />} 
-              />
-              <Scatter 
-                name="焦虑" 
-                data={flowData.filter(item => item.status === '焦虑')} 
-                fill="#ef4444" 
-                shape={(props) => <circle {...props} r={6} />} 
-              />
+              {/* 核心概念卡片 */}
+              <div className="cards-container" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px', marginTop: '10px' }}>
+                {/* 核心原理 */}
+                <div className="card" style={{ background: '#f0fdfa', borderRadius: '16px', padding: '24px 20px', textAlign: 'center', transition: 'transform 0.3s ease, boxShadow 0.3s ease', border: '1px solid #ccfbf1', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                  <span className="card-icon" style={{ fontSize: '42px', marginBottom: '15px', display: 'block', height: '50px', lineHeight: '50px' }}>🌊</span>
+                  <h3 style={{ margin: '0 0 12px 0', fontSize: '18px', fontWeight: 700, color: '#0d9488' }}>核心原理</h3>
+                  <p style={{ fontSize: '13px', color: '#334155', margin: 0, lineHeight: '1.6', textAlign: 'left' }}>心流（Flow）是一种精神熵极低的状态。在此时，你的技能足以应对挑战，目标明确，反馈即时，自我意识消失，时间感扭曲。</p>
+                </div>
+                {/* 操作建议 */}
+                <div className="card" style={{ background: '#f0fdfa', borderRadius: '16px', padding: '24px 20px', textAlign: 'center', transition: 'transform 0.3s ease, boxShadow 0.3s ease', border: '1px solid #ccfbf1', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                  <span className="card-icon" style={{ fontSize: '42px', marginBottom: '15px', display: 'block', height: '50px', lineHeight: '50px' }}>🎚️</span>
+                  <h3 style={{ margin: '0 0 12px 0', fontSize: '18px', fontWeight: 700, color: '#0d9488' }}>操作建议</h3>
+                  <p style={{ fontSize: '13px', color: '#334155', margin: 0, lineHeight: '1.6', textAlign: 'left' }}>1. <strong>动态调整</strong>：焦虑时拆解任务（降难度），无聊时增加限制（提难度）。<br />2. <strong>环境设计</strong>：物理隔绝干扰。<br />3. <strong>单一聚焦</strong>：拒绝多任务处理。</p>
+                </div>
+                {/* 实践案例 */}
+                <div className="card" style={{ background: '#f0fdfa', borderRadius: '16px', padding: '24px 20px', textAlign: 'center', transition: 'transform 0.3s ease, boxShadow 0.3s ease', border: '1px solid #ccfbf1', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                  <span className="card-icon" style={{ fontSize: '42px', marginBottom: '15px', display: 'block', height: '50px', lineHeight: '50px' }}>🎯</span>
+                  <h3 style={{ margin: '0 0 12px 0', fontSize: '18px', fontWeight: 700, color: '#0d9488' }}>实践案例</h3>
+                  <p style={{ fontSize: '13px', color: '#334155', margin: 0, lineHeight: '1.6', textAlign: 'left' }}>1. 工作：使用番茄钟，设定“跳一跳够得着”的KPI。<br />2. 学习：如果书太难读不下去，先看导读或视频（提升能力/降低门槛）。<br />3. 记录：建立“心流日记”。</p>
+                </div>
+              </div>
               
-              {/* 区域标注 */}
-              <text x="20" y="50" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
-                无聊区
-              </text>
-              <text x="50" y="50" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
-                心流通道
-              </text>
-              <text x="80" y="50" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
-                焦虑区
-              </text>
-              
-              {/* 标题 */}
-              <text x="50%" y="20" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={chartConfig.fontSize.title} fontWeight="bold">
-                心流状态分布图
-              </text>
-              
-              {/* 副标题 */}
-              <text x="50%" y="40" textAnchor="middle" fill={isDark ? '#a1a1aa' : '#64748b'} fontSize={14}>
-                展示挑战难度与技能水平的匹配关系，帮助识别心流状态区域
-              </text>
-            </ScatterChart>
-          </BaseChart>
+              {/* 核心图表区 */}
+              <div className="chart-wrapper" style={{ position: 'relative', background: 'linear-gradient(180deg, #ffffff 0%, #f8fafc 100%)', borderRadius: '20px', border: '1px solid #e2e8f0', padding: '20px', marginTop: '10px' }}>
+                <svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    {/* 区域渐变定义 */}
+                    {/* 焦虑区 (红色) */}
+                    <linearGradient id="gradAnxiety" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" style={{ stopColor: '#EF4444', stopOpacity: 0.25 }} />
+                      <stop offset="100%" style={{ stopColor: '#EF4444', stopOpacity: 0.05 }} />
+                    </linearGradient>
+                    {/* 无聊区 (黄色) */}
+                    <linearGradient id="gradBoredom" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" style={{ stopColor: '#F59E0B', stopOpacity: 0.25 }} />
+                      <stop offset="100%" style={{ stopColor: '#F59E0B', stopOpacity: 0.05 }} />
+                    </linearGradient>
+                    {/* 心流区 (绿色) */}
+                    <linearGradient id="gradFlow" x1="0%" y1="100%" x2="100%" y2="0%">
+                      <stop offset="0%" style={{ stopColor: '#10B981', stopOpacity: 0.3 }} />
+                      <stop offset="100%" style={{ stopColor: '#10B981', stopOpacity: 0.1 }} />
+                    </linearGradient>
+                    {/* 放松区 (蓝色) */}
+                    <linearGradient id="gradRelax" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" style={{ stopColor: '#3B82F6', stopOpacity: 0.25 }} />
+                      <stop offset="100%" style={{ stopColor: '#3B82F6', stopOpacity: 0.05 }} />
+                    </linearGradient>
+                    
+                    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                      <feDropShadow dx={0} dy={2} stdDeviation={2} floodColor="#000" floodOpacity={0.1} />
+                    </filter>
+                  </defs>
+                  
+                  {/* 坐标系背景网格 (淡化) */}
+                  <g stroke="#E2E8F0" strokeWidth="1">
+                    <line x1="50" y1="150" x2="750" y2="150" />
+                    <line x1="50" y1="250" x2="750" y2="250" />
+                    <line x1="50" y1="350" x2="750" y2="350" />
+                    <line x1="50" y1="450" x2="750" y2="450" />
+                    <line x1="225" y1="50" x2="225" y2="550" />
+                    <line x1="400" y1="50" x2="400" y2="550" />
+                    <line x1="575" y1="50" x2="575" y2="550" />
+                  </g>
+                  
+                  {/* 坐标轴 */}
+                  {/* Y轴: 个人能力 (550 -> 50) */}
+                  <line x1="50" y1="550" x2="50" y2="50" stroke="#94A3B8" strokeWidth="2" markerEnd="url(#arrow)" />
+                  <text x="40" y="50" textAnchor="end" fontSize="14" fill="#64748B" fontWeight="bold" writingMode="tb">← 个人能力 (Ability)</text>
+                  
+                  {/* X轴: 挑战难度 (50 -> 750) */}
+                  <line x1="50" y1="550" x2="750" y2="550" stroke="#94A3B8" strokeWidth="2" markerEnd="url(#arrow)" />
+                  <text x="750" y="580" textAnchor="end" fontSize="14" fill="#64748B" fontWeight="bold">挑战难度 (Challenge) →</text>
+                  
+                  {/* 箭头定义 */}
+                  <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+                    <path d="M0,0 L0,6 L9,3 z" fill="#94A3B8" />
+                  </marker>
+                  
+                  {/* 区域绘制 */}
+                  
+                  {/* 1. 焦虑区 (Anxiety): 高挑战(X大)，低能力(Y小-坐标系中Y值大) */}
+                  <path d="M250 550 L 750 550 L 750 250 Z" fill="url(#gradAnxiety)" />
+                  
+                  {/* 2. 无聊区 (Boredom): 低挑战(X小)，高能力(Y大-坐标系中Y值小) */}
+                  <path d="M50 50 L 50 350 L 350 50 Z" fill="url(#gradBoredom)" />
+                  
+                  {/* 3. 放松区 (Relaxation): 低挑战，低能力 */}
+                  <path d="M50 550 L 250 550 L 50 350 Z" fill="url(#gradRelax)" />
+                  
+                  {/* 4. 心流区 (Flow): 匹配通道 */}
+                  <path d="M50 350 L 350 50 L 750 250 L 250 550 Z" fill="url(#gradFlow)" />
+                  
+                  {/* 分隔线 (虚线) */}
+                  <line x1="50" y1="350" x2="350" y2="50" stroke="#CBD5E0" strokeWidth="2" strokeDasharray="6,4" />
+                  <line x1="250" y1="550" x2="750" y2="250" stroke="#CBD5E0" strokeWidth="2" strokeDasharray="6,4" />
+                  
+                  {/* 心流理想线 (45度实线) */}
+                  <line x1="50" y1="550" x2="700" y2="100" stroke="#10B981" strokeWidth="3" strokeLinecap="round" className="flow-line" />
+                  
+                  {/* 图标与文字标注 */}
+                  
+                  {/* 焦虑区 */}
+                  <g transform="translate(600, 480)">
+                    <text x="0" y="0" textAnchor="middle" fontSize="16" fontWeight="bold" fill="#B91C1C">焦虑区</text>
+                    <text x="0" y="20" textAnchor="middle" fontSize="12" fill="#B91C1C" opacity="0.8">能力 &lt; 挑战</text>
+                    {/* 皱眉图标 */}
+                    <circle cx="0" cy="-40" r="25" fill="none" stroke="#B91C1C" strokeWidth="2" />
+                    <path d="M-8 -45 L-2 -45 M 2 -45 L 8 -45" stroke="#B91C1C" strokeWidth="2" />
+                    <path d="M-10 -30 Q 0 -40 10 -30" fill="none" stroke="#B91C1C" strokeWidth="2" /> {/* 皱嘴 */}
+                  </g>
+                  
+                  {/* 无聊区 */}
+                  <g transform="translate(150, 150)">
+                    <text x="0" y="0" textAnchor="middle" fontSize="16" fontWeight="bold" fill="#B45309">无聊区</text>
+                    <text x="0" y="20" textAnchor="middle" fontSize="12" fill="#B45309" opacity="0.8">能力 &gt; 挑战</text>
+                    {/* 打哈欠图标 */}
+                    <circle cx="0" cy="-40" r="25" fill="none" stroke="#B45309" strokeWidth="2" />
+                    <path d="M-8 -45 L-2 -45 M 2 -45 L 8 -45" stroke="#B45309" strokeWidth="2" />
+                    <circle cx="0" cy="-28" r="6" fill="#B45309" /> {/* 张嘴 */}
+                  </g>
+                  
+                  {/* 放松区 */}
+                  <g transform="translate(100, 500)">
+                    <text x="0" y="0" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#1D4ED8">放松区</text>
+                    <text x="0" y="20" textAnchor="middle" fontSize="10" fill="#1D4ED8" opacity="0.8">低能低挑战</text>
+                    {/* 休息图标 (Zzz) */}
+                    <text x="0" y="-30" textAnchor="middle" fontSize="24" fill="#1D4ED8">💤</text>
+                  </g>
+                  
+                  {/* 心流区 */}
+                  <g transform="translate(400, 300)">
+                    <circle cx="0" cy="-40" r="40" fill="white" stroke="#10B981" strokeWidth="2" opacity="0.8" />
+                    <text x="0" y="10" textAnchor="middle" fontSize="20" fontWeight="bold" fill="#047857">心流通道</text>
+                    <text x="0" y="35" textAnchor="middle" fontSize="12" fill="#047857">最佳体验状态</text>
+                    {/* 专注图标 */}
+                    <path d="M-15 -40 L-5 -40 M 5 -40 L 15 -40" stroke="#047857" strokeWidth="3" />
+                    <path d="M-10 -25 Q 0 -15 10 -25" fill="none" stroke="#047857" strokeWidth="2" /> {/* 微笑 */}
+                    <path d="M-20 -50 L -25 -60 M 20 -50 L 25 -60 M 0 -65 L 0 -75" stroke="#047857" strokeWidth="2" /> {/* 发光/专注线 */}
+                  </g>
+                  
+                  {/* 图例 */}
+                  <g transform="translate(620, 50)">
+                    <rect x="0" y="0" width="130" height="110" fill="rgba(255,255,255,0.9)" stroke="#E2E8F0" rx="4" />
+                    
+                    {/* Legend Items */}
+                    <rect x="15" y="15" width="15" height="15" fill="#EF4444" fillOpacity="0.3" />
+                    <text x="40" y="27" fontSize="12" fill="#334155">焦虑区</text>
+                    
+                    <rect x="15" y="40" width="15" height="15" fill="#F59E0B" fillOpacity="0.3" />
+                    <text x="40" y="52" fontSize="12" fill="#334155">无聊区</text>
+                    
+                    <rect x="15" y="65" width="15" height="15" fill="#10B981" fillOpacity="0.3" />
+                    <text x="40" y="77" fontSize="12" fill="#334155">心流区</text>
+                    <rect x="15" y="90" width="15" height="15" fill="#3B82F6" fillOpacity="0.3" />
+                    <text x="40" y="102" fontSize="12" fill="#334155">放松区</text>
+                  </g>
+                </svg>
+              </div>
+            </div>
+          </div>
         );
       case 'zone':
         return (
-          <div className="w-full h-full flex items-center justify-center">
-            <svg width="100%" height="100%" viewBox="0 0 250 250" preserveAspectRatio="xMidYMid meet">
-              {/* 绘制三个同心圆 - 适当缩小半径 */}
-              {zoneData.map((item) => (
-                <circle 
-                  key={item.id} 
-                  cx="125" 
-                  cy="125" 
-                  r={item.id === 'comfort' ? 40 : item.id === 'learning' ? 80 : 120} 
-                  fill={item.color} 
-                  fillOpacity={item.fillOpacity} 
-                  stroke={item.color} 
-                  strokeWidth={2} 
-                />
-              ))}
-              {/* 标签文字 */}
-              <text x="125" y="125" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="16" fontWeight="bold">
-                舒适区模型
+          <div className="w-full h-full">
+            <svg width="100%" height="100%" viewBox="0 0 1000 800" style={{ fontFamily: 'Microsoft YaHei, PingFang SC, Hiragino Sans GB, sans-serif' }}>
+              <defs>
+                {/* 舒适区：浅蓝色渐变 */}
+                <linearGradient id="comfortGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#4dabf7" stop-opacity="0.3"/>
+                  <stop offset="100%" stop-color="#73bcf7" stop-opacity="0.3"/>
+                </linearGradient>
+                {/* 学习区：浅绿色渐变 */}
+                <linearGradient id="learnGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#51cf66" stop-opacity="0.3"/>
+                  <stop offset="100%" stop-color="#74d880" stop-opacity="0.3"/>
+                </linearGradient>
+                {/* 恐慌区：浅红色渐变 */}
+                <linearGradient id="panicGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#ff6b6b" stop-opacity="0.3"/>
+                  <stop offset="100%" stop-color="#ff8e8e" stop-opacity="0.3"/>
+                </linearGradient>
+                {/* 背景渐变 */}
+                <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#fcfdff" stop-opacity="1"/>
+                  <stop offset="100%" stop-color="#f5f8f9" stop-opacity="1"/>
+                </linearGradient>
+                {/* 轻微阴影滤镜：增强图标和数据点立体感 */}
+                <filter id="shadowFilter" x="-20%" y="-20%" width="140%" height="140%">
+                  <feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.2"/>
+                </filter>
+              </defs>
+
+              {/* 背景绘制：整体浅色渐变背景，整洁视觉区域 */}
+              <rect x="50" y="100" width="900" height="600" fill="url(#bgGradient)" rx="6" ry="6"/>
+
+              {/* 辅助坐标轴绘制：清晰标注挑战难度与成长速度 */}
+              {/* X轴（水平向右：任务挑战难度由低到高） */}
+              <line x1="100" y1="700" x2="900" y2="700" stroke="#2d3748" stroke-width="2.5"/>
+              {/* Y轴（垂直向上：个人成长速度由低到高） */}
+              <line x1="100" y1="150" x2="100" y2="700" stroke="#2d3748" stroke-width="2.5"/>
+
+              {/* X轴刻度与标注 */}
+              <g id="x-axis-ticks">
+                <line x1="100" y1="700" x2="100" y2="710" stroke="#2d3748" stroke-width="2.5"/>
+                <line x1="366" y1="700" x2="366" y2="710" stroke="#2d3748" stroke-width="2.5"/>
+                <line x1="633" y1="700" x2="633" y2="710" stroke="#2d3748" stroke-width="2.5"/>
+                <line x1="900" y1="700" x2="900" y2="710" stroke="#2d3748" stroke-width="2.5"/>
+                {/* 刻度文字 */}
+                <text x="100" y="730" fontSize="12" fill="#4a5568" fontWeight="500">低</text>
+                <text x="366" y="730" fontSize="12" fill="#4a5568" fontWeight="500">中</text>
+                <text x="633" y="730" fontSize="12" fill="#4a5568" fontWeight="500">中高</text>
+                <text x="900" y="730" fontSize="12" fill="#4a5568" fontWeight="500">高</text>
+              </g>
+
+              {/* Y轴刻度与标注 */}
+              <g id="y-axis-ticks">
+                <line x1="100" y1="700" x2="90" y2="700" stroke="#2d3748" stroke-width="2.5"/>
+                <line x1="100" y1="550" x2="90" y2="550" stroke="#2d3748" stroke-width="2.5"/>
+                <line x1="100" y1="400" x2="90" y2="400" stroke="#2d3748" stroke-width="2.5"/>
+                <line x1="100" y1="250" x2="90" y2="250" stroke="#2d3748" stroke-width="2.5"/>
+                <line x1="100" y1="150" x2="90" y2="150" stroke="#2d3748" stroke-width="2.5"/>
+                {/* 刻度文字 */}
+                <text x="65" y="700" fontSize="12" fill="#4a5568" fontWeight="500">低</text>
+                <text x="65" y="550" fontSize="12" fill="#4a5568" fontWeight="500">中</text>
+                <text x="65" y="400" fontSize="12" fill="#4a5568" fontWeight="500">中高</text>
+                <text x="65" y="250" fontSize="12" fill="#4a5568" fontWeight="500">高</text>
+                <text x="65" y="150" fontSize="12" fill="#4a5568" fontWeight="500">极高</text>
+              </g>
+
+              {/* 核心环形区域绘制：三层嵌套，对应舒适区、学习区、恐慌区 */}
+              <g transform="translate(500, 425)">
+                {/* 恐慌区（外层环形） */}
+                <circle cx="0" cy="0" r="250" fill="url(#panicGradient)" />
+                {/* 学习区（中层环形，宽度更宽） */}
+                <circle cx="0" cy="0" r="180" fill="url(#learnGradient)" />
+                {/* 舒适区（内层环形） */}
+                <circle cx="0" cy="0" r="110" fill="url(#comfortGradient)" />
+
+                {/* 区域分隔线 */}
+                {/* 舒适区与学习区分隔：实线 */}
+                <circle cx="0" cy="0" r="110" fill="none" stroke="#adb5bd" stroke-width="1.5" />
+                {/* 学习区与恐慌区分隔：虚线 */}
+                <circle cx="0" cy="0" r="180" fill="none" stroke="#adb5bd" stroke-width="1.5" stroke-dasharray="8,4" />
+
+                {/* 区域图标绘制：对应场景简笔画 */}
+                {/* 舒适区：沙发图标 */}
+                <g transform="translate(0, -40)" filter="url(#shadowFilter)">
+                    <rect x="-40" y="20" width="80" height="30" rx="4" fill="#4dabf7" opacity="0.8" stroke="#2d3748" stroke-width="1.5"/>
+                    <rect x="-25" y="50" width="15" height="20" rx="2" fill="#4dabf7" opacity="0.8" stroke="#2d3748" stroke-width="1.5"/>
+                    <rect x="10" y="50" width="15" height="20" rx="2" fill="#4dabf7" opacity="0.8" stroke="#2d3748" stroke-width="1.5"/>
+                    <path d="M-40,20 Q0,0 40,20" stroke="#2d3748" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                </g>
+
+                {/* 学习区：书本+钢笔图标 */}
+                <g transform="translate(80, 60)" filter="url(#shadowFilter)">
+                    {/* 书本 */}
+                    <rect x="-30" y="0" width="60" height="40" rx="2" fill="#51cf66" opacity="0.8" stroke="#2d3748" stroke-width="1.5"/>
+                    <line x1="-30" y1="10" x2="30" y2="10" stroke="#2d3748" stroke-width="1.5"/>
+                    {/* 钢笔 */}
+                    <line x1="10" y1="0" x2="20" y2="-20" stroke="#2d3748" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M20,-20 L25,-18 L22,-12 L17,-15 Z" fill="#2d3748" opacity="0.8"/>
+                </g>
+
+                {/* 恐慌区：流汗皱眉人脸图标 */}
+                <g transform="translate(-90, 80)" filter="url(#shadowFilter)">
+                    <circle cx="0" cy="0" r="20" fill="#ff6b6b" opacity="0.8" stroke="#2d3748" stroke-width="1.5"/>
+                    {/* 眉毛（皱眉） */}
+                    <path d="M-8,-5 Q-4,-8 0,-5" stroke="#2d3748" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                    <path d="M0,-5 Q4,-8 8,-5" stroke="#2d3748" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                    {/* 眼睛 */}
+                    <circle cx="-5" cy="2" r="2" fill="#2d3748"/>
+                    <circle cx="5" cy="2" r="2" fill="#2d3748"/>
+                    {/* 嘴巴 */}
+                    <path d="M-5,8 Q0,12 5,8" stroke="#2d3748" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                    {/* 汗水 */}
+                    <line x1="10" y1="-10" x2="15" y2="-15" stroke="#4dabf7" stroke-width="1" stroke-linecap="round" opacity="0.8"/>
+                    <line x1="12" y1="-12" x2="17" y2="-18" stroke="#4dabf7" stroke-width="1" stroke-linecap="round" opacity="0.8"/>
+                </g>
+
+                {/* 区域文字标注 */}
+                {/* 舒适区标注 */}
+                <text x="0" y="-20" fontSize="16" fill="#1d4ed8" fontWeight="bold">舒适区</text>
+                <text x="0" y="0" fontSize="12" fill="#4a5568">熟悉无压 · 成长停滞</text>
+                {/* 学习区标注（字体更大） */}
+                <text x="0" y="-140" fontSize="18" fill="#22c55e" fontWeight="bold">学习区</text>
+                <text x="0" y="-120" fontSize="12" fill="#4a5568">适度挑战 · 快速成长</text>
+                <text x="0" y="-100" fontSize="13" fill="#22c55e" fontWeight="bold">最优成长区间</text>
+                {/* 恐慌区标注 */}
+                <text x="0" y="-220" fontSize="16" fill="#e53e3e" fontWeight="bold">恐慌区</text>
+                <text x="0" y="-200" fontSize="12" fill="#4a5568">难度过高 · 易放弃</text>
+              </g>
+
+              {/* 成长曲线绘制：平滑曲线展示成长趋势 */}
+              <path d="M150,650 Q250,630 366,500 T633,200 T850,600"
+                    stroke="#2f5496" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              <text x="500" y="300" fontSize="12" fill="#2f5496" fontWeight="500">成长趋势线</text>
+
+              {/* 成长曲线关键节点数据点 */}
+              <g filter="url(#shadowFilter)">
+                  {/* 舒适区→学习区节点 */}
+                  <circle cx="366" cy="500" r="6" fill="#51cf66" stroke="#ffffff" stroke-width="2"/>
+                  {/* 学习区峰值节点 */}
+                  <circle cx="633" cy="200" r="6" fill="#51cf66" stroke="#ffffff" stroke-width="2"/>
+                  {/* 学习区→恐慌区节点 */}
+                  <circle cx="850" cy="600" r="6" fill="#ff6b6b" stroke="#ffffff" stroke-width="2"/>
+              </g>
+
+              {/* 参考线：最优成长线与区域边界线 */}
+              <line x1="100" y1="200" x2="900" y2="200" stroke="#2f5496" stroke-width="1.2" stroke-dasharray="6,4"/>
+              <text x="920" y="200" fontSize="11" fill="#2f5496" text-anchor="start">最优成长线</text>
+              <line x1="366" y1="150" x2="366" y2="700" stroke="#2f5496" stroke-width="1.2" stroke-dasharray="6,4"/>
+              <text x="366" y="130" fontSize="11" fill="#2f5496" text-anchor="middle">舒适区边界</text>
+              <line x1="633" y1="150" x2="633" y2="700" stroke="#2f5496" stroke-width="1.2" stroke-dasharray="6,4"/>
+              <text x="633" y="130" fontSize="11" fill="#2f5496" text-anchor="middle">恐慌区边界</text>
+
+              {/* 顶部标题与副标题 */}
+              <text x="500" y="65" fontSize="28" fill="#1a202c" fontWeight="bold">舒适区模型 - 个人成长层级</text>
+              <text x="500" y="95" fontSize="15" fill="#718096" width="800">
+                  成长发生在学习区，逐步拓展舒适区边界实现持续进步
               </text>
-              <text x="125" y="145" textAnchor="middle" fill={isDark ? "#a1a1aa" : "#64748b"} fontSize="10">
-                舒适区 → 学习区 → 恐惧区
+
+              {/* 坐标轴标注 */}
+              <text x="500" y="760" fontSize="18" fill="#2d3748" fontWeight="500">任务挑战难度</text>
+              <text x="40" y="425" fontSize="18" fill="#2d3748" fontWeight="500" transform="rotate(-90,40,425)">个人成长速度</text>
+
+              {/* 拓展方向标注 */}
+              <text x="500" y="650" fontSize="12" fill="#4a5568" fontWeight="500">
+                  拓展方向：舒适区 → 学习区 → 扩大舒适区
               </text>
-              {/* 区域名称 */}
-              <text x="125" y="90" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="12">
-                舒适区
-              </text>
-              <text x="125" y="125" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="12">
-                学习区
-              </text>
-              <text x="125" y="165" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="12">
-                恐惧区
-              </text>
+
+              {/* 右上角图例说明 */}
+              <g id="legend" transform="translate(750, 120)">
+                  <text x="80" y="0" fontSize="14" fill="#2d3748" fontWeight="bold" text-anchor="middle">区域说明</text>
+                  {/* 舒适区图例 */}
+                  <rect x="0" y="20" width="18" height="10" fill="url(#comfortGradient)" stroke="#4dabf7" stroke-width="1.5" rx="2" ry="2"/>
+                  <text x="30" y="25" fontSize="13" fill="#4a5568" text-anchor="start">舒适区</text>
+                  {/* 学习区图例 */}
+                  <rect x="0" y="50" width="18" height="10" fill="url(#learnGradient)" stroke="#51cf66" stroke-width="1.5" rx="2" ry="2"/>
+                  <text x="30" y="55" fontSize="13" fill="#4a5568" text-anchor="start">学习区</text>
+                  {/* 恐慌区图例 */}
+                  <rect x="0" y="80" width="18" height="10" fill="url(#panicGradient)" stroke="#ff6b6b" stroke-width="1.5" rx="2" ry="2"/>
+                  <text x="30" y="85" fontSize="13" fill="#4a5568" text-anchor="start">恐慌区</text>
+              </g>
             </svg>
           </div>
         );
       case 'woop':
         return (
-          <div className="w-full h-full flex items-center justify-center">
-            <svg width="100%" height="100%" viewBox="0 0 350 350" preserveAspectRatio="xMidYMid meet">
-              {/* 绘制WOOP框架的四个象限 */}
-              {woopData.map((item, index) => {
-                const cx = item.x * 350;
-                const cy = item.y * 350;
-                return (
-                  <g key={item.id}>
-                    {/* 背景圆圈 */}
-                    <circle cx={cx} cy={cy} r="45" fill={item.color} fillOpacity={item.fillOpacity} stroke={item.color} strokeWidth={2} />
-                    <circle cx={cx} cy={cy} r="36" fill={isDark ? "#18181b" : "#ffffff"} stroke={item.color} strokeWidth={1} />
-                    {/* 图标和文字 */}
-                    <text x={cx} y={cy - 12} textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="20">
-                      {item.icon}
-                    </text>
-                    <text x={cx} y={cy + 8} textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="14" fontWeight="bold">
-                      {item.label}
-                    </text>
-                    <text x={cx} y={cy + 25} textAnchor="middle" fill={isDark ? "#a1a1aa" : "#64748b"} fontSize="9" width="90" textLength="90">
-                      {item.description}
-                    </text>
-                  </g>
-                );
-              })}
+          <div className="w-full h-full p-0 m-0 overflow-auto" data-theme={isDark ? 'dark' : 'light'} style={{ width: '100%', height: '100%' }}>
+            <style jsx>{`
+              :root {
+                /* 浅色模式（清晨） */
+                --sky-gradient: linear-gradient(180deg, #e0f7fa 0%, #ccfbf1 100%);
+                --ground-color: #f0fdf4;
+                --river-color: #38bdf8;
+                --bridge-color: #f59e0b;
+                --text-color: #334155;
+                --card-bg: rgba(255, 255, 255, 0.95);
+                --card-border: #e2e8f0;
+                --line-color: #94a3b8;
+                
+                /* 强调色 */
+                --wish-color: #8b5cf6;
+                --outcome-color: #10b981;
+                --obstacle-color: #ef4444;
+                --plan-color: #3b82f6;
+              }
+
+              [data-theme="dark"] {
+                /* 深色模式（星夜） */
+                --sky-gradient: linear-gradient(180deg, #0f172a 0%, #312e81 100%);
+                --ground-color: #1e293b;
+                --river-color: #3b82f6;
+                --bridge-color: #d97706;
+                --text-color: #e2e8f0;
+                --card-bg: rgba(30, 41, 59, 0.95);
+                --card-border: #475569;
+                --line-color: #64748b;
+              }
+
+              body {
+                font-family: "Microsoft YaHei", -apple-system, sans-serif;
+                margin: 0;
+                height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background: var(--sky-gradient);
+                color: var(--text-color);
+                transition: background 1s ease;
+                overflow: hidden;
+              }
+
+              .scene-container {
+                width: 100%;
+                height: 100%;
+                position: relative;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 0;
+                margin: 0;
+              }
+
+              /* 顶部标题 - 悬浮且不干扰 */
+              .header {
+                position: absolute;
+                top: 30px;
+                z-index: 10;
+                text-align: center;
+                pointer-events: none;
+              }
+
+              .header h1 {
+                margin: 0;
+                font-size: 2.5rem;
+                letter-spacing: 4px;
+                text-transform: uppercase;
+                background: linear-gradient(to right, var(--wish-color), var(--outcome-color));
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                font-weight: 900;
+                text-shadow: 0 4px 10px rgba(0,0,0,0.1);
+              }
+
+              .header p {
+                font-size: 1rem;
+                opacity: 0.7;
+                margin-top: 5px;
+                font-weight: 500;
+                color: var(--text-color);
+              }
+
+              /* SVG 场景层 */
+              .svg-scene {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 1;
+                object-fit: contain;
+              }
+
+              /* 卡片层 */
+              .cards-layer {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 10;
+                pointer-events: none;
+              }
+
+              /* 卡片样式 - 默认折叠，悬停展开 */
+              .info-card {
+                position: absolute;
+                width: 180px;
+                height: 60px;
+                background: var(--card-bg);
+                border: 1px solid var(--card-border);
+                border-left: 6px solid transparent;
+                border-radius: 12px;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+                padding: 15px;
+                box-sizing: border-box;
+                pointer-events: auto;
+                transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+                cursor: pointer;
+              }
+
+              /* 悬停展开状态 */
+              .info-card:hover {
+                width: 280px;
+                height: auto;
+                min-height: 140px;
+                transform: scale(1.05);
+                z-index: 20;
+                box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+              }
+
+              .card-header {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-bottom: 10px;
+                flex-shrink: 0;
+              }
+
+              .icon { font-size: 1.5rem; }
+              .title { font-size: 1.1rem; font-weight: 800; white-space: nowrap; }
               
-              {/* 绘制连接线 */}
-              {/* 水平连接线 - 顶部 */}
-              <line x1="87.5" y1="87.5" x2="250" y2="87.5" stroke={isDark ? "#a1a1aa" : "#64748b"} strokeWidth="2" strokeDasharray="3 3" />
-              {/* 箭头 - 顶部 */}
-              <polygon points="250,84 262.5,87.5 250,91" fill={isDark ? "#a1a1aa" : "#64748b"} />
+              .description {
+                font-size: 0.9rem;
+                line-height: 1.6;
+                opacity: 0;
+                transition: opacity 0.3s ease 0.1s;
+                color: var(--text-color);
+              }
               
-              {/* 水平连接线 - 底部 */}
-            </svg>
+              .info-card:hover .description {
+                opacity: 0.9;
+              }
+
+              /* 卡片定位 - 四角布局 */
+              #card-wish { top: 120px; left: 40px; border-left-color: var(--wish-color); }
+              #card-wish .title { color: var(--wish-color); }
+
+              #card-outcome { top: 120px; right: 40px; border-left-color: var(--outcome-color); }
+              #card-outcome .title { color: var(--outcome-color); }
+
+              #card-obstacle { bottom: 40px; left: 40px; border-left-color: var(--obstacle-color); }
+              #card-obstacle .title { color: var(--obstacle-color); }
+
+              #card-plan { bottom: 40px; right: 40px; border-left-color: var(--plan-color); }
+              #card-plan .title { color: var(--plan-color); }
+
+              /* 切换按钮 */
+              .theme-toggle {
+                position: absolute;
+                top: 30px;
+                right: 30px;
+                z-index: 50;
+                background: var(--card-bg);
+                border: 1px solid var(--card-border);
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                cursor: pointer;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 1.2rem;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+                transition: transform 0.2s;
+              }
+              .theme-toggle:hover { transform: rotate(15deg) scale(1.1); }
+
+              /* 动画 */
+              .float-element { animation: float 6s ease-in-out infinite; }
+              @keyframes float {
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(-10px); }
+              }
+
+              .pulse-bridge { animation: glow 3s ease-in-out infinite; }
+              @keyframes glow {
+                0%, 100% { stroke-opacity: 0.8; stroke-width: 6; }
+                50% { stroke-opacity: 1; stroke-width: 8; }
+              }
+
+              /* 响应式 */
+              @media (max-width: 1000px) {
+                .info-card { width: 50px; height: 50px; padding: 10px; border-radius: 50%; }
+                .info-card .title { display: none; }
+                .info-card:hover { width: 260px; height: auto; border-radius: 16px; padding: 20px; }
+                .info-card:hover .title { display: block; }
+                .description { font-size: 0.85rem; }
+                .header h1 { font-size: 1.8rem; }
+              }
+            `}</style>
+            
+            <div className="scene-container">
+              <div className="header">
+                <h1>WOOP 愿望之旅</h1>
+                <p>从左至右，跨越障碍</p>
+              </div>
+
+              {/* SVG 场景绘制 */}
+              <svg className="svg-scene" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet" style={{ width: '100%', height: '100%', display: 'block' }}>
+                <defs>
+                  <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feDropShadow dx="2" dy="4" stdDeviation="3" flood-opacity="0.2"/>
+                  </filter>
+                  <marker id="arrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+                    <path d="M0,0 L0,10 L10,5 z" fill="var(--line-color)" />
+                  </marker>
+                </defs>
+
+                {/* 引导线 (连接卡片到场景元素) */}
+                {/* Wish (左上) -> 起点小人 */}
+                <path d="M 220 180 Q 250 180 320 420" fill="none" stroke="var(--line-color)" stroke-width="2" stroke-dasharray="5,5" opacity="0.5"/>
+                {/* Outcome (右上) -> 终点旗帜 */}
+                <path d="M 980 180 Q 950 180 880 420" fill="none" stroke="var(--line-color)" stroke-width="2" stroke-dasharray="5,5" opacity="0.5"/>
+                {/* Obstacle (左下) -> 河流 */}
+                <path d="M 220 620 Q 250 620 500 680" fill="none" stroke="var(--line-color)" stroke-width="2" stroke-dasharray="5,5" opacity="0.5"/>
+                {/* Plan (右下) -> 桥梁 */}
+                <path d="M 980 620 Q 950 620 700 550" fill="none" stroke="var(--line-color)" stroke-width="2" stroke-dasharray="5,5" opacity="0.5"/>
+
+
+                {/* 1. 地面 (向中心聚拢，留出两侧) */}
+                {/* 左岸 */}
+                <path d="M150 500 Q 300 480 450 600 L 450 800 L 150 800 Z" fill="var(--ground-color)" stroke="var(--card-border)" stroke-width="2"/>
+                {/* 右岸 */}
+                <path d="M750 600 Q 900 480 1050 500 L 1050 800 L 750 800 Z" fill="var(--ground-color)" stroke="var(--card-border)" stroke-width="2"/>
+
+                {/* 2. 河流 (障碍) - 位于画面正下方 */}
+                <path d="M450 600 Q 600 650 750 600 L 750 800 L 450 800 Z" fill="var(--river-color)" opacity="0.3">
+                  <animate attributeName="opacity" values="0.3;0.5;0.3" dur="4s" repeatCount="indefinite" />
+                </path>
+                {/* 鳄鱼/障碍物 */}
+                <g transform="translate(600, 700)" className="float-element">
+                  <path d="M-30 0 L-10 -20 L10 0 L30 -15 L50 0 L30 20 L-30 20 Z" fill="var(--obstacle-color)" stroke="white" stroke-width="2"/>
+                  <circle cx="-15" cy="-5" r="3" fill="white"/>
+                  <circle cx="25" cy="-5" r="3" fill="white"/>
+                </g>
+
+                {/* 3. 桥梁 (计划) - 连接两岸 */}
+                <g transform="translate(600, 580)">
+                  {/* 桥拱 */}
+                  <path d="M-150 20 Q 0 -60 150 20" fill="none" stroke="var(--bridge-color)" stroke-width="6" stroke-linecap="round" className="pulse-bridge"/>
+                  {/* 桥板 */}
+                  <line x1="-160" y1="20" x2="160" y2="20" stroke="var(--bridge-color)" stroke-width="4" stroke-opacity="0.6"/>
+                  {/* 支柱 */}
+                  <line x1="-80" y1="20" x2="-80" y2="-10" stroke="var(--bridge-color)" stroke-width="2"/>
+                  <line x1="80" y1="20" x2="80" y2="-10" stroke="var(--bridge-color)" stroke-width="2"/>
+                  <line x1="0" y1="20" x2="0" y2="-25" stroke="var(--bridge-color)" stroke-width="2"/>
+                </g>
+
+                {/* 4. 起点 (Wish) - 位于左岸中心 */}
+                <g transform="translate(320, 480)">
+                  {/* 人物 */}
+                  <circle cx="0" cy="-20" r="12" fill="var(--wish-color)" stroke="white" stroke-width="2"/>
+                  <path d="M0 -8 L0 30 M0 30 L-10 50 M0 30 L10 50 M-10 10 L10 10" stroke="var(--text-color)" stroke-width="3" stroke-linecap="round"/>
+                  {/* 思考气泡 */}
+                  <circle cx="25" cy="-45" r="4" fill="var(--text-color)" opacity="0.6"/>
+                  <circle cx="35" cy="-55" r="6" fill="var(--text-color)" opacity="0.6"/>
+                  <path d="M40 -60 Q 60 -80 80 -60 Q 90 -40 70 -30 Q 50 -20 40 -40 Z" fill="white" stroke="var(--text-color)" stroke-width="1.5"/>
+                  <text x="60" y="-45" font-size="16" text-anchor="middle" fill="var(--wish-color)">?</text>
+                </g>
+
+                {/* 5. 终点 (Outcome) - 位于右岸中心 */}
+                <g transform="translate(880, 480)">
+                  {/* 旗帜 */}
+                  <line x1="0" y1="0" x2="0" y2="80" stroke="var(--text-color)" stroke-width="3"/>
+                  <path d="M0 5 L 50 25 L 0 45 Z" fill="var(--outcome-color)" stroke="white" stroke-width="2" className="float-element"/>
+                  {/* 星星 */}
+                  <text x="0" y="-10" font-size="24" text-anchor="middle">✨</text>
+                </g>
+
+                {/* 动态轨迹球 */}
+                <circle r="6" fill="#fbbf24" filter="url(#shadow)">
+                  <animateMotion dur="5s" repeatCount="indefinite" path="M 320 480 Q 600 300 880 480" />
+                </circle>
+
+              </svg>
+
+              {/* 卡片层 (交互区) */}
+              <div className="cards-layer">
+                
+                {/* Wish */}
+                <div className="info-card" id="card-wish">
+                  <div className="card-header">
+                    <span className="icon">🌟</span>
+                    <span className="title">Wish 愿望</span>
+                  </div>
+                  <div className="description">
+                    <strong>确立目标：</strong><br/>
+                    站在起点，问自己：这一阶段我真正想实现的是什么？目标要具体、有挑战性。
+                  </div>
+                </div>
+
+                {/* Outcome */}
+                <div className="info-card" id="card-outcome">
+                  <div className="card-header">
+                    <span className="icon">🎯</span>
+                    <span className="title">Outcome 结果</span>
+                  </div>
+                  <div className="description">
+                    <strong>想象未来：</strong><br/>
+                    闭上眼，看见那个插旗的时刻。那种成就感、那种快乐，越具体越能激发动力。
+                  </div>
+                </div>
+
+                {/* Obstacle */}
+                <div className="info-card" id="card-obstacle">
+                  <div className="card-header">
+                    <span className="icon">⚠️</span>
+                    <span className="title">Obstacle 障碍</span>
+                  </div>
+                  <div className="description">
+                    <strong>直面深渊：</strong><br/>
+                    河水湍急，鳄鱼潜伏。诚实地找出阻碍你的内部恐惧或外部困难。别假装它们不存在。
+                  </div>
+                </div>
+
+                {/* Plan */}
+                <div className="info-card" id="card-plan">
+                  <div className="card-header">
+                    <span className="icon">📋</span>
+                    <span className="title">Plan 计划</span>
+                  </div>
+                  <div className="description">
+                    <strong>架桥过河：</strong><br/>
+                    制定 If-Then 策略：如果（遇到鳄鱼），那么（我就走这座桥）。用预案代替焦虑。
+                  </div>
+                </div>
+
+              </div>
+            </div>
           </div>
         );
       case 'peakEnd':
         return (
-          <BaseChart data={peakEndData} isDark={isDark} height={chartHeight}>
-            <AreaChart data={peakEndData} animationDuration={1000} margin={{ top: 20, right: 40, left: 50, bottom: 50 }}>
-              <defs>
-                <linearGradient id="peakEndGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.4}/>
-                  <stop offset="95%" stopColor="#3b82f6" stopOpacity={0.05}/>
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray={chartConfig.grid.strokeDasharray} stroke={getGridColor(isDark)} />
-              <XAxis 
-                dataKey="time" 
-                stroke={chartConfig.axis.stroke} 
-                tick={{ fontSize: chartConfig.fontSize.axisTick }} 
-                label={{ 
-                  value: '时间', 
-                  position: 'insideBottom', 
-                  offset: -10, 
-                  fontSize: chartConfig.fontSize.axisLabel, 
-                  fontWeight: 'bold'
-                }} 
-              />
-              <YAxis 
-                stroke={chartConfig.axis.stroke} 
-                tick={{ fontSize: chartConfig.fontSize.axisTick }} 
-                label={{ 
-                  value: '体验强度', 
-                  angle: -90, 
-                  position: 'insideLeft', 
-                  offset: -5, 
-                  fontSize: chartConfig.fontSize.axisLabel, 
-                  fontWeight: 'bold'
-                }} 
-                domain={[0, 100]} 
-              />
-              <Legend wrapperStyle={chartConfig.legend.wrapperStyle} />
-              <Area 
-                type="monotone" 
-                dataKey="experience" 
-                stroke="#3b82f6" 
-                strokeWidth={3} 
-                fill="url(#peakEndGradient)" 
-                name="体验强度" 
-              />
-              <Line 
-                type="monotone" 
-                dataKey="experience" 
-                stroke="#3b82f6" 
-                strokeWidth={3} 
-                dot={false} 
-                name="体验强度" 
-              />
-              
-              {/* 关键节点标注 - 峰值 */}
-              <circle cx="240" cy={80} r={6} fill="#ef4444" stroke="#ffffff" strokeWidth={2} />
-              <text x="240" y={65} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
-                峰值体验
-              </text>
-              
-              {/* 关键节点标注 - 终值 */}
-              <circle cx="350" cy={140} r={6} fill="#ef4444" stroke="#ffffff" strokeWidth={2} />
-              <text x="350" y={125} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={12} fontWeight="bold">
-                终值体验
-              </text>
-              
-              {/* 标题 */}
-              <text x="50%" y="20" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={chartConfig.fontSize.title} fontWeight="bold">
-                峰终定律 - 体验记忆曲线
-              </text>
-              
-              {/* 副标题 */}
-              <text x="50%" y="40" textAnchor="middle" fill={isDark ? '#a1a1aa' : '#64748b'} fontSize={14}>
-                人们对体验的记忆由峰值体验和结束时的体验决定，而非平均体验
-              </text>
-            </AreaChart>
-          </BaseChart>
+          <div className="w-full h-full">
+            <div className="peak-end-law-container" style={{ width: '100%', height: '100%', margin: '0 auto', padding: '20px', boxShadow: '0 4px 16px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.05)', backgroundColor: isDark ? '#1e293b' : '#fff', borderRadius: '8px', overflow: 'hidden', boxSizing: 'border-box' }}>
+              <svg width="100%" height="100%" viewBox="0 0 1000 800" preserveAspectRatio="xMidYMid meet" style={{ fontFamily: 'Microsoft YaHei, PingFang SC, Hiragino Sans GB, sans-serif', display: 'block' }}>
+                {/* 1. 渐变与滤镜定义：增强视觉区分度与立体感 */}
+                <defs>
+                    {/* 正向体验（愉悦）渐变 */}
+                    <linearGradient id="positiveGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#51cf66" stop-opacity="0.3"/>
+                        <stop offset="100%" stop-color="#74d880" stop-opacity="0.3"/>
+                    </linearGradient>
+                    {/* 负向体验（痛苦）渐变 */}
+                    <linearGradient id="negativeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#ff6b6b" stop-opacity="0.3"/>
+                        <stop offset="100%" stop-color="#ff8e8e" stop-opacity="0.3"/>
+                    </linearGradient>
+                    {/* 背景渐变 */}
+                    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#fcfdff" stop-opacity="1"/>
+                        <stop offset="100%" stop-color="#f5f8f9" stop-opacity="1"/>
+                    </linearGradient>
+                    {/* 轻微阴影滤镜：增强图标和锚点立体感 */}
+                    <filter id="shadowFilter" x="-20%" y="-20%" width="140%" height="140%">
+                        <feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.2"/>
+                    </filter>
+                    {/* 箭头标记定义（移至此处，避免重复定义） */}
+                    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                        <polygon points="0,0 10,3.5 0,7" fill="#2f5496"/>
+                    </marker>
+                </defs>
+
+                {/* 2. 整体背景绘制：浅色渐变，整洁视觉区域 */}
+                <rect x="50" y="100" width="900" height="600" fill="url(#bgGradient)" rx="6" ry="6"/>
+
+                {/* 3. 坐标轴绘制：X轴（体验时间）、Y轴（感受强度） */}
+                {/* X轴（水平向右：体验时间/流程） */}
+                <line x1="100" y1="450" x2="900" y2="450" stroke="#2d3748" stroke-width="2.5"/>
+                {/* Y轴（垂直向上：体验感受强度） */}
+                <line x1="100" y1="150" x2="100" y2="750" stroke="#2d3748" stroke-width="2.5"/>
+
+                {/* 中性平淡线（Y轴0刻度） */}
+                <line x1="100" y1="450" x2="900" y2="450" stroke="#adb5bd" stroke-width="1.5" stroke-dasharray="6,4"/>
+
+                {/* X轴刻度与标注（优化间距，避免文字拥挤） */}
+                <g id="x-axis-ticks">
+                    <line x1="100" y1="450" x2="100" y2="460" stroke="#2d3748" stroke-width="2.5"/>
+                    <line x1="300" y1="450" x2="300" y2="460" stroke="#2d3748" stroke-width="2.5"/>
+                    <line x1="500" y1="450" x2="500" y2="460" stroke="#2d3748" stroke-width="2.5"/>
+                    <line x1="700" y1="450" x2="700" y2="460" stroke="#2d3748" stroke-width="2.5"/>
+                    <line x1="900" y1="450" x2="900" y2="460" stroke="#2d3748" stroke-width="2.5"/>
+                    {/* 刻度文字：优化Y轴位置，增加间距，避免重叠 */}
+                    <text x="100" y="490" font-size="12" fill="#4a5568" font-weight="500">开始</text>
+                    <text x="300" y="490" font-size="12" fill="#4a5568" font-weight="500">中间环节</text>
+                    <text x="500" y="490" font-size="12" fill="#4a5568" font-weight="500">峰值时刻</text>
+                    <text x="700" y="490" font-size="12" fill="#4a5568" font-weight="500">后期环节</text>
+                    <text x="900" y="490" font-size="12" fill="#4a5568" font-weight="500">结束时刻</text>
+                </g>
+
+                {/* Y轴刻度与标注（优化文字对齐，避免和轴线重叠） */}
+                <g id="y-axis-ticks">
+                    <line x1="100" y1="150" x2="90" y2="150" stroke="#2d3748" stroke-width="2.5"/>
+                    <line x1="100" y1="250" x2="90" y2="250" stroke="#2d3748" stroke-width="2.5"/>
+                    <line x1="100" y1="350" x2="90" y2="350" stroke="#2d3748" stroke-width="2.5"/>
+                    <line x1="100" y1="450" x2="90" y2="450" stroke="#2d3748" stroke-width="2.5"/>
+                    <line x1="100" y1="550" x2="90" y2="550" stroke="#2d3748" stroke-width="2.5"/>
+                    <line x1="100" y1="650" x2="90" y2="650" stroke="#2d3748" stroke-width="2.5"/>
+                    <line x1="100" y1="750" x2="90" y2="750" stroke="#2d3748" stroke-width="2.5"/>
+                    {/* 刻度文字：优化X轴位置，左对齐调整，避免和Y轴重叠 */}
+                    <text x="60" y="150" font-size="12" fill="#22c55e" font-weight="500" text-anchor="end">极度愉悦</text>
+                    <text x="60" y="250" font-size="12" fill="#22c55e" font-weight="500" text-anchor="end">愉悦</text>
+                    <text x="60" y="350" font-size="12" fill="#22c55e" font-weight="500" text-anchor="end">轻微愉悦</text>
+                    <text x="60" y="450" font-size="12" fill="#718096" font-weight="500" text-anchor="end">中性</text>
+                    <text x="60" y="550" font-size="12" fill="#e53e3e" font-weight="500" text-anchor="end">轻微痛苦</text>
+                    <text x="60" y="650" font-size="12" fill="#e53e3e" font-weight="500" text-anchor="end">痛苦</text>
+                    <text x="60" y="750" font-size="12" fill="#e53e3e" font-weight="500" text-anchor="end">极度痛苦</text>
+                </g>
+
+                {/* 4. 体验区域填充：正向（愉悦）、负向（痛苦） */}
+                <polygon points="100,450 900,450 900,150 100,150" fill="url(#positiveGradient)"/>
+                <polygon points="100,450 900,450 900,750 100,750" fill="url(#negativeGradient)"/>
+
+                {/* 5. 核心体验曲线：平滑展示感受变化（优化文字位置，避免和曲线重叠） */}
+                <path d="M100,450 Q200,430 300,450 T500,200 T700,350 T900,250" 
+                      stroke="#2f5496" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <text x="600" y="320" font-size="12" fill="#2f5496" font-weight="500">体验感受曲线</text>
+
+                {/* 6. 核心锚点：峰值时刻 + 结束时刻（优化高亮背景层级，避免遮挡文字） */}
+                <g filter="url(#shadowFilter)">
+                    {/* 峰值高亮背景（后置，避免遮挡锚点） */}
+                    <circle cx="500" cy="200" r="20" fill="#51cf66" opacity="0.5" stroke="#22c55e" stroke-width="1"/>
+                    {/* 峰值时刻锚点（前置，突出显示） */}
+                    <circle cx="500" cy="200" r="6" fill="#2f5496" stroke="#ffffff" stroke-width="2"/>
+                    {/* 结束高亮背景（后置） */}
+                    <circle cx="900" cy="250" r="20" fill="#51cf66" opacity="0.5" stroke="#22c55e" stroke-width="1"/>
+                    {/* 结束时刻锚点（前置，突出显示） */}
+                    <circle cx="900" cy="250" r="6" fill="#2f5496" stroke="#ffffff" stroke-width="2"/>
+                </g>
+
+                {/* 7. 锚点参考线（优化样式，避免和其他元素重叠） */}
+                {/* 峰值参考线 */}
+                <line x1="500" y1="200" x2="500" y2="450" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-dasharray="2,2"/>
+                <line x1="100" y1="200" x2="500" y2="200" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-dasharray="2,2"/>
+                {/* 结束时刻参考线 */}
+                <line x1="900" y1="250" x2="900" y2="450" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-dasharray="2,2"/>
+                <line x1="100" y1="250" x2="900" y2="250" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-dasharray="2,2"/>
+
+                {/* 8. 图标绘制：增强直观性（优化图标位置，避免文字和图标重叠） */}
+                <g filter="url(#shadowFilter)">
+                    {/* 峰值时刻图标：笑脸+奖杯（向右上偏移，避免和标注重叠） */}
+                    <g transform="translate(540, 150)">
+                        {/* 笑脸 */}
+                        <circle cx="0" cy="0" r="15" fill="#51cf66" opacity="0.8" stroke="#2d3748" stroke-width="1.5"/>
+                        <path d="M-8,5 Q0,10 8,5" stroke="#2d3748" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                        <circle cx="-5" cy="-3" r="2" fill="#2d3748"/>
+                        <circle cx="5" cy="-3" r="2" fill="#2d3748"/>
+                        {/* 小奖杯 */}
+                        <g transform="translate(0, -10)">
+                            <rect x="-5" y="5" width="10" height="8" rx="1" fill="#ffd43b" opacity="0.8"/>
+                            <path d="M-8,5 L-5,0 L5,0 L8,5 Z" fill="#ffd43b" opacity="0.8"/>
+                        </g>
+                    </g>
+
+                    {/* 结束时刻图标：鼓掌+对勾（向右上偏移，避免重叠） */}
+                    <g transform="translate(940, 200)">
+                        {/* 手掌 */}
+                        <path d="M0,0 L5,5 L0,10 L-5,5 Z" fill="#4dabf7" opacity="0.8" stroke="#2d3748" stroke-width="1.5"/>
+                        <path d="M8,0 L13,5 L8,10 L3,5 Z" fill="#4dabf7" opacity="0.8" stroke="#2d3748" stroke-width="1.5"/>
+                        {/* 对勾 */}
+                        <path d="M-5,10 L0,15 L10,5" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </g>
+
+                    {/* 大脑图标：指向峰值与结束时刻（优化位置，避免和图例重叠） */}
+                    <g transform="translate(720, 130)">
+                        {/* 大脑 */}
+                        <ellipse cx="0" cy="0" rx="25" ry="18" fill="#b19cd9" opacity="0.8" stroke="#2d3748" stroke-width="1.5"/>
+                        <path d="M-15,-10 L-10,-5 L-15,0 L-10,5 L-15,10" stroke="#2d3748" stroke-width="1" fill="none"/>
+                        <path d="M15,-10 L10,-5 L15,0 L10,5 L15,10" stroke="#2d3748" stroke-width="1" fill="none"/>
+                        {/* 箭头指向峰值（优化角度，避免重叠） */}
+                        <line x1="0" y1="0" x2="-180" y2="40" stroke="#2f5496" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrowhead)"/>
+                        {/* 箭头指向结束时刻（优化角度，避免重叠） */}
+                        <line x1="0" y1="0" x2="130" y2="80" stroke="#2f5496" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrowhead)"/>
+                    </g>
+
+                    {/* 中间环节：弱化标记（优化位置，避免和X轴文字重叠） */}
+                    <g transform="translate(300, 470)">
+                        <text x="0" y="30" font-size="12" fill="#718096" text-anchor="middle">中间平淡环节</text>
+                        <path d="M-10,-10 L10,10 M10,-10 L-10,10" stroke="#adb5bd" stroke-width="1.5" stroke-linecap="round"/>
+                    </g>
+                </g>
+
+                {/* 9. 文字标注（核心优化：调整所有文字位置，增加间距，彻底解决重叠） */}
+                {/* 顶部标题与副标题（优化间距，避免文字挤压） */}
+                <text x="500" y="65" font-size="28" fill="#1a202c" font-weight="bold">峰终定律 - 体验记忆决定模型</text>
+                {/* 副标题：使用多行文本，避免单行过长重叠 */}
+                <text x="500" y="95" font-size="15" fill="#718096" text-anchor="middle">
+                    人们对一段体验的记忆，仅由峰值时刻和结束时刻决定
+                </text>
+                <text x="500" y="115" font-size="15" fill="#718096" text-anchor="middle">
+                    与体验总时长、中间平淡环节无关
+                </text>
+
+                {/* 锚点文字标注（优化Y轴位置，增加和高亮背景的间距） */}
+                <text x="500" y="155" font-size="16" fill="#22c55e" font-weight="bold">峰值时刻</text>
+                <text x="500" y="175" font-size="12" fill="#4a5568">最愉悦/最痛苦的瞬间</text>
+                <text x="900" y="205" font-size="16" fill="#22c55e" font-weight="bold">结束时刻</text>
+                <text x="900" y="225" font-size="12" fill="#4a5568">体验收尾的感受</text>
+
+                {/* 坐标轴标注（优化位置，避免和刻度文字重叠） */}
+                <text x="500" y="520" font-size="18" fill="#2d3748" font-weight="500">体验时间/流程</text>
+                <text x="35" y="450" font-size="18" fill="#2d3748" font-weight="500" transform="rotate(-90,35,450)">体验感受强度</text>
+
+                {/* 底部提示文字（优化排版，多行显示避免重叠） */}
+                <text x="500" y="760" font-size="12" fill="#4a5568" text-anchor="middle">
+                    操作关键：强化正向峰值，优化结束体验，忽略中间平淡环节
+                </text>
+                <text x="500" y="785" font-size="14" fill="#2d3748" font-weight="bold" text-anchor="middle">
+                    核心价值：聚焦峰值与终值，优化体验记忆，提升满意度/坚持度
+                </text>
+
+                {/* 10. 右上角图例说明（核心优化：调整图例位置和布局，避免文字重叠） */}
+                <g id="legend" transform="translate(720, 100)">
+                    <text x="90" y="0" font-size="14" fill="#2d3748" font-weight="bold" text-anchor="middle">元素说明</text>
+                    {/* 体验曲线图例（增加行间距） */}
+                    <line x1="0" y1="30" x2="20" y2="30" stroke="#2f5496" stroke-width="3" stroke-linecap="round"/>
+                    <text x="30" y="30" font-size="13" fill="#4a5568" text-anchor="start">体验感受曲线</text>
+                    {/* 峰值时刻图例（增加行间距） */}
+                    <circle cx="10" cy="60" r="6" fill="#2f5496" stroke="#ffffff" stroke-width="2"/>
+                    <text x="30" y="60" font-size="13" fill="#4a5568" text-anchor="start">峰值/结束时刻</text>
+                    {/* 正向体验图例（调整列间距，避免和负向图例重叠） */}
+                    <rect x="0" y="90" width="18" height="10" fill="url(#positiveGradient)" stroke="#51cf66" stroke-width="1.5" rx="2" ry="2"/>
+                    <text x="30" y="95" font-size="13" fill="#4a5568" text-anchor="start">正向愉悦体验</text>
+                    {/* 负向体验图例（向右偏移，避免重叠） */}
+                    <rect x="160" y="90" width="18" height="10" fill="url(#negativeGradient)" stroke="#ff6b6b" stroke-width="1.5" rx="2" ry="2"/>
+                    <text x="190" y="95" font-size="13" fill="#4a5568" text-anchor="start">负向痛苦体验</text>
+                </g>
+            </svg>
+            </div>
+          </div>
         );
       case 'valueVenn':
         return (
-          <div className="w-full h-full flex items-center justify-center">
-            <svg width="100%" height="100%" viewBox="0 0 300 250" preserveAspectRatio="xMidYMid meet">
-              {/* 绘制三个相交的圆形 */}
-              {valueVennData.map((item) => (
-                <g key={item.id}>
-                  <circle 
-                    cx={item.x * 300} 
-                    cy={item.y * 250} 
-                    r={item.radius} 
-                    fill={item.color} 
-                    fillOpacity={item.fillOpacity} 
-                    stroke={item.color} 
-                    strokeWidth={2} 
-                  />
-                  <text x={item.x * 300} y={item.y * 250} textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={14} fontWeight="bold">
-                    {item.label}
-                  </text>
-                </g>
-              ))}
+          <div className="w-full h-full p-4 overflow-hidden">
+            <div style={{ 
+              width: '100%', 
+              maxWidth: '1100px', 
+              background: isDark ? '#1e293b' : '#ffffff', 
+              borderRadius: '24px', 
+              boxShadow: isDark ? '0 20px 60px rgba(0, 0, 0, 0.3)' : '0 20px 60px rgba(0, 0, 0, 0.05)',
+              padding: '40px',
+              boxSizing: 'border-box',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '30px',
+              margin: '0 auto',
+              height: '100%'
+            }}>
+              <div style={{ 
+                textAlign: 'center', 
+                borderBottom: `1px solid ${isDark ? '#334155' : '#eee'}`, 
+                paddingBottom: '20px'
+              }}>
+                <h1 style={{ 
+                  fontSize: '28px', 
+                  margin: '0 0 10px 0', 
+                  color: isDark ? '#f1f5f9' : '#1a202c', 
+                  letterSpacing: '1px' 
+                }}>价值三圈模型 - 个人最优发展方向定位</h1>
+                <p style={{ 
+                  fontSize: '16px', 
+                  color: isDark ? '#94a3b8' : '#718096', 
+                  margin: '0' 
+                }}>最优解 = 热情圈 ∩ 能力圈 ∩ 市场圈</p>
+              </div>
               
-              {/* 中心区域 - 核心价值区 */}
-              <text x="150" y="140" textAnchor="middle" fill="#f59e0b" fontSize={16} fontWeight="bold">
-                核心价值区
-              </text>
-              <text x="150" y="160" textAnchor="middle" fill={isDark ? '#a1a1aa' : '#64748b'} fontSize={12}>
-                激情 × 天赋 × 市场
-              </text>
-              
-              {/* 标题 */}
-              <text x="150" y="30" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={18} fontWeight="bold">
-                价值商圈
-              </text>
-              
-              {/* 副标题 */}
-              <text x="150" y="50" textAnchor="middle" fill={isDark ? '#a1a1aa' : '#64748b'} fontSize={14}>
-                寻找激情、天赋与市场需求的交集
-              </text>
-            </svg>
+              <div style={{ 
+                display: 'flex', 
+                flexDirection: 'column', 
+                alignItems: 'center', 
+                justifyContent: 'flex-start', 
+                gap: '50px',
+                width: '100%',
+                flex: 1,
+                overflow: 'auto'
+              }}>
+                {/* 顶部：SVG 图表 */}
+                <div style={{ 
+                  width: '100%', 
+                  position: 'relative', 
+                  background: isDark ? 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)' : 'linear-gradient(135deg, #fcfdff 0%, #f5f8f9 100%)', 
+                  borderRadius: '20px', 
+                  border: `1px solid ${isDark ? '#334155' : '#edf2f7'}`, 
+                  padding: '20px', 
+                  display: 'flex', 
+                  justifyContent: 'center', 
+                  alignItems: 'center', 
+                  minHeight: '400px',
+                  overflow: 'auto'
+                }}>
+                  <svg viewBox="0 0 600 550" xmlns="http://www.w3.org/2000/svg" style={{ 
+                    width: '100%', 
+                    height: 'auto', 
+                    maxWidth: '600px', 
+                    overflow: 'visible',
+                    isolation: 'isolate'
+                  }}>
+                    <defs>
+                      {/* 渐变定义 */}
+                      <radialGradient id="gradPassion" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+                        <stop offset="0%" style={{stopColor: isDark ? '#f97316' : '#ff9800', stopOpacity: 0.3}} />
+                        <stop offset="100%" style={{stopColor: isDark ? '#f97316' : '#ff9800', stopOpacity: 0.1}} />
+                      </radialGradient>
+                      <radialGradient id="gradAbility" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+                        <stop offset="0%" style={{stopColor: isDark ? '#2563eb' : '#2196f3', stopOpacity: 0.3}} />
+                        <stop offset="100%" style={{stopColor: isDark ? '#2563eb' : '#2196f3', stopOpacity: 0.1}} />
+                      </radialGradient>
+                      <radialGradient id="gradMarket" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+                        <stop offset="0%" style={{stopColor: isDark ? '#22c55e' : '#4caf50', stopOpacity: 0.3}} />
+                        <stop offset="100%" style={{stopColor: isDark ? '#22c55e' : '#4caf50', stopOpacity: 0.1}} />
+                      </radialGradient>
+                      
+                      {/* 核心高亮光晕 */}
+                      <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                        <feGaussianBlur stdDeviation="5" result="coloredBlur"/>
+                        <feMerge>
+                          <feMergeNode in="coloredBlur"/>
+                          <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                      </filter>
+                    </defs>
+      
+                    {/* 1. 基础圆圈层 (使用混合模式 multiply 实现颜色叠加) */}
+                    <g style={{mixBlendMode: 'multiply'}}>
+                      {/* 热情圈 (左上) Center: 220, 200 */}
+                      <circle cx="220" cy="200" r="160" fill="url(#gradPassion)" stroke={isDark ? '#f97316' : '#ff9800'} strokeWidth="2" />
+                      
+                      {/* 能力圈 (右上) Center: 380, 200 */}
+                      <circle cx="380" cy="200" r="160" fill="url(#gradAbility)" stroke={isDark ? '#2563eb' : '#2196f3'} strokeWidth="2" />
+                      
+                      {/* 市场圈 (下方) Center: 300, 360 */}
+                      <circle cx="300" cy="360" r="160" fill="url(#gradMarket)" stroke={isDark ? '#22c55e' : '#4caf50'} strokeWidth="2" />
+                    </g>
+      
+                    {/* 2. 核心交集强化层 (最中心) */}
+                    {/* 这是一个视觉覆盖层，用于强化中心的高亮效果 */}
+                    <circle cx="300" cy="270" r="50" fill={isDark ? '#FFFBEB' : '#FFF8E1'} fillOpacity="0.6" filter="url(#glow)" />
+      
+                    {/* 3. 文字与图标标注层 */}
+      
+                    {/* 热情圈标注 */}
+                    <g transform="translate(140, 150)">
+                      <text x="0" y="0" textAnchor="middle" font-size="20" font-weight="bold" fill={isDark ? '#f97316' : '#e65100'}>热情圈</text>
+                      <text x="0" y="20" textAnchor="middle" font-size="12" fill={isDark ? '#94a3b8' : '#666'}>喜欢做的事</text>
+                      <text x="0" y="-30" textAnchor="middle" font-size="30">🔥</text>
+                    </g>
+      
+                    {/* 能力圈标注 */}
+                    <g transform="translate(460, 150)">
+                      <text x="0" y="0" textAnchor="middle" font-size="20" font-weight="bold" fill={isDark ? '#2563eb' : '#0d47a1'}>能力圈</text>
+                      <text x="0" y="20" textAnchor="middle" font-size="12" fill={isDark ? '#94a3b8' : '#666'}>擅长做的事</text>
+                      <text x="0" y="-30" textAnchor="middle" font-size="30">⚙️</text>
+                    </g>
+      
+                    {/* 市场圈标注 */}
+                    <g transform="translate(300, 460)">
+                      <text x="0" y="0" textAnchor="middle" font-size="20" font-weight="bold" fill={isDark ? '#22c55e' : '#1b5e20'}>市场圈</text>
+                      <text x="0" y="20" textAnchor="middle" font-size="12" fill={isDark ? '#94a3b8' : '#666'}>有价值的事</text>
+                      <text x="0" y="-30" textAnchor="middle" font-size="30">💰</text>
+                    </g>
+      
+                    {/* 两两交集标注 */}
+                    {/* 热情+能力 (上方中间) */}
+                    <g transform="translate(300, 130)">
+                      <text x="0" y="0" textAnchor="middle" font-size="14" font-weight="bold" fill={isDark ? '#94a3b8' : '#5D4037'}>兴趣专长</text>
+                      <text x="0" y="15" textAnchor="middle" font-size="10" fill={isDark ? '#64748b' : '#8D6E63'}>难变现</text>
+                    </g>
+      
+                    {/* 热情+市场 (左下) */}
+                    <g transform="translate(190, 320)">
+                      <text x="0" y="0" textAnchor="middle" font-size="14" font-weight="bold" fill={isDark ? '#94a3b8' : '#5D4037'}>潜力方向</text>
+                      <text x="0" y="15" textAnchor="middle" font-size="10" fill={isDark ? '#64748b' : '#8D6E63'}>缺能力</text>
+                    </g>
+      
+                    {/* 能力+市场 (右下) */}
+                    <g transform="translate(410, 320)">
+                      <text x="0" y="0" textAnchor="middle" font-size="14" font-weight="bold" fill={isDark ? '#94a3b8' : '#5D4037'}>谋生技能</text>
+                      <text x="0" y="15" textAnchor="middle" font-size="10" fill={isDark ? '#64748b' : '#8D6E63'}>缺热爱</text>
+                    </g>
+      
+                    {/* 4. 核心高价值区 (三圈交集) */}
+                    <g transform="translate(300, 260)">
+                      {/* 中心图标 */}
+                      <text x="0" y="-10" textAnchor="middle" font-size="36" filter="url(#glow)">🚀</text>
+                      {/* 中心文字 */}
+                      <text x="0" y="25" textAnchor="middle" font-size="18" font-weight="900" fill={isDark ? '#f1f5f9' : '#333'} style={{textShadow: isDark ? '0 1px 2px rgba(0,0,0,0.8)' : '0 1px 2px rgba(255,255,255,0.8)'}}>最优发展方向</text>
+                      <text x="0" y="45" textAnchor="middle" font-size="10" fill={isDark ? '#f1f5f9' : '#333'} font-weight="bold">甜蜜点 (Sweet Spot)</text>
+                    </g>
+      
+                    {/* 辅助线指向说明 */}
+                    <line x1="300" y1="285" x2="300" y2="350" stroke={isDark ? '#94a3b8' : '#333'} strokeWidth="1" strokeDasharray="2,2" opacity="0.3" />
+      
+                  </svg>
+                </div>
+      
+                {/* 底部：图例与建议 */}
+                <div style={{ 
+                  width: '100%', 
+                  display: 'flex', 
+                  flexDirection: 'column', 
+                  gap: '20px'
+                }}>
+                  <div style={{ 
+                    display: 'grid', 
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
+                    gap: '20px',
+                    width: '100%'
+                  }}>
+                    <div style={{ 
+                      background: isDark ? '#1e293b' : '#f8fafc', 
+                      borderLeft: `5px solid ${isDark ? '#f97316' : '#ff9800'}`, 
+                      padding: '15px 20px', 
+                      borderRadius: '8px', 
+                      transition: 'transform 0.2s',
+                      border: `1px solid ${isDark ? '#334155' : 'transparent'}`
+                    }}>
+                      <h3 style={{margin: '0 0 8px 0', fontSize: '16px', color: isDark ? '#f97316' : '#e65100'}}>🔥 热情圈 (Passion)</h3>
+                      <p style={{margin: '0', fontSize: '13px', color: isDark ? '#94a3b8' : '#64748b', lineHeight: '1.6'}}>
+                        让你感到兴奋、不知疲倦、愿意主动投入时间的事情。这是动力的源泉。
+                      </p>
+                    </div>
+                    <div style={{ 
+                      background: isDark ? '#1e293b' : '#f8fafc', 
+                      borderLeft: `5px solid ${isDark ? '#2563eb' : '#2196f3'}`, 
+                      padding: '15px 20px', 
+                      borderRadius: '8px', 
+                      transition: 'transform 0.2s',
+                      border: `1px solid ${isDark ? '#334155' : 'transparent'}`
+                    }}>
+                      <h3 style={{margin: '0 0 8px 0', fontSize: '16px', color: isDark ? '#2563eb' : '#0d47a1'}}>⚙️ 能力圈 (Ability)</h3>
+                      <p style={{margin: '0', fontSize: '13px', color: isDark ? '#94a3b8' : '#64748b', lineHeight: '1.6'}}>
+                        你经受过训练、拥有天赋或经验，能比大多数人做得好的事情。这是竞争的壁垒。
+                      </p>
+                    </div>
+                    <div style={{ 
+                      background: isDark ? '#1e293b' : '#f8fafc', 
+                      borderLeft: `5px solid ${isDark ? '#22c55e' : '#4caf50'}`, 
+                      padding: '15px 20px', 
+                      borderRadius: '8px', 
+                      transition: 'transform 0.2s',
+                      border: `1px solid ${isDark ? '#334155' : 'transparent'}`
+                    }}>
+                      <h3 style={{margin: '0 0 8px 0', fontSize: '16px', color: isDark ? '#22c55e' : '#1b5e20'}}>💰 市场圈 (Market)</h3>
+                      <p style={{margin: '0', fontSize: '13px', color: isDark ? '#94a3b8' : '#64748b', lineHeight: '1.6'}}>
+                        他人愿意付费、社会有真实需求、能创造商业价值的事情。这是生存的基础。
+                      </p>
+                    </div>
+                  </div>
+      
+                  <div style={{ 
+                    background: isDark ? '#1e293b' : '#fffbf0', 
+                    border: `1px solid ${isDark ? '#334155' : '#feeebc'}`, 
+                    borderRadius: '12px', 
+                    padding: '20px',
+                    width: '100%'
+                  }}>
+                    <h4 style={{margin: '0 0 15px 0', color: isDark ? '#f59e0b' : '#b7791f', fontSize: '16px'}}>🚀 寻找你的"甜蜜点"：</h4>
+                    <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '15px'}}>
+                      <div style={{display: 'flex', gap: '10px', fontSize: '13px', color: isDark ? '#94a3b8' : '#744210'}}>
+                        <div style={{background: isDark ? '#f59e0b' : '#fcd34d', color: isDark ? '#1e293b' : '#fff', width: '20px', height: '20px', borderRadius: '50%', textAlign: 'center', lineHeight: '20px', fontSize: '12px', fontWeight: 'bold', flexShrink: '0'}}>1</div>
+                        <div><strong style={{color: isDark ? '#f1f5f9' : '#2d3748'}}>列出清单：</strong> 分别写下三个圈的内容，不少于10项。</div>
+                      </div>
+                      <div style={{display: 'flex', gap: '10px', fontSize: '13px', color: isDark ? '#94a3b8' : '#744210'}}>
+                        <div style={{background: isDark ? '#f59e0b' : '#fcd34d', color: isDark ? '#1e293b' : '#fff', width: '20px', height: '20px', borderRadius: '50%', textAlign: 'center', lineHeight: '20px', fontSize: '12px', fontWeight: 'bold', flexShrink: '0'}}>2</div>
+                        <div><strong style={{color: isDark ? '#f1f5f9' : '#2d3748'}}>寻找交集：</strong> 找出同时出现在三个清单里的选项。</div>
+                      </div>
+                      <div style={{display: 'flex', gap: '10px', fontSize: '13px', color: isDark ? '#94a3b8' : '#744210'}}>
+                        <div style={{background: isDark ? '#f59e0b' : '#fcd34d', color: isDark ? '#1e293b' : '#fff', width: '20px', height: '20px', borderRadius: '50%', textAlign: 'center', lineHeight: '20px', fontSize: '12px', fontWeight: 'bold', flexShrink: '0'}}>3</div>
+                        <div><strong style={{color: isDark ? '#f1f5f9' : '#2d3748'}}>快速验证：</strong> 用最小成本（MVP）把这个交集推向市场测试。</div>
+                      </div>
+                      <div style={{display: 'flex', gap: '10px', fontSize: '13px', color: isDark ? '#94a3b8' : '#744210'}}>
+                        <div style={{background: isDark ? '#f59e0b' : '#fcd34d', color: isDark ? '#1e293b' : '#fff', width: '20px', height: '20px', borderRadius: '50%', textAlign: 'center', lineHeight: '20px', fontSize: '12px', fontWeight: 'bold', flexShrink: '0'}}>4</div>
+                        <div><strong style={{color: isDark ? '#f1f5f9' : '#2d3748'}}>动态调整：</strong> 市场在变，能力在长，要定期校准这个中心点。</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         );
       case 'purpose':
@@ -1224,8 +2438,537 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
             </svg>
           </div>
         );
+      case 'johariWindow':
+        return (
+          <div className="w-full h-full flex items-center justify-center">
+            <svg width="100%" height="100%" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid meet">
+              {/* 乔哈里视窗 */}
+              <rect x="50" y="50" width="200" height="200" fill="#3b82f6" fillOpacity={0.2} stroke="#3b82f6" strokeWidth="2" />
+              <rect x="250" y="50" width="200" height="200" fill="#10b981" fillOpacity={0.2} stroke="#10b981" strokeWidth="2" />
+              <rect x="50" y="250" width="200" height="200" fill="#ef4444" fillOpacity={0.2} stroke="#ef4444" strokeWidth="2" />
+              <rect x="250" y="250" width="200" height="200" fill="#f59e0b" fillOpacity={0.2} stroke="#f59e0b" strokeWidth="2" />
+              
+              {/* 分割线 */}
+              <line x1="250" y1="50" x2="250" y2="450" stroke={isDark ? '#a1a1aa' : '#64748b'} strokeWidth="2" />
+              <line x1="50" y1="250" x2="450" y2="250" stroke={isDark ? '#a1a1aa' : '#64748b'} strokeWidth="2" />
+              
+              {/* 区域标签 */}
+              <text x="150" y="150" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={16} fontWeight="bold">
+                公开区
+              </text>
+              <text x="350" y="150" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={16} fontWeight="bold">
+                盲区
+              </text>
+              <text x="150" y="350" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={16} fontWeight="bold">
+                隐藏区
+              </text>
+              <text x="350" y="350" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={16} fontWeight="bold">
+                未知区
+              </text>
+              
+              {/* 标题 */}
+              <text x="250" y="30" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={20} fontWeight="bold">
+                乔哈里视窗
+              </text>
+            </svg>
+          </div>
+        );
+      case 'deliberatePractice':
+        return (
+          <div className="w-full h-full flex items-center justify-center">
+            <svg width="100%" height="100%" viewBox="0 0 600 400" preserveAspectRatio="xMidYMid meet">
+              {/* 刻意练习流程图 */}
+              <defs>
+                <linearGradient id="practiceGradient" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stopColor="#3b82f6" stopOpacity={0.3} />
+                  <stop offset="100%" stopColor="#10b981" stopOpacity={0.3} />
+                </linearGradient>
+              </defs>
+              
+              {/* 节点 */}
+              <rect x="50" y="150" width="120" height="80" fill="url(#practiceGradient)" stroke="#3b82f6" strokeWidth="2" />
+              <text x="110" y="195" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={14} fontWeight="bold" alignmentBaseline="middle">
+                明确目标
+              </text>
+              
+              <rect x="210" y="150" width="120" height="80" fill="url(#practiceGradient)" stroke="#3b82f6" strokeWidth="2" />
+              <text x="270" y="195" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={14} fontWeight="bold" alignmentBaseline="middle">
+                专注练习
+              </text>
+              
+              <rect x="370" y="150" width="120" height="80" fill="url(#practiceGradient)" stroke="#3b82f6" strokeWidth="2" />
+              <text x="430" y="195" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={14} fontWeight="bold" alignmentBaseline="middle">
+                获得反馈
+              </text>
+              
+              <rect x="530" y="150" width="120" height="80" fill="url(#practiceGradient)" stroke="#3b82f6" strokeWidth="2" />
+              <text x="590" y="195" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={14} fontWeight="bold" alignmentBaseline="middle">
+                纠正改进
+              </text>
+              
+              {/* 连接线 */}
+              <path d="M170 190 L210 190" stroke="#3b82f6" strokeWidth="2" fill="none" markerEnd="url(#arrowHead)" />
+              <path d="M330 190 L370 190" stroke="#3b82f6" strokeWidth="2" fill="none" markerEnd="url(#arrowHead)" />
+              <path d="M490 190 L530 190" stroke="#3b82f6" strokeWidth="2" fill="none" markerEnd="url(#arrowHead)" />
+              <path d="M560 230 Q330 300 110 230" stroke="#10b981" strokeWidth="2" fill="none" strokeDasharray="5 5" markerEnd="url(#arrowHead)" />
+              
+              {/* 标题 */}
+              <text x="300" y="50" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={20} fontWeight="bold">
+                刻意练习模型
+              </text>
+            </svg>
+          </div>
+        );
+      case 'foggBehavior':
+        return (
+          <div className="w-full h-full flex items-center justify-center">
+            <svg width="100%" height="100%" viewBox="0 0 500 400" preserveAspectRatio="xMidYMid meet">
+              {/* 福格行为模型 */}
+              <defs>
+                <linearGradient id="foggGradient" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stopColor="#3b82f6" stopOpacity={0.3} />
+                  <stop offset="100%" stopColor="#10b981" stopOpacity={0.3} />
+                </linearGradient>
+              </defs>
+              
+              {/* 三角形 */}
+              <polygon points="250,100 100,350 400,350" fill="url(#foggGradient)" stroke="#3b82f6" strokeWidth="2" />
+              
+              {/* 顶点 */}
+              <circle cx="250" cy="100" r="25" fill="#ef4444" fillOpacity={0.8} stroke="#ffffff" strokeWidth="2" />
+              <text x="250" y="105" textAnchor="middle" fill="#ffffff" fontSize={14} fontWeight="bold" alignmentBaseline="middle">
+                动机
+              </text>
+              
+              <circle cx="100" cy="350" r="25" fill="#10b981" fillOpacity={0.8} stroke="#ffffff" strokeWidth="2" />
+              <text x="100" y="355" textAnchor="middle" fill="#ffffff" fontSize={14} fontWeight="bold" alignmentBaseline="middle">
+                能力
+              </text>
+              
+              <circle cx="400" cy="350" r="25" fill="#f59e0b" fillOpacity={0.8} stroke="#ffffff" strokeWidth="2" />
+              <text x="400" y="355" textAnchor="middle" fill="#ffffff" fontSize={14} fontWeight="bold" alignmentBaseline="middle">
+                触发
+              </text>
+              
+              {/* 中心 */}
+              <circle cx="250" cy="260" r="30" fill="#ffffff" fillOpacity={0.8} stroke="#3b82f6" strokeWidth="2" />
+              <text x="250" y="265" textAnchor="middle" fill={isDark ? '#000000' : '#000000'} fontSize={14} fontWeight="bold" alignmentBaseline="middle">
+                行为
+              </text>
+              
+              {/* 标题 */}
+              <text x="250" y="30" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={20} fontWeight="bold">
+                福格行为模型
+              </text>
+            </svg>
+          </div>
+        );
+      case 'eisenhowerMatrix':
+        return (
+          <div className="w-full h-full flex items-center justify-center">
+            <svg width="100%" height="100%" viewBox="0 0 600 600" preserveAspectRatio="xMidYMid meet">
+              {/* 艾森豪威尔矩阵 */}
+              <rect x="50" y="50" width="250" height="250" fill="#ef4444" fillOpacity={0.2} stroke="#ef4444" strokeWidth="2" />
+              <rect x="300" y="50" width="250" height="250" fill="#f59e0b" fillOpacity={0.2} stroke="#f59e0b" strokeWidth="2" />
+              <rect x="50" y="300" width="250" height="250" fill="#3b82f6" fillOpacity={0.2} stroke="#3b82f6" strokeWidth="2" />
+              <rect x="300" y="300" width="250" height="250" fill="#10b981" fillOpacity={0.2} stroke="#10b981" strokeWidth="2" />
+              
+              {/* 分割线 */}
+              <line x1="300" y1="50" x2="300" y2="550" stroke={isDark ? '#a1a1aa' : '#64748b'} strokeWidth="2" />
+              <line x1="50" y1="300" x2="550" y2="300" stroke={isDark ? '#a1a1aa' : '#64748b'} strokeWidth="2" />
+              
+              {/* 象限标签 */}
+              <text x="175" y="120" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={16} fontWeight="bold">
+                重要且紧急
+              </text>
+              <text x="425" y="120" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={16} fontWeight="bold">
+                不重要但紧急
+              </text>
+              <text x="175" y="370" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={16} fontWeight="bold">
+                重要但不紧急
+              </text>
+              <text x="425" y="370" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={16} fontWeight="bold">
+                不重要且不紧急
+              </text>
+              
+              {/* 行动建议 */}
+              <text x="175" y="150" textAnchor="middle" fill={isDark ? '#a1a1aa' : '#64748b'} fontSize={14}>
+                立即执行
+              </text>
+              <text x="425" y="150" textAnchor="middle" fill={isDark ? '#a1a1aa' : '#64748b'} fontSize={14}>
+                授权他人
+              </text>
+              <text x="175" y="400" textAnchor="middle" fill={isDark ? '#a1a1aa' : '#64748b'} fontSize={14}>
+                计划执行
+              </text>
+              <text x="425" y="400" textAnchor="middle" fill={isDark ? '#a1a1aa' : '#64748b'} fontSize={14}>
+                消除
+              </text>
+              
+              {/* 标题 */}
+              <text x="300" y="30" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={20} fontWeight="bold">
+                艾森豪威尔矩阵
+              </text>
+            </svg>
+          </div>
+        );
+      case 'growthMindset':
+        return (
+          <div className="w-full h-full flex items-center justify-center">
+            <svg width="100%" height="100%" viewBox="0 0 600 400" preserveAspectRatio="xMidYMid meet">
+              {/* 成长型思维 vs 固定型思维 */}
+              <rect x="50" y="50" width="250" height="300" fill="#ef4444" fillOpacity={0.2} stroke="#ef4444" strokeWidth="2" />
+              <rect x="300" y="50" width="250" height="300" fill="#10b981" fillOpacity={0.2} stroke="#10b981" strokeWidth="2" />
+              
+              {/* 标题 */}
+              <text x="175" y="80" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={18} fontWeight="bold">
+                固定型思维
+              </text>
+              <text x="425" y="80" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={18} fontWeight="bold">
+                成长型思维
+              </text>
+              
+              {/* 特点 */}
+              <text x="175" y="120" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={14}>
+                • 能力固定
+              </text>
+              <text x="175" y="150" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={14}>
+                • 害怕失败
+              </text>
+              <text x="175" y="180" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={14}>
+                • 避免挑战
+              </text>
+              <text x="175" y="210" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={14}>
+                • 忽视反馈
+              </text>
+              
+              <text x="425" y="120" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={14}>
+                • 能力可培养
+              </text>
+              <text x="425" y="150" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={14}>
+                • 从失败中学习
+              </text>
+              <text x="425" y="180" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={14}>
+                • 拥抱挑战
+              </text>
+              <text x="425" y="210" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={14}>
+                • 重视反馈
+              </text>
+              
+              {/* 结果 */}
+              <rect x="75" y="250" width="200" height="60" fill="#ef4444" fillOpacity={0.5} stroke="#ef4444" strokeWidth="1" />
+              <text x="175" y="285" textAnchor="middle" fill="#ffffff" fontSize={14} fontWeight="bold" alignmentBaseline="middle">
+                限制成长
+              </text>
+              
+              <rect x="325" y="250" width="200" height="60" fill="#10b981" fillOpacity={0.5} stroke="#10b981" strokeWidth="1" />
+              <text x="425" y="285" textAnchor="middle" fill="#ffffff" fontSize={14} fontWeight="bold" alignmentBaseline="middle">
+                持续进步
+              </text>
+              
+              {/* 主标题 */}
+              <text x="300" y="30" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={20} fontWeight="bold">
+                固定型思维 vs 成长型思维
+              </text>
+            </svg>
+          </div>
+        );
+      case 'sunkCost':
+        return (
+          <div className="w-full h-full flex items-center justify-center">
+            <svg width="100%" height="100%" viewBox="0 0 600 400" preserveAspectRatio="xMidYMid meet">
+              {/* 沉没成本谬误 */}
+              <circle cx="100" cy="200" r="50" fill="#ef4444" fillOpacity={0.3} stroke="#ef4444" strokeWidth="2" />
+              <text x="100" y="205" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={16} fontWeight="bold" alignmentBaseline="middle">
+                已投入
+              </text>
+              <text x="100" y="235" textAnchor="middle" fill={isDark ? '#a1a1aa' : '#64748b'} fontSize={12}>
+                时间/金钱
+              </text>
+              
+              {/* 决策点 */}
+              <rect x="230" y="150" width="120" height="100" fill="#f59e0b" fillOpacity={0.3} stroke="#f59e0b" strokeWidth="2" />
+              <text x="290" y="205" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={14} fontWeight="bold" alignmentBaseline="middle">
+                决策点
+              </text>
+              
+              {/* 错误路径 */}
+              <path d="M150 200 L230 200" stroke="#ef4444" strokeWidth="2" fill="none" markerEnd="url(#arrowHead)" />
+              <path d="M350 180 L450 120" stroke="#ef4444" strokeWidth="2" fill="none" markerEnd="url(#arrowHead)" />
+              <circle cx="500" cy="120" r="40" fill="#ef4444" fillOpacity={0.3} stroke="#ef4444" strokeWidth="2" />
+              <text x="500" y="125" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={14} fontWeight="bold" alignmentBaseline="middle">
+                继续投入
+              </text>
+              <text x="500" y="155" textAnchor="middle" fill={isDark ? '#a1a1aa' : '#64748b'} fontSize={12}>
+                更大损失
+              </text>
+              
+              {/* 正确路径 */}
+              <path d="M350 220 L450 280" stroke="#10b981" strokeWidth="2" fill="none" markerEnd="url(#arrowHead)" />
+              <circle cx="500" cy="280" r="40" fill="#10b981" fillOpacity={0.3} stroke="#10b981" strokeWidth="2" />
+              <text x="500" y="285" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={14} fontWeight="bold" alignmentBaseline="middle">
+                止损
+              </text>
+              <text x="500" y="315" textAnchor="middle" fill={isDark ? '#a1a1aa' : '#64748b'} fontSize={12}>
+                减少损失
+              </text>
+              
+              {/* 标题 */}
+              <text x="300" y="30" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={20} fontWeight="bold">
+                沉没成本谬误
+              </text>
+            </svg>
+          </div>
+        );
+      case 'pareto':
+        return (
+          <div className="w-full h-full flex items-center justify-center">
+            <svg width="100%" height="100%" viewBox="0 0 600 400" preserveAspectRatio="xMidYMid meet">
+              {/* 二八定律 */}
+              <defs>
+                <linearGradient id="paretoGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#3b82f6" stopOpacity={0.3} />
+                  <stop offset="100%" stopColor="#3b82f6" stopOpacity={0.1} />
+                </linearGradient>
+              </defs>
+              
+              {/* 条形图 */}
+              <rect x="100" y="100" width="80" height="250" fill="#3b82f6" fillOpacity={0.6} stroke="#3b82f6" strokeWidth="2" />
+              <rect x="180" y="150" width="80" height="200" fill="#3b82f6" fillOpacity={0.6} stroke="#3b82f6" strokeWidth="2" />
+              <rect x="260" y="200" width="80" height="150" fill="#3b82f6" fillOpacity={0.6} stroke="#3b82f6" strokeWidth="2" />
+              <rect x="340" y="250" width="80" height="100" fill="#3b82f6" fillOpacity={0.6} stroke="#3b82f6" strokeWidth="2" />
+              <rect x="420" y="280" width="80" height="70" fill="#3b82f6" fillOpacity={0.6} stroke="#3b82f6" strokeWidth="2" />
+              
+              {/* 折线图 */}
+              <path d="M100 350 L180 350 L260 350 L340 350 L420 350 L500 350" stroke="#3b82f6" strokeWidth="1" fill="none" />
+              <path d="M140 100 L180 100 L220 150 L260 150 L300 200 L340 200 L380 250 L420 250 L460 280 L500 280" stroke="#ef4444" strokeWidth="3" fill="none" markerEnd="url(#arrowHead)" />
+              
+              {/* 80%线 */}
+              <line x1="100" y1="160" x2="500" y2="160" stroke="#10b981" strokeWidth="2" strokeDasharray="5 5" />
+              <text x="520" y="165" textAnchor="start" fill="#10b981" fontSize={14} fontWeight="bold">
+                80%
+              </text>
+              
+              {/* 20%线 */}
+              <line x1="260" y1="100" x2="260" y2="350" stroke="#10b981" strokeWidth="2" strokeDasharray="5 5" />
+              <text x="260" y="90" textAnchor="middle" fill="#10b981" fontSize={14} fontWeight="bold">
+                20%
+              </text>
+              
+              {/* 标题 */}
+              <text x="300" y="30" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={20} fontWeight="bold">
+                二八定律
+              </text>
+            </svg>
+          </div>
+        );
+      case 'swot':
+        return (
+          <div className="w-full h-full flex items-center justify-center">
+            <svg width="100%" height="100%" viewBox="0 0 600 600" preserveAspectRatio="xMidYMid meet">
+              {/* SWOT分析 */}
+              <rect x="50" y="50" width="250" height="250" fill="#10b981" fillOpacity={0.2} stroke="#10b981" strokeWidth="2" />
+              <rect x="300" y="50" width="250" height="250" fill="#ef4444" fillOpacity={0.2} stroke="#ef4444" strokeWidth="2" />
+              <rect x="50" y="300" width="250" height="250" fill="#3b82f6" fillOpacity={0.2} stroke="#3b82f6" strokeWidth="2" />
+              <rect x="300" y="300" width="250" height="250" fill="#f59e0b" fillOpacity={0.2} stroke="#f59e0b" strokeWidth="2" />
+              
+              {/* 分割线 */}
+              <line x1="300" y1="50" x2="300" y2="550" stroke={isDark ? '#a1a1aa' : '#64748b'} strokeWidth="2" />
+              <line x1="50" y1="300" x2="550" y2="300" stroke={isDark ? '#a1a1aa' : '#64748b'} strokeWidth="2" />
+              
+              {/* 象限标签 */}
+              <text x="175" y="80" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={18} fontWeight="bold">
+                优势
+              </text>
+              <text x="425" y="80" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={18} fontWeight="bold">
+                劣势
+              </text>
+              <text x="175" y="330" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={18} fontWeight="bold">
+                机会
+              </text>
+              <text x="425" y="330" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={18} fontWeight="bold">
+                威胁
+              </text>
+              
+              {/* 标题 */}
+              <text x="300" y="30" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={20} fontWeight="bold">
+                SWOT分析
+              </text>
+            </svg>
+          </div>
+        );
+      case 'goldenCircle':
+        return (
+          <div className="w-full h-full flex items-center justify-center">
+            <svg width="100%" height="100%" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid meet">
+              {/* 黄金圈法则 */}
+              <defs>
+                <linearGradient id="goldenGradient" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stopColor="#f59e0b" stopOpacity={0.3} />
+                  <stop offset="100%" stopColor="#f59e0b" stopOpacity={0.1} />
+                </linearGradient>
+              </defs>
+              
+              {/* 三个同心圆 */}
+              <circle cx="250" cy="250" r="180" fill="url(#goldenGradient)" stroke="#f59e0b" strokeWidth="2" />
+              <circle cx="250" cy="250" r="120" fill="url(#goldenGradient)" stroke="#f59e0b" strokeWidth="2" />
+              <circle cx="250" cy="250" r="60" fill="url(#goldenGradient)" stroke="#f59e0b" strokeWidth="2" />
+              
+              {/* 文字 */}
+              <text x="250" y="380" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={18} fontWeight="bold">
+                WHAT
+              </text>
+              <text x="250" y="405" textAnchor="middle" fill={isDark ? '#a1a1aa' : '#64748b'} fontSize={14}>
+                做什么
+              </text>
+              
+              <text x="250" y="280" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={18} fontWeight="bold">
+                HOW
+              </text>
+              <text x="250" y="305" textAnchor="middle" fill={isDark ? '#a1a1aa' : '#64748b'} fontSize={14}>
+                怎么做
+              </text>
+              
+              <text x="250" y="200" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={18} fontWeight="bold">
+                WHY
+              </text>
+              <text x="250" y="225" textAnchor="middle" fill={isDark ? '#a1a1aa' : '#64748b'} fontSize={14}>
+                为什么
+              </text>
+              
+              {/* 标题 */}
+              <text x="250" y="50" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={20} fontWeight="bold">
+                黄金圈法则
+              </text>
+            </svg>
+          </div>
+        );
+      case 'fiveWhys':
+        return (
+          <div className="w-full h-full flex items-center justify-center">
+            <svg width="100%" height="100%" viewBox="0 0 600 500" preserveAspectRatio="xMidYMid meet">
+              {/* 5 Why分析法 */}
+              <rect x="150" y="50" width="300" height="80" fill="#ef4444" fillOpacity={0.3} stroke="#ef4444" strokeWidth="2" />
+              <text x="300" y="95" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={16} fontWeight="bold" alignmentBaseline="middle">
+                问题：销量下降
+              </text>
+              
+              {/* 第一个Why */}
+              <rect x="150" y="150" width="300" height="60" fill="#f59e0b" fillOpacity={0.3} stroke="#f59e0b" strokeWidth="2" />
+              <text x="300" y="185" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={14} fontWeight="bold" alignmentBaseline="middle">
+                为什么？
+              </text>
+              <text x="300" y="205" textAnchor="middle" fill={isDark ? '#a1a1aa' : '#64748b'} fontSize={12}>
+                客户满意度下降
+              </text>
+              
+              {/* 第二个Why */}
+              <rect x="150" y="230" width="300" height="60" fill="#f59e0b" fillOpacity={0.3} stroke="#f59e0b" strokeWidth="2" />
+              <text x="300" y="265" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={14} fontWeight="bold" alignmentBaseline="middle">
+                为什么？
+              </text>
+              <text x="300" y="285" textAnchor="middle" fill={isDark ? '#a1a1aa' : '#64748b'} fontSize={12}>
+                产品质量问题
+              </text>
+              
+              {/* 第三个Why */}
+              <rect x="150" y="310" width="300" height="60" fill="#f59e0b" fillOpacity={0.3} stroke="#f59e0b" strokeWidth="2" />
+              <text x="300" y="345" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={14} fontWeight="bold" alignmentBaseline="middle">
+                为什么？
+              </text>
+              <text x="300" y="365" textAnchor="middle" fill={isDark ? '#a1a1aa' : '#64748b'} fontSize={12}>
+                新员工操作不熟练
+              </text>
+              
+              {/* 第四个Why */}
+              <rect x="150" y="390" width="300" height="60" fill="#f59e0b" fillOpacity={0.3} stroke="#f59e0b" strokeWidth="2" />
+              <text x="300" y="425" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={14} fontWeight="bold" alignmentBaseline="middle">
+                为什么？
+              </text>
+              <text x="300" y="445" textAnchor="middle" fill={isDark ? '#a1a1aa' : '#64748b'} fontSize={12}>
+                培训不到位
+              </text>
+              
+              {/* 连接线 */}
+              <path d="M300 130 L300 150" stroke="#ef4444" strokeWidth="2" fill="none" markerEnd="url(#arrowHead)" />
+              <path d="M300 210 L300 230" stroke="#f59e0b" strokeWidth="2" fill="none" markerEnd="url(#arrowHead)" />
+              <path d="M300 290 L300 310" stroke="#f59e0b" strokeWidth="2" fill="none" markerEnd="url(#arrowHead)" />
+              <path d="M300 370 L300 390" stroke="#f59e0b" strokeWidth="2" fill="none" markerEnd="url(#arrowHead)" />
+              
+              {/* 标题 */}
+              <text x="300" y="30" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={20} fontWeight="bold">
+                5 Why分析法
+              </text>
+            </svg>
+          </div>
+        );
+      case 'knowledgeCrystallization':
+        return (
+          <div className="w-full h-full flex items-center justify-center">
+            <svg width="100%" height="100%" viewBox="0 0 600 500" preserveAspectRatio="xMidYMid meet">
+              {/* 知识晶体化 */}
+              <defs>
+                <linearGradient id="crystalGradient" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stopColor="#8b5cf6" stopOpacity={0.3} />
+                  <stop offset="100%" stopColor="#3b82f6" stopOpacity={0.3} />
+                </linearGradient>
+              </defs>
+              
+              {/* 中心菱形 */}
+              <polygon points="300,150 400,250 300,350 200,250" fill="url(#crystalGradient)" stroke="#8b5cf6" strokeWidth="2" />
+              <text x="300" y="255" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={18} fontWeight="bold" alignmentBaseline="middle">
+                知识晶体
+              </text>
+              
+              {/* 周围节点 */}
+              <circle cx="150" cy="200" r="35" fill="#3b82f6" fillOpacity={0.3} stroke="#3b82f6" strokeWidth="2" />
+              <text x="150" y="205" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={14} fontWeight="bold" alignmentBaseline="middle">
+                输入
+              </text>
+              
+              <circle cx="450" cy="200" r="35" fill="#10b981" fillOpacity={0.3} stroke="#10b981" strokeWidth="2" />
+              <text x="450" y="205" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={14} fontWeight="bold" alignmentBaseline="middle">
+                整理
+              </text>
+              
+              <circle cx="450" cy="300" r="35" fill="#f59e0b" fillOpacity={0.3} stroke="#f59e0b" strokeWidth="2" />
+              <text x="450" y="305" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={14} fontWeight="bold" alignmentBaseline="middle">
+                输出
+              </text>
+              
+              <circle cx="150" cy="300" r="35" fill="#ef4444" fillOpacity={0.3} stroke="#ef4444" strokeWidth="2" />
+              <text x="150" y="305" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={14} fontWeight="bold" alignmentBaseline="middle">
+                应用
+              </text>
+              
+              {/* 连接线 */}
+              <path d="M185 200 L250 200" stroke="#3b82f6" strokeWidth="2" fill="none" markerEnd="url(#arrowHead)" />
+              <path d="M340 200 L415 200" stroke="#10b981" strokeWidth="2" fill="none" markerEnd="url(#arrowHead)" />
+              <path d="M415 235 L415 265" stroke="#10b981" strokeWidth="2" fill="none" markerEnd="url(#arrowHead)" />
+              <path d="M340 300 L250 300" stroke="#ef4444" strokeWidth="2" fill="none" markerEnd="url(#arrowHead)" />
+              <path d="M185 265 L185 235" stroke="#ef4444" strokeWidth="2" fill="none" markerEnd="url(#arrowHead)" />
+              
+              {/* 标题 */}
+              <text x="300" y="30" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={20} fontWeight="bold">
+                知识晶体化模型
+              </text>
+            </svg>
+          </div>
+        );
       default:
-        return <div>图表未找到</div>;
+        // Default case to handle all chart IDs not explicitly defined
+        return (
+          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
+            <div className="flex flex-col items-center justify-center h-full p-4 text-center">
+              <div className={`w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-800 flex items-center justify-center mb-4`}>
+                <Activity size={32} className="text-gray-500 dark:text-gray-400" />
+              </div>
+              <h3 className={`text-lg font-bold mb-2 ${textMain}`}>图表正在开发中</h3>
+              <p className={`text-sm ${textSub}`}>该图表功能目前正在开发中，敬请期待</p>
+              <p className={`text-xs mt-2 ${textSub}`}>Chart ID: {activeChart}</p>
+            </div>
+          </BaseChart>
+        );
     }
   };
 
@@ -3984,7 +5727,34 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '人的成长状态分为三层——舒适区（熟悉无压、成长停滞）、学习区（适度挑战、能力提升，是最优成长区间）、恐慌区（难度过高、易放弃，需降低目标难度）。',
       scope: '系统内任务难度分级、成长路径规划、技能学习节奏调整',
       tips: '1. 拒绝长期停留在舒适区“躺平”；2. 避免直接跳入恐慌区导致挫败；3. 以“学习区”为主要成长阵地，保持“微挑战”状态；4. 逐步拓展舒适区边界。',
-      practice: '1. 状态自测：当执行任务感到“毫无压力”时，说明处于舒适区；感到“焦虑失眠、想逃避”时，说明处于恐慌区；2. 目标拆解：将恐慌区的大目标拆分为小任务，降低难度进入学习区；3. 梯度升级：在学习区稳定执行2-3周后，小幅提升任务难度，逐步拓展舒适区边界。'
+      practice: '1. 状态自测：当执行任务感到“毫无压力”时，说明处于舒适区；感到“焦虑失眠、想逃避”时，说明处于恐慌区；2. 目标拆解：将恐慌区的大目标拆分为小任务，降低难度进入学习区；3. 梯度升级：在学习区稳定执行2-3周后，小幅提升任务难度，逐步拓展舒适区边界。',
+      visualDesign: `这是舒适区模型的：可视化描述：1. 完全匹配可视化设计要求 
+
+ 布局合规：采用三层环形嵌套核心布局，搭配辅助二维坐标轴，整体简洁专业，无冗余装饰，区域划分清晰； 
+
+ 区域精准：三个环形区域对应舒适区、学习区、恐慌区，学习区宽度更宽突出核心地位，渐变填充颜色与透明度符合要求，分隔线样式（实线 / 虚线）贴合设计逻辑； 
+
+ 元素完整：包含成长曲线、场景图标、关键数据点、参考线等所有核心元素，成长曲线斜率变化直观展示成长规律； 
+
+ 文字标注：区域名称、副标题、坐标轴、提示文字等位置精准，样式工整，颜色与区域对应，可读性强； 
+
+ 图例清晰：右上角图例标注完整，与区域颜色一一对应，无重叠遮挡。 
+
+ 2. 视觉优化与层级清晰 
+
+ 配色协调：浅蓝 / 浅绿 / 浅红渐变柔和不刺眼，贴合各区域情感属性，整体风格清新专业； 
+
+ 层级分明：文字 > 图标 > 曲线 > 区域填充 > 背景，确保所有内容不被遮挡，视觉层次清晰； 
+
+ 细节精致：图标添加轻微阴影增强立体感，曲线平滑无锯齿，文字居中对齐，元素间距合理，视觉整洁舒适。 
+
+ 3. 代码规范与高可用性 
+
+ 格式整洁：SVG 嵌套在 HTML div 容器中，代码分模块注释清晰，可直接保存为.html文件运行； 
+
+ 兼容性强：无 HTML/SVG 语法错误，支持 Chrome、Edge、Firefox 等主流浏览器，无需第三方依赖； 
+
+ 易于修改：颜色、尺寸、文字等可按需微调，代码结构清晰，维护成本低。`
     },
     { 
       id: 'woop', 
@@ -3996,7 +5766,15 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '目标执行四步走——W（Wish）明确愿望→O（Outcome）想象最佳结果→O（Obstacle）分析潜在障碍→P（Plan）制定应对计划，强化目标落地性。',
       scope: '系统的目标创建、任务拆解、习惯养成启动、长期项目推进',
       tips: '1. 愿望要具体可量化；2. 障碍要挖到深层原因；3. 计划要对应“障碍-解决方案”；4. 避免空泛的口号式目标。',
-      practice: '1. 明确愿望：写下具体目标（如“我要在3个月内学会基础PS技能”，而非“我要学设计”）；2. 具象结果：想象目标达成后的场景，强化动机；3. 罗列障碍：梳理主观+客观障碍；4. 制定计划：针对每个障碍设计应对方案。'
+      practice: '1. 明确愿望：写下具体目标（如“我要在3个月内学会基础PS技能”，而非“我要学设计”）；2. 具象结果：想象目标达成后的场景，强化动机；3. 罗列障碍：梳理主观+客观障碍；4. 制定计划：针对每个障碍设计应对方案。',
+      visualDesign: `1. 整体布局：采用四象限卡片式设计，清晰展示WOOP四个步骤；
+2. 色彩方案：使用蓝色系渐变作为主色调，代表专业和信任；
+3. 图标设计：每个步骤配有独特图标，增强视觉识别度；
+4. 文字排版：标题加粗突出，内容简洁明了；
+5. 交互元素：添加箭头连接线，展示流程关系；
+6. 响应式设计：适配不同屏幕尺寸，保持良好的视觉效果；
+7. 深度层次：通过阴影和渐变创造立体感，增强视觉吸引力；
+8. 主题适配：支持深色/浅色主题切换，提升用户体验。` 
     },
     { 
       id: 'peakEnd', 
@@ -4008,7 +5786,21 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '人们对一段体验的记忆，仅由峰值时刻（最愉悦/最痛苦的瞬间）和结束时刻决定，与体验的总时长、中间平淡环节无关。',
       scope: '系统的任务奖励设计、学习/工作体验优化、习惯坚持激励、流程化事项的体验升级',
       tips: '1. 重点强化峰值的正向反馈；2. 优化结束时刻的成就感；3. 忽略中间环节的琐碎平淡；4. 用“高光时刻”锚定体验记忆。',
-      practice: '1. 峰值设计：在任务执行到50%时设置小奖励；2. 结束优化：任务完成后，做一个有仪式感的收尾动作；3. 规避低谷：把任务中最难、最枯燥的部分放在开头，结尾留简单轻松的内容。'
+      practice: '1. 峰值设计：在任务执行到50%时设置小奖励；2. 结束优化：任务完成后，做一个有仪式感的收尾动作；3. 规避低谷：把任务中最难、最枯燥的部分放在开头，结尾留简单轻松的内容。',
+      visualDesign: `1. 完全匹配可视化设计要求 
+ 布局合规：采用 "体验流程 + 记忆锚点" 双核心布局，横向时间轴 + 纵向感受轴，三层结构层次分明，直观呈现峰终定律核心逻辑； 
+ 元素完整：包含体验曲线、峰值 / 终值锚点、高亮背景、参考线、专属图标等所有核心元素，锚点突出、中间环节弱化，贴合 "峰值 + 终值决定记忆" 的原理； 
+ 配色精准：正向体验（淡绿）、负向体验（淡红）渐变填充，透明度 0.3 符合要求，核心元素使用深蓝色突出，视觉区分度高； 
+ 文字标注：标题、副标题、锚点说明、坐标轴标注等位置精准，样式工整，颜色与对应元素匹配，可读性强； 
+ 图例清晰：右上角图例标注完整，与核心元素一一对应，不干扰主视觉流程，便于快速识别。 
+ 2. 视觉优化与层级清晰 
+ 配色协调：淡绿 / 淡红 / 深蓝配色柔和不刺眼，贴合愉悦 / 痛苦 / 核心锚点的情感属性，整体风格清新专业； 
+ 层级分明：文字 > 图标 > 锚点标记 > 体验曲线 > 区域填充 > 背景，确保所有内容不被遮挡，视觉层次清晰； 
+ 细节精致：图标添加轻微阴影增强立体感，锚点高亮背景提升焦点效果，曲线平滑无锯齿，文字对齐规范，元素间距合理，视觉整洁舒适。 
+ 3. 代码规范与高可用性 
+ 格式整洁：SVG 嵌套在 HTML div 容器中，代码分模块注释清晰，可直接保存为.html文件运行； 
+ 兼容性强：无 HTML/SVG 语法错误，支持 Chrome、Edge、Firefox 等主流浏览器，无需第三方依赖； 
+ 易于修改：颜色、尺寸、文字、案例等可按需微调，代码结构清晰，维护成本低，可根据实际需求修改体验曲线走势或图标样式。`
     },
     { 
       id: 'valueVenn', 
@@ -4020,7 +5812,43 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '个人最优发展方向=能力圈（擅长的事/能学会的事）∩热情圈（喜欢做、能坚持的事）∩市场圈（有需求、能创造价值的事），三圈交集为高价值区。',
       scope: '系统的人生方向定位、技能学习选择、副业项目筛选、职业规划调整',
       tips: '1. 先确定热情圈（避免做不喜欢的事半途而废）；2. 再评估能力圈（能力可以后天提升）；3. 最后验证市场圈（需求决定价值变现）；4. 三圈交集为最优发展方向。',
-      practice: '1. 三圈清单：分别列出三个维度的内容——能力圈、热情圈、市场圈；2. 找交集：圈出三个清单的重叠项；3. 补短板：若交集项能力不足，针对性学习；若市场需求弱，调整方向。'
+      practice: '1. 三圈清单：分别列出三个维度的内容——能力圈、热情圈、市场圈；2. 找交集：圈出三个清单的重叠项；3. 补短板：若交集项能力不足，针对性学习；若市场需求弱，调整方向。',
+      visualDesign: `可视化设计复盘 
+ 1. 整体布局：理性的平衡 
+
+ 结构：采用了经典的**“左图右文”**布局（在移动端会自动折叠为上图下文）。左侧是感性的图形呈现，右侧是理性的文字拆解。 
+
+ 氛围：背景使用了清淡的冷灰色（#f0f2f5），容器则是纯净的白色卡片，这不仅是为了专业感，更是为了让你的注意力能完全聚焦在核心的三圈逻辑上，不受干扰。 
+
+ 2. 核心图形（SVG）：交融的艺术 这是整个设计的灵魂所在，我运用了**韦恩图（Venn Diagram）**的变体： 
+
+ 色彩心理学： 
+
+ 🔥 热情圈（左上）：使用了暖橙色渐变。橙色代表活力、创造力和内心的火焰。 
+
+ ⚙️ 能力圈（右上）：使用了深蓝色渐变。蓝色代表沉稳、专业和理性的技能积累。 
+
+ 💰 市场圈（下方）：使用了翠绿色渐变。绿色代表生机、金钱和价值交换。 
+
+ 混合模式（Mix Blend Mode）： 
+
+ 代码中特意使用了 mix-blend-mode: multiply。这让三个圆圈叠加时，不仅仅是覆盖，而是颜色相融。比如橙色和蓝色交叠会呈现出深沉的褐色，象征着理想与现实碰撞时的复杂性。 
+
+ 甜蜜点（Sweet Spot）： 
+
+ 最中心的三圈交集处，我没有使用普通的颜色填充，而是添加了一层金色的光晕（Glow Filter）和火箭图标（🚀）。 
+
+ 寓意：这是“最优解”，是起飞的地方，它必须在视觉上也是最耀眼、最突出的。 
+
+ 3. 信息层级：从视觉到行动 右侧的侧边栏不仅仅是图例，更是一个行动指南： 
+
+ 色彩呼应：右侧的三个解释卡片（Info Card），边框颜色与左侧圆圈一一对应，让你在阅读文字时能瞬间联想到对应的圈层。 
+
+ 行动清单（Action List）：底部的黄色区域是**“落地环节”**。它不仅仅告诉你“这是什么”，还通过 1-2-3-4 的步骤告诉你“该怎么做”。 
+
+ 4. 细节微交互 
+
+ 漂浮动画：圆圈中心的图标（🔥、⚙️、💰）添加了轻微的上下漂浮动画（float），让静态的图表显得有生命力，就像这些特质在你体内是鲜活的一样。`
     },
     { 
       id: 'purpose', 
@@ -4044,7 +5872,32 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '自我认知的四个象限——公开区（自己知道、别人也知道）、盲目区（自己不知道、别人知道）、隐藏区（自己知道、别人不知道）、未知区（自己和别人都不知道）；个人成长的本质是扩大公开区。',
       scope: '系统的自我复盘、人际沟通优化、能力提升规划、团队协作反馈',
       tips: '1. 通过“主动求反馈”缩小盲目区；2. 通过“自我暴露”缩小隐藏区；3. 通过“尝试新事物”探索未知区；4. 逐步扩大公开区，提升自我认知。',
-      practice: '1. 求反馈：每周找1-2个信任的朋友/同事，问一个具体问题，定位盲目区；2. 自我暴露：在安全的环境中分享自己的小缺点/小恐惧，缩小隐藏区；3. 探未知：每月尝试一件从未做过的事，记录自己的感受和表现，发掘未知潜能。'
+      practice: '1. 求反馈：每周找1-2个信任的朋友/同事，问一个具体问题，定位盲目区；2. 自我暴露：在安全的环境中分享自己的小缺点/小恐惧，缩小隐藏区；3. 探未知：每月尝试一件从未做过的事，记录自己的感受和表现，发掘未知潜能。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张乔哈里视窗图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用2x2矩阵布局，将图表分为四个等大的象限，整体为正方形可视化区域，风格简洁直观，无冗余装饰；
+  - 每个象限之间有明显的边界线，标题和说明文字清晰可见。
+
+  2. 核心元素细节：
+  - 象限划分：
+    1. 左上象限（公开区）：自己知道，他人也知道，使用蓝色填充；
+    2. 右上象限（盲区）：自己不知道，他人知道，使用黄色填充；
+    3. 左下象限（隐藏区）：自己知道，他人不知道，使用绿色填充；
+    4. 右下象限（未知区）：自己不知道，他人也不知道，使用红色填充；
+  - 文字标注（位置精准，样式工整）：
+    1. 每个象限内标注区域名称和描述；
+    2. 图表顶部标注：「乔哈里视窗 - 自我认知与他人认知的关系」；
+    3. 左侧标注：「自己认知」，右侧标注：「他人认知」；
+    4. 顶部标注：「已知」，底部标注：「未知」；
+  - 图标：在每个象限内添加简单的代表性图标，增强视觉表现力；
+  - 箭头：添加指向公开区的箭头，展示个人成长的方向。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：象限边界清晰、文字居中/对齐工整、颜色均匀，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     { 
       id: 'footInDoor', 
@@ -4068,7 +5921,34 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '高效成长的核心是有目标、有反馈、走出舒适区的针对性练习，而非机械重复；关键是拆分技能、聚焦弱点、持续纠错，最终实现技能精通。',
       scope: '系统的技能深耕、专业能力提升、短板弥补、特长培养',
       tips: '1. 拒绝“重复劳动式练习”；2. 坚持“目标导向式练习”，每一次练习都要明确“要提升的具体点”；3. 及时获取反馈，避免闭门造车；4. 聚焦弱点，针对性提升。',
-      practice: '1. 拆分技能：将目标技能拆分为最小单元；2. 针对性练习：聚焦当前最弱的子技能；3. 获得有效反馈：找领域内的高手指导，或对比优秀案例找差距；4. 根据反馈调整练习方法，而非重复错误。'
+      practice: '1. 拆分技能：将目标技能拆分为最小单元；2. 针对性练习：聚焦当前最弱的子技能；3. 获得有效反馈：找领域内的高手指导，或对比优秀案例找差距；4. 根据反馈调整练习方法，而非重复错误。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张刻意练习图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用流程图布局，展示刻意练习的核心流程和关键要素，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 流程从左到右依次展开，核心要素用卡片式设计展示，连接线条清晰可见。
+
+  2. 核心元素细节：
+  - 流程节点：
+    1. 目标设定：明确练习目标，使用蓝色填充；
+    2. 走出舒适区：突破现有能力边界，使用黄色填充；
+    3. 针对性练习：聚焦弱点，使用绿色填充；
+    4. 获得反馈：获取外界或自我反馈，使用红色填充；
+    5. 调整优化：根据反馈调整练习方法，使用紫色填充；
+    6. 技能精通：实现技能的熟练掌握，使用橙色填充；
+  - 连接线条：使用带箭头的线条连接各流程节点，线条粗细适中，颜色统一；
+  - 文字标注（位置精准，样式工整）：
+    1. 每个流程节点内标注节点名称和核心要点；
+    2. 图表顶部标注：「刻意练习 - 高效成长的核心方法」；
+    3. 图表底部添加简要说明文字；
+  - 图标：在每个流程节点内添加简单的代表性图标，增强视觉表现力；
+  - 对比区域：添加一个小区域对比「机械重复练习」和「刻意练习」的区别。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：流程节点清晰、文字居中/对齐工整、颜色均匀，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     { 
       id: 'foggBehavior', 
@@ -4080,7 +5960,32 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '行为发生的三要素=动机（想做这件事的欲望）+能力（做这件事的难易程度）+触发（提醒做这件事的信号），三者同时满足，行为才会发生；缺少任何一个要素，行为都不会持续。',
       scope: '系统的习惯触发设计、行为改变引导、任务执行启动、行动力提升',
       tips: '1. 若行为没发生，优先从“能力”和“触发”入手调整（提升能力比提升动机更容易）；2. 降低行为难度，设置明确触发信号；3. 动机可以通过关联个人目标来强化；4. 保持触发信号的一致性和可见性。',
-      practice: '1. 提升动机：把任务和个人目标关联；2. 降低能力门槛：简化行为步骤，减少阻力；3. 设置触发信号：用手机闹钟提醒、贴便签、和日常动作绑定；4. 及时反馈：行为发生后，给予正向反馈，强化行为。'
+      practice: '1. 提升动机：把任务和个人目标关联；2. 降低能力门槛：简化行为步骤，减少阻力；3. 设置触发信号：用手机闹钟提醒、贴便签、和日常动作绑定；4. 及时反馈：行为发生后，给予正向反馈，强化行为。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张福格行为模型图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用三角形布局，展示行为发生的三个核心要素及其关系，整体为三角形可视化区域，风格简洁直观，无冗余装饰；
+  - 三个要素分别位于三角形的三个顶点，中间区域展示行为发生的条件。
+
+  2. 核心元素细节：
+  - 三角形结构：
+    1. 顶部顶点：动机（Motivation），使用红色填充；
+    2. 左下顶点：能力（Ability），使用蓝色填充；
+    3. 右下顶点：触发（Trigger），使用绿色填充；
+  - 文字标注（位置精准，样式工整）：
+    1. 每个顶点标注要素名称和描述；
+    2. 三角形内部标注：「行为发生」；
+    3. 图表顶部标注：「福格行为模型 - 行为发生的三要素」；
+    4. 图表底部添加简要说明文字；
+  - 连接线：使用实线连接三个顶点，形成三角形结构；
+  - 图标：在每个顶点内添加简单的代表性图标，增强视觉表现力；
+  - 示例区域：添加一个小区域展示行为发生的具体示例，如「早起锻炼」。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：三角形边接平滑、文字居中/对齐工整、颜色均匀，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     { 
       id: 'eisenhowerMatrix', 
@@ -4092,7 +5997,32 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '按重要性和紧急性将任务分为四类——重要且紧急（需立即做）、重要不紧急（需计划做，是核心优先级）、紧急不重要（可授权做）、不重要不紧急（需少做或不做）。',
       scope: '系统的任务管理、时间规划、每日工作计划制定、优先级排序',
       tips: '1. 重点分配时间给“重要不紧急”的事；2. 避免被“紧急不重要”的事占据大量精力；3. 防止陷入“救火式”工作/生活状态；4. 学会授权和拒绝。',
-      practice: '1. 每日列清单：早上花5分钟，把当天所有任务填入四象限表格，明确分类；2. 分配时间比例：70%时间做“重要不紧急”的事，20%时间处理“重要且紧急”的事，10%时间处理其他两类事；3. 学会授权和拒绝：把“紧急不重要”的事交给他人，拒绝“不重要不紧急”的事；4. 定期复盘：每周回顾时间分配情况，调整策略。'
+      practice: '1. 每日列清单：早上花5分钟，把当天所有任务填入四象限表格，明确分类；2. 分配时间比例：70%时间做“重要不紧急”的事，20%时间处理“重要且紧急”的事，10%时间处理其他两类事；3. 学会授权和拒绝：把“紧急不重要”的事交给他人，拒绝“不重要不紧急”的事；4. 定期复盘：每周回顾时间分配情况，调整策略。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张艾森豪威尔矩阵图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用2x2矩阵布局，展示时间管理的四象限法则，整体为正方形可视化区域，风格简洁直观，无冗余装饰；
+  - 横轴表示紧急性（从左到右：紧急→不紧急），纵轴表示重要性（从上到下：重要→不重要）。
+
+  2. 核心元素细节：
+  - 象限划分：
+    1. 左上象限（重要且紧急）：需立即做，使用红色填充；
+    2. 右上象限（重要不紧急）：需计划做，使用蓝色填充；
+    3. 左下象限（紧急不重要）：可授权做，使用黄色填充；
+    4. 右下象限（不重要不紧急）：需少做或不做，使用绿色填充；
+  - 文字标注（位置精准，样式工整）：
+    1. 每个象限内标注区域名称、描述和关键词；
+    2. 图表顶部标注：「艾森豪威尔矩阵 - 时间管理的四象限法则」；
+    3. 横轴标注：「紧急性：紧急 → 不紧急」；
+    4. 纵轴标注：「重要性：重要 → 不重要」；
+  - 图标：在每个象限内添加简单的代表性图标，增强视觉表现力；
+  - 时间分配建议：在每个象限内标注建议的时间分配比例。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：象限边界清晰、文字居中/对齐工整、颜色均匀，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     { 
       id: 'growthMindset', 
@@ -4104,7 +6034,29 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '成长型思维认为能力是可以通过努力提升的，拥抱挑战、不怕失败，把挫折看作成长的机会；固定型思维认为能力是天生固定的，害怕挑战、回避失败，把挫折看作对自己的否定。',
       scope: '系统的心态引导、挫折应对、学习动力激发、失败复盘激励',
       tips: '1. 用“成长型语言”替代“固定型语言”，重塑思维习惯；2. 遇到失败时，关注“过程和改进”，而非“天赋和结果”；3. 拥抱挑战，把困难看作成长的机会；4. 奖励努力过程，而非天赋和成功。',
-      practice: '1. 语言替换训练：把固定型语言换成成长型语言——“我不行”→“我还没学会”；“这太难了”→“这是挑战，我可以试试”；“我失败了”→“我从这次经历中学到了…”；2. 拥抱挫折：遇到失败时，不否定自己，而是分析“哪里做得不好”“下次如何改进”；3. 奖励努力过程：奖励自己的“坚持和付出”，而非“天赋和成功”。'
+      practice: '1. 语言替换训练：把固定型语言换成成长型语言——“我不行”→“我还没学会”；“这太难了”→“这是挑战，我可以试试”；“我失败了”→“我从这次经历中学到了…”；2. 拥抱挫折：遇到失败时，不否定自己，而是分析“哪里做得不好”“下次如何改进”；3. 奖励努力过程：奖励自己的“坚持和付出”，而非“天赋和成功”。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张成长型思维图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用左右对比布局，展示成长型思维与固定型思维的区别，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 左侧展示固定型思维，右侧展示成长型思维，中间用对比线分隔。
+
+  2. 核心元素细节：
+  - 对比结构：
+    1. 左侧：固定型思维（Fixed Mindset），使用红色填充；
+    2. 右侧：成长型思维（Growth Mindset），使用蓝色填充；
+  - 文字标注（位置精准，样式工整）：
+    1. 每个区域内分点列出两种思维模式的核心特征，如面对挑战、面对失败、面对努力等；
+    2. 图表顶部标注：「成长型思维 vs 固定型思维」；
+    3. 图表底部添加简要说明文字；
+  - 图标：在每个区域内添加简单的代表性图标，增强视觉表现力；
+  - 结果对比：在图表底部添加两种思维模式导致的不同结果对比。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：对比区域清晰、文字居中/对齐工整、颜色均匀，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     { 
       id: 'sunkCost', 
@@ -4116,7 +6068,32 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '人们因已经投入的不可收回的成本（时间、金钱、精力），而继续坚持无意义的事情，忽略未来的收益和损失；理性决策的核心是“忽略沉没成本，只看未来价值”。',
       scope: '系统的任务止损机制、目标调整、决策优化、避免内耗',
       tips: '1. 做决策时，问自己“继续做这件事，能带来我想要的结果吗？”，而非“我已经投入了这么多，放弃太可惜了”；2. 记住“沉没成本不是成本”；3. 及时止损，避免更大的损失；4. 关注未来的机会成本，而非过去的投入。',
-      practice: '1. 止损三问法：当纠结是否放弃时，问自己三个问题——① 继续做这件事，能实现我的目标吗？② 放弃这件事，我会失去什么？③ 把时间/精力投入其他事，收益会更高吗？；2. 及时止损：若答案是否定的，立刻放弃；3. 不纠结过去：不要因“已经投入”而继续内耗，把目光放在未来的选择上。'
+      practice: '1. 止损三问法：当纠结是否放弃时，问自己三个问题——① 继续做这件事，能实现我的目标吗？② 放弃这件事，我会失去什么？③ 把时间/精力投入其他事，收益会更高吗？；2. 及时止损：若答案是否定的，立刻放弃；3. 不纠结过去：不要因“已经投入”而继续内耗，把目光放在未来的选择上。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张沉没成本谬误图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用流程图布局，展示沉没成本谬误的形成过程和理性决策的路径，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 流程从左到右依次展开，展示从投入成本到决策的全过程。
+
+  2. 核心元素细节：
+  - 流程节点：
+    1. 投入成本：展示时间、金钱、精力等沉没成本，使用红色填充；
+    2. 沉没成本谬误：展示因沉没成本导致的非理性决策，使用黄色填充；
+    3. 理性决策：展示忽略沉没成本，只看未来价值的决策路径，使用蓝色填充；
+    4. 结果对比：展示两种决策导致的不同结果，左侧为负面结果，右侧为正面结果；
+  - 连接线条：使用带箭头的线条连接各流程节点，线条粗细适中，颜色统一；
+  - 文字标注（位置精准，样式工整）：
+    1. 每个流程节点内标注节点名称和核心要点；
+    2. 图表顶部标注：「沉没成本谬误 - 理性决策的陷阱」；
+    3. 图表底部添加简要说明文字；
+  - 图标：在每个流程节点内添加简单的代表性图标，增强视觉表现力；
+  - 案例展示：添加一个小区域展示沉没成本谬误的具体案例。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：流程节点清晰、文字居中/对齐工整、颜色均匀，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     { 
       id: 'pareto', 
@@ -4128,7 +6105,30 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '80%的结果由20%的关键行动产生，其余80%的行动只带来20%的结果；核心是抓大放小，聚焦核心关键动作，而非平均用力。',
       scope: '系统的任务优先级筛选、效率提升、资源分配、学习/工作优化',
       tips: '1. 通过复盘找到产生核心结果的“20%关键动作”；2. 把80%的时间和精力投入其中；3. 砍掉或简化对结果影响小的80%动作；4. 持续优化，找到最核心的关键动作。',
-      practice: '1. 复盘找关键：回顾过去1-2周的任务，列出所有行动，分析哪些行动带来了最大的结果；2. 聚焦关键动作：把80%的时间花在20%关键动作上；3. 删减无效动作：砍掉对结果影响小的动作；4. 定期重新评估关键动作，确保其仍然有效。'
+      practice: '1. 复盘找关键：回顾过去1-2周的任务，列出所有行动，分析哪些行动带来了最大的结果；2. 聚焦关键动作：把80%的时间花在20%关键动作上；3. 删减无效动作：砍掉对结果影响小的动作；4. 定期重新评估关键动作，确保其仍然有效。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张二八定律图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用组合图表布局，左侧为柱状图，右侧为折线图，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 左侧柱状图展示关键行动与结果的关系，右侧折线图展示累计贡献率。
+
+  2. 核心元素细节：
+  - 图表结构：
+    1. 左侧：柱状图（Bar Chart），展示各行动项及其产生的结果，使用蓝色填充，其中20%的关键行动使用红色高亮；
+    2. 右侧：折线图（Line Chart），展示累计贡献率，使用红色线条，在80%贡献率处添加参考线；
+  - 文字标注（位置精准，样式工整）：
+    1. 图表顶部标注：「二八定律 - 关键少数与次要多数的关系」；
+    2. X轴标注：「行动项」，Y轴左侧标注：「结果贡献」，Y轴右侧标注：「累计贡献率」；
+    3. 在20%关键行动和80%结果处添加标注；
+  - 参考线：在20%关键行动和80%结果处添加垂直和水平参考线；
+  - 图标：在图表左上角添加简单的代表性图标，增强视觉表现力；
+  - 说明文字：在图表底部添加简要说明文字，解释二八定律的核心含义。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：图表线条清晰、文字居中/对齐工整、颜色均匀，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     // 新增决策规划类图表
     { 
@@ -4141,7 +6141,32 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '从优势（Strengths）、劣势（Weaknesses）、机会（Opportunities）、威胁（Threats）四个维度，全面评估个人目标、项目或选择的可行性，核心是优势+机会=核心发力点，劣势+威胁=风险规避重点。',
       scope: '人生游戏化系统的「目标立项评估」「年度规划复盘」「项目可行性分析」「职业方向选择」模块',
       tips: '1. 优势和劣势聚焦内部因素，机会和威胁聚焦外部因素；2. 分析时要具体、可量化，避免空泛描述；3. 优先放大“优势+机会”的组合，同时制定“劣势+威胁”的应对预案。',
-      practice: '1. 列四象限清单：针对目标分别列出优势、劣势、机会、威胁；2. 找核心策略：优势+机会→核心发力点，劣势+威胁→风险规避重点；3. 落地执行：把策略拆解为具体任务，并设置风险预警。'
+      practice: '1. 列四象限清单：针对目标分别列出优势、劣势、机会、威胁；2. 找核心策略：优势+机会→核心发力点，劣势+威胁→风险规避重点；3. 落地执行：把策略拆解为具体任务，并设置风险预警。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张SWOT分析图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用2x2矩阵布局，展示SWOT分析的四个维度，整体为正方形可视化区域，风格简洁直观，无冗余装饰；
+  - 横轴表示内部/外部因素，纵轴表示优势/劣势或机会/威胁。
+
+  2. 核心元素细节：
+  - 象限划分：
+    1. 左上象限（优势Strengths）：自身擅长的资源和能力，使用蓝色填充；
+    2. 右上象限（机会Opportunities）：外部有利的条件和趋势，使用绿色填充；
+    3. 左下象限（劣势Weaknesses）：自身的短板和不足，使用黄色填充；
+    4. 右下象限（威胁Threats）：外部的风险和挑战，使用红色填充；
+  - 文字标注（位置精准，样式工整）：
+    1. 每个象限内标注维度名称和核心要点；
+    2. 图表顶部标注：「SWOT分析 - 全面评估目标可行性」；
+    3. 横轴标注：「内部因素 → 外部因素」；
+    4. 纵轴标注：「优势/机会 → 劣势/威胁」；
+  - 图标：在每个象限内添加简单的代表性图标，增强视觉表现力；
+  - 策略建议：在每个象限内添加相应的策略建议，如优势+机会=增长策略，劣势+机会=扭转型策略等。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：象限边界清晰、文字居中/对齐工整、颜色均匀，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     { 
       id: 'goldenCircle', 
@@ -4153,7 +6178,31 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '遵循从内到外的思考顺序——先明确Why（为什么做，动机/初心/价值观），再梳理How（怎么做，方法/路径/策略），最后落地What（做什么，具体事项/行动步骤），让行动匹配底层动机。',
       scope: '系统内「任务创建」「长期目标拆解」「习惯养成启动」「项目方向定位」环节',
       tips: '1. Why要挖到深层动机，而非表面理由；2. How要具体可落地；3. What要对应How拆解，避免“动机高大上，行动无抓手”。',
-      practice: '1. 明确Why：针对目标追问深层动机；2. 梳理How：基于Why设计具体路径；3. 落地What：把How拆成具体动作；4. 系统绑定：在系统中把Why置顶，每次完成What后关联Why复盘。'
+      practice: '1. 明确Why：针对目标追问深层动机；2. 梳理How：基于Why设计具体路径；3. 落地What：把How拆成具体动作；4. 系统绑定：在系统中把Why置顶，每次完成What后关联Why复盘。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张黄金圈法则图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用同心圆布局，展示从内到外的思考顺序，整体为圆形可视化区域，风格简洁直观，无冗余装饰；
+  - 三个同心圆分别代表Why、How、What，从内到外依次展开。
+
+  2. 核心元素细节：
+  - 同心圆结构：
+    1. 内层圆：Why（为什么做，动机/初心/价值观），使用红色填充，直径最小；
+    2. 中层圆：How（怎么做，方法/路径/策略），使用蓝色填充，直径中等；
+    3. 外层圆：What（做什么，具体事项/行动步骤），使用绿色填充，直径最大；
+  - 文字标注（位置精准，样式工整）：
+    1. 每个圆内标注层级名称和核心要点；
+    2. 图表顶部标注：「黄金圈法则 - 从内到外的思考顺序」；
+    3. 图表底部添加简要说明文字；
+  - 连接线：从内到外添加带箭头的连接线，展示思考的顺序；
+  - 图标：在每个圆内添加简单的代表性图标，增强视觉表现力；
+  - 示例展示：在图表右侧添加一个小区域展示黄金圈法则的具体应用示例。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：同心圆边界清晰、文字居中/对齐工整、颜色均匀，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     { 
       id: 'fiveWhys', 
@@ -4165,7 +6214,32 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '针对一个问题，连续追问5个“为什么”，层层剥离表面现象，找到问题的根本原因，避免治标不治本。',
       scope: '系统的「任务失败复盘」「习惯中断分析」「问题根源定位」「流程优化改进」模块',
       tips: '1. 每个“为什么”的答案要基于事实，而非主观猜测；2. 追问次数不局限于5次，直到找到根本原因；3. 避免问宽泛的问题，要问具体的问题。',
-      practice: '1. 提出问题：针对具体问题（如“本周跑步习惯中断了”）；2. 连续追问：层层剥离表面现象；3. 找到根本原因：定位问题核心；4. 制定解决方案：针对根本原因实施改进。'
+      practice: '1. 提出问题：针对具体问题（如“本周跑步习惯中断了”）；2. 连续追问：层层剥离表面现象；3. 找到根本原因：定位问题核心；4. 制定解决方案：针对根本原因实施改进。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张5Why分析法图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用流程图布局，展示连续追问5个为什么的过程，整体为矩形可视化区域，风格简洁直观，无冗余装饰；
+  - 流程从下到上或从左到右依次展开，展示从问题到根本原因的追问过程。
+
+  2. 核心元素细节：
+  - 流程节点：
+    1. 底部/左侧：问题（Problem），使用红色填充；
+    2. 中间：连续5个Why的追问节点，使用蓝色填充，每个节点包含一个为什么的问题和答案；
+    3. 顶部/右侧：根本原因（Root Cause），使用绿色填充；
+    4. 解决方案：在根本原因节点下方添加解决方案，使用黄色填充；
+  - 连接线条：使用带箭头的线条连接各流程节点，线条粗细适中，颜色统一；
+  - 文字标注（位置精准，样式工整）：
+    1. 每个流程节点内标注节点名称和核心内容；
+    2. 图表顶部标注：「5Why分析法 - 找到问题根本原因」；
+    3. 在每个Why节点前添加“为什么”的标注；
+  - 图标：在每个流程节点内添加简单的代表性图标，增强视觉表现力；
+  - 示例展示：使用一个具体的案例，如“为什么跑步习惯中断了”，展示完整的5Why分析过程。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：流程节点清晰、文字居中/对齐工整、颜色均匀，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     // 新增行为习惯类图表
     { 
@@ -4478,7 +6552,33 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       principle: '零散的知识容易遗忘，只有把知识结构化、关联化、可视化，形成“知识晶体”，才能真正内化吸收，核心是“知识的价值在于关联，而非堆积”。',
       scope: '系统的「知识体系构建」「学习笔记整理」「技能整合」模块',
       tips: '1. 思考“它和我已有的知识有什么关联？”；2. 用模型/框架概括知识；3. 用思维导图、卡片盒等工具晶体化知识。',
-      practice: '1. 学习“复利效应”后，关联“习惯养成”“投资理财”，构建“复利思维应用框架”；2. 用卡片盒记录，每张卡片标注关联的其他卡片，形成知识网络。'
+      practice: '1. 学习“复利效应”后，关联“习惯养成”“投资理财”，构建“复利思维应用框架”；2. 用卡片盒记录，每张卡片标注关联的其他卡片，形成知识网络。',
+      visualDesign: `请使用SVG标签结合HTML（如需容器可搭配div）编写代码，精准绘制这张知识晶体化模型图表，具体细节要求如下：
+
+  1. 整体布局：
+  - 采用中心辐射布局，展示从零散知识到知识晶体的转变过程，整体为圆形可视化区域，风格简洁直观，无冗余装饰；
+  - 中心为知识晶体核心，周围辐射出多个知识分支，展示知识的关联和结构化过程。
+
+  2. 核心元素细节：
+  - 晶体结构：
+    1. 中心：知识晶体核心，使用钻石形状，金色填充，代表结构化的核心知识；
+    2. 周围：零散知识点，使用小圆形，灰色填充，代表未结构化的零散知识；
+    3. 连接线：从零散知识点到知识晶体核心的连接线，使用蓝色线条，代表知识的关联和整合；
+    4. 知识分支：从知识晶体核心辐射出的多个知识分支，使用不同颜色的线条，代表不同的知识领域或模块；
+  - 文字标注（位置精准，样式工整）：
+    1. 中心标注：「知识晶体核心」；
+    2. 零散知识点标注：具体的知识点名称；
+    3. 知识分支标注：知识领域或模块名称；
+    4. 图表顶部标注：「知识晶体化模型 - 将零散知识结构化、关联化、可视化」；
+    5. 图表底部添加简要说明文字；
+  - 图标：在知识分支上添加简单的代表性图标，增强视觉表现力；
+  - 转变过程：在图表左侧添加零散知识到知识晶体的转变过程示意图。
+
+  3. 代码要求：
+  - 格式：以SVG为核心绘制载体，嵌套在HTML标签内，提供完整可直接复制运行的代码；
+  - 样式：支持内联样式或单独style标签，保证配色、元素大小、布局合理，元素层级清晰（文字不被曲线/图标遮挡）；
+  - 质量：无HTML/SVG语法错误，在主流浏览器中可直接正常渲染，无需额外依赖第三方插件、图片或资源；
+  - 细节：晶体结构清晰、文字居中/对齐工整、颜色均匀，所有标注文字的字体大小、颜色与整体设计匹配。`
     },
     // 学习成长类
     { 
@@ -4719,7 +6819,7 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       </div>
       
       {/* 2. 图表展示模块 - 作为核心图和表区域，用于可视化展示选定的图表数据 */}
-      <div className={`${cardBg} rounded-2xl p-6 shadow-lg flex-grow`}>
+      <div className={`${cardBg} rounded-2xl p-6 shadow-lg`} style={{ minHeight: '900px', height: 'calc(100vh - 200px)', overflow: 'auto' }}>
         <h2 className={`text-lg font-bold mb-4 ${textMain}`}>图表展示</h2>
         {renderChart()}
       </div>

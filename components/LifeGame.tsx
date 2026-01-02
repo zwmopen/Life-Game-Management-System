@@ -12,7 +12,7 @@ import {
   Camera, Tablet, Wind, Fish, Mountain, Home, Car, Heart, Globe, Palette
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
-import { Theme, AttributeType, Habit, Project, SubTask, TaskType, AutoTaskType, Task, DiceState, DiceTask, DiceCategory, DiceHistory, Settings as SettingsType } from '../types';
+import { Theme, AttributeType, AttributeTypeValue, Habit, Project, SubTask, TaskType, AutoTaskType, Task, DiceState, DiceTask, DiceCategory, DiceHistory, Settings as SettingsType } from '../types';
 import CharacterProfile, { CharacterProfileHandle } from './CharacterProfile';
 import { GlobalGuideCard, HelpTooltip, helpContent } from './HelpSystem';
 import FateGiftModal from './shared/FateGiftModal';
@@ -230,7 +230,7 @@ const SHOP_CATALOG = [
 
 
 // 简化ATTR_COLORS，去除彩色阴影效果，只保留文字颜色，与签到系统效果一致
-const ATTR_COLORS: Record<AttributeType | string, string> = {
+const ATTR_COLORS: Record<string, string> = {
     STR: 'text-red-500',
     INT: 'text-blue-500',
     DIS: 'text-zinc-400',
@@ -321,7 +321,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
   const [newTaskReward, setNewTaskReward] = useState('15');
   const [newTaskXP, setNewTaskXP] = useState('20');
   const [newTaskDuration, setNewTaskDuration] = useState('30');
-  const [newTaskAttr, setNewTaskAttr] = useState<AttributeType>(AttributeType.WEALTH);
+  const [newTaskAttr, setNewTaskAttr] = useState<AttributeTypeValue>(AttributeType.WEALTH);
   const [newTaskType, setNewTaskType] = useState<'daily' | 'main' | 'random'>('daily');
   const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
   const [editingProjectSubTasks, setEditingProjectSubTasks] = useState<SubTask[]>([]);
@@ -2168,7 +2168,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                     <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>任务属性</label>
                                         <select 
                                             value={newTaskAttr} 
-                                            onChange={e => setNewTaskAttr(e.target.value as AttributeType)} 
+                                            onChange={e => setNewTaskAttr(e.target.value as AttributeTypeValue)} 
                                             className={`w-full py-1 outline-none ${textMain} ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-2' : (isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300')}`}
                                         >
                                             <option value={AttributeType.STRENGTH}>力量</option>
@@ -2207,7 +2207,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                     <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>任务属性</label>
                                         <select 
                                             value={newTaskAttr} 
-                                            onChange={e => setNewTaskAttr(e.target.value as AttributeType)} 
+                                            onChange={e => setNewTaskAttr(e.target.value as AttributeTypeValue)} 
                                             className={`w-full py-1 outline-none ${textMain} ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-2' : (isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300')}`}
                                         >
                                             <option value={AttributeType.STRENGTH}>力量</option>

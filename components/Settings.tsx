@@ -15,22 +15,22 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
   const isDark = theme === 'dark';
   const isNeomorphic = theme === 'neomorphic';
   
-  // 拟态风格样式定义，确保与作战中心组件风格统一
+  // 拟态风格样式定义，确保与其他组件风格统一
   const neomorphicStyles = {
     bg: 'bg-[#e0e5ec]',
     border: 'border-[#e0e5ec]',
-    shadow: 'shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]',
-    hoverShadow: 'hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)]',
-    activeShadow: 'active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]',
-    transition: 'transition-all duration-200'
+    shadow: 'shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)]',
+    hoverShadow: 'hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)]',
+    activeShadow: 'active:shadow-[inset_8px_8px_16px_rgba(163,177,198,0.6),inset_-8px_-8px_16px_rgba(255,255,255,1)]',
+    transition: 'transition-all duration-300'
   };
-  
-  // 卡片背景 - 与作战中心保持一致
-  const cardBg = isNeomorphic 
-      ? `${neomorphicStyles.bg} ${neomorphicStyles.border} rounded-[48px] ${neomorphicStyles.shadow} ${neomorphicStyles.hoverShadow} ${neomorphicStyles.activeShadow} ${neomorphicStyles.transition}` 
-      : isDark 
-      ? 'bg-zinc-900 border-zinc-800 shadow-[inset_-15px_-15px_30px_rgba(255,255,255,0.05),inset_15px_15px_30px_rgba(0,0,0,0.3)]' 
-      : 'bg-white border-slate-200 shadow-[inset_-15px_-15px_30px_rgba(255,255,255,0.8),inset_15px_15px_30px_rgba(0,0,0,0.1)]';
+
+  // 统一卡片背景样式，与作战中心保持一致
+  const cardBg = isDark 
+    ? 'bg-zinc-900 shadow-lg'
+    : isNeomorphic 
+    ? `${neomorphicStyles.bg} rounded-[48px] ${neomorphicStyles.shadow} ${neomorphicStyles.hoverShadow} ${neomorphicStyles.activeShadow} ${neomorphicStyles.transition}` 
+    : 'bg-white shadow-sm';
   const textMain = isDark ? 'text-zinc-200' : isNeomorphic ? 'text-zinc-700' : 'text-slate-800';
   const textSub = isDark ? 'text-zinc-500' : isNeomorphic ? 'text-zinc-600' : 'text-slate-500';
   
@@ -195,10 +195,10 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
   };
 
   return (
-    <div className={`h-full flex flex-col overflow-hidden`}>
+    <div className={`h-full flex flex-col overflow-hidden ${isDark ? 'bg-zinc-950' : isNeomorphic ? 'bg-[#e0e5ec]' : 'bg-slate-50'}`}>
       {/* Scrollable Content */}
-      <div className="flex-1 overflow-y-auto p-2 custom-scrollbar">
-        <div className="w-full space-y-3">
+      <div className="flex-1 overflow-y-auto custom-scrollbar">
+        <div className="space-y-3 px-2 md:px-4 lg:px-6 max-w-5xl mx-auto">
           {/* 统一的帮助指南卡片 */}
           <GlobalGuideCard
             activeHelp={activeHelp}
@@ -291,7 +291,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
               {settings.enableSoundEffects && (
                 <div className="mt-3">
                   <h4 className={`font-bold text-xs ${textMain} mb-2`}>按位置分类音效</h4>
-                  <div className={`rounded-xl p-2 max-h-[250px] overflow-y-auto ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-900/50' : 'bg-slate-50'}`}>
+                  <div className={`rounded-xl p-2 h-[250px] overflow-y-auto ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-900/50' : 'bg-slate-50'}`}>
                     <h5 className={`text-[9px] font-mono uppercase mb-2 ${textSub}`}>位置列表</h5>
                     <div className="space-y-2">
                       {[
@@ -423,7 +423,6 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                   <p className={`text-xs ${textSub}`}>控制界面显示</p>
                 </div>
               </div>
-              </div>
               <div className="flex items-center gap-2">
                 <HelpTooltip helpId="display" onHelpClick={setActiveHelp}>
                   <HelpCircle size={18} className="text-zinc-500 hover:text-white transition-colors" />
@@ -442,7 +441,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
             </div>
             {/* Conditionally render display settings based on collapse state */}
             {showDisplaySettings && (
-              <div className={`rounded-xl p-3 max-h-[250px] overflow-y-auto ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-900/50' : 'bg-slate-50'}`}>
+              <div className={`rounded-xl p-3 h-[250px] overflow-y-auto ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-900/50' : 'bg-slate-50'}`}>
                 <h5 className={`text-[9px] font-mono uppercase mb-2 ${textSub}`}>显示选项</h5>
                 <div className="space-y-3">
                   <div className={`flex justify-between items-center p-2 rounded-xl transition-all cursor-pointer ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-900/30 hover:bg-zinc-800/50' : 'bg-white/50 hover:bg-slate-100'}`}>
@@ -917,10 +916,11 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                 </div>
               </div>
             )}
+          </div>
         </div>
       </div>
     </div>
   );
-};
+}
 
 export default Settings;

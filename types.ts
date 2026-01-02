@@ -47,23 +47,22 @@ export type Theme = 'dark' | 'light' | 'neomorphic';
 /**
  * 属性类型枚举
  */
-export const AttributeType = {
+export enum AttributeType {
   /** 力量 */
-  STRENGTH: 'STR',
+  STRENGTH = 'STR',
   /** 智力 */
-  INTELLIGENCE: 'INT',
+  INTELLIGENCE = 'INT',
   /** 自律 */
-  DISCIPLINE: 'DIS',
+  DISCIPLINE = 'DIS',
   /** 创造力 */
-  CREATIVITY: 'CRE',
+  CREATIVITY = 'CRE',
   /** 社交能力 */
-  SOCIABILITY: 'SOC',
+  SOCIABILITY = 'SOC',
   /** 财富 */
-  WEALTH: 'WEA',
-} as const;
+  WEALTH = 'WEA',
+}
 
-export type AttributeType = typeof AttributeType;
-export type AttributeTypeValue = typeof AttributeType[keyof typeof AttributeType];
+export type AttributeTypeValue = 'STR' | 'INT' | 'DIS' | 'CRE' | 'SOC' | 'WEA';
 
 /**
  * 成就物品接口
