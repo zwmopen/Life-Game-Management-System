@@ -51,9 +51,11 @@ const MantraModule: React.FC<MantraModuleProps> = ({
       
       {/* 帮助按钮 */}
       {onHelpClick && (
-        <button onClick={() => onHelpClick('mantra')} className={`p-0.5 rounded-full transition-all duration-300 hover:scale-[1.1] ${isNeomorphic ? 'hover:bg-blue-500/10' : 'hover:bg-blue-500/20'}`} title="查看心法模块指南">
-          <HelpCircle size={10} className="text-blue-500" />
-        </button>
+        <div className={`p-0.5 rounded-full transition-all duration-300 hover:scale-[1.1] ${isNeomorphic ? 'hover:bg-blue-500/10' : 'hover:bg-blue-500/20'}`} title="查看心法模块指南">
+          <button onClick={() => onHelpClick('mantra')} className="transition-colors">
+            <HelpCircle size={16} className="text-zinc-500 hover:text-white transition-colors" />
+          </button>
+        </div>
       )}
     </div>
   );

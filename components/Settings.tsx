@@ -931,6 +931,22 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
           </div>
         </div>
       </div>
+      
+      {/* Global Guide Card - 使用统一的帮助系统组件 */}
+      <GlobalGuideCard
+        activeHelp={activeHelp}
+        helpContent={helpContent}
+        onClose={() => setActiveHelp(null)}
+        cardBg={cardBg}
+        textMain={textMain}
+        textSub={textSub}
+        config={settings.guideCardConfig || {
+          fontSize: 'medium',
+          borderRadius: 'medium',
+          shadowIntensity: 'medium',
+          showUnderlyingPrinciple: true
+        }}
+      />
     </div>
   );
 }

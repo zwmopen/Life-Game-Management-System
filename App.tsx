@@ -7,6 +7,7 @@ import Settings from './components/Settings';
 import ThinkingCenter from './components/ThinkingCenter';
 import { View, Transaction, ReviewLog, Habit, Task, TaskType, DailyStats, Theme, Project, AttributeType, AttributeTypeValue, AchievementItem, AutoTask, AutoTaskType, SoundType, DiceState, DiceTask, DiceCategory, DiceHistory } from './types';
 import { Wallet, Crown, Clock, Brain, Zap, Target, Crosshair, Skull, Star, Gift, Medal, Sparkles, Swords, Flame, Footprints, Calendar, ShoppingBag, Dumbbell, Shield } from 'lucide-react';
+import { GlobalGuideCard, helpContent } from './components/HelpSystem';
 import CharacterProfile, { getAllLevels, getAllFocusTitles, getAllWealthTitles, getAllMilitaryRanks, XP_PER_LEVEL, CharacterProfileHandle } from './components/CharacterProfile';
 import confetti from 'canvas-confetti';
 
@@ -409,6 +410,8 @@ const App: React.FC = () => {
   }, [todayStats, day, isDataLoaded]);
 
   const [floatingTexts, setFloatingTexts] = useState<{id: number, text: string, x: number, y: number, color: string}[]>([]);
+  // 帮助系统状态
+  const [activeHelp, setActiveHelp] = useState<string | null>(null);
 
   // 处理角色等级变化
   const handleLevelChange = (newLevel: number, type: 'level' | 'focus' | 'wealth') => {
@@ -1239,6 +1242,8 @@ const App: React.FC = () => {
                   onUpdateDiceTask={updateDiceTask}
                   onUpdateDiceConfig={updateDiceConfig}
                   onUpdateDiceState={updateDiceState}
+                  // 帮助系统
+                  onHelpClick={setActiveHelp}
                />;
       case View.HALL_OF_FAME:
         return <HallOfFame 
@@ -1265,6 +1270,8 @@ const App: React.FC = () => {
                   onChangeDuration={changeDuration}
                   onUpdateTimeLeft={updateTimeLeft}
                   onUpdateIsActive={updateIsActive}
+                  // 帮助系统
+                  onHelpClick={setActiveHelp}
                />;
       case View.DATA_CHARTS:
         return <MissionControl 
@@ -1355,6 +1362,22 @@ const App: React.FC = () => {
               {ft.text}
           </div>
       ))}
+      
+      {/* 全局帮助指南卡片 */}
+      <GlobalGuideCard
+        activeHelp={activeHelp}
+        helpContent={helpContent}
+        onClose={() => setActiveHelp(null)}
+        cardBg={theme === 'dark' ? 'bg-zinc-900 shadow-lg' : theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[8px_8px_16px_rgba(0,0,0,0.4),-8px_-8px_16px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)]'}
+        textMain={theme === 'dark' ? 'text-zinc-200' : 'text-zinc-800'}
+        textSub={theme === 'dark' ? 'text-zinc-500' : 'text-zinc-600'}
+        config={settings.guideCardConfig || {
+          fontSize: 'medium',
+          borderRadius: 'medium',
+          shadowIntensity: 'medium',
+          showUnderlyingPrinciple: true
+        }}
+      />
     </div>
   );
 };

@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Theme, Project, Habit } from '@/types';
 import { HelpCircle, Search } from 'lucide-react';
-import GlobalGuideCard from './HelpSystem/HelpModal';
-import { helpContent } from './HelpSystem/HelpContent';
+import { GlobalGuideCard, HelpTooltip, helpContent } from './HelpSystem';
 import FateDice from './FateDice';
 
 interface MissionControlProps {

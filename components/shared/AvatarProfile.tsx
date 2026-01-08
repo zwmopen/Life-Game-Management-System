@@ -150,9 +150,11 @@ const AvatarProfile: React.FC<AvatarProfileProps> = ({
           <Star size={12}/> 角色系统
         </div>
         {onHelpClick && (
-          <button onClick={() => onHelpClick('character')} className={`p-0.5 rounded-full transition-all duration-300 hover:scale-[1.1] ${isNeomorphic ? 'hover:bg-blue-500/10' : 'hover:bg-blue-500/20'}`}>
-            <HelpCircle size={10} className="text-blue-500" />
-          </button>
+          <div className={`p-0.5 rounded-full transition-all duration-300 hover:scale-[1.1] ${isNeomorphic ? 'hover:bg-blue-500/10' : 'hover:bg-blue-500/20'}`}>
+            <button onClick={() => onHelpClick('character')} className="transition-colors">
+              <HelpCircle size={16} className="text-zinc-500 hover:text-white transition-colors" />
+            </button>
+          </div>
         )}
       </div>
       

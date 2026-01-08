@@ -70,7 +70,7 @@ const GlobalGuideCard: React.FC<GlobalGuideCardProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-[100] bg-black/80 flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in">
+    <div className="fixed inset-0 z-[9999] bg-black/30 flex items-center justify-center p-4 animate-in fade-in">
       <div className={`w-full max-w-md p-6 ${getBorderRadiusClass()} ${cardBg} ${getShadowClass()} relative`}>
         <button 
           onClick={onClose} 
@@ -96,8 +96,6 @@ const GlobalGuideCard: React.FC<GlobalGuideCardProps> = ({
               {content.productIntro}
             </div>
           </div>
-          
-
           
           {/* 核心规则 */}
           <div className="space-y-2">
