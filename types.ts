@@ -34,6 +34,7 @@ export enum View {
   HALL_OF_FAME = 'HALL_OF_FAME',     // 荣誉殿堂 (New)
   PROJECT_MANUAL = 'PROJECT_MANUAL', // 项目开发书 (New)
   SETTINGS = 'SETTINGS',             // 设置中心 (New)
+  THINKING_CENTER = 'THINKING_CENTER', // 思维中心 (New)
 }
 
 /**
@@ -42,7 +43,21 @@ export enum View {
  * - light: 浅色主题
  * - neomorphic: 拟态风格主题
  */
-export type Theme = 'dark' | 'light' | 'neomorphic';
+export type Theme = 'light' | 'dark' | 'neomorphic-light' | 'neomorphic-dark';
+
+/**
+ * 主题类型分组
+ */
+export const ThemeGroups = {
+  /** 普通主题 */
+  NORMAL: ['light', 'dark'] as Theme[],
+  /** 拟态主题 */
+  NEOMORPHIC: ['neomorphic-light', 'neomorphic-dark'] as Theme[],
+  /** 浅色主题 */
+  LIGHT: ['light', 'neomorphic-light'] as Theme[],
+  /** 深色主题 */
+  DARK: ['dark', 'neomorphic-dark'] as Theme[]
+};
 
 /**
  * 属性类型枚举

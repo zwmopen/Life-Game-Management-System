@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>梅特卡夫定律 - 连接的价值</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background: #020617; font-family: -apple-system, sans-serif; color: #f8fafc; }
+    .glass { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); }
+    @keyframes line-flow { 0% { stroke-dashoffset: 40; } 100% { stroke-dashoffset: 0; } }
+    .conn { stroke-dasharray: 4 4; animation: line-flow 1s linear infinite; }
+    .node { transition: all 0.3s; cursor: pointer; }
+    .node:hover { fill: #3b82f6; filter: drop-shadow(0 0 10px #3b82f6); }
+  </style>
+</head>
+<body class="p-8 md:p-20 flex items-center justify-center min-h-screen">
+  <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+    <!-- SVG 可视化 -->
+    <div class="relative flex items-center justify-center glass p-12 rounded-[4rem] shadow-2xl overflow-hidden">
+      <svg viewBox="0 0 600 600" class="w-full h-auto max-w-[500px]">
+        <!-- 网络连接 (所有节点互连) -->
+        <g stroke="rgba(59, 130, 246, 0.2)" stroke-width="1" class="conn">
+           <line x1="100" y1="100" x2="500" y2="100" /><line x1="100" y1="100" x2="100" y2="500" />
+           <line x1="500" y1="500" x2="500" y2="100" /><line x1="500" y1="500" x2="100" y2="500" />
+           <line x1="100" y1="100" x2="500" y2="500" /><line x1="100" y1="500" x2="500" y2="100" />
+           <line x1="300" y1="300" x2="100" y2="100" /><line x1="300" y1="300" x2="500" y2="100" />
+           <line x1="300" y1="300" x2="100" y2="500" /><line x1="300" y1="300" x2="500" y2="500" />
+        </g>
+        
+        <!-- 节点 -->
+        <circle cx="100" cy="100" r="15" fill="#1e293b" stroke="#3b82f6" stroke-width="2" class="node" />
+        <circle cx="500" cy="100" r="15" fill="#1e293b" stroke="#3b82f6" stroke-width="2" class="node" />
+        <circle cx="100" cy="500" r="15" fill="#1e293b" stroke="#3b82f6" stroke-width="2" class="node" />
+        <circle cx="500" cy="500" r="15" fill="#1e293b" stroke="#3b82f6" stroke-width="2" class="node" />
+        <circle cx="300" cy="300" r="25" fill="#3b82f6" class="node shadow-lg shadow-blue-500/50" />
+
+        <text x="300" y="580" text-anchor="middle" fill="#475569" class="text-[8px] font-black uppercase tracking-[1em]">V = N²</text>
+      </svg>
+    </div>
+
+    <!-- 文案内容区 -->
+    <div class="space-y-12">
+      <h1 class="text-8xl font-black text-white tracking-tighter leading-[0.8]">梅特卡夫<br><span class="text-blue-500 italic">Metcalfe's Law</span></h1>
+      <p class="text-xl text-slate-400 border-l-4 border-blue-500 pl-6 leading-relaxed italic">
+        “一个网络的价值与联网用户数的平方成正比。”
+      </p>
+
+      <div class="glass p-10 rounded-[3rem] space-y-6">
+        <h3 class="text-2xl font-black text-white italic">核心隐喻：神经网络</h3>
+        <p class="text-sm text-slate-400 leading-relaxed">
+          只有一部电话时，它是废物；有两部时，产生一条连线；当有1亿部时，网络变成了主宰地球的力量。价值不在于节点本身，而在于节点之间**连接的数量**。这就是互联网、社交平台和加密货币爆发性增长的底层驱动力。
+        </p>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="bg-blue-600/10 p-5 rounded-3xl border border-blue-500/20">
+             <h4 class="text-blue-400 font-black text-[10px] uppercase mb-1">关键要素</h4>
+             <p class="text-[11px] text-slate-300">节点是基础，连接是乘数，网络是核心。</p>
+          </div>
+          <div class="bg-white/5 p-5 rounded-3xl border border-white/5">
+             <h4 class="text-slate-500 font-black text-[10px] uppercase mb-1">临界点</h4>
+             <p class="text-[11px] text-slate-400">一旦连接数超过平衡点，网络将不可阻挡。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

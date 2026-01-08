@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>羊群效应 - 盲从的代价</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 800 600">
+      <!-- 领头羊 (虚假的先驱) -->
+      <g transform="translate(100, 300)">
+        <path d="M0,-30 L100,50 L0,130" fill="none" stroke="#ef4444" stroke-width="4" stroke-dasharray="10 5" opacity="0.3" />
+        <circle r="30" fill="#ef4444" />
+        <text y="50" text-anchor="middle" fill="#ef4444" style="font-size: 12px; font-weight: 900;">LEADER</text>
+      </g>
+      
+      <!-- 跟随者序列 -->
+      <g>
+        <circle cx="200" cy="320" r="15" fill="var(--heading)" opacity="0.8" />
+        <circle cx="280" cy="350" r="15" fill="var(--heading)" opacity="0.6" />
+        <circle cx="360" cy="380" r="15" fill="var(--heading)" opacity="0.4" />
+        <circle cx="440" cy="410" r="15" fill="var(--heading)" opacity="0.2" />
+        <text x="320" y="450" text-anchor="middle" fill="var(--text)" style="font-size: 10px; font-weight: 900;">THE CROWD</text>
+      </g>
+
+      <!-- 终点陷阱 -->
+      <g transform="translate(700, 500)">
+        <rect x="-100" y="-20" width="200" height="20" fill="#1e293b" />
+        <text y="30" text-anchor="middle" fill="#ef4444" style="font-size: 14px; font-weight: 900;">ABYSS (深渊)</text>
+        <path d="M0,0 L0,-100" stroke="#ef4444" stroke-width="2" stroke-dasharray="5 5" class="animate-pulse" />
+      </g>
+
+      <text x="400" y="50" text-anchor="middle" fill="var(--text)" opacity="0.3" style="font-size: 10px; font-weight: 900; letter-spacing: 0.5em;">HERD MENTALITY: FOLLOWING TO EXTINCTION</text>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>羊群效应</h1>
+    <p>个体的行为受到群体的影响，从而丧失独立判断，盲目跟随。即使领头的那只羊跳下了悬崖，后面的羊也会不假思索地跟着跳下去。</p>
+    <div class="grid">
+      <div>
+        <h3>现象根源</h3>
+        <ul>
+          <li><strong>认知节能</strong>：跟随大多数人是最省力的生存策略。</li>
+          <li><strong>社交压力</strong>：异于常人往往意味着被孤立，这在生物本能中被视为致命风险。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>破局之道</h3>
+        <ul>
+          <li><strong>独立校准</strong>：在行动前，强制自己思考：如果没有别人的干扰，我会如何选择？</li>
+          <li><strong>第一性原理</strong>：回归到事实本身，而不是观察他人的反应。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

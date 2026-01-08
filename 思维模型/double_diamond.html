@@ -1,0 +1,54 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>双钻石模型</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 600">
+      <!-- 钻石 1: 发现/定义 -->
+      <g transform="translate(250, 300)">
+        <polygon points="-200,0 0,-150 200,0 0,150" fill="var(--accent)" fill-opacity="0.1" stroke="var(--accent)" stroke-width="4" />
+        <text text-anchor="middle" y="5" fill="var(--accent)" style="font-size: 32px; font-weight: 900; letter-spacing: 0.1em;">发现与定义</text>
+        <path d="M-200,0 L-50,-110 M200,0 L50,110" stroke="#ef4444" stroke-width="2" stroke-dasharray="5 5" opacity="0.3" />
+        <text y="-180" text-anchor="middle" fill="var(--text)" style="font-size: 16px; font-weight: 900; opacity: 0.4;">(做正确的事)</text>
+      </g>
+      
+      <!-- 钻石 2: 开发/交付 -->
+      <g transform="translate(720, 300)">
+        <polygon points="-200,0 0,-150 200,0 0,150" fill="var(--accent)" fill-opacity="0.3" stroke="var(--accent)" stroke-width="4">
+           <animate attributeName="fill-opacity" values="0.1;0.4;0.1" dur="4s" repeatCount="indefinite" />
+        </polygon>
+        <text text-anchor="middle" y="5" fill="white" style="font-size: 32px; font-weight: 900; letter-spacing: 0.1em;">开发与交付</text>
+        <text y="-180" text-anchor="middle" fill="var(--text)" style="font-size: 16px; font-weight: 900; opacity: 0.4;">(正确的做事)</text>
+      </g>
+
+      <path d="M450,300 L520,300" stroke="var(--heading)" stroke-width="4" stroke-dasharray="8 8" opacity="0.2" />
+      <text x="500" y="520" text-anchor="middle" fill="var(--text)" style="font-size: 24px; font-weight: 900; letter-spacing: 0.2em; opacity: 0.2;">设计思维的终极路线图</text>
+    </svg>
+  </div>
+
+  <div class="text-content">
+    <h1>双钻石模型</h1>
+    <p>设计思维的黄金标准。通过“发散-收敛”的两次循环，确保我们不仅解决了正确的问题，还用最优的方式解决了它。</p>
+    <div class="grid">
+      <div>
+        <h3>第一阶段：问题发现</h3>
+        <ul>
+          <li><strong>发散：</strong>深度调研用户真实需求，不带预设地收集海量信息。</li>
+          <li><strong>收敛：</strong>过滤噪音，聚焦痛点，定义出清晰的设计挑战。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>第二阶段：方案实现</h3>
+        <ul>
+          <li><strong>发散：</strong>脑力激荡，快速制作低保真原型进行灰度测试。</li>
+          <li><strong>收敛：</strong>精益求精，进行工程化实现，输出最终的可交付成果。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

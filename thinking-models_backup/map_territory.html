@@ -1,0 +1,54 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>地图不等于疆域</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <!-- 复杂的疆域 (有机、不规则) -->
+      <g transform="translate(300, 325)">
+        <path d="M-200,-150 Q-100,-250 50,-180 T250,-50 T150,150 T-50,250 T-250,50 Z" fill="var(--accent)" fill-opacity="0.05" stroke="var(--accent)" stroke-width="2" />
+        <path d="M-150,-100 L-100,-120 M100,50 L120,80" stroke="var(--accent)" stroke-width="1" opacity="0.3" />
+        <text y="0" text-anchor="middle" fill="var(--accent)" style="font-size: 42px; font-weight: 900; opacity: 0.4;">疆域 (REALITY)</text>
+      </g>
+      
+      <!-- 简化的地图 (规则、抽象) -->
+      <g transform="translate(750, 325)">
+        <rect x="-120" y="-120" width="240" height="240" rx="20" fill="var(--accent)" fill-opacity="0.1" stroke="var(--accent)" stroke-width="4" />
+        <line x1="-120" y1="0" x2="120" y2="0" stroke="var(--accent)" stroke-width="1" />
+        <line x1="0" y1="-120" x2="0" y2="120" stroke="var(--accent)" stroke-width="1" />
+        <text y="160" text-anchor="middle" fill="var(--accent)" style="font-size: 32px; font-weight: 900;">地图 (MODEL)</text>
+        <text y="190" text-anchor="middle" fill="var(--text)" opacity="0.5" style="font-size: 14px;">(模型只是简化的投影)</text>
+      </g>
+
+      <path d="M500,325 L600,325" stroke="var(--heading)" stroke-width="4" stroke-dasharray="10 10" opacity="0.2" marker-end="url(#blackArrow)" />
+      <defs>
+        <marker id="blackArrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="var(--heading)"/></marker>
+      </defs>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>地图不等于疆域 (The Map is Not the Territory)</h1>
+    <p>由科日布斯基提出。我们的认知、模型和语言仅仅是对现实世界的“简化地图”。不要把地图当成真实的疆域，否则你会在迷雾中撞上南墙。</p>
+    <div class="grid">
+      <div>
+        <h3>认知的代价</h3>
+        <ul>
+          <li><strong>简化的幻觉：</strong>为了方便处理，大脑会自动舍弃 90% 的现实细节。模型越优美，往往离粗糙的真相越远。</li>
+          <li><strong>更新滞后：</strong>世界是动态流动的，而地图（观念）往往是静态死板的。必须根据真实的反馈不断重绘地图。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>操作指南</h3>
+        <ul>
+          <li><strong>时刻保持怀疑：</strong>当现实表现与你的理论不符时，错的一定是你的理论（地图），而不是现实。</li>
+          <li><strong>多元图层：</strong>不要只依赖一张地图。交叉验证不同的思维模型，通过多个维度的投影逼近疆域的真貌。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

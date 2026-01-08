@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>技能复利</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #e0e5ec;
+            font-family: 'Microsoft YaHei', sans-serif;
+            color: #2d3748;
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        /* 上图下文模式：上半部分50vh */
+        .svg-container {
+            height: 50vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 8px 8px 16px rgba(163, 177, 198, 0.2), -8px -8px 16px rgba(255, 255, 255, 0.8);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .svg-container svg {
+            width: 100%;
+            height: 100%;
+            viewBox: 0 0 1000 600;
+        }
+        /* 深度解析区 */
+        .analysis-container {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 8px 8px 16px rgba(163, 177, 198, 0.2), -8px -8px 16px rgba(255, 255, 255, 0.8);
+            padding: 30px;
+        }
+        .analysis-container h1 {
+            font-size: 4.5rem;
+            font-weight: 900;
+            letter-spacing: -2px;
+            color: #2d3748;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        .analysis-section {
+            background-color: #f7fafc;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .analysis-section h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+        .analysis-section h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        .analysis-section p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #4a5568;
+            margin-bottom: 10px;
+        }
+        .analysis-section ul {
+            list-style: none;
+            padding: 0;
+        }
+        .analysis-section li {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #4a5568;
+            margin-bottom: 8px;
+        }
+        .analysis-section strong {
+            color: #2d3748;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 上半部分：SVG物理动效展示区 -->
+        <div class="svg-container">
+            <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 传统的单项冠军 (极窄、极高) -->
+        <g transform="translate(-300, 150)">
+          <rect x="-10" y="-400" width="20" height="400" fill="#94a3b8" opacity="0.3" />
+          <text y="30" text-anchor="middle" fill="#94a3b8" style="font-size: 14px;">单一领域世界第一 (0.01%)</text>
+          <text y="55" text-anchor="middle" fill="#ef4444" style="font-size: 18px; font-weight: 900;">成功率: 极难</text>
+        </g>
+        
+        <!-- 技能堆叠 (多块互补) -->
+        <g transform="translate(150, 150)">
+          <rect x="-80" y="-80" width="160" height="80" rx="10" fill="var(--accent)" fill-opacity="0.4" />
+          <text x="0" y="-35" text-anchor="middle" fill="white" style="font-size: 16px; font-weight: 900;">写作 (前25%)</text>
+          
+          <rect x="-80" y="-170" width="160" height="80" rx="10" fill="var(--accent)" fill-opacity="0.7" />
+          <text x="0" y="-125" text-anchor="middle" fill="white" style="font-size: 16px; font-weight: 900;">理财/数学 (前25%)</text>
+
+          <rect x="-80" y="-260" width="160" height="80" rx="10" fill="var(--accent)" />
+          <text x="0" y="-215" text-anchor="middle" fill="white" style="font-size: 16px; font-weight: 900;">视频剪辑 (前25%)</text>
+
+          <!-- 堆叠产生的超级能力 -->
+          <circle cx="0" cy="-350" r="50" fill="#fbbf24" filter="drop-shadow(0 0 30px #fbbf24)" class="animate-pulse" />
+          <text y="-420" text-anchor="middle" fill="#fbbf24" style="font-size: 32px; font-weight: 900;">全网稀缺竞争力</text>
+          <text y="30" text-anchor="middle" fill="var(--accent)" style="font-size: 18px; font-weight: 900;">技能堆叠 (0.25³ ≈ 1%)</text>
+        </g>
+
+        <path d="M-150,0 L0,0" stroke="var(--heading)" stroke-width="2" stroke-dasharray="5 5" opacity="0.1" />
+      </g>
+    </svg>
+        </div>
+        
+        <!-- 下半部分：深度解析区 -->
+        <div class="analysis-container">
+            <h1>技能复利</h1>
+            
+            <div class="analysis-grid">
+                text
+            </div>
+        </div>
+    </div>
+</body>
+</html>

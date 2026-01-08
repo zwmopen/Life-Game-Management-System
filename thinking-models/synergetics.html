@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>协同论</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 无数混乱的子系统 (背景小点) -->
+        <g fill="#94a3b8" opacity="0.2">
+          <circle cx="-300" cy="-100" r="10" /><circle cx="200" cy="150" r="12" />
+          <circle cx="-150" cy="220" r="8" /><circle cx="350" cy="-80" r="15" />
+          <animateTransform attributeName="transform" type="translate" values="0,0; 10,10; 0,0" dur="0.1s" repeatCount="indefinite" />
+        </g>
+        
+        <!-- 序参量 (引导者 - 巨大引力球) -->
+        <g>
+          <circle r="120" fill="var(--accent)" fill-opacity="0.1" stroke="var(--accent)" stroke-width="4" stroke-dasharray="15 10" />
+          <circle r="50" fill="var(--accent)" filter="drop-shadow(0 0 40px var(--accent))" />
+          <text text-anchor="middle" y="5" fill="white" style="font-size: 24px; font-weight: 900;">序参量</text>
+        </g>
+
+        <!-- 被奴役的子系统 (强制对齐) -->
+        <g stroke="var(--accent)" stroke-width="2" opacity="0.6">
+           <line x1="0" y1="0" x2="-200" y2="-200" marker-end="url(#blueArrow)" />
+           <line x1="0" y1="0" x2="200" y2="200" marker-end="url(#blueArrow)" />
+           <line x1="0" y1="0" x2="-200" y2="200" marker-end="url(#blueArrow)" />
+           <line x1="0" y1="0" x2="200" y2="-200" marker-end="url(#blueArrow)" />
+        </g>
+
+        <text y="280" text-anchor="middle" fill="var(--accent)" style="font-size: 32px; font-weight: 900; letter-spacing: 0.2em;">奴役原理：少数决定多数</text>
+      </g>
+      <defs>
+        <marker id="blueArrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="var(--accent)"/></marker>
+      </defs>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>协同论 (Synergetics)</h1>
+    <p>赫尔曼·哈肯提出。复杂系统由无数子系统构成。在临界点，系统内部各要素会发生竞争，最终胜出的极少数变量被称为“序参量”。序参量通过“奴役原理”主宰所有子系统的行为，将系统引向有序。</p>
+    <div class="grid">
+      <div>
+        <h3>奴役原理</h3>
+        <ul>
+          <li><strong>化繁为简：</strong>理解一个万人的大公司，不需要研究每个员工。只需识别出那个主导一切的“序参量”（如：股价压力、或某种企业文化基因）。</li>
+          <li><strong>慢变量统治快变量：</strong>寿命更长、演化更慢的变量往往具有更高的统治位能。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>战略杠杆</h3>
+        <ul>
+          <li><strong>寻找支点：</strong>不要试图微调每一个子环节。寻找那个一旦改变就能强行对齐所有部门的“核心序参量”（如：KPI 的根本性调整）。</li>
+          <li><strong>共鸣场：</strong>顶级领袖的价值是制造一个足够强的“序参量场”，让散沙般的组织自发产生激光般的高相干性。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

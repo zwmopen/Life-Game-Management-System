@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>兰道尔界限</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 能量底座 -->
+        <rect x="-400" y="200" width="800" height="20" fill="var(--heading)" opacity="0.1" />
+        
+        <!-- 比特抹除器 -->
+        <g>
+          <rect x="-120" y="-120" width="240" height="240" rx="40" fill="var(--accent)" fill-opacity="0.1" stroke="var(--accent)" stroke-width="4" />
+          <path d="M-60,-60 L60,60 M60,-60 L-60,60" stroke="#ef4444" stroke-width="12" stroke-linecap="round" />
+          <text y="160" text-anchor="middle" fill="#ef4444" style="font-size: 24px; font-weight: 900;">RESET TO ZERO</text>
+        </g>
+
+        <!-- 喷发的热能 -->
+        <g transform="translate(300, 0)">
+          <path d="M-40,40 Q0,-150 40,40 Z" fill="#f59e0b">
+             <animate attributeName="d" values="M-40,40 Q0,-80 40,40 Z; M-50,40 Q0,-200 50,40 Z; M-40,40 Q0,-80 40,40 Z" dur="1s" repeatCount="indefinite" />
+          </path>
+          <text y="80" text-anchor="middle" fill="#f59e0b" style="font-size: 28px; font-weight: 900;">kT ln 2</text>
+        </g>
+
+        <text y="-250" text-anchor="middle" fill="var(--accent)" style="font-size: 42px; font-weight: 900; letter-spacing: 0.1em;">遗忘是有物理代价的</text>
+      </g>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>兰道尔界限 (Landauer's Limit)</h1>
+    <p>热力学与信息论的终极交汇：抹除 1 比特的信息所产生的最低热量是 kT ln 2。这定义了计算的物理成本，也揭示了宇宙拒绝“无损遗忘”的残酷真相。</p>
+    <div class="grid">
+      <div>
+        <h3>思考的热力学</h3>
+        <ul>
+          <li><strong>认知的能耗：</strong>推翻一个旧的认知模式，比建立一个新的更累。因为你需要先物理性地“抹除”旧的连接。</li>
+          <li><strong>可逆性溢价：</strong>不丢失历史信息的“可逆计算”可以绕过这个极限。保持思想的连贯性是节省心智带宽的最高级算法。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>管理启示</h3>
+        <ul>
+          <li><strong>架构的稳定性：</strong>频繁改变战略不仅是方向问题，更会在组织内部产生巨大的“摩擦热量”，导致执行力在无休止的重置中耗尽。</li>
+          <li><strong>知识的守恒：</strong>信息的产生是有序的累积，信息的销毁是物理的折损。慎重对待每一次“推倒重来”。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>汉隆剃刀   剔除恶意</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #e0e5ec;
+            font-family: 'Microsoft YaHei', sans-serif;
+            color: #2d3748;
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        /* 上图下文模式：上半部分50vh */
+        .svg-container {
+            height: 50vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 8px 8px 16px rgba(163, 177, 198, 0.2), -8px -8px 16px rgba(255, 255, 255, 0.8);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .svg-container svg {
+            width: 100%;
+            height: 100%;
+            viewBox: 0 0 1000 600;
+        }
+        /* 深度解析区 */
+        .analysis-container {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 8px 8px 16px rgba(163, 177, 198, 0.2), -8px -8px 16px rgba(255, 255, 255, 0.8);
+            padding: 30px;
+        }
+        .analysis-container h1 {
+            font-size: 4.5rem;
+            font-weight: 900;
+            letter-spacing: -2px;
+            color: #2d3748;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        .analysis-section {
+            background-color: #f7fafc;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .analysis-section h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+        .analysis-section h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        .analysis-section p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #4a5568;
+            margin-bottom: 10px;
+        }
+        .analysis-section ul {
+            list-style: none;
+            padding: 0;
+        }
+        .analysis-section li {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #4a5568;
+            margin-bottom: 8px;
+        }
+        .analysis-section strong {
+            color: #2d3748;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 上半部分：SVG物理动效展示区 -->
+        <div class="svg-container">
+            <svg viewBox="0 0 600 600" class="w-full h-auto max-w-[500px]">
+        <!-- 顶端：冲突事件 (暗色) -->
+        <path d="M100,100 Q300,50 500,100 L500,150 L100,150 Z" fill="#475569" class="animate-pulse" />
+        <text x="300" y="130" text-anchor="middle" fill="white" class="font-black text-xs uppercase tracking-widest italic">Conflict / Mistake</text>
+
+        <!-- 剃刀/过滤器 -->
+        <rect x="50" y="250" width="500" height="20" rx="10" fill="#3b82f6" />
+        <text x="300" y="235" text-anchor="middle" fill="#3b82f6" class="font-black text-[8px] uppercase tracking-[0.5em]">The Rational Razor</text>
+
+        <!-- 过滤结果 A: 恶意 (被挡住) -->
+        <g opacity="0.2">
+          <path d="M150,270 L250,270 L200,350 Z" fill="#ef4444" />
+          <text x="200" y="380" text-anchor="middle" fill="#ef4444" class="text-[8px] font-black italic">MALICE (恶意)</text>
+        </g>
+
+        <!-- 过滤结果 B: 无知/愚蠢 (通过) -->
+        <g>
+          <path d="M350,270 L450,270 L400,550 Z" fill="#10b981" fill-opacity="0.6" />
+          <text x="400" y="580" text-anchor="middle" fill="#10b981" class="font-black text-xl italic tracking-widest">STUPIDITY</text>
+        </g>
+
+        <!-- 流动线条 -->
+        <line x1="300" y1="150" x2="300" y2="250" stroke="white" stroke-width="2" stroke-dasharray="10 5" />
+      </svg>
+        </div>
+        
+        <!-- 下半部分：深度解析区 -->
+        <div class="analysis-container">
+            <h1>汉隆剃刀   剔除恶意</h1>
+            
+            <div class="analysis-grid">
+                text
+            </div>
+        </div>
+    </div>
+</body>
+</html>

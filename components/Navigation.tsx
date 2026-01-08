@@ -21,7 +21,7 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
     { id: View.RPG_MISSION_CENTER, label: '作战中心（执行）', icon: Gamepad2 },
     { id: View.HALL_OF_FAME, label: '荣誉殿堂（成就）', icon: Medal },
     { id: View.BLACK_MARKET, label: '补给黑市（奖励）', icon: ShoppingBag },
-    { id: View.DATA_CHARTS, label: '图表汇总（洞察）', icon: BarChart2 },
+    { id: View.THINKING_CENTER, label: '思维中心（模型）', icon: Book },
     { id: View.SETTINGS, label: '设置中心（配置）', icon: Settings },
   ]);
 
@@ -47,12 +47,12 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
       setDraggedItem(index);
   };
 
-  const isDark = theme === 'dark';
-  const isNeomorphic = theme === 'neomorphic';
+  const isDark = theme === 'dark' || theme === 'neomorphic-dark';
+  const isNeomorphic = theme.startsWith('neomorphic');
   
   // 拟态风格样式 - 符合规格的高饱和度灰蓝色底色，135度光源，增强阴影效果
   const sidebarClass = isNeomorphic 
-      ? 'bg-[#e0e5ec] border-[#a3b1c6] rounded-r-[48px] shadow-[10px_10px_20px_rgba(163,177,198,0.6)] transition-all duration-300 overflow-hidden' 
+      ? `${theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] border-[#2a2a3e] shadow-[10px_10px_20px_rgba(0,0,0,0.4)]' : 'bg-[#e0e5ec] border-[#a3b1c6] shadow-[10px_10px_20px_rgba(163,177,198,0.6)]'} rounded-r-[48px] transition-all duration-300 overflow-hidden` 
       : isDark 
       ? 'bg-zinc-900 border-zinc-800 shadow-xl' 
       : 'bg-white border-slate-200 shadow-xl';
@@ -60,13 +60,17 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
   const textClass = isDark ? 'text-zinc-400' : isNeomorphic ? 'text-zinc-700' : 'text-slate-500';
   
   const activeClass = isNeomorphic 
-      ? 'bg-[#e0e5ec] text-zinc-700 border-[#a3b1c6] rounded-lg shadow-[inset_8px_8px_16px_rgba(163,177,198,0.6),inset_-8px_-8px_16px_rgba(255,255,255,1)] transform scale-98 transition-all duration-150' 
+      ? `${theme === 'neomorphic-dark' 
+        ? 'bg-[#1e1e2e] text-zinc-300 border-transparent shadow-[inset_8px_8px_16px_rgba(0,0,0,0.4),inset_-8px_-8px_16px_rgba(30,30,46,0.8)]' 
+        : 'bg-[#e0e5ec] text-zinc-700 border-transparent shadow-[inset_8px_8px_16px_rgba(163,177,198,0.6),inset_-8px_-8px_16px_rgba(255,255,255,1)]'} transform scale-98 transition-all duration-150 rounded-lg` 
       : isDark 
-      ? 'bg-emerald-900/20 text-emerald-400 border-emerald-900/50 rounded-lg' 
-      : 'bg-blue-50 text-blue-600 border-blue-200 rounded-lg';
+      ? 'bg-emerald-900/20 text-emerald-400 border-transparent rounded-lg' 
+      : 'bg-blue-50 text-blue-600 border-transparent rounded-lg';
   
   const hoverClass = isNeomorphic 
-      ? 'hover:text-zinc-800 hover:bg-[#e0e5ec] hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] transition-all duration-200 transform scale-102 rounded-lg' 
+      ? `${theme === 'neomorphic-dark' 
+        ? 'hover:text-zinc-300 hover:bg-[#1e1e2e] hover:shadow-[12px_12px_24px_rgba(0,0,0,0.5),-12px_-12px_24px_rgba(30,30,46,1)]' 
+        : 'hover:text-zinc-800 hover:bg-[#e0e5ec] hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)]'} transition-all duration-200 transform scale-102 rounded-lg` 
       : isDark 
       ? 'hover:text-zinc-100 hover:bg-zinc-900 rounded-lg' 
       : 'hover:text-slate-900 hover:bg-slate-50 rounded-lg';
@@ -121,7 +125,7 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
         fixed md:relative
         ${isNavHidden ? 'hidden' : ''}
       `}>
-          <div className={`p-6 ${isNeomorphic ? `bg-[#e0e5ec]` : ''} flex items-center justify-between ${isNavCollapsed ? 'hidden' : 'md:flex'}`}>
+          <div className={`p-6 ${isNeomorphic ? (theme === 'neomorphic-dark' ? `bg-[#1e1e2e]` : `bg-[#e0e5ec]`) : ''} flex items-center justify-between ${isNavCollapsed ? 'hidden' : 'md:flex'}`}>
             <h1 className={`text-xl font-bold tracking-tighter ${isDark ? 'text-emerald-500' : 'text-blue-600'}`}>
               人生游戏系统
             </h1>
@@ -164,7 +168,7 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
 
           {/* Entropy Monitor */}
           {!isNavCollapsed && (
-            <div className={`px-6 py-4 ${isNeomorphic ? 'bg-[#e0e5ec]' : isDark ? 'bg-zinc-900' : 'bg-white'} transition-all duration-300`}>
+            <div className={`px-6 py-4 ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e]' : 'bg-[#e0e5ec]') : isDark ? 'bg-zinc-900' : 'bg-white'} transition-all duration-300`}>
                 <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-1">
                         <span className={`text-[10px] font-bold uppercase tracking-widest flex items-center gap-1 ${entropyColor}`}>
@@ -181,7 +185,7 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
                     </div>
                     <span className={`text-xs font-mono font-bold ${entropyColor}`}>{100 - entropy}%</span>
                 </div>
-                <div className={`w-full h-1.5 rounded-full overflow-hidden flex ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-800' : 'bg-slate-200'}`}>
+                <div className={`w-full h-1.5 rounded-full overflow-hidden flex ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)]') : isDark ? 'bg-zinc-800' : 'bg-slate-200'}`}>
                     <div 
                         className={`h-full transition-all duration-1000 ${entropy > 50 ? 'bg-red-500 animate-pulse' : 'bg-emerald-500'}`} 
                         style={{ width: `${100 - entropy}%` }}
@@ -195,28 +199,41 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
             </div>
           )}
           
-          {/* 主题切换按钮 - 拟态风格 */}
+          {/* 主题切换按钮 - 四种主题支持 */}
           <div className={`${isNavCollapsed ? 'px-3 py-3' : 'p-6'} border-t ${isDark ? 'border-zinc-800' : 'border-slate-100'} flex ${isNavCollapsed ? 'justify-center' : 'justify-between'} items-center`}>
                <button 
                   onClick={() => {
                       setTheme(prev => {
-                          if (prev === 'dark') return 'light';
-                          if (prev === 'light') return 'neomorphic';
-                          return 'dark';
+                          // 按照指定顺序切换主题：拟态浅色 → 拟态深色 → 普通浅色 → 普通深色
+                          if (prev === 'neomorphic-light') return 'neomorphic-dark';
+                          if (prev === 'neomorphic-dark') return 'light';
+                          if (prev === 'light') return 'dark';
+                          return 'neomorphic-light';
                       });
                   }}
                   className={`flex items-center gap-2 text-xs font-bold px-3 py-1.5 rounded-full transition-all duration-300 
-                      ${theme === 'neomorphic' 
-                          ? 'bg-zinc-300 text-zinc-700 shadow-[inset_-3px_-3px_6px_rgba(255,255,255,0.7),inset_3px_3px_6px_rgba(0,0,0,0.1)]' 
+                      ${theme === 'neomorphic-light' 
+                          ? 'bg-[#e0e5ec] text-zinc-700 shadow-[inset_-3px_-3px_6px_rgba(255,255,255,0.7),inset_3px_3px_6px_rgba(0,0,0,0.1)]' 
+                          : theme === 'neomorphic-dark' 
+                          ? 'bg-[#1e1e2e] text-zinc-300 shadow-[inset_-3px_-3px_6px_rgba(30,30,46,0.7),inset_3px_3px_6px_rgba(0,0,0,0.3)]' 
                           : isDark 
                           ? 'bg-zinc-900 text-zinc-400 hover:text-white' 
                           : 'bg-slate-100 text-slate-500 hover:text-blue-600'}`}
-                  title={`切换到${theme === 'dark' ? '浅色' : theme === 'light' ? '拟态' : '深色'}主题`}
+                  title={`切换主题`}
                >
-                   {theme === 'dark' && <Moon size={12}/>}
-                   {theme === 'light' && <Sun size={12}/>}
-                   {theme === 'neomorphic' && <Activity size={12}/>}
-                   {!isNavCollapsed && (theme === 'dark' ? '深色' : theme === 'light' ? '浅色' : '拟态')}
+                   {/* 显示当前主题的图标 */}
+                   {theme.includes('dark') && <Moon size={12}/>}
+                   {theme.includes('light') && <Sun size={12}/>}
+                   {theme.startsWith('neomorphic') && <Activity size={12}/>}
+                   
+                   {/* 显示当前主题的文本 */}
+                   {!isNavCollapsed && (
+                     <span>
+                       {theme === 'neomorphic-light' ? '拟态浅色' : 
+                        theme === 'neomorphic-dark' ? '拟态深色' : 
+                        theme === 'light' ? '普通浅色' : '普通深色'}
+                     </span>
+                   )}
                </button>
               {!isNavCollapsed && (
                 <div className={`text-[10px] font-mono ${isDark ? 'text-zinc-600' : 'text-slate-400'}`}>V 4.5.0</div>

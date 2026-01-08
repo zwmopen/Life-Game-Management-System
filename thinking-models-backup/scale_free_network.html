@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>无标度网络</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 超级节点 (Hub) -->
+        <circle r="50" fill="var(--accent)" filter="drop-shadow(0 0 30px var(--accent))" />
+        
+        <!-- 连接线 -->
+        <g stroke="var(--accent)" stroke-width="1.5" opacity="0.2">
+          <line x1="0" y1="0" x2="-300" y2="-200" /><line x1="0" y1="0" x2="300" y2="-150" />
+          <line x1="0" y1="0" x2="-250" y2="150" /><line x1="0" y1="0" x2="280" y2="200" />
+          <line x1="0" y1="0" x2="0" y2="-280" /><line x1="0" y1="0" x2="0" y2="280" />
+        </g>
+
+        <!-- 普通节点 -->
+        <g fill="var(--heading)">
+          <circle cx="-300" cy="-200" r="10" /><circle cx="300" cy="-150" r="10" />
+          <circle cx="-250" cy="150" r="10" /><circle cx="280" cy="200" r="10" />
+          <circle cx="0" cy="-280" r="10" /><circle cx="0" cy="280" r="10" />
+        </g>
+
+        <!-- 针对性攻击 (闪电) -->
+        <g transform="translate(0, 0)" opacity="0">
+          <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite" />
+          <path d="M-50,-200 L0,-50 L50,-200" fill="none" stroke="#ef4444" stroke-width="4" />
+          <text y="-100" text-anchor="middle" fill="#ef4444" style="font-size: 24px; font-weight: 900;">精准打击 Hub = 系统瘫痪</text>
+        </g>
+
+        <text y="320" text-anchor="middle" fill="var(--accent)" style="font-size: 32px; font-weight: 900; letter-spacing: 0.1em;">连接的极致不平等</text>
+      </g>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>无标度网络 (Scale-Free Network)</h1>
+    <p>巴拉巴西提出。真实网络不是均匀的。由于“偏好依附”，系统内存在着极少数拥有天文数字级别连接的超级节点。这种结构极其稳健（抗随机破坏），但也极其脆弱（怕精准打击）。</p>
+    <div class="grid">
+      <div>
+        <h3>结构特征</h3>
+        <ul>
+          <li><strong>无标度性：</strong>没有所谓的“典型节点”。系统的平均值没有意义，因为 Hub 节点的存在彻底扭曲了分布。</li>
+          <li><strong>幂律基座：</strong>连接数的分布遵循 80/20 法则的分形版。极少数人掌握了绝大多数的流通权。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>战略思考</h3>
+        <ul>
+          <li><strong>识别枢纽：</strong>在一个复杂的政商或技术网中，与其公关 100 个节点，不如搞定那 1 个 Hub 节点。</li>
+          <li><strong>去 Hub 化防御：</strong>如果你是系统的架构师，为了安全，你必须主动通过分布式协议来解耦超级节点，防止单点崩溃带来的全盘毁灭。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

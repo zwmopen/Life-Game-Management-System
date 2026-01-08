@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>刻板印象 - 认知的模具</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 800 600">
+      <!-- 刻板模具 (硬边框) -->
+      <g transform="translate(400, 300)">
+        <rect x="-150" y="-100" width="300" height="200" fill="none" stroke="var(--heading)" stroke-width="8" />
+        <text y="-120" text-anchor="middle" fill="var(--heading)" style="font-size: 14px; font-weight: 900;">STEREOTYPE LABEL</text>
+      </g>
+      
+      <!-- 复杂的真实个体 (流动的有机形态) -->
+      <g transform="translate(400, 300)">
+        <path d="M-180,-50 Q-100,-150 50,-120 T180,50 T0,180 T-180,-50" fill="var(--accent)" fill-opacity="0.2" stroke="var(--accent)" stroke-width="3">
+           <animate attributeName="d" 
+             values="M-180,-50 Q-100,-150 50,-120 T180,50 T0,180 T-180,-50;
+                     M-150,0 Q-80,-100 80,-80 T150,0 T80,100 T-150,0;
+                     M-180,-50 Q-100,-150 50,-120 T180,50 T0,180 T-180,-50"
+             dur="5s" repeatCount="indefinite" />
+        </path>
+        <text text-anchor="middle" fill="var(--accent)" style="font-size: 24px; font-weight: 900;">REALITY</text>
+      </g>
+
+      <!-- 冲突标注 -->
+      <g transform="translate(600, 450)">
+        <circle r="40" fill="#ef4444" fill-opacity="0.1" />
+        <text text-anchor="middle" y="5" fill="#ef4444" style="font-size: 10px; font-weight: 900;">削足适履</text>
+      </g>
+
+      <text x="400" y="550" text-anchor="middle" fill="var(--text)" opacity="0.3" style="font-size: 10px; font-weight: 900; letter-spacing: 0.5em;">THE TRAP OF CATEGORIZATION</text>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>刻板印象</h1>
+    <p>人类为了节省认知带宽，会自动将复杂的个体或群体归入简单的标签盒。虽然加速了判断，却导致了深刻的误解和歧视。</p>
+    <div class="grid">
+      <div>
+        <h3>心理根源</h3>
+        <ul>
+          <li><strong>认知节能</strong>：贴标签比深度了解一个人要省力得多。</li>
+          <li><strong>内群体偏见</strong>：我们会细化观察“自己人”，却对“外人”采取一刀切的概括。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>管理挑战</h3>
+        <ul>
+          <li><strong>人才埋没</strong>：由于对某种背景、性别的刻板偏见，导致真正的高手被挡在门外。</li>
+          <li><strong>自我闭环</strong>：一旦有了刻板印象，确认偏误会让你只看那些支持标签的证据。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

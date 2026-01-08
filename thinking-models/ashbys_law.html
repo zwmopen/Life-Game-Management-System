@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>阿什比必要多样性</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 环境 (不确定性的海洋) -->
+        <g opacity="0.1">
+          <circle r="300" fill="none" stroke="var(--heading)" stroke-width="1" stroke-dasharray="2 10" class="animate-spin" style="animation-duration: 40s" />
+          <path d="M-280,-150 L280,150 M-280,150 L280,-150" stroke="var(--heading)" />
+          <text y="-260" text-anchor="middle" fill="var(--heading)" style="font-size: 14px; font-weight: 900;">外部环境复杂度 (Variety of Environment)</text>
+        </g>
+        
+        <!-- 控制器 A (复杂度不足 - 失败) -->
+        <g transform="translate(-250, 0)">
+          <rect x="-60" y="-60" width="120" height="120" rx="10" fill="#ef4444" fill-opacity="0.1" stroke="#ef4444" stroke-width="2" />
+          <circle r="10" fill="#ef4444" />
+          <text y="100" text-anchor="middle" fill="#ef4444" style="font-size: 14px; font-weight: 900;">系统 A (单调)</text>
+          <text y="130" text-anchor="middle" fill="#ef4444" style="font-size: 10px;">控制失败：无法处理变量</text>
+        </g>
+
+        <!-- 控制器 B (必要多样性 - 成功) -->
+        <g transform="translate(250, 0)">
+          <rect x="-100" y="-100" width="200" height="200" rx="40" fill="var(--accent)" fill-opacity="0.1" stroke="var(--accent)" stroke-width="4" stroke-dasharray="10 5" class="animate-spin" style="animation-duration: 20s" />
+          <g fill="var(--accent)">
+            <circle cx="-30" cy="-30" r="15" /><circle cx="30" cy="-30" r="15" />
+            <circle cx="-30" cy="30" r="15" /><circle cx="30" cy="30" r="15" />
+          </g>
+          <text y="140" text-anchor="middle" fill="var(--accent)" style="font-size: 14px; font-weight: 900;">系统 B (丰富)</text>
+          <text y="170" text-anchor="middle" fill="var(--accent)" style="font-size: 10px;">控制成功：多样性对冲</text>
+          <circle r="120" fill="none" stroke="var(--accent)" stroke-width="1" class="animate-ping" />
+        </g>
+
+        <text y="-220" text-anchor="middle" fill="var(--accent)" style="font-size: 32px; font-weight: 900;">唯有多样性 才能吸收多样性</text>
+      </g>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>阿什比必要多样性定律 (Ashby's Law)</h1>
+    <p>控制论的黄金准则：如果一个系统想要稳定地控制其所处的环境，那么它内部能够产生的状态总数（多样性），必须大于或至少等于环境可能产生的扰动总数。简言之：复杂的问题只能用复杂的系统来解决。</p>
+    <div class="grid">
+      <div>
+        <h3>控制的硬限制</h3>
+        <ul>
+          <li><strong>多样性缺失：</strong>如果你的管理手段只有一种（如：罚款），而员工的行为变数有一百种，你必然会失去对组织的控制。</li>
+          <li><strong>吸收扰动：</strong>控制不是消灭变化，而是通过系统内部的柔性去“吸收”和“对冲”外部的随机性。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>系统建设</h3>
+        <ul>
+          <li><strong>冗余即力量：</strong>在极高不确定的环境下（如：黑天鹅频发），保持一定程度的资源和职能“冗余”是符合阿什比定律的理性选择。</li>
+          <li><strong>去中心化：</strong>通过建立分布式决策网络，提高组织整体的“状态总数”，从而应对瞬息万变的市场。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

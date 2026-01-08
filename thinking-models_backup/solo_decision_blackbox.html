@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>单人决策黑盒</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 决策大脑 (外部可见) -->
+        <path d="M-150,0 Q-150,-180 0,-180 T150,0 T0,180 T-150,0" fill="none" stroke="var(--accent)" stroke-width="2" opacity="0.1" />
+        
+        <!-- 核心黑盒 (自洽陷阱) -->
+        <g>
+          <rect x="-100" y="-100" width="200" height="200" rx="30" fill="var(--heading)" filter="drop-shadow(0 0 30px rgba(0,0,0,0.2))" />
+          <text text-anchor="middle" y="10" fill="white" style="font-size: 24px; font-weight: 900;">逻辑闭环</text>
+          <path d="M-40,-40 L40,40 M40,-40 L-40,40" stroke="#ef4444" stroke-width="2" opacity="0.4" />
+          <circle r="120" fill="none" stroke="#ef4444" stroke-width="1" stroke-dasharray="5 15" class="animate-spin" />
+        </g>
+
+        <!-- 外部审计之光 (影子审计) -->
+        <g transform="translate(300, -200)">
+          <path d="M0,0 L-200,100" stroke="#10b981" stroke-width="4" stroke-dasharray="10 5" marker-end="url(#greenArrow)" />
+          <text x="20" y="-10" fill="#10b981" style="font-size: 18px; font-weight: 900;">外部反馈 (对冲)</text>
+          <circle r="10" fill="#10b981" class="animate-ping" />
+        </g>
+
+        <text y="240" text-anchor="middle" fill="#ef4444" style="font-size: 32px; font-weight: 900; letter-spacing: 0.1em;">没有对冲的决策 是危险的盲奔</text>
+      </g>
+      <defs>
+        <marker id="greenArrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#10b981"/></marker>
+      </defs>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>单人决策黑盒 (Solo Decision Blackbox)</h1>
+    <p>超级个体的第一杀手。由于缺乏组织的异议机制，你的逻辑会自发地向“证真”而非“证伪”倾斜，形成一个完美的、但可能完全错误的闭环。你需要通过人为引入外部反馈或物理隔离来对冲这种风险。</p>
+    <div class="grid">
+      <div>
+        <h3>黑盒危机</h3>
+        <ul>
+          <li><strong>回声室效应：</strong>你所有的资料收集和逻辑推导都在强化你的初衷，导致你无法感知到市场的真实抗拒。</li>
+          <li><strong>情感接管：</strong>在单人环境中，情绪（焦虑、狂热）会无声无息地接管逻辑，使其成为情绪的奴仆。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>对冲协议</h3>
+        <ul>
+          <li><strong>影子审计：</strong>强制设定一个“反对者”人格，或者花钱寻找处于你对立面的顾问。听听那些最刺耳的理由。</li>
+          <li><strong>时间冷却：</strong>重大决策必须经过 48 小时的离线期。在系统 2 的能量恢复后，重新审计黑盒内的逻辑支点。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

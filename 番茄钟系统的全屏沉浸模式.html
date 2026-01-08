@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D 专注生态 - 森林与伙伴 Pro Max</title>
+    <style>
+        :root {
+            /* 新拟态核心色板 */
+            --bg-color: #e0e5ec;
+            --text-main: #4d5b6d;
+            --text-sub: #a3b1c6;
+            --text-gray: #64748b; 
+            
+            /* 光影 */
+            --shadow-light: #ffffff;
+            --shadow-dark: #a3b1c6;
+            
+            /* 品牌色 - 调整为更纯正的绿色 */
+            --primary-green: #22c55e; 
+            --primary-blue: #3b82f6; 
+            --dark-green: #14532d;
+            --warn-yellow: #f59e0b;
+        }
+
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: var(--bg-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            user-select: none;
+            color: var(--text-main);
+        }
+
+        #canvas-container {
+            width: 100vw;
+            height: 100vh;
+            display: block;
+        }
+
+        .ui-container {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 30px;
+            box-sizing: border-box;
+            z-index: 10;
+        }
+
+        /* 新拟态混合样式 */
+        .neu-out {
+            background: var(--bg-color);
+            border-radius: 16px;
+            box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        /* 顶部数据栏 */
+        .stats-bar {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stats-panel {
+            pointer-events: auto;
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            color: var(--text-main);
+        }
+        
+        .stats-panel:hover { transform: translateY(-2px); }
+        .stats-panel:active { transform: scale(0.98); }
+
+        .highlight-num {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--text-main); 
+            text-shadow: none; 
+        }
+
+        /* 右侧：种子库 */
+        .seed-selector {
+            pointer-events: auto;
+            position: absolute;
+            top: 100px; bottom: 40px; right: 30px; width: 180px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            overflow-y: auto; 
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform: translateX(0); opacity: 1;
+        }
+        
+        .seed-selector.hidden { transform: translateX(150%); opacity: 0; pointer-events: none; }
+        .seed-selector::-webkit-scrollbar { width: 0px; }
+
+        .selector-title {
+            font-size: 12px; color: var(--text-sub); font-weight: 700; margin-bottom: 5px; 
+            text-transform: uppercase; letter-spacing: 1px; text-align: center;
+        }
+
+        .seed-option {
+            display: flex; align-items: center; gap: 12px; padding: 12px 16px;
+            border-radius: 12px; cursor: pointer; transition: all 0.2s ease;
+            background: var(--bg-color);
+            box-shadow: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light);
+            color: var(--text-main);
+        }
+        .seed-option:hover { transform: translateY(-2px); }
+        .seed-option.active {
+            box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);
+            color: var(--text-main); 
+            font-weight: bold; 
+            transform: none;
+        }
+        .seed-icon { font-size: 20px; width: 24px; text-align: center; }
+        .seed-name { font-size: 13px; font-weight: 600; }
+
+        /* 底部中央：控制台 */
+        .controls {
+            pointer-events: auto;
+            align-self: center; text-align: center; position: relative; bottom: 30px;
+            display: flex; flex-direction: column; align-items: center; gap: 35px;
+        }
+
+        /* --- 核心组件：悬浮能量环 (Focus Ring) --- */
+        .focus-ring-container {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background: var(--bg-color);
+            /* 柔和的外凸 */
+            box-shadow: 20px 20px 60px var(--shadow-dark), -20px -20px 60px var(--shadow-light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s;
+            z-index: 20;
+        }
+
+        .focus-ring-container:hover {
+            transform: scale(1.02) translateY(-5px);
+            box-shadow: 25px 25px 70px var(--shadow-dark), -25px -25px 70px var(--shadow-light);
+        }
+        .focus-ring-container:active {
+            transform: scale(0.98);
+        }
+
+        /* 2. 中层：轨道 (Groove) - 极窄凹槽 */
+        .ring-groove {
+            position: absolute;
+            top: 20px; left: 20px; right: 20px; bottom: 20px;
+            border-radius: 50%;
+            background: var(--bg-color);
+            /* 浅而精致的内阴影 */
+            box-shadow: inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light);
+            z-index: 1;
+        }
+
+        /* SVG 进度条层 */
+        .progress-ring {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            transform: rotate(-90deg);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* 背景轨道 - 恢复显示，提供视觉支撑 */
+        .progress-ring__circle-bg {
+            display: block;
+            fill: none;
+            stroke: rgba(163, 177, 198, 0.2); /* 极淡的灰色轨道 */
+            stroke-width: 6;
+        }
+
+        .progress-ring__circle {
+            fill: none;
+            stroke: var(--primary-green); /* 纯正的绿色 */
+            stroke-width: 6; /* 极细线条 */
+            stroke-linecap: round;
+            stroke-dasharray: 716; 
+            stroke-dashoffset: 0; 
+            transition: stroke-dashoffset 1s linear;
+            /* 增加一点微发光，提升质感 */
+            filter: drop-shadow(0 0 2px rgba(34, 197, 94, 0.4));
+            opacity: 1;
+        }
+
+        /* 3. 内层：表盘 (Center Plate) */
+        .center-plate {
+            position: absolute;
+            top: 35px; left: 35px; right: 35px; bottom: 35px;
+            border-radius: 50%;
+            background: var(--bg-color);
+            /* 凸起效果 */
+            box-shadow: 6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light);
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .timer-text {
+            font-size: 68px; 
+            font-weight: 700;
+            color: var(--text-gray); 
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            font-variant-numeric: tabular-nums;
+            margin-bottom: 2px;
+            letter-spacing: -1px;
+            text-shadow: none;
+        }
+        
+        .status-text {
+            font-size: 16px; 
+            font-weight: 600;
+            color: var(--text-sub);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s;
+        }
+
+        /* Tooltip - 唯一且稳定的提示框 */
+        .timer-tooltip {
+            position: absolute;
+            bottom: -50px; /* 移到更下方，完全避开鼠标 */
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            font-size: 12px;
+            color: var(--text-sub);
+            background: rgba(255,255,255,0.6); /* 稍微透明一点 */
+            padding: 8px 16px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            opacity: 0;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            pointer-events: none;
+            white-space: nowrap;
+            z-index: 100;
+            backdrop-filter: blur(5px);
+        }
+        .focus-ring-container:hover .timer-tooltip {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* 状态颜色 */
+        .focus-ring-container.focusing .timer-text { color: var(--text-gray); }
+        .focus-ring-container.focusing .status-text { color: var(--primary-green); opacity: 1; }
+        
+        /* 暂停 */
+        .focus-ring-container.paused .timer-text { color: var(--warn-yellow); animation: none; }
+        .focus-ring-container.paused .status-text { color: var(--warn-yellow); }
+        .focus-ring-container.paused .progress-ring__circle { stroke: var(--warn-yellow); }
+
+
+        /* 控制栏容器 */
+        .controls-row {
+            display: flex; align-items: center; gap: 20px; padding: 10px 20px;
+            border-radius: 40px; background: var(--bg-color);
+            box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform: translateY(0); opacity: 1;
+        }
+        
+        .controls-row.hidden {
+            opacity: 0; pointer-events: none; transform: translateY(50px) scale(0.9);
+        }
+
+        .preset-btn {
+            border: none; background: var(--bg-color); color: var(--text-sub);
+            padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600;
+            cursor: pointer; transition: all 0.2s;
+            box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
+        }
+        .preset-btn:hover { color: var(--text-main); transform: translateY(-1px); }
+        .preset-btn.active { 
+            color: var(--text-main); 
+            box-shadow: inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light);
+            font-weight: bold;
+        }
+
+        /* 音乐按钮 */
+        .audio-dropdown { position: relative; }
+        .audio-btn {
+            background: var(--bg-color); border: none; border-radius: 50%;
+            width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; font-size: 18px; color: var(--text-sub);
+            box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
+            transition: all 0.2s;
+        }
+        .audio-btn:hover { color: var(--primary-green); transform: translateY(-1px); }
+
+        .audio-menu {
+            display: none; position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%);
+            width: 140px; padding: 15px; z-index: 100; flex-direction: column; gap: 10px;
+        }
+        .audio-dropdown:hover .audio-menu { display: flex; }
+        
+        .audio-item {
+            padding: 10px; font-size: 13px; color: var(--text-main); cursor: pointer;
+            border-radius: 10px; display: flex; align-items: center; gap: 8px;
+            background: var(--bg-color);
+            box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
+        }
+        .audio-item:hover { color: var(--primary-green); }
+        .audio-item.selected { 
+            color: var(--primary-green); font-weight: bold;
+            box-shadow: inset 2px 2px 5px var(--shadow-dark), inset -2px -2px 5px var(--shadow-light);
+        }
+
+        #loader {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            font-weight: bold; color: var(--text-main); transition: opacity 0.5s;
+            text-shadow: 1px 1px 0 #fff;
+        }
+        
+        .preview-label {
+            position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%);
+            color: var(--text-sub); font-size: 12px; font-weight: bold; opacity: 0.4;
+            pointer-events: none; text-transform: uppercase; letter-spacing: 4px;
+            text-shadow: 1px 1px 0 #fff;
+        }
+    </style>
+    <!-- 引入 Three.js -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <div id="loader">NEUMORPHISM FOREST...</div>
+    <div id="canvas-container"></div>
+    
+    <audio id="bgMusic" loop><source src="" type="audio/ogg"></audio>
+
+    <div class="ui-container">
+        <!-- 顶部数据 (新拟态面板) -->
+        <div class="stats-bar">
+            <!-- 移除 title 属性，防止浏览器原生提示框干扰 -->
+            <div class="neu-out stats-panel" id="statsTotal">
+                <span>🌲 总数</span>
+                <span class="highlight-num" id="totalCount">42</span>
+            </div>
+            <div class="neu-out stats-panel" id="statsToday">
+                <span>☀️ 今日</span>
+                <span class="highlight-num" id="todayCount">0</span>
+            </div>
+        </div>
+        
+        <!-- 预览提示 -->
+        <div class="preview-label" id="previewLabel">PREVIEW</div>
+
+        <!-- 底部控制：一体化设计 -->
+        <div class="controls">
+            
+            <!-- 预设时间 + 音乐 (专注时隐藏) -->
+            <div class="controls-row" id="controlsRow">
+                <div id="presetGroup" style="display: flex; gap: 12px;">
+                    <button class="preset-btn active" data-time="25">25 min</button>
+                    <button class="preset-btn" data-time="50">50 min</button>
+                    <button class="preset-btn" data-time="70">70 min</button>
+                </div>
+                
+                <div class="audio-dropdown">
+                    <button class="audio-btn" id="audioToggle">🎵</button>
+                    <div class="neu-out audio-menu">
+                        <div class="audio-item selected" onclick="setSound('forest')">🌲 森林</div>
+                        <div class="audio-item" onclick="setSound('ocean')">🌊 海浪</div>
+                        <div class="audio-item" onclick="setSound('rain')">🌧️ 雨声</div>
+                        <div class="audio-item" onclick="setSound('fire')">🔥 篝火</div>
+                        <div class="audio-item" onclick="setSound('night')">🦗 夏夜</div>
+                        <div class="audio-item" onclick="setSound('none')">🔇 静音</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 核心：悬浮能量环 (计时器+按钮一体化) -->
+            <!-- 移除 title 属性 -->
+            <div class="focus-ring-container" id="focusRing">
+                <!-- 唯一的 Tooltip -->
+                <div class="timer-tooltip">双击数字修改 / 单击开始 / 双击圆环暂停</div>
+                
+                <!-- 1. 外部凹槽 (Track) -->
+                <div class="ring-groove">
+                    <!-- SVG 进度条 -->
+                    <svg class="progress-ring" viewBox="0 0 240 240">
+                        <!-- 背景轨道: 浅灰 -->
+                        <circle class="progress-ring__circle-bg" r="114" cx="120" cy="120"/>
+                        <!-- 进度条 -->
+                        <circle class="progress-ring__circle" id="progressCircle" r="114" cx="120" cy="120"/>
+                    </svg>
+                </div>
+
+                <!-- 2. 内部凸起圆盘 (Center Plate) -->
+                <div class="center-plate">
+                    <!-- 移除 title 属性 -->
+                    <div class="timer-text" id="timer">25:00</div>
+                    <div class="status-text" id="statusText">点击开始</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 侧边种子选择 -->
+        <div class="neu-out seed-selector" id="seedSelector">
+            <div class="selector-title">🌿 植物类</div>
+            <!-- 动态生成 -->
+        </div>
+    </div>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import * as TWEEN from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/libs/tween.module.min.js';
+
+        // --- 配置区 ---
+        const GROUND_SIZE = 180;
+        const NEU_BG_COLOR = 0xe0e5ec;
+        // r=114 -> C = 2 * PI * 114 ≈ 716
+        const FULL_DASH_ARRAY = 716; 
+        
+        const SPECIES = {
+            plants: [
+                { id: 'pine', name: '松树', icon: '🌲' },
+                { id: 'oak', name: '橡树', icon: '🌳' },
+                { id: 'cherry', name: '樱花', icon: '🌸' },
+                { id: 'willow', name: '垂柳', icon: '🌿' },
+                { id: 'bamboo', name: '竹子', icon: '🎋' },
+                { id: 'palm', name: '椰树', icon: '🌴' },
+                { id: 'cactus', name: '仙人掌', icon: '🌵' },
+                { id: 'mushroom', name: '巨菇', icon: '🍄' },
+                { id: 'sunflower', name: '向日葵', icon: '🌻' },
+                { id: 'birch', name: '白桦', icon: '🪵' }
+            ],
+            animals: [
+                { id: 'rabbit', name: '白兔', icon: '🐰' },
+                { id: 'fox', name: '赤狐', icon: '🦊' },
+                { id: 'panda', name: '熊猫', icon: '🐼' },
+                { id: 'pig', name: '小猪', icon: '🐷' },
+                { id: 'chick', name: '小鸡', icon: '🐤' },
+                { id: 'penguin', name: '企鹅', icon: '🐧' },
+                { id: 'frog', name: '青蛙', icon: '🐸' },
+                { id: 'sheep', name: '绵羊', icon: '🐑' },
+                { id: 'bear', name: '棕熊', icon: '🐻' },
+                { id: 'bee', name: '蜜蜂', icon: '🐝' }
+            ]
+        };
+
+        const SOUNDS = {
+            forest: 'https://actions.google.com/sounds/v1/ambiences/forest_morning.ogg',
+            ocean: 'https://actions.google.com/sounds/v1/ambiences/ocean_waves_large_crashing.ogg',
+            rain: 'https://actions.google.com/sounds/v1/weather/rain_heavy_loud.ogg',
+            fire: 'https://actions.google.com/sounds/v1/ambiences/fire.ogg',
+            night: 'https://actions.google.com/sounds/v1/ambiences/crickets_with_distant_traffic.ogg',
+            none: ''
+        };
+
+        // --- 全局变量 ---
+        let scene, camera, renderer, controls;
+        let ground, tomatoMesh, previewMesh;
+        let entities = []; 
+        let currentSeed = 'pine';
+        let isFocusing = false;
+        let isPaused = false;
+        let timerInterval;
+        let currentDuration = 25 * 60;
+        let secondsLeft = 0;
+        let currentSound = 'forest';
+        let isMuted = false;
+
+        const dom = {
+            total: document.getElementById('totalCount'),
+            today: document.getElementById('todayCount'),
+            timer: document.getElementById('timer'),
+            focusRing: document.getElementById('focusRing'),
+            progressCircle: document.getElementById('progressCircle'),
+            statusText: document.getElementById('statusText'),
+            presetGroup: document.getElementById('presetGroup'),
+            seedSelector: document.getElementById('seedSelector'),
+            audioPlayer: document.getElementById('bgMusic'),
+            audioToggle: document.getElementById('audioToggle'),
+            previewLabel: document.getElementById('previewLabel'),
+            controlsRow: document.getElementById('controlsRow'),
+            statsTotal: document.getElementById('statsTotal'),
+            statsToday: document.getElementById('statsToday')
+        };
+
+        let stats = { total: 42, today: 0 };
+
+        init();
+        animate();
+
+        function init() {
+            // 1. 场景
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(NEU_BG_COLOR);
+            scene.fog = new THREE.Fog(NEU_BG_COLOR, 60, 160);
+
+            camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.set(0, 50, 80);
+
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            renderer.toneMapping = THREE.ACESFilmicToneMapping;
+            renderer.toneMappingExposure = 1.1;
+            document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+            scene.add(ambientLight);
+            const sunLight = new THREE.DirectionalLight(0xffffff, 1.0);
+            sunLight.position.set(40, 80, 40);
+            sunLight.castShadow = true;
+            sunLight.shadow.mapSize.width = 2048;
+            sunLight.shadow.mapSize.height = 2048;
+            sunLight.shadow.camera.left = -100;
+            sunLight.shadow.camera.right = 100;
+            sunLight.shadow.camera.top = 100;
+            sunLight.shadow.camera.bottom = -100;
+            sunLight.shadow.bias = -0.0005;
+            scene.add(sunLight);
+
+            const fillLight = new THREE.DirectionalLight(0xa3b1c6, 0.5);
+            fillLight.position.set(20, 10, -20);
+            scene.add(fillLight);
+
+            createGround();
+            createTomato();
+            initRandomEcosystem(stats.total);
+
+            controls = new OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.maxPolarAngle = Math.PI / 2 - 0.05;
+            controls.autoRotate = true;
+            controls.autoRotateSpeed = 0.8;
+
+            buildSeedSelector();
+            updatePreview(currentSeed);
+            
+            window.addEventListener('resize', onWindowResize);
+            
+            // --- 核心交互逻辑 ---
+            
+            dom.focusRing.addEventListener('click', () => {
+                if (!isFocusing) {
+                    startFocus();
+                } else if (isPaused) {
+                    togglePause(); 
+                }
+            });
+
+            dom.focusRing.addEventListener('dblclick', (e) => {
+                if (isFocusing) {
+                    togglePause();
+                }
+            });
+
+            dom.timer.addEventListener('dblclick', (e) => {
+                e.stopPropagation(); 
+                if(isFocusing || isPaused) resetFocus(); 
+
+                const input = prompt("请输入专注时长（秒）：", currentDuration);
+                if (input && !isNaN(input) && Number(input) > 0) {
+                    setDurationSeconds(parseInt(input));
+                    dom.presetGroup.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+                }
+            });
+            
+            controls.addEventListener('start', () => { controls.autoRotate = false; });
+            
+            setupEditable(dom.statsTotal, '请输入总数：', (val) => {
+                stats.total = val; 
+                clearForest();
+                initRandomEcosystem(val);
+                updateStatsDisplay();
+            });
+            setupEditable(dom.statsToday, '请输入今日成就数：', (val) => {
+                stats.today = val;
+                updateStatsDisplay();
+            });
+
+            const presetBtns = dom.presetGroup.querySelectorAll('.preset-btn');
+            presetBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const min = parseInt(btn.dataset.time);
+                    setDuration(min);
+                });
+                btn.addEventListener('dblclick', (e) => {
+                    e.stopPropagation();
+                    const input = prompt("修改预设时长（分钟）：", btn.dataset.time);
+                    if (input && !isNaN(input) && Number(input) > 0) {
+                        const newMin = parseInt(input);
+                        btn.dataset.time = newMin;
+                        btn.innerText = newMin + " min";
+                        if(btn.classList.contains('active')) setDuration(newMin);
+                    }
+                });
+            });
+
+            window.selectSeed = (type) => {
+                currentSeed = type;
+                const opts = document.querySelectorAll('.seed-option');
+                opts.forEach(el => el.classList.remove('active'));
+                const target = document.getElementById('opt-' + type);
+                if(target) target.classList.add('active');
+                updatePreview(type);
+            };
+
+            window.setSound = (type) => {
+                currentSound = type;
+                const opts = document.querySelectorAll('.audio-item');
+                opts.forEach(el => el.classList.remove('selected'));
+                Array.from(opts).forEach(el => {
+                     if(el.getAttribute('onclick').includes(type)) el.classList.add('selected');
+                });
+                
+                if (type === 'none') {
+                    isMuted = true;
+                    dom.audioToggle.innerText = '🔇';
+                    dom.audioPlayer.pause();
+                } else {
+                    isMuted = false;
+                    dom.audioToggle.innerText = '🎵';
+                    playAudio(type);
+                }
+            };
+            
+            playAudio(currentSound);
+
+            document.getElementById('loader').style.opacity = 0;
+            updateStatsDisplay();
+            
+            setCircleProgress(0);
+        }
+
+        // --- 逻辑函数 ---
+        
+        function setCircleProgress(percent) {
+            const offset = FULL_DASH_ARRAY - (percent * FULL_DASH_ARRAY);
+            dom.progressCircle.style.strokeDashoffset = offset;
+        }
+
+        function setupEditable(element, promptText, callback) {
+            element.addEventListener('dblclick', (e) => {
+                e.preventDefault(); 
+                const numSpan = element.querySelector('.highlight-num');
+                const val = numSpan ? numSpan.innerText : element.innerText;
+                const input = prompt(promptText, val);
+                if(input && !isNaN(input)) {
+                    callback(parseInt(input));
+                }
+            });
+        }
+
+        function clearForest() {
+            entities.forEach(e => scene.remove(e));
+            entities = [];
+        }
+
+        function updatePreview(type) {
+            if (isFocusing && !isPaused) return; 
+            
+            if (previewMesh) scene.remove(previewMesh);
+            
+            if (SPECIES.plants.find(p => p.id === type)) {
+                previewMesh = createPlant(type);
+            } else {
+                previewMesh = createAnimal(type);
+            }
+            
+            previewMesh.position.set(0, 3, 0); 
+            previewMesh.scale.set(1.5, 1.5, 1.5);
+            previewMesh.userData.isPreview = true;
+            scene.add(previewMesh);
+        }
+
+        function buildSeedSelector() {
+            const container = dom.seedSelector;
+            SPECIES.plants.forEach((p, i) => { container.appendChild(createOption(p, i===0)); });
+            const animalTitle = document.createElement('div');
+            animalTitle.className = 'selector-title';
+            animalTitle.style.marginTop = '10px';
+            animalTitle.innerText = '🐾 动物类';
+            container.appendChild(animalTitle);
+            SPECIES.animals.forEach(a => { container.appendChild(createOption(a, false)); });
+        }
+
+        function createOption(item, isActive) {
+            const div = document.createElement('div');
+            div.className = `seed-option ${isActive ? 'active' : ''}`;
+            div.id = 'opt-' + item.id;
+            div.onclick = () => window.selectSeed(item.id);
+            div.innerHTML = `<span class="seed-icon">${item.icon}</span><span class="seed-name">${item.name}</span>`;
+            return div;
+        }
+
+        function setDuration(mins) {
+            if(isFocusing || isPaused) resetFocus();
+            setDurationSeconds(mins * 60);
+            const btns = dom.presetGroup.querySelectorAll('.preset-btn');
+            btns.forEach(b => b.classList.remove('active'));
+            Array.from(btns).forEach(b => {
+                if(parseInt(b.dataset.time) === mins) b.classList.add('active');
+            });
+        }
+        
+        window.setDuration = setDuration;
+
+        function setDurationSeconds(secs) {
+            currentDuration = secs;
+            updateTimerUI(secs);
+        }
+
+        function playAudio(type) {
+            if (type === 'none' || isMuted) return;
+            dom.audioPlayer.src = SOUNDS[type];
+            dom.audioPlayer.play().then(() => {
+                dom.audioPlayer.volume = 0;
+                new TWEEN.Tween(dom.audioPlayer).to({volume: 0.5}, 2000).start();
+            }).catch(e => {
+                console.log("Audio waiting for interaction");
+            });
+        }
+
+        function stopAudio() {
+            new TWEEN.Tween(dom.audioPlayer).to({volume: 0}, 2000).onComplete(() => {
+                dom.audioPlayer.pause();
+            }).start();
+        }
+
+        // --- 专注流程 ---
+        
+        function startFocus() {
+            isFocusing = true;
+            isPaused = false;
+            secondsLeft = currentDuration;
+
+            // UI 状态
+            dom.focusRing.classList.add('focusing');
+            dom.statusText.innerText = "专注生长中...";
+            
+            // 隐藏面板
+            dom.seedSelector.classList.add('hidden');
+            dom.controlsRow.classList.add('hidden');
+            dom.previewLabel.style.opacity = 0;
+
+            // 移除预览
+            if(previewMesh) {
+                new TWEEN.Tween(previewMesh.scale).to({x:0, y:0, z:0}, 500).onComplete(() => {
+                    scene.remove(previewMesh);
+                    previewMesh = null;
+                }).start();
+            }
+
+            // 显示番茄
+            tomatoMesh.visible = true;
+            tomatoMesh.scale.set(0,0,0);
+            setTimeout(() => {
+                new TWEEN.Tween(tomatoMesh.scale).to({x:1, y:1, z:1}, 800).easing(TWEEN.Easing.Back.Out).start();
+            }, 500);
+
+            // 进度条满
+            setCircleProgress(1);
+
+            startTimer();
+        }
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                if(!isPaused) {
+                    secondsLeft--;
+                    updateTimerUI(secondsLeft);
+                    
+                    // 更新进度条: 剩余 / 总
+                    const percent = secondsLeft / currentDuration;
+                    setCircleProgress(Math.min(percent, 1));
+
+                    if (secondsLeft <= 0) {
+                        clearInterval(timerInterval);
+                        finishFocus();
+                    }
+                }
+            }, 1000);
+        }
+
+        function togglePause() {
+            if(!isFocusing) return;
+            
+            isPaused = !isPaused;
+            
+            if(isPaused) {
+                // 暂停
+                dom.statusText.innerText = "已暂停 (单击继续)";
+                dom.focusRing.classList.add('paused');
+                
+                // 浮现面板
+                dom.seedSelector.classList.remove('hidden');
+                dom.controlsRow.classList.remove('hidden');
+                
+                updatePreview(currentSeed);
+                
+            } else {
+                // 继续
+                dom.statusText.innerText = "专注生长中...";
+                dom.focusRing.classList.remove('paused');
+                
+                // 隐藏面板
+                dom.seedSelector.classList.add('hidden');
+                dom.controlsRow.classList.add('hidden');
+                
+                if(previewMesh) {
+                     new TWEEN.Tween(previewMesh.scale).to({x:0, y:0, z:0}, 300).onComplete(() => {
+                        scene.remove(previewMesh);
+                        previewMesh = null;
+                    }).start();
+                }
+            }
+        }
+        
+        function resetFocus() {
+            isFocusing = false;
+            isPaused = false;
+            clearInterval(timerInterval);
+            
+            // 恢复 UI
+            dom.focusRing.classList.remove('focusing');
+            dom.focusRing.classList.remove('paused');
+            dom.statusText.innerText = "点击开始";
+            setCircleProgress(0); // 清空进度
+            
+            dom.seedSelector.classList.remove('hidden');
+            dom.controlsRow.classList.remove('hidden');
+            dom.previewLabel.style.opacity = 0.6;
+            
+            tomatoMesh.visible = false;
+            updatePreview(currentSeed);
+        }
+
+        function finishFocus() {
+            isFocusing = false;
+            isPaused = false;
+            
+            new TWEEN.Tween(tomatoMesh.scale).to({x:0, y:0, z:0}, 300).onComplete(() => {
+                tomatoMesh.visible = false;
+                spawnEntity(currentSeed, true); 
+                setTimeout(() => updatePreview(currentSeed), 1000);
+            }).start();
+
+            stats.total++;
+            stats.today++;
+            updateStatsDisplay();
+
+            // 状态重置
+            dom.focusRing.classList.remove('focusing');
+            setCircleProgress(0);
+            updateTimerUI(currentDuration);
+            dom.statusText.innerText = "完成！+1 生命";
+            
+            dom.seedSelector.classList.remove('hidden');
+            dom.controlsRow.classList.remove('hidden');
+            dom.previewLabel.style.opacity = 0.6;
+            
+            setTimeout(() => {
+                dom.statusText.innerText = "点击开始";
+            }, 2000);
+        }
+
+        function spawnEntity(type, isNew = false) {
+            let mesh;
+            if (SPECIES.plants.find(p => p.id === type)) mesh = createPlant(type);
+            else mesh = createAnimal(type);
+
+            const angle = Math.random() * Math.PI * 2;
+            const radius = Math.sqrt(Math.random()) * (GROUND_SIZE/2 - 15) + 15;
+            mesh.position.set(Math.cos(angle)*radius, 0, Math.sin(angle)*radius);
+            mesh.rotation.y = Math.random() * Math.PI * 2;
+            
+            if (!SPECIES.plants.find(p => p.id === type)) configureAnimal(mesh, type);
+
+            scene.add(mesh);
+            entities.push(mesh);
+
+            if (isNew) {
+                mesh.scale.set(0,0,0);
+                new TWEEN.Tween(mesh.scale).to({x:1, y:1, z:1}, 1000).easing(TWEEN.Easing.Elastic.Out).start();
+            }
+        }
+
+        // --- Low Poly 建模 ---
+        function createPlant(type) {
+            const group = new THREE.Group();
+            const trunkMat = new THREE.MeshStandardMaterial({color: 0x5c4033, flatShading:true});
+            
+            if (type === 'pine') {
+                const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.4, 1.2, 6), trunkMat);
+                trunk.position.y = 0.6; group.add(trunk);
+                const leafMat = new THREE.MeshStandardMaterial({color: 0x2d6a4f, flatShading:true});
+                for(let i=0; i<3; i++) {
+                    const s = 1.3 - i*0.3;
+                    const cone = new THREE.Mesh(new THREE.ConeGeometry(s, 1.5, 6), leafMat);
+                    cone.position.y = 1.8 + i*0.9;
+                    cone.castShadow = true;
+                    group.add(cone);
+                }
+            } else if (type === 'oak' || type === 'cherry') {
+                const color = type === 'oak' ? 0x4ade80 : 0xfbcfe8;
+                const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.5, 1.5, 6), trunkMat);
+                trunk.position.y = 0.75; group.add(trunk);
+                const leafMat = new THREE.MeshStandardMaterial({color: color, flatShading:true});
+                const crown = new THREE.Mesh(new THREE.IcosahedronGeometry(1.6, 0), leafMat);
+                crown.position.y = 2.2; group.add(crown);
+                crown.castShadow = true;
+            } else if (type === 'willow') {
+                const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.4, 2, 6), trunkMat);
+                trunk.position.y = 1; group.add(trunk);
+                const leafMat = new THREE.MeshStandardMaterial({color: 0x86efac, flatShading:true});
+                const top = new THREE.Mesh(new THREE.IcosahedronGeometry(1.2, 0), leafMat);
+                top.position.y = 2.2; group.add(top);
+                for(let i=0; i<6; i++) {
+                    const branch = new THREE.Mesh(new THREE.ConeGeometry(0.2, 1.5, 4), leafMat);
+                    branch.position.set(Math.cos(i)*0.8, 1.5, Math.sin(i)*0.8);
+                    branch.rotation.x = Math.PI;
+                    branch.rotation.z = 0.2;
+                    group.add(branch);
+                }
+            } else if (type === 'bamboo') {
+                 const mat = new THREE.MeshStandardMaterial({color: 0x84cc16, flatShading:true});
+                 for(let j=0; j<3; j++) {
+                     const h = 2 + Math.random();
+                     const stalk = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.15, h, 5), mat);
+                     stalk.position.set((j-1)*0.4, h/2, (Math.random()-0.5)*0.4);
+                     group.add(stalk);
+                 }
+            } else if (type === 'palm') {
+                const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.25, 3.5, 5), trunkMat);
+                trunk.position.y = 1.75; trunk.rotation.z = 0.1; group.add(trunk);
+                const leafMat = new THREE.MeshStandardMaterial({color: 0x15803d, flatShading:true, side:THREE.DoubleSide});
+                for(let i=0; i<6; i++) {
+                    const leaf = new THREE.Mesh(new THREE.BoxGeometry(0.2, 1.5, 0.05), leafMat);
+                    leaf.position.set(0.2, 3.5, 0);
+                    leaf.rotation.z = Math.PI/3; leaf.rotation.y = i * (Math.PI/3); leaf.rotation.x = 0.5; 
+                    group.add(leaf);
+                }
+            } else if (type === 'cactus') {
+                const mat = new THREE.MeshStandardMaterial({color: 0x16a34a, flatShading:true});
+                const body = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.4, 2, 6), mat);
+                body.position.y = 1; group.add(body);
+                const top = new THREE.Mesh(new THREE.IcosahedronGeometry(0.4, 0), mat);
+                top.position.y = 2; group.add(top);
+                const arm = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 1, 6), mat);
+                arm.position.set(0.5, 1.5, 0); arm.rotation.z = -Math.PI/4; group.add(arm);
+                body.castShadow = true;
+            } else if (type === 'mushroom') {
+                const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.4, 1, 6), new THREE.MeshStandardMaterial({color: 0xffedd5, flatShading:true}));
+                stem.position.y = 0.5; group.add(stem);
+                const cap = new THREE.Mesh(new THREE.ConeGeometry(1.5, 1, 8), new THREE.MeshStandardMaterial({color: 0xff4757, flatShading:true}));
+                cap.position.y = 1.0; group.add(cap);
+                const spot = new THREE.Mesh(new THREE.IcosahedronGeometry(0.3, 0), new THREE.MeshStandardMaterial({color:0xffffff}));
+                spot.position.set(0.5, 1.2, 0.5); group.add(spot);
+            } else if (type === 'sunflower') {
+                const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 2.5, 5), new THREE.MeshStandardMaterial({color:0x4ade80, flatShading:true}));
+                stem.position.y = 1.25; group.add(stem);
+                const head = new THREE.Mesh(new THREE.CylinderGeometry(0.8, 0.8, 0.1, 10), new THREE.MeshStandardMaterial({color:0xfacc15, flatShading:true}));
+                head.position.set(0, 2.5, 0.2); head.rotation.x = Math.PI/2.5; group.add(head);
+                const center = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 0.15, 8), new THREE.MeshStandardMaterial({color: 0x78350f, flatShading:true}));
+                center.position.set(0, 2.5, 0.25); center.rotation.x = Math.PI/2.5; group.add(center);
+            } else if (type === 'birch') {
+                 const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.3, 3, 6), new THREE.MeshStandardMaterial({color: 0xf1f5f9, flatShading:true}));
+                 trunk.position.y = 1.5; group.add(trunk);
+                 const spot = new THREE.Mesh(new THREE.BoxGeometry(0.21, 0.1, 0.1), new THREE.MeshStandardMaterial({color:0x1e293b}));
+                 spot.position.set(0, 1, 0.1); group.add(spot);
+                 const crown = new THREE.Mesh(new THREE.IcosahedronGeometry(1.5, 0), new THREE.MeshStandardMaterial({color:0xfcd34d, flatShading:true}));
+                 crown.position.y = 3; group.add(crown);
+            } else {
+                return createPlant('pine');
+            }
+            return group;
+        }
+
+        function createAnimal(type) {
+            const group = new THREE.Group();
+            const mat = (col) => new THREE.MeshStandardMaterial({color:col, flatShading:true});
+            const geo = (w, h, d) => new THREE.BoxGeometry(w,h,d);
+
+            if (type === 'fox') {
+                const body = new THREE.Mesh(geo(0.5, 0.4, 0.8), mat(0xf97316)); body.position.y = 0.4; group.add(body);
+                const head = new THREE.Mesh(new THREE.ConeGeometry(0.35, 0.6, 4), mat(0xf97316)); 
+                head.position.set(0, 0.8, 0.5); head.rotation.x = -Math.PI/2; head.rotation.y = Math.PI/4; group.add(head);
+                const tail = new THREE.Mesh(geo(0.3, 0.3, 0.7), mat(0xf97316)); tail.position.set(0, 0.6, -0.7); tail.rotation.x = 0.5; group.add(tail);
+            } else if (type === 'rabbit') {
+                const body = new THREE.Mesh(new THREE.IcosahedronGeometry(0.4, 0), mat(0xffffff)); body.position.y = 0.4; group.add(body);
+                const head = new THREE.Mesh(new THREE.IcosahedronGeometry(0.25, 0), mat(0xffffff)); head.position.set(0, 0.7, 0.3); group.add(head);
+                const ears = new THREE.Mesh(geo(0.1, 0.4, 0.1), mat(0xffffff)); ears.position.set(0, 1.0, 0.3); group.add(ears);
+                const ears2 = new THREE.Mesh(geo(0.1, 0.4, 0.1), mat(0xffffff)); ears2.position.set(-0.1, 1.0, 0.3); group.add(ears2);
+            } else if (type === 'pig') {
+                const body = new THREE.Mesh(geo(0.6, 0.5, 0.8), mat(0xfbcfe8)); body.position.y = 0.4; group.add(body);
+                const head = new THREE.Mesh(geo(0.4, 0.4, 0.4), mat(0xfbcfe8)); head.position.set(0, 0.5, 0.5); group.add(head);
+                const nose = new THREE.Mesh(geo(0.2, 0.15, 0.1), mat(0xf9a8d4)); nose.position.set(0, 0.5, 0.75); nose.rotation.x = Math.PI/2; group.add(nose);
+            } else if (type === 'panda') {
+                const body = new THREE.Mesh(geo(0.7, 0.6, 0.8), mat(0xffffff)); body.position.y = 0.5; group.add(body);
+                const head = new THREE.Mesh(geo(0.5, 0.4, 0.4), mat(0xffffff)); head.position.set(0, 0.8, 0.4); group.add(head);
+                const leg = new THREE.Mesh(geo(0.2,0.3,0.2), mat(0x1f2937)); leg.position.set(0.3,0.2,0.3); group.add(leg);
+                const leg2 = leg.clone(); leg2.position.set(-0.3,0.2,0.3); group.add(leg2);
+                const ear = new THREE.Mesh(geo(0.15,0.15,0.1), mat(0x1f2937)); ear.position.set(0.2,1.0,0.4); group.add(ear);
+                const ear2 = ear.clone(); ear2.position.set(-0.2,1.0,0.4); group.add(ear2);
+            } else if (type === 'penguin') {
+                 const body = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.35, 0.9, 7), mat(0x1f2937)); body.position.y = 0.45; group.add(body);
+                 const belly = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.3, 0.8, 6), mat(0xffffff)); belly.position.set(0,0.45,0.1); group.add(belly);
+                 const beak = new THREE.Mesh(new THREE.ConeGeometry(0.1, 0.2, 4), mat(0xfacc15)); beak.position.set(0, 0.85, 0.25); beak.rotation.x = Math.PI/2; group.add(beak);
+            } else if (type === 'frog') {
+                 const body = new THREE.Mesh(new THREE.IcosahedronGeometry(0.3, 0), mat(0x4ade80)); body.position.y = 0.3; group.add(body);
+                 const eye = new THREE.Mesh(new THREE.BoxGeometry(0.1,0.1,0.1), mat(0x1f2937)); eye.position.set(0.15,0.5,0.15); group.add(eye);
+                 const eye2 = eye.clone(); eye2.position.set(-0.15,0.5,0.15); group.add(eye2);
+            } else if (type === 'bee') {
+                 const body = new THREE.Mesh(new THREE.IcosahedronGeometry(0.25, 0), mat(0xfacc15)); body.position.y = 0.5; group.add(body);
+                 const stripe = new THREE.Mesh(new THREE.TorusGeometry(0.26, 0.05, 4, 6), mat(0x000000)); stripe.position.y = 0.5; stripe.rotation.x=Math.PI/2; group.add(stripe);
+                 const wing = new THREE.Mesh(new THREE.PlaneGeometry(0.4, 0.2), new THREE.MeshBasicMaterial({color:0xffffff, opacity:0.6, transparent:true, side:THREE.DoubleSide}));
+                 wing.position.set(0, 0.7, 0); wing.rotation.x=Math.PI/2; group.add(wing);
+            } else if (type === 'sheep') {
+                 const body = new THREE.Mesh(new THREE.IcosahedronGeometry(0.5, 0), mat(0xffffff)); body.position.y = 0.5; group.add(body);
+                 const head = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.3, 0.35), mat(0x1f2937)); head.position.set(0, 0.6, 0.4); group.add(head);
+            } else if (type === 'bear') {
+                 const body = new THREE.Mesh(geo(0.7, 0.6, 1.0), mat(0x78350f)); body.position.y = 0.5; group.add(body);
+                 const head = new THREE.Mesh(geo(0.5, 0.4, 0.4), mat(0x78350f)); head.position.set(0, 0.7, 0.5); group.add(head);
+                 const snout = new THREE.Mesh(geo(0.2, 0.15, 0.15), mat(0x000000)); snout.position.set(0, 0.7, 0.75); group.add(snout);
+            } else {
+                 const body = new THREE.Mesh(new THREE.IcosahedronGeometry(0.3, 0), mat(0xfacc15)); body.position.y = 0.3; group.add(body);
+                 const beak = new THREE.Mesh(new THREE.ConeGeometry(0.05,0.1,4), mat(0xf97316)); beak.position.set(0,0.4,0.25); beak.rotation.x=Math.PI/2; group.add(beak);
+            }
+            return group;
+        }
+
+        function configureAnimal(mesh, type) {
+            const data = {
+                isAnimal: true,
+                type: type,
+                speed: 0.02 + Math.random()*0.02,
+                direction: new THREE.Vector3(Math.random()-0.5, 0, Math.random()-0.5).normalize(),
+                timeOffset: Math.random() * 100
+            };
+            if (type === 'rabbit' || type === 'frog') {
+                data.moveType = 'hop';
+                data.hopHeight = type === 'frog' ? 1.5 : 1.2;
+                data.hopFreq = 4;
+            } else if (type === 'bee') {
+                data.moveType = 'fly';
+                data.flyHeight = 2.0;
+                data.speed = 0.05;
+            } else {
+                data.moveType = 'walk';
+                data.wobbleFreq = 8;
+                data.wobbleAmp = 0.15;
+            }
+            mesh.userData = data;
+        }
+
+        function updateTimerUI(seconds) {
+            const m = Math.floor(seconds/60);
+            const s = seconds % 60;
+            dom.timer.innerText = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+        }
+
+        function updateStatsDisplay() {
+            dom.total.innerText = stats.total;
+            dom.today.innerText = stats.today;
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function createGround() {
+            const geo = new THREE.CylinderGeometry(GROUND_SIZE/2, GROUND_SIZE/2, 4, 64);
+            const mat = new THREE.MeshStandardMaterial({color: 0xe0e5ec, flatShading:false}); 
+            ground = new THREE.Mesh(geo, mat);
+            ground.position.y = -2;
+            ground.receiveShadow = true;
+            scene.add(ground);
+        }
+
+        function createTomato() {
+            const group = new THREE.Group();
+            const body = new THREE.Mesh(new THREE.IcosahedronGeometry(1.5, 1), new THREE.MeshStandardMaterial({color: 0xff4757, flatShading:true}));
+            body.scale.set(1, 0.85, 1);
+            group.add(body);
+            const leafMat = new THREE.MeshStandardMaterial({color: 0x2ed573, flatShading:true});
+            const leaf = new THREE.Mesh(new THREE.ConeGeometry(0.5, 1, 5), leafMat);
+            leaf.position.y = 1.2; group.add(leaf);
+            tomatoMesh = group;
+            tomatoMesh.position.set(0, 5, 0);
+            tomatoMesh.visible = false;
+            scene.add(tomatoMesh);
+        }
+
+        function initRandomEcosystem(count) {
+            const allTypes = [...SPECIES.plants.map(p=>p.id), ...SPECIES.animals.map(a=>a.id)];
+            for(let i=0; i<count; i++) {
+                spawnEntity(allTypes[Math.floor(Math.random()*allTypes.length)], false);
+            }
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            TWEEN.update();
+
+            const time = Date.now() * 0.001;
+
+            if (tomatoMesh.visible) {
+                tomatoMesh.rotation.y += 0.01;
+                tomatoMesh.position.y = 5 + Math.sin(time * 2) * 0.5;
+            }
+
+            if (previewMesh && previewMesh.parent === scene) {
+                previewMesh.rotation.y += 0.01;
+                previewMesh.position.y = 5 + Math.sin(time * 1.5) * 0.3;
+            }
+
+            entities.forEach(obj => {
+                if (obj.userData.isAnimal) {
+                    const data = obj.userData;
+                    if (data.moveType === 'fly') {
+                        obj.position.addScaledVector(data.direction, data.speed);
+                        obj.position.y = data.flyHeight + Math.sin(time * 5 + data.timeOffset) * 0.5;
+                        obj.lookAt(obj.position.clone().add(data.direction));
+                    } else if (data.moveType === 'hop') {
+                        obj.position.addScaledVector(data.direction, data.speed);
+                        obj.lookAt(obj.position.clone().add(data.direction));
+                        obj.position.y = Math.abs(Math.sin(time * data.hopFreq + data.timeOffset)) * data.hopHeight;
+                    } else {
+                        obj.position.addScaledVector(data.direction, data.speed);
+                        obj.lookAt(obj.position.clone().add(data.direction));
+                        obj.rotation.z = Math.sin(time * data.wobbleFreq + data.timeOffset) * data.wobbleAmp;
+                    }
+                    const dist = Math.sqrt(obj.position.x**2 + obj.position.z**2);
+                    if (dist > GROUND_SIZE/2 - 2) {
+                        const toCenter = new THREE.Vector3(0,0,0).sub(obj.position).normalize();
+                        data.direction = toCenter.add(new THREE.Vector3(Math.random()-0.5, 0, Math.random()-0.5)).normalize();
+                    }
+                }
+            });
+
+            controls.update();
+            renderer.render(scene, camera);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>麦肯锡 7S 模型</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 连线网格 -->
+        <g stroke="var(--heading)" stroke-width="1.5" opacity="0.1">
+          <line x1="0" y1="0" x2="0" y2="-220" /><line x1="0" y1="0" x2="190" y2="-110" />
+          <line x1="0" y1="0" x2="190" y2="110" /><line x1="0" y1="0" x2="0" y2="220" />
+          <line x1="0" y1="0" x2="-190" y2="110" /><line x1="0" y1="0" x2="-190" y2="-110" />
+        </g>
+        
+        <!-- 核心: 共同价值观 -->
+        <circle r="90" fill="var(--accent)" filter="drop-shadow(0 0 40px var(--accent))" />
+        <text text-anchor="middle" y="10" fill="white" style="font-size: 32px; font-weight: 900;">价值观</text>
+
+        <!-- 硬件层 -->
+        <g transform="translate(0, -220)"><circle r="60" fill="var(--heading)" /><text text-anchor="middle" y="5" fill="white" style="font-size: 20px; font-weight: 900;">战略</text></g>
+        <g transform="translate(190, -110)"><circle r="60" fill="var(--heading)" /><text text-anchor="middle" y="5" fill="white" style="font-size: 20px; font-weight: 900;">结构</text></g>
+        <g transform="translate(190, 110)"><circle r="60" fill="var(--heading)" /><text text-anchor="middle" y="5" fill="white" style="font-size: 20px; font-weight: 900;">制度</text></g>
+        
+        <!-- 软件层 -->
+        <g transform="translate(0, 220)"><circle r="60" fill="var(--accent)" fill-opacity="0.3" stroke="var(--accent)" stroke-width="2" /><text text-anchor="middle" y="5" fill="var(--heading)" style="font-size: 20px; font-weight: 900;">风格</text></g>
+        <g transform="translate(-190, 110)"><circle r="60" fill="var(--accent)" fill-opacity="0.3" stroke="var(--accent)" stroke-width="2" /><text text-anchor="middle" y="5" fill="var(--heading)" style="font-size: 20px; font-weight: 900;">员工</text></g>
+        <g transform="translate(-190, -110)"><circle r="60" fill="var(--accent)" fill-opacity="0.3" stroke="var(--accent)" stroke-width="2" /><text text-anchor="middle" y="5" fill="var(--heading)" style="font-size: 20px; font-weight: 900;">技能</text></g>
+      </g>
+      <text x="500" y="50" text-anchor="middle" fill="var(--text)" opacity="0.3" style="font-size: 20px; font-weight: 900; letter-spacing: 0.5em;">ORGANIZATIONAL ALIGNMENT MODEL</text>
+    </svg>
+  </div>
+
+  <div class="text-content">
+    <h1>麦肯锡 7S 模型</h1>
+    <p>组织不只是静态的拼图，而是动态的生命体。7个关键维度如同原子键，共同决定了企业的效能上限。</p>
+    <div class="grid">
+      <div>
+        <h3>硬性三要素</h3>
+        <ul>
+          <li><strong>战略、结构、制度：</strong>这是组织的骨架。易于定义和显性测量，管理层可以直接干预。</li>
+          <li><strong>协同陷阱：</strong>如果战略改变但制度未同步，组织会在内部摩擦中迅速消耗。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>软性四要素</h3>
+        <ul>
+          <li><strong>价值观核心：</strong>位于 7S 几何中心。它是所有决策的底层协议，决定了其他 6 个维度的引力方向。</li>
+          <li><strong>隐性力量：</strong>风格、员工、技能通常难以捉摸，却是执行战略最核心的润滑剂或阻碍。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

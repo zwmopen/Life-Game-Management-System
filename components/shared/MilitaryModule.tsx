@@ -1,6 +1,6 @@
 import React from 'react';
 import { Theme } from '../../types';
-import { Crosshair, Coins, Target } from 'lucide-react';
+import { Crosshair, Coins, Target, HelpCircle } from 'lucide-react';
 
 interface MilitaryModuleProps {
   theme: Theme;
@@ -16,6 +16,7 @@ interface MilitaryModuleProps {
   setTempKills: (kills: string) => void;
   handleSaveBalance: () => void;
   handleSaveKills: () => void;
+  onHelpClick?: (helpId: string) => void;
 }
 
 const MilitaryModule: React.FC<MilitaryModuleProps> = ({
@@ -31,7 +32,8 @@ const MilitaryModule: React.FC<MilitaryModuleProps> = ({
   setTempBalance,
   setTempKills,
   handleSaveBalance,
-  handleSaveKills
+  handleSaveKills,
+  onHelpClick
 }) => {
   const isDark = theme === 'dark';
   const isNeomorphic = theme === 'neomorphic';
@@ -43,11 +45,17 @@ const MilitaryModule: React.FC<MilitaryModuleProps> = ({
 
   return (
     <div className="flex flex-row items-center justify-between gap-2 w-full">
-      {/* 战略统计标题 */}
+      {/* 战略统计标题和帮助按钮 */}
       <div className="flex items-center gap-1 flex-shrink-0">
         <span className="text-xs text-zinc-500 uppercase font-bold flex items-center gap-1">
           <Crosshair size={12}/> 战略统计
         </span>
+        {/* 帮助按钮 */}
+        {onHelpClick && (
+          <button onClick={() => onHelpClick('military')} className={`p-0.5 rounded-full transition-all duration-300 hover:scale-[1.1] ${isNeomorphic ? 'hover:bg-blue-500/10' : 'hover:bg-blue-500/20'}`} title="查看军工模块指南">
+            <HelpCircle size={10} className="text-blue-500" />
+          </button>
+        )}
       </div>
       
       {/* 右侧空白区域 */}

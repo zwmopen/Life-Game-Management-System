@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>霍桑效应 - 关注的魔力</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background: #020617; font-family: -apple-system, sans-serif; color: #f8fafc; }
+    .glass { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); }
+    @keyframes spotlight { 0%, 100% { opacity: 0.3; transform: scale(1); } 50% { opacity: 0.6; transform: scale(1.1); } }
+    .light-beam { animation: spotlight 4s infinite ease-in-out; }
+  </style>
+</head>
+<body class="p-8 md:p-20 flex items-center justify-center min-h-screen">
+  <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+    <!-- SVG 可视化 -->
+    <div class="relative flex items-center justify-center glass p-12 rounded-[4rem] shadow-2xl">
+      <svg viewBox="0 0 600 600" class="w-full h-auto max-w-[500px]">
+        <!-- 聚光灯源 -->
+        <path d="M100,50 L500,50 L550,550 L50,550 Z" fill="url(#lightGrad)" class="light-beam" />
+        
+        <!-- 被观察的人 -->
+        <g transform="translate(300, 300)">
+          <circle r="40" fill="#fbbf24" class="animate-pulse" />
+          <text text-anchor="middle" y="5" fill="#020617" class="font-black text-xs">执行者</text>
+        </g>
+
+        <!-- 外部观察者 (剪影) -->
+        <g opacity="0.4">
+          <circle cx="50" cy="50" r="20" fill="white" />
+          <path d="M50,70 L50,120" stroke="white" stroke-width="4" />
+        </g>
+
+        <defs>
+          <linearGradient id="lightGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.8" />
+            <stop offset="100%" stop-color="#fbbf24" stop-opacity="0" />
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+
+    <!-- 文案内容区 -->
+    <div class="space-y-12">
+      <h1 class="text-8xl font-black text-white tracking-tighter leading-[0.8]">霍桑效应<br><span class="text-yellow-500 italic">Hawthorne</span></h1>
+      <p class="text-xl text-slate-400 border-l-4 border-yellow-500 pl-6 leading-relaxed italic">
+        “意识到被观察，本身就是一种极大的绩效催化剂。”
+      </p>
+
+      <div class="glass p-10 rounded-[3rem] space-y-6">
+        <h3 class="text-2xl font-black text-white italic">核心隐喻：聚光灯</h3>
+        <p class="text-sm text-slate-400 leading-relaxed">
+          在著名的霍桑实验中，工人并不是因为灯光强弱而提高效率，而是因为意识到“专家正在关注我们”。当人们意识到自己被关心、被观察或成为焦点时，会下意识地表现得更出色。
+        </p>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="bg-yellow-600/10 p-5 rounded-3xl border border-yellow-500/20">
+             <h4 class="text-yellow-400 font-black text-[10px] uppercase mb-1">管理应用</h4>
+             <p class="text-[11px] text-slate-300">增加透明度，让员工的成果能被看到。</p>
+          </div>
+          <div class="bg-white/5 p-5 rounded-3xl border border-white/5">
+             <h4 class="text-slate-500 font-black text-[10px] uppercase mb-1">副作用</h4>
+             <p class="text-[11px] text-slate-400 italic">过度观察可能导致“演员心理”或焦虑。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

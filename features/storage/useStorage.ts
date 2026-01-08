@@ -23,7 +23,7 @@ export interface StorageData {
   todayGoal: string;
 }
 
-export const useStorage = (setIsDataLoaded: React.Dispatch<React.SetStateAction<boolean>>) => {
+export const useStorage = (setIsDataLoaded: (value: boolean) => void) => {
   // 初始化状态
   const [habits, setHabits] = useState<Habit[]>(INITIAL_HABITS);
   const [projects, setProjects] = useState<Project[]>(INITIAL_PROJECTS);
@@ -108,7 +108,6 @@ export const useStorage = (setIsDataLoaded: React.Dispatch<React.SetStateAction<
         if (data.todayGoal) setTodayGoal(data.todayGoal);
 
         // 检查是否是新的一天，如果是则重置所有任务
-        const todayStr = new Date().toLocaleDateString();
         if (data.lastLoginDate !== todayStr) {
           // 重置所有习惯任务的历史记录
           setHabits(prevHabits => prevHabits.map(habit => ({

@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>信息茧房</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 真实的多元世界 (背景) -->
+        <g opacity="0.05">
+           <circle cx="-300" cy="-200" r="150" fill="#3b82f6" /><circle cx="350" cy="-100" r="120" fill="#ef4444" />
+           <rect x="-400" y="100" width="200" height="200" fill="#10b981" rx="40" />
+           <text x="0" y="280" text-anchor="middle" style="font-size: 80px; font-weight: 900;">多元真相 (REALITY)</text>
+        </g>
+        
+        <!-- 算法气泡 (茧房) -->
+        <g>
+          <circle r="180" fill="var(--bg)" stroke="var(--accent)" stroke-width="8" stroke-dasharray="20 10">
+            <animate attributeName="stroke-dashoffset" from="0" to="100" dur="5s" repeatCount="indefinite" />
+          </circle>
+          <circle r="220" fill="none" stroke="var(--accent)" stroke-width="1" opacity="0.2" class="animate-ping" />
+          
+          <!-- 投喂的信息 (单一形状颜色) -->
+          <g fill="var(--accent)">
+            <circle cx="-60" cy="-50" r="15" /><circle cx="70" cy="40" r="18" />
+            <circle cx="-10" cy="80" r="12" /><circle cx="80" cy="-70" r="14" />
+            <animateTransform attributeName="transform" type="translate" values="0,0; 5,5; 0,0" dur="1s" repeatCount="indefinite" />
+          </g>
+          
+          <text text-anchor="middle" y="5" fill="var(--accent)" style="font-size: 32px; font-weight: 900;">认知茧房</text>
+          <text y="40" text-anchor="middle" fill="var(--text)" opacity="0.6" style="font-size: 12px;">(算法投喂产生的“世界共识”)</text>
+        </g>
+      </g>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>信息茧房 (Filter Bubble)</h1>
+    <p>由埃利·帕里泽提出。算法通过记录你的偏好，源源不断地向你推送你“喜欢”的内容。长此以往，你会生活在一个精心编织的认知孤岛中，丧失对真实世界复杂性的理解能力。</p>
+    <div class="grid">
+      <div>
+        <h3>反馈极化</h3>
+        <ul>
+          <li><strong>回声室加剧：</strong>由于没有反对的声音，你的偏见会在不断的重复肯定中进化为“不可置疑的真理”。</li>
+          <li><strong>智力降维：</strong>茧房剥夺了大脑处理冲突信息的必要负荷，导致认知的肌肉萎缩。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>破茧指南</h3>
+        <ul>
+          <li><strong>引入熵增：</strong>主动去搜索、阅读那些让你感到“不舒服”但逻辑严密的观点。</li>
+          <li><strong>清理数字足迹：</strong>定期使用匿名模式或重置推荐算法。在算法计算出你之前，先跳出它的重力场。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

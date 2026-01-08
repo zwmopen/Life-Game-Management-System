@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>能力圈</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 600">
+      <defs>
+        <radialGradient id="competenceGlow"><stop offset="0%" stop-color="var(--accent)" stop-opacity="0.3" /><stop offset="100%" stop-color="var(--accent)" stop-opacity="0" /></radialGradient>
+      </defs>
+      
+      <!-- 知识荒野 -->
+      <circle cx="500" cy="300" r="280" fill="none" stroke="var(--heading)" stroke-width="1" stroke-dasharray="2 10" opacity="0.1" />
+      <text x="500" y="60" text-anchor="middle" fill="var(--text)" opacity="0.2" style="font-size: 12px; font-weight: 900; letter-spacing: 0.3em;">UNKNOWN / ILLUSION</text>
+
+      <!-- 核心能力圈 -->
+      <g transform="translate(500, 300)">
+        <circle r="120" fill="url(#competenceGlow)" class="animate-pulse" />
+        <circle r="120" fill="none" stroke="var(--accent)" stroke-width="4" stroke-dasharray="10 5" />
+        <circle r="40" fill="var(--accent)" />
+        <text text-anchor="middle" y="5" fill="white" style="font-size: 16px; font-weight: 900;">CORE</text>
+        
+        <!-- 边界雷达 -->
+        <line x1="0" y1="0" x2="0" y2="-120" stroke="var(--accent)" stroke-width="2">
+           <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="5s" repeatCount="indefinite" />
+        </line>
+      </g>
+
+      <text x="500" y="560" text-anchor="middle" fill="var(--accent)" style="font-size: 14px; font-weight: 900; letter-spacing: 0.5em;">KNOW YOUR BOUNDARIES</text>
+    </svg>
+  </div>
+
+  <div class="text-content">
+    <h1>能力圈</h1>
+    <p>“看清自己的边界，比拥有广博的知识更具生存价值。” 这个由巴菲特提出的模型强调了在认知边缘保持诚实的重要性。</p>
+    <div class="grid">
+      <div>
+        <h3>生存逻辑</h3>
+        <ul>
+          <li><strong>拒绝诱惑：</strong>即便一个机会看起来再暴利，如果它在你的能力圈之外，本质上就是一场由运气决定的赌博。</li>
+          <li><strong>防御性思考：</strong>在圈内进行决策，在圈外进行学习。核心是区分“我以为我知道”和“我真的能解释清楚”。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>管理方法</h3>
+        <ul>
+          <li><strong>定义边缘：</strong>写下你真正精通的 3 件事。如果无法通过第一性原理推导出结果，说明它不在圈内。</li>
+          <li><strong>防止膨胀：</strong>成功的喜悦往往会诱导能力圈的虚假扩张。警惕那些不需要深度思考就轻易获得的盈利。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

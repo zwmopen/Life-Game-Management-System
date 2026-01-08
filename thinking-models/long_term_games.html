@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>长线博弈</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 消失的水平线 (远方) -->
+        <path d="M-400,100 L400,100" stroke="var(--heading)" stroke-width="1" opacity="0.1" />
+        
+        <!-- 核心路径 (不断延展的桥梁) -->
+        <g>
+          <path d="M-350,100 L350,-200" fill="none" stroke="var(--accent)" stroke-width="12" stroke-linecap="round" opacity="0.2" />
+          <path d="M-350,100 L350,-200" fill="none" stroke="var(--accent)" stroke-width="4" stroke-dasharray="20 10">
+            <animate attributeName="stroke-dashoffset" from="100" to="0" dur="3s" repeatCount="indefinite" />
+          </path>
+        </g>
+
+        <!-- 节点：复利点 -->
+        <g transform="translate(0, -50)">
+          <circle r="60" fill="var(--accent)" fill-opacity="0.1" stroke="var(--accent)" stroke-width="2" class="animate-pulse" />
+          <text text-anchor="middle" y="5" fill="var(--accent)" style="font-size: 24px; font-weight: 900;">信誉复利</text>
+        </g>
+
+        <!-- 短线博弈 (红色，被甩开) -->
+        <g transform="translate(-200, 150)" opacity="0.3">
+          <rect x="-40" y="-10" width="80" height="20" fill="#ef4444" rx="5" />
+          <text y="40" text-anchor="middle" fill="#ef4444" style="font-size: 10px;">短线收割 (无后劲)</text>
+        </g>
+
+        <text y="240" text-anchor="middle" fill="var(--accent)" style="font-size: 32px; font-weight: 900; letter-spacing: 0.1em;">与对的人 玩一辈子的游戏</text>
+      </g>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>长线博弈 (Long-term Games)</h1>
+    <p>Naval Ravikant 提出。在商业和社交中，所有的复利增长都源于重复的信任博弈。当你与一群靠谱的人长期共事，你们之间的摩擦成本（沟通、法律、契约）会趋向于零，而创造力将无限放大。</p>
+    <div class="grid">
+      <div>
+        <h3>信誉资产</h3>
+        <ul>
+          <li><strong>拒绝短期收割：</strong>为了眼前的一点小利而损害名望，是在物理性地摧毁你未来的“信用杠杆”。</li>
+          <li><strong>筛选器：</strong>长线博弈不仅是坚持，更是为了筛选出那些同样愿意玩长线游戏的伙伴。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>操作指南</h3>
+        <ul>
+          <li><strong>极端真诚：</strong>在互联网时代，透明度极高。真诚是维护长线博弈最低成本、最高效能的算法。</li>
+          <li><strong>保持“在场”：</strong>复利的前期是极其枯燥的。只要你不断提供价值且不离场，时间最终会通过“指数增长”奖励你的定力。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

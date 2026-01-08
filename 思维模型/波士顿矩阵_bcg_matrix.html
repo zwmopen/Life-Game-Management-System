@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>波士顿矩阵</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #e0e5ec;
+            font-family: 'Microsoft YaHei', sans-serif;
+            color: #2d3748;
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        /* 上图下文模式：上半部分50vh */
+        .svg-container {
+            height: 50vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 8px 8px 16px rgba(163, 177, 198, 0.2), -8px -8px 16px rgba(255, 255, 255, 0.8);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .svg-container svg {
+            width: 100%;
+            height: 100%;
+            viewBox: 0 0 1000 600;
+        }
+        /* 深度解析区 */
+        .analysis-container {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 8px 8px 16px rgba(163, 177, 198, 0.2), -8px -8px 16px rgba(255, 255, 255, 0.8);
+            padding: 30px;
+        }
+        .analysis-container h1 {
+            font-size: 4.5rem;
+            font-weight: 900;
+            letter-spacing: -2px;
+            color: #2d3748;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        .analysis-section {
+            background-color: #f7fafc;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .analysis-section h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+        .analysis-section h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        .analysis-section p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #4a5568;
+            margin-bottom: 10px;
+        }
+        .analysis-section ul {
+            list-style: none;
+            padding: 0;
+        }
+        .analysis-section li {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #4a5568;
+            margin-bottom: 8px;
+        }
+        .analysis-section strong {
+            color: #2d3748;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 上半部分：SVG物理动效展示区 -->
+        <div class="svg-container">
+            <svg viewBox="0 0 1000 600">
+      <g transform="translate(500, 300)">
+        <!-- 象限分割 -->
+        <line x1="-300" y1="0" x2="300" y2="0" stroke="var(--heading)" stroke-width="1" opacity="0.1" />
+        <line x1="0" y1="-250" x2="0" y2="250" stroke="var(--heading)" stroke-width="1" opacity="0.1" />
+        
+        <!-- 明星 (Stars) -->
+        <g transform="translate(-150, -125)">
+          <rect x="-130" y="-100" width="260" height="200" rx="20" fill="var(--accent)" fill-opacity="0.1" stroke="var(--accent)" stroke-width="2" />
+          <text text-anchor="middle" y="5" fill="var(--accent)" style="font-size: 24px; font-weight: 900;">⭐ 明星</text>
+          <text text-anchor="middle" y="35" fill="var(--accent)" style="font-size: 10px; opacity: 0.6;">高增长 / 高份额 (喂养未来)</text>
+        </g>
+        
+        <!-- 问题 (Question) -->
+        <g transform="translate(150, -125)">
+          <rect x="-130" y="-100" width="260" height="200" rx="20" fill="#f59e0b" fill-opacity="0.1" stroke="#f59e0b" stroke-width="2" stroke-dasharray="5 5" />
+          <text text-anchor="middle" y="5" fill="#f59e0b" style="font-size: 24px; font-weight: 900;">? 问题</text>
+          <text text-anchor="middle" y="35" fill="#f59e0b" style="font-size: 10px; opacity: 0.6;">高增长 / 低份额 (前途未卜)</text>
+        </g>
+
+        <!-- 金牛 (Cows) -->
+        <g transform="translate(-150, 125)">
+          <rect x="-130" y="-100" width="260" height="200" rx="20" fill="#10b981" fill-opacity="0.1" stroke="#10b981" stroke-width="2" />
+          <text text-anchor="middle" y="5" fill="#10b981" style="font-size: 24px; font-weight: 900;">💰 金牛</text>
+          <text text-anchor="middle" y="35" fill="#10b981" style="font-size: 10px; opacity: 0.6;">低增长 / 高份额 (收割现金)</text>
+        </g>
+
+        <!-- 瘦狗 (Dogs) -->
+        <g transform="translate(150, 125)">
+          <rect x="-130" y="-100" width="260" height="200" rx="20" fill="#ef4444" fill-opacity="0.1" stroke="#ef4444" stroke-width="1" />
+          <text text-anchor="middle" y="5" fill="#ef4444" style="font-size: 24px; font-weight: 900;">🦴 瘦狗</text>
+          <text text-anchor="middle" y="35" fill="#ef4444" style="font-size: 10px; opacity: 0.6;">低增长 / 低份额 (应当裁撤)</text>
+        </g>
+
+        <!-- 坐标轴标注 -->
+        <text x="320" y="5" fill="var(--text)" style="font-size: 10px; font-weight: 900; opacity: 0.3;">份额: 小 →</text>
+        <text x="0" y="-270" text-anchor="middle" fill="var(--text)" style="font-size: 10px; font-weight: 900; opacity: 0.3;">增长: 慢 ↑</text>
+      </g>
+    </svg>
+        </div>
+        
+        <!-- 下半部分：深度解析区 -->
+        <div class="analysis-container">
+            <h1>波士顿矩阵</h1>
+            
+            <div class="analysis-grid">
+                text
+            </div>
+        </div>
+    </div>
+</body>
+</html>

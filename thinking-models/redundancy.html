@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>冗余与弹性</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 极致优化的脆弱系统 (单线) -->
+        <g transform="translate(-250, 0)">
+          <rect x="-10" y="-150" width="20" height="300" fill="#ef4444" opacity="0.2" />
+          <circle r="40" fill="#ef4444" />
+          <path d="M-20,-20 L20,20 M20,-20 L-20,20" stroke="white" stroke-width="4" />
+          <text y="200" text-anchor="middle" fill="#ef4444" style="font-size: 24px; font-weight: 900;">极度优化</text>
+          <text y="230" text-anchor="middle" fill="var(--text)" opacity="0.5" style="font-size: 10px;">(单点失效 = 彻底崩溃)</text>
+        </g>
+        
+        <!-- 具有冗余的弹性系统 (多线并行) -->
+        <g transform="translate(250, 0)">
+          <g stroke="var(--accent)" stroke-width="4" opacity="0.3">
+            <line x1="-80" y1="-150" x2="-80" y2="150" /><line x1="80" y1="-150" x2="80" y2="150" />
+            <line x1="0" y1="-150" x2="0" y2="150" />
+          </g>
+          <circle r="60" fill="var(--accent)" filter="drop-shadow(0 0 30px var(--accent))" />
+          <path d="M-20,0 L0,20 L30,-20" fill="none" stroke="white" stroke-width="8" stroke-linecap="round" />
+          <text y="200" text-anchor="middle" fill="var(--accent)" style="font-size: 24px; font-weight: 900;">系统冗余</text>
+          <text y="230" text-anchor="middle" fill="var(--text)" opacity="0.5" style="font-size: 10px;">(多重保障 = 极端稳健)</text>
+        </g>
+
+        <path d="M-80,0 L80,0" stroke="var(--heading)" stroke-width="1" stroke-dasharray="5 5" opacity="0.1" />
+      </g>
+      <text x="500" y="80" text-anchor="middle" fill="var(--accent)" style="font-size: 42px; font-weight: 900; letter-spacing: 0.1em; opacity: 0.1;">RESILIENCE OVER EFFICIENCY</text>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>冗余与弹性 (Redundancy)</h1>
+    <p>大自然从不追求极致的效率，它追求极致的生存。你的身体有两个肾，飞机有两个引擎。在充满噪声的现实中，冗余是唯一能对抗“意外错误”的物理杠杆。</p>
+    <div class="grid">
+      <div>
+        <h3>优化的陷阱</h3>
+        <ul>
+          <li><strong>脆性：</strong>为了追求 100% 的效率，系统会切掉所有看似“浪费”的备件。一旦环境突变，系统将瞬间瓦解。</li>
+          <li><strong>容错力：</strong>冗余是系统的“防火墙”。它允许局部腐烂而不影响整体的功能。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>实战策略</h3>
+        <ul>
+          <li><strong>财务缓冲：</strong>永远不把杠杆拉满。留出一块不需要产生回报、只为了应对“万一”的现金死区。</li>
+          <li><strong>人才备份：</strong>在核心岗位上建立 A/B 角机制。所有的单一节点都是对系统的潜在威胁。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

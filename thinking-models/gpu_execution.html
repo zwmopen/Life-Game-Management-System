@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>显卡级执行力</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- CPU: 认知逻辑 (处理速度慢、单线程) -->
+        <g transform="translate(-300, 0)">
+          <rect x="-60" y="-60" width="120" height="120" rx="10" fill="var(--heading)" opacity="0.1" stroke="var(--heading)" stroke-width="2" />
+          <path d="M-30,-30 L30,30 M30,-30 L-30,30" stroke="var(--heading)" stroke-width="2" opacity="0.5" />
+          <text y="100" text-anchor="middle" fill="var(--heading)" style="font-size: 24px; font-weight: 900;">CPU (思考)</text>
+          <text y="130" text-anchor="middle" fill="var(--text)" opacity="0.5" style="font-size: 10px;">高逻辑、低吞吐</text>
+        </g>
+        
+        <!-- 传输总线 (瓶颈处) -->
+        <g stroke="var(--accent)" stroke-width="4" stroke-dasharray="10 5">
+          <line x1="-180" y1="0" x2="100" y2="0" marker-end="url(#blueArrow)">
+            <animate attributeName="stroke-dashoffset" from="0" to="100" dur="1s" repeatCount="indefinite" />
+          </line>
+        </g>
+
+        <!-- GPU: 执行渲染 (海量并行、极速产出) -->
+        <g transform="translate(250, 0)">
+          <rect x="-120" y="-120" width="240" height="240" rx="20" fill="var(--accent)" fill-opacity="0.1" stroke="var(--accent)" stroke-width="4" />
+          <g fill="var(--accent)">
+            <circle cx="-50" cy="-50" r="10" class="animate-pulse" />
+            <circle cx="0" cy="-50" r="10" class="animate-pulse" style="animation-delay: 0.2s" />
+            <circle cx="50" cy="-50" r="10" class="animate-pulse" style="animation-delay: 0.4s" />
+            <circle cx="-50" cy="50" r="10" class="animate-pulse" style="animation-delay: 0.6s" />
+            <circle cx="0" cy="50" r="10" class="animate-pulse" style="animation-delay: 0.8s" />
+            <circle cx="50" cy="50" r="10" class="animate-pulse" style="animation-delay: 1s" />
+          </g>
+          <text y="160" text-anchor="middle" fill="var(--accent)" style="font-size: 32px; font-weight: 900;">GPU (执行端)</text>
+          <text y="190" text-anchor="middle" fill="var(--accent)" style="font-size: 14px; font-weight: 900;">暴力产出、无脑渲染</text>
+        </g>
+
+        <text y="-250" text-anchor="middle" fill="#ef4444" style="font-size: 32px; font-weight: 900; letter-spacing: 0.1em;">插好你的显卡：别让认知在脑内空转</text>
+      </g>
+      <defs>
+        <marker id="blueArrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="var(--accent)"/></marker>
+      </defs>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>显卡级执行力 (Execution Throughput)</h1>
+    <p>你的大脑是一台顶级服务器，但如果你不把认知（CPU 指令）转化为产出（GPU 渲染），系统就会因为过热而降频。所谓的执行力，就是物理层面的数据吞吐量。停止优化算法，开始跑渲染任务。</p>
+    <div class="grid">
+      <div>
+        <h3>病理分析</h3>
+        <ul>
+          <li><strong>算力浪费：</strong>你研究了 10 个视频剪辑教程（CPU 高负载），但 1 秒钟都没剪（GPU 零负载）。系统由于“空转”而产生了巨大的焦虑热量。</li>
+          <li><strong>解耦逻辑：</strong>要把“想什么”和“做什么”彻底分开。执行时不需要智商，只需要稳定的帧率输出。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>物理补丁</h3>
+        <ul>
+          <li><strong>饱和式产出：</strong>每天强行规定 4 小时的“GPU 时间”。在这个时间段内，禁止进行逻辑思考，只准进行机械化的产出（录音、剪辑、发帖）。</li>
+          <li><strong>结果指纹：</strong>只有在硬盘上留下的字节，才是真实资产。脑子里的想法全是系统负债。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

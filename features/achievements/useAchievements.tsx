@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AchievementItem } from '../../types';
 import { getAllLevels, getAllFocusTitles, getAllWealthTitles, getAllMilitaryRanks } from '../../components/CharacterProfile';
 import { getAllCheckInTitles, getAllConsumptionTitles } from '../../constants/index';
@@ -8,7 +8,7 @@ export interface AchievementBadge {
   id: string;
   title: string;
   subTitle: string;
-  icon: JSX.Element;
+  icon: React.ReactNode;
   color: string;
   isUnlocked: boolean;
   req: string;

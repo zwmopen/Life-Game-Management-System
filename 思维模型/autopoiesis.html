@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>自创生</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 系统边界 (流动的膜) -->
+        <path d="M-200,0 Q-200,-200 0,-200 T200,0 T0,200 T-200,0" fill="none" stroke="var(--accent)" stroke-width="12" stroke-dasharray="20 10">
+          <animate attributeName="stroke-dashoffset" from="0" to="200" dur="10s" repeatCount="indefinite" />
+        </path>
+        
+        <!-- 内部生产过程 (核心) -->
+        <g>
+          <circle r="80" fill="var(--accent)" fill-opacity="0.1" class="animate-pulse" />
+          <path d="M-40,0 L40,0 M0,-40 L0,40" stroke="var(--accent)" stroke-width="4" opacity="0.3" />
+          <text text-anchor="middle" y="10" fill="var(--accent)" style="font-size: 24px; font-weight: 900;">自修复核心</text>
+        </g>
+
+        <!-- 外部输入转化为内部组件 -->
+        <g opacity="0.3">
+           <rect x="-350" y="-150" width="30" height="30" fill="var(--heading)" rx="5"><animate attributeName="x" from="-350" to="-100" dur="2s" repeatCount="indefinite" /></rect>
+           <rect x="-100" y="-150" width="30" height="30" fill="var(--accent)" rx="15" opacity="0"><animate attributeName="opacity" from="0" to="1" dur="2s" repeatCount="indefinite" /></rect>
+        </g>
+
+        <text y="-250" text-anchor="middle" fill="var(--accent)" style="font-size: 32px; font-weight: 900;">AUTOPOIESIS</text>
+        <text y="260" text-anchor="middle" fill="var(--text)" opacity="0.6" style="font-size: 14px;">我是我自己的产物，我定义我的边界</text>
+      </g>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>自创生 (Autopoiesis)</h1>
+    <p>由马图拉纳提出。真正的生命系统或高级社会系统，其运作的唯一目的就是为了“再生产自己”。它不只是加工外部原材料，它是在时刻不停地重构那层保护自己、区分于外界的逻辑边界。</p>
+    <div class="grid">
+      <div>
+        <h3>系统封闭性</h3>
+        <ul>
+          <li><strong>运作闭合：</strong>外界的输入只能对系统产生“触发”作用，但系统内部如何改变，完全由其自身的逻辑规则决定。</li>
+          <li><strong>自我参照：</strong>高级组织会通过自己的价值观（DNA）来解释外界的所有信息。如果信息无法被内部逻辑消化，它将被彻底屏蔽。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>管理与心理</h3>
+        <ul>
+          <li><strong>组织的灵魂：</strong>一个具有“自创生”能力的团队，即便更换了所有成员，其独特的文化基因也会通过流程和惯性不断再生。</li>
+          <li><strong>自我认知的膜：</strong>你的“自我”就是一个自创生系统。通过不断肯定自己的信念，你在心理层面生产着稳定的“人格实体”。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

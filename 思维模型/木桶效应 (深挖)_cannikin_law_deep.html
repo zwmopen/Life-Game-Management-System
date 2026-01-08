@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>木桶效应 (深挖)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #e0e5ec;
+            font-family: 'Microsoft YaHei', sans-serif;
+            color: #2d3748;
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        /* 上图下文模式：上半部分50vh */
+        .svg-container {
+            height: 50vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 8px 8px 16px rgba(163, 177, 198, 0.2), -8px -8px 16px rgba(255, 255, 255, 0.8);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .svg-container svg {
+            width: 100%;
+            height: 100%;
+            viewBox: 0 0 1000 600;
+        }
+        /* 深度解析区 */
+        .analysis-container {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 8px 8px 16px rgba(163, 177, 198, 0.2), -8px -8px 16px rgba(255, 255, 255, 0.8);
+            padding: 30px;
+        }
+        .analysis-container h1 {
+            font-size: 4.5rem;
+            font-weight: 900;
+            letter-spacing: -2px;
+            color: #2d3748;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        .analysis-section {
+            background-color: #f7fafc;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .analysis-section h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+        .analysis-section h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        .analysis-section p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #4a5568;
+            margin-bottom: 10px;
+        }
+        .analysis-section ul {
+            list-style: none;
+            padding: 0;
+        }
+        .analysis-section li {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #4a5568;
+            margin-bottom: 8px;
+        }
+        .analysis-section strong {
+            color: #2d3748;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 上半部分：SVG物理动效展示区 -->
+        <div class="svg-container">
+            <svg viewBox="0 0 1000 600">
+      <!-- 管道主干 -->
+      <path d="M100,300 L400,300" stroke="var(--heading)" stroke-width="80" opacity="0.05" stroke-linecap="round" />
+      <path d="M600,300 L900,300" stroke="var(--heading)" stroke-width="80" opacity="0.05" stroke-linecap="round" />
+      
+      <!-- 瓶颈短板 (缩窄处) -->
+      <g transform="translate(500, 300)">
+        <path d="M-100,-40 L100,-15 L100,15 L-100,40 Z" fill="#ef4444" fill-opacity="0.1" stroke="#ef4444" stroke-width="2" stroke-dasharray="5 5" />
+        <rect x="-10" y="-40" width="20" height="80" fill="#ef4444" class="animate-pulse" />
+        <text y="70" text-anchor="middle" fill="#ef4444" style="font-size: 14px; font-weight: 900;">瓶颈节点 (THE LIMIT)</text>
+      </g>
+
+      <!-- 动态流体 -->
+      <g>
+        <!-- 下游稀疏流 -->
+        <rect x="600" y="295" width="300" height="10" fill="var(--accent)" opacity="0.3" />
+        <!-- 上游拥堵流 -->
+        <rect x="100" y="270" width="300" height="60" fill="var(--accent)" opacity="0.1" />
+        <circle cx="250" cy="300" r="10" fill="var(--accent)" opacity="0.8">
+           <animate attributeName="cx" from="100" to="490" dur="1s" repeatCount="indefinite" />
+           <animate attributeName="opacity" values="1;0" dur="1s" repeatCount="indefinite" />
+        </circle>
+      </g>
+
+      <text x="500" y="550" text-anchor="middle" fill="var(--text)" opacity="0.3" style="font-size: 12px; font-weight: 900; letter-spacing: 0.5em;">THROUGHPUT IS DETERMINED BY THE BOTTLENECK</text>
+    </svg>
+        </div>
+        
+        <!-- 下半部分：深度解析区 -->
+        <div class="analysis-container">
+            <h1>木桶效应 (深挖)</h1>
+            
+            <div class="analysis-grid">
+                text
+            </div>
+        </div>
+    </div>
+</body>
+</html>

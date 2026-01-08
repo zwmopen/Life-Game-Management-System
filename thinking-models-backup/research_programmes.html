@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>科学研究纲领</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 辅助假设防御带 (Protective Belt) -->
+        <circle r="250" fill="none" stroke="var(--accent)" stroke-width="12" stroke-dasharray="20 10" opacity="0.2">
+          <animate attributeName="stroke-dashoffset" from="0" to="100" dur="5s" repeatCount="indefinite" />
+        </circle>
+        <circle r="180" fill="none" stroke="var(--accent)" stroke-width="8" opacity="0.4" />
+        
+        <!-- 硬核 (Hard Core) -->
+        <g>
+          <circle r="100" fill="#1e293b" stroke="var(--accent)" stroke-width="4" filter="drop-shadow(0 0 30px var(--accent))" />
+          <text text-anchor="middle" y="5" fill="white" style="font-size: 32px; font-weight: 900;">硬核</text>
+          <text y="40" text-anchor="middle" fill="white" opacity="0.6" style="font-size: 10px;">(不可放弃的信念)</text>
+        </g>
+
+        <!-- 外部反证 (被防御带吸收) -->
+        <g transform="translate(-300, -200)">
+           <circle r="10" fill="#ef4444" class="animate-ping" />
+           <path d="M0,0 L80,80" stroke="#ef4444" stroke-width="4" stroke-dasharray="5 5" marker-end="url(#redArrow)" />
+        </g>
+
+        <text y="320" text-anchor="middle" fill="var(--accent)" style="font-size: 36px; font-weight: 900;">保护带吸收了一切反常</text>
+      </g>
+      <defs>
+        <marker id="redArrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#ef4444"/></marker>
+      </defs>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>科学研究纲领 (Research Programmes)</h1>
+    <p>拉卡托斯提出。成功的理论不仅仅是一条公式，它是一个由“硬核”和“保护带”构成的防御系统。当遇到相反事实时，科学家不会放弃核心，而是通过修改周边的辅助假设来保护系统。</p>
+    <div class="grid">
+      <div>
+        <h3>防御逻辑</h3>
+        <ul>
+          <li><strong>硬核的稳固：</strong>只要保护带还在通过“进步的位移”（即产生新的预测）来吸收攻击，这套理论就是有生命力的。</li>
+          <li><strong>退化的纲领：</strong>当保护带已经无法解释新事实，只能靠不断打补丁来苟延残喘时，系统即进入退化期。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>信念博弈</h3>
+        <ul>
+          <li><strong>价值观防御：</strong>一个人的核心价值观就是他的“硬核”。他会为了维持这种价值观，在大脑里建立无数个“合理化”的保护带。</li>
+          <li><strong>战略定力：</strong>在商业竞争中，区分哪些是不能动的原则（硬核），哪些是可以随时牺牲的战术补丁（保护带）。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>曼陀罗思考法   九宫格演化</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #e0e5ec;
+            font-family: 'Microsoft YaHei', sans-serif;
+            color: #2d3748;
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        /* 上图下文模式：上半部分50vh */
+        .svg-container {
+            height: 50vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 8px 8px 16px rgba(163, 177, 198, 0.2), -8px -8px 16px rgba(255, 255, 255, 0.8);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .svg-container svg {
+            width: 100%;
+            height: 100%;
+            viewBox: 0 0 1000 600;
+        }
+        /* 深度解析区 */
+        .analysis-container {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 8px 8px 16px rgba(163, 177, 198, 0.2), -8px -8px 16px rgba(255, 255, 255, 0.8);
+            padding: 30px;
+        }
+        .analysis-container h1 {
+            font-size: 4.5rem;
+            font-weight: 900;
+            letter-spacing: -2px;
+            color: #2d3748;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        .analysis-section {
+            background-color: #f7fafc;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .analysis-section h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+        .analysis-section h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        .analysis-section p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #4a5568;
+            margin-bottom: 10px;
+        }
+        .analysis-section ul {
+            list-style: none;
+            padding: 0;
+        }
+        .analysis-section li {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #4a5568;
+            margin-bottom: 8px;
+        }
+        .analysis-section strong {
+            color: #2d3748;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 上半部分：SVG物理动效展示区 -->
+        <div class="svg-container">
+            <svg viewBox="0 0 600 600" class="w-full h-auto max-w-[500px]">
+        <!-- 装饰背景线 -->
+        <circle cx="300" cy="300" r="280" fill="none" stroke="white" stroke-width="1" class="lotus-line" stroke-dasharray="10 5" />
+        
+        <!-- 3x3 九宫格 -->
+        <!-- Row 1 -->
+        <rect x="50" y="50" width="160" height="160" rx="20" fill="#1e293b" class="cell" />
+        <rect x="220" y="50" width="160" height="160" rx="20" fill="#1e293b" class="cell" />
+        <rect x="390" y="50" width="160" height="160" rx="20" fill="#1e293b" class="cell" />
+        <!-- Row 2 -->
+        <rect x="50" y="220" width="160" height="160" rx="20" fill="#1e293b" class="cell" />
+        <rect x="220" y="220" width="160" height="160" rx="30" fill="#3b82f6" class="cell shadow-lg shadow-blue-500/20" /> <!-- 中心核心 -->
+        <rect x="390" y="220" width="160" height="160" rx="20" fill="#1e293b" class="cell" />
+        <!-- Row 3 -->
+        <rect x="50" y="390" width="160" height="160" rx="20" fill="#1e293b" class="cell" />
+        <rect x="220" y="390" width="160" height="160" rx="20" fill="#1e293b" class="cell" />
+        <rect x="390" y="390" width="160" height="160" rx="20" fill="#1e293b" class="cell" />
+
+        <!-- 文本标注 -->
+        <text x="300" y="305" text-anchor="middle" fill="white" class="font-black text-2xl uppercase tracking-tighter">CORE</text>
+        <g fill="#475569" class="text-[8px] font-bold uppercase tracking-widest">
+           <text x="130" y="135" text-anchor="middle">SUB A</text>
+           <text x="300" y="135" text-anchor="middle">SUB B</text>
+           <text x="470" y="135" text-anchor="middle">SUB C</text>
+        </g>
+      </svg>
+        </div>
+        
+        <!-- 下半部分：深度解析区 -->
+        <div class="analysis-container">
+            <h1>曼陀罗思考法   九宫格演化</h1>
+            
+            <div class="analysis-grid">
+                text
+            </div>
+        </div>
+    </div>
+</body>
+</html>

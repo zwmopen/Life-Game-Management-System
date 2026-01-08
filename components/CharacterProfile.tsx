@@ -3,6 +3,7 @@ import { Smile, Pause, Play, RotateCcw, Volume2, VolumeX, CloudRain, Waves, Brai
 import { Theme } from '../types';
 import AvatarProfile from './shared/AvatarProfile';
 import TomatoTimer from './shared/TomatoTimer';
+import ImmersivePomodoro from './shared/ImmersivePomodoro';
 import MilitaryModule from './shared/MilitaryModule';
 import MantraModule from './shared/MantraModule';
 
@@ -123,10 +124,12 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
             showSupplyMarket: true
         }
     } = props;
-    const isDark = theme === 'dark';
-    const isNeomorphic = theme === 'neomorphic';
+    const isDark = theme === 'dark' || theme === 'neomorphic-dark';
+    const isNeomorphic = theme.startsWith('neomorphic');
     const cardBg = isNeomorphic 
-        ? 'bg-[#e0e5ec] border-[#e0e5ec] rounded-lg shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)] transition-all duration-300' 
+        ? (theme === 'neomorphic-dark' 
+            ? 'bg-[#1e1e2e] border-[#1e1e2e] rounded-lg shadow-[8px_8px_16px_rgba(0,0,0,0.4),-8px_-8px_16px_rgba(30,30,46,0.8)] transition-all duration-300' 
+            : 'bg-[#e0e5ec] border-[#e0e5ec] rounded-lg shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)] transition-all duration-300') 
         : isDark 
         ? 'bg-zinc-900 border-zinc-800' 
         : 'bg-white border-slate-200';
@@ -502,8 +505,7 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
 
     return (
         <>
-        <div className="mt-4"></div> {/* 下移状态卡片 */}
-        <div className={`${cardBg} border p-2 sm:p-4 rounded-xl z-20 w-full max-w-4xl mx-auto transition-all duration-300 hover:shadow-lg`}>
+        <div className={`${cardBg} border p-2 sm:p-4 rounded-2xl z-20 w-full max-w-4xl mx-auto transition-all duration-300 hover:shadow-lg mb-8`}>
             
             {/* 状态卡片标题 */}
             <div className="flex items-center justify-between mb-2 sm:mb-3">
@@ -517,7 +519,7 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-3">
                 {/* 1. 角色系统模块 */}
                 {settings.showCharacterSystem && (
-                    <div className={`${cardBg} border p-2 rounded-lg flex flex-col justify-between transition-all duration-300 cursor-default hover:shadow-lg`}>
+                    <div className={`${cardBg} border p-2 rounded-2xl flex flex-col justify-between transition-all duration-300 cursor-default hover:shadow-lg`}>
                         <AvatarProfile 
                             theme={theme}
                             xp={xp}
@@ -542,7 +544,7 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
 
                 {/* 2. 番茄系统模块 */}
                 {settings.showPomodoroSystem && (
-                    <div className={`${cardBg} border p-2 rounded-lg flex flex-col justify-between transition-all duration-300 cursor-default hover:shadow-lg`}>
+                    <div className={`${cardBg} border p-2 rounded-2xl flex flex-col justify-between transition-all duration-300 cursor-default hover:shadow-lg`}>
                         <TomatoTimer
                             theme={theme}
                             timeLeft={timeLeft}
@@ -561,7 +563,7 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
 
                 {/* 3. 军工模块 */}
                 {settings.showFocusTimeSystem && (
-                    <div className={`${cardBg} border p-2 rounded-lg flex flex-col justify-between transition-all duration-300 cursor-default hover:shadow-lg`}>
+                    <div className={`${cardBg} border p-2 rounded-2xl flex flex-col justify-between transition-all duration-300 cursor-default hover:shadow-lg`}>
                         <MilitaryModule
                             theme={theme}
                             balance={balance}
@@ -576,19 +578,21 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
                             setTempKills={setTempKills}
                             handleSaveBalance={handleSaveBalance}
                             handleSaveKills={handleSaveKills}
+                            onHelpClick={onHelpClick}
                         />
                     </div>
                 )}
                 
                 {/* 4. 心法模块 */}
                 {settings.showCheckinSystem && (
-                    <div className={`${cardBg} border p-2 rounded-lg flex flex-col justify-between transition-all duration-300 cursor-default hover:shadow-lg`}>
+                    <div className={`${cardBg} border p-2 rounded-2xl flex flex-col justify-between transition-all duration-300 cursor-default hover:shadow-lg`}>
                         <MantraModule
                             theme={theme}
                             mantras={mantras}
                             currentMantraIndex={currentMantraIndex}
                             cycleMantra={cycleMantra}
                             setIsMantraModalOpen={setIsMantraModalOpen}
+                            onHelpClick={onHelpClick}
                         />
                     </div>
                 )}
@@ -597,147 +601,21 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
 
         {/* FULLSCREEN IMMERSIVE OVERLAY */}
         {isImmersive && (
-            <div className={`fixed inset-0 z-[1000] flex flex-col items-center justify-center animate-in fade-in duration-700 ${isDark ? 'bg-zinc-950' : 'bg-slate-50'}`} onClick={cycleMantra}>
-                <button onClick={(e) => { e.stopPropagation(); setIsImmersive(false); }} className={`absolute top-8 right-8 transition-all duration-300 ${isDark ? 'text-zinc-500 hover:text-white' : 'text-slate-500 hover:text-slate-800'}`}><X size={32} /></button>
-                
-                {/* 音效菜单 */}
-                {isSoundMenuOpen && (
-                    <div className={`absolute top-20 left-8 rounded-xl shadow-lg p-4 backdrop-blur-sm ${isDark ? 'bg-zinc-900/95 border border-zinc-800' : 'bg-white/95 border border-slate-200'}`}>
-                        <div className="flex flex-col gap-3">
-                            {SOUNDS.map(sound => {
-                                const IconComponent = sound.icon;
-                                return (
-                                    <button 
-                                            key={sound.id}
-                                            onClick={(e) => { 
-                                                e.stopPropagation(); 
-                                                onSoundChange(sound.id); 
-                                                setIsSoundMenuOpen(false);
-                                            }}
-                                            className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${currentSoundId === sound.id ? (isDark ? 'bg-zinc-800 text-white' : 'bg-blue-50 text-blue-600') : (isDark ? 'hover:bg-zinc-800 text-zinc-300' : 'hover:bg-slate-100 text-slate-700')}`}
-                                        >
-                                        <IconComponent size={20} className={sound.color} />
-                                        <span>{sound.name}</span>
-                                    </button>
-                                );
-                            })}
-                            <button 
-                                onClick={(e) => { 
-                                    e.stopPropagation(); 
-                                    onToggleMute(!isMuted); 
-                                    setIsSoundMenuOpen(false);
-                                }}
-                                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${isMuted ? (isDark ? 'bg-zinc-800 text-white' : 'bg-blue-50 text-blue-600') : (isDark ? 'hover:bg-zinc-800 text-zinc-300' : 'hover:bg-slate-100 text-slate-700')}`}
-                            >
-                                {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
-                                <span>{isMuted ? '开启音效' : '关闭音效'}</span>
-                            </button>
-                        </div>
-                    </div>
-                )}
-                
-                {/* 锦囊库内容 - 顶部 */}
-                <div className={`absolute top-16 text-center p-4 max-w-2xl ${isDark ? 'text-zinc-300' : 'text-slate-700'}`}>
-                    <div className="text-sm font-bold italic">"{mantras[currentMantraIndex]}"</div>
-                </div>
-                
-                {/* 圆形番茄钟 - 缩小尺寸，添加拟态效果和环形进度条 */}
-                <div className="relative flex flex-col items-center justify-center">
-                    {/* 拟态背景圆 - 增大尺寸，添加悬浮效果 */}
-                    <div className={`w-[60vw] h-[60vw] max-w-[450px] max-h-[450px] rounded-full flex flex-col items-center justify-center transition-all duration-300 ${isNeomorphic 
-                        ? 'bg-[#e0e5ec] border-[#a3b1c6] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)] hover:shadow-[8px_8px_16px_rgba(163,177,198,0.5),-8px_-8px_16px_rgba(255,255,255,1)] active:shadow-[inset_10px_10px_20px_rgba(163,177,198,0.6),inset_-10px_-10px_20px_rgba(255,255,255,1)]' 
-                        : 'bg-gradient-to-br from-amber-600 to-orange-700 shadow-[inset_-15px_-15px_30px_rgba(0,0,0,0.3),15px_15px_30px_rgba(0,0,0,0.2)]' 
-                    }`}>
-                        {/* 环形进度条 - 调整半径，添加微妙凹陷效果 */}
-                        <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
-                            {/* 微妙的凹陷效果 - 仅一个阴影圆环 */}
-                            <circle
-                                cx="50"
-                                cy="50"
-                                r="40"
-                                fill="none"
-                                stroke={isNeomorphic ? '#d0d5dc' : 'rgba(0,0,0,0.2)'}
-                                strokeWidth="8"
-                                className="opacity-30"
-                            />
-                            {/* 主背景圆环 */}
-                            <circle
-                                cx="50"
-                                cy="50"
-                                r="40"
-                                fill="none"
-                                stroke={isNeomorphic ? '#e0e5ec' : 'rgba(255,255,255,0.3)'}
-                                strokeWidth="6"
-                            />
-                            {/* 进度圆环 */}
-                            <circle
-                                cx="50"
-                                cy="50"
-                                r="40"
-                                fill="none"
-                                stroke={isActive ? (isNeomorphic ? '#3b82f6' : '#ffffff') : (isNeomorphic ? '#9ca3af' : 'rgba(255,255,255,0.5)')}
-                                strokeWidth="4"
-                                strokeLinecap="round"
-                                transform="rotate(-90 50 50)"
-                                strokeDasharray={2 * Math.PI * 40}
-                                strokeDashoffset={2 * Math.PI * 40 - ((timeLeft / (duration * 60)) * 100 / 100) * (2 * Math.PI * 40)}
-                                className="transition-all duration-100 ease-linear"
-                            />
-                        </svg>
-                        
-                        {/* 状态文字和倒计时 - 居中显示，黑色文字 */}
-                        <div className="relative z-10 flex flex-col items-center justify-center">
-                            {/* 状态文字 */}
-                            <div className={`text-xl font-bold uppercase tracking-[0.3em] mb-3 text-black font-mono`}>{isActive ? '专注模式' : '已暂停'}</div>
-                            
-                            {/* 倒计时文字 - 缩小尺寸，添加最大字体限制 */}
-                            <div className={`text-[8vw] sm:text-[6vw] max-[800px]:text-[10vw] font-black font-mono leading-none tracking-tighter text-black tabular-nums max-text-[80px]`}>{formatTime(timeLeft)}</div>
-                        </div>
-                    </div>
-                </div>
-                
-                {/* 控制按钮 - 向下调整位置 */}
-                <div className="absolute bottom-8 flex flex-col items-center gap-6">
-                    {/* 播放暂停按钮 */}
-                    <button 
-                        onClick={(e) => { e.stopPropagation(); toggleTimer(); }}
-                        className={`p-5 rounded-full transition-all hover:scale-105 active:scale-95 ${isNeomorphic 
-                            ? 'bg-[#e0e5ec] border-[#a3b1c6] shadow-[5px_5px_15px_rgba(163,177,198,0.6),-5px_-5px_15px_rgba(255,255,255,1)] hover:shadow-[3px_3px_10px_rgba(163,177,198,0.5),-3px_-3px_10px_rgba(255,255,255,1)] active:shadow-[inset_5px_5px_15px_rgba(163,177,198,0.6),inset_-5px_-5px_15px_rgba(255,255,255,1)]' 
-                            : 'bg-white/90 backdrop-blur-sm shadow-[8px_8px_16px_rgba(0,0,0,0.1),-8px_-8px_16px_rgba(255,255,255,0.8)] hover:shadow-[6px_6px_12px_rgba(0,0,0,0.08),-6px_-6px_12px_rgba(255,255,255,0.6)] active:shadow-[inset_4px_4px_8px_rgba(0,0,0,0.05),inset_-4px_-4px_8px_rgba(255,255,255,0.4)]' 
-                        }`}
-                    >
-                        {isActive ? <Pause size={36} className="text-orange-600" /> : <Play size={36} className="text-orange-600" />}
-                    </button>
-                    {/* 控制按钮组 - 包含音效按钮和预设时间按钮 */}
-                    <div className="flex gap-3 items-center">
-                        {/* 背景音乐切换按钮 - 放在25分钟按钮前面 */}
-                        <button 
-                            onClick={(e) => { e.stopPropagation(); setIsSoundMenuOpen(!isSoundMenuOpen); }} 
-                            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center justify-center ${isNeomorphic 
-                                ? `bg-[#e0e5ec] border-[#a3b1c6] shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] hover:shadow-[2px_2px_4px_rgba(163,177,198,0.5),-2px_-2px_4px_rgba(255,255,255,1)] active:shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,1)] text-zinc-600` 
-                                : isDark ? 'bg-zinc-900 text-zinc-300 border-zinc-800 hover:bg-zinc-800' : 'bg-white text-slate-600 border-slate-300 hover:bg-slate-100' 
-                            }`}
-                            title={isMuted ? '开启音效' : '切换音效'}
-                        >
-                            {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
-                        </button>
-                        {/* 预设时间按钮 - 缩小按钮 */}
-                        {[25, 45, 60].map(m => (
-                            <button key={m}
-                                onClick={(e) => { e.stopPropagation(); onChangeDuration(m); }}
-                                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${isNeomorphic 
-                                    ? `bg-[#e0e5ec] border-[#a3b1c6] shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] hover:shadow-[2px_2px_4px_rgba(163,177,198,0.5),-2px_-2px_4px_rgba(255,255,255,1)] active:shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,1)] ${duration === m ? 'text-blue-600' : 'text-zinc-600'}` 
-                                    : duration === m ? 
-                                        (isDark ? 'bg-zinc-800 text-white border-zinc-700' : 'bg-blue-50 text-blue-600 border-blue-200') : 
-                                        (isDark ? 'text-zinc-500 border-zinc-700 hover:text-zinc-300 hover:bg-zinc-800' : 'text-slate-600 border-slate-300 hover:text-slate-800 hover:bg-slate-100') 
-                                }`}
-                            >
-                                {m}'
-                            </button>
-                        ))}
-                    </div>
-                </div>
-            </div>
+            <ImmersivePomodoro
+                theme={theme}
+                timeLeft={timeLeft}
+                isActive={isActive}
+                duration={duration}
+                onToggleTimer={onToggleTimer}
+                onResetTimer={onResetTimer}
+                onUpdateTimeLeft={onUpdateTimeLeft}
+                onUpdateIsActive={onUpdateIsActive}
+                onExitImmersive={() => setIsImmersive(false)}
+                totalPlants={totalKills || 0}
+                todayPlants={0}
+                isMuted={isMuted}
+                currentSoundId={currentSoundId}
+            />
         )}
 
         {/* 锦囊库管理模态框 */}

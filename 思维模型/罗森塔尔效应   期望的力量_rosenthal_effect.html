@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>罗森塔尔效应   期望的力量</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #e0e5ec;
+            font-family: 'Microsoft YaHei', sans-serif;
+            color: #2d3748;
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        /* 上图下文模式：上半部分50vh */
+        .svg-container {
+            height: 50vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 8px 8px 16px rgba(163, 177, 198, 0.2), -8px -8px 16px rgba(255, 255, 255, 0.8);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .svg-container svg {
+            width: 100%;
+            height: 100%;
+            viewBox: 0 0 1000 600;
+        }
+        /* 深度解析区 */
+        .analysis-container {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 8px 8px 16px rgba(163, 177, 198, 0.2), -8px -8px 16px rgba(255, 255, 255, 0.8);
+            padding: 30px;
+        }
+        .analysis-container h1 {
+            font-size: 4.5rem;
+            font-weight: 900;
+            letter-spacing: -2px;
+            color: #2d3748;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        .analysis-section {
+            background-color: #f7fafc;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .analysis-section h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+        .analysis-section h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        .analysis-section p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #4a5568;
+            margin-bottom: 10px;
+        }
+        .analysis-section ul {
+            list-style: none;
+            padding: 0;
+        }
+        .analysis-section li {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #4a5568;
+            margin-bottom: 8px;
+        }
+        .analysis-section strong {
+            color: #2d3748;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 上半部分：SVG物理动效展示区 -->
+        <div class="svg-container">
+            <svg viewBox="0 0 800 600">
+      <!-- 期望源 (太阳光环) -->
+      <g transform="translate(400, 100)">
+        <circle r="60" fill="#fbbf24" fill-opacity="0.2" class="animate-pulse" />
+        <circle r="30" fill="#fbbf24" />
+        <text y="70" text-anchor="middle" fill="#fbbf24" style="font-size: 14px; font-weight: 900;">HIGH EXPECTATION</text>
+      </g>
+      
+      <!-- 反馈路径 (雨滴) -->
+      <g fill="#fbbf24" opacity="0.4">
+        <circle cx="380" cy="180" r="3"><animate attributeName="cy" from="180" to="400" dur="2s" repeatCount="indefinite" /></circle>
+        <circle cx="420" cy="220" r="3"><animate attributeName="cy" from="220" to="400" dur="1.5s" repeatCount="indefinite" /></circle>
+      </g>
+
+      <!-- 被影响者 (生长的树木) -->
+      <g transform="translate(400, 500)">
+        <rect x="-10" y="-150" width="20" height="150" fill="#475569" />
+        <circle r="80" fill="var(--accent)" fill-opacity="0.1" stroke="var(--accent)" stroke-width="2" stroke-dasharray="10 5" />
+        <path d="M-60,-120 Q0,-220 60,-120 T0,-20 Z" fill="var(--accent)" fill-opacity="0.6">
+           <animate attributeName="transform" type="scale" values="0.8;1.1;0.8" dur="4s" repeatCount="indefinite" />
+        </path>
+        <text y="40" text-anchor="middle" fill="var(--accent)" style="font-size: 18px; font-weight: 900;">GROWTH</text>
+      </g>
+
+      <text x="400" y="580" text-anchor="middle" fill="var(--text)" opacity="0.3" style="font-size: 10px; font-weight: 900; letter-spacing: 0.5em;">SELF-FULFILLING PROPHECY</text>
+    </svg>
+        </div>
+        
+        <!-- 下半部分：深度解析区 -->
+        <div class="analysis-container">
+            <h1>罗森塔尔效应   期望的力量</h1>
+            
+            <div class="analysis-grid">
+                text
+            </div>
+        </div>
+    </div>
+</body>
+</html>

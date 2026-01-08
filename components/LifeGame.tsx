@@ -12,10 +12,11 @@ import {
   Camera, Tablet, Wind, Fish, Mountain, Home, Car, Heart, Globe, Palette
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
-import { Theme, AttributeType, AttributeTypeValue, Habit, Project, SubTask, TaskType, AutoTaskType, Task, DiceState, DiceTask, DiceCategory, DiceHistory, Settings as SettingsType } from '../types';
+import { Theme, AttributeType, AttributeTypeValue, Habit, Project, SubTask, TaskType, AutoTaskType, Task, DiceState, DiceTask, DiceCategory, DiceHistory, Settings as SettingsType } from '@/types';
 import CharacterProfile, { CharacterProfileHandle } from './CharacterProfile';
 import { GlobalGuideCard, HelpTooltip, helpContent } from './HelpSystem';
 import FateGiftModal from './shared/FateGiftModal';
+import FateDice from './FateDice';
 
 interface LifeGameProps {
   theme: Theme;
@@ -73,8 +74,7 @@ interface LifeGameProps {
   // Immersive Mode State
   isImmersive: boolean;
   setIsImmersive: (isImmersive: boolean) => void;
-  // Settings
-  settings?: any;
+  
   // 命运骰子相关
   diceState?: DiceState;
   onSpinDice?: () => { success: boolean; message?: string };
@@ -83,6 +83,7 @@ interface LifeGameProps {
   onDeleteDiceTask?: (taskId: string, category: DiceCategory) => void;
   onUpdateDiceTask?: (taskId: string, category: DiceCategory, updates: Partial<DiceTask>) => void;
   onUpdateDiceConfig?: (config: Partial<DiceState['config']>) => void;
+  onUpdateDiceState?: (updates: Partial<DiceState>) => void;
   // 角色等级变化回调
   onLevelChange: (newLevel: number, type: 'level' | 'focus' | 'wealth') => void;
 }
@@ -268,21 +269,29 @@ const LifeGame: React.FC<LifeGameProps> = ({
     onDeleteDiceTask,
     onUpdateDiceTask,
     onUpdateDiceConfig,
+    onUpdateDiceState,
     onLevelChange
 }) => {
-  const isDark = theme === 'dark';
-  const isNeomorphic = theme === 'neomorphic';
+  const isDark = theme === 'dark' || theme === 'neomorphic-dark';
+  const isNeomorphic = theme.startsWith('neomorphic');
+  const isNeomorphicDark = theme === 'neomorphic-dark';
   const todayStr = new Date().toLocaleDateString();
   const textMain = isDark ? 'text-zinc-200' : isNeomorphic ? 'text-zinc-700' : 'text-slate-800';
   const textSub = isDark ? 'text-zinc-400' : isNeomorphic ? 'text-zinc-600' : 'text-slate-500';
   
   // 拟态风格样式变量
   const neomorphicStyles = {
-    bg: 'bg-[#e0e5ec]',
-    border: 'border-[#e0e5ec]',
-    shadow: 'shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]',
-    hoverShadow: 'hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)]',
-    activeShadow: 'active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]',
+    bg: isNeomorphicDark ? 'bg-[#1e1e2e]' : 'bg-[#e0e5ec]',
+    border: isNeomorphicDark ? 'border-[#1e1e2e]' : 'border-[#e0e5ec]',
+    shadow: isNeomorphicDark 
+      ? 'shadow-[8px_8px_16px_rgba(0,0,0,0.4),-8px_-8px_16px_rgba(30,30,46,0.8)]' 
+      : 'shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]',
+    hoverShadow: isNeomorphicDark 
+      ? 'hover:shadow-[10px_10px_20px_rgba(0,0,0,0.5),-10px_-10px_20px_rgba(30,30,46,1)]' 
+      : 'hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)]',
+    activeShadow: isNeomorphicDark 
+      ? 'active:shadow-[inset_5px_5px_10px_rgba(0,0,0,0.4),inset_-5px_-5px_10px_rgba(30,30,46,0.8)]' 
+      : 'active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]',
     transition: 'transition-all duration-200'
   };
   
@@ -292,14 +301,29 @@ const LifeGame: React.FC<LifeGameProps> = ({
       return isSpecial ? 'bg-red-500 text-white border-red-500' : 'bg-blue-500 text-white border-blue-500';
     }
     if (isNeomorphic) {
-      return `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow} ${neomorphicStyles.hoverShadow} ${neomorphicStyles.activeShadow} ${neomorphicStyles.transition}`;
+      // 根据拟态主题的深浅模式调整背景色和阴影
+      const bgColor = theme === 'neomorphic-dark' ? 'bg-[#1e1e2e]' : 'bg-[#e0e5ec]';
+      const borderColor = theme === 'neomorphic-dark' ? 'border-[#1e1e2e]' : 'border-[#e0e5ec]';
+      const shadowColor = theme === 'neomorphic-dark' 
+        ? 'shadow-[8px_8px_16px_rgba(0,0,0,0.4),-8px_-8px_16px_rgba(30,30,46,0.8)]'
+        : 'shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]';
+      const hoverShadowColor = theme === 'neomorphic-dark' 
+        ? 'hover:shadow-[10px_10px_20px_rgba(0,0,0,0.5),-10px_-10px_20px_rgba(30,30,46,1)]'
+        : 'hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)]';
+      const activeShadowColor = theme === 'neomorphic-dark' 
+        ? 'active:shadow-[inset_5px_5px_10px_rgba(0,0,0,0.4),inset_-5px_-5px_10px_rgba(30,30,46,0.8)]'
+        : 'active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]';
+      
+      return `${bgColor} ${borderColor} ${shadowColor} ${hoverShadowColor} ${activeShadowColor} ${neomorphicStyles.transition}`;
     }
     return isDark ? 'bg-zinc-900 border-zinc-800 text-zinc-500 hover:border-zinc-700' : 'bg-white border-slate-300 text-slate-600 hover:border-slate-200';
   };
   
   // 拟态风格卡片背景 - 符合设计规格的高饱和度灰蓝色底色，135度光源，大圆角
   const cardBg = isNeomorphic 
-      ? `${neomorphicStyles.bg} ${neomorphicStyles.border} rounded-[48px] ${neomorphicStyles.shadow} ${neomorphicStyles.hoverShadow} ${neomorphicStyles.activeShadow} ${neomorphicStyles.transition}` 
+      ? (theme === 'neomorphic-dark' 
+        ? `bg-[#1e1e2e] border-[#1e1e2e] rounded-[48px] shadow-[8px_8px_16px_rgba(0,0,0,0.4),-8px_-8px_16px_rgba(30,30,46,0.8)] transition-all duration-200` 
+        : `${neomorphicStyles.bg} ${neomorphicStyles.border} rounded-[48px] ${neomorphicStyles.shadow} ${neomorphicStyles.hoverShadow} ${neomorphicStyles.activeShadow} ${neomorphicStyles.transition}`) 
       : isDark 
       ? 'bg-zinc-900 border-zinc-800 shadow-[inset_-15px_-15px_30px_rgba(255,255,255,0.05),inset_15px_15px_30px_rgba(0,0,0,0.3)]' 
       : 'bg-white border-slate-200 shadow-[inset_-15px_-15px_30px_rgba(255,255,255,0.8),inset_15px_15px_30px_rgba(0,0,0,0.1)]';
@@ -977,7 +1001,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                 </div>
                 {/* Centered Popup with neomorphic effect */}
                 <div className="fixed inset-0 z-[1000] flex items-center justify-center animate-in fade-in duration-300">
-                    <div className={`p-6 flex items-center gap-4 rounded-2xl backdrop-blur-lg shadow-2xl max-w-md w-full mx-4 transition-all duration-300 ${isNeomorphic ? 'bg-[#e0e5ec] border-[#e0e5ec] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-900/95 border border-yellow-500/30 shadow-yellow-500/10' : 'bg-white/95 border border-slate-200 shadow-lg'}`}>
+                    <div className={`p-6 flex items-center gap-4 rounded-2xl backdrop-blur-lg shadow-2xl max-w-md w-full mx-4 transition-all duration-300 ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] border-[#1e1e2e] shadow-[10px_10px_20px_rgba(0,0,0,0.4),-10px_-10px_20px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] border-[#e0e5ec] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)]') : isDark ? 'bg-zinc-900/95 border border-yellow-500/30 shadow-yellow-500/10' : 'bg-white/95 border border-slate-200 shadow-lg'}`}>
                         <div className={`text-4xl animate-[spin_1s_ease-in-out_infinite] ${isNeomorphic ? 'drop-shadow-[0_0_10px_rgba(234,179,8,0.5)]' : 'drop-shadow-[0_0_10px_rgba(234,179,8,0.5)]'}`}>
                             {justPurchasedItem.icon}
                         </div>
@@ -1042,15 +1066,15 @@ const LifeGame: React.FC<LifeGameProps> = ({
                     
                     <div className="space-y-6">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div className={`p-6 rounded-xl border ${isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-200'}`}>
-                                <div className="text-sm text-zinc-500 uppercase font-bold mb-2">当前存款</div>
-                                <div className="text-4xl font-black text-yellow-500">{bankAccount.balance} G</div>
-                                <div className="text-xs text-zinc-500 mt-1">每天获得 1% 利息</div>
-                            </div>
-                            <div className={`p-6 rounded-xl border ${isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-200'}`}>
-                                <div className="text-sm text-zinc-500 uppercase font-bold mb-2">总获利息</div>
-                                <div className="text-4xl font-black text-green-500">{bankAccount.totalInterestEarned} G</div>
-                                <div className="text-xs text-zinc-500 mt-1">累计获得的利息</div>
+                                <div className={`p-6 rounded-xl border ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] border-[#1e1e2e] shadow-[8px_8px_16px_rgba(0,0,0,0.4),-8px_-8px_16px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] border-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]') : (isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-200')}`}>
+                                    <div className={`text-sm uppercase font-bold mb-2 ${textSub}`}>当前存款</div>
+                                    <div className="text-4xl font-black text-yellow-500">{bankAccount.balance} G</div>
+                                    <div className={`text-xs mt-1 ${textSub}`}>每天获得 1% 利息</div>
+                                </div>
+                                <div className={`p-6 rounded-xl border ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] border-[#1e1e2e] shadow-[8px_8px_16px_rgba(0,0,0,0.4),-8px_-8px_16px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] border-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]') : (isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-200')}`}>
+                                    <div className={`text-sm uppercase font-bold mb-2 ${textSub}`}>总获利息</div>
+                                    <div className="text-4xl font-black text-green-500">{bankAccount.totalInterestEarned} G</div>
+                                    <div className={`text-xs mt-1 ${textSub}`}>累计获得的利息</div>
                             </div>
                         </div>
                         
@@ -1080,14 +1104,29 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                         setShowBankModal(false);
                                     }
                                 }}
-                                className={`w-full py-4 rounded-lg transition-colors ${bankAccount.balance > 0 ? (isDark ? 'bg-green-900/30 text-green-400 hover:bg-green-800/50' : 'bg-green-100 text-green-700 hover:bg-green-200') : (isDark ? 'bg-zinc-800 text-zinc-500' : 'bg-slate-200 text-slate-500')}`} 
+                                className={`w-full py-4 rounded-lg transition-colors ${isNeomorphic ? 
+                                    (bankAccount.balance > 0 ? 
+                                        theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] text-green-400 shadow-[inset_5px_5px_10px_rgba(0,0,0,0.4),inset_-5px_-5px_10px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] text-green-700 shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]'
+                                    : 
+                                        isDark ? 'bg-zinc-800 text-zinc-500' : 'bg-slate-200 text-slate-500'
+                                    ) : 
+                                    (bankAccount.balance <= 0 ? 
+                                        isDark ? 'bg-zinc-800 text-zinc-500' : 'bg-slate-200 text-slate-500'
+                                    : 
+                                        isDark ? 'bg-green-900/30 text-green-400 hover:bg-green-800/50' : 'bg-green-100 text-green-700 hover:bg-green-200'
+                                    )
+                                }`} 
                                 disabled={bankAccount.balance <= 0}
                             >
                                 取出全部存款
                             </button>
                             <button 
                                 onClick={() => setShowBankModal(false)}
-                                className={`w-full py-4 rounded-lg transition-colors ${isDark ? 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700' : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'}`}
+                                className={`w-full py-4 rounded-lg transition-colors ${isNeomorphic ? 
+                                    theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] text-zinc-200 shadow-[8px_8px_16px_rgba(0,0,0,0.4),-8px_-8px_16px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] text-zinc-700 shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]'
+                                : 
+                                    isDark ? 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700' : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'
+                                }`}
                             >
                                 关闭
                             </button>
@@ -1121,6 +1160,8 @@ const LifeGame: React.FC<LifeGameProps> = ({
                     }
                     setIsImmersive(newIsImmersive);
                 }}
+                // Help System
+                onHelpClick={setActiveHelp}
                 // Settings
                 settings={settings}
               />
@@ -1249,9 +1290,9 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                         <Calendar size={10}/> 签到系统
                                     </div>
                                     {settings.guideCardConfig && (
-                                        <button onClick={() => { /* 显示签到系统指南 */ }} className={`p-0.5 rounded-full transition-all duration-300 hover:scale-[1.1] ${isNeomorphic ? 'hover:bg-blue-500/10' : 'hover:bg-blue-500/20'}`}>
+                                        <HelpTooltip helpId="checkin" onHelpClick={setActiveHelp} className="p-0.5">
                                             <HelpCircle size={10} className="text-blue-500" />
-                                        </button>
+                                        </HelpTooltip>
                                     )}
                                 </div>
                                 
@@ -1328,11 +1369,15 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                             
                                             if (checkInData[todayDate]) {
                                                 return isNeomorphic 
-                                                    ? 'bg-[#e0e5ec] text-emerald-500 border-2 border-emerald-500/30 cursor-not-allowed shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,1)]' 
+                                                    ? (theme === 'neomorphic-dark' 
+                                                        ? 'bg-[#1e1e2e] text-emerald-500 border-2 border-emerald-500/30 cursor-not-allowed shadow-[inset_3px_3px_6px_rgba(0,0,0,0.4),inset_-3px_-3px_6px_rgba(30,30,46,0.8)]' 
+                                                        : 'bg-[#e0e5ec] text-emerald-500 border-2 border-emerald-500/30 cursor-not-allowed shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,1)]') 
                                                     : 'bg-emerald-500/20 text-emerald-500 border-2 border-emerald-500/30 cursor-not-allowed';
                                             } else {
                                                 return isNeomorphic 
-                                                    ? 'bg-[#e0e5ec] text-blue-500 border-2 border-blue-500/30 hover:shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] active:shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,1)] animate-pulse' 
+                                                    ? (theme === 'neomorphic-dark' 
+                                                        ? 'bg-[#1e1e2e] text-blue-500 border-2 border-blue-500/30 hover:shadow-[3px_3px_6px_rgba(0,0,0,0.4),-3px_-3px_6px_rgba(30,30,46,0.8)] active:shadow-[inset_3px_3px_6px_rgba(0,0,0,0.4),inset_-3px_-3px_6px_rgba(30,30,46,0.8)] animate-pulse' 
+                                                        : 'bg-[#e0e5ec] text-blue-500 border-2 border-blue-500/30 hover:shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] active:shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,1)] animate-pulse') 
                                                     : 'bg-blue-600 text-white border-2 border-blue-700 hover:bg-blue-700 shadow-lg shadow-blue-900/30 transform hover:scale-105 animate-pulse';
                                             }
                                         })()}`}
@@ -1393,14 +1438,14 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                                         w-full aspect-square rounded-full flex items-center justify-center border-2 text-[7px] font-bold transition-all
                                                         ${isCheckedIn 
                                                             ? (isNeomorphic 
-                                                                ? 'bg-[#e0e5ec] border-emerald-500/30 text-emerald-500 shadow-[inset_1px_1px_2px_rgba(163,177,198,0.6),inset_-1px_-1px_2px_rgba(255,255,255,1)]' 
+                                                                ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] border-emerald-500/30 text-emerald-500 shadow-[inset_1px_1px_2px_rgba(0,0,0,0.4),inset_-1px_-1px_2px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] border-emerald-500/30 text-emerald-500 shadow-[inset_1px_1px_2px_rgba(163,177,198,0.6),inset_-1px_-1px_2px_rgba(255,255,255,1)]') 
                                                                 : 'border-emerald-500 bg-emerald-500/10 text-emerald-500 shadow-[0_0_3px_rgba(16,185,129,0.3)]')
                                                             : isToday 
                                                             ? (isNeomorphic 
-                                                                ? 'bg-[#e0e5ec] border-blue-500/30 text-blue-500 shadow-[1px_1px_2px_rgba(163,177,198,0.6),-1px_-1px_2px_rgba(255,255,255,1)]' 
+                                                                ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] border-blue-500/30 text-blue-500 shadow-[1px_1px_2px_rgba(0,0,0,0.4),-1px_-1px_2px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] border-blue-500/30 text-blue-500 shadow-[1px_1px_2px_rgba(163,177,198,0.6),-1px_-1px_2px_rgba(255,255,255,1)]') 
                                                                 : 'border-blue-500 bg-blue-500/10 text-blue-500 shadow-[0_0_3px_rgba(59,130,246,0.3)]')
                                                             : (isNeomorphic 
-                                                                ? 'bg-[#e0e5ec] border-zinc-300/30 text-zinc-400 shadow-[1px_1px_2px_rgba(163,177,198,0.6),-1px_-1px_2px_rgba(255,255,255,1)]' 
+                                                                ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] border-zinc-600/30 text-zinc-400 shadow-[1px_1px_2px_rgba(0,0,0,0.4),-1px_-1px_2px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] border-zinc-300/30 text-zinc-400 shadow-[1px_1px_2px_rgba(163,177,198,0.6),-1px_-1px_2px_rgba(255,255,255,1)]') 
                                                                 : (isDark ? 'border-zinc-800 bg-zinc-800 text-zinc-600' : 'border-slate-200 bg-slate-100 text-slate-400'))
                                                     }
                                                     `}>
@@ -1630,50 +1675,15 @@ const LifeGame: React.FC<LifeGameProps> = ({
 
                         {taskCategory === 'random' && (
                             <div className="space-y-4">
-                                {/* 命运骰子组件 */}
-                                <div className={`${cardBg} border p-3 rounded-xl text-center`}>
-                                    {/* 骰子区域 - 上移到顶部 */}
-                                    <div className="flex justify-center mb-2">
-                                        <button 
-                                            onClick={() => {
-                                                if (onSpinDice) {
-                                                    const result = onSpinDice();
-                                                    if (!result.success && result.message) {
-                                                        onAddFloatingReward(result.message, 'text-red-500');
-                                                    }
-                                                }
-                                            }}
-                                            disabled={diceState?.isSpinning || (diceState?.todayCount >= (diceState?.config.dailyLimit || 10))}
-                                            className={`relative w-24 h-24 rounded-full flex items-center justify-center transition-all duration-300 transform ${diceState?.isSpinning ? 'animate-[spin_2s_ease-in-out]' : 'hover:scale-110 hover:rotate-12'} ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]' : isDark ? 'bg-gradient-to-br from-zinc-800 to-zinc-900 border-zinc-700' : 'bg-gradient-to-br from-white to-slate-100 border-slate-200'} border-4 ${diceState?.isSpinning ? 'border-yellow-500' : 'border-blue-500'} shadow-lg hover:shadow-xl group`}
-                                        >
-                                            {/* 3D骰子效果容器 */}
-                                            <div className={`relative transition-all duration-500 ${diceState?.isSpinning ? 'animate-[spin_1s_linear_infinite]' : 'animate-[rotate3d_5s_linear_infinite]'}`} style={{ perspective: '500px' }}>
-                                                {/* 骰子立体效果 */}
-                                                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white to-blue-100 opacity-20 blur-lg transform rotate-45"></div>
-                                                <div className={`absolute inset-0 rounded-full bg-gradient-to-br from-blue-200 to-blue-500 opacity-10 blur-md transform -rotate-45`}></div>
-                                                {/* 3D旋转骰子 */}
-                                                <div className={`relative z-10 transition-all duration-1000 ${diceState?.isSpinning ? 'animate-[spin3d_0.5s_linear_infinite]' : 'animate-[rotate3d_8s_ease-in-out_infinite]'}`} style={{ transformStyle: 'preserve-3d' }}>
-                                                    <Dice5 
-                                                        size={44} 
-                                                        className={`relative z-10 transition-all duration-300 ${diceState?.isSpinning ? 'text-yellow-500 drop-shadow-[0_0_15px_rgba(234,179,8,0.8)]' : 'text-blue-500 group-hover:text-blue-600 drop-shadow-[0_0_5px_rgba(59,130,246,0.5)]'}`} 
-                                                    />
-                                                    {/* 骰子投影效果 */}
-                                                    <div className="absolute inset-0 rounded-full bg-blue-500 opacity-5 blur-xl translate-z-[-20px] scale-[1.2]"></div>
-                                                </div>
-                                                {/* 骰子高光效果 */}
-                                                <div className="absolute -top-2 -right-2 w-12 h-12 rounded-full bg-white opacity-30 blur-sm"></div>
-                                                <div className="absolute -bottom-2 -left-2 w-12 h-12 rounded-full bg-white opacity-10 blur-sm"></div>
-                                            </div>
-                                        </button>
-                                    </div>
-                                    
-                                    {/* 剩余次数显示 */}
-                                    <div className="mb-1">
-                                        <div className="text-xs text-zinc-500 mb-0.5">今日剩余次数</div>
-                                        <div className={`text-lg font-bold ${isDark ? 'text-blue-400' : 'text-blue-600'}`}>
-                                            {diceState?.todayCount || 0} / {diceState?.config.dailyLimit || 10}
-                                        </div>
-                                    </div>
+                                {/* 整合后的3D命运骰子组件 - 移除多余的背景和边框样式，使用组件内部样式 */}
+                                <div className="text-center">
+                                    <FateDice 
+                                        theme={theme}
+                                        diceState={diceState}
+                                        onSpinDice={onSpinDice}
+                                        onUpdateDiceState={onUpdateDiceState}
+                                        onAddFloatingReward={onAddFloatingReward}
+                                    />
                                 </div>
                                 
                                 {/* 骰子结果弹窗 - 使用全局统一组件 */}
@@ -1688,7 +1698,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                             onChangeDuration(duration);
                                             onToggleTimer();
                                         }}
-                                        theme={theme}
+                                        theme={theme.includes('neomorphic') ? 'neomorphic' : 'dark'}
                                     />
                                 )}
                                 
@@ -1809,7 +1819,9 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                 
                              </div>
                              <div className="flex gap-2 items-center">
-                                 <button onClick={() => setActiveHelp('shop')} className="text-zinc-500 hover:text-white transition-colors"><HelpCircle size={16}/></button>
+                                 <HelpTooltip helpId="shop" onHelpClick={setActiveHelp} className="text-zinc-500 hover:text-white transition-colors">
+                                    <HelpCircle size={16}/>
+                                 </HelpTooltip>
                                  <div className={`flex items-center gap-1 cursor-pointer transition-all ${isEditingSavings ? '' : 'hover:scale-105'}`}>
                                      {isEditingSavings ? (
                                          <div className="flex items-center gap-1">
@@ -1922,7 +1934,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                      )}
                                      <p className="text-xs text-zinc-500 mt-0 line-clamp-2 w-full max-w-[120px]">{item.description}</p>
                                      {/* 购买按钮完全融入商品块 */}
-                                     <button onClick={(e) => handlePurchase(item, e)} className={`w-full py-1 text-[12px] font-bold rounded-md mt-1 transition-all duration-300 ${item.type === 'physical' && item.owned ? 'bg-zinc-800/30 text-zinc-500 hover:bg-zinc-700/50' : (isNeomorphic ? neomorphicStyles.bg + ' text-blue-600 hover:text-blue-700' : 'bg-gradient-to-r from-yellow-600/80 to-amber-600/80 hover:from-yellow-500/90 hover:to-amber-500/90 text-white')}`}>
+                                     <button onClick={(e) => handlePurchase(item, e)} className={`w-full py-1 text-[12px] font-bold rounded-md mt-1 transition-all duration-300 ${item.type === 'physical' && item.owned ? 'bg-zinc-800/30 text-zinc-500 hover:bg-zinc-700/50' : (isNeomorphic ? (isNeomorphicDark ? 'bg-[#1e1e2e] text-blue-400 hover:text-blue-300' : neomorphicStyles.bg + ' text-blue-600 hover:text-blue-700') : 'bg-gradient-to-r from-yellow-600/80 to-amber-600/80 hover:from-yellow-500/90 hover:to-amber-500/90 text-white')}`}>
                                         {item.type === 'physical' && item.owned ? '已拥有' : '购买'}
                                     </button>
                                  </div>
@@ -2162,7 +2174,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                     <div className="p-4 overflow-y-auto space-y-2 flex-1">
                         {/* 添加任务表单 - 日常任务 */}
                         {manageTaskTab === 'daily' && (
-                            <div className={`p-3 border border-dashed rounded mb-4 ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] border-none rounded-lg' : (isDark ? 'border-zinc-700 bg-zinc-900/50' : 'border-slate-300 bg-slate-50')}`}>
+                            <div className={`p-3 border border-dashed rounded mb-4 ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[5px_5px_10px_rgba(0,0,0,0.4),-5px_-5px_10px_rgba(30,30,46,0.8)] border-none rounded-lg' : 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] border-none rounded-lg') : (isDark ? 'border-zinc-700 bg-zinc-900/50' : 'border-slate-300 bg-slate-50')}`}>
                                 <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
                                     <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>任务标题</label><input value={newTaskTitle} onChange={e => setNewTaskTitle(e.target.value)} className={`w-full py-1 outline-none ${textMain} ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-2' : (isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300')}`} placeholder="输入日常任务标题..." /></div>
                                     <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>任务属性</label>
@@ -2192,7 +2204,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                             setNewTaskAttr(AttributeType.WEALTH);
                                         }
                                     }} 
-                                    className={`w-full mt-3 py-2 text-xs text-white rounded flex items-center justify-center gap-2 ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] border-none text-emerald-600 hover:shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)]' : 'bg-emerald-600 hover:bg-emerald-500'}`}
+                                    className={`w-full mt-3 py-2 text-xs text-white rounded flex items-center justify-center gap-2 ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[5px_5px_10px_rgba(0,0,0,0.4),-5px_-5px_10px_rgba(30,30,46,0.8)] border-none text-emerald-400 hover:shadow-[3px_3px_6px_rgba(0,0,0,0.3),-3px_-3px_6px_rgba(30,30,46,0.7)] active:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] border-none text-emerald-600 hover:shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)]') : 'bg-emerald-600 hover:bg-emerald-500'}`}
                                 >
                                     <Plus size={14}/> 添加日常任务
                                 </button>
@@ -2306,7 +2318,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                         {manageTaskTab === 'random' && (
                             <div className="space-y-4">
                                 {/* 分类选择 */}
-                                <div className={`p-3 border border-dashed rounded ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] border-none rounded-lg' : (isDark ? 'border-zinc-700 bg-zinc-900/50' : 'border-slate-300 bg-slate-50')}`}>
+                                <div className={`p-3 border border-dashed rounded ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[5px_5px_10px_rgba(0,0,0,0.4),-5px_-5px_10px_rgba(30,30,46,0.8)] border-none rounded-lg' : 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] border-none rounded-lg') : (isDark ? 'border-zinc-700 bg-zinc-900/50' : 'border-slate-300 bg-slate-50')}`}>
                                     <h4 className={`text-sm font-bold mb-3 ${textMain}`}>命运事件分类</h4>
                                     <div className="flex gap-2 mb-4">
                                         {[
@@ -2415,8 +2427,8 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                                 setActiveDiceCategory(category.id);
                                             }}
                                             className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${activeDiceCategory === category.id ? 
-                                                `${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] text-${category.color}-700 border-none' : `${isDark ? 'bg-zinc-600' : 'bg-slate-200'} text-${category.color}-700`}` : 
-                                                `${isNeomorphic ? 'bg-[#e0e5ec] shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] hover:shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] text-${category.color}-600 border-none' : `${isDark ? 'bg-zinc-700 hover:bg-zinc-600' : 'bg-white hover:bg-slate-100'} text-${category.color}-600 hover:text-${category.color}-700`}`}`}
+                                                isNeomorphic ? `bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] text-${category.color}-700 border-none` : (isDark ? `bg-zinc-600` : `bg-slate-200`) + ` text-${category.color}-700` : 
+                                                isNeomorphic ? (theme === 'neomorphic-dark' ? `bg-[#1e1e2e] shadow-[3px_3px_6px_rgba(0,0,0,0.4),-3px_-3px_6px_rgba(30,30,46,0.8)] hover:shadow-[5px_5px_10px_rgba(0,0,0,0.5),-5px_-5px_10px_rgba(30,30,46,1)] active:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] text-${category.color}-400 border-none` : `bg-[#e0e5ec] shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] hover:shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] text-${category.color}-600 border-none`) : (isDark ? `bg-zinc-700 hover:bg-zinc-600` : `bg-white hover:bg-slate-100`) + ` text-${category.color}-600 hover:text-${category.color}-700`}`}
                                         >
                                             <span className={`inline-block w-1.5 h-1.5 rounded-full mr-1 bg-${category.color}-500`}></span>
                                             {category.label}
@@ -2429,7 +2441,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                         {/* 现有任务列表 */}
                         <div className="space-y-2">
                             {manageTaskTab === 'daily' && habits.map((h) => (
-                                <div key={h.id} className={`flex items-center justify-between p-2 rounded ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] border-none rounded-lg' : (isDark ? 'border-zinc-800 bg-zinc-900/50' : 'border-slate-200 bg-slate-50')}`}>
+                                <div key={h.id} className={`flex items-center justify-between p-2 rounded ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[5px_5px_10px_rgba(0,0,0,0.4),-5px_-5px_10px_rgba(30,30,46,0.8)] border-none rounded-lg' : 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] border-none rounded-lg') : (isDark ? 'border-zinc-800 bg-zinc-900/50' : 'border-slate-200 bg-slate-50')}`}>
                                     <span className={`text-xs ${textMain}`}>{h.name}</span>
                                     <div className="flex gap-2">
                                         <button onClick={() => { openEditTask({...h, text:h.name, type:'daily', gold:h.reward}); setIsManageTasksOpen(false); }} className={`${isNeomorphic ? 'bg-[#e0e5ec] shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] border-none rounded text-blue-500 hover:shadow-[1px_1px_3px_rgba(163,177,198,0.6),-1px_-1px_3px_rgba(255,255,255,1)] active:shadow-[inset_1px_1px_2px_rgba(163,177,198,0.6),inset_-1px_-1px_2px_rgba(255,255,255,1)] p-1' : 'text-blue-500 hover:text-blue-400'}`}><Edit3 size={14}/></button>
@@ -2438,7 +2450,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                 </div>
                             ))}
                             {manageTaskTab === 'main' && projects.map((p) => (
-                                <div key={p.id} className={`flex items-center justify-between p-2 rounded ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] border-none rounded-lg' : (isDark ? 'border-zinc-800 bg-zinc-900/50' : 'border-slate-200 bg-slate-50')}`}>
+                                <div key={p.id} className={`flex items-center justify-between p-2 rounded ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[5px_5px_10px_rgba(0,0,0,0.4),-5px_-5px_10px_rgba(30,30,46,0.8)] border-none rounded-lg' : 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] border-none rounded-lg') : (isDark ? 'border-zinc-800 bg-zinc-900/50' : 'border-slate-200 bg-slate-50')}`}>
                                     <span className={`text-xs ${textMain}`}>{p.name}</span>
                                     <div className="flex gap-2">
                                         <button onClick={() => { openEditTask({...p, text:p.name, type:'main', gold:500}); setIsManageTasksOpen(false); }} className={`${isNeomorphic ? 'bg-[#e0e5ec] shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] border-none rounded text-blue-500 hover:shadow-[1px_1px_3px_rgba(163,177,198,0.6),-1px_-1px_3px_rgba(255,255,255,1)] active:shadow-[inset_1px_1px_2px_rgba(163,177,198,0.6),inset_-1px_-1px_2px_rgba(255,255,255,1)] p-1' : 'text-blue-500 hover:text-blue-400'}`}><Edit3 size={14}/></button>
@@ -2494,7 +2506,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                                         }
                                                         
                                                         return (
-                                                            <div key={idx} className={`flex items-center justify-between p-2 rounded ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] border-none rounded-lg' : (isDark ? 'border-zinc-800 bg-zinc-900/50' : 'border-slate-200 bg-slate-50')}`}>
+                                                            <div key={idx} className={`flex items-center justify-between p-2 rounded ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[5px_5px_10px_rgba(0,0,0,0.4),-5px_-5px_10px_rgba(30,30,46,0.8)] border-none rounded-lg' : 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] border-none rounded-lg') : (isDark ? 'border-zinc-800 bg-zinc-900/50' : 'border-slate-200 bg-slate-50')}`}>
                                                                 <div className="flex items-center gap-2">
                                                                     <span className={`text-xs ${textMain}`}>{taskText}</span>
                                                                     <span className={`text-[9px] px-1.5 py-0.5 rounded-full bg-${category.color}-100 text-${category.color}-700 ${isDark ? `bg-${category.color}-900/30 text-${category.color}-400` : ''}`}>

@@ -1,0 +1,286 @@
+import React, { useState, useMemo } from 'react';
+import { Theme } from '../types';
+import { Search, BookOpen } from 'lucide-react';
+import thinkingModels from './thinkingModels.json';
+
+interface ThinkingCenterProps {
+  theme: Theme;
+}
+
+// Button component without drag and drop functionality
+const ModelButton = ({ children, onClick, isActive, theme }: { children: React.ReactNode; onClick: () => void; isActive: boolean; theme: string }) => {
+  const isDark = theme === 'dark' || theme === 'neomorphic-dark';
+  const isNeomorphic = theme.startsWith('neomorphic');
+  const isNeomorphicDark = theme === 'neomorphic-dark';
+  
+  // 统一的按钮基础样式，参考补给黑市的商品分类与管理模块按钮设计
+  // 移除白色阴影效果，使用圆角设计，统一边框和背景色处理
+  const baseStyles = 'px-3 py-1.5 rounded-[18px] text-xs font-bold border transition-all duration-200 ease-in-out';
+  
+  // 选中状态样式：蓝色背景色块，明显视觉对比
+  const activeStyle = {
+    neomorphicDark: `${baseStyles} bg-blue-500 text-white border-blue-500`,
+    neomorphicLight: `${baseStyles} bg-blue-500 text-white border-blue-500`,
+    normalDark: `${baseStyles} bg-blue-500 text-white border-blue-500`,
+    normalLight: `${baseStyles} bg-blue-500 text-white border-blue-500`
+  };
+  
+  // 未选中状态样式：统一背景色，移除白色阴影
+  const inactiveStyle = {
+    neomorphicDark: `${baseStyles} bg-transparent text-white border-transparent`,
+    neomorphicLight: `${baseStyles} bg-transparent text-black border-transparent`,
+    normalDark: `${baseStyles} bg-zinc-800 text-zinc-200 border-zinc-700`,
+    normalLight: `${baseStyles} bg-white text-black border-slate-300`
+  };
+  
+  // 点击效果：凹陷视觉效果，模拟物理按压
+  const getButtonClass = () => {
+    if (isActive) {
+      // 选中状态：蓝色背景色块
+      if (isNeomorphicDark) return activeStyle.neomorphicDark;
+      if (isNeomorphic) return activeStyle.neomorphicLight;
+      if (isDark) return activeStyle.normalDark;
+      return activeStyle.normalLight;
+    } else {
+      // 未选中状态
+      if (isNeomorphicDark) return inactiveStyle.neomorphicDark;
+      if (isNeomorphic) return inactiveStyle.neomorphicLight;
+      if (isDark) return inactiveStyle.normalDark;
+      return inactiveStyle.normalLight;
+    }
+  };
+  
+  return (
+    <button
+      onClick={onClick}
+      // 添加点击效果：凹陷视觉效果，通过transform和shadow实现
+      className={`${getButtonClass()} hover:scale-105 active:scale-95 active:shadow-inner`}
+    >
+      {children}
+    </button>
+  );
+};
+
+const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme }) => {
+  const isDark = theme === 'dark' || theme === 'neomorphic-dark';
+  const isNeomorphic = theme.startsWith('neomorphic');
+  
+  // 拟态风格样式变量 - 与MissionControl保持一致
+  const neomorphicStyles = {
+    light: {
+      bg: 'bg-[#e0e5ec]',
+      border: 'border-[#e0e5ec]',
+      shadow: 'shadow-[8px_8px_16px_rgba(163,177,198,0.2),-8px_-8px_16px_rgba(255,255,255,0.8)] rounded-[24px]',
+      hoverShadow: 'hover:shadow-[10px_10px_20px_rgba(163,177,198,0.3),-10px_-10px_20px_rgba(255,255,255,0.9)] rounded-[24px]',
+      transition: 'transition-all duration-200'
+    },
+    dark: {
+      bg: 'bg-[#1e1e2e]',
+      border: 'border-[#1e1e2e]',
+      shadow: 'shadow-[8px_8px_16px_rgba(0,0,0,0.4),-8px_-8px_16px_rgba(30,30,46,0.8)] rounded-[24px]',
+      hoverShadow: 'hover:shadow-[10px_10px_20px_rgba(0,0,0,0.5),-10px_-10px_20px_rgba(30,30,46,1)] rounded-[24px]',
+      transition: 'transition-all duration-200'
+    }
+  };
+  
+  const currentNeomorphicStyle = neomorphicStyles[theme === 'neomorphic-dark' ? 'dark' : 'light'];
+  
+  // Theme-specific styles
+  const bgClass = isNeomorphic 
+    ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e]' : 'bg-[#e0e5ec]') 
+    : isDark 
+    ? 'bg-zinc-950' 
+    : 'bg-slate-50';
+  
+  const cardBg = isDark 
+      ? (isNeomorphic 
+        ? `${currentNeomorphicStyle.bg} ${currentNeomorphicStyle.border} ${currentNeomorphicStyle.shadow} ${currentNeomorphicStyle.hoverShadow} transition-all duration-300` 
+        : 'bg-zinc-900 shadow-xl hover:shadow-2xl transition-all duration-300')
+      : (isNeomorphic 
+        ? `${currentNeomorphicStyle.bg} ${currentNeomorphicStyle.border} ${currentNeomorphicStyle.shadow} ${currentNeomorphicStyle.hoverShadow} transition-all duration-300` 
+        : 'bg-white shadow-xl hover:shadow-2xl transition-all duration-300');
+  
+  // 将字体颜色统一设置为黑色或白色，确保可读性
+  const textMain = isDark ? 'text-zinc-200' : 'text-black';
+  const textSub = isDark ? 'text-zinc-500' : 'text-gray-700';
+  
+  // 生成搜索框样式类
+  const getSearchInputClass = () => {
+    const baseClass = 'w-full px-4 py-2 pr-10 rounded-[24px] text-sm border transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500/50';
+    
+    if (isNeomorphic) {
+      if (theme === 'neomorphic-dark') {
+        // 暗色拟态主题
+        return `${baseClass} bg-[#1e1e2e] border-[#1e1e2e] text-white placeholder-white/50 shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] hover:shadow-[inset_3px_3px_6px_rgba(0,0,0,0.5),inset_-3px_-3px_6px_rgba(30,30,46,1)]`;
+      } else {
+        // 亮色拟态主题
+        return `${baseClass} bg-[#e0e5ec] border-[#e0e5ec] text-black placeholder-black/50 shadow-[inset_2px_2px_4px_rgba(163,177,198,0.3),inset_-2px_-2px_4px_rgba(255,255,255,0.8)] hover:shadow-[inset_3px_3px_6px_rgba(163,177,198,0.4),inset_-3px_-3px_6px_rgba(255,255,255,0.9)]`;
+      }
+    } else {
+      // 非拟态主题
+      if (isDark) {
+        return `${baseClass} bg-zinc-900 border-zinc-800 text-white placeholder-zinc-500 shadow-[2px_2px_4px_rgba(0,0,0,0.4),-2px_-2px_4px_rgba(30,30,46,0.8)] hover:shadow-[3px_3px_6px_rgba(0,0,0,0.5),-3px_-3px_6px_rgba(30,30,46,1)]`;
+      } else {
+        return `${baseClass} bg-white border-slate-300 text-black placeholder-gray-500 shadow-[2px_2px_4px_rgba(163,177,198,0.2),-2px_-2px_4px_rgba(255,255,255,0.8)] hover:shadow-[3px_3px_6px_rgba(163,177,198,0.3),-3px_-3px_6px_rgba(255,255,255,0.9)]`;
+      }
+    }
+  };
+
+  // State management
+  const [activeModel, setActiveModel] = useState<string>(thinkingModels[0]?.id || '');
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [viewCounts, setViewCounts] = useState<Record<string, number>>(() => {
+    // 初始化查看次数，所有模型初始为0
+    const initialCounts: Record<string, number> = {};
+    thinkingModels.forEach(model => {
+      initialCounts[model.id] = 0;
+    });
+    return initialCounts;
+  });
+  
+  // 用于存储上一次点击的模型ID，实现延迟更新查看次数
+  const [previousModel, setPreviousModel] = useState<string | null>(null);
+  
+  // Handle model click event
+  const handleModelClick = (modelId: string) => {
+    // 如果不是第一次点击，并且点击的是不同的模型，则更新上一次模型的查看次数
+    if (previousModel && previousModel !== modelId) {
+      setViewCounts(prevCounts => ({
+        ...prevCounts,
+        [previousModel]: (prevCounts[previousModel] || 0) + 1
+      }));
+    }
+    
+    // 更新当前激活的模型和上一次点击的模型
+    setActiveModel(modelId);
+    setPreviousModel(modelId);
+  };
+  
+  // Filter and sort models based on search term and view counts
+  const filteredModels = useMemo(() => {
+    // Filter models first
+    let models = thinkingModels;
+    if (searchTerm.trim()) {
+      const searchLower = searchTerm.toLowerCase();
+      models = thinkingModels.filter(model => 
+        model.label.toLowerCase().includes(searchLower) ||
+        model.description.toLowerCase().includes(searchLower) ||
+        model.deepAnalysis.toLowerCase().includes(searchLower)
+      );
+    }
+    
+    // Sort models: all models sorted by view count in descending order
+    return [...models].sort((a, b) => {
+      const countA = viewCounts[a.id] || 0;
+      const countB = viewCounts[b.id] || 0;
+      return countB - countA;
+    });
+  }, [searchTerm, viewCounts]);
+  
+  // Get the current active model data
+  const currentModel = useMemo(() => {
+    return thinkingModels.find(model => model.id === activeModel) || thinkingModels[0];
+  }, [activeModel]);
+
+  return (
+    <div className={`${bgClass} min-h-screen transition-colors duration-200`}>
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="flex flex-col gap-6">
+          {/* Search and Model Switcher */}
+          <div className={`${cardBg} p-5 rounded-3xl border`}>
+            {/* Search Bar */}
+            <div className="mb-3">
+              <div className="relative">
+                {/* 拟态风格搜索框 */}
+                <input
+                  type="text"
+                  placeholder="搜索思维模型..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className={getSearchInputClass()}
+                />
+                <div className={`absolute right-3 top-1/2 transform -translate-y-1/2 transition-all duration-300 ${isDark ? 'text-zinc-400 hover:text-zinc-300' : 'text-slate-500 hover:text-slate-400'}`}>
+                  <Search size={18} />
+                </div>
+              </div>
+            </div>
+            
+            {/* Model Switching Buttons - Vertical Scroll with 2 rows */}
+            <div className="relative h-32 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-700 scrollbar-track-transparent">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
+                {filteredModels.map((model, index) => (
+                  <ModelButton
+                    key={model.id}
+                    onClick={() => handleModelClick(model.id)}
+                    isActive={activeModel === model.id}
+                    theme={theme}
+                  >
+                    <span className={`inline-flex items-center justify-center w-4 h-4 rounded-full text-[8px] mr-1.5 ${isDark ? 'bg-zinc-800 text-zinc-400' : 'bg-slate-100 text-slate-500'}`}>{index + 1}</span>
+                    {model.label}
+                  </ModelButton>
+                ))}
+              </div>
+            </div>
+          </div>
+          
+          {/* Model Display */}
+          <div className={`${cardBg} p-6 rounded-3xl border`}>
+            {/* Model Content */}
+            <div className="space-y-4">
+              {/* Model Description */}
+              <p className={`text-sm ${textSub} mt-0`}>{currentModel.description}</p>
+              
+              {/* Visual Design - Full size display */}
+              <div className={`rounded-xl p-4 border transition-all duration-200 ${isDark ? (isNeomorphic ? 'bg-[#2a2d36] border-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.3),-8px_-8px_16px_rgba(40,43,52,0.8)]' : 'bg-zinc-900 border-zinc-800') : (isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow}` : 'bg-white border-slate-200')}`}>
+                <div 
+                  dangerouslySetInnerHTML={{ __html: currentModel.visualDesign }}
+                  className="w-full"
+                />
+              </div>
+              
+              {/* Model Details - Below the chart */}
+              <div className="space-y-4">
+                {/* Description */}
+                <div className="space-y-1">
+                  <h3 className={`text-sm font-semibold ${textMain}`}>模型描述</h3>
+                  <p className={`text-sm ${textSub}`}>{currentModel.deepAnalysis}</p>
+                </div>
+                
+                {/* Principle */}
+                <div className="space-y-1">
+                  <h3 className={`text-sm font-semibold ${textMain}`}>核心原则</h3>
+                  <p className={`text-sm ${textSub}`}>{currentModel.principle}</p>
+                </div>
+                
+                {/* Scope */}
+                <div className="space-y-1">
+                  <h3 className={`text-sm font-semibold ${textMain}`}>应用范围</h3>
+                  <p className={`text-sm ${textSub}`}>{currentModel.scope}</p>
+                </div>
+                
+                {/* Tips */}
+                <div className="space-y-1">
+                  <h3 className={`text-sm font-semibold ${textMain}`}>使用技巧</h3>
+                  <ul className={`text-sm ${textSub} space-y-1 list-disc list-inside`}>
+                    {currentModel.tips.split('\n').map((tip, index) => (
+                      <li key={index}>{tip}</li>
+                    ))}
+                  </ul>
+                </div>
+                
+                {/* Practice */}
+                <div className="space-y-1">
+                  <h3 className={`text-sm font-semibold ${textMain}`}>实践建议</h3>
+                  <p className={`text-sm ${textSub}`}>{currentModel.practice}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ThinkingCenter;

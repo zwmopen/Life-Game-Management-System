@@ -1,6 +1,6 @@
 import React from 'react';
 import { Theme } from '../../types';
-import { List, Edit3 } from 'lucide-react';
+import { List, Edit3, HelpCircle } from 'lucide-react';
 
 interface MantraModuleProps {
   theme: Theme;
@@ -8,6 +8,7 @@ interface MantraModuleProps {
   currentMantraIndex: number;
   cycleMantra: () => void;
   setIsMantraModalOpen: (open: boolean) => void;
+  onHelpClick?: (helpId: string) => void;
 }
 
 const MantraModule: React.FC<MantraModuleProps> = ({
@@ -15,7 +16,8 @@ const MantraModule: React.FC<MantraModuleProps> = ({
   mantras,
   currentMantraIndex,
   cycleMantra,
-  setIsMantraModalOpen
+  setIsMantraModalOpen,
+  onHelpClick
 }) => {
   const isDark = theme === 'dark';
   const isNeomorphic = theme === 'neomorphic';
@@ -46,6 +48,13 @@ const MantraModule: React.FC<MantraModuleProps> = ({
           "{mantras[currentMantraIndex]}"
         </div>
       </div>
+      
+      {/* 帮助按钮 */}
+      {onHelpClick && (
+        <button onClick={() => onHelpClick('mantra')} className={`p-0.5 rounded-full transition-all duration-300 hover:scale-[1.1] ${isNeomorphic ? 'hover:bg-blue-500/10' : 'hover:bg-blue-500/20'}`} title="查看心法模块指南">
+          <HelpCircle size={10} className="text-blue-500" />
+        </button>
+      )}
     </div>
   );
 };

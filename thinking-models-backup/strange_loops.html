@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>怪异环</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 莫比乌斯环模拟 -->
+        <path d="M-250,0 Q-250,-150 0,-150 T250,0 T0,150 T-250,0" fill="none" stroke="var(--accent)" stroke-width="12" stroke-dasharray="10 30" opacity="0.6">
+           <animate attributeName="stroke-dashoffset" from="0" to="100" dur="5s" repeatCount="indefinite" />
+        </path>
+        
+        <!-- 递归指针 -->
+        <g>
+          <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="10s" repeatCount="indefinite" />
+          <circle r="40" cx="250" cy="0" fill="var(--accent)" filter="drop-shadow(0 0 30px var(--accent))" />
+          <text x="250" y="5" text-anchor="middle" fill="white" style="font-size: 14px; font-weight: 900;">自我</text>
+        </g>
+
+        <!-- 符号叠加 -->
+        <g fill="var(--accent)" opacity="0.1" font-weight="900" style="font-size: 120px;">
+          <text x="-150" y="50">I</text>
+          <text x="50" y="50">AM</text>
+        </g>
+        
+        <text y="280" text-anchor="middle" fill="var(--accent)" style="font-size: 32px; font-weight: 900; letter-spacing: 0.2em;">由符号涌现出的“我”</text>
+      </g>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>怪异环 (Strange Loops)</h1>
+    <p>由道格拉斯·霍夫施塔特在《哥德尔、埃舍尔、巴赫》中提出。当系统在不断的层级跨越（从分子到神经元，到思想，到自我）中，最终竟然回到了最低层级并对其产生影响，这种“层级坍缩”导致了自我意识的诞生。</p>
+    <div class="grid">
+      <div>
+        <h3>递归本质</h3>
+        <ul>
+          <li><strong>自我参照：</strong>正如埃舍尔那张“互画的手”。系统不再是被动执行指令，它开始观察自己如何执行指令，并试图修改指令。</li>
+          <li><strong>意义的产生：</strong>原本毫无意义的物理比特，通过怪异环的逻辑纠缠，自发产生了主观的“意义”与“灵魂”。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>心智应用</h3>
+        <ul>
+          <li><strong>认知的闭环：</strong>意识到你的“自我”只是大脑算法的一个镜像投影。改变观察自己的视角，就能重构那个投影。</li>
+          <li><strong>破解自证预言：</strong>怪异环既是监狱也是翅膀。通过主动引入“外部随机性”来打破负面的逻辑循环，你才能实现层级的真正跃迁。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

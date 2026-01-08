@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>虚拟工资系统</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 动作容器 -->
+        <rect x="-350" y="-100" width="300" height="200" rx="30" fill="var(--accent)" fill-opacity="0.1" stroke="var(--accent)" stroke-width="4" />
+        <text x="-200" y="5" text-anchor="middle" fill="var(--accent)" style="font-size: 24px; font-weight: 900;">发完 1 条动态</text>
+        
+        <!-- 连接链条 -->
+        <path d="M-50,0 L150,0" stroke="#fbbf24" stroke-width="4" stroke-dasharray="10 5" marker-end="url(#goldArrow)" />
+
+        <!-- 奖励发放 (硬币) -->
+        <g transform="translate(300, 0)">
+          <circle r="80" fill="#fbbf24" filter="drop-shadow(0 0 30px #fbbf24)" />
+          <text text-anchor="middle" y="10" fill="#451a03" style="font-size: 32px; font-weight: 900;">￥5.00</text>
+          <text y="120" text-anchor="middle" fill="#fbbf24" style="font-size: 24px; font-weight: 900;">即时结算</text>
+          <circle r="100" fill="none" stroke="#fbbf24" stroke-width="2" class="animate-ping" />
+        </g>
+
+        <text y="-250" text-anchor="middle" fill="#fbbf24" style="font-size: 42px; font-weight: 900;">像喂猪一样奖励你的行为</text>
+      </g>
+      <defs>
+        <marker id="goldArrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#fbbf24"/></marker>
+      </defs>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>虚拟工资系统 (Behavior Reinforcement)</h1>
+    <p>人类的大脑依然保留着原始的反馈机制。不要指望通过“三个月后的成功”来驱动今天的身体。你必须建立一个“动作-奖励”的极速闭环。每完成一个小动作，立刻结算“虚拟工资”，将这种快感与你的正向行为强制锁定。</p>
+    <div class="grid">
+      <div>
+        <h3>操作算法</h3>
+        <ul>
+          <li><strong>金钱物理化：</strong>每发一篇文章，给自己账上打 5 块钱，或立刻奖励一顿美食。这不是游戏，这是对你多巴胺受体的物理校准。</li>
+          <li><strong>拒绝欠薪：</strong>如果完成了任务却没给奖励，你的大脑会对该任务产生“被剥削感”，导致明天的执行力断裂。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>心法修炼</h3>
+        <ul>
+          <li><strong>斯金纳箱：</strong>承认你就是这只渴望饲料的小鼠。利用生理本能去推进那些需要理性的任务。</li>
+          <li><strong>颗粒度匹配：</strong>越难启动的任务，其单次结算金额应越高。利用价格弹性来重塑你的行动力分布。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

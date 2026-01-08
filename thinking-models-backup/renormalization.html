@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>重整化思维</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 复杂微观层 (细碎粒子) -->
+        <g opacity="0.1">
+          <circle cx="-10" cy="-10" r="2" /><circle cx="10" cy="10" r="2" />
+          <circle cx="20" cy="-20" r="2" /><circle cx="-20" cy="20" r="2" />
+          <animateTransform attributeName="transform" type="scale" values="1;2;1" dur="4s" repeatCount="indefinite" />
+        </g>
+        
+        <!-- 尺度变换漏斗 -->
+        <path d="M-400,-250 L-100,-50 M400,-250 L100,-50" stroke="var(--heading)" stroke-width="2" stroke-dasharray="5 10" opacity="0.2" />
+
+        <!-- 宏观核心 (重整化后的常数) -->
+        <g>
+          <circle r="120" fill="var(--accent)" fill-opacity="0.1" stroke="var(--accent)" stroke-width="1" stroke-dasharray="10 20" />
+          <rect x="-80" y="-40" width="160" height="80" rx="40" fill="var(--accent)" filter="drop-shadow(0 0 40px var(--accent))" />
+          <text text-anchor="middle" y="10" fill="white" style="font-size: 24px; font-weight: 900;">不变性核心</text>
+        </g>
+
+        <!-- 剔除的无限细节 (向外飘散) -->
+        <g fill="#94a3b8" opacity="0.2">
+           <circle r="5" cx="0" cy="0"><animate attributeName="cx" from="0" to="450" dur="2s" repeatCount="indefinite" /><animate attributeName="cy" from="0" to="-300" dur="2s" repeatCount="indefinite" /></circle>
+        </g>
+
+        <text y="240" text-anchor="middle" fill="var(--accent)" style="font-size: 32px; font-weight: 900; letter-spacing: 0.1em;">重整化：剥离无穷，直达本质</text>
+      </g>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>重整化思维 (Renormalization Group)</h1>
+    <p>量子场论的核武：面对理论中出现的“无穷大”细节，通过尺度变换将那些细碎的、不影响大局的噪音强行吸收或剔除。它告诉我们，真正的规律是跨尺度的“不变性”。</p>
+    <div class="grid">
+      <div>
+        <h3>尺度无关性</h3>
+        <ul>
+          <li><strong>抓大放小：</strong>在极高复杂度的管理中，你无法监控每一个原子的运动。重整化要求你只关注那些决定系统最终态的“序参量”或“普适类”。</li>
+          <li><strong>剔除发散项：</strong>很多所谓的“重大细节”在长周期尺度下其实是趋于零的。学会对这些细节进行逻辑归零，才能防止大脑被信息垃圾撑爆。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>商业本质</h3>
+        <ul>
+          <li><strong>第一性原理的进阶：</strong>第一性原理是寻找原件，重整化是寻找规律。无论市场环境如何缩放，只要某种底层需求（如：追求效率）是不变的，那么针对该需求的战略就是稳固的。</li>
+          <li><strong>组织重组：</strong>当公司规模从 10 人扩到 1 万人，管理逻辑必须经过重整化。用微观的管理手段去处理宏观的组织，必然会产生无穷大的内耗。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

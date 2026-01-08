@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>可得性启发</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 600">
+      <g opacity="0.05" fill="var(--heading)">
+        <circle cx="100" cy="100" r="6" /><circle cx="200" cy="150" r="6" /><circle cx="300" cy="120" r="6" />
+        <circle cx="500" cy="450" r="6" /><circle cx="600" cy="380" r="6" /><circle cx="150" cy="500" r="6" />
+      </g>
+      <g transform="translate(500, 500)">
+        <path d="M0,0 L-300,-450 L300,-450 Z" fill="var(--accent)" fill-opacity="0.1">
+          <animateTransform attributeName="transform" type="rotate" values="-20,0,0; 20,0,0; -20,0,0" dur="8s" repeatCount="indefinite" />
+        </path>
+        <circle r="50" fill="var(--heading)" opacity="0.1" />
+      </g>
+      <g transform="translate(500, 180)">
+        <circle r="100" fill="#fbbf24" fill-opacity="0.1" class="animate-ping" />
+        <circle r="50" fill="#fbbf24" />
+        <text y="100" text-anchor="middle" fill="#fbbf24" style="font-size: 32px; font-weight: 900;">鲜活记忆 (近期新闻)</text>
+        <text y="135" text-anchor="middle" fill="var(--text)" opacity="0.5" style="font-size: 14px;">“我想得起来的一定就是普遍的”</text>
+      </g>
+      <text x="500" y="560" text-anchor="middle" fill="var(--text)" opacity="0.3" style="font-size: 20px; font-weight: 900; letter-spacing: 0.5em;">你的回忆正在欺骗你的决策</text>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>可得性启发 (Availability Heuristic)</h1>
+    <p>大脑的认知捷径：它会根据信息在脑中被检索出的容易程度（近期发生的、情感鲜活的），来评估该事件发生的频率和概率。这导致了对罕见灾难的过度恐惧和对日常风险的无视。</p>
+    <div class="grid">
+      <div>
+        <h3>现象解剖</h3>
+        <ul>
+          <li><strong>鲜活性陷阱：</strong>一次极其惨烈的飞机失事新闻，会让你瞬间觉得飞行极度危险，尽管统计数据表明其概率微乎其微。</li>
+          <li><strong>认知节能：</strong>回忆比计算概率要轻松得多，大脑选择了阻力最小的逻辑路径。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>破局之道</h3>
+        <ul>
+          <li><strong>尊重统计学：</strong>在做重大决策前，强制去看 Excel 报表而不是看新闻头条或听朋友圈传闻。</li>
+          <li><strong>清单思维：</strong>强制列出那些“不容易想起”的冷门因素，以平衡认知的盲点。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

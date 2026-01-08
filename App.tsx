@@ -4,8 +4,8 @@ import MissionControl from './components/MissionControl';
 import LifeGame from './components/LifeGame';
 import HallOfFame from './components/HallOfFame';
 import Settings from './components/Settings';
-import { View, Transaction, ReviewLog, Habit, Task, TaskType, DailyStats, Theme, Project, AttributeTypeValue, AchievementItem, AutoTask, AutoTaskType, SoundType, DiceState, DiceTask, DiceCategory, DiceHistory } from './types';
-import { AttributeType } from './types';
+import ThinkingCenter from './components/ThinkingCenter';
+import { View, Transaction, ReviewLog, Habit, Task, TaskType, DailyStats, Theme, Project, AttributeType, AttributeTypeValue, AchievementItem, AutoTask, AutoTaskType, SoundType, DiceState, DiceTask, DiceCategory, DiceHistory } from './types';
 import { Wallet, Crown, Clock, Brain, Zap, Target, Crosshair, Skull, Star, Gift, Medal, Sparkles, Swords, Flame, Footprints, Calendar, ShoppingBag, Dumbbell, Shield } from 'lucide-react';
 import CharacterProfile, { getAllLevels, getAllFocusTitles, getAllWealthTitles, getAllMilitaryRanks, XP_PER_LEVEL, CharacterProfileHandle } from './components/CharacterProfile';
 import confetti from 'canvas-confetti';
@@ -39,7 +39,11 @@ const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<View>(View.RPG_MISSION_CENTER);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isNavCollapsed, setIsNavCollapsed] = useState(false);
-  const [theme, setTheme] = useState<Theme>('neomorphic');
+  const [theme, setTheme] = useState<Theme>(() => {
+    // 从localStorage读取主题，默认为拟态浅色
+    const savedTheme = localStorage.getItem('app-theme');
+    return (savedTheme as Theme) || 'neomorphic-light';
+  });
   const [isDataLoaded, setIsDataLoaded] = useState(false);
 
   // Global "Game" State
@@ -278,6 +282,11 @@ const App: React.FC = () => {
     return () => clearTimeout(timeoutId);
   }, [isDataLoaded]);
 
+  // 主题持久化到localStorage
+  useEffect(() => {
+    localStorage.setItem('app-theme', theme);
+  }, [theme]);
+
   // 使用模块化 hooks
   const { activeAchievement, setActiveAchievement } = useAchievements(
     xp, balance, totalHours, totalKills, checkInStreak, totalSpent, claimedBadges, isDataLoaded
@@ -505,9 +514,11 @@ const App: React.FC = () => {
 
   const handleToggleTheme = () => {
       setTheme(prev => {
-          if (prev === 'neomorphic') return 'light';
+          // 四种主题循环切换：拟态浅色 → 拟态深色 → 普通浅色 → 普通深色
+          if (prev === 'neomorphic-light') return 'neomorphic-dark';
+          if (prev === 'neomorphic-dark') return 'light';
           if (prev === 'light') return 'dark';
-          return 'neomorphic';
+          return 'neomorphic-light';
       });
   };
 
@@ -898,16 +909,16 @@ const App: React.FC = () => {
     
     // 根据权重选择分类
     const categories = Object.entries(diceState.config.categoryDistribution);
-    const totalWeight = categories.reduce((sum, [_, weight]) => sum + weight, 0);
+    const totalWeight = categories.reduce((sum, [_, weight]) => sum + (weight as number), 0);
     let random = Math.random() * totalWeight;
     let selectedCategory: DiceCategory;
     
     for (const [category, weight] of categories) {
-      if (random < weight) {
+      if (random < (weight as number)) {
         selectedCategory = category as DiceCategory;
         break;
       }
-      random -= weight;
+      random -= (weight as number);
     }
     
     // 从选中的分类中随机选择一个任务，避免短时间内重复
@@ -928,7 +939,7 @@ const App: React.FC = () => {
       ? generateRandomReward(task.xpRange[0], task.xpRange[1])
       : 0;
     
-    // 模拟旋转动画结束
+    // 模拟旋转动画结束之后等待 - 调整为0秒
     setTimeout(() => {
       // 播放惊喜音效
       playSound("https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3");
@@ -944,7 +955,7 @@ const App: React.FC = () => {
         } as any,
         todayCount: prev.todayCount + 1
       }));
-    }, 1500);
+    }, 0);
     
     return { success: true };
   };
@@ -1071,6 +1082,14 @@ const App: React.FC = () => {
       config: { ...prev.config, ...config }
     }));
   };
+  
+  // 更新骰子状态
+  const updateDiceState = (updates: Partial<DiceState>) => {
+    setDiceState(prev => ({
+      ...prev,
+      ...updates
+    }));
+  };
 
   const renderView = () => {
     switch (currentView) {
@@ -1145,6 +1164,7 @@ const App: React.FC = () => {
                   onDeleteDiceTask={deleteDiceTask}
                   onUpdateDiceTask={updateDiceTask}
                   onUpdateDiceConfig={updateDiceConfig}
+                  onUpdateDiceState={updateDiceState}
                   // 角色等级变化回调
                   onLevelChange={handleLevelChange}
                />;
@@ -1218,6 +1238,7 @@ const App: React.FC = () => {
                   onDeleteDiceTask={deleteDiceTask}
                   onUpdateDiceTask={updateDiceTask}
                   onUpdateDiceConfig={updateDiceConfig}
+                  onUpdateDiceState={updateDiceState}
                />;
       case View.HALL_OF_FAME:
         return <HallOfFame 
@@ -1259,6 +1280,10 @@ const App: React.FC = () => {
                   onUpdateSettings={handleUpdateSettings} 
                   onToggleTheme={handleToggleTheme} 
                 />;
+      case View.THINKING_CENTER:
+        return <ThinkingCenter 
+                  theme={theme} 
+                />;
       default: return null;
     }
   };
@@ -1267,7 +1292,9 @@ const App: React.FC = () => {
       ? 'bg-zinc-950 text-zinc-100' 
       : theme === 'light' 
       ? 'bg-slate-50 text-slate-900' 
-      : 'bg-[#e0e5ec] text-zinc-800'; // 拟态风格：高饱和度灰蓝色背景，低对比度文字，与导航栏背景一致
+      : theme === 'neomorphic-dark' 
+      ? 'bg-[#1a1a2e] text-zinc-100' // 拟态深色：深紫色背景
+      : 'bg-[#e0e5ec] text-zinc-800'; // 拟态浅色：高饱和度灰蓝色背景
   const entropy = Math.round((1 - (todayStats.habitsDone / Math.max(1, habits.length))) * 100);
 
   if (!isDataLoaded) {

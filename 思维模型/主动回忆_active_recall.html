@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>主动回忆</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #e0e5ec;
+            font-family: 'Microsoft YaHei', sans-serif;
+            color: #2d3748;
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        /* 上图下文模式：上半部分50vh */
+        .svg-container {
+            height: 50vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 8px 8px 16px rgba(163, 177, 198, 0.2), -8px -8px 16px rgba(255, 255, 255, 0.8);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .svg-container svg {
+            width: 100%;
+            height: 100%;
+            viewBox: 0 0 1000 600;
+        }
+        /* 深度解析区 */
+        .analysis-container {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 8px 8px 16px rgba(163, 177, 198, 0.2), -8px -8px 16px rgba(255, 255, 255, 0.8);
+            padding: 30px;
+        }
+        .analysis-container h1 {
+            font-size: 4.5rem;
+            font-weight: 900;
+            letter-spacing: -2px;
+            color: #2d3748;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        .analysis-section {
+            background-color: #f7fafc;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .analysis-section h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+        .analysis-section h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        .analysis-section p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #4a5568;
+            margin-bottom: 10px;
+        }
+        .analysis-section ul {
+            list-style: none;
+            padding: 0;
+        }
+        .analysis-section li {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #4a5568;
+            margin-bottom: 8px;
+        }
+        .analysis-section strong {
+            color: #2d3748;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 上半部分：SVG物理动效展示区 -->
+        <div class="svg-container">
+            <svg viewBox="0 0 1000 650">
+      <!-- 大脑核心 -->
+      <g transform="translate(500, 325)">
+        <circle r="150" fill="var(--accent)" fill-opacity="0.05" stroke="var(--accent)" stroke-width="2" stroke-dasharray="10 20" />
+        <path d="M-80,-20 Q-40,-60 0,-20 T80,-20" fill="none" stroke="var(--accent)" stroke-width="8" opacity="0.2" />
+        
+        <!-- 提取脉冲 -->
+        <g>
+          <circle r="20" fill="var(--accent)">
+            <animate attributeName="r" from="20" to="280" dur="2s" repeatCount="indefinite" />
+            <animate attributeName="opacity" from="0.8" to="0" dur="2s" repeatCount="indefinite" />
+          </circle>
+          <text text-anchor="middle" y="10" fill="var(--accent)" style="font-size: 32px; font-weight: 900;">提取练习</text>
+        </g>
+
+        <!-- 刻痕加深 -->
+        <path d="M-50,80 L50,80" stroke="var(--accent)" stroke-width="20" stroke-linecap="round" opacity="0.6">
+           <animate attributeName="stroke-width" values="4;20;4" dur="2s" repeatCount="indefinite" />
+        </path>
+        <text y="120" text-anchor="middle" fill="var(--accent)" style="font-size: 14px; font-weight: 800;">记忆痕迹物理加固</text>
+      </g>
+      
+      <!-- 被动阅读 (弱流) -->
+      <g transform="translate(150, 150)" opacity="0.2">
+        <path d="M0,0 L200,100" stroke="var(--text)" stroke-width="2" stroke-dasharray="5 5" />
+        <text x="0" y="-20" fill="var(--text)" style="font-size: 14px; font-weight: 900;">被动输入 (阅读)</text>
+      </g>
+
+      <text x="500" y="580" text-anchor="middle" fill="var(--accent)" style="font-size: 28px; font-weight: 900; letter-spacing: 0.1em;">TESTING IS THE BEST WAY TO LEARN</text>
+    </svg>
+        </div>
+        
+        <!-- 下半部分：深度解析区 -->
+        <div class="analysis-container">
+            <h1>主动回忆</h1>
+            
+            <div class="analysis-grid">
+                text
+            </div>
+        </div>
+    </div>
+</body>
+</html>

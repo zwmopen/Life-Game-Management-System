@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>沉没成本 - 理性的终点</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background: #020617; font-family: -apple-system, sans-serif; color: #f8fafc; }
+    .glass { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); }
+    @keyframes ship-sink { 0% { transform: translateY(0) rotate(0deg); } 100% { transform: translateY(40px) rotate(5deg); } }
+    .sinking-ship { animation: ship-sink 10s infinite alternate cubic-bezier(0.45, 0.05, 0.55, 0.95); }
+    @keyframes rise-bubble { 0% { transform: translateY(0); opacity: 0; } 50% { opacity: 0.5; } 100% { transform: translateY(-300px); opacity: 0; } }
+    .bubble { animation: rise-bubble 4s infinite linear; }
+  </style>
+</head>
+<body class="p-8 md:p-20 flex items-center justify-center min-h-screen">
+  <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+    <!-- SVG 可视化 -->
+    <div class="relative flex items-center justify-center glass p-12 rounded-[4rem] shadow-2xl overflow-hidden bg-slate-900/50">
+      <svg viewBox="0 0 600 600" class="w-full h-auto max-w-[500px]">
+        <!-- 水面线 -->
+        <line x1="50" y1="350" x2="550" y2="350" stroke="rgba(255,255,255,0.2)" stroke-width="2" stroke-dasharray="10 10" />
+        
+        <!-- 下沉的船 -->
+        <g class="sinking-ship" transform="translate(150, 300)">
+           <path d="M0,50 L300,50 L250,130 L50,130 Z" fill="#1e293b" stroke="#475569" stroke-width="2" />
+           <rect x="100" y="0" width="30" height="50" fill="#334155" />
+           <text x="150" y="100" text-anchor="middle" fill="#ef4444" class="font-black text-xs italic">SUNK COST</text>
+        </g>
+
+        <!-- 气泡 -->
+        <circle cx="200" cy="450" r="10" fill="white" fill-opacity="0.1" class="bubble" style="animation-delay: 0s" />
+        <circle cx="400" cy="500" r="15" fill="white" fill-opacity="0.1" class="bubble" style="animation-delay: 2s" />
+        
+        <!-- 岸边指示 (未来收益) -->
+        <g transform="translate(500, 100)">
+          <circle r="40" fill="#10b981" />
+          <text text-anchor="middle" y="5" fill="white" class="font-black text-[10px]">FUTURE</text>
+          <path d="M-60,0 L-20,0" stroke="#10b981" marker-end="url(#arrow)" />
+        </g>
+
+        <defs>
+          <marker id="arrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#10b981"/></marker>
+        </defs>
+      </svg>
+    </div>
+
+    <!-- 文案内容区 -->
+    <div class="space-y-12">
+      <h1 class="text-8xl font-black text-white tracking-tighter leading-[0.8]">沉没成本<br><span class="text-slate-500 italic">Sunk Cost</span></h1>
+      <p class="text-xl text-slate-400 border-l-4 border-slate-600 pl-6 leading-relaxed italic">
+        “如果你已经掉进坑里，最重要的事是停止挖掘。”
+      </p>
+
+      <div class="glass p-10 rounded-[3rem] space-y-6">
+        <h3 class="text-2xl font-black text-white italic">核心隐喻：漏水之船</h3>
+        <p class="text-sm text-slate-400 leading-relaxed">
+          想象你正坐在一艘漏水的船上，你已经花了很多钱来修补它（<b>过去投入</b>）。此时理性的做法不是继续投入，而是计算：换一艘新船的成本是否低于继续修补旧船。
+        </p>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="bg-red-600/10 p-5 rounded-3xl border border-red-500/20">
+             <h4 class="text-red-400 font-black text-[10px] uppercase mb-1">典型陷阱</h4>
+             <p class="text-[11px] text-slate-300 italic">“票都买了，看完再说吧。”</p>
+          </div>
+          <div class="bg-emerald-600/10 p-5 rounded-3xl border border-emerald-500/20">
+             <h4 class="text-emerald-400 font-black text-[10px] uppercase mb-1">决策逻辑</h4>
+             <p class="text-[11px] text-slate-300 italic">只根据未来收益进行当前决策。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

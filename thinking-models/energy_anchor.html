@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>能量锚点协议</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 能量波动背景 -->
+        <path d="M-400,100 Q-200,-300 0,100 T400,100" fill="none" stroke="var(--accent)" stroke-width="4" opacity="0.1" />
+        
+        <!-- 锚点 A: 高能爆发期 -->
+        <g transform="translate(-200, -120)">
+          <circle r="80" fill="var(--accent)" filter="drop-shadow(0 0 40px var(--accent))" />
+          <text text-anchor="middle" y="5" fill="white" style="font-size: 20px; font-weight: 900;">深度创作</text>
+          <text y="40" text-anchor="middle" fill="white" style="font-size: 10px;">(吃青蛙、攻克难点)</text>
+          <circle r="100" fill="none" stroke="var(--accent)" stroke-width="1" class="animate-ping" />
+        </g>
+        
+        <!-- 锚点 B: 能量低谷期 -->
+        <g transform="translate(200, 150)">
+          <circle r="60" fill="#94a3b8" opacity="0.8" />
+          <text text-anchor="middle" y="5" fill="white" style="font-size: 16px; font-weight: 900;">机械杂事</text>
+          <text y="30" text-anchor="middle" fill="white" style="font-size: 8px;">(整理、贴签、复盘)</text>
+        </g>
+
+        <!-- 智能选择器 -->
+        <g>
+          <animateTransform attributeName="transform" type="translate" values="-200,-120; 200,150; -200,-120" dur="10s" repeatCount="indefinite" />
+          <path d="M0,0 L0,50" stroke="#fbbf24" stroke-width="4" marker-end="url(#goldArrow)" />
+          <text y="-20" text-anchor="middle" fill="#fbbf24" style="font-size: 14px; font-weight: 900;">当前能量状态</text>
+        </g>
+
+        <text y="-250" text-anchor="middle" fill="var(--accent)" style="font-size: 32px; font-weight: 900;">不要与生物学对抗</text>
+      </g>
+      <defs>
+        <marker id="goldArrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#fbbf24"/></marker>
+      </defs>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>能量锚点协议 (Energy Anchor Protocol)</h1>
+    <p>忘记日程表，它是线性时代的产物。居家办公的自由在于：根据你当下的生理能量（血清素、皮质醇水平）自动匹配任务。在高能时刻做最具挑战的“非线性创造”，在低谷时刻做最无脑的“机械性产出”。</p>
+    <div class="grid">
+      <div>
+        <h3>能量对标</h3>
+        <ul>
+          <li><strong>金子时区：</strong>通常是清晨或深夜。此时必须执行“单线程饱和攻击”。任何琐碎消息的回复都是对这种高能态的极度浪费。</li>
+          <li><strong>垃圾时区：</strong>午饭后或傍晚。此时大脑无法处理逻辑复杂的事。利用这段时间去处理贴标签、改错别字、或者清理文件夹。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>操作模型</h3>
+        <ul>
+          <li><strong>任务库分层：</strong>将你的待办事项分为“高能态、常态、低能态”三个池子。</li>
+          <li><strong>30秒身体感知：</strong>每次切换任务前，闭眼感知 30 秒。如果感到大脑发热，立刻切换到“散热型”低能任务，而非强行冲击。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>突发对称破缺</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 完美的对称势能面 -->
+        <circle r="250" fill="none" stroke="var(--heading)" stroke-width="1" opacity="0.1" />
+        <circle r="150" fill="none" stroke="var(--heading)" stroke-width="1" opacity="0.1" />
+        
+        <!-- 初始的对称平衡点 -->
+        <g id="ball">
+          <circle r="30" fill="var(--accent)" class="animate-pulse" />
+          <animateTransform attributeName="transform" type="translate" values="0,0; 5,5; 0,0" dur="0.1s" repeatCount="indefinite" />
+        </g>
+
+        <!-- 破缺发生的路径 -->
+        <path d="M0,0 L200,100" stroke="#ef4444" stroke-width="4" stroke-dasharray="10 5" opacity="0">
+           <animate attributeName="opacity" from="0" to="1" dur="1s" begin="3s" fill="freeze" />
+        </path>
+
+        <!-- 坍缩后的稳态 -->
+        <g transform="translate(200, 100)" opacity="0">
+          <animate attributeName="opacity" from="0" to="1" dur="1s" begin="4s" fill="freeze" />
+          <circle r="60" fill="#ef4444" filter="drop-shadow(0 0 30px #ef4444)" />
+          <text y="100" text-anchor="middle" fill="#ef4444" style="font-size: 24px; font-weight: 900;">独一无二的战略位置</text>
+        </g>
+
+        <text y="-260" text-anchor="middle" fill="var(--accent)" style="font-size: 32px; font-weight: 900;">选择即破缺：平庸的终结</text>
+      </g>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>突发对称破缺 (Spontaneous Symmetry Breaking)</h1>
+    <p>当系统面对多种完全等价的成功路径时，由于内部的一个极微小随机涨落，系统被迫选择其中一个方向并锁定。正是这种“不公平”的选择，让原本均匀的世界诞生了万物，让同质化的企业诞生了独特的灵魂。</p>
+    <div class="grid">
+      <div>
+        <h3>战略的偶然性</h3>
+        <ul>
+          <li><strong>初始敏感：</strong>在一个成熟的市场，第一波尝试的方向往往具有随机性。但一旦破缺发生，系统就会进入正反馈，将该方向固化为“核心竞争力”。</li>
+          <li><strong>打破僵局：</strong>如果你和对手完全一样（高度对称），你们都将毁灭。卓越源于主动引入扰动，迫使系统向某个极端方向破缺。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>个性化涌现</h3>
+        <ul>
+          <li><strong>基因突变：</strong>所谓的“公司文化”，本质上就是一系列历史上的对称破缺累积而成的独特几何形状。</li>
+          <li><strong>决断的重量：</strong>领导者的核心价值不在于寻找“唯一的正确”，而是在多个正确的迷雾中，坚定地选择一个破缺方向并全速推进。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>佩兹曼效应</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 支点 -->
+        <path d="M-20,0 L20,0 L0,-40 Z" fill="var(--heading)" opacity="0.2" transform="translate(0, 150)" />
+        
+        <!-- 天平 (补偿博弈) -->
+        <g transform="translate(0, 110)">
+          <animateTransform attributeName="transform" type="rotate" values="-10,0,0; 10,0,0; -10,0,0" dur="4s" repeatCount="indefinite" />
+          <rect x="-400" y="-5" width="800" height="10" rx="5" fill="var(--heading)" />
+          
+          <!-- 安全设施 A (变重) -->
+          <g transform="translate(-250, -80)">
+             <rect x="-80" y="0" width="160" height="80" rx="20" fill="#10b981" />
+             <text text-anchor="middle" y="45" fill="white" style="font-size: 20px; font-weight: 900;">安全带/头盔</text>
+             <text y="100" text-anchor="middle" fill="#10b981" style="font-size: 14px; font-weight: 900;">(风险感知 ↓)</text>
+          </g>
+
+          <!-- 风险行为 B (自发变重) -->
+          <g transform="translate(250, -100)">
+             <rect x="-80" y="0" width="160" height="100" rx="20" fill="#ef4444" />
+             <text text-anchor="middle" y="55" fill="white" style="font-size: 20px; font-weight: 900;">更快的车速</text>
+             <text y="120" text-anchor="middle" fill="#ef4444" style="font-size: 14px; font-weight: 900;">(冒险倾向 ↑)</text>
+          </g>
+        </g>
+
+        <text y="-220" text-anchor="middle" fill="#ef4444" style="font-size: 42px; font-weight: 900;">风险补偿：系统内的风险守恒</text>
+      </g>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>佩兹曼效应 (Peltzman Effect)</h1>
+    <p>又称“风险补偿理论”。人们会根据感知到的风险水平来调整自己的行为。当安全措施增加时，人们倾向于采取更具风险的举动，从而抵消掉原本的安全收益。</p>
+    <div class="grid">
+      <div>
+        <h3>反直觉系统</h3>
+        <ul>
+          <li><strong>安全幻觉：</strong>防抱死刹车系统的普及并没有减少车祸，反而让驾驶员在雨天开得更快、跟车更近。</li>
+          <li><strong>动机偏差：</strong>人类追求的不是绝对安全，而是某种“最优的风险水平”。当物理风险被降低，心理欲望会填补空缺。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>管理警示</h3>
+        <ul>
+          <li><strong>不要迷信技术解：</strong>仅仅通过增加防御（如防火墙、审核流程）而不改变人的激励机制，最终只会诞生更隐蔽的违规。</li>
+          <li><strong>主动增加障碍：</strong>有时，刻意制造的不便（如凹凸不平的路面）反而比限速标志更能迫使驾驶员减速，提高真实安全性。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

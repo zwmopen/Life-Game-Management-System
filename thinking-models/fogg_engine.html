@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>福格行为引擎</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 动机仪表 (Motivation) -->
+        <g transform="translate(-250, 0)">
+          <circle r="80" fill="none" stroke="#ef4444" stroke-width="8" opacity="0.2" />
+          <path d="M-80,0 A80,80 0 0,1 0,-80" fill="none" stroke="#ef4444" stroke-width="8" />
+          <text y="120" text-anchor="middle" fill="#ef4444" style="font-size: 24px; font-weight: 900;">动机 (LOW)</text>
+          <text y="145" text-anchor="middle" fill="var(--text)" opacity="0.5" style="font-size: 10px;">不想动、怕困难</text>
+        </g>
+        
+        <!-- 能力仪表 (Ability) -->
+        <g transform="translate(0, 0)">
+          <circle r="80" fill="none" stroke="#3b82f6" stroke-width="8" opacity="0.2" />
+          <path d="M-80,0 A80,80 0 1,1 80,0" fill="none" stroke="#3b82f6" stroke-width="8" />
+          <text y="120" text-anchor="middle" fill="#3b82f6" style="font-size: 24px; font-weight: 900;">能力 (MED)</text>
+          <text y="145" text-anchor="middle" fill="var(--text)" opacity="0.5" style="font-size: 10px;">任务太重、颗粒度粗</text>
+        </g>
+
+        <!-- 触发器 (Trigger) -->
+        <g transform="translate(250, 0)">
+          <rect x="-40" y="-40" width="80" height="80" rx="10" fill="#fbbf24" class="animate-ping" />
+          <text y="120" text-anchor="middle" fill="#fbbf24" style="font-size: 24px; font-weight: 900;">触发 (OFF)</text>
+          <text y="145" text-anchor="middle" fill="var(--text)" opacity="0.5" style="font-size: 10px;">缺乏启动信号</text>
+        </g>
+
+        <text y="-220" text-anchor="middle" fill="#ef4444" style="font-size: 32px; font-weight: 900;">行为没发生？请检查参数</text>
+        <text y="-180" text-anchor="middle" fill="var(--text)" opacity="0.4" style="font-size: 48px; font-weight: 900;">B = MAP</text>
+      </g>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>福格行为引擎 (B=MAT)</h1>
+    <p>解决“启动难”的终极诊断工具。如果你没去洗澡或没做视频，不要责怪意志力。去看：是不是动机（M）太弱？是不是能力门槛（A）太高？还是根本没有触发信号（T）？</p>
+    <div class="grid">
+      <div>
+        <h3>诊断算法</h3>
+        <ul>
+          <li><strong>降低能力难度：</strong>如果不想做视频，说明任务太重了。降级到“只打开剪映”，难度瞬间归零，行为自然发生。</li>
+          <li><strong>增强触发：</strong>绑定物理锚点（如“喝完温水后立刻坐到电脑前”）。没有触发，系统永远处于休眠态。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>居家自救</h3>
+        <ul>
+          <li><strong>环境即动机：</strong>天冷不想动？把取暖器放在床边。提升身体的舒适度就是提升行为的 M 值。</li>
+          <li><strong>拒绝空想：</strong>分析此时此刻哪个参数坏了。修好参数（如拆解任务），比对自己说 100 遍“加油”更科学。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

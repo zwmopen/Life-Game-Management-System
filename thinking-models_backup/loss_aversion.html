@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>损失厌恶</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 600">
+      <!-- 支架 -->
+      <path d="M480,500 L520,500 L500,450 Z" fill="var(--heading)" opacity="0.1" />
+      
+      <g transform="translate(500, 450)">
+        <animateTransform attributeName="transform" type="rotate" values="10;15;10" dur="4s" repeatCount="indefinite" />
+        <rect x="-400" y="-5" width="800" height="10" rx="5" fill="var(--heading)" />
+        
+        <!-- 损失端 (沉重) -->
+        <g transform="translate(-300, 0)">
+          <rect x="-80" y="10" width="160" height="160" rx="20" fill="#ef4444" />
+          <text text-anchor="middle" y="90" fill="white" style="font-size: 48px; font-weight: 900;">损失</text>
+          <text y="210" text-anchor="middle" fill="#ef4444" style="font-size: 32px; font-weight: 900;">痛感 2.5X</text>
+        </g>
+        
+        <!-- 收益端 (轻量) -->
+        <g transform="translate(300, 0)">
+          <rect x="-80" y="10" width="160" height="80" rx="20" fill="#10b981" opacity="0.6" />
+          <text text-anchor="middle" y="60" fill="white" style="font-size: 32px; font-weight: 900;">收益</text>
+          <text y="120" text-anchor="middle" fill="#10b981" style="font-size: 20px; font-weight: 900;">快乐 1X</text>
+        </g>
+      </g>
+    </svg>
+  </div>
+
+  <div class="text-content">
+    <h1>损失厌恶 (Loss Aversion)</h1>
+    <p>人类对“失去”的敏感度远超对“获得”的喜悦。这种非对称性进化确保了我们在原始丛林中的生存，但在现代决策中却成为了阻碍。</p>
+    <div class="grid">
+      <div>
+        <h3>避害本能</h3>
+        <ul>
+          <li><strong>非对称价值：</strong>失去 100 块钱带来的愤怒，需要捡到 250 块钱才能抵消。</li>
+          <li><strong>沉没成本锁死：</strong>因为害怕损失已经投入的资源，我们往往在错误的道路上越走越远。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>策略应用</h3>
+        <ul>
+          <li><strong>框架重构：</strong>将“你可以获得什么”改为“不这样做你会失去什么”，转化率会瞬间提升。</li>
+          <li><strong>零基思考：</strong>假设你现在一无所有，你还会为了保住眼前的这一点东西而放弃未来的机会吗？</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>元认知循环</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 观察层 (外环) -->
+        <circle r="250" fill="none" stroke="var(--accent)" stroke-width="8" stroke-dasharray="10 30" opacity="0.2">
+          <animate attributeName="stroke-dashoffset" from="0" to="100" dur="5s" repeatCount="indefinite" />
+        </circle>
+        <text y="-260" text-anchor="middle" fill="var(--accent)" style="font-size: 24px; font-weight: 900;">元认知：观察者的视角</text>
+
+        <!-- 被观察的自我 (内环) -->
+        <g>
+          <circle r="120" fill="var(--accent)" fill-opacity="0.1" stroke="var(--accent)" stroke-width="2" />
+          <path d="M-40,0 Q0,-80 40,0" fill="none" stroke="var(--accent)" stroke-width="4" opacity="0.3" />
+          <text text-anchor="middle" y="20" fill="var(--accent)" style="font-size: 16px; font-weight: 900;">执行层 (Thinking)</text>
+        </g>
+
+        <!-- 递归校准线 -->
+        <g>
+          <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="10s" repeatCount="indefinite" />
+          <line x1="0" y1="-250" x2="0" y2="-120" stroke="#ef4444" stroke-width="4" marker-end="url(#redArrow)" />
+          <circle r="10" cy="-250" fill="#ef4444" class="animate-ping" />
+        </g>
+
+        <text y="320" text-anchor="middle" fill="#ef4444" style="font-size: 32px; font-weight: 900;">意识到“我在想什么”</text>
+      </g>
+      <defs>
+        <marker id="redArrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#ef4444"/></marker>
+      </defs>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>元认知循环 (Metacognition)</h1>
+    <p>人类智慧的皇冠。不仅是思考，而是“对思考的思考”。它像一个悬浮在头顶的监控摄像头，时刻校准你的决策偏差、情绪波动和效率质量。当你拥有元认知时，你不再是情绪的奴隶，而是心智的操盘手。</p>
+    <div class="grid">
+      <div>
+        <h3>心智监控器</h3>
+        <ul>
+          <li><strong>情绪阻断：</strong>当你感到愤怒时，元认知会说：“看，你现在的多巴胺正在由于挫败感而失调。”这一句话的距离，就能让你瞬间回归理性。</li>
+          <li><strong>学习诊断：</strong>学习不是死记。元认知要求你时刻问自己：“我真的懂了吗？这个新知识能否和我昨天的卡片盒链接上？”</li>
+        </ul>
+      </div>
+      <div>
+        <h3>居家自律协议</h3>
+        <ul>
+          <li><strong>三阶审计：</strong>当你忍不住打开娱乐网站时，启动元认知。观察那个正在逃避困难的自己。这种“被观察感”能物理性地重建你的前额叶控制力。</li>
+          <li><strong>认知校准：</strong>每天睡前进行 5 分钟的复盘。不是复盘任务完成情况，而是复盘你的“决策逻辑”是否有缺陷。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

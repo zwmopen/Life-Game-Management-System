@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>负熵流</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 核心有序系统 (晶格) -->
+        <g id="orderCore">
+          <rect x="-100" y="-100" width="200" height="200" rx="20" fill="var(--accent)" fill-opacity="0.1" stroke="var(--accent)" stroke-width="4" />
+          <circle r="10" cx="-50" cy="-50" fill="var(--accent)" />
+          <circle r="10" cx="50" cy="50" fill="var(--accent)" />
+          <circle r="15" fill="var(--accent)" class="animate-pulse" />
+        </g>
+        
+        <!-- 持续注入的负熵 (高能粒子流) -->
+        <g>
+          <path d="M-500,0 L-150,0" stroke="#10b981" stroke-width="20" opacity="0.1" stroke-linecap="round" />
+          <circle r="8" fill="#10b981">
+            <animateMotion path="M-500,0 L-100,0" dur="1s" repeatCount="indefinite" />
+          </circle>
+          <text x="-320" y="-30" text-anchor="middle" fill="#10b981" style="font-size: 24px; font-weight: 900;">NEGENTROPY (负熵)</text>
+        </g>
+
+        <!-- 被排出的正熵 (红色烟雾) -->
+        <g opacity="0.3">
+          <circle r="5" fill="#ef4444"><animate attributeName="cx" from="100" to="400" dur="2s" repeatCount="indefinite" /><animate attributeName="cy" from="0" to="-200" dur="2s" repeatCount="indefinite" /></circle>
+          <text x="350" y="-150" text-anchor="middle" fill="#ef4444" style="font-size: 18px; font-weight: 900;">熵增排放 (废热)</text>
+        </g>
+
+        <text y="240" text-anchor="middle" fill="var(--accent)" style="font-size: 32px; font-weight: 900; letter-spacing: 0.2em;">生命 = 汲取有序，排放无序</text>
+      </g>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>负熵流 (Negentropy Flow)</h1>
+    <p>薛定谔提出：生命靠负熵为生。一个系统想要维持高度的组织和秩序，必须时刻不停地从外部汲取有序性，并将内部产生的混乱（正熵）强行排向环境。管理，本质上就是一套负熵泵。</p>
+    <div class="grid">
+      <div>
+        <h3>管理的物理本质</h3>
+        <ul>
+          <li><strong>不做功必坏：</strong>如果没有高质量的信息输入和规则维护，任何团队都会自发向官僚、平庸和混乱坍缩。</li>
+          <li><strong>代谢效率：</strong>优秀的系统不仅擅长获取资源，更擅长“排放废物”（如清理冗余代码、开除不合格成员）。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>心智燃料</h3>
+        <ul>
+          <li><strong>深度阅读：</strong>高质量的经典书籍是思想的负熵流。碎片化噪音则是认知的熵增。</li>
+          <li><strong>刻意练习：</strong>通过消耗葡萄糖和专注力，在混沌的神经元中强行建立精准的逻辑晶格。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

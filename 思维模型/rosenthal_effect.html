@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>罗森塔尔效应 - 期望的力量</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 800 600">
+      <!-- 期望源 (太阳光环) -->
+      <g transform="translate(400, 100)">
+        <circle r="60" fill="#fbbf24" fill-opacity="0.2" class="animate-pulse" />
+        <circle r="30" fill="#fbbf24" />
+        <text y="70" text-anchor="middle" fill="#fbbf24" style="font-size: 14px; font-weight: 900;">HIGH EXPECTATION</text>
+      </g>
+      
+      <!-- 反馈路径 (雨滴) -->
+      <g fill="#fbbf24" opacity="0.4">
+        <circle cx="380" cy="180" r="3"><animate attributeName="cy" from="180" to="400" dur="2s" repeatCount="indefinite" /></circle>
+        <circle cx="420" cy="220" r="3"><animate attributeName="cy" from="220" to="400" dur="1.5s" repeatCount="indefinite" /></circle>
+      </g>
+
+      <!-- 被影响者 (生长的树木) -->
+      <g transform="translate(400, 500)">
+        <rect x="-10" y="-150" width="20" height="150" fill="#475569" />
+        <circle r="80" fill="var(--accent)" fill-opacity="0.1" stroke="var(--accent)" stroke-width="2" stroke-dasharray="10 5" />
+        <path d="M-60,-120 Q0,-220 60,-120 T0,-20 Z" fill="var(--accent)" fill-opacity="0.6">
+           <animate attributeName="transform" type="scale" values="0.8;1.1;0.8" dur="4s" repeatCount="indefinite" />
+        </path>
+        <text y="40" text-anchor="middle" fill="var(--accent)" style="font-size: 18px; font-weight: 900;">GROWTH</text>
+      </g>
+
+      <text x="400" y="580" text-anchor="middle" fill="var(--text)" opacity="0.3" style="font-size: 10px; font-weight: 900; letter-spacing: 0.5em;">SELF-FULFILLING PROPHECY</text>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>罗森塔尔效应</h1>
+    <p>也称“皮格马利翁效应”。指人的情感和观念会不同程度地受到别人下意识的影响。你对一个人的期望越高，他往往表现得越好。</p>
+    <div class="grid">
+      <div>
+        <h3>心理闭环</h3>
+        <ul>
+          <li><strong>潜意识暗示</strong>：当你相信某人是天才，你会无意识地给予更多支持、宽容和正向反馈。</li>
+          <li><strong>镜像反应</strong>：接收者感知到这种信任后，会产生极大的自尊和驱动力来匹配你的期望。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>管理哲学</h3>
+        <ul>
+          <li><strong>赋予高阶标签</strong>：给团队成员一个“卓越者”的预设身份，他们会为了维护这个身份而自我进化。</li>
+          <li><strong>警惕负向预判</strong>：如果你预设一个人是“平庸”的，你的冷淡最终会真的把他变成一个平庸的人。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

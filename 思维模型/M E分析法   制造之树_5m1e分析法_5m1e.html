@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M E分析法   制造之树</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #e0e5ec;
+            font-family: 'Microsoft YaHei', sans-serif;
+            color: #2d3748;
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        /* 上图下文模式：上半部分50vh */
+        .svg-container {
+            height: 50vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 8px 8px 16px rgba(163, 177, 198, 0.2), -8px -8px 16px rgba(255, 255, 255, 0.8);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .svg-container svg {
+            width: 100%;
+            height: 100%;
+            viewBox: 0 0 1000 600;
+        }
+        /* 深度解析区 */
+        .analysis-container {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 8px 8px 16px rgba(163, 177, 198, 0.2), -8px -8px 16px rgba(255, 255, 255, 0.8);
+            padding: 30px;
+        }
+        .analysis-container h1 {
+            font-size: 4.5rem;
+            font-weight: 900;
+            letter-spacing: -2px;
+            color: #2d3748;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        .analysis-section {
+            background-color: #f7fafc;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .analysis-section h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+        .analysis-section h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        .analysis-section p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #4a5568;
+            margin-bottom: 10px;
+        }
+        .analysis-section ul {
+            list-style: none;
+            padding: 0;
+        }
+        .analysis-section li {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #4a5568;
+            margin-bottom: 8px;
+        }
+        .analysis-section strong {
+            color: #2d3748;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 上半部分：SVG物理动效展示区 -->
+        <div class="svg-container">
+            <svg viewBox="0 0 600 600" class="w-full h-auto max-w-[500px]">
+        <!-- 树干 -->
+        <path d="M300,550 L300,400" stroke="#475569" stroke-width="20" stroke-linecap="round" />
+        <!-- 分支 -->
+        <path d="M300,400 Q200,350 100,250" fill="none" stroke="#475569" stroke-width="4" class="branch" />
+        <path d="M300,400 Q300,300 300,100" fill="none" stroke="#475569" stroke-width="4" class="branch" />
+        <path d="M300,400 Q400,350 500,250" fill="none" stroke="#475569" stroke-width="4" class="branch" />
+        
+        <!-- 核心节点 -->
+        <g class="node" transform="translate(100, 250)"><circle r="40" fill="#3b82f6" /><text y="5" text-anchor="middle" fill="white" class="font-black text-xs">人 (Man)</text></g>
+        <g class="node" transform="translate(300, 100)"><circle r="40" fill="#6366f1" /><text y="5" text-anchor="middle" fill="white" class="font-black text-xs">机 (Machine)</text></g>
+        <g class="node" transform="translate(500, 250)"><circle r="40" fill="#8b5cf6" /><text y="5" text-anchor="middle" fill="white" class="font-black text-xs">料 (Material)</text></g>
+        <g class="node" transform="translate(300, 400)"><circle r="50" fill="#f59e0b" /><text y="5" text-anchor="middle" fill="white" class="font-black text-xs">环 (Env)</text></g>
+
+        <text x="300" y="580" text-anchor="middle" fill="#64748b" class="text-[8px] font-black uppercase tracking-[0.5em]">The Manufacturing Tree</text>
+      </svg>
+        </div>
+        
+        <!-- 下半部分：深度解析区 -->
+        <div class="analysis-container">
+            <h1>M E分析法   制造之树</h1>
+            
+            <div class="analysis-grid">
+                text
+            </div>
+        </div>
+    </div>
+</body>
+</html>

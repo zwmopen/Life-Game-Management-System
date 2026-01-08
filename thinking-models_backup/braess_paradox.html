@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>布雷斯悖论</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 初始稳态路网 -->
+        <g stroke="var(--accent)" stroke-width="4" fill="none">
+          <path d="M-400,0 L-200,-150 L200,-150 L400,0" opacity="0.3" />
+          <path d="M-400,0 L-200,150 L200,150 L400,0" opacity="0.3" />
+        </g>
+        
+        <!-- 新增的捷径 (悖论之源) -->
+        <g transform="translate(0, 0)">
+          <line x1="-200" y1="-150" x2="200" y2="150" stroke="#ef4444" stroke-width="8" stroke-dasharray="10 5">
+            <animate attributeName="stroke-dashoffset" from="0" to="100" dur="1s" repeatCount="indefinite" />
+          </line>
+          <text y="-20" text-anchor="middle" fill="#ef4444" style="font-size: 24px; font-weight: 900;">新增捷径 (造成死锁)</text>
+        </g>
+
+        <!-- 拥堵点 -->
+        <g fill="#ef4444">
+           <circle cx="-200" cy="-150" r="30" class="animate-pulse" />
+           <circle cx="200" cy="150" r="30" class="animate-pulse" />
+           <text x="-200" y="-200" text-anchor="middle" style="font-size: 18px; font-weight: 900;">全员选择此路</text>
+        </g>
+
+        <text y="240" text-anchor="middle" fill="#ef4444" style="font-size: 42px; font-weight: 900;">更多路 = 更堵塞</text>
+      </g>
+      <text x="500" y="80" text-anchor="middle" fill="var(--text)" opacity="0.1" style="font-size: 24px; font-weight: 900; letter-spacing: 0.5em;">RESOURCES DON'T EQUAL EFFICIENCY</text>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>布雷斯悖论 (Braess's Paradox)</h1>
+    <p>指在一个路网中增加一条路，不仅不能缓解拥堵，反而可能导致所有人的出行时间都变长。因为每个人的理性选择（走捷径）最终拖垮了整个系统的平衡。</p>
+    <div class="grid">
+      <div>
+        <h3>系统级联</h3>
+        <ul>
+          <li><strong>个体理性 vs 集体理性：</strong>在纳什均衡下，每个人都会冲向那条看起来最快的捷径，直到它彻底瘫痪。</li>
+          <li><strong>结构性冗余：</strong>有时为了效率，必须物理性地拆除掉某些连接，强行让流量回归分流。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>管理启示</h3>
+        <ul>
+          <li><strong>做减法：</strong>在组织中增加一个“快速沟通通道”，往往意味着原本有序的汇报链条会被海量的杂音淹没。</li>
+          <li><strong>限制自由度：</strong>在复杂的分布式系统中，通过预设固定的流量路径，比允许动态寻优更稳定。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

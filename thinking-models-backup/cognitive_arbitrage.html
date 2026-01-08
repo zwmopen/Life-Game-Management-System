@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>认知套利</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 两个隔离的认知领域 -->
+        <g transform="translate(-300, 0)">
+          <circle r="150" fill="none" stroke="var(--heading)" stroke-width="2" stroke-dasharray="10 20" opacity="0.1" />
+          <text y="-180" text-anchor="middle" fill="var(--text)" opacity="0.5" style="font-size: 24px; font-weight: 900;">领域 A (传统派)</text>
+          <circle r="40" fill="var(--accent)" opacity="0.4" />
+          <text text-anchor="middle" y="5" fill="var(--accent)" style="font-size: 14px; font-weight: 900;">常识知识</text>
+        </g>
+        
+        <g transform="translate(300, 0)">
+          <circle r="150" fill="none" stroke="var(--heading)" stroke-width="2" stroke-dasharray="10 20" opacity="0.1" />
+          <text y="-180" text-anchor="middle" fill="var(--text)" opacity="0.5" style="font-size: 24px; font-weight: 900;">领域 B (创新派)</text>
+          <circle r="40" fill="none" stroke="#ef4444" stroke-width="4" stroke-dasharray="5 5" />
+          <text text-anchor="middle" y="5" fill="#ef4444" style="font-size: 14px; font-weight: 900;">认知的空洞</text>
+        </g>
+
+        <!-- 搬运动作 (套利者) -->
+        <g>
+          <circle r="50" fill="var(--accent)" filter="drop-shadow(0 0 40px var(--accent))" />
+          <text text-anchor="middle" y="5" fill="white" style="font-size: 16px; font-weight: 900;">套利者</text>
+          <path d="M-250,0 L250,0" stroke="var(--accent)" stroke-width="8" stroke-dasharray="20 10" marker-end="url(#blueArrow)">
+            <animate attributeName="stroke-dashoffset" from="0" to="200" dur="2s" repeatCount="indefinite" />
+          </path>
+        </g>
+
+        <text y="240" text-anchor="middle" fill="var(--accent)" style="font-size: 32px; font-weight: 900;">搬运“显而易见”的真理</text>
+      </g>
+      <defs>
+        <marker id="blueArrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="var(--accent)"/></marker>
+      </defs>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>认知套利 (Cognitive Arbitrage)</h1>
+    <p>最高级的赚钱方式是“信息的降维打击”。当 A 领域的常识对 B 领域来说是颠覆性的新技术时，这种跨界搬运产生的利润就是认知套利。超级个体的核心价值不在于发明，而在于“链接”。</p>
+    <div class="grid">
+      <div>
+        <h3>套利逻辑</h3>
+        <ul>
+          <li><strong>学科缝隙：</strong>在两个高度成熟的学科边缘，往往存在着巨大的逻辑盲区。填补这个空洞的人将获得所有权。</li>
+          <li><strong>跨界翻译权：</strong>你能用投资人的语言解释代码，或用编程的逻辑解释管理，你便拥有了定义现实的权力。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>操作模型</h3>
+        <ul>
+          <li><strong>寻找低洼地：</strong>观察哪些行业还在用 10 年前的过时方法？将最新的 AI 或流量工具搬过去，就是一次降维收割。</li>
+          <li><strong>拒绝深钻牛角尖：</strong>不要试图在单一领域卷到第一，要在两个互补领域做到前 20%，去吃交集处的套利红利。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

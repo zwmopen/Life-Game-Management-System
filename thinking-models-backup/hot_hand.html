@@ -1,0 +1,54 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>热手效应</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 600">
+      <g transform="translate(850, 150)">
+        <ellipse cx="0" cy="0" rx="100" ry="30" fill="none" stroke="var(--heading)" stroke-width="6" opacity="0.2" />
+      </g>
+      <g>
+        <circle cx="200" cy="480" r="25" fill="#f59e0b" />
+        <circle cx="380" cy="380" r="25" fill="#f59e0b" />
+        <circle cx="560" cy="280" r="25" fill="#f59e0b" />
+        <g transform="translate(750, 150)">
+          <circle r="45" fill="#ef4444" filter="drop-shadow(0 0 30px #ef4444)">
+             <animate attributeName="fill-opacity" values="1;0.4;1" dur="0.6s" repeatCount="indefinite" />
+          </circle>
+          <text y="-70" text-anchor="middle" fill="#ef4444" style="font-size: 32px; font-weight: 900;">信心爆发 (状态热!)</text>
+        </g>
+      </g>
+      <path d="M780,150 Q920,150 920,450" fill="none" stroke="var(--accent)" stroke-width="4" stroke-dasharray="15 10" marker-end="url(#blueArrow)" />
+      <text x="920" y="500" text-anchor="middle" fill="var(--accent)" style="font-size: 18px; font-weight: 900;">必然回归均值</text>
+      <defs>
+        <marker id="blueArrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="var(--accent)"/></marker>
+      </defs>
+      <text x="500" y="560" text-anchor="middle" fill="var(--text)" opacity="0.3" style="font-size: 24px; font-weight: 900; letter-spacing: 0.5em;">成功聚集产生的非理性预判</text>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>热手效应 (Hot Hand Effect)</h1>
+    <p>与赌徒谬误相反，人们倾向于相信一个已经连续成功的人，下一次成功的概率会更高。它高估了“状态”的连续性，低估了均值的冷酷引力。</p>
+    <div class="grid">
+      <div>
+        <h3>心理机制</h3>
+        <ul>
+          <li><strong>信心增强：</strong>在需要技能的活动中，连胜带来的信心确实能提升表现，但这种提升往往被旁观者成倍夸大。</li>
+          <li><strong>聚类错觉：</strong>在随机分布中，原本就会出现连续成功的簇点。大脑会自动赋予其某种“超凡魔力”。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>商业镜像</h3>
+        <ul>
+          <li><strong>金牌团队崇拜：</strong>过去三个项目成功，并不代表下一个高风险项目具有更高的胜算。</li>
+          <li><strong>止盈逻辑：</strong>当全市场都因为某人的“手感”而疯狂跟投时，往往是泡沫破裂、均值回归的前夜。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>杠铃策略</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 600">
+      <g transform="translate(500, 300)">
+        <!-- 杠铃杆 -->
+        <rect x="-400" y="-10" width="800" height="20" rx="10" fill="var(--heading)" opacity="0.1" />
+        
+        <!-- 安全极端 (90%) -->
+        <g transform="translate(-350, 0)">
+          <rect x="-80" y="-150" width="160" height="300" rx="30" fill="var(--accent)" fill-opacity="0.2" stroke="var(--accent)" stroke-width="4" />
+          <text text-anchor="middle" y="10" fill="var(--accent)" style="font-size: 32px; font-weight: 900;">90%</text>
+          <text y="50" text-anchor="middle" fill="var(--accent)" style="font-size: 10px; font-weight: 800; letter-spacing: 0.2em;">EXTREME SAFETY</text>
+          <circle r="10" cy="-100" fill="var(--accent)" class="animate-pulse" />
+        </g>
+
+        <!-- 冒险极端 (10%) -->
+        <g transform="translate(350, 0)">
+          <circle r="80" fill="#ef4444" fill-opacity="0.2" stroke="#ef4444" stroke-width="4" stroke-dasharray="10 5" />
+          <text text-anchor="middle" y="10" fill="#ef4444" style="font-size: 32px; font-weight: 900;">10%</text>
+          <text y="50" text-anchor="middle" fill="#ef4444" style="font-size: 10px; font-weight: 800; letter-spacing: 0.2em;">SPECULATION</text>
+          <path d="M-20,-100 L20,-100 M0,-120 L0,-80" stroke="#ef4444" stroke-width="4" class="animate-ping" />
+        </g>
+
+        <!-- 中间的虚无 -->
+        <text text-anchor="middle" y="10" fill="var(--text)" opacity="0.2" style="font-size: 14px; font-weight: 900; letter-spacing: 0.5em;">NO MIDDLE GROUND</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="text-content">
+    <h1>杠铃策略</h1>
+    <p>拒绝“中等风险”，将 90% 的资源用于极度防守，10% 用于极度冒险。通过两极分布来对抗不确定性并捕捉非线性增长。</p>
+    <div class="grid">
+      <div>
+        <h3>配置逻辑</h3>
+        <ul>
+          <li><strong>防守端（生存）：</strong>消除毁灭性风险。无论发生什么，这 90% 的底仓必须确保你依然留在游戏桌上。</li>
+          <li><strong>冒险端（红利）：</strong>小额投入具有巨大上升空间的领域。哪怕失败也无关痛痒，一旦成功即是百倍回报。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>应用场景</h3>
+        <ul>
+          <li><strong>职业发展：</strong>拥有一份极其稳定的主业（保障），同时在业余时间进行极具爆发力的副业探索（梦想）。</li>
+          <li><strong>投资策略：</strong>大量现金/国债 + 少量极高倍数的衍生品或初创股权。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

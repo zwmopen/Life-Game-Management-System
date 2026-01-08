@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>香农熵</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 原始不确定性场 (高熵) -->
+        <g opacity="0.1">
+          <rect x="-400" y="-200" width="800" height="400" rx="40" fill="var(--heading)" />
+          <g transform="translate(0, 0)">
+            <circle cx="-300" cy="-100" r="5" fill="var(--heading)" /><circle cx="200" cy="150" r="5" fill="var(--heading)" />
+            <animateTransform attributeName="transform" type="translate" values="0,0; 10,10; 0,0" dur="0.1s" repeatCount="indefinite" />
+          </g>
+        </g>
+        
+        <!-- 信息的介入 (减熵) -->
+        <g transform="translate(-100, 0)">
+          <path d="M-200,0 L150,0" stroke="var(--accent)" stroke-width="80" opacity="0.1" stroke-linecap="round" />
+          <path d="M-200,0 L150,0" stroke="var(--accent)" stroke-width="4" stroke-dasharray="10 10">
+             <animate attributeName="stroke-dashoffset" from="0" to="100" dur="1s" repeatCount="indefinite" />
+          </path>
+          <text x="-150" y="-60" fill="var(--accent)" style="font-size: 32px; font-weight: 900;">信息注入 (I)</text>
+        </g>
+
+        <!-- 有序的比特 (低熵) -->
+        <g transform="translate(300, 0)">
+          <rect x="-80" y="-80" width="160" height="160" rx="20" fill="var(--accent)" filter="drop-shadow(0 0 40px var(--accent))" />
+          <text text-anchor="middle" y="10" fill="white" style="font-size: 42px; font-weight: 900;">0 / 1</text>
+          <text y="110" text-anchor="middle" fill="var(--accent)" style="font-size: 14px; font-weight: 900;">确定性的增加</text>
+        </g>
+
+        <text y="240" text-anchor="middle" fill="var(--accent)" style="font-size: 36px; font-weight: 900;">信息 = 不确定性的消除</text>
+      </g>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>香农熵 (Shannon Entropy)</h1>
+    <p>信息的价值不在于你说了什么，而在于你消除了多少可能性。一件大概率发生的事，其信息熵极低；一件极罕见的事，一旦发生，其携带的信息量惊人。</p>
+    <div class="grid">
+      <div>
+        <h3>信息量度</h3>
+        <ul>
+          <li><strong>意外性即价值：</strong>“太阳升起”没有信息量，因为没有悬念。真正的信号是那些能剧烈改变你预测概率分布的事实。</li>
+          <li><strong>信噪比极限：</strong>任何信道都有其容量极限。在传递核心信号时，增加不必要的修饰就是在增加熵，损耗价值。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>认知压缩</h3>
+        <ul>
+          <li><strong>冗余度管理：</strong>为了防止错误，我们需要一定的冗余。但过度冗余会导致思维的迟钝和系统的臃肿。</li>
+          <li><strong>核心比特：</strong>高手交流只传达那些处于“概率边缘”的增量信息。所谓的“默契”，就是双方共有的背景熵极低。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

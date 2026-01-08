@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>巴甫洛夫反应</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <!-- 铃铛 (中性刺激) -->
+      <g transform="translate(300, 200)">
+        <path d="M-40,40 Q0,-60 40,40 Z" fill="#fbbf24" />
+        <circle cy="45" r="8" fill="#fbbf24" />
+        <animateTransform attributeName="transform" type="rotate" values="-10,300,200; 10,300,200; -10,300,200" dur="0.5s" repeatCount="indefinite" />
+        <text y="100" text-anchor="middle" fill="#fbbf24" style="font-size: 24px; font-weight: 900;">铃声 (信号)</text>
+      </g>
+      
+      <!-- 自动关联路径 -->
+      <path d="M400,200 Q500,200 600,400" fill="none" stroke="var(--accent)" stroke-width="6" stroke-dasharray="10 5" opacity="0.3">
+        <animate attributeName="stroke-dashoffset" from="100" to="0" dur="1s" repeatCount="indefinite" />
+      </path>
+
+      <!-- 反应点 -->
+      <g transform="translate(700, 450)">
+        <circle r="100" fill="var(--accent)" fill-opacity="0.1" class="animate-pulse" />
+        <circle r="40" fill="var(--accent)" />
+        <text y="80" text-anchor="middle" fill="var(--accent)" style="font-size: 32px; font-weight: 900;">生理性反射</text>
+        <text y="110" text-anchor="middle" fill="var(--text)" opacity="0.5" style="font-size: 14px;">(非理性的自动触发)</text>
+      </g>
+
+      <text x="500" y="80" text-anchor="middle" fill="var(--accent)" style="font-size: 48px; font-weight: 900; letter-spacing: 0.2em; opacity: 0.1;">CONDITIONED REFLEX</text>
+    </svg>
+  </div>
+
+  <div class="text-content">
+    <h1>巴甫洛夫反应 (Classical Conditioning)</h1>
+    <p>人类大脑会将无关的信号（如手机消息提示音）与特定的情感或奖励强行绑定。这种“条件反射”完全绕过了理性，成为了生理本能的一部分。</p>
+    <div class="grid">
+      <div>
+        <h3>现象解剖</h3>
+        <ul>
+          <li><strong>心理刻印：</strong>看到品牌 Logo 就会分泌多巴胺，本质上是商业社会对人类大脑进行的巴甫洛夫式训练。</li>
+          <li><strong>恐惧泛化：</strong>一次糟糕的职场经历，可能导致你对某种颜色的地毯都产生莫名的焦虑。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>破局之道</h3>
+        <ul>
+          <li><strong>切断关联：</strong>在专注工作前，强制关闭所有通知音，防止大脑进入“等待铃声”的非理性内耗状态。</li>
+          <li><strong>重塑锚点：</strong>通过有意识的训练，将积极的信号与高难度的动作绑定，建立“开机仪式感”。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

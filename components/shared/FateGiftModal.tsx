@@ -68,7 +68,7 @@ const FateGiftModal: React.FC<FateGiftModalProps> = ({
             {/* 3D骰子展示 - 增强立体效果 */}
             <div className="relative inline-block">
               {/* 骰子投影 */}
-              <div className={`absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-32 h-8 bg-black/30 blur-lg rounded-full ${isSpinning ? 'animate-[spin_1s_linear_infinite]' : ''}`}></div>
+              <div className={`absolute -bottom-12 left-1/2 transform -translate-x-1/2 w-40 h-10 bg-black/25 blur-2xl rounded-full ${isSpinning ? 'animate-[spin_1s_linear_infinite]' : ''}`}></div>
               
               <div className={`${isSpinning ? 'animate-[spin_1s_linear_infinite]' : ''} relative`}>
                 <Dice5 size={100} className="text-yellow-500 drop-shadow-[0_0_20px_rgba(234,179,8,0.8)] relative z-10" />

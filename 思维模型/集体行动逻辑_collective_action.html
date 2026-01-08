@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>集体行动逻辑</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #e0e5ec;
+            font-family: 'Microsoft YaHei', sans-serif;
+            color: #2d3748;
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        /* 上图下文模式：上半部分50vh */
+        .svg-container {
+            height: 50vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 8px 8px 16px rgba(163, 177, 198, 0.2), -8px -8px 16px rgba(255, 255, 255, 0.8);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .svg-container svg {
+            width: 100%;
+            height: 100%;
+            viewBox: 0 0 1000 600;
+        }
+        /* 深度解析区 */
+        .analysis-container {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 8px 8px 16px rgba(163, 177, 198, 0.2), -8px -8px 16px rgba(255, 255, 255, 0.8);
+            padding: 30px;
+        }
+        .analysis-container h1 {
+            font-size: 4.5rem;
+            font-weight: 900;
+            letter-spacing: -2px;
+            color: #2d3748;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        .analysis-section {
+            background-color: #f7fafc;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .analysis-section h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+        .analysis-section h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        .analysis-section p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #4a5568;
+            margin-bottom: 10px;
+        }
+        .analysis-section ul {
+            list-style: none;
+            padding: 0;
+        }
+        .analysis-section li {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #4a5568;
+            margin-bottom: 8px;
+        }
+        .analysis-section strong {
+            color: #2d3748;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 上半部分：SVG物理动效展示区 -->
+        <div class="svg-container">
+            <svg viewBox="0 0 1000 650">
+      <!-- 大群体 (散沙 - 羊群) -->
+      <g transform="translate(250, 325)">
+        <circle r="220" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="5 15" opacity="0.2" />
+        <g fill="#94a3b8" opacity="0.4">
+          <circle cx="-100" cy="-50" r="8" /><circle cx="50" cy="120" r="8" />
+          <circle cx="80" cy="-80" r="8" /><circle cx="-60" cy="150" r="8" />
+        </g>
+        <text y="180" text-anchor="middle" fill="#94a3b8" style="font-size: 20px; font-weight: 900;">大群体：搭便车黑洞</text>
+        <text y="210" text-anchor="middle" fill="var(--text)" opacity="0.5" style="font-size: 10px;">(贡献被稀释，责任被扩散)</text>
+      </g>
+      
+      <!-- 小群体 (核心 - 狼群) -->
+      <g transform="translate(750, 325)">
+        <circle r="120" fill="var(--accent)" fill-opacity="0.1" stroke="var(--accent)" stroke-width="4" class="animate-pulse" />
+        <g fill="var(--accent)">
+          <circle cx="-30" cy="-30" r="15" /><circle cx="30" cy="30" r="15" /><circle cx="0" cy="0" r="20" />
+        </g>
+        <text y="180" text-anchor="middle" fill="var(--accent)" style="font-size: 24px; font-weight: 900;">小群体：极高严密性</text>
+        <text y="210" text-anchor="middle" fill="var(--accent)" style="font-size: 12px; font-weight: 900;">(监督成本低，利益高度一致)</text>
+        <circle r="150" fill="none" stroke="var(--accent)" stroke-width="1" class="animate-ping" />
+      </g>
+
+      <path d="M420,325 L580,325" stroke="#ef4444" stroke-width="4" stroke-dasharray="10 5" marker-end="url(#redArrow)" />
+      <text x="500" y="280" text-anchor="middle" fill="#ef4444" style="font-size: 14px; font-weight: 900;">非对称压制</text>
+      <defs>
+        <marker id="redArrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#ef4444"/></marker>
+      </defs>
+    </svg>
+        </div>
+        
+        <!-- 下半部分：深度解析区 -->
+        <div class="analysis-container">
+            <h1>集体行动逻辑</h1>
+            
+            <div class="analysis-grid">
+                text
+            </div>
+        </div>
+    </div>
+</body>
+</html>

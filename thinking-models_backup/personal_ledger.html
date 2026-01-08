@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>个人复利账本</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 核心账本基座 -->
+        <rect x="-300" y="-150" width="600" height="300" rx="40" fill="var(--heading)" opacity="0.05" stroke="var(--heading)" stroke-width="2" />
+        
+        <!-- 无形资产增长 (彩色粒子流) -->
+        <g>
+          <path d="M-250,50 Q-100,-250 50,-50 T350,-200" fill="none" stroke="var(--accent)" stroke-width="8" stroke-linecap="round">
+            <animate attributeName="stroke-dasharray" from="0,1000" to="1000,0" dur="4s" repeatCount="indefinite" />
+          </path>
+          <circle r="20" cx="-250" cy="50" fill="var(--accent)" />
+          <text x="-250" y="90" text-anchor="middle" fill="var(--accent)" style="font-size: 14px; font-weight: 900;">今日思考点</text>
+        </g>
+
+        <!-- 资产分类 -->
+        <g transform="translate(-150, 0)">
+          <rect x="-60" y="-30" width="120" height="60" rx="15" fill="#10b981" fill-opacity="0.8" />
+          <text text-anchor="middle" y="5" fill="white" style="font-size: 16px; font-weight: 900;">信任余额</text>
+        </g>
+        <g transform="translate(150, 0)">
+          <rect x="-60" y="-30" width="120" height="60" rx="15" fill="#fbbf24" fill-opacity="0.8" />
+          <text text-anchor="middle" y="5" fill="#451a03" style="font-size: 16px; font-weight: 900;">认知复利</text>
+        </g>
+
+        <text y="240" text-anchor="middle" fill="var(--accent)" style="font-size: 32px; font-weight: 900; letter-spacing: 0.1em;">你赚到的，远不止账面上的钱</text>
+      </g>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>个人复利账本 (Personal Ledger)</h1>
+    <p>超级个体最大的幻觉是“只盯着银行余额”。真实的账本应包含三个账户：技能账户（你的单位产出上限）、信任账户（你的资源调动半径）、认知账户（你的避坑深度）。</p>
+    <div class="grid">
+      <div>
+        <h3>资产审计</h3>
+        <ul>
+          <li><strong>信任余额：</strong>每一次诚实的分享和超额的交付，都在增加你在他人心智中的“质押权”。这是危机时刻唯一的救命稻草。</li>
+          <li><strong>认知增量：</strong>如果你今天没有更新对世界的看法，即便赚了钱，你的认知系统实际上是在通胀中贬值的。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>心理定力</h3>
+        <ul>
+          <li><strong>抵御短期焦虑：</strong>当财务收入波动时，看看你的技能和信任账户是否依然在稳步增长。如果答案是肯定的，你就在通往非线性爆发的路上。</li>
+          <li><strong>量化无形：</strong>每晚复盘：我今天在哪个无形账户里存了钱？</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

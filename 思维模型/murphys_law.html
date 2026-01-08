@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>墨菲定律 - 必然的错误</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 800 600">
+      <!-- 概率场 (大量绿色，少量红色) -->
+      <g opacity="0.4">
+        <circle cx="200" cy="150" r="10" fill="#10b981" /><circle cx="300" cy="120" r="10" fill="#10b981" />
+        <circle cx="500" cy="180" r="10" fill="#10b981" /><circle cx="600" cy="100" r="10" fill="#10b981" />
+        <circle cx="250" cy="450" r="10" fill="#10b981" /><circle cx="450" cy="480" r="10" fill="#10b981" />
+      </g>
+      
+      <!-- 必然被选中的那个红色 (墨菲球) -->
+      <g transform="translate(400, 300)">
+        <circle r="40" fill="#ef4444" class="animate-pulse" />
+        <path d="M-20,-20 L20,20 M20,-20 L-20,20" stroke="white" stroke-width="6" />
+        <text y="70" text-anchor="middle" fill="#ef4444" style="font-size: 18px; font-weight: 900;">ERROR (1%)</text>
+        <text y="100" text-anchor="middle" fill="var(--text)" opacity="0.5" style="font-size: 10px;">“只要有发生的可能，它就一定会发生”</text>
+      </g>
+
+      <!-- 产生的系统崩塌 -->
+      <g transform="translate(400, 300)" opacity="0.2">
+         <path d="M-300,-200 L300,200" stroke="#ef4444" stroke-width="1" />
+         <path d="M300,-200 L-300,200" stroke="#ef4444" stroke-width="1" />
+      </g>
+
+      <text x="400" y="550" text-anchor="middle" fill="var(--text)" opacity="0.3" style="font-size: 10px; font-weight: 900; letter-spacing: 0.5em;">IF IT CAN GO WRONG, IT WILL</text>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>墨菲定律</h1>
+    <p>如果事情有变坏的可能，不管这种可能性有多小，它总会发生。错误是系统进化的影子，永远无法被彻底消灭。</p>
+    <div class="grid">
+      <div>
+        <h3>现象解剖</h3>
+        <ul>
+          <li><strong>心理预期</strong>：墨菲定律不是悲观主义，而是风险管理的基础。</li>
+          <li><strong>选择性关注</strong>：出事时我们记忆深刻，平安无事时我们习以为常，这加剧了墨菲定律的心理真实感。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>破局策略</h3>
+        <ul>
+          <li><strong>容错设计</strong>：不要指望人或机器不犯错，要设计“即使犯错也不会导致毁灭”的系统。</li>
+          <li><strong>冗余备份</strong>：两架发动机比一架更符合墨菲定律下的生存法则。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

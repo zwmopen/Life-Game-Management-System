@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>系统动力学 - 存量与流量</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background: #020617; font-family: -apple-system, sans-serif; color: #f8fafc; }
+    .glass { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); }
+    @keyframes water-flow { 0% { stroke-dashoffset: 40; } 100% { stroke-dashoffset: 0; } }
+    .flow-line { stroke-dasharray: 8 4; animation: water-flow 2s linear infinite; }
+    @keyframes fill-tank { 0% { height: 20%; } 50% { height: 60%; } 100% { height: 20%; } }
+    .water { animation: fill-tank 10s ease-in-out infinite; }
+  </style>
+</head>
+<body class="p-8 md:p-20 flex items-center justify-center min-h-screen">
+  <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+    <!-- SVG 可视化 -->
+    <div class="relative flex items-center justify-center glass p-12 rounded-[4rem] shadow-2xl">
+      <svg viewBox="0 0 600 600" class="w-full h-auto max-w-[500px]">
+        <!-- 入流管道 -->
+        <rect x="50" y="250" width="150" height="40" fill="#1e293b" rx="5" />
+        <path d="M50,270 L200,270" stroke="#3b82f6" stroke-width="4" class="flow-line" />
+        <text x="125" y="240" text-anchor="middle" fill="#3b82f6" class="text-[10px] font-black uppercase tracking-widest">Inflow (流量入)</text>
+
+        <!-- 存量容器 (浴缸/水槽) -->
+        <rect x="200" y="200" width="200" height="200" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="4" rx="10" />
+        <rect x="205" y="205" width="190" height="190" fill="#3b82f6" fill-opacity="0.2" class="water" transform-origin="bottom" style="transform: scaleY(0.5); y: 205;" />
+        <text x="300" y="305" text-anchor="middle" fill="white" class="font-black text-xl italic tracking-widest">STOCK (存量)</text>
+
+        <!-- 出流管道 -->
+        <rect x="400" y="310" width="150" height="40" fill="#1e293b" rx="5" />
+        <path d="M400,330 L550,330" stroke="#ef4444" stroke-width="4" class="flow-line" />
+        <text x="475" y="380" text-anchor="middle" fill="#ef4444" class="text-[10px] font-black uppercase tracking-widest">Outflow (流量出)</text>
+        
+        <!-- 云端隐喻 (源头与终点) -->
+        <circle cx="50" cy="270" r="30" fill="white" fill-opacity="0.05" />
+        <circle cx="550" cy="330" r="30" fill="white" fill-opacity="0.05" />
+      </svg>
+    </div>
+
+    <!-- 文案内容区 -->
+    <div class="space-y-12">
+      <h1 class="text-8xl font-black text-white tracking-tighter leading-[0.8]">系统动力学<br><span class="text-blue-500 italic">Stock & Flow</span></h1>
+      <p class="text-xl text-slate-400 border-l-4 border-blue-500 pl-6 leading-relaxed italic">
+        “理解世界不是看它的瞬间快照，而是看它变化的速率与积累。”
+      </p>
+
+      <div class="glass p-10 rounded-[3rem] space-y-6">
+        <h3 class="text-2xl font-black text-white italic">核心隐喻：动态浴缸</h3>
+        <p class="text-sm text-slate-400 leading-relaxed">
+          想象一个浴缸：水龙头是<b>流量(Inflow)</b>，浴缸里的积水是<b>存量(Stock)</b>，下水道是<b>出流(Outflow)</b>。存量决定了系统的当前状态，而流量决定了变化的快慢。只有入流大于出流，系统的价值才会持续增长。
+        </p>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="bg-blue-600/10 p-5 rounded-3xl border border-blue-500/20">
+             <h4 class="text-blue-400 font-black text-[10px] uppercase mb-1">存量反馈</h4>
+             <p class="text-[11px] text-slate-300">存量具有惯性，它让系统产生“延迟”。</p>
+          </div>
+          <div class="bg-red-600/10 p-5 rounded-3xl border border-red-500/20">
+             <h4 class="text-red-400 font-black text-[10px] uppercase mb-1">调节逻辑</h4>
+             <p class="text-[11px] text-slate-300">增加存量可以通过“开源”或“节流”。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

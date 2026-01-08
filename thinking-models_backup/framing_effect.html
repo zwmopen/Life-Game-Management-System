@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>框架效应</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 600">
+      <!-- 正面框架 -->
+      <g transform="translate(250, 300)">
+        <rect x="-180" y="-120" width="360" height="240" rx="30" fill="#10b981" fill-opacity="0.1" stroke="#10b981" stroke-width="4" />
+        <text y="-20" text-anchor="middle" fill="#10b981" style="font-size: 48px; font-weight: 900;">90% 存活</text>
+        <text y="50" text-anchor="middle" fill="#10b981" style="font-size: 20px; font-weight: 900;">正面获得框架</text>
+        <circle r="150" fill="none" stroke="#10b981" stroke-width="1" stroke-dasharray="5 5" opacity="0.2" />
+      </g>
+      
+      <!-- 负面框架 -->
+      <g transform="translate(750, 300)">
+        <rect x="-180" y="-120" width="360" height="240" rx="30" fill="#ef4444" fill-opacity="0.1" stroke="#ef4444" stroke-width="4" stroke-dasharray="10 5" />
+        <text y="-20" text-anchor="middle" fill="#ef4444" style="font-size: 48px; font-weight: 900;">10% 死亡</text>
+        <text y="50" text-anchor="middle" fill="#ef4444" style="font-size: 20px; font-weight: 900;">负面损失框架</text>
+      </g>
+
+      <text x="500" y="550" text-anchor="middle" fill="var(--text)" style="font-size: 24px; font-weight: 900; letter-spacing: 0.1em; opacity: 0.4;">同一个真相，不同的滤镜</text>
+    </svg>
+  </div>
+
+  <div class="text-content">
+    <h1>框架效应 (Framing Effect)</h1>
+    <p>客观事实相同时，不同的表述方式（框架）会诱导人们做出完全不同的决策。我们对损失的恐惧远超对同等收益的追求。</p>
+    <div class="grid">
+      <div>
+        <h3>语言陷阱</h3>
+        <ul>
+          <li><strong>引导决策：</strong>医生说“手术有 90% 成功率”患者会配合，说“有 10% 死亡率”患者会逃跑。</li>
+          <li><strong>情绪唤醒：</strong>损失框架能激发紧急感，而获得框架能激发安全感。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>认知纠偏</h3>
+        <ul>
+          <li><strong>框架反转：</strong>听到描述后，强行在脑中算出它的对立面。</li>
+          <li><strong>数据脱敏：</strong>将形容词全部剔除，只提取最核心的概率和绝对值进行二次评估。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

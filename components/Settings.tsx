@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Volume2, VolumeX, Music, Headphones, Sun, Moon, Zap, FileText, HelpCircle, Bell, Eye, Database, Info, ShieldAlert, Download, RefreshCw, Trash2, X, ChevronUp, ChevronDown, Upload, Cloud, CloudDownload, Save } from 'lucide-react';
-import { Theme, Settings as SettingsType } from '../types';
+import { Theme, Settings as SettingsType } from '@/types';
 import { GlobalGuideCard, HelpTooltip, helpContent } from './HelpSystem';
 import WebDAVClient, { WebDAVConfig } from '../utils/webdavClient';
 
@@ -12,22 +12,31 @@ interface SettingsProps {
 }
 
 const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, onToggleTheme }) => {
-  const isDark = theme === 'dark';
-  const isNeomorphic = theme === 'neomorphic';
+  const isDark = theme === 'dark' || theme === 'neomorphic-dark';
+  const isNeomorphic = theme.startsWith('neomorphic');
   
   // 拟态风格样式定义，确保与其他组件风格统一
+  const isNeomorphicDark = theme === 'neomorphic-dark';
   const neomorphicStyles = {
-    bg: 'bg-[#e0e5ec]',
-    border: 'border-[#e0e5ec]',
-    shadow: 'shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)]',
-    hoverShadow: 'hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)]',
-    activeShadow: 'active:shadow-[inset_8px_8px_16px_rgba(163,177,198,0.6),inset_-8px_-8px_16px_rgba(255,255,255,1)]',
+    bg: isNeomorphicDark ? 'bg-[#1e1e2e]' : 'bg-[#e0e5ec]',
+    border: isNeomorphicDark ? 'border-[#1e1e2e]' : 'border-[#e0e5ec]',
+    shadow: isNeomorphicDark 
+      ? 'shadow-[8px_8px_16px_rgba(0,0,0,0.4),-8px_-8px_16px_rgba(30,30,46,0.8)]' 
+      : 'shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)]',
+    hoverShadow: isNeomorphicDark 
+      ? 'hover:shadow-[10px_10px_20px_rgba(0,0,0,0.5),-10px_-10px_20px_rgba(30,30,46,1)]' 
+      : 'hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)]',
+    activeShadow: isNeomorphicDark 
+      ? 'active:shadow-[inset_5px_5px_10px_rgba(0,0,0,0.4),inset_-5px_-5px_10px_rgba(30,30,46,0.8)]' 
+      : 'active:shadow-[inset_8px_8px_16px_rgba(163,177,198,0.6),inset_-8px_-8px_16px_rgba(255,255,255,1)]',
     transition: 'transition-all duration-300'
   };
 
   // 统一卡片背景样式，与作战中心保持一致
   const cardBg = isDark 
-    ? 'bg-zinc-900 shadow-lg'
+    ? (isNeomorphic 
+      ? `${neomorphicStyles.bg} rounded-[48px] ${neomorphicStyles.shadow} ${neomorphicStyles.transition}` 
+      : 'bg-zinc-900 shadow-lg')
     : isNeomorphic 
     ? `${neomorphicStyles.bg} rounded-[48px] ${neomorphicStyles.shadow} ${neomorphicStyles.hoverShadow} ${neomorphicStyles.activeShadow} ${neomorphicStyles.transition}` 
     : 'bg-white shadow-sm';
@@ -189,26 +198,29 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
       return isSpecial ? 'bg-red-500 text-white border-red-500' : 'bg-blue-500 text-white border-blue-500';
     }
     if (isNeomorphic) {
-      return `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow} ${neomorphicStyles.hoverShadow} ${neomorphicStyles.activeShadow} ${neomorphicStyles.transition}`;
+      // 根据拟态主题的深浅模式调整背景色和阴影
+      const bgColor = theme === 'neomorphic-dark' ? 'bg-[#1e1e2e]' : 'bg-[#e0e5ec]';
+      const borderColor = theme === 'neomorphic-dark' ? 'border-[#1e1e2e]' : 'border-[#e0e5ec]';
+      const shadowColor = theme === 'neomorphic-dark' 
+        ? 'shadow-[8px_8px_16px_rgba(0,0,0,0.4),-8px_-8px_16px_rgba(30,30,46,0.8)]'
+        : 'shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]';
+      const hoverShadowColor = theme === 'neomorphic-dark' 
+        ? 'hover:shadow-[10px_10px_20px_rgba(0,0,0,0.5),-10px_-10px_20px_rgba(30,30,46,1)]'
+        : 'hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)]';
+      const activeShadowColor = theme === 'neomorphic-dark' 
+        ? 'active:shadow-[inset_5px_5px_10px_rgba(0,0,0,0.4),inset_-5px_-5px_10px_rgba(30,30,46,0.8)]'
+        : 'active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]';
+      
+      return `${bgColor} ${borderColor} ${shadowColor} ${hoverShadowColor} ${activeShadowColor} ${neomorphicStyles.transition}`;
     }
     return isDark ? 'bg-zinc-900 border-zinc-800 text-zinc-500 hover:border-zinc-700' : 'bg-white border-slate-300 text-slate-600 hover:border-slate-200';
   };
 
   return (
-    <div className={`h-full flex flex-col overflow-hidden ${isDark ? 'bg-zinc-950' : isNeomorphic ? 'bg-[#e0e5ec]' : 'bg-slate-50'}`}>
+    <div className={`h-full flex flex-col overflow-hidden ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e]' : 'bg-[#e0e5ec]') : (isDark ? 'bg-zinc-950' : 'bg-slate-50')}`}>
       {/* Scrollable Content */}
       <div className="flex-1 overflow-y-auto custom-scrollbar">
         <div className="space-y-3 px-2 md:px-4 lg:px-6 max-w-5xl mx-auto">
-          {/* 统一的帮助指南卡片 */}
-          <GlobalGuideCard
-            activeHelp={activeHelp}
-            helpContent={helpContent}
-            onClose={() => setActiveHelp(null)}
-            cardBg={cardBg}
-            textMain={textMain}
-            textSub={textSub}
-            config={settings.guideCardConfig}
-          />
           {/* Theme Toggle */}
           <div className={`${cardBg} p-4 transition-all duration-300`}>
             <div className="flex justify-between items-center">
@@ -222,7 +234,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
               <div className="flex items-center gap-2">
                 <button
                   onClick={onToggleTheme}
-                  className={`p-2 rounded-xl transition-all duration-300 ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[6px_6px_12px_rgba(163,177,198,0.5),-6px_-6px_12px_rgba(255,255,255,1)] active:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-800 hover:bg-zinc-700' : 'bg-slate-100 hover:bg-slate-200'}`}
+                  className={`p-2 rounded-xl transition-all duration-300 ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)] hover:shadow-[6px_6px_12px_rgba(0,0,0,0.15),-6px_-6px_12px_rgba(40,43,52,0.9)] active:shadow-[inset_4px_4px_8px_rgba(0,0,0,0.2),inset_-4px_-4px_8px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[6px_6px_12px_rgba(163,177,198,0.5),-6px_-6px_12px_rgba(255,255,255,1)] active:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-800 hover:bg-zinc-700' : 'bg-slate-100 hover:bg-slate-200'}`}
                 >
                   {isNeomorphic ? <Zap size={18} className="text-yellow-500" /> : isDark ? <Moon size={18} className="text-blue-400" /> : <Sun size={18} className="text-yellow-500" />}
                 </button>
@@ -291,7 +303,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
               {settings.enableSoundEffects && (
                 <div className="mt-3">
                   <h4 className={`font-bold text-xs ${textMain} mb-2`}>按位置分类音效</h4>
-                  <div className={`rounded-xl p-2 h-[250px] overflow-y-auto ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-900/50' : 'bg-slate-50'}`}>
+                  <div className={`rounded-xl p-2 h-[250px] overflow-y-auto ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/50' : 'bg-slate-50'}`}>
                     <h5 className={`text-[9px] font-mono uppercase mb-2 ${textSub}`}>位置列表</h5>
                     <div className="space-y-2">
                       {[
@@ -343,7 +355,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                         return (
                           <div 
                             key={location.id} 
-                            className={`p-2 rounded-xl flex items-center justify-between transition-all cursor-pointer ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-900/30 hover:bg-zinc-800/50' : 'bg-white/50 hover:bg-slate-100'}`}
+                            className={`p-2 rounded-xl flex items-center justify-between transition-all cursor-pointer ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)] hover:shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(40,43,52,0.9)] active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.2),inset_-6px_-6px_12px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/30 hover:bg-zinc-800/50' : 'bg-white/50 hover:bg-slate-100'}`}
                       >
                             <div className="flex items-center gap-1.5">
                               {location.icon}
@@ -362,7 +374,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                                     // Preview the selected sound immediately
                                     previewSound(e.target.value);
                                   }}
-                                  className={`w-20 text-[10px] px-2 py-1 rounded-xl border-none outline-none ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-800 text-white' : 'bg-white text-slate-800'}`}
+                                  className={`w-20 text-[10px] px-2 py-1 rounded-xl border-none outline-none ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.2),inset_-4px_-4px_8px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-800 text-white' : 'bg-white text-slate-800'}`}
                                 >
                                   <option value="mute">静音</option>
                                   <option value="positive-beep">积极</option>
@@ -377,7 +389,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                                 </select>
                                 <button
                                   onClick={() => previewSound(currentSound)}
-                                  className={`p-1 rounded-full transition-all ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[3px_3px_6px_rgba(163,177,198,0.5),-3px_-3px_6px_rgba(255,255,255,1)]' : isDark ? 'bg-purple-900/30 text-purple-400 hover:bg-purple-800/50' : 'bg-purple-100 text-purple-700 hover:bg-purple-200'}`}
+                                  className={`p-1 rounded-full transition-all ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[5px_5px_10px_rgba(0,0,0,0.2),-5px_-5px_10px_rgba(40,43,52,0.8)] hover:shadow-[3px_3px_6px_rgba(0,0,0,0.15),-3px_-3px_6px_rgba(40,43,52,0.9)]' : 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[3px_3px_6px_rgba(163,177,198,0.5),-3px_-3px_6px_rgba(255,255,255,1)]'}` : isDark ? 'bg-purple-900/30 text-purple-400 hover:bg-purple-800/50' : 'bg-purple-100 text-purple-700 hover:bg-purple-200'}`}
                                   title="试听"
                                 >
                                   <Volume2 size={12} />
@@ -391,10 +403,10 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                                   };
                                   onUpdateSettings({ soundEffectsByLocation: newSoundEffectsByLocation });
                                 }}
-                                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-all ${isNeomorphic ? `shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] ${locationSetting.enabled ? 'bg-blue-500' : 'bg-white'}` : locationSetting.enabled ? 'bg-blue-600' : 'bg-white'}`}
+                                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-all ${isNeomorphic ? `${isNeomorphicDark ? `shadow-[inset_2px_2px_4px_rgba(0,0,0,0.2),inset_-2px_-2px_4px_rgba(40,43,52,0.8)] ${locationSetting.enabled ? 'bg-blue-500' : 'bg-[#2a2d36]'}` : `shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] ${locationSetting.enabled ? 'bg-blue-500' : 'bg-white'}`}` : locationSetting.enabled ? 'bg-blue-600' : 'bg-white'}`}
                               >
                                 <span
-                                  className={`inline-block h-4.5 w-4.5 transform rounded-full transition-transform ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]' : 'bg-white'} ${locationSetting.enabled ? 'translate-x-6' : 'translate-x-1'}`}
+                                  className={`inline-block h-4.5 w-4.5 transform rounded-full transition-transform ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[4px_4px_8px_rgba(0,0,0,0.2),-4px_-4px_8px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]'}` : 'bg-white'} ${locationSetting.enabled ? 'translate-x-6' : 'translate-x-1'}`}
                                 />
                               </button>
                             </div>
@@ -441,61 +453,61 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
             </div>
             {/* Conditionally render display settings based on collapse state */}
             {showDisplaySettings && (
-              <div className={`rounded-xl p-3 h-[250px] overflow-y-auto ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-900/50' : 'bg-slate-50'}`}>
+              <div className={`rounded-xl p-3 h-[250px] overflow-y-auto ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/50' : 'bg-slate-50'}`}>
                 <h5 className={`text-[9px] font-mono uppercase mb-2 ${textSub}`}>显示选项</h5>
                 <div className="space-y-3">
-                  <div className={`flex justify-between items-center p-2 rounded-xl transition-all cursor-pointer ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-900/30 hover:bg-zinc-800/50' : 'bg-white/50 hover:bg-slate-100'}`}>
+                  <div className={`flex justify-between items-center p-2 rounded-xl transition-all cursor-pointer ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)] hover:shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(40,43,52,0.9)] active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.2),inset_-6px_-6px_12px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/30 hover:bg-zinc-800/50' : 'bg-white/50 hover:bg-slate-100'}`}>
                     <span className={`text-sm ${textMain}`}>显示角色系统</span>
-                    <button className={`relative inline-flex h-6 w-11 items-center rounded-full transition-all ${isNeomorphic ? `shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] ${settings.showCharacterSystem ? 'bg-blue-500' : 'bg-white'}` : settings.showCharacterSystem ? 'bg-blue-600' : 'bg-white'}`} onClick={() => onUpdateSettings({ showCharacterSystem: !settings.showCharacterSystem })}>
-                      <span className={`inline-block h-4.5 w-4.5 transform rounded-full transition-transform ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]' : 'bg-white'} ${settings.showCharacterSystem ? 'translate-x-6' : 'translate-x-1'}`} />
+                    <button className={`relative inline-flex h-6 w-11 items-center rounded-full transition-all ${isNeomorphic ? `${isNeomorphicDark ? `shadow-[inset_2px_2px_4px_rgba(0,0,0,0.2),inset_-2px_-2px_4px_rgba(40,43,52,0.8)] ${settings.showCharacterSystem ? 'bg-blue-500' : 'bg-[#2a2d36]'}` : `shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] ${settings.showCharacterSystem ? 'bg-blue-500' : 'bg-white'}`}` : settings.showCharacterSystem ? 'bg-blue-600' : 'bg-white'}`} onClick={() => onUpdateSettings({ showCharacterSystem: !settings.showCharacterSystem })}>
+                      <span className={`inline-block h-4.5 w-4.5 transform rounded-full transition-transform ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[4px_4px_8px_rgba(0,0,0,0.2),-4px_-4px_8px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]'}` : 'bg-white'} ${settings.showCharacterSystem ? 'translate-x-6' : 'translate-x-1'}`} />
                     </button>
                   </div>
-                  <div className={`flex justify-between items-center p-2 rounded-xl transition-all cursor-pointer ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-900/30 hover:bg-zinc-800/50' : 'bg-white/50 hover:bg-slate-100'}`}>
+                  <div className={`flex justify-between items-center p-2 rounded-xl transition-all cursor-pointer ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)] hover:shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(40,43,52,0.9)] active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.2),inset_-6px_-6px_12px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/30 hover:bg-zinc-800/50' : 'bg-white/50 hover:bg-slate-100'}`}>
                     <span className={`text-sm ${textMain}`}>显示番茄系统</span>
-                    <button className={`relative inline-flex h-6 w-11 items-center rounded-full transition-all ${isNeomorphic ? `shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] ${settings.showPomodoroSystem ? 'bg-blue-500' : 'bg-white'}` : settings.showPomodoroSystem ? 'bg-blue-600' : 'bg-white'}`} onClick={() => onUpdateSettings({ showPomodoroSystem: !settings.showPomodoroSystem })}>
-                      <span className={`inline-block h-4.5 w-4.5 transform rounded-full transition-transform ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]' : 'bg-white'} ${settings.showPomodoroSystem ? 'translate-x-6' : 'translate-x-1'}`} />
+                    <button className={`relative inline-flex h-6 w-11 items-center rounded-full transition-all ${isNeomorphic ? `${isNeomorphicDark ? `shadow-[inset_2px_2px_4px_rgba(0,0,0,0.2),inset_-2px_-2px_4px_rgba(40,43,52,0.8)] ${settings.showPomodoroSystem ? 'bg-blue-500' : 'bg-[#2a2d36]'}` : `shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] ${settings.showPomodoroSystem ? 'bg-blue-500' : 'bg-white'}`}` : settings.showPomodoroSystem ? 'bg-blue-600' : 'bg-white'}`} onClick={() => onUpdateSettings({ showPomodoroSystem: !settings.showPomodoroSystem })}>
+                      <span className={`inline-block h-4.5 w-4.5 transform rounded-full transition-transform ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[4px_4px_8px_rgba(0,0,0,0.2),-4px_-4px_8px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]'}` : 'bg-white'} ${settings.showPomodoroSystem ? 'translate-x-6' : 'translate-x-1'}`} />
                     </button>
                   </div>
-                  <div className={`flex justify-between items-center p-2 rounded-xl transition-all cursor-pointer ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-900/30 hover:bg-zinc-800/50' : 'bg-white/50 hover:bg-slate-100'}`}>
+                  <div className={`flex justify-between items-center p-2 rounded-xl transition-all cursor-pointer ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)] hover:shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(40,43,52,0.9)] active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.2),inset_-6px_-6px_12px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/30 hover:bg-zinc-800/50' : 'bg-white/50 hover:bg-slate-100'}`}>
                     <span className={`text-sm ${textMain}`}>显示专注时间系统</span>
-                    <button className={`relative inline-flex h-6 w-11 items-center rounded-full transition-all ${isNeomorphic ? `shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] ${settings.showFocusTimeSystem ? 'bg-blue-500' : 'bg-white'}` : settings.showFocusTimeSystem ? 'bg-blue-600' : 'bg-white'}`} onClick={() => onUpdateSettings({ showFocusTimeSystem: !settings.showFocusTimeSystem })}>
-                      <span className={`inline-block h-4.5 w-4.5 transform rounded-full transition-transform ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]' : 'bg-white'} ${settings.showFocusTimeSystem ? 'translate-x-6' : 'translate-x-1'}`} />
+                    <button className={`relative inline-flex h-6 w-11 items-center rounded-full transition-all ${isNeomorphic ? `${isNeomorphicDark ? `shadow-[inset_2px_2px_4px_rgba(0,0,0,0.2),inset_-2px_-2px_4px_rgba(40,43,52,0.8)] ${settings.showFocusTimeSystem ? 'bg-blue-500' : 'bg-[#2a2d36]'}` : `shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] ${settings.showFocusTimeSystem ? 'bg-blue-500' : 'bg-white'}`}` : settings.showFocusTimeSystem ? 'bg-blue-600' : 'bg-white'}`} onClick={() => onUpdateSettings({ showFocusTimeSystem: !settings.showFocusTimeSystem })}>
+                      <span className={`inline-block h-4.5 w-4.5 transform rounded-full transition-transform ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[4px_4px_8px_rgba(0,0,0,0.2),-4px_-4px_8px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]'}` : 'bg-white'} ${settings.showFocusTimeSystem ? 'translate-x-6' : 'translate-x-1'}`} />
                     </button>
                   </div>
-                  <div className={`flex justify-between items-center p-2 rounded-xl transition-all cursor-pointer ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-900/30 hover:bg-zinc-800/50' : 'bg-white/50 hover:bg-slate-100'}`}>
+                  <div className={`flex justify-between items-center p-2 rounded-xl transition-all cursor-pointer ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)] hover:shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(40,43,52,0.9)] active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.2),inset_-6px_-6px_12px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/30 hover:bg-zinc-800/50' : 'bg-white/50 hover:bg-slate-100'}`}>
                     <span className={`text-sm ${textMain}`}>显示签到系统</span>
-                    <button className={`relative inline-flex h-6 w-11 items-center rounded-full transition-all ${isNeomorphic ? `shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] ${settings.showCheckinSystem ? 'bg-blue-500' : 'bg-white'}` : settings.showCheckinSystem ? 'bg-blue-600' : 'bg-white'}`} onClick={() => onUpdateSettings({ showCheckinSystem: !settings.showCheckinSystem })}>
-                      <span className={`inline-block h-4.5 w-4.5 transform rounded-full transition-transform ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]' : 'bg-white'} ${settings.showCheckinSystem ? 'translate-x-6' : 'translate-x-1'}`} />
+                    <button className={`relative inline-flex h-6 w-11 items-center rounded-full transition-all ${isNeomorphic ? `${isNeomorphicDark ? `shadow-[inset_2px_2px_4px_rgba(0,0,0,0.2),inset_-2px_-2px_4px_rgba(40,43,52,0.8)] ${settings.showCheckinSystem ? 'bg-blue-500' : 'bg-[#2a2d36]'}` : `shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] ${settings.showCheckinSystem ? 'bg-blue-500' : 'bg-white'}`}` : settings.showCheckinSystem ? 'bg-blue-600' : 'bg-white'}`} onClick={() => onUpdateSettings({ showCheckinSystem: !settings.showCheckinSystem })}>
+                      <span className={`inline-block h-4.5 w-4.5 transform rounded-full transition-transform ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[4px_4px_8px_rgba(0,0,0,0.2),-4px_-4px_8px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]'}` : 'bg-white'} ${settings.showCheckinSystem ? 'translate-x-6' : 'translate-x-1'}`} />
                     </button>
                   </div>
-                  <div className={`flex justify-between items-center p-2 rounded-xl transition-all cursor-pointer ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-900/30 hover:bg-zinc-800/50' : 'bg-white/50 hover:bg-slate-100'}`}>
+                  <div className={`flex justify-between items-center p-2 rounded-xl transition-all cursor-pointer ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)] hover:shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(40,43,52,0.9)] active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.2),inset_-6px_-6px_12px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/30 hover:bg-zinc-800/50' : 'bg-white/50 hover:bg-slate-100'}`}>
                     <span className={`text-sm ${textMain}`}>显示成就收集率</span>
-                    <button className={`relative inline-flex h-6 w-11 items-center rounded-full transition-all ${isNeomorphic ? `shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] ${settings.showAchievementCollectionRate ? 'bg-blue-500' : 'bg-white'}` : settings.showAchievementCollectionRate ? 'bg-blue-600' : 'bg-white'}`} onClick={() => onUpdateSettings({ showAchievementCollectionRate: !settings.showAchievementCollectionRate })}>
-                      <span className={`inline-block h-4.5 w-4.5 transform rounded-full transition-transform ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]' : 'bg-white'} ${settings.showAchievementCollectionRate ? 'translate-x-6' : 'translate-x-1'}`} />
+                    <button className={`relative inline-flex h-6 w-11 items-center rounded-full transition-all ${isNeomorphic ? `${isNeomorphicDark ? `shadow-[inset_2px_2px_4px_rgba(0,0,0,0.2),inset_-2px_-2px_4px_rgba(40,43,52,0.8)] ${settings.showAchievementCollectionRate ? 'bg-blue-500' : 'bg-[#2a2d36]'}` : `shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] ${settings.showAchievementCollectionRate ? 'bg-blue-500' : 'bg-white'}`}` : settings.showAchievementCollectionRate ? 'bg-blue-600' : 'bg-white'}`} onClick={() => onUpdateSettings({ showAchievementCollectionRate: !settings.showAchievementCollectionRate })}>
+                      <span className={`inline-block h-4.5 w-4.5 transform rounded-full transition-transform ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[4px_4px_8px_rgba(0,0,0,0.2),-4px_-4px_8px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]'}` : 'bg-white'} ${settings.showAchievementCollectionRate ? 'translate-x-6' : 'translate-x-1'}`} />
                     </button>
                   </div>
-                  <div className={`flex justify-between items-center p-2 rounded-xl transition-all cursor-pointer ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-900/30 hover:bg-zinc-800/50' : 'bg-white/50 hover:bg-slate-100'}`}>
+                  <div className={`flex justify-between items-center p-2 rounded-xl transition-all cursor-pointer ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)] hover:shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(40,43,52,0.9)] active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.2),inset_-6px_-6px_12px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/30 hover:bg-zinc-800/50' : 'bg-white/50 hover:bg-slate-100'}`}>
                     <span className={`text-sm ${textMain}`}>显示系统稳定性模块</span>
-                    <button className={`relative inline-flex h-6 w-11 items-center rounded-full transition-all ${isNeomorphic ? `shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] ${settings.showSystemStabilityModule ? 'bg-blue-500' : 'bg-white'}` : settings.showSystemStabilityModule ? 'bg-blue-600' : 'bg-white'}`} onClick={() => onUpdateSettings({ showSystemStabilityModule: !settings.showSystemStabilityModule })}>
-                      <span className={`inline-block h-4.5 w-4.5 transform rounded-full transition-transform ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]' : 'bg-white'} ${settings.showSystemStabilityModule ? 'translate-x-6' : 'translate-x-1'}`} />
+                    <button className={`relative inline-flex h-6 w-11 items-center rounded-full transition-all ${isNeomorphic ? `${isNeomorphicDark ? `shadow-[inset_2px_2px_4px_rgba(0,0,0,0.2),inset_-2px_-2px_4px_rgba(40,43,52,0.8)] ${settings.showSystemStabilityModule ? 'bg-blue-500' : 'bg-[#2a2d36]'}` : `shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] ${settings.showSystemStabilityModule ? 'bg-blue-500' : 'bg-white'}`}` : settings.showSystemStabilityModule ? 'bg-blue-600' : 'bg-white'}`} onClick={() => onUpdateSettings({ showSystemStabilityModule: !settings.showSystemStabilityModule })}>
+                      <span className={`inline-block h-4.5 w-4.5 transform rounded-full transition-transform ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[4px_4px_8px_rgba(0,0,0,0.2),-4px_-4px_8px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]'}` : 'bg-white'} ${settings.showSystemStabilityModule ? 'translate-x-6' : 'translate-x-1'}`} />
                     </button>
                   </div>
-                  <div className={`flex justify-between items-center p-2 rounded-xl transition-all cursor-pointer ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-900/30 hover:bg-zinc-800/50' : 'bg-white/50 hover:bg-slate-100'}`}>
+                  <div className={`flex justify-between items-center p-2 rounded-xl transition-all cursor-pointer ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)] hover:shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(40,43,52,0.9)] active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.2),inset_-6px_-6px_12px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/30 hover:bg-zinc-800/50' : 'bg-white/50 hover:bg-slate-100'}`}>
                     <span className={`text-sm ${textMain}`}>显示最新勋章</span>
-                    <button className={`relative inline-flex h-6 w-11 items-center rounded-full transition-all ${isNeomorphic ? `shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] ${settings.showLatestBadges ? 'bg-blue-500' : 'bg-white'}` : settings.showLatestBadges ? 'bg-blue-600' : 'bg-white'}`} onClick={() => onUpdateSettings({ showLatestBadges: !settings.showLatestBadges })}>
-                      <span className={`inline-block h-4.5 w-4.5 transform rounded-full transition-transform ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]' : 'bg-white'} ${settings.showLatestBadges ? 'translate-x-6' : 'translate-x-1'}`} />
+                    <button className={`relative inline-flex h-6 w-11 items-center rounded-full transition-all ${isNeomorphic ? `${isNeomorphicDark ? `shadow-[inset_2px_2px_4px_rgba(0,0,0,0.2),inset_-2px_-2px_4px_rgba(40,43,52,0.8)] ${settings.showLatestBadges ? 'bg-blue-500' : 'bg-[#2a2d36]'}` : `shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] ${settings.showLatestBadges ? 'bg-blue-500' : 'bg-white'}`}` : settings.showLatestBadges ? 'bg-blue-600' : 'bg-white'}`} onClick={() => onUpdateSettings({ showLatestBadges: !settings.showLatestBadges })}>
+                      <span className={`inline-block h-4.5 w-4.5 transform rounded-full transition-transform ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[4px_4px_8px_rgba(0,0,0,0.2),-4px_-4px_8px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]'}` : 'bg-white'} ${settings.showLatestBadges ? 'translate-x-6' : 'translate-x-1'}`} />
                     </button>
                   </div>
-                  <div className={`flex justify-between items-center p-2 rounded-xl transition-all cursor-pointer ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-900/30 hover:bg-zinc-800/50' : 'bg-white/50 hover:bg-slate-100'}`}>
+                  <div className={`flex justify-between items-center p-2 rounded-xl transition-all cursor-pointer ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)] hover:shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(40,43,52,0.9)] active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.2),inset_-6px_-6px_12px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/30 hover:bg-zinc-800/50' : 'bg-white/50 hover:bg-slate-100'}`}>
                     <span className={`text-sm ${textMain}`}>显示图表汇总</span>
-                    <button className={`relative inline-flex h-6 w-11 items-center rounded-full transition-all ${isNeomorphic ? `shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] ${settings.showChartSummary ? 'bg-blue-500' : 'bg-white'}` : settings.showChartSummary ? 'bg-blue-600' : 'bg-white'}`} onClick={() => onUpdateSettings({ showChartSummary: !settings.showChartSummary })}>
-                      <span className={`inline-block h-4.5 w-4.5 transform rounded-full transition-transform ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]' : 'bg-white'} ${settings.showChartSummary ? 'translate-x-6' : 'translate-x-1'}`} />
+                    <button className={`relative inline-flex h-6 w-11 items-center rounded-full transition-all ${isNeomorphic ? `${isNeomorphicDark ? `shadow-[inset_2px_2px_4px_rgba(0,0,0,0.2),inset_-2px_-2px_4px_rgba(40,43,52,0.8)] ${settings.showChartSummary ? 'bg-blue-500' : 'bg-[#2a2d36]'}` : `shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] ${settings.showChartSummary ? 'bg-blue-500' : 'bg-white'}`}` : settings.showChartSummary ? 'bg-blue-600' : 'bg-white'}`} onClick={() => onUpdateSettings({ showChartSummary: !settings.showChartSummary })}>
+                      <span className={`inline-block h-4.5 w-4.5 transform rounded-full transition-transform ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[4px_4px_8px_rgba(0,0,0,0.2),-4px_-4px_8px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]'}` : 'bg-white'} ${settings.showChartSummary ? 'translate-x-6' : 'translate-x-1'}`} />
                     </button>
                   </div>
-                  <div className={`flex justify-between items-center p-2 rounded-xl transition-all cursor-pointer ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-900/30 hover:bg-zinc-800/50' : 'bg-white/50 hover:bg-slate-100'}`}>
+                  <div className={`flex justify-between items-center p-2 rounded-xl transition-all cursor-pointer ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)] hover:shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(40,43,52,0.9)] active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.2),inset_-6px_-6px_12px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/30 hover:bg-zinc-800/50' : 'bg-white/50 hover:bg-slate-100'}`}>
                     <span className={`text-sm ${textMain}`}>显示补给黑市</span>
-                    <button className={`relative inline-flex h-6 w-11 items-center rounded-full transition-all ${isNeomorphic ? `shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] ${settings.showSupplyMarket ? 'bg-blue-500' : 'bg-white'}` : settings.showSupplyMarket ? 'bg-blue-600' : 'bg-white'}`} onClick={() => onUpdateSettings({ showSupplyMarket: !settings.showSupplyMarket })}>
-                      <span className={`inline-block h-4.5 w-4.5 transform rounded-full transition-transform ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]' : 'bg-white'} ${settings.showSupplyMarket ? 'translate-x-6' : 'translate-x-1'}`} />
+                    <button className={`relative inline-flex h-6 w-11 items-center rounded-full transition-all ${isNeomorphic ? `${isNeomorphicDark ? `shadow-[inset_2px_2px_4px_rgba(0,0,0,0.2),inset_-2px_-2px_4px_rgba(40,43,52,0.8)] ${settings.showSupplyMarket ? 'bg-blue-500' : 'bg-[#2a2d36]'}` : `shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] ${settings.showSupplyMarket ? 'bg-blue-500' : 'bg-white'}`}` : settings.showSupplyMarket ? 'bg-blue-600' : 'bg-white'}`} onClick={() => onUpdateSettings({ showSupplyMarket: !settings.showSupplyMarket })}>
+                      <span className={`inline-block h-4.5 w-4.5 transform rounded-full transition-transform ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[4px_4px_8px_rgba(0,0,0,0.2),-4px_-4px_8px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]'}` : 'bg-white'} ${settings.showSupplyMarket ? 'translate-x-6' : 'translate-x-1'}`} />
                     </button>
                   </div>
                 </div>
@@ -534,7 +546,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
             
             {/* Conditionally render guide card settings based on collapse state */}
             {showGuideCardSettings && (
-              <div className={`rounded-xl p-3 ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-900/50' : 'bg-slate-50'}`}>
+              <div className={`rounded-xl p-3 ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/50' : 'bg-slate-50'}`}>
                 <div className="space-y-3">
                   {/* 字体大小设置 */}
                   <div className="flex items-center justify-between">
@@ -553,7 +565,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                               fontSize: option.value as 'small' | 'medium' | 'large' 
                             } 
                           })} 
-                          className={`flex-1 py-1 px-2 rounded-lg transition-all duration-300 text-center text-xs ${isNeomorphic ? `bg-[#e0e5ec] shadow-[6px_6px_12px_rgba(163,177,198,0.6),-6px_-6px_12px_rgba(255,255,255,1)] hover:shadow-[8px_8px_16px_rgba(163,177,198,0.7),-8px_-8px_16px_rgba(255,255,255,1)] active:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] ${settings.guideCardConfig.fontSize === option.value ? 'bg-blue-500 text-white' : ''}` : isDark ? `bg-zinc-800 hover:bg-zinc-700 ${settings.guideCardConfig.fontSize === option.value ? 'bg-blue-600 text-white' : ''}` : `bg-slate-100 hover:bg-slate-200 ${settings.guideCardConfig.fontSize === option.value ? 'bg-blue-500 text-white' : ''}`}`}
+                          className={`flex-1 py-1 px-2 rounded-lg transition-all duration-300 text-center text-xs ${isNeomorphic ? `${isNeomorphicDark ? `bg-[#2a2d36] shadow-[6px_6px_12px_rgba(0,0,0,0.2),-6px_-6px_12px_rgba(40,43,52,0.8)] hover:shadow-[8px_8px_16px_rgba(0,0,0,0.3),-8px_-8px_16px_rgba(40,43,52,0.9)] active:shadow-[inset_4px_4px_8px_rgba(0,0,0,0.2),inset_-4px_-4px_8px_rgba(40,43,52,0.8)] ${settings.guideCardConfig.fontSize === option.value ? 'bg-blue-500 text-white' : ''}` : `bg-[#e0e5ec] shadow-[6px_6px_12px_rgba(163,177,198,0.6),-6px_-6px_12px_rgba(255,255,255,1)] hover:shadow-[8px_8px_16px_rgba(163,177,198,0.7),-8px_-8px_16px_rgba(255,255,255,1)] active:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] ${settings.guideCardConfig.fontSize === option.value ? 'bg-blue-500 text-white' : ''}`}` : isDark ? `bg-zinc-800 hover:bg-zinc-700 ${settings.guideCardConfig.fontSize === option.value ? 'bg-blue-600 text-white' : ''}` : `bg-slate-100 hover:bg-slate-200 ${settings.guideCardConfig.fontSize === option.value ? 'bg-blue-500 text-white' : ''}`}`}
                         >
                           {option.label}
                         </button>
@@ -578,7 +590,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                               borderRadius: option.value as 'small' | 'medium' | 'large' 
                             } 
                           })} 
-                          className={`flex-1 py-1 px-2 rounded-lg transition-all duration-300 text-center text-xs ${isNeomorphic ? `bg-[#e0e5ec] shadow-[6px_6px_12px_rgba(163,177,198,0.6),-6px_-6px_12px_rgba(255,255,255,1)] hover:shadow-[8px_8px_16px_rgba(163,177,198,0.7),-8px_-8px_16px_rgba(255,255,255,1)] active:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] ${settings.guideCardConfig.borderRadius === option.value ? 'bg-blue-500 text-white' : ''}` : isDark ? `bg-zinc-800 hover:bg-zinc-700 ${settings.guideCardConfig.borderRadius === option.value ? 'bg-blue-600 text-white' : ''}` : `bg-slate-100 hover:bg-slate-200 ${settings.guideCardConfig.borderRadius === option.value ? 'bg-blue-500 text-white' : ''}`}`}
+                          className={`flex-1 py-1 px-2 rounded-lg transition-all duration-300 text-center text-xs ${isNeomorphic ? `${isNeomorphicDark ? `bg-[#2a2d36] shadow-[6px_6px_12px_rgba(0,0,0,0.2),-6px_-6px_12px_rgba(40,43,52,0.8)] hover:shadow-[8px_8px_16px_rgba(0,0,0,0.3),-8px_-8px_16px_rgba(40,43,52,0.9)] active:shadow-[inset_4px_4px_8px_rgba(0,0,0,0.2),inset_-4px_-4px_8px_rgba(40,43,52,0.8)] ${settings.guideCardConfig.borderRadius === option.value ? 'bg-blue-500 text-white' : ''}` : `bg-[#e0e5ec] shadow-[6px_6px_12px_rgba(163,177,198,0.6),-6px_-6px_12px_rgba(255,255,255,1)] hover:shadow-[8px_8px_16px_rgba(163,177,198,0.7),-8px_-8px_16px_rgba(255,255,255,1)] active:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] ${settings.guideCardConfig.borderRadius === option.value ? 'bg-blue-500 text-white' : ''}`}` : isDark ? `bg-zinc-800 hover:bg-zinc-700 ${settings.guideCardConfig.borderRadius === option.value ? 'bg-blue-600 text-white' : ''}` : `bg-slate-100 hover:bg-slate-200 ${settings.guideCardConfig.borderRadius === option.value ? 'bg-blue-500 text-white' : ''}`}`}
                         >
                           {option.label}
                         </button>
@@ -603,7 +615,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                               shadowIntensity: option.value as 'light' | 'medium' | 'strong' 
                             } 
                           })} 
-                          className={`flex-1 py-1 px-2 rounded-lg transition-all duration-300 text-center text-xs ${isNeomorphic ? `bg-[#e0e5ec] shadow-[6px_6px_12px_rgba(163,177,198,0.6),-6px_-6px_12px_rgba(255,255,255,1)] hover:shadow-[8px_8px_16px_rgba(163,177,198,0.7),-8px_-8px_16px_rgba(255,255,255,1)] active:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] ${settings.guideCardConfig.shadowIntensity === option.value ? 'bg-blue-500 text-white' : ''}` : isDark ? `bg-zinc-800 hover:bg-zinc-700 ${settings.guideCardConfig.shadowIntensity === option.value ? 'bg-blue-600 text-white' : ''}` : `bg-slate-100 hover:bg-slate-200 ${settings.guideCardConfig.shadowIntensity === option.value ? 'bg-blue-500 text-white' : ''}`}`}
+                          className={`flex-1 py-1 px-2 rounded-lg transition-all duration-300 text-center text-xs ${isNeomorphic ? `${isNeomorphicDark ? `bg-[#2a2d36] shadow-[6px_6px_12px_rgba(0,0,0,0.2),-6px_-6px_12px_rgba(40,43,52,0.8)] hover:shadow-[8px_8px_16px_rgba(0,0,0,0.3),-8px_-8px_16px_rgba(40,43,52,0.9)] active:shadow-[inset_4px_4px_8px_rgba(0,0,0,0.2),inset_-4px_-4px_8px_rgba(40,43,52,0.8)] ${settings.guideCardConfig.shadowIntensity === option.value ? 'bg-blue-500 text-white' : ''}` : `bg-[#e0e5ec] shadow-[6px_6px_12px_rgba(163,177,198,0.6),-6px_-6px_12px_rgba(255,255,255,1)] hover:shadow-[8px_8px_16px_rgba(163,177,198,0.7),-8px_-8px_16px_rgba(255,255,255,1)] active:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] ${settings.guideCardConfig.shadowIntensity === option.value ? 'bg-blue-500 text-white' : ''}`}` : isDark ? `bg-zinc-800 hover:bg-zinc-700 ${settings.guideCardConfig.shadowIntensity === option.value ? 'bg-blue-600 text-white' : ''}` : `bg-slate-100 hover:bg-slate-200 ${settings.guideCardConfig.shadowIntensity === option.value ? 'bg-blue-500 text-white' : ''}`}`}
                         >
                           {option.label}
                         </button>
@@ -612,7 +624,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                   </div>
                   
                   {/* 一键同步按钮 */}
-                  <button className={`w-full py-2 rounded-lg transition-all flex items-center justify-center gap-1 ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[6px_6px_12px_rgba(163,177,198,0.6),-6px_-6px_12px_rgba(255,255,255,1)] hover:shadow-[8px_8px_16px_rgba(163,177,198,0.7),-8px_-8px_16px_rgba(255,255,255,1)] active:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] text-blue-600 font-bold' : isDark ? 'bg-blue-900/30 text-blue-400 hover:bg-blue-800/50' : 'bg-blue-100 text-blue-700 hover:bg-blue-200'}`} onClick={() => {
+                  <button className={`w-full py-2 rounded-lg transition-all flex items-center justify-center gap-1 ${isNeomorphic ? (isNeomorphicDark ? 'bg-[#2a2d36] shadow-[6px_6px_12px_rgba(0,0,0,0.2),-6px_-6px_12px_rgba(40,43,52,0.8)] hover:shadow-[8px_8px_16px_rgba(0,0,0,0.3),-8px_-8px_16px_rgba(40,43,52,0.9)] active:shadow-[inset_4px_4px_8px_rgba(0,0,0,0.2),inset_-4px_-4px_8px_rgba(40,43,52,0.8)] text-blue-400 font-bold' : 'bg-[#e0e5ec] shadow-[6px_6px_12px_rgba(163,177,198,0.6),-6px_-6px_12px_rgba(255,255,255,1)] hover:shadow-[8px_8px_16px_rgba(163,177,198,0.7),-8px_-8px_16px_rgba(255,255,255,1)] active:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] text-blue-600 font-bold') : (isDark ? 'bg-blue-900/30 text-blue-400 hover:bg-blue-800/50' : 'bg-blue-100 text-blue-700 hover:bg-blue-200')}`} onClick={() => {
                     // 这里可以添加同步逻辑，当前设计中设置会实时生效
                     alert('所有指南卡片已同步更新！');
                   }}>
@@ -644,18 +656,18 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
             </div>
             
             {/* Backup Type Tabs */}
-            <div className={`rounded-xl p-1 mb-4 ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-900/50' : 'bg-slate-200'}`}>
+            <div className={`rounded-xl p-1 mb-4 ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.2),inset_-4px_-4px_8px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/50' : 'bg-slate-200'}`}>
               <div className="flex gap-1">
                 <button
                   onClick={() => setActiveBackupTab('cloud')}
-                  className={`flex-1 py-2 px-4 rounded-lg transition-all duration-300 text-sm font-medium ${activeBackupTab === 'cloud' ? (isNeomorphic ? 'bg-blue-500 text-white shadow-[6px_6px_12px_rgba(163,177,198,0.6),-6px_-6px_12px_rgba(255,255,255,1)]' : isDark ? 'bg-blue-600 text-white' : 'bg-white text-blue-700 shadow-md') : (isNeomorphic ? 'bg-[#e0e5ec] text-zinc-700 hover:bg-zinc-200' : isDark ? 'bg-zinc-800 text-zinc-400 hover:bg-zinc-700' : 'bg-slate-100 text-slate-600 hover:bg-slate-200')}`}
+                  className={`flex-1 py-2 px-4 rounded-lg transition-all duration-300 text-sm font-medium ${activeBackupTab === 'cloud' ? (isNeomorphic ? `${isNeomorphicDark ? 'bg-blue-500 text-white shadow-[6px_6px_12px_rgba(0,0,0,0.3),-6px_-6px_12px_rgba(40,43,52,0.8)]' : 'bg-blue-500 text-white shadow-[6px_6px_12px_rgba(163,177,198,0.6),-6px_-6px_12px_rgba(255,255,255,1)]'}` : isDark ? 'bg-blue-600 text-white' : 'bg-white text-blue-700 shadow-md') : (isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] text-zinc-200 hover:bg-zinc-700/50' : 'bg-[#e0e5ec] text-zinc-700 hover:bg-zinc-200'}` : isDark ? 'bg-zinc-800 text-zinc-400 hover:bg-zinc-700' : 'bg-slate-100 text-slate-600 hover:bg-slate-200')}`}
                 >
                   <Cloud size={14} className="inline-block mr-1" />
                   云备份管理
                 </button>
                 <button
                   onClick={() => setActiveBackupTab('local')}
-                  className={`flex-1 py-2 px-4 rounded-lg transition-all duration-300 text-sm font-medium ${activeBackupTab === 'local' ? (isNeomorphic ? 'bg-blue-500 text-white shadow-[6px_6px_12px_rgba(163,177,198,0.6),-6px_-6px_12px_rgba(255,255,255,1)]' : isDark ? 'bg-blue-600 text-white' : 'bg-white text-blue-700 shadow-md') : (isNeomorphic ? 'bg-[#e0e5ec] text-zinc-700 hover:bg-zinc-200' : isDark ? 'bg-zinc-800 text-zinc-400 hover:bg-zinc-700' : 'bg-slate-100 text-slate-600 hover:bg-slate-200')}`}
+                  className={`flex-1 py-2 px-4 rounded-lg transition-all duration-300 text-sm font-medium ${activeBackupTab === 'local' ? (isNeomorphic ? `${isNeomorphicDark ? 'bg-blue-500 text-white shadow-[6px_6px_12px_rgba(0,0,0,0.3),-6px_-6px_12px_rgba(40,43,52,0.8)]' : 'bg-blue-500 text-white shadow-[6px_6px_12px_rgba(163,177,198,0.6),-6px_-6px_12px_rgba(255,255,255,1)]'}` : isDark ? 'bg-blue-600 text-white' : 'bg-white text-blue-700 shadow-md') : (isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] text-zinc-200 hover:bg-zinc-700/50' : 'bg-[#e0e5ec] text-zinc-700 hover:bg-zinc-200'}` : isDark ? 'bg-zinc-800 text-zinc-400 hover:bg-zinc-700' : 'bg-slate-100 text-slate-600 hover:bg-slate-200')}`}
                 >
                   <Database size={14} className="inline-block mr-1" />
                   本地备份管理
@@ -671,7 +683,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                   <h4 className={`text-sm font-semibold ${textMain}`}>WebDAV 配置</h4>
                   <button
                     onClick={() => setIsWebdavConfigCollapsed(!isWebdavConfigCollapsed)}
-                    className={`p-1.5 rounded-lg transition-all duration-300 ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[6px_6px_12px_rgba(163,177,198,0.6),-6px_-6px_12px_rgba(255,255,255,1)] hover:shadow-[8px_8px_16px_rgba(163,177,198,0.7),-8px_-8px_16px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-800 hover:bg-zinc-700' : 'bg-white hover:bg-slate-100'}`}
+                    className={`p-1.5 rounded-lg transition-all duration-300 ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[6px_6px_12px_rgba(0,0,0,0.2),-6px_-6px_12px_rgba(40,43,52,0.8)] hover:shadow-[8px_8px_16px_rgba(0,0,0,0.3),-8px_-8px_16px_rgba(40,43,52,0.9)]' : 'bg-[#e0e5ec] shadow-[6px_6px_12px_rgba(163,177,198,0.6),-6px_-6px_12px_rgba(255,255,255,1)] hover:shadow-[8px_8px_16px_rgba(163,177,198,0.7),-8px_-8px_16px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-800 hover:bg-zinc-700' : 'bg-white hover:bg-slate-100'}`}
                     title={isWebdavConfigCollapsed ? '展开配置' : '折叠配置'}
                   >
                     <span className={`text-xs ${textMain} transform transition-transform ${isWebdavConfigCollapsed ? 'rotate-180' : ''}`}>
@@ -682,7 +694,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                 
                 {/* WebDAV Configuration Form */}
                 {!isWebdavConfigCollapsed && (
-                  <div className={`rounded-xl p-3 overflow-y-auto ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-900/50' : 'bg-slate-50'}`}>
+                  <div className={`rounded-xl p-3 overflow-y-auto ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/50' : 'bg-slate-50'}`}>
                     <div className="space-y-3">
                       {/* URL Input */}
                       <div>
@@ -692,7 +704,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                           value={webdavConfig.url}
                           onChange={(e) => setWebdavConfig(prev => ({ ...prev, url: e.target.value }))}
                           placeholder="https://dav.jianguoyun.com/dav/"
-                          className={`w-full p-2 rounded-xl border ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] border-none' : isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-300'} ${textMain}`}
+                          className={`w-full p-2 rounded-xl border ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.2),inset_-4px_-4px_8px_rgba(40,43,52,0.8)] border-none' : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] border-none'}` : isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-300'} ${textMain}`}
                         />
                       </div>
                       
@@ -704,7 +716,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                           value={webdavConfig.username}
                           onChange={(e) => setWebdavConfig(prev => ({ ...prev, username: e.target.value }))}
                           placeholder="坚果云用户名"
-                          className={`w-full p-2 rounded-xl border ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] border-none' : isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-300'} ${textMain}`}
+                          className={`w-full p-2 rounded-xl border ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.2),inset_-4px_-4px_8px_rgba(40,43,52,0.8)] border-none' : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] border-none'}` : isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-300'} ${textMain}`}
                         />
                       </div>
                       
@@ -716,7 +728,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                           value={webdavConfig.password}
                           onChange={(e) => setWebdavConfig(prev => ({ ...prev, password: e.target.value }))}
                           placeholder="坚果云应用密码"
-                          className={`w-full p-2 rounded-xl border ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] border-none' : isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-300'} ${textMain}`}
+                          className={`w-full p-2 rounded-xl border ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.2),inset_-4px_-4px_8px_rgba(40,43,52,0.8)] border-none' : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] border-none'}` : isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-300'} ${textMain}`}
                         />
                       </div>
                       
@@ -727,7 +739,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                           type="text"
                           value={webdavConfig.basePath}
                           readOnly
-                          className={`w-full p-2 rounded-xl border ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] border-none' : isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-300'} ${textMain}`}
+                          className={`w-full p-2 rounded-xl border ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.2),inset_-4px_-4px_8px_rgba(40,43,52,0.8)] border-none' : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] border-none'}` : isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-300'} ${textMain}`}
                         />
                       </div>
                       
@@ -758,7 +770,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                 )}
                 
                 {/* Cloud Backup/Restore Buttons */}
-                <div className={`${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] transition-all duration-300 hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)] cursor-pointer' : isDark ? 'bg-zinc-900/50 hover:bg-zinc-800/70 cursor-pointer' : 'bg-slate-100 hover:bg-slate-200 cursor-pointer'} p-4 rounded-xl`}>
+                <div className={`${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)] transition-all duration-300 hover:shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(40,43,52,0.9)] active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.2),inset_-6px_-6px_12px_rgba(40,43,52,0.8)] cursor-pointer' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] transition-all duration-300 hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)] cursor-pointer'}` : isDark ? 'bg-zinc-900/50 hover:bg-zinc-800/70 cursor-pointer' : 'bg-slate-100 hover:bg-slate-200 cursor-pointer'} p-4 rounded-xl`}>
                   <div className="flex flex-col md:flex-row gap-3">
                     {/* Backup to Cloud Button */}
                     <button 
@@ -836,7 +848,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
             {activeBackupTab === 'local' && (
               <div className="space-y-4">
                 {/* Local Backup Actions */}
-                <div className={`${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] transition-all duration-300 hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)] cursor-pointer' : isDark ? 'bg-zinc-900/50 hover:bg-zinc-800/70 cursor-pointer' : 'bg-slate-100 hover:bg-slate-200 cursor-pointer'} p-4 rounded-xl`}>
+                <div className={`${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)] transition-all duration-300 hover:shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(40,43,52,0.9)] active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.2),inset_-6px_-6px_12px_rgba(40,43,52,0.8)] cursor-pointer' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] transition-all duration-300 hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)] cursor-pointer'}` : isDark ? 'bg-zinc-900/50 hover:bg-zinc-800/70 cursor-pointer' : 'bg-slate-100 hover:bg-slate-200 cursor-pointer'} p-4 rounded-xl`}>
                   <div className="flex flex-col md:flex-row gap-3">
                     {/* Create Local Backup Button */}
                     <button 
@@ -871,13 +883,13 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                 )}
                 
                 {/* Local Backup List */}
-                <div className={`rounded-xl overflow-hidden ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-900/50' : 'bg-slate-50'}`}>
-                  <div className="p-3 border-b ${isNeomorphic ? 'border-[#d0d5dc]' : isDark ? 'border-zinc-800' : 'border-slate-200'}">
+                <div className={`rounded-xl overflow-hidden ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/50' : 'bg-slate-50'}`}>
+                  <div className="p-3 border-b ${isNeomorphic ? (isNeomorphicDark ? 'border-[#3a3f4e]' : 'border-[#d0d5dc]') : isDark ? 'border-zinc-800' : 'border-slate-200'}">
                     <h4 className={`text-sm font-semibold ${textMain}`}>本地备份文件列表</h4>
                   </div>
                   
                   {localBackups.length > 0 ? (
-                    <div className="divide-y ${isNeomorphic ? 'divide-[#d0d5dc]' : isDark ? 'divide-zinc-800' : 'divide-slate-200'}">
+                    <div className="divide-y ${isNeomorphic ? (isNeomorphicDark ? 'divide-[#3a3f4e]' : 'divide-[#d0d5dc]') : isDark ? 'divide-zinc-800' : 'divide-slate-200'}">
                       {localBackups.map((backup) => (
                         <div key={backup.id} className="p-3 flex items-center justify-between">
                           <div className="flex-1 min-w-0">
@@ -890,14 +902,14 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                           <div className="flex items-center gap-2 ml-3">
                             <button
                               onClick={() => restoreFromLocalBackup(backup.id)}
-                              className={`p-1.5 rounded-lg transition-all ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[6px_6px_12px_rgba(163,177,198,0.6),-6px_-6px_12px_rgba(255,255,255,1)] hover:shadow-[8px_8px_16px_rgba(163,177,198,0.7),-8px_-8px_16px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-800 hover:bg-zinc-700' : 'bg-white hover:bg-slate-100'}`}
+                              className={`p-1.5 rounded-lg transition-all ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[6px_6px_12px_rgba(0,0,0,0.2),-6px_-6px_12px_rgba(40,43,52,0.8)] hover:shadow-[8px_8px_16px_rgba(0,0,0,0.3),-8px_-8px_16px_rgba(40,43,52,0.9)]' : 'bg-[#e0e5ec] shadow-[6px_6px_12px_rgba(163,177,198,0.6),-6px_-6px_12px_rgba(255,255,255,1)] hover:shadow-[8px_8px_16px_rgba(163,177,198,0.7),-8px_-8px_16px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-800 hover:bg-zinc-700' : 'bg-white hover:bg-slate-100'}`}
                               title="恢复备份"
                             >
                               <CloudDownload size={14} className={isDark ? 'text-blue-400' : 'text-blue-600'} />
                             </button>
                             <button
                               onClick={() => deleteLocalBackup(backup.id)}
-                              className={`p-1.5 rounded-lg transition-all ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[6px_6px_12px_rgba(163,177,198,0.6),-6px_-6px_12px_rgba(255,255,255,1)] hover:shadow-[8px_8px_16px_rgba(163,177,198,0.7),-8px_-8px_16px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-800 hover:bg-zinc-700' : 'bg-white hover:bg-slate-100'}`}
+                              className={`p-1.5 rounded-lg transition-all ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[6px_6px_12px_rgba(0,0,0,0.2),-6px_-6px_12px_rgba(40,43,52,0.8)] hover:shadow-[8px_8px_16px_rgba(0,0,0,0.3),-8px_-8px_16px_rgba(40,43,52,0.9)]' : 'bg-[#e0e5ec] shadow-[6px_6px_12px_rgba(163,177,198,0.6),-6px_-6px_12px_rgba(255,255,255,1)] hover:shadow-[8px_8px_16px_rgba(163,177,198,0.7),-8px_-8px_16px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-800 hover:bg-zinc-700' : 'bg-white hover:bg-slate-100'}`}
                               title="删除备份"
                             >
                               <Trash2 size={14} className={isDark ? 'text-red-400' : 'text-red-600'} />

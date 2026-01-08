@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>热力学第二定律 - 终极的混乱</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 800 600">
+      <!-- 左侧：初始高度有序态 -->
+      <g transform="translate(100, 100)">
+        <rect width="200" height="200" fill="none" stroke="var(--heading)" stroke-width="2" opacity="0.2" />
+        <g fill="var(--accent)">
+          <circle cx="40" cy="40" r="10" /><circle cx="80" cy="40" r="10" /><circle cx="120" cy="40" r="10" /><circle cx="160" cy="40" r="10" />
+          <circle cx="40" cy="80" r="10" /><circle cx="80" cy="80" r="10" /><circle cx="120" cy="80" r="10" /><circle cx="160" cy="80" r="10" />
+          <circle cx="40" cy="120" r="10" /><circle cx="80" cy="120" r="10" /><circle cx="120" cy="120" r="10" /><circle cx="160" cy="120" r="10" />
+        </g>
+        <text x="100" y="230" text-anchor="middle" fill="var(--text)" style="font-size: 10px; font-weight: 900;">LOW ENTROPY (有序)</text>
+      </g>
+      
+      <!-- 转化箭头 -->
+      <path d="M350,200 L450,200" stroke="#ef4444" stroke-width="4" marker-end="url(#arrow-red)" />
+      <text x="400" y="180" text-anchor="middle" fill="#ef4444" style="font-size: 14px; font-weight: 900;">TIME →</text>
+
+      <!-- 右侧：热寂/混乱态 -->
+      <g transform="translate(500, 100)">
+        <rect width="200" height="200" fill="none" stroke="var(--heading)" stroke-width="2" opacity="0.2" />
+        <g fill="#475569" opacity="0.5">
+          <circle cx="20" cy="180" r="8" /><circle cx="150" cy="30" r="5" />
+          <circle cx="90" cy="110" r="12" /><circle cx="180" cy="160" r="7" />
+          <circle cx="50" cy="60" r="6" /><circle cx="130" cy="190" r="9" />
+          <animateTransform attributeName="transform" type="translate" values="0,0; 5,5; 0,0" dur="0.1s" repeatCount="indefinite" />
+        </g>
+        <text x="100" y="230" text-anchor="middle" fill="#ef4444" style="font-size: 10px; font-weight: 900;">HIGH ENTROPY (热寂)</text>
+      </g>
+
+      <defs>
+        <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#ef4444"/></marker>
+      </defs>
+
+      <text x="400" y="500" text-anchor="middle" fill="var(--heading)" style="font-size: 24px; font-weight: 900;">DEATH IS EQUILIBRIUM</text>
+      <text x="400" y="550" text-anchor="middle" fill="var(--text)" opacity="0.3" style="font-size: 10px; font-weight: 900; letter-spacing: 0.5em;">THE ARROW OF TIME</text>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>热力学第二定律</h1>
+    <p>孤立系统的熵（混乱度）总是趋于增加。这是物理学中最令人畏惧的定律，它定义了时间的单一方向：从有序走向无序。</p>
+    <div class="grid">
+      <div>
+        <h3>宇宙的终局</h3>
+        <ul>
+          <li><strong>热寂</strong>：当所有能量都均匀分布，不再有温差，宇宙将失去做功的能力，彻底死寂。</li>
+          <li><strong>不可逆性</strong>：打碎的杯子无法自发复原。秩序需要昂贵的能量去维持。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>哲学启示</h3>
+        <ul>
+          <li><strong>生命是负熵</strong>：生命的本质是获取负熵来对抗宇宙的瓦解。如果你停止进步，你就是在顺从熵增。</li>
+          <li><strong>管理的本质</strong>：管理就是通过不断向组织输入新的能量和信息，来抵抗组织的平庸化和官僚化。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

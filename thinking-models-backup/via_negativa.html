@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>减法思维</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 外层噪音 (逐渐脱落) -->
+        <g opacity="0.1">
+          <circle r="300" fill="none" stroke="var(--heading)" stroke-width="2" stroke-dasharray="10 20" />
+          <path d="M-280,-100 L280,100" stroke="var(--heading)" />
+          <animateTransform attributeName="transform" type="scale" values="1;1.2;1" dur="10s" repeatCount="indefinite" />
+        </g>
+        
+        <!-- 正在被剥离的干扰项 -->
+        <g fill="#ef4444" opacity="0.3">
+           <circle cx="-150" cy="-150" r="20"><animate attributeName="opacity" values="0.3;0;0.3" dur="2s" repeatCount="indefinite" /></circle>
+           <rect x="180" y="120" width="40" height="40" rx="10"><animate attributeName="x" from="180" to="400" dur="3s" repeatCount="indefinite" /></rect>
+        </g>
+
+        <!-- 核心真相 -->
+        <g>
+          <circle r="80" fill="var(--accent)" filter="drop-shadow(0 0 50px var(--accent))" />
+          <text text-anchor="middle" y="10" fill="white" style="font-size: 52px; font-weight: 900;">真理</text>
+          <circle r="120" fill="none" stroke="var(--accent)" stroke-width="2" class="animate-ping" />
+        </g>
+
+        <text y="240" text-anchor="middle" fill="var(--accent)" style="font-size: 32px; font-weight: 900;">少即是多</text>
+      </g>
+      <text x="500" y="80" text-anchor="middle" fill="var(--text)" opacity="0.1" style="font-size: 24px; font-weight: 900; letter-spacing: 0.5em;">VIA NEGATIVA: KNOWLEDGE BY OMISSION</text>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>减法思维 (Via Negativa)</h1>
+    <p>通过“不知道什么”来定义“知道什么”。在极其复杂的系统中，增加一个好主意往往不如减去一个愚蠢的行为更有效。智慧在于持续的剔除。</p>
+    <div class="grid">
+      <div>
+        <h3>反向智慧</h3>
+        <ul>
+          <li><strong>否定性知识：</strong>我们无法定义绝对的成功，但我们能轻易识别什么是失败。避开所有失败的坑，剩下的就是成功。</li>
+          <li><strong>解药逻辑：</strong>很多时候，健康的获得不是靠吃补药（加法），而是靠停止熬夜和垃圾食品（减法）。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>操作指南</h3>
+        <ul>
+          <li><strong>停做清单 (Not-To-Do List)：</strong>比待办清单更重要。每天至少划掉一项由于惯性执行但已无价值的任务。</li>
+          <li><strong>剥离装饰：</strong>在写作或设计时，如果一个元素不增加信息量，它就是在污染读者的脑带宽。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

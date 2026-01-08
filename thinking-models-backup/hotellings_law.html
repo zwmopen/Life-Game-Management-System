@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>霍特林定律</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <!-- 市场沙滩线 -->
+      <line x1="100" y1="325" x2="900" y2="325" stroke="var(--heading)" stroke-width="4" opacity="0.1" />
+      
+      <!-- 玩家 A (蓝色) -->
+      <g transform="translate(480, 325)">
+        <rect x="-40" y="-80" width="80" height="80" rx="10" fill="var(--accent)" />
+        <animateTransform attributeName="transform" type="translate" from="150,325" to="480,325" dur="4s" fill="freeze" />
+        <text y="-100" text-anchor="middle" fill="var(--accent)" style="font-size: 20px; font-weight: 900;">品牌 A</text>
+      </g>
+
+      <!-- 玩家 B (红色) -->
+      <g transform="translate(520, 325)">
+        <rect x="-40" y="-80" width="80" height="80" rx="10" fill="#ef4444" />
+        <animateTransform attributeName="transform" type="translate" from="850,325" to="520,325" dur="4s" fill="freeze" />
+        <text y="-100" text-anchor="middle" fill="#ef4444" style="font-size: 20px; font-weight: 900;">品牌 B</text>
+      </g>
+
+      <!-- 中间点吸引子 -->
+      <g transform="translate(500, 325)">
+        <circle r="150" fill="none" stroke="#fbbf24" stroke-width="1" stroke-dasharray="5 5" class="animate-spin" />
+        <text y="150" text-anchor="middle" fill="#fbbf24" style="font-size: 32px; font-weight: 900;">中位值聚集</text>
+        <text y="185" text-anchor="middle" fill="var(--text)" opacity="0.5" style="font-size: 14px;">(竞争导致了极致的相似性)</text>
+      </g>
+
+      <text x="500" y="80" text-anchor="middle" fill="var(--accent)" style="font-size: 24px; font-weight: 900; letter-spacing: 0.5em; opacity: 0.1;">THE PRINCIPLE OF MINIMUM DIFFERENTIATION</text>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>霍特林定律 (Hotelling's Law)</h1>
+    <p>解释了为什么两家竞争的快餐店总是开在街角对面。为了捕捉最多的边缘客户，竞争者会自发地向地理或产品特性的“中心点”靠拢，最终导致严重的同质化。</p>
+    <div class="grid">
+      <div>
+        <h3>演化逻辑</h3>
+        <ul>
+          <li><strong>捕获边缘：</strong>如果 A 靠向中心，B 必须也靠向中心，否则 B 另一侧的客户就会被 A 顺手牵羊。</li>
+          <li><strong>纳什均衡：</strong>背靠背占据中心点是博弈的终极稳态。这也是为什么两党制的竞选宣言往往极其相似。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>反向突围</h3>
+        <ul>
+          <li><strong>蓝海背离：</strong>意识到中心点的拥挤后，主动向极端的利基市场（边缘）移动。虽然基数小，但忠诚度极高且利润丰厚。</li>
+          <li><strong>人为屏障：</strong>通过高昂的差异化设计来打破霍特林引力，防止被卷入低水平的同质化价格战。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

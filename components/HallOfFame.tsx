@@ -65,15 +65,22 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
     // Pomodoro Global State
     timeLeft, isActive, duration, onToggleTimer, onResetTimer, onChangeDuration, onUpdateTimeLeft, onUpdateIsActive
 }) => {
-    const isDark = theme === 'dark';
-    const isNeomorphic = theme === 'neomorphic';
-    // 拟态风格样式变量
+    const isDark = theme === 'dark' || theme === 'neomorphic-dark';
+    const isNeomorphic = theme.startsWith('neomorphic');
+    // 拟态风格样式变量，区分浅色和深色
+    const isNeomorphicDark = theme === 'neomorphic-dark';
     const neomorphicStyles = {
-        bg: 'bg-[#e0e5ec]',
-        border: 'border-[#e0e5ec]',
-        shadow: 'shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]',
-        hoverShadow: 'hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)]',
-        activeShadow: 'active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]',
+        bg: isNeomorphicDark ? 'bg-[#1e1e2e]' : 'bg-[#e0e5ec]',
+        border: isNeomorphicDark ? 'border-[#1e1e2e]' : 'border-[#e0e5ec]',
+        shadow: isNeomorphicDark 
+            ? 'shadow-[8px_8px_16px_rgba(0,0,0,0.4),-8px_-8px_16px_rgba(30,30,46,0.8)]' 
+            : 'shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]',
+        hoverShadow: isNeomorphicDark 
+            ? 'hover:shadow-[10px_10px_20px_rgba(0,0,0,0.5),-10px_-10px_20px_rgba(30,30,46,1)]' 
+            : 'hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)]',
+        activeShadow: isNeomorphicDark 
+            ? 'active:shadow-[inset_5px_5px_10px_rgba(0,0,0,0.4),inset_-5px_-5px_10px_rgba(30,30,46,0.8)]' 
+            : 'active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]',
         transition: 'transition-all duration-200'
     };
     
@@ -83,14 +90,16 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
             return isSpecial ? 'bg-red-500 text-white border-red-500' : 'bg-blue-500 text-white border-blue-500';
         }
         if (isNeomorphic) {
-            return `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow} ${neomorphicStyles.hoverShadow} ${neomorphicStyles.activeShadow} ${neomorphicStyles.transition}`;
+            return `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow} ${neomorphicStyles.hoverShadow} ${neomorphicStyles.activeShadow} ${neomorphicStyles.transition} ${isNeomorphicDark ? 'text-zinc-200' : 'text-zinc-700'}`;
         }
         return isDark ? 'bg-zinc-900 border-zinc-800 text-zinc-500 hover:border-zinc-700' : 'bg-white border-slate-300 text-slate-600 hover:border-slate-200';
     };
     
-    // 拟态风格卡片背景 - 符合设计规格的高饱和度灰蓝色底色，135度光源，增强阴影效果
+    // 拟态风格卡片背景 - 区分浅色和深色拟态主题
     const cardBg = isNeomorphic 
-        ? 'bg-[#e0e5ec] rounded-[48px] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)] hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] transition-all duration-200 active:shadow-[inset_8px_8px_16px_rgba(163,177,198,0.6),inset_-8px_-8px_16px_rgba(255,255,255,1)]' 
+        ? `${isNeomorphicDark ? 'bg-[#1e1e2e]' : 'bg-[#e0e5ec]'} rounded-[48px] ${isNeomorphicDark 
+            ? 'shadow-[10px_10px_20px_rgba(0,0,0,0.4),-10px_-10px_20px_rgba(30,30,46,0.8)] hover:shadow-[12px_12px_24px_rgba(0,0,0,0.5),-12px_-12px_24px_rgba(30,30,46,1)] transition-all duration-200 active:shadow-[inset_8px_8px_16px_rgba(0,0,0,0.4),inset_-8px_-8px_16px_rgba(30,30,46,0.8)]' 
+            : 'shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)] hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] transition-all duration-200 active:shadow-[inset_8px_8px_16px_rgba(163,177,198,0.6),inset_-8px_-8px_16px_rgba(255,255,255,1)]'}` 
         : isDark 
         ? 'bg-zinc-900' 
         : 'bg-white';
@@ -309,7 +318,7 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
             <div className="flex-1 overflow-y-auto custom-scrollbar">
                 <div className="p-6">
                     {/* 成就收集率模块 - 优化布局顺序 */}
-        <div className={`mb-4 p-3 rounded-[48px] ${isDark ? 'bg-zinc-900' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]' : 'bg-white shadow-sm'} transition-all duration-300 hover:shadow-md`}>
+        <div className={`mb-4 p-3 rounded-[48px] ${isDark ? 'bg-zinc-900' : isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[4px_4px_8px_rgba(0,0,0,0.2),-4px_-4px_8px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]'}` : 'bg-white shadow-sm'} transition-all duration-300 hover:shadow-md`}>
                         <div className="flex items-center gap-4">
                             {/* 左侧：图标和文字 */}
                             <div className="flex items-center gap-1">
@@ -334,7 +343,7 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                     </div>
                     
                     {/* 2. 最新战勋模块 - 显示最近获得的6个勋章 */}
-                    <div className={`mb-6 p-3 rounded-xl ${isDark ? 'bg-zinc-900' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[6px_6px_12px_rgba(163,177,198,0.6),-6px_-6px_12px_rgba(255,255,255,1)]' : 'bg-white shadow-md'} transition-all duration-300 hover:shadow-lg`}>
+                    <div className={`mb-6 p-3 rounded-xl ${isDark ? 'bg-zinc-900' : isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[6px_6px_12px_rgba(0,0,0,0.3),-6px_-6px_12px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[6px_6px_12px_rgba(163,177,198,0.6),-6px_-6px_12px_rgba(255,255,255,1)]'}` : 'bg-white shadow-md'} transition-all duration-300 hover:shadow-lg`}>
                         {/* 左上角小图标和文字 */}
                         <div className="flex items-center gap-2 mb-2">
                             <Sparkles size={12} className="text-yellow-500"/>
@@ -348,7 +357,9 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                                         if (isDark) {
                                             return `bg-gradient-to-br from-zinc-900 to-zinc-800 rounded-full shadow-lg animate-pulse-glow`;
                                         } else if (isNeomorphic) {
-                                            return `bg-[#e0e5ec] rounded-full shadow-[12px_12px_24px_rgba(163,177,198,0.6),-12px_-12px_24px_rgba(255,255,255,1)] hover:shadow-[16px_16px_32px_rgba(163,177,198,0.7),-16px_-16px_32px_rgba(255,255,255,1)] active:shadow-[inset_10px_10px_20px_rgba(163,177,198,0.6),inset_-10px_-10px_20px_rgba(255,255,255,1)] animate-pulse-glow transition-all duration-300`;
+                                            return `${isNeomorphicDark ? 'bg-[#2a2d36]' : 'bg-[#e0e5ec]'} rounded-full ${isNeomorphicDark 
+                                                ? 'shadow-[12px_12px_24px_rgba(0,0,0,0.3),-12px_-12px_24px_rgba(40,43,52,0.8)] hover:shadow-[16px_16px_32px_rgba(0,0,0,0.4),-16px_-16px_32px_rgba(40,43,52,0.9)] active:shadow-[inset_10px_10px_20px_rgba(0,0,0,0.3),inset_-10px_-10px_20px_rgba(40,43,52,0.8)]' 
+                                                : 'shadow-[12px_12px_24px_rgba(163,177,198,0.6),-12px_-12px_24px_rgba(255,255,255,1)] hover:shadow-[16px_16px_32px_rgba(163,177,198,0.7),-16px_-16px_32px_rgba(255,255,255,1)] active:shadow-[inset_10px_10px_20px_rgba(163,177,198,0.6),inset_-10px_-10px_20px_rgba(255,255,255,1)]'} animate-pulse-glow transition-all duration-300`;
                                         } else {
                                             return `bg-white ${badge.bgColor} rounded-full shadow-lg animate-pulse-glow`;
                                         }
@@ -356,7 +367,9 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                                         if (isDark) {
                                             return `bg-gradient-to-br from-zinc-950 to-zinc-900 rounded-full opacity-70`;
                                         } else if (isNeomorphic) {
-                                            return `bg-[#e0e5ec] rounded-full shadow-[8px_8px_16px_rgba(163,177,198,0.5),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)] opacity-70 transition-all duration-300`;
+                                            return `${isNeomorphicDark ? 'bg-[#2a2d36]' : 'bg-[#e0e5ec]'} rounded-full ${isNeomorphicDark 
+                                                ? 'shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)] hover:shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(40,43,52,0.9)]' 
+                                                : 'shadow-[8px_8px_16px_rgba(163,177,198,0.5),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)]'} opacity-70 transition-all duration-300`;
                                         } else {
                                             return `bg-slate-100 rounded-full opacity-70`;
                                         }
@@ -368,7 +381,7 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                                         key={`latest-${badge.id}`} 
                                         className={`shrink-0 w-28 p-3 rounded-full flex flex-col items-center gap-2 shadow-lg transition-all duration-300 hover:scale-[1.05] ${getBadgeClass()}`}
                                     >
-                                        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${badge.isUnlocked ? (isNeomorphic ? `bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]` : badge.bgColor) : 'bg-zinc-900/30'}`}>
+                                        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${badge.isUnlocked ? (isNeomorphic ? (isNeomorphicDark ? `bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-4px_-4px_8px_rgba(30,30,46,0.8)]` : `bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]`) : badge.bgColor) : 'bg-zinc-900/30'}`}>
                                             <badge.icon size={20} className={badge.isUnlocked ? badge.color : `${badge.color} opacity-70`} strokeWidth={2}/>
                                         </div>
                                         <div className={`text-[10px] font-bold text-center truncate w-full ${badge.isUnlocked ? textMain : 'text-zinc-500'}`}>{badge.title}</div>
@@ -380,7 +393,7 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                     </div>
                     
                     {/* 3. 勋章分组模块 - 单独的模块 */}
-                    <div className={`mb-6 p-3 rounded-xl ${isDark ? 'bg-zinc-900' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[6px_6px_12px_rgba(163,177,198,0.6),-6px_-6px_12px_rgba(255,255,255,1)]' : 'bg-white shadow-md'} transition-all duration-300 hover:shadow-lg`}>
+                    <div className={`mb-6 p-3 rounded-xl ${isDark ? 'bg-zinc-900' : isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[6px_6px_12px_rgba(0,0,0,0.3),-6px_-6px_12px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[6px_6px_12px_rgba(163,177,198,0.6),-6px_-6px_12px_rgba(255,255,255,1)]'}` : 'bg-white shadow-md'} transition-all duration-300 hover:shadow-lg`}>
                         {/* 左上角分组图标和文字 */}
                         <div className="flex items-center justify-between mb-2">
                             <div className="flex items-center gap-2">
@@ -388,9 +401,9 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                                 <h4 className="text-xs font-bold uppercase text-zinc-500">勋章分组</h4>
                             </div>
                             {/* 问号帮助按钮 */}
-                        <button onClick={() => setActiveHelp('achievements')} className={`p-1.5 rounded-full transition-all duration-300 hover:scale-[1.1] ${isNeomorphic ? 'hover:bg-blue-500/10' : 'hover:bg-blue-500/20'}`}>
+                        <HelpTooltip helpId="achievements" onHelpClick={setActiveHelp} className={`p-1.5`}>
                             <HelpCircle size={14} className="text-blue-500" />
-                        </button>
+                        </HelpTooltip>
                         </div>
                         <div className="flex flex-wrap gap-2 items-center justify-start">
                             {[
@@ -429,7 +442,7 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                     </div>
                     
                     {/* 4. 勋章列表模块 - 合并所有勋章列表为一个模块 */}
-                    <div className={`p-3 rounded-xl ${isDark ? 'bg-zinc-900' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[6px_6px_12px_rgba(163,177,198,0.6),-6px_-6px_12px_rgba(255,255,255,1)]' : 'bg-white shadow-md'} transition-all duration-300 hover:shadow-lg`}>
+                    <div className={`p-3 rounded-xl ${isDark ? 'bg-zinc-900' : isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[6px_6px_12px_rgba(0,0,0,0.3),-6px_-6px_12px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[6px_6px_12px_rgba(163,177,198,0.6),-6px_-6px_12px_rgba(255,255,255,1)]'}` : 'bg-white shadow-md'} transition-all duration-300 hover:shadow-lg`}>
                         {/* 左上角小图标和文字 */}
                         <div className="flex items-center gap-2 mb-2">
                             <Trophy size={12} className="text-yellow-500"/>
@@ -443,7 +456,9 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                                         if (isDark) {
                                             return `bg-gradient-to-br from-zinc-900 to-zinc-800 rounded-full shadow-lg animate-pulse-glow`;
                                         } else if (isNeomorphic) {
-                                            return `bg-[#e0e5ec] rounded-full shadow-[12px_12px_24px_rgba(163,177,198,0.6),-12px_-12px_24px_rgba(255,255,255,1)] hover:shadow-[16px_16px_32px_rgba(163,177,198,0.7),-16px_-16px_32px_rgba(255,255,255,1)] active:shadow-[inset_10px_10px_20px_rgba(163,177,198,0.6),inset_-10px_-10px_20px_rgba(255,255,255,1)] animate-pulse-glow transition-all duration-300`;
+                                            return `${isNeomorphicDark ? 'bg-[#2a2d36]' : 'bg-[#e0e5ec]'} rounded-full ${isNeomorphicDark 
+                                                ? 'shadow-[12px_12px_24px_rgba(0,0,0,0.3),-12px_-12px_24px_rgba(40,43,52,0.8)] hover:shadow-[16px_16px_32px_rgba(0,0,0,0.4),-16px_-16px_32px_rgba(40,43,52,0.9)] active:shadow-[inset_10px_10px_20px_rgba(0,0,0,0.3),inset_-10px_-10px_20px_rgba(40,43,52,0.8)]' 
+                                                : 'shadow-[12px_12px_24px_rgba(163,177,198,0.6),-12px_-12px_24px_rgba(255,255,255,1)] hover:shadow-[16px_16px_32px_rgba(163,177,198,0.7),-16px_-16px_32px_rgba(255,255,255,1)] active:shadow-[inset_10px_10px_20px_rgba(163,177,198,0.6),inset_-10px_-10px_20px_rgba(255,255,255,1)]'} animate-pulse-glow transition-all duration-300`;
                                         } else {
                                             return `bg-white ${badge.bgColor} rounded-full shadow-lg animate-pulse-glow`;
                                         }
@@ -451,7 +466,9 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                                         if (isDark) {
                                             return `bg-gradient-to-br from-zinc-950 to-zinc-900 rounded-full opacity-70`;
                                         } else if (isNeomorphic) {
-                                            return `bg-[#e0e5ec] rounded-full shadow-[8px_8px_16px_rgba(163,177,198,0.5),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)] opacity-70 transition-all duration-300`;
+                                            return `${isNeomorphicDark ? 'bg-[#2a2d36]' : 'bg-[#e0e5ec]'} rounded-full ${isNeomorphicDark 
+                                                ? 'shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)] hover:shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(40,43,52,0.9)]' 
+                                                : 'shadow-[8px_8px_16px_rgba(163,177,198,0.5),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)]'} opacity-70 transition-all duration-300`;
                                         } else {
                                             return `bg-slate-100 rounded-full opacity-70`;
                                         }
@@ -460,7 +477,7 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                                 
                                 return (
                                     <div key={badge.id} className={`shrink-0 w-28 p-3 rounded-full flex flex-col items-center gap-2 shadow-lg transition-all duration-300 hover:scale-[1.05] ${getBadgeClass()}`}>
-                                        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${badge.isUnlocked ? (isNeomorphic ? `bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]` : badge.bgColor) : 'bg-zinc-900/30'}`}>
+                                        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${badge.isUnlocked ? (isNeomorphic ? (isNeomorphicDark ? `bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-4px_-4px_8px_rgba(30,30,46,0.8)]` : `bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]`) : badge.bgColor) : 'bg-zinc-900/30'}`}>
                                             <badge.icon size={20} className={badge.isUnlocked ? badge.color : `${badge.color} opacity-70`} strokeWidth={2}/>
                                         </div>
                                         <div className={`text-[10px] font-bold text-center truncate w-full ${badge.isUnlocked ? textMain : 'text-zinc-500'}`}>{badge.title}</div>
@@ -554,7 +571,7 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                                     .map(group => (
                                     <div 
                                         key={group.id} 
-                                        className={`p-4 rounded-lg transition-all duration-300 hover:scale-[1.02] ${isDark ? 'bg-zinc-800 hover:bg-zinc-700' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)] hover:shadow-[8px_8px_16px_rgba(163,177,198,0.5),-8px_-8px_16px_rgba(255,255,255,1)]' : 'bg-slate-50 hover:bg-slate-100'}`}
+                                        className={`p-4 rounded-lg transition-all duration-300 hover:scale-[1.02] ${isDark ? 'bg-zinc-800 hover:bg-zinc-700' : isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(40,43,52,0.8)] hover:shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.9)]' : 'bg-[#e0e5ec] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)] hover:shadow-[8px_8px_16px_rgba(163,177,198,0.5),-8px_-8px_16px_rgba(255,255,255,1)]'}` : 'bg-slate-50 hover:bg-slate-100'}`}
                                     >
                                         <div className="flex items-center justify-between">
                                             <div className="flex items-center gap-2">
@@ -584,7 +601,7 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                                                     className={`p-3 rounded-lg flex items-center justify-between transition-all duration-300 hover:scale-[1.02] group ${isDark ? 'bg-zinc-900/50 hover:bg-zinc-800/70' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.5),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[6px_6px_12px_rgba(163,177,198,0.4),-6px_-6px_12px_rgba(255,255,255,1)]' : 'bg-slate-50 hover:bg-slate-100'}`}
                                                 >
                                                     <div className="flex items-center gap-3">
-                                                        <div className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-[1.1] ${badge.isUnlocked ? (isNeomorphic ? `bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] hover:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),-2px_-2px_4px_rgba(255,255,255,1)]` : badge.bgColor) : 'bg-zinc-900/30'}`}>
+                                                        <div className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-[1.1] ${badge.isUnlocked ? (isNeomorphic ? (isNeomorphicDark ? `bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-4px_-4px_8px_rgba(30,30,46,0.8)] hover:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),-2px_-2px_4px_rgba(30,30,46,0.8)]` : `bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] hover:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),-2px_-2px_4px_rgba(255,255,255,1)]`) : badge.bgColor) : 'bg-zinc-900/30'}`}>
                                                             <badge.icon size={20} className={badge.color} strokeWidth={2} />
                                                         </div>
                                                         <div className="flex-1">

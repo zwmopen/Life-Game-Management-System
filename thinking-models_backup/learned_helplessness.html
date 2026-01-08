@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>习得性无助</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 隐形的心理屏障 -->
+        <rect x="-300" y="-200" width="600" height="400" rx="40" fill="none" stroke="var(--heading)" stroke-width="4" stroke-dasharray="10 20" opacity="0.1" />
+        
+        <!-- 囚禁的自我 (不再尝试运动) -->
+        <g>
+          <circle r="50" fill="#94a3b8" />
+          <path d="M-20,0 Q0,20 20,0" stroke="white" stroke-width="4" fill="none" />
+          <animateTransform attributeName="transform" type="translate" values="0,0; 5,5; 0,0" dur="0.1s" repeatCount="indefinite" />
+        </g>
+
+        <!-- 打开的大门 (但被无视) -->
+        <g transform="translate(300, 0)">
+          <line x1="0" y1="-100" x2="100" y2="-100" stroke="#10b981" stroke-width="12" stroke-linecap="round" />
+          <text x="50" y="-120" text-anchor="middle" fill="#10b981" style="font-size: 24px; font-weight: 900;">出口已开启</text>
+        </g>
+
+        <!-- 过去的负面印记 (红色电流) -->
+        <g stroke="#ef4444" stroke-width="2" opacity="0.2">
+          <path d="M-400,-100 L-200,-50 M-400,100 L-200,50" />
+          <text x="-350" y="-130" fill="#ef4444" style="font-size: 14px; font-weight: 900;">曾经的失败电击</text>
+        </g>
+
+        <text y="240" text-anchor="middle" fill="#ef4444" style="font-size: 42px; font-weight: 900; letter-spacing: 0.1em;">笼子开了 你却不敢动了</text>
+      </g>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>习得性无助 (Learned Helplessness)</h1>
+    <p>由马丁·塞利格曼发现。如果个体在早期经历中发现努力无法改变结果，大脑就会学会“放弃”。这种认知锁定会导致个体在环境改善、机会出现时，依然保持被动的停滞状态。</p>
+    <div class="grid">
+      <div>
+        <h3>心理算法</h3>
+        <ul>
+          <li><strong>归因偏差：</strong>无助者会将失败归因为“永久的、普遍的、个人的”。这是一种自毁式的逻辑闭环。</li>
+          <li><strong>意志的萎缩：</strong>当尝试的冲动每次都被物理或社会现实打碎，系统会为了节省能量而关闭“探索”模块。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>破局策略</h3>
+        <ul>
+          <li><strong>小胜利实验：</strong>通过设定 100% 能达成的微小目标（如：只写一行代码），强行重塑“努力产生改变”的神经连接。</li>
+          <li><strong>认知重构：</strong>将失败归因为“暂时的、具体的、外部的”。学会这种“乐观的解释风格”是生存的必备补丁。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

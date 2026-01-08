@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>情绪熵</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 混乱的心理噪声 (高熵态) -->
+        <g id="chaos" opacity="0.4">
+          <path d="M-200,-100 Q-150,-150 -100,-80 T0,-120 T100,-50" fill="none" stroke="#ef4444" stroke-width="2" />
+          <path d="M-150,50 Q-100,100 -50,30 T50,80 T150,20" fill="none" stroke="#f59e0b" stroke-width="2" />
+          <animateTransform attributeName="transform" type="translate" values="0,0; 10,10; 0,0" dur="0.1s" repeatCount="indefinite" />
+        </g>
+        
+        <!-- 负熵注入 (规则与运动) -->
+        <g transform="translate(0, -200)">
+          <path d="M0,0 L0,150" stroke="#10b981" stroke-width="8" stroke-dasharray="10 5" marker-end="url(#greenArrow)">
+             <animate attributeName="stroke-dashoffset" from="0" to="50" dur="1s" repeatCount="indefinite" />
+          </path>
+          <text y="-30" text-anchor="middle" fill="#10b981" style="font-size: 24px; font-weight: 900;">负熵输入 (秩序训练)</text>
+        </g>
+
+        <!-- 稳态核心 -->
+        <g>
+          <circle r="80" fill="var(--bg)" stroke="var(--accent)" stroke-width="4" />
+          <text text-anchor="middle" y="10" fill="var(--accent)" style="font-size: 32px; font-weight: 900;">清醒</text>
+        </g>
+
+        <text y="240" text-anchor="middle" fill="#ef4444" style="font-size: 42px; font-weight: 900; letter-spacing: 0.1em;">不做功 必崩溃</text>
+      </g>
+      <defs>
+        <marker id="greenArrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#10b981"/></marker>
+      </defs>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>情绪熵 (Emotional Entropy)</h1>
+    <p>孤立系统的熵总是增加的。长期一个人在家办公，如果没有强有力的日程表、高频的社交反馈和物理运动，你的心理状态会自发地向焦虑、混乱和平庸坍缩。秩序不是天然的，它需要能量投入。</p>
+    <div class="grid">
+      <div>
+        <h3>崩溃征兆</h3>
+        <ul>
+          <li><strong>仪式感丧失：</strong>不洗脸、穿睡衣办公、作息不规律。这些都是系统丧失“负熵”输入的物理表现。</li>
+          <li><strong>决策黑洞：</strong>情绪熵增会导致大脑的前额叶功能受损，让你在琐碎的诱惑（刷剧）面前毫无抵抗力。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>强制负熵</h3>
+        <ul>
+          <li><strong>外部锚点：</strong>建立与他人的固定连线。社交不是浪费时间，是引入外部能量来对冲内部熵增。</li>
+          <li><strong>极端规律：</strong>越是自由，越需要铁律。像军队一样执行作息，这是超级个体维持“认知高位”的唯一方案。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

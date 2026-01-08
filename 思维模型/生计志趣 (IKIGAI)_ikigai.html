@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生计志趣 (IKIGAI)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #e0e5ec;
+            font-family: 'Microsoft YaHei', sans-serif;
+            color: #2d3748;
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        /* 上图下文模式：上半部分50vh */
+        .svg-container {
+            height: 50vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 8px 8px 16px rgba(163, 177, 198, 0.2), -8px -8px 16px rgba(255, 255, 255, 0.8);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .svg-container svg {
+            width: 100%;
+            height: 100%;
+            viewBox: 0 0 1000 600;
+        }
+        /* 深度解析区 */
+        .analysis-container {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 8px 8px 16px rgba(163, 177, 198, 0.2), -8px -8px 16px rgba(255, 255, 255, 0.8);
+            padding: 30px;
+        }
+        .analysis-container h1 {
+            font-size: 4.5rem;
+            font-weight: 900;
+            letter-spacing: -2px;
+            color: #2d3748;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        .analysis-section {
+            background-color: #f7fafc;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .analysis-section h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+        .analysis-section h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        .analysis-section p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #4a5568;
+            margin-bottom: 10px;
+        }
+        .analysis-section ul {
+            list-style: none;
+            padding: 0;
+        }
+        .analysis-section li {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #4a5568;
+            margin-bottom: 8px;
+        }
+        .analysis-section strong {
+            color: #2d3748;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 上半部分：SVG物理动效展示区 -->
+        <div class="svg-container">
+            <svg viewBox="0 0 1000 800">
+      <g transform="translate(500, 400)">
+        <!-- 四圆交集 -->
+        <circle cx="0" cy="-140" r="220" fill="#ef4444" fill-opacity="0.1" stroke="#ef4444" stroke-width="2" />
+        <circle cx="140" cy="0" r="220" fill="#3b82f6" fill-opacity="0.1" stroke="#3b82f6" stroke-width="2" />
+        <circle cx="0" cy="140" r="220" fill="#10b981" fill-opacity="0.1" stroke="#10b981" stroke-width="2" />
+        <circle cx="-140" cy="0" r="220" fill="#fbbf24" fill-opacity="0.1" stroke="#fbbf24" stroke-width="2" />
+
+        <!-- 核心 IKIGAI -->
+        <g>
+          <circle r="60" fill="#FFFFFF" filter="drop-shadow(0 0 30px rgba(0,0,0,0.1))" />
+          <text text-anchor="middle" y="12" fill="#0f172a" style="font-size: 32px; font-weight: 900;">IKIGAI</text>
+        </g>
+
+        <!-- 四大要素 -->
+        <g font-weight="900" style="font-size: 24px;">
+          <text y="-200" text-anchor="middle" fill="#ef4444">你热爱的</text>
+          <text x="240" y="0" text-anchor="middle" fill="#3b82f6">世界需要的</text>
+          <text y="220" text-anchor="middle" fill="#10b981">能给你报酬的</text>
+          <text x="-240" y="0" text-anchor="middle" fill="#fbbf24">你擅长的</text>
+        </g>
+
+        <!-- 重叠状态 (全量汉化) -->
+        <g fill="var(--text)" opacity="0.6" style="font-size: 14px; font-weight: 800;">
+           <text x="130" y="-130" text-anchor="middle">使命</text>
+           <text x="130" y="130" text-anchor="middle">天职</text>
+           <text x="-130" y="130" text-anchor="middle">专业</text>
+           <text x="-130" y="-130" text-anchor="middle">激情</text>
+        </g>
+      </g>
+    </svg>
+        </div>
+        
+        <!-- 下半部分：深度解析区 -->
+        <div class="analysis-container">
+            <h1>生计志趣 (IKIGAI)</h1>
+            
+            <div class="analysis-grid">
+                text
+            </div>
+        </div>
+    </div>
+</body>
+</html>

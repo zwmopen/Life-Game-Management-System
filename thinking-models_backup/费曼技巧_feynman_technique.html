@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>费曼技巧 - 极致简化</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background: #020617; font-family: -apple-system, sans-serif; color: #f8fafc; }
+    .glass { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); }
+    @keyframes circle-rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    .scan-circle { animation: circle-rotate 20s linear infinite; transform-origin: center; }
+    .node { transition: all 0.4s ease; cursor: pointer; }
+    .node:hover { transform: scale(1.1); filter: brightness(1.3); }
+  </style>
+</head>
+<body class="p-8 md:p-20 flex items-center justify-center min-h-screen">
+  <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+    <!-- SVG 可视化 -->
+    <div class="relative flex items-center justify-center glass p-12 rounded-[4rem] shadow-2xl">
+      <svg viewBox="0 0 600 600" class="w-full h-auto max-w-[500px]">
+        <defs>
+          <linearGradient id="glowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#6366f1" />
+            <stop offset="100%" stop-color="#3b82f6" />
+          </linearGradient>
+        </defs>
+        
+        <!-- 背景扫描线 -->
+        <circle cx="300" cy="300" r="280" fill="none" stroke="rgba(99,102,241,0.05)" stroke-width="2" stroke-dasharray="10 5" class="scan-circle" />
+        
+        <!-- 学习路径 (虚线流向) -->
+        <path d="M300,50 Q450,150 450,300 Q450,450 300,550 Q150,450 150,300 Q150,150 300,50" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1" />
+
+        <!-- 步骤 1: 选择概念 -->
+        <g class="node" transform="translate(300, 50)">
+          <circle r="40" fill="#1e293b" stroke="#6366f1" stroke-width="2" />
+          <text text-anchor="middle" y="5" fill="white" class="text-[10px] font-black uppercase">1. 选择</text>
+        </g>
+
+        <!-- 步骤 2: 教授他人 (向外发散) -->
+        <g class="node" transform="translate(450, 300)">
+          <circle r="50" fill="url(#glowGrad)" />
+          <text text-anchor="middle" y="5" fill="white" class="text-[10px] font-black uppercase">2. 教授</text>
+          <path d="M60,0 L90,0" stroke="#6366f1" stroke-width="2" stroke-dasharray="2 2" />
+        </g>
+
+        <!-- 步骤 3: 发现漏洞 (断裂感) -->
+        <g class="node" transform="translate(300, 550)">
+          <circle r="40" fill="#1e293b" stroke="#ef4444" stroke-width="2" />
+          <text text-anchor="middle" y="5" fill="#ef4444" class="text-[10px] font-black uppercase">3. 反思</text>
+        </g>
+
+        <!-- 步骤 4: 极致简化 (核心点) -->
+        <g class="node" transform="translate(150, 300)">
+          <circle r="40" fill="#10b981" />
+          <text text-anchor="middle" y="5" fill="white" class="text-[10px] font-black uppercase">4. 简化</text>
+        </g>
+
+        <!-- 中心核心: 真相 -->
+        <circle cx="300" cy="300" r="10" fill="white" class="animate-pulse" />
+        <text x="300" y="330" text-anchor="middle" fill="white" class="text-[8px] font-black tracking-widest uppercase">The Essence</text>
+      </svg>
+      <div class="absolute bottom-8 text-blue-500 font-bold text-[8px] uppercase tracking-[0.4em]">Knowledge Refinement System</div>
+    </div>
+
+    <!-- 文案内容区 -->
+    <div class="space-y-12">
+      <h1 class="text-8xl font-black text-white tracking-tighter leading-[0.8]">费曼技巧<br><span class="text-indigo-500 italic">Feynman Method</span></h1>
+      <p class="text-xl text-slate-400 border-l-4 border-indigo-500 pl-6 leading-relaxed italic">
+        “如果你不能简单地解释它，说明你还没真正理解它。”
+      </p>
+
+      <div class="glass p-10 rounded-[3rem] space-y-6">
+        <h3 class="text-2xl font-black text-white italic">核心隐喻：白板过滤</h3>
+        <p class="text-sm text-slate-400 leading-relaxed">
+          想象你正站在一块白板前，面对一个8岁的孩子。为了让他理解复杂的量子力学，你必须摒弃所有黑话和术语。在这个过程中，你大脑中那些模糊的“伪知识”会被过滤，露出真实的逻辑骨架。
+        </p>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="bg-indigo-600/10 p-5 rounded-3xl border border-indigo-500/20">
+             <h4 class="text-indigo-400 font-black text-[10px] uppercase mb-1">关键动作</h4>
+             <p class="text-[11px] text-slate-300">寻找解释中的“卡顿”，那正是认知的盲区。</p>
+          </div>
+          <div class="bg-emerald-600/10 p-5 rounded-3xl border border-emerald-500/20">
+             <h4 class="text-emerald-400 font-black text-[10px] uppercase mb-1">最终目标</h4>
+             <p class="text-[11px] text-slate-300">通过类比，将新知识锚定在旧常识之上。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

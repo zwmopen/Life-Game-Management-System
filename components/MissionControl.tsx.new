@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect, useRef } from 'react';
 import {
-  BarChart, Bar, XAxis, YAxis, Legend, CartesianGrid,
+  BarChart, Bar, XAxis, YAxis, Legend, CartesianGrid, Tooltip,
   ComposedChart, Area, Line, ReferenceLine,
   AreaChart, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ReferenceArea, ScatterChart, Scatter, ZAxis, Cell, LineChart, Pie, ResponsiveContainer
 } from 'recharts';
@@ -23,18 +23,29 @@ interface MissionControlProps {
 const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits }) => {
   const isDark = theme === 'dark';
   const isNeomorphic = theme === 'neomorphic';
+  
+  // 拟态风格样式变量 - 优化阴影效果，使其与按钮圆角匹配
+  const neomorphicStyles = {
+    bg: 'bg-[#e0e5ec]',
+    border: 'border-[#e0e5ec]',
+    shadow: 'shadow-[8px_8px_16px_rgba(163,177,198,0.2),-8px_-8px_16px_rgba(255,255,255,0.8)] rounded-[24px]',
+    hoverShadow: 'hover:shadow-[10px_10px_20px_rgba(163,177,198,0.3),-10px_-10px_20px_rgba(255,255,255,0.9)] rounded-[24px]',
+    activeShadow: 'active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.3),inset_-5px_-5px_10px_rgba(255,255,255,0.8)] rounded-[24px]',
+    transition: 'transition-all duration-200'
+  };
+  
   const bgClass = isDark ? 'bg-zinc-950' : isNeomorphic ? 'bg-[#e0e5ec]' : 'bg-slate-50';
   const cardBg = isDark 
       ? 'bg-zinc-900' 
       : isNeomorphic 
-      ? 'bg-[#e0e5ec] rounded-[32px] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)] hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] transition-all duration-200 active:shadow-[inset_8px_8px_16px_rgba(163,177,198,0.6),inset_-8px_-8px_16px_rgba(255,255,255,1)]' 
+      ? `${neomorphicStyles.bg} rounded-[48px] ${neomorphicStyles.shadow} ${neomorphicStyles.hoverShadow} ${neomorphicStyles.activeShadow} ${neomorphicStyles.transition}` 
       : 'bg-white shadow-sm';
   const textMain = isDark ? 'text-zinc-200' : isNeomorphic ? 'text-zinc-700' : 'text-slate-800';
   const textSub = isDark ? 'text-zinc-500' : isNeomorphic ? 'text-zinc-600' : 'text-slate-500';
 
-  const [activeChart, setActiveChart] = useState<string>('dunning');
-  // 确保图表在页面加载时显示达克效应
-  const [chartHeight, setChartHeight] = useState<number>(400);
+  const [activeChart, setActiveChart] = useState<string>('systemFeedback');
+  // 确保图表在页面加载时显示系统反馈模型
+  const [chartHeight, setChartHeight] = useState<number>(600);
   const [activeHelp, setActiveHelp] = useState<string | null>(null);
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -47,16 +58,9 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
     showUnderlyingPrinciple: true
   };
 
-  // 组件挂载时确保图表容器有固定高度
-  useEffect(() => {
-    // 固定图表高度为400px，确保图表始终有有效高度
-    const chartHeight = 400;
-    setChartHeight(chartHeight);
-  }, []);
-
   // Drag and Drop state - 删除习惯完成率和专注时间趋势，添加新的成长型思维、沉没成本谬误和二八定律，以及新增的决策/行为/认知/学习类图表
   const [chartCategories, setChartCategories] = useState<{ [key: string]: string[] }>({
-    trend: ['dip', 'dunning', 'jcurve', 'antifragile', 'secondcurve', 'compound', 'mining', 'dopamine', 'flow', 'windLaw'],
+    trend: ['dip', 'dunning', 'jcurve', 'antifragile', 'secondcurve', 'compound', 'dopamine', 'flow'],
     concept: ['zone', 'woop', 'peakEnd', 'valueVenn', 'purpose', 'johariWindow', 'footInDoor', 'deliberatePractice', 'foggBehavior', 'eisenhowerMatrix', 'growthMindset', 'sunkCost', 'pareto', 'swot', 'goldenCircle', 'fiveWhys', 'brokenWindow', 'matthewEffect', 'hedgehogPrinciple', 'survivorshipBias', 'occamsRazor', 'anchoringEffect', 'tenThousandHours', 'feynmanTechnique', 'spacedRepetition', 'probabilityThinking', 'regretMinimization', 'identityTheory', 'zeigarnikEffect', 'grayThinking', 'reverseThinking', 'riaReading', 'feedbackLoop', 'eisenhowerAdvanced', 'energyManagement', 'prospectTheory', 'weightedDecisionMatrix', 'feedbackPeakLaw', 'environmentDesign', 'frameRefactoring', 'knowledgeCrystallization', 'metaLearning', 'crossDomainLearning', 'energySegmentation', 'smartPrinciple']
   });
 
@@ -64,8 +68,8 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
   useEffect(() => {
     const savedCategories = localStorage.getItem('chartCategories');
     const initialCategories = {
-      trend: ['dip', 'dunning', 'jcurve', 'antifragile', 'secondcurve', 'compound', 'mining', 'dopamine', 'flow', 'windLaw'],
-      concept: ['zone', 'woop', 'peakEnd', 'valueVenn', 'purpose', 'johariWindow', 'footInDoor', 'deliberatePractice', 'foggBehavior', 'eisenhowerMatrix', 'growthMindset', 'sunkCost', 'pareto', 'swot', 'goldenCircle', 'fiveWhys', 'brokenWindow', 'matthewEffect', 'hedgehogPrinciple', 'survivorshipBias', 'occamsRazor', 'anchoringEffect', 'tenThousandHours', 'feynmanTechnique', 'spacedRepetition', 'probabilityThinking', 'regretMinimization', 'identityTheory', 'zeigarnikEffect', 'grayThinking', 'reverseThinking', 'riaReading', 'feedbackLoop', 'eisenhowerAdvanced', 'energyManagement', 'prospectTheory', 'weightedDecisionMatrix', 'feedbackPeakLaw', 'environmentDesign', 'frameRefactoring', 'knowledgeCrystallization', 'metaLearning', 'crossDomainLearning', 'energySegmentation', 'smartPrinciple', 'exposureEffect', 'emotionABC', 'endowmentEffect', 'bystanderEffect', 'birdcageEffect', 'metacognition', 'transferLearning', 'singleTasking', 'parkinsonsLaw', 'nonviolentCommunication', 'reciprocityPrinciple', 'systemFeedback', 'bottleneckTheory', 'valueProposition', 'opportunityCost', 'mvpThinking', 'buildMeasureLearn', 'butterflyEffect', 'pathDependency', 'opportunitySunkCost', 'scarcityAbundance', 'minimalResistance', 'immediateFeedback', 'perspectiveShift', 'firstPrincipleAdvanced', 'ecologicalNiche', 'symbiosisEffect', 'multidimensionalCompounding', 'valueDensity', 'cognitiveCircle', 'boundaryBreaking', 'redundancyBackup', 'rhythmControl', 'dislocationCompetition', 'networkEffect', 'assetizationThinking', 'moatThinking', 'knowledgeActionUnity', 'microHabitCompounding', 'barbellStrategy', 'antifragileThinking', 'supplyDemandMismatch', 'leverageThinking', 'reverseEngineering', 'firstPrincipleMigration', 'potentialEnergyAccumulation', 'valueMultiplication', 'essenceThinking', 'nodeControlThinking', 'actionCalibrationThinking', 'platformLeverageThinking', 'ecologicalFeedbackThinking']
+      trend: ['dip', 'dunning', 'jcurve', 'antifragile', 'secondcurve', 'compound', 'dopamine', 'flow'],
+      concept: ['zone', 'woop', 'peakEnd', 'valueVenn', 'purpose', 'johariWindow', 'footInDoor', 'deliberatePractice', 'foggBehavior', 'eisenhowerMatrix', 'growthMindset', 'sunkCost', 'pareto', 'swot', 'goldenCircle', 'fiveWhys', 'brokenWindow', 'matthewEffect', 'hedgehogPrinciple', 'survivorshipBias', 'occamsRazor', 'anchoringEffect', 'tenThousandHours', 'feynmanTechnique', 'spacedRepetition', 'probabilityThinking', 'regretMinimization', 'identityTheory', 'zeigarnikEffect', 'grayThinking', 'reverseThinking', 'riaReading', 'feedbackLoop', 'eisenhowerAdvanced', 'energyManagement', 'prospectTheory', 'weightedDecisionMatrix', 'feedbackPeakLaw', 'environmentDesign', 'frameRefactoring', 'knowledgeCrystallization', 'metaLearning', 'crossDomainLearning', 'energySegmentation', 'smartPrinciple']
     };
     
     if (savedCategories) {
@@ -132,7 +136,7 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
     return (
       <div
         ref={setNodeRef}
-        className={`flex items-center px-4 py-1.5 rounded-[24px] text-xs font-bold transition-all ${getButtonClass(activeChart === id)}`}
+        className={`flex items-center px-4 py-2 rounded-2xl text-xs font-bold transition-all duration-300 ${getButtonClass(activeChart === id)} hover:scale-105 hover:shadow-lg transform hover:-translate-y-0.5`}
         style={style}
         {...attributes}
         onClick={handleClick} // 将点击事件移到外层div，确保整个按钮区域都可以点击
@@ -216,783 +220,118 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
   const renderChart = () => {
     const activeChartObj = getChartById(activeChart);
     
-    // 添加调试日志
-    console.log('activeChart:', activeChart);
-    console.log('activeChartObj:', activeChartObj);
-    console.log('dunningData:', dunningData);
-    
     switch (activeChart) {
       case 'attributeRadar':
+        // 暂时禁用该图表，因为 attributeData 未定义
         return (
-          <BaseChart data={attributeData} isDark={isDark} height={chartHeight}>
-            <RadarChart cx="50%" cy="50%" outerRadius="70%" data={attributeData} animationDuration={1000}>
-              <PolarGrid stroke={getGridColor(isDark)} />
-              <PolarAngleAxis dataKey="subject" tick={{ fill: isDark ? '#a1a1aa' : '#64748b', fontSize: chartConfig.fontSize.axisTick, fontWeight: 'bold' }} />
-              <PolarRadiusAxis angle={30} domain={[0, 150]} tick={{ fontSize: 8 }} axisLine={false} label={{ value: '能力值', angle: -90, position: 'insideLeft', fontSize: chartConfig.fontSize.axisLabel }} />
-              <Radar name="能力值" dataKey="A" stroke={chartConfig.colors.purple} strokeWidth={2} fill={chartConfig.colors.purple} fillOpacity={0.3} />
-              <Legend wrapperStyle={chartConfig.legend.wrapperStyle} />
-              <text x="50%" y="20" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={chartConfig.fontSize.title} fontWeight="bold">
-                角色属性雷达图
-              </text>
-            </RadarChart>
+          <BaseChart data={[]} isDark={isDark}>
+            <div className="flex items-center justify-center h-full">
+              <p className={isDark ? 'text-gray-400' : 'text-gray-500'}>该图表暂不可用</p>
+            </div>
           </BaseChart>
         );
       case 'focusHeatmap':
+        // 暂时禁用该图表，因为 dailyFocusData 未定义
         return (
-          <BaseChart data={dailyFocusData} isDark={isDark} height={chartHeight}>
-            <BarChart data={dailyFocusData} animationDuration={1000}>
-              <CartesianGrid strokeDasharray={chartConfig.grid.strokeDasharray} stroke={getGridColor(isDark)} vertical={false}/>
-              <XAxis dataKey="name" stroke={chartConfig.axis.stroke} fontSize={chartConfig.fontSize.axisTick} tickLine={chartConfig.axis.tickLine} interval={0} label={{ value: '日期', position: chartConfig.axis.label.position, fontSize: chartConfig.fontSize.axisLabel }}/>
-              <YAxis stroke={chartConfig.axis.stroke} fontSize={chartConfig.fontSize.axisTick} tickLine={chartConfig.axis.tickLine} label={{ value: '专注时间 (分钟)', angle: -90, position: 'insideLeft', fontSize: chartConfig.fontSize.axisLabel }} />
-              <Legend wrapperStyle={chartConfig.legend.wrapperStyle}/>
-              <Bar dataKey="projects" name="主线攻坚" stackId="a" fill={chartConfig.colors.danger} radius={[0,0,0,0]} />
-              <Bar dataKey="habits" name="日常维持" stackId="a" fill={chartConfig.colors.primary} radius={[4,4,0,0]} />
-              <text x="50%" y="20" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={chartConfig.fontSize.title} fontWeight="bold">
-                每日专注时间分布
-              </text>
-            </BarChart>
-          </BaseChart>
-        );
-      case 'mining':
-        return (
-          <BaseChart data={miningData} isDark={isDark} height={chartHeight}>
-            <AreaChart data={miningData} animationDuration={1000}>
-              <defs>
-                <linearGradient id="colorResistance" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#ef4444" stopOpacity={0.4}/>
-                  <stop offset="95%" stopColor="#ef4444" stopOpacity={0.05}/>
-                </linearGradient>
-                <linearGradient id="colorYield" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#10b981" stopOpacity={0.4}/>
-                  <stop offset="95%" stopColor="#10b981" stopOpacity={0.05}/>
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray={chartConfig.grid.strokeDasharray} stroke={getGridColor(isDark)} />
-              <XAxis dataKey="day" stroke={chartConfig.axis.stroke} label={{ value: '天数', position: chartConfig.axis.label.position, fontSize: chartConfig.fontSize.axisLabel }} />
-              <YAxis stroke={chartConfig.axis.stroke} label={{ value: '数值', angle: -90, position: 'insideLeft', fontSize: chartConfig.fontSize.axisLabel }} domain={[0, 'dataMax + 10']} />
-              <Legend wrapperStyle={chartConfig.legend.wrapperStyle} />
-              <Area type="monotone" dataKey="resistance" stroke={chartConfig.colors.danger} strokeWidth={2} fill="url(#colorResistance)" name="阻力" />
-              <Area type="monotone" dataKey="yield" stroke={chartConfig.colors.secondary} strokeWidth={2} fill="url(#colorYield)" name="收益" />
-              <text x="50%" y="20" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={chartConfig.fontSize.title} fontWeight="bold">
-                长期投资收益曲线
-              </text>
-            </AreaChart>
+          <BaseChart data={[]} isDark={isDark} >
+            <div className="flex items-center justify-center h-full">
+              <p className={isDark ? 'text-gray-400' : 'text-gray-500'}>该图表暂不可用</p>
+            </div>
           </BaseChart>
         );
       case 'entropy':
+        // 暂时禁用该图表，因为 entropyData 未定义
         return (
-          <BaseChart data={entropyData} isDark={isDark} height={chartHeight}>
-            <AreaChart data={entropyData} animationDuration={1000}>
-              <defs>
-                <linearGradient id="colorChaos" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#ef4444" stopOpacity={0.4}/>
-                  <stop offset="95%" stopColor="#ef4444" stopOpacity={0.05}/>
-                </linearGradient>
-                <linearGradient id="colorOrder" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#10b981" stopOpacity={0.4}/>
-                  <stop offset="95%" stopColor="#10b981" stopOpacity={0.05}/>
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray={chartConfig.grid.strokeDasharray} stroke={getGridColor(isDark)} />
-              <XAxis dataKey="t" stroke={chartConfig.axis.stroke} label={{ value: '时间', position: chartConfig.axis.label.position, fontSize: chartConfig.fontSize.axisLabel }} />
-              <YAxis stroke={chartConfig.axis.stroke} label={{ value: '熵值', angle: -90, position: 'insideLeft', fontSize: chartConfig.fontSize.axisLabel }} domain={[0, 'dataMax + 20']} />
-              <Legend wrapperStyle={chartConfig.legend.wrapperStyle} />
-              <Area type="monotone" dataKey="chaos" stackId="1" stroke={chartConfig.colors.danger} fill="url(#colorChaos)" fillOpacity={0.3} name="自然熵增" />
-              <Area type="monotone" dataKey="order" stackId="1" stroke={chartConfig.colors.secondary} fill="url(#colorOrder)" fillOpacity={0.3} name="人为有序" />
-              <text x="50%" y="20" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={chartConfig.fontSize.title} fontWeight="bold">
-                熵增与熵减的动态平衡
-              </text>
-            </AreaChart>
+          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
+            <div className="flex items-center justify-center h-full">
+              <p className={isDark ? 'text-gray-400' : 'text-gray-500'}>该图表暂不可用</p>
+            </div>
           </BaseChart>
-        );
-      case 'dip':
-        return (
-          <BaseChart data={dipData} isDark={isDark} height={chartHeight}>
-            <AreaChart data={dipData} margin={{ top: 10, right: 30, left: 30, bottom: 30 }} animationDuration={1000}>
-              <defs>
-                <linearGradient id="colorDip" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="5%" stopColor={chartConfig.colors.primary} stopOpacity={0.8}/>
-                  <stop offset="95%" stopColor={chartConfig.colors.secondary} stopOpacity={0.8}/>
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray={chartConfig.grid.strokeDasharray} stroke={getGridColor(isDark)} vertical={false} />
-              <XAxis dataKey="x" stroke={chartConfig.axis.stroke} tick={{ fontSize: chartConfig.fontSize.axisTick }} label={{ value: '投入度', position: 'insideBottom', offset: 0, fontSize: chartConfig.fontSize.axisLabel }} domain={[0, 100]} />
-              <YAxis stroke={chartConfig.axis.stroke} tick={{ fontSize: chartConfig.fontSize.axisTick }} label={{ value: '产出率', angle: -90, position: 'insideLeft', offset: 0, fontSize: chartConfig.fontSize.axisLabel }} domain={[0, 100]} />
-              <Legend wrapperStyle={chartConfig.legend.wrapperStyle} />
-              <Line type="monotone" dataKey="results" stroke={chartConfig.colors.primary} strokeWidth={3} dot={false} name="产出率" />
-              <text x="50%" y="20" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={chartConfig.fontSize.title} fontWeight="bold">
-                死亡谷效应
-              </text>
-            </AreaChart>
-          </BaseChart>
-        );
-      case 'dunning':
-        return (
-          <div style={{ height: chartHeight, width: '100%', backgroundColor: isDark ? '#1f2937' : '#ffffff', padding: '20px', borderRadius: '8px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <svg width="400" height="350" viewBox="0 0 400 350" xmlns="http://www.w3.org/2000/svg">
-              {/* 背景分区 */}
-              <rect x="50" y="50" width="90" height="200" fill="#FFD700" opacity="0.3" />
-              <rect x="140" y="50" width="90" height="200" fill="#FF6B6B" opacity="0.3" />
-              <rect x="230" y="50" width="90" height="200" fill="#4ECDC4" opacity="0.3" />
-              <rect x="320" y="50" width="30" height="200" fill="#45B7D1" opacity="0.3" />
-              
-              {/* 曲线 */}
-              <path d="M70,70 C90,50 110,90 130,110 C150,130 170,170 190,190 C210,170 230,130 250,110 C270,90 290,70 310,60 C330,50 350,50 370,55" 
-                    fill="none" stroke={isDark ? '#ffffff' : '#000000'} strokeWidth="3" strokeLinecap="round" />
-              
-              {/* 关键节点 */}
-              <circle cx="70" cy="70" r="6" fill="#FF0000" stroke="#FFFFFF" strokeWidth="2" />
-              <circle cx="190" cy="190" r="6" fill="#FF0000" stroke="#FFFFFF" strokeWidth="2" />
-              <circle cx="250" cy="110" r="6" fill="#FF0000" stroke="#FFFFFF" strokeWidth="2" />
-              <circle cx="370" cy="55" r="6" fill="#FF0000" stroke="#FFFFFF" strokeWidth="2" />
-              
-              {/* 关键节点标注 */}
-              <text x="70" y="55" textAnchor="middle" fill="#FF0000" fontSize="12" fontWeight="bold">愚昧之巅</text>
-              <text x="190" y="205" textAnchor="middle" fill="#FF0000" fontSize="12" fontWeight="bold">绝望之谷</text>
-              <text x="250" y="95" textAnchor="middle" fill="#FF0000" fontSize="12" fontWeight="bold">开悟之坡</text>
-              <text x="370" y="40" textAnchor="middle" fill="#FF0000" fontSize="12" fontWeight="bold">平稳高原</text>
-              
-              {/* 区域名称 */}
-              <text x="95" y="220" textAnchor="middle" fill="#FFD700" fontSize="12" fontWeight="bold">自信爆棚区</text>
-              <text x="185" y="220" textAnchor="middle" fill="#FF6B6B" fontSize="12" fontWeight="bold">自信崩溃区</text>
-              <text x="275" y="220" textAnchor="middle" fill="#4ECDC4" fontSize="12" fontWeight="bold">自信重建区</text>
-              <text x="335" y="220" textAnchor="middle" fill="#45B7D1" fontSize="12" fontWeight="bold">自信成熟区</text>
-              
-              {/* 表现标签 */}
-              <text x="95" y="290" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="14" fontWeight="bold">巨婴</text>
-              <text x="185" y="290" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="14" fontWeight="bold">屌丝</text>
-              <text x="275" y="290" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="14" fontWeight="bold">智者</text>
-              <text x="335" y="290" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="14" fontWeight="bold">大师</text>
-              
-              {/* 图标 - 自信爆棚区人物 */}
-              <g transform="translate(95, 140)">
-                <circle cx="0" cy="0" r="12" fill="#FFD700" opacity="0.8" />
-                <rect x="-10" y="12" width="20" height="25" fill="#FFD700" opacity="0.8" />
-                <line x1="-8" y1="18" x2="-15" y2="30" stroke="#FFD700" strokeWidth="2" />
-                <line x1="8" y1="18" x2="15" y2="30" stroke="#FFD700" strokeWidth="2" />
-                <line x1="-8" y1="37" x2="-12" y2="48" stroke="#FFD700" strokeWidth="2" />
-                <line x1="8" y1="37" x2="12" y2="48" stroke="#FFD700" strokeWidth="2" />
-              </g>
-              
-              {/* 图标 - 自信崩溃区 */}
-              <g transform="translate(185, 140)">
-                <circle cx="0" cy="0" r="12" fill="#FF6B6B" opacity="0.8" />
-                <path d="M-15,12 Q0,35 15,12" fill="none" stroke="#FF6B6B" strokeWidth="2" />
-                <line x1="-10" y1="5" x2="-15" y2="0" stroke="#FF6B6B" strokeWidth="2" />
-                <line x1="10" y1="5" x2="15" y2="0" stroke="#FF6B6B" strokeWidth="2" />
-                <line x1="-10" y1="10" x2="-15" y2="15" stroke="#FF6B6B" strokeWidth="2" />
-                <line x1="10" y1="10" x2="15" y2="15" stroke="#FF6B6B" strokeWidth="2" />
-              </g>
-              
-              {/* 图标 - 自信重建区 */}
-              <g transform="translate(275, 140)">
-                <path d="M0,25 L0,5 L15,20" fill="none" stroke="#4ECDC4" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-                <circle cx="15" cy="20" r="3" fill="#4ECDC4" />
-              </g>
-              
-              {/* 图标 - 自信成熟区大脑 */}
-              <g transform="translate(335, 140)">
-                <path d="M0,-15 C-18,-15 -22,0 -22,11 C-22,22 -11,30 0,30 C11,30 22,22 22,11 C22,0 18,-15 0,-15 Z" fill="#45B7D1" opacity="0.8" />
-                <line x1="-15" y1="0" x2="15" y2="0" stroke="#FFFFFF" strokeWidth="2" />
-                <line x1="-15" y1="7" x2="15" y2="7" stroke="#FFFFFF" strokeWidth="2" />
-                <line x1="-15" y1="14" x2="15" y2="14" stroke="#FFFFFF" strokeWidth="2" />
-              </g>
-              
-              {/* 坐标轴 */}
-              <line x1="50" y1="50" x2="50" y2="250" stroke={isDark ? '#ffffff' : '#000000'} strokeWidth="2" />
-              <line x1="50" y1="250" x2="390" y2="250" stroke={isDark ? '#ffffff' : '#000000'} strokeWidth="2" />
-              
-              {/* 坐标轴标签 */}
-              <text x="20" y="150" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="12" fontWeight="bold" transform="rotate(-90, 20, 150)">自信程度（高→低）</text>
-              <text x="220" y="280" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize="12" fontWeight="bold">智慧水平（知识与经验，低→高）</text>
-            </svg>
-          </div>
-        );
-      case 'jcurve':
-        return (
-          <BaseChart data={jCurveData} isDark={isDark} height={chartHeight}>
-            <LineChart data={jCurveData} animationDuration={1000} margin={{ top: 10, right: 30, left: 30, bottom: 30 }}>
-              <CartesianGrid strokeDasharray={chartConfig.grid.strokeDasharray} stroke={getGridColor(isDark)} />
-              <XAxis dataKey="t" stroke={chartConfig.axis.stroke} tick={{ fontSize: chartConfig.fontSize.axisTick }} label={{ value: '时间', position: 'insideBottom', offset: 0, fontSize: chartConfig.fontSize.axisLabel }} />
-              <YAxis stroke={chartConfig.axis.stroke} tick={{ fontSize: chartConfig.fontSize.axisTick }} label={{ value: '回报值', angle: -90, position: 'insideLeft', offset: 0, fontSize: chartConfig.fontSize.axisLabel }} domain={[0, 'dataMax + 10']} />
-              <Legend wrapperStyle={chartConfig.legend.wrapperStyle} />
-              <Line type="monotone" dataKey="value" stroke={chartConfig.colors.primary} strokeWidth={3} dot={false} name="J型曲线" />
-              <text x="50%" y="20" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={chartConfig.fontSize.title} fontWeight="bold">
-                J型曲线 - 长期投资回报模式
-              </text>
-            </LineChart>
-          </BaseChart>
-        );
-      case 'antifragile':
-        return (
-          <BaseChart data={antifragileData} isDark={isDark} height={chartHeight}>
-            <AreaChart data={antifragileData} animationDuration={1000} margin={{ top: 10, right: 30, left: 30, bottom: 30 }}>
-              <defs>
-                <linearGradient id="colorFragile" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor={chartConfig.colors.danger} stopOpacity={0.4}/>
-                  <stop offset="95%" stopColor={chartConfig.colors.danger} stopOpacity={0.05}/>
-                </linearGradient>
-                <linearGradient id="colorAntifragile" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor={chartConfig.colors.secondary} stopOpacity={0.4}/>
-                  <stop offset="95%" stopColor={chartConfig.colors.secondary} stopOpacity={0.05}/>
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray={chartConfig.grid.strokeDasharray} stroke={getGridColor(isDark)} />
-              <XAxis dataKey="stress" stroke={chartConfig.axis.stroke} tick={{ fontSize: chartConfig.fontSize.axisTick }} label={{ value: '压力水平', position: 'insideBottom', offset: 0, fontSize: chartConfig.fontSize.axisLabel }} domain={[0, 100]} />
-              <YAxis stroke={chartConfig.axis.stroke} tick={{ fontSize: chartConfig.fontSize.axisTick }} label={{ value: '韧性值', angle: -90, position: 'insideLeft', offset: 0, fontSize: chartConfig.fontSize.axisLabel }} domain={[0, 'dataMax + 20']} />
-              <Legend wrapperStyle={chartConfig.legend.wrapperStyle} />
-              <Area type="monotone" dataKey="fragile" stroke={chartConfig.colors.danger} fill="url(#colorFragile)" name="脆弱" />
-              <Area type="monotone" dataKey="antifragile" stroke={chartConfig.colors.secondary} fill="url(#colorAntifragile)" name="反脆弱" />
-              <text x="50%" y="20" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={chartConfig.fontSize.title} fontWeight="bold">
-                反脆弱 - 压力与韧性关系
-              </text>
-            </AreaChart>
-          </BaseChart>
-        );
-      case 'secondcurve':
-        return (
-          <BaseChart data={secondCurveData} isDark={isDark} height={chartHeight}>
-            <AreaChart data={secondCurveData} animationDuration={1000} margin={{ top: 10, right: 30, left: 30, bottom: 30 }}>
-              <defs>
-                <linearGradient id="colorCurve1" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor={chartConfig.colors.primary} stopOpacity={0.4}/>
-                  <stop offset="95%" stopColor={chartConfig.colors.primary} stopOpacity={0.05}/>
-                </linearGradient>
-                <linearGradient id="colorCurve2" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor={chartConfig.colors.secondary} stopOpacity={0.4}/>
-                  <stop offset="95%" stopColor={chartConfig.colors.secondary} stopOpacity={0.05}/>
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray={chartConfig.grid.strokeDasharray} stroke={getGridColor(isDark)} />
-              <XAxis dataKey="t" stroke={chartConfig.axis.stroke} tick={{ fontSize: chartConfig.fontSize.axisTick }} label={{ value: '时间', position: 'insideBottom', offset: 0, fontSize: chartConfig.fontSize.axisLabel }} />
-              <YAxis stroke={chartConfig.axis.stroke} tick={{ fontSize: chartConfig.fontSize.axisTick }} label={{ value: '增长值', angle: -90, position: 'insideLeft', offset: 0, fontSize: chartConfig.fontSize.axisLabel }} domain={[0, 'dataMax + 20']} />
-              <Legend wrapperStyle={chartConfig.legend.wrapperStyle} />
-              <Area type="monotone" dataKey="curve1" stroke={chartConfig.colors.primary} fill="url(#colorCurve1)" name="第一曲线" />
-              <Area type="monotone" dataKey="curve2" stroke={chartConfig.colors.secondary} fill="url(#colorCurve2)" name="第二曲线" />
-              <text x="50%" y="20" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={chartConfig.fontSize.title} fontWeight="bold">
-                第二曲线 - 持续增长模型
-              </text>
-            </AreaChart>
-          </BaseChart>
-        );
-      case 'flywheel':
-        return (
-          <BaseChart data={flywheelData} isDark={isDark} height={chartHeight}>
-            <AreaChart data={flywheelData} animationDuration={1000}>
-              <defs>
-                <linearGradient id="colorMomentum" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor={chartConfig.colors.primary} stopOpacity={0.4}/>
-                  <stop offset="95%" stopColor={chartConfig.colors.primary} stopOpacity={0.05}/>
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray={chartConfig.grid.strokeDasharray} stroke={getGridColor(isDark)} />
-              <XAxis dataKey="time" stroke={chartConfig.axis.stroke} label={{ value: '时间', position: 'insideBottom', fontSize: chartConfig.fontSize.axisLabel }} />
-              <YAxis stroke={chartConfig.axis.stroke} label={{ value: '动能值', angle: -90, position: 'insideLeft', fontSize: chartConfig.fontSize.axisLabel }} domain={[0, 'dataMax + 10']} />
-              <Legend wrapperStyle={chartConfig.legend.wrapperStyle} />
-              <Area type="monotone" dataKey="momentum" stroke={chartConfig.colors.primary} fill="url(#colorMomentum)" name="飞轮动能" />
-              <text x="50%" y="20" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={chartConfig.fontSize.title} fontWeight="bold">
-                飞轮效应 - 动能积累模型
-              </text>
-            </AreaChart>
-          </BaseChart>
-        );
-      case 'regret':
-        return (
-          <BaseChart data={regretData} isDark={isDark} height={chartHeight}>
-            <BarChart data={regretData} animationDuration={1000}>
-              <CartesianGrid strokeDasharray={chartConfig.grid.strokeDasharray} stroke={getGridColor(isDark)} vertical={false} />
-              <XAxis dataKey="type" stroke={chartConfig.axis.stroke} tick={{ fontSize: chartConfig.fontSize.axisTick }} label={{ value: '后悔类型', position: 'insideBottom', fontSize: chartConfig.fontSize.axisLabel }} />
-              <YAxis stroke={chartConfig.axis.stroke} tick={{ fontSize: chartConfig.fontSize.axisTick }} label={{ value: '痛苦程度', angle: -90, position: 'insideLeft', fontSize: chartConfig.fontSize.axisLabel }} domain={[0, 'dataMax + 10']} />
-              <Legend wrapperStyle={chartConfig.legend.wrapperStyle} />
-              <Bar dataKey="pain" fill={chartConfig.colors.danger} name="痛苦程度" />
-              <text x="50%" y="20" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={chartConfig.fontSize.title} fontWeight="bold">
-                后悔程度比较 - 行动与不行动的痛苦对比
-              </text>
-            </BarChart>
-          </BaseChart>
-        );
-      case 'energy':
-        return (
-          <BaseChart data={energyData} isDark={isDark} height={chartHeight}>
-            <AreaChart data={energyData} animationDuration={1000}>
-              <defs>
-                <linearGradient id="colorEnergy" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor={chartConfig.colors.primary} stopOpacity={0.4}/>
-                  <stop offset="95%" stopColor={chartConfig.colors.primary} stopOpacity={0.05}/>
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray={chartConfig.grid.strokeDasharray} stroke={getGridColor(isDark)} />
-              <XAxis dataKey="time" stroke={chartConfig.axis.stroke} label={{ value: '时间', position: 'insideBottom', fontSize: chartConfig.fontSize.axisLabel }} />
-              <YAxis stroke={chartConfig.axis.stroke} label={{ value: '精力值', angle: -90, position: 'insideLeft', fontSize: chartConfig.fontSize.axisLabel }} domain={[0, 100]} />
-              <Legend wrapperStyle={chartConfig.legend.wrapperStyle} />
-              <Area type="monotone" dataKey="energy" stroke={chartConfig.colors.primary} fill="url(#colorEnergy)" name="精力值" />
-              <text x="50%" y="20" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={chartConfig.fontSize.title} fontWeight="bold">
-                每日精力曲线变化
-              </text>
-            </AreaChart>
-          </BaseChart>
-        );
-      case 'compound':
-        return (
-          <BaseChart data={compoundData} isDark={isDark} height={chartHeight}>
-            <AreaChart data={compoundData} animationDuration={1000}>
-              <defs>
-                <linearGradient id="colorCompound" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor={chartConfig.colors.primary} stopOpacity={0.4}/>
-                  <stop offset="95%" stopColor={chartConfig.colors.primary} stopOpacity={0.05}/>
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray={chartConfig.grid.strokeDasharray} stroke={getGridColor(isDark)} />
-              <XAxis dataKey="day" stroke={chartConfig.axis.stroke} label={{ value: '天数', position: 'insideBottom', fontSize: chartConfig.fontSize.axisLabel }} />
-              <YAxis stroke={chartConfig.axis.stroke} label={{ value: '累积效应', angle: -90, position: 'insideLeft', fontSize: chartConfig.fontSize.axisLabel }} domain={[0, 'dataMax + 50']} />
-              <Legend wrapperStyle={chartConfig.legend.wrapperStyle} />
-              <Area type="monotone" dataKey="better" stroke={chartConfig.colors.primary} fill="url(#colorCompound)" name="每天进步1%" />
-              <Area type="monotone" dataKey="worse" stroke={chartConfig.colors.danger} fillOpacity={0.3} name="每天退步1%" />
-              <text x="50%" y="20" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={chartConfig.fontSize.title} fontWeight="bold">
-                复利效应 - 每天1%的力量
-              </text>
-            </AreaChart>
-          </BaseChart>
-        );
-      case 'dopamine':
-        return (
-          <BaseChart data={dopamineData} isDark={isDark} height={chartHeight}>
-            <AreaChart data={dopamineData} animationDuration={1000}>
-              <defs>
-                <linearGradient id="colorDopamine" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.4}/>
-                  <stop offset="95%" stopColor="#f59e0b" stopOpacity={0.05}/>
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray={chartConfig.grid.strokeDasharray} stroke={getGridColor(isDark)} />
-              <XAxis dataKey="hour" stroke={chartConfig.axis.stroke} tick={{ fontSize: chartConfig.fontSize.axisTick }} label={{ value: '时间（小时）', position: 'insideBottom', fontSize: chartConfig.fontSize.axisLabel }} />
-              <YAxis stroke={chartConfig.axis.stroke} label={{ value: '多巴胺水平', angle: -90, position: 'insideLeft', fontSize: chartConfig.fontSize.axisLabel }} domain={[0, 'dataMax + 10']} />
-              <Legend wrapperStyle={chartConfig.legend.wrapperStyle} />
-              <Area type="monotone" dataKey="level" stroke="#f59e0b" fill="url(#colorDopamine)" name="多巴胺水平" />
-              <Line type="monotone" dataKey="baseline" stroke="#71717a" strokeDasharray="3 3" name="基线水平" />
-              <text x="50%" y="20" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={chartConfig.fontSize.title} fontWeight="bold">
-                每日多巴胺水平变化曲线
-              </text>
-            </AreaChart>
-          </BaseChart>
-        );
-      case 'flow':
-        return (
-          <BaseChart data={flowData} isDark={isDark} height={chartHeight}>
-            <ScatterChart data={flowData} animationDuration={1000}>
-              <CartesianGrid strokeDasharray={chartConfig.grid.strokeDasharray} stroke={getGridColor(isDark)} />
-              <XAxis dataKey="x" stroke={chartConfig.axis.stroke} label={{ value: '挑战难度', position: 'insideBottom', fontSize: chartConfig.fontSize.axisLabel }} domain={[0, 100]} />
-              <YAxis dataKey="y" stroke={chartConfig.axis.stroke} label={{ value: '技能水平', angle: -90, position: 'insideLeft', fontSize: chartConfig.fontSize.axisLabel }} domain={[0, 100]} />
-              <Legend wrapperStyle={chartConfig.legend.wrapperStyle} />
-              <Scatter name="心流状态点" data={flowData} fill={chartConfig.colors.primary} />
-              <text x="50%" y="20" textAnchor="middle" fill={isDark ? '#ffffff' : '#000000'} fontSize={chartConfig.fontSize.title} fontWeight="bold">
-                心流状态分布图
-              </text>
-            </ScatterChart>
-          </BaseChart>
-        );
-      case 'zone':
-        return (
-          <div className="w-full h-full flex items-center justify-center">
-            <svg width="100%" height="100%" viewBox="0 0 300 300" preserveAspectRatio="xMidYMid meet">
-              {/* 绘制三个同心圆 */}
-              {zoneData.map((item) => (
-                <circle 
-                  key={item.id} 
-                  cx="150" 
-                  cy="150" 
-                  r={item.radius} 
-                  fill={item.color} 
-                  fillOpacity={item.fillOpacity} 
-                  stroke={item.color} 
-                  strokeWidth={2} 
-                />
-              ))}
-              {/* 标签文字 */}
-              <text x="150" y="150" textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="18" fontWeight="bold">
-                舒适区模型
-              </text>
-              <text x="150" y="170" textAnchor="middle" fill={isDark ? "#a1a1aa" : "#64748b"} fontSize="12">
-                舒适区 → 学习区 → 恐惧区
-              </text>
-            </svg>
-          </div>
-        );
-      case 'woop':
-        return (
-          <div className="w-full h-full flex items-center justify-center">
-            <svg width="100%" height="100%" viewBox="0 0 350 350" preserveAspectRatio="xMidYMid meet">
-              {/* 绘制WOOP框架的四个象限 */}
-              {woopData.map((item, index) => {
-                const cx = item.x * 350;
-                const cy = item.y * 350;
-                return (
-                  <g key={item.id}>
-                    {/* 背景圆圈 */}
-                    <circle cx={cx} cy={cy} r="45" fill={item.color} fillOpacity={item.fillOpacity} stroke={item.color} strokeWidth={2} />
-                    <circle cx={cx} cy={cy} r="36" fill={isDark ? "#18181b" : "#ffffff"} stroke={item.color} strokeWidth={1} />
-                    {/* 图标和文字 */}
-                    <text x={cx} y={cy - 12} textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="20">
-                      {item.icon}
-                    </text>
-                    <text x={cx} y={cy + 8} textAnchor="middle" fill={isDark ? "#ffffff" : "#000000"} fontSize="14" fontWeight="bold">
-                      {item.label}
-                    </text>
-                    <text x={cx} y={cy + 25} textAnchor="middle" fill={isDark ? "#a1a1aa" : "#64748b"} fontSize="9" width="90" textLength="90">
-                      {item.description}
-                    </text>
-                  </g>
-                );
-              })}
-              
-              {/* 绘制连接线 */}
-              {/* 水平连接线 - 顶部 */}
-              <line x1="87.5" y1="87.5" x2="250" y2="87.5" stroke={isDark ? "#a1a1aa" : "#64748b"} strokeWidth="2" strokeDasharray="3 3" />
-              {/* 箭头 - 顶部 */}
-              <polygon points="250,84 262.5,87.5 250,91" fill={isDark ? "#a1a1aa" : "#64748b"} />
-              
-              {/* 水平连接线 - 底部 */}
-            </svg>
-          </div>
         );
       default:
-        return <div>图表未找到</div>;
+        return (
+          <BaseChart data={[]} isDark={isDark} height={chartHeight}>
+            <div className="flex items-center justify-center h-full">
+              <p className={isDark ? 'text-gray-400' : 'text-gray-500'}>选择一个图表开始探索</p>
+            </div>
+          </BaseChart>
+        );
     }
   };
 
-  // 图表数据定义
-  const jCurveData = [
-    { t: 0, value: 10 },
-    { t: 1, value: 9 },
-    { t: 2, value: 8 },
-    { t: 3, value: 7 },
-    { t: 4, value: 6 },
-    { t: 5, value: 7 },
-    { t: 6, value: 9 },
-    { t: 7, value: 12 },
-    { t: 8, value: 16 },
-    { t: 9, value: 21 },
-    { t: 10, value: 27 },
-  ];
-
-  const antifragileData = [
-    { stress: 0, fragile: 100, antifragile: 50 },
-    { stress: 10, fragile: 90, antifragile: 55 },
-    { stress: 20, fragile: 80, antifragile: 60 },
-    { stress: 30, fragile: 70, antifragile: 65 },
-    { stress: 40, fragile: 60, antifragile: 75 },
-    { stress: 50, fragile: 50, antifragile: 90 },
-    { stress: 60, fragile: 40, antifragile: 110 },
-    { stress: 70, fragile: 30, antifragile: 130 },
-    { stress: 80, fragile: 20, antifragile: 150 },
-    { stress: 90, fragile: 10, antifragile: 170 },
-    { stress: 100, fragile: 0, antifragile: 190 },
-  ];
-
-  const secondCurveData = [
-    { t: 0, curve1: 10, curve2: 0 },
-    { t: 1, curve1: 20, curve2: 0 },
-    { t: 2, curve1: 40, curve2: 0 },
-    { t: 3, curve1: 70, curve2: 0 },
-    { t: 4, curve1: 100, curve2: 10 },
-    { t: 5, curve1: 130, curve2: 30 },
-    { t: 6, curve1: 160, curve2: 60 },
-    { t: 7, curve1: 180, curve2: 100 },
-    { t: 8, curve1: 190, curve2: 150 },
-    { t: 9, curve1: 195, curve2: 210 },
-    { t: 10, curve1: 198, curve2: 280 },
-  ];
-
-  const flywheelData = [
-    { time: 0, momentum: 10 },
-    { time: 1, momentum: 15 },
-    { time: 2, momentum: 22 },
-    { time: 3, momentum: 32 },
-    { time: 4, momentum: 46 },
-    { time: 5, momentum: 66 },
-    { time: 6, momentum: 95 },
-    { time: 7, momentum: 136 },
-    { time: 8, momentum: 194 },
-    { time: 9, momentum: 278 },
-    { time: 10, momentum: 395 },
-  ];
-
-  const regretData = [
-    { type: '没做的事', pain: 80 },
-    { type: '做错的事', pain: 40 },
-  ];
-
-  const energyData = [
-    { time: '6:00', energy: 60 },
-    { time: '9:00', energy: 85 },
-    { time: '12:00', energy: 70 },
-    { time: '15:00', energy: 65 },
-    { time: '18:00', energy: 80 },
-    { time: '21:00', energy: 60 },
-    { time: '24:00', energy: 40 },
-  ];
-
-  const compoundData = [
-    { day: 0, better: 100, worse: 100 },
-    { day: 30, better: 134.78, worse: 74.01 },
-    { day: 60, better: 181.67, worse: 54.72 },
-    { day: 90, better: 244.86, worse: 40.47 },
-    { day: 180, better: 609.82, worse: 16.37 },
-    { day: 365, better: 3778.34, worse: 2.69 },
-  ];
-
-  const dopamineData = [
-    { hour: '0:00', level: 50 },
-    { hour: '3:00', level: 40 },
-    { hour: '6:00', level: 70 },
-    { hour: '9:00', level: 85 },
-    { hour: '12:00', level: 75 },
-    { hour: '15:00', level: 65 },
-    { hour: '18:00', level: 80 },
-    { hour: '21:00', level: 60 },
-    { hour: '24:00', level: 50 },
-  ];
-
-  const flowData = [
-    { x: 10, y: 10, status: '无聊' },
-    { x: 30, y: 30, status: '心流' },
-    { x: 50, y: 50, status: '心流' },
-    { x: 70, y: 70, status: '心流' },
-    { x: 90, y: 90, status: '焦虑' },
-    { x: 90, y: 30, status: '焦虑' },
-  ];
-
-  // 达克效应数据
-  const dunningData = [
-    { x: 0, confidence: 90 },
-    { x: 10, confidence: 95 },
-    { x: 20, confidence: 98 },
-    { x: 30, confidence: 80 },
-    { x: 40, confidence: 60 },
-    { x: 50, confidence: 50 },
-    { x: 60, confidence: 60 },
-    { x: 70, confidence: 70 },
-    { x: 80, confidence: 80 },
-    { x: 90, confidence: 85 },
-    { x: 100, confidence: 90 },
-  ];
-
-  const zoneData = [
-    { id: 'comfort', radius: 50, color: '#3b82f6', fillOpacity: 0.3 },
-    { id: 'learning', radius: 100, color: '#10b981', fillOpacity: 0.2 },
-    { id: 'fear', radius: 150, color: '#ef4444', fillOpacity: 0.1 },
-  ];
-
-  const woopData = [
-    { id: 'wish', x: 0.3, y: 0.3, color: '#3b82f6', fillOpacity: 0.3, icon: '🎯', label: '愿望', description: '设定你的目标' },
-    { id: 'outcome', x: 0.7, y: 0.3, color: '#10b981', fillOpacity: 0.3, icon: '🏆', label: '结果', description: '想象理想结果' },
-    { id: 'obstacle', x: 0.3, y: 0.7, color: '#ef4444', fillOpacity: 0.3, icon: '⛰️', label: '障碍', description: '识别潜在障碍' },
-    { id: 'plan', x: 0.7, y: 0.7, color: '#f59e0b', fillOpacity: 0.3, icon: '📋', label: '计划', description: '制定行动计划' },
-  ];
-
-  const windLawData = [
-    { speed: 0, windResistance: 0, progress: 0 },
-    { speed: 10, windResistance: 100, progress: 50 },
-    { speed: 20, windResistance: 400, progress: 150 },
-    { speed: 30, windResistance: 900, progress: 300 },
-    { speed: 40, windResistance: 1600, progress: 500 },
-    { speed: 50, windResistance: 2500, progress: 750 },
-  ];
-
-  const peakEndData = [
-    { time: 0, experience: 50 },
-    { time: 1, experience: 60 },
-    { time: 2, experience: 80 },
-    { time: 3, experience: 40 },
-    { time: 4, experience: 30 },
-    { time: 5, experience: 20 },
-    { time: 6, experience: 50 },
-    { time: 7, experience: 70 },
-    { time: 8, experience: 90 },
-    { time: 9, experience: 30 },
-    { time: 10, experience: 40 },
-  ];
-
-  const valueVennData = [
-    { id: 'passion', x: 0.35, y: 0.4, radius: 70, color: '#ef4444', fillOpacity: 0.2, label: '激情' },
-    { id: 'talent', x: 0.65, y: 0.4, radius: 70, color: '#3b82f6', fillOpacity: 0.2, label: '天赋' },
-    { id: 'market', x: 0.5, y: 0.7, radius: 70, color: '#10b981', fillOpacity: 0.2, label: '市场' },
-  ];
-
-  const cognitiveOnionData = [
-    { id: 'core', radius: 20, color: '#3b82f6', fillOpacity: 0.5, label: '核心自我' },
-    { id: 'values', radius: 40, color: '#10b981', fillOpacity: 0.4, label: '价值观' },
-    { id: 'beliefs', radius: 60, color: '#f59e0b', fillOpacity: 0.3, label: '信念' },
-    { id: 'behaviors', radius: 80, color: '#ef4444', fillOpacity: 0.2, label: '行为' },
-    { id: 'identity', radius: 100, color: '#8b5cf6', fillOpacity: 0.1, label: '身份' },
-  ];
-
-  const learningCycleData = [
-    { id: 'input', color: '#3b82f6', name: '输入' },
-    { id: 'process', color: '#10b981', name: '处理' },
-    { id: 'output', color: '#f59e0b', name: '输出' },
-    { id: 'feedback', color: '#ef4444', name: '反馈' },
-  ];
-
-  const purposeData = [
-    { id: '生理需求', color: '#ef4444', label: '生理需求', description: '食物、水、睡眠等基本需求' },
-    { id: '安全需求', color: '#f59e0b', label: '安全需求', description: '安全、稳定、保障' },
-    { id: '社交需求', color: '#3b82f6', label: '社交需求', description: '爱、归属感、人际关系' },
-    { id: '尊重需求', color: '#8b5cf6', label: '尊重需求', description: '自尊、认可、地位' },
-    { id: '自我实现', color: '#10b981', label: '自我实现', description: '实现潜力、追求理想' },
-  ];
-
-  const johariWindowData = [
-    { id: 'open', x: 0.35, y: 0.35, color: '#3b82f6', fillOpacity: 0.2, label: '公开区', description: '自己知道，他人也知道', examples: '姓名、外貌' },
-    { id: 'blind', x: 0.65, y: 0.35, color: '#10b981', fillOpacity: 0.2, label: '盲区', description: '自己不知道，他人知道', examples: '坏习惯' },
-    { id: 'hidden', x: 0.35, y: 0.65, color: '#ef4444', fillOpacity: 0.2, label: '隐藏区', description: '自己知道，他人不知道', examples: '秘密' },
-    { id: 'unknown', x: 0.65, y: 0.65, color: '#f59e0b', fillOpacity: 0.2, label: '未知区', description: '自己不知道，他人也不知道', examples: '潜能' },
-  ];
-
-  const footInDoorData = [
-    { step: 1, acceptanceRate: 90 },
-    { step: 2, acceptanceRate: 85 },
-    { step: 3, acceptanceRate: 80 },
-  ];
-
-  // getButtonClass function
+  // Get button class based on active state
   const getButtonClass = (isActive: boolean) => {
     if (isActive) {
-      return 'bg-blue-500 text-white border-blue-500';
+      return isDark ? 'bg-blue-600 text-white' : isNeomorphic ? 'bg-blue-500 text-white' : 'bg-blue-500 text-white';
     }
-    if (isNeomorphic) {
-      return `bg-[#e0e5ec] rounded-[32px] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)] hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] transition-all duration-200 active:shadow-[inset_8px_8px_16px_rgba(163,177,198,0.6),inset_-8px_-8px_16px_rgba(255,255,255,1)] text-zinc-700`;
-    }
-    return isDark ? 'bg-zinc-900 border-zinc-800 text-zinc-500 hover:border-zinc-700' : 'bg-white border-slate-300 text-slate-600 hover:border-slate-200';
+    return isDark ? 'bg-zinc-800 text-zinc-300' : isNeomorphic ? 'bg-white/70 text-zinc-700' : 'bg-white text-slate-700';
   };
 
-  // 从备份文件中复制的CHARTS数组
-  const CHARTS = [
-    { 
-      id: 'dunning', 
-      name: 'dunning', 
-      label: '达克效应', 
-      icon: BrainCircuit, 
-      description: '展示认知能力与自信程度的关系', 
-      deepAnalysis: '达克效应指出，能力欠缺的人往往对自己的能力估计过高，而能力强的人则倾向于低估自己的能力。了解达克效应有助于保持谦虚的学习态度，避免陷入过度自信的陷阱。',
-      principle: '能力欠缺的人往往对自己的能力估计过高，而能力强的人则倾向于低估自己的能力，这种认知偏差会影响人们的学习和决策。',
-      scope: '自我认知、学习态度、决策制定、团队管理',
-      tips: '1. 保持谦虚，认识到自己的局限性；2. 主动寻求反馈，了解他人对自己的评价；3. 学习批判性思维，学会质疑自己的观点；4. 与不同水平的人交流，拓宽视野。',
-      practice: '1. 定期进行自我评估，记录自己的成长；2. 参加技能测试或比赛，客观了解自己的水平；3. 阅读相关书籍或课程，提升认知能力；4. 在做出重要决策前，征求他人的意见。'
-    },
-    { 
-      id: 'dip', 
-      name: 'dip', 
-      label: '死亡谷效应', 
-      icon: Mountain, 
-      description: '展示在新事物学习过程中遇到的瓶颈期', 
-      deepAnalysis: '死亡谷效应是指在学习新技能或开展新项目时，初期进步迅速，但随后会进入一个长期的瓶颈期，进步缓慢甚至停滞。这是学习曲线中的正常现象，坚持度过这个阶段，就能进入快速成长的上升期。',
-      principle: '在新事物学习过程中，初期进步迅速，但随后会进入一个长期的瓶颈期，进步缓慢甚至停滞，坚持度过这个阶段，就能进入快速成长的上升期。',
-      scope: '技能学习、项目开展、习惯养成、职业发展',
-      tips: '1. 提前了解死亡谷的存在，做好心理准备；2. 分解目标，设置小里程碑，获得持续的成就感；3. 寻找同伴或导师，获得支持和指导；4. 保持规律的学习/工作节奏，避免三天打鱼两天晒网。',
-      practice: '1. 制定详细的学习计划，将大目标分解为小目标；2. 每周记录进度，关注微小的进步；3. 遇到瓶颈时，尝试换一种学习方法或休息一下再继续；4. 寻找成功案例，激励自己坚持下去。'
-    },
-    { 
-      id: 'jcurve', 
-      name: 'jcurve', 
-      label: 'J型曲线', 
-      icon: TrendingUp, 
-      description: '展示长期投资或努力的回报模式', 
-      deepAnalysis: 'J型曲线描述了在投入初期收益为负，但随着时间推移，收益会呈指数级增长的现象。这一规律适用于学习、投资、健身等多个领域，提醒我们要有长期主义思维，坚持积累。',
-      principle: '在投入初期收益为负，但随着时间推移，收益会呈指数级增长，长期坚持才能获得巨大回报。',
-      scope: '学习投资、职业发展、健身养生、人际关系',
-      tips: '1. 树立长期主义思维，不急于求成；2. 选择有长期价值的领域进行投入；3. 保持持续学习和进步；4. 定期复盘和调整策略。',
-      practice: '1. 制定5年或10年的长期计划；2. 每天坚持做一件对长期有价值的事情；3. 投资自己的技能和知识；4. 保持健康的生活方式，为长期发展奠定基础。'
-    },
-    { 
-      id: 'antifragile', 
-      name: 'antifragile', 
-      label: '反脆弱', 
-      icon: Shield, 
-      description: '展示系统在压力下的恢复和成长能力', 
-      deepAnalysis: '反脆弱是指系统不仅能在压力下恢复，还能从压力中获益。与脆弱和稳健不同，反脆弱系统在不确定性中茁壮成长。培养反脆弱能力有助于应对生活中的各种挑战。',
-      principle: '系统不仅能在压力下恢复，还能从压力中获益，在不确定性中茁壮成长。',
-      scope: '个人成长、企业管理、投资决策、风险管理',
-      tips: '1. 主动接受适度的挑战和压力；2. 建立多元化的技能和收入来源；3. 培养适应变化的能力；4. 从失败中学习，不断改进。',
-      practice: '1. 定期尝试新事物，走出舒适区；2. 学习一项新技能，挑战自己的极限；3. 建立应急基金，应对突发情况；4. 记录失败经验，分析原因并改进。'
-    },
-    { 
-      id: 'secondcurve', 
-      name: 'secondcurve', 
-      label: '第二曲线', 
-      icon: GitMerge, 
-      description: '展示从现有曲线向新增长曲线的转型', 
-      deepAnalysis: '第二曲线理论指出，任何事物的发展都有生命周期，当第一条曲线开始下降时，需要提前布局第二条增长曲线。这一理论适用于企业发展和个人成长，提醒我们要不断创新和转型。',
-      principle: '任何事物的发展都有生命周期，当第一条曲线开始下降时，需要提前布局第二条增长曲线，实现持续发展。',
-      scope: '职业规划、企业发展、产品创新、个人成长',
-      tips: '1. 提前预判现有曲线的发展趋势；2. 在现有曲线达到峰值前，开始布局第二条曲线；3. 勇于创新，尝试新的领域和方向；4. 资源合理分配，既要维护现有业务，又要发展新业务。',
-      practice: '1. 定期评估自己的职业发展状况；2. 学习新技能，为转型做准备；3. 关注行业趋势，寻找新的机会；4. 小步试错，逐步推进新的发展方向。'
-    }
-  ];
-
   return (
-    <div className="w-full h-full flex flex-col">
-      {/* 图表分类和按钮区域 */}
-      <div className="p-4 overflow-auto">
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCenter}
-          onDragEnd={handleDragEnd}
-        >
+    <div className={`w-full h-full ${bgClass} overflow-auto`} ref={containerRef}>
+      {/* Chart Categories */}
+      <div className="p-4">
+        <h2 className={`text-xl font-bold mb-4 ${textMain}`}>思维模型与图表系统</h2>
+        
+        {/* Chart Navigation */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
           {Object.entries(chartCategories).map(([category, charts]) => (
-            <div key={category} className="mb-4">
-              <h3 className="text-sm font-bold mb-2 text-zinc-700 dark:text-zinc-300">
-                {category === 'trend' ? '趋势类' : '概念类'}
+            <div key={category}>
+              <h3 className={`text-sm font-semibold mb-2 ${textSub}`}>
+                {category === 'trend' ? '趋势模型' : '概念模型'}
               </h3>
-              <SortableContext
-                items={charts}
-                strategy={verticalListSortingStrategy}
-              >
-                <div className="flex flex-wrap gap-2">
-                  {charts.map((chartId) => {
-                    const chart = getChartById(chartId);
-                    if (!chart) return null;
-                    return (
-                      <SortableButton
-                        key={chartId}
-                        id={chartId}
-                        chart={chart}
-                      />
-                    );
-                  })}
-                </div>
-              </SortableContext>
-            </div>
-          ))}
-        </DndContext>
-      </div>
-      {/* 图表显示区域 */}
-      <div className="flex-grow overflow-auto">
-        {renderChart()}
-      </div>
-      {/* 深度分析区域 */}
-      <div className="p-4 border-t border-gray-200 dark:border-gray-800">
-        {(() => {
-          const activeChartObj = getChartById(activeChart);
-          if (!activeChartObj) return null;
-          return (
-            <div>
-              <h3 className="text-lg font-bold mb-2">{activeChartObj.label}</h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">{activeChartObj.deepAnalysis}</p>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <h4 className="text-sm font-semibold mb-1">核心原理</h4>
-                  <p className="text-xs text-gray-500 dark:text-gray-500">{activeChartObj.principle}</p>
-                </div>
-                <div>
-                  <h4 className="text-sm font-semibold mb-1">适用范围</h4>
-                  <p className="text-xs text-gray-500 dark:text-gray-500">{activeChartObj.scope}</p>
-                </div>
+              <div className="flex flex-wrap gap-2">
+                {charts.map((chartId, index) => {
+                  const chart = getChartById(chartId);
+                  if (!chart) return null;
+                  return (
+                    <button
+                      key={chartId}
+                      className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 ${getButtonClass(activeChart === chartId)} hover:scale-105 hover:shadow-md`}
+                      onClick={() => setActiveChart(chartId)}
+                    >
+                      <chart.icon size={12} className="inline-block mr-1" />
+                      {chart.label}
+                    </button>
+                  );
+                })}
               </div>
             </div>
-          );
-        })()}
+          ))}
+        </div>
       </div>
+
+      {/* Main Chart Area */}
+      <div className={`flex flex-col gap-4 ${bgClass}`} ref={chartContainerRef}>
+        <div className={`${cardBg} p-6 rounded-3xl shadow-lg`}>
+          {/* Chart Title */}
+          <div className="flex justify-between items-center mb-6">
+            <h3 className={`text-2xl font-bold ${textMain}`}>
+              {getChartById(activeChart)?.label || '思维模型'}
+            </h3>
+            <button
+              className={`p-2 rounded-full hover:bg-blue-500/10 transition-colors ${textSub}`}
+              onClick={() => setActiveHelp(activeChart)}
+            >
+              <HelpCircle size={20} />
+            </button>
+          </div>
+          
+          {/* Chart Content */}
+          <div className="w-full h-[600px] bg-white/90 dark:bg-zinc-800/90 rounded-2xl shadow-inner p-4">
+            {renderChart()}
+          </div>
+        </div>
+      </div>
+
+      {/* Help Modal */}
+      <GlobalGuideCard
+        isOpen={!!activeHelp}
+        onClose={() => setActiveHelp(null)}
+        content={helpContent[activeHelp as keyof typeof helpContent] || {}}
+        config={guideCardConfig}
+        theme={theme}
+      />
     </div>
   );
 };

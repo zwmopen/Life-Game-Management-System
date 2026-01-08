@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>制度激励</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 核心官僚组织 -->
+        <rect x="-150" y="-150" width="300" height="300" rx="40" fill="var(--heading)" opacity="0.1" stroke="var(--heading)" stroke-width="2" />
+        
+        <!-- 自动生长的触手 (自保本能) -->
+        <g stroke="var(--accent)" stroke-width="12" stroke-linecap="round" fill="none">
+          <path d="M150,0 Q250,-100 400,-50"><animate attributeName="stroke-dasharray" from="0,500" to="500,0" dur="4s" repeatCount="indefinite" /></path>
+          <path d="M-150,0 Q-250,100 -400,50"><animate attributeName="stroke-dasharray" from="0,500" to="500,0" dur="4s" repeatCount="indefinite" /></path>
+        </g>
+        
+        <!-- 被吞噬的目标 -->
+        <circle r="40" fill="#ef4444" opacity="0.8" />
+        <text text-anchor="middle" y="5" fill="white" style="font-size: 14px; font-weight: 900;">原本的目标</text>
+
+        <text y="220" text-anchor="middle" fill="var(--accent)" style="font-size: 42px; font-weight: 900;">组织自保 > 解决问题</text>
+        <text y="255" text-anchor="middle" fill="var(--text)" opacity="0.5" style="font-size: 12px;">(组织会自发创造出支持其存在的理由)</text>
+      </g>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>制度激励 (Institutional Imperative)</h1>
+    <p>巴菲特提出。一旦一个组织成立，它就会展现出一种生物性的本能：不计代价地维持生存、扩张预算、抵制任何会削弱自身权力的创新。这种本能往往压过了组织成立的初衷。</p>
+    <div class="grid">
+      <div>
+        <h3>异化表现</h3>
+        <ul>
+          <li><strong>平庸的共识：</strong>管理者会下意识地模仿同行的行为（无论多么愚蠢），仅仅是为了在失败时可以推卸责任。</li>
+          <li><strong>预算扩张：</strong>部门存在的价值往往通过其消耗的资源来衡量，导致为了存在而创造工作的奇观。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>对抗逻辑</h3>
+        <ul>
+          <li><strong>极端负责制：</strong>将生存压力直接传导至微观节点，打破组织的大锅饭防御机制。</li>
+          <li><strong>保持精干：</strong>警惕任何超出核心任务的规模扩张。组织越大，其 institutional imperative 的重力场就越难被打破。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

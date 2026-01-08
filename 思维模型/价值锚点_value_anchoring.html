@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>价值锚点</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #e0e5ec;
+            font-family: 'Microsoft YaHei', sans-serif;
+            color: #2d3748;
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        /* 上图下文模式：上半部分50vh */
+        .svg-container {
+            height: 50vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 8px 8px 16px rgba(163, 177, 198, 0.2), -8px -8px 16px rgba(255, 255, 255, 0.8);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .svg-container svg {
+            width: 100%;
+            height: 100%;
+            viewBox: 0 0 1000 600;
+        }
+        /* 深度解析区 */
+        .analysis-container {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 8px 8px 16px rgba(163, 177, 198, 0.2), -8px -8px 16px rgba(255, 255, 255, 0.8);
+            padding: 30px;
+        }
+        .analysis-container h1 {
+            font-size: 4.5rem;
+            font-weight: 900;
+            letter-spacing: -2px;
+            color: #2d3748;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        .analysis-section {
+            background-color: #f7fafc;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .analysis-section h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+        .analysis-section h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        .analysis-section p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #4a5568;
+            margin-bottom: 10px;
+        }
+        .analysis-section ul {
+            list-style: none;
+            padding: 0;
+        }
+        .analysis-section li {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #4a5568;
+            margin-bottom: 8px;
+        }
+        .analysis-section strong {
+            color: #2d3748;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 上半部分：SVG物理动效展示区 -->
+        <div class="svg-container">
+            <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 参考锚点 (巨大的铁锚) -->
+        <g transform="translate(-250, 0)">
+          <path d="M-15,-200 L15,-200 L15,50 L-15,50 Z" fill="#94a3b8" />
+          <path d="M-80,0 Q0,120 80,0" fill="none" stroke="#94a3b8" stroke-width="15" stroke-linecap="round" />
+          <text y="150" text-anchor="middle" fill="#94a3b8" style="font-size: 24px; font-weight: 900;">市场平均锚点</text>
+          <text y="180" text-anchor="middle" fill="#94a3b8" style="font-size: 14px;">(¥ 9.9 垃圾信息)</text>
+        </g>
+        
+        <!-- 你的价值位置 (向上的气球) -->
+        <g transform="translate(200, 0)">
+          <animateTransform attributeName="transform" type="translate" values="200,0; 200,-150; 200,0" dur="4s" repeatCount="indefinite" />
+          <circle r="80" fill="var(--accent)" filter="drop-shadow(0 0 40px var(--accent))" />
+          <text text-anchor="middle" y="5" fill="white" style="font-size: 32px; font-weight: 900;">你的定价</text>
+          <line x1="0" y1="80" x2="0" y2="200" stroke="var(--accent)" stroke-width="2" stroke-dasharray="5 5" />
+          <text y="240" text-anchor="middle" fill="var(--accent)" style="font-size: 20px; font-weight: 900;">溢价源：稀缺逻辑</text>
+        </g>
+
+        <path d="M-150,0 L100,0" stroke="#ef4444" stroke-width="4" stroke-dasharray="10 10" opacity="0.3" />
+        <text y="-250" text-anchor="middle" fill="var(--accent)" style="font-size: 32px; font-weight: 900;">别在低价区 玩平庸的游戏</text>
+      </g>
+    </svg>
+        </div>
+        
+        <!-- 下半部分：深度解析区 -->
+        <div class="analysis-container">
+            <h1>价值锚点</h1>
+            
+            <div class="analysis-grid">
+                text
+            </div>
+        </div>
+    </div>
+</body>
+</html>

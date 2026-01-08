@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>结构性空洞</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 社交圈 A (左) -->
+        <g transform="translate(-300, 0)">
+          <circle r="120" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="5 15" opacity="0.3" />
+          <g fill="#94a3b8">
+             <circle cx="-50" cy="-50" r="10" /><circle cx="50" cy="50" r="10" /><circle cx="0" cy="80" r="10" />
+          </g>
+          <text y="-140" text-anchor="middle" fill="#94a3b8" style="font-size: 14px;">学术圈/技术派</text>
+        </g>
+        
+        <!-- 社交圈 B (右) -->
+        <g transform="translate(300, 0)">
+          <circle r="120" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="5 15" opacity="0.3" />
+          <g fill="#94a3b8">
+             <circle cx="-50" cy="50" r="10" /><circle cx="50" cy="-50" r="10" /><circle cx="80" cy="0" r="10" />
+          </g>
+          <text y="-140" text-anchor="middle" fill="#94a3b8" style="font-size: 14px;">市场圈/资本派</text>
+        </g>
+
+        <!-- 结构性空洞中的你 (桥梁) -->
+        <g>
+          <circle r="50" fill="var(--accent)" filter="drop-shadow(0 0 40px var(--accent))" />
+          <path d="M-50,0 L-180,0 M50,0 L180,0" stroke="var(--accent)" stroke-width="4" stroke-dasharray="10 10" />
+          <text text-anchor="middle" y="5" fill="white" style="font-size: 16px; font-weight: 900;">你</text>
+          <text y="80" text-anchor="middle" fill="var(--accent)" style="font-size: 24px; font-weight: 900;">信息的经纪人</text>
+        </g>
+
+        <text y="-250" text-anchor="middle" fill="var(--accent)" style="font-size: 32px; font-weight: 900; letter-spacing: 0.1em;">填补空白，套利世界</text>
+      </g>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>结构性空洞 (Structural Holes)</h1>
+    <p>罗纳德·伯特提出。在一个网络中，当两个群体之间没有直接联系（即存在空洞）时，那个能连接这两个群体的人，就拥有非对称的信息优势和资源整合力。谁是桥梁，谁就掌握权力。</p>
+    <div class="grid">
+      <div>
+        <h3>信息套利</h3>
+        <ul>
+          <li><strong>跨界翻译：</strong>如果你懂“硬核物理”又懂“通俗自媒体”，你就占据了认知的空洞。你通过翻译知识获得了全网的稀缺注意力。</li>
+          <li><strong>价值发现：</strong>很多伟大的项目仅仅是将 A 领域的常识搬到了 B 领域（如：将游戏化的机制搬到金融产品）。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>社交架构</h3>
+        <ul>
+          <li><strong>远离回声室：</strong>不要在同一个圈子里死磕。居家办公的你应主动去建立跨行业的“弱连接”，去发现那些圈内人视而不见的巨大空洞。</li>
+          <li><strong>成为枢纽：</strong>不要只是获取信息，要成为让信息流动的“交换机”。当你为两方创造了之前不存在的连接，你便立于不败之地。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

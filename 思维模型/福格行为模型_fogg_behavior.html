@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>福格行为模型</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #e0e5ec;
+            font-family: 'Microsoft YaHei', sans-serif;
+            color: #2d3748;
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        /* 上图下文模式：上半部分50vh */
+        .svg-container {
+            height: 50vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 8px 8px 16px rgba(163, 177, 198, 0.2), -8px -8px 16px rgba(255, 255, 255, 0.8);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .svg-container svg {
+            width: 100%;
+            height: 100%;
+            viewBox: 0 0 1000 600;
+        }
+        /* 深度解析区 */
+        .analysis-container {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 8px 8px 16px rgba(163, 177, 198, 0.2), -8px -8px 16px rgba(255, 255, 255, 0.8);
+            padding: 30px;
+        }
+        .analysis-container h1 {
+            font-size: 4.5rem;
+            font-weight: 900;
+            letter-spacing: -2px;
+            color: #2d3748;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        .analysis-section {
+            background-color: #f7fafc;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .analysis-section h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+        .analysis-section h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        .analysis-section p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #4a5568;
+            margin-bottom: 10px;
+        }
+        .analysis-section ul {
+            list-style: none;
+            padding: 0;
+        }
+        .analysis-section li {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #4a5568;
+            margin-bottom: 8px;
+        }
+        .analysis-section strong {
+            color: #2d3748;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 上半部分：SVG物理动效展示区 -->
+        <div class="svg-container">
+            <svg viewBox="0 0 1000 600">
+      <!-- 坐标轴 -->
+      <line x1="150" y1="500" x2="850" y2="500" stroke="var(--heading)" stroke-width="2" opacity="0.1" />
+      <line x1="150" y1="500" x2="150" y2="100" stroke="var(--heading)" stroke-width="2" opacity="0.1" />
+      <text x="850" y="530" text-anchor="end" fill="var(--text)" opacity="0.4" style="font-size: 10px; font-weight: 900;">能力 (简单度) →</text>
+      <text x="130" y="100" text-anchor="middle" fill="var(--text)" opacity="0.4" style="font-size: 10px; font-weight: 900;" transform="rotate(-90 130 100)">动机 (渴望度) ↑</text>
+
+      <!-- 行为阈值线 -->
+      <path d="M150,500 Q150,150 850,150" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="10 5" opacity="0.3" />
+      <text x="350" y="300" fill="#ef4444" opacity="0.2" style="font-size: 14px; font-weight: 900; letter-spacing: 1em;" transform="rotate(-30 350 300)">ACTION THRESHOLD</text>
+
+      <!-- 行为发生点 (火箭) -->
+      <g transform="translate(600, 250)">
+        <animateTransform attributeName="transform" type="translate" values="600,250; 600,240; 600,250" dur="2s" repeatCount="indefinite" />
+        <circle r="50" fill="var(--accent)" filter="drop-shadow(0 0 20px var(--accent))" />
+        <text text-anchor="middle" y="5" fill="white" style="font-size: 14px; font-weight: 900;">B=MAP</text>
+        <circle r="70" fill="none" stroke="var(--accent)" stroke-width="1" class="animate-ping" />
+      </g>
+      
+      <!-- 提示点 -->
+      <g transform="translate(600, 250)">
+        <circle r="5" cy="80" fill="#fbbf24" class="animate-bounce" />
+        <text y="105" text-anchor="middle" fill="#fbbf24" style="font-size: 10px; font-weight: 900;">PROMPT (提示)</text>
+      </g>
+    </svg>
+        </div>
+        
+        <!-- 下半部分：深度解析区 -->
+        <div class="analysis-container">
+            <h1>福格行为模型</h1>
+            
+            <div class="analysis-grid">
+                text
+            </div>
+        </div>
+    </div>
+</body>
+</html>

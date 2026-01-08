@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>庞加莱回归</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 复杂的轨道 (遍历全场) -->
+        <path d="M-300,-200 Q0,-100 200,150 T-200,100 T300,-150 T-300,-200" fill="none" stroke="var(--accent)" stroke-width="2" opacity="0.1" />
+        
+        <!-- 随机游走的粒子 (时间流逝) -->
+        <circle r="12" fill="var(--accent)">
+           <animateMotion path="M-300,-200 Q0,-100 200,150 T-200,100 T300,-150 T-300,-200" dur="10s" repeatCount="indefinite" />
+        </circle>
+
+        <!-- 初始点 (标记) -->
+        <g transform="translate(-300, -200)">
+           <circle r="25" fill="none" stroke="#ef4444" stroke-width="4" stroke-dasharray="5 5" class="animate-ping" />
+           <text x="40" y="40" fill="#ef4444" style="font-size: 18px; font-weight: 900;">初始状态</text>
+        </g>
+
+        <!-- 回归时刻 -->
+        <g transform="translate(0, 0)" opacity="0">
+           <animate attributeName="opacity" values="0;1;0" dur="10s" repeatCount="indefinite" />
+           <text y="-250" text-anchor="middle" fill="var(--accent)" style="font-size: 48px; font-weight: 900;">回归 (RECURRENCE)</text>
+        </g>
+
+        <text y="280" text-anchor="middle" fill="var(--text)" opacity="0.5" style="font-size: 24px; font-weight: 900; letter-spacing: 0.2em;">在无限中 终将重逢</text>
+      </g>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>庞加莱回归 (Poincaré Recurrence)</h1>
+    <p>数学证明：对于任何在一个有限空间内、状态数有限的保守动力系统，只要时间足够长，它几乎必然会回到与初始状态无限接近的位置。没有什么是真正消失的，历史只是在极其漫长的尺度上进行着均值回归。</p>
+    <div class="grid">
+      <div>
+        <h3>必然的循环</h3>
+        <ul>
+          <li><strong>遍历性原理：</strong>如果系统的可能性是有限的，那么时间就会穷尽所有的排列。当所有坑位都踩过一遍后，起点就成了终点。</li>
+          <li><strong>秩序的坚韧：</strong>混乱只是一个极长周期的局部，系统的底层结构具备在时间长河中自发重组的数学必然性。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>战略定力</h3>
+        <ul>
+          <li><strong>周期复辟：</strong>商业模式的流行也是一种回归。旧的审美、旧的管理法则往往会以“复古创新”的形式在新的技术基座上重新降临。</li>
+          <li><strong>终极耐心：</strong>在陷入极度混乱时，意识到“回归”是物理定律。保持系统的核心不损坏，等待周期的波峰再次对齐初始信念。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

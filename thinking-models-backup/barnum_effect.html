@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>巴纳姆效应</title>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 600">
+      <defs>
+        <radialGradient id="mirrorGlow"><stop offset="0%" stop-color="#8b5cf6" stop-opacity="0.3" /><stop offset="100%" stop-color="transparent" /></radialGradient>
+      </defs>
+      
+      <!-- 模糊的万能描述 -->
+      <g transform="translate(500, 300)">
+        <circle r="250" fill="url(#mirrorGlow)" class="animate-pulse" />
+        <g fill="var(--accent)" opacity="0.4" style="font-size: 24px; font-weight: 900;">
+          <text x="-350" y="-150">“你有时很外向...”</text>
+          <text x="150" y="200">“你有未开发的潜力...”</text>
+          <text x="-400" y="100">“你内心渴望认可...”</text>
+          <text x="100" y="-200">“你正面临选择...”</text>
+        </g>
+        
+        <!-- 核心陷阱 -->
+        <g>
+          <path d="M-100,-150 Q0,-220 100,-150 Q150,0 100,150 Q0,220 -100,150 Q-150,0 -100,-150" fill="none" stroke="var(--heading)" stroke-width="4" opacity="0.3" />
+          <text y="10" text-anchor="middle" fill="var(--heading)" style="font-size: 48px; font-weight: 900;">万能描述陷阱</text>
+          <text y="50" text-anchor="middle" fill="var(--text)" style="font-size: 14px; font-weight: 900; opacity: 0.5;">(由于模糊，所以“精准”)</text>
+        </g>
+      </g>
+    </svg>
+  </div>
+
+  <div class="text-content">
+    <h1>巴纳姆效应 (Barnum Effect)</h1>
+    <p>人们会认为那些模糊、通用的性格描述是在精准地揭示自己的特质。这种“对号入座”是占星术和伪人格测试的物理基础。</p>
+    <div class="grid">
+      <div>
+        <h3>心理自恋</h3>
+        <ul>
+          <li><strong>主观证实：</strong>大脑会自动忽略那些不符合的描述，而疯狂寻找符合现有处境的细微线索。</li>
+          <li><strong>控制感幻觉：</strong>一个含糊的解释能降低对未来的不确定感，提供廉价的心理镇静。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>防御逻辑</h3>
+        <ul>
+          <li><strong>反向验证：</strong>问自己：这段话放在我完全相反的人身上，是否同样听起来很有道理？</li>
+          <li><strong>精准量化：</strong>拒绝接受任何没有具体数据和排他性逻辑支撑的模糊判断。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
