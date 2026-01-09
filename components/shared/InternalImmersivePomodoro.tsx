@@ -686,17 +686,17 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             mesh = createAnimal(type);
           }
 
-          // 设置位置，确保所有模型都显示在地面以上（地面顶部在y=2.5处）
+          // 设置位置，确保所有模型底部与地面贴合（地面顶部在y=2.5处）
           if (mesh instanceof THREE.Group) {
-            // 对于组合模型，设置位置在地面以上，确保完全可见
-            mesh.position.set(x, 3, z);
+            // 对于组合模型，设置位置使底部与地面贴合
+            mesh.position.set(x, 2.5, z);
           } else if (mesh.geometry) {
-            // 对于单个几何体，根据几何体高度设置位置，确保底部在地面以上
+            // 对于单个几何体，根据几何体高度设置位置，确保底部与地面贴合
             const height = (mesh.geometry as any).parameters?.height || 0;
             mesh.position.set(x, 2.5 + height / 2, z);
           } else {
-            // 默认位置，确保在地面以上
-            mesh.position.set(x, 3, z);
+            // 默认位置，确保底部与地面贴合
+            mesh.position.set(x, 2.5, z);
           }
           mesh.castShadow = true;
           mesh.receiveShadow = true;
@@ -792,8 +792,8 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
               const x = originalPos.x + Math.cos(animal.userData.angle) * movementRadius;
               const z = originalPos.z + Math.sin(animal.userData.angle) * movementRadius;
               
-              // 垂直移动（跳跃效果），确保不会低于地面
-              const baseY = Math.max(3, originalPos.y); // 确保基础位置在地面以上
+              // 垂直移动（跳跃效果），确保与地面贴合，底部不低于地面
+              const baseY = Math.max(2.5, originalPos.y); // 确保基础位置与地面贴合
               const y = baseY + Math.sin(time + animal.userData.waveOffset) * 0.3;
               
               // 更新位置
