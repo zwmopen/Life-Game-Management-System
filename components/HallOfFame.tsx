@@ -24,6 +24,7 @@ import {
 
 import { Theme, AchievementItem } from '../types';
 import CharacterProfile, { CharacterProfileHandle, getAllLevels, getAllFocusTitles, getAllWealthTitles, getAllMilitaryRanks } from './CharacterProfile';
+import { HelpTooltip } from './HelpSystem';
 
 // 签到勋章配置
 const CHECKIN_THRESHOLDS = [{min:3,title:'坚持不懈'},{min:7,title:'签到达人'},{min:15,title:'自律新星'},{min:30,title:'习惯养成'},{min:60,title:'岁月如歌'},{min:100,title:'时间的朋友'},{min:200,title:'持久王者'},{min:365,title:'永恒坚守'}];
@@ -57,6 +58,8 @@ interface HallOfFameProps {
   onChangeDuration: (minutes: number) => void;
   onUpdateTimeLeft: (seconds: number) => void;
   onUpdateIsActive: (active: boolean) => void;
+  // 帮助系统
+  onHelpClick: (helpId: string) => void;
 }
 
 const HallOfFame: React.FC<HallOfFameProps> = ({

@@ -221,29 +221,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
       {/* Scrollable Content */}
       <div className="flex-1 overflow-y-auto custom-scrollbar">
         <div className="space-y-3 px-2 md:px-4 lg:px-6 max-w-5xl mx-auto">
-          {/* Theme Toggle */}
-          <div className={`${cardBg} p-4 transition-all duration-300`}>
-            <div className="flex justify-between items-center">
-              <div className="flex items-center gap-2">
-                {isNeomorphic ? <Zap size={20} className="text-yellow-500" /> : isDark ? <Moon size={20} className="text-blue-400" /> : <Sun size={20} className="text-yellow-500" />}
-                <div>
-                  <h3 className={`font-bold text-sm ${textMain}`}>主题切换</h3>
-                  <p className={`text-[10px] ${textSub}`}>切换浅色/深色/拟态主题</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={onToggleTheme}
-                  className={`p-2 rounded-xl transition-all duration-300 ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)] hover:shadow-[6px_6px_12px_rgba(0,0,0,0.15),-6px_-6px_12px_rgba(40,43,52,0.9)] active:shadow-[inset_4px_4px_8px_rgba(0,0,0,0.2),inset_-4px_-4px_8px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[6px_6px_12px_rgba(163,177,198,0.5),-6px_-6px_12px_rgba(255,255,255,1)] active:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-800 hover:bg-zinc-700' : 'bg-slate-100 hover:bg-slate-200'}`}
-                >
-                  {isNeomorphic ? <Zap size={18} className="text-yellow-500" /> : isDark ? <Moon size={18} className="text-blue-400" /> : <Sun size={18} className="text-yellow-500" />}
-                </button>
-                <HelpTooltip helpId="theme" onHelpClick={setActiveHelp}>
-                    <HelpCircle size={16} className="text-zinc-500 hover:text-white transition-colors" />
-                  </HelpTooltip>
-              </div>
-            </div>
-          </div>
+
 
           {/* Sound Effects */}
           <div className={`${cardBg} p-4 transition-all duration-300`}>

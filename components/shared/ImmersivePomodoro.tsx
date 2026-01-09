@@ -109,11 +109,19 @@ const ImmersivePomodoro: React.FC<ImmersivePomodoroProps> = ({
   }, [isIframeLoaded, isActive, timeLeft, duration, isMuted, currentSoundId]);
 
   return (
-    <div className="fixed inset-0 z-50 bg-black">
+    <div className="fixed inset-0 z-50 bg-gradient-to-br from-zinc-900 to-zinc-800 flex items-center justify-center">
+      {/* 加载状态：显示渐变背景和加载指示器 */}
+      {!isIframeLoaded && (
+        <div className="text-center">
+          <div className="w-20 h-20 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4 mx-auto"></div>
+          <p className="text-white text-xl font-medium">正在进入沉浸式模式...</p>
+        </div>
+      )}
+      {/* iframe：加载完成后显示 */}
       <iframe
         ref={iframeRef}
         title="Immersive Pomodoro"
-        className="w-full h-full border-0"
+        className={`w-full h-full border-0 transition-opacity duration-500 ${isIframeLoaded ? 'opacity-100' : 'opacity-0'}`}
         sandbox="allow-scripts allow-same-origin allow-popups"
         loading="eager"
       />

@@ -34,6 +34,9 @@ import { useAchievements } from './features/achievements';
 import { useStorage } from './features/storage';
 import { useStats } from './features/stats';
 
+// 导入音效管理库
+import soundManager from './utils/soundManager';
+
 
 
 const App: React.FC = () => {
@@ -101,7 +104,7 @@ const App: React.FC = () => {
   const [todayGoal, setTodayGoal] = useState("今日核心：完成核心模块代码"); 
 
   // Navigation Deep Linking State
-  const [initialTaskCategory, setInitialTaskCategory] = useState<'daily' | 'main' | 'random'>('daily');
+  const [initialTaskCategory, setInitialTaskCategory] = useState<'daily' | 'main' | 'random'>('random');
 
   // Data State
   const [habits, setHabits] = useState<Habit[]>(INITIAL_HABITS);
@@ -901,14 +904,14 @@ const App: React.FC = () => {
       return { success: false, message: '今日骰子次数已用完，明天再来玩吧' };
     }
     
-    // 播放骰子滚动音效
-    playSound("https://assets.mixkit.co/sfx/preview/mixkit-rolling-dice-1911.mp3");
-    
     // 开始旋转动画
     setDiceState(prev => ({
       ...prev,
       isSpinning: true
     }));
+    
+    // 播放骰子旋转音效
+    playSound("https://assets.mixkit.co/sfx/preview/mixkit-dice-roll-6125.mp3", SoundType.SOUND_EFFECT);
     
     // 根据权重选择分类
     const categories = Object.entries(diceState.config.categoryDistribution);
@@ -945,7 +948,7 @@ const App: React.FC = () => {
     // 模拟旋转动画结束之后等待 - 调整为0秒
     setTimeout(() => {
       // 播放惊喜音效
-      playSound("https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3");
+      playSound("https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3", SoundType.SOUND_EFFECT);
       
       setDiceState(prev => ({
         ...prev,

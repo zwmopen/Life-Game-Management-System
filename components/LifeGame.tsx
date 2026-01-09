@@ -336,7 +336,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
   const characterProfileRef = useRef<CharacterProfileHandle>(null);
 
   const [mainTab, setMainTab] = useState<'battle' | 'shop' | 'armory'>(initialTab || 'battle');
-  const [taskCategory, setTaskCategory] = useState<'daily' | 'main' | 'random'>(initialCategory || 'daily');
+  const [taskCategory, setTaskCategory] = useState<'daily' | 'main' | 'random'>(initialCategory || 'random');
   const [shopFilter, setShopFilter] = useState<'all' | 'physical' | 'rights' | 'leisure' | 'owned' | 'blindbox'>('all');
   const [showBlindBoxHelp, setShowBlindBoxHelp] = useState(false);
 
@@ -376,6 +376,12 @@ const LifeGame: React.FC<LifeGameProps> = ({
     }
   }, [balance, isEditingSavings]);
   const [isEditingTodayGoal, setIsEditingTodayGoal] = useState(false);
+
+  // 监听initialTab变化，更新mainTab状态，解决从作战中心切换到补给黑市时界面不切换的问题
+  useEffect(() => {
+    // 无论initialTab是否有值，都强制更新mainTab，确保视图切换正确
+    setMainTab(initialTab || 'battle');
+  }, [initialTab]);
 
   const [activeHelp, setActiveHelp] = useState<string | null>(null);
 
@@ -985,6 +991,8 @@ const LifeGame: React.FC<LifeGameProps> = ({
                     onStartTimer={(duration) => {
                         onChangeDuration(duration);
                         onToggleTimer();
+                        // 进入沉浸式模式
+                        setIsImmersive(true);
                     }}
                     theme={theme}
                 />
@@ -1473,9 +1481,9 @@ const LifeGame: React.FC<LifeGameProps> = ({
                         </div>
                         <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
                             <div className="flex gap-2">
+                                <button onClick={() => setTaskCategory('random')} className={`px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all ${getButtonStyle(taskCategory === 'random')}`}>命运骰子</button>
                                 <button onClick={() => setTaskCategory('daily')} className={`px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all ${getButtonStyle(taskCategory === 'daily')}`}>日常任务</button>
                                 <button onClick={() => setTaskCategory('main')} className={`px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all ${getButtonStyle(taskCategory === 'main')}`}>主线任务</button>
-                                <button onClick={() => setTaskCategory('random')} className={`px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all ${getButtonStyle(taskCategory === 'random')}`}>命运骰子</button>
                             </div>
                             <div className="flex gap-2 items-center">
                             <HelpTooltip helpId="tasks" onHelpClick={setActiveHelp} className="text-zinc-500 hover:text-white transition-colors relative group">
@@ -1646,28 +1654,51 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                     </div>
                                 </div>
                                 {task.subTasks && !task.completed && (
-                                    <div className={`border-t p-1 sm:p-2 space-y-1 ${isDark ? 'border-zinc-800 bg-zinc-950/30' : 'border-slate-200 bg-slate-50'}`}>
-                                        {task.subTasks.map(st => (
-                                            <div 
-                                                key={st.id} 
-                                                className={`flex flex-wrap items-center justify-between gap-1 sm:gap-2 p-1.5 rounded cursor-pointer group/sub ${isDark ? 'hover:bg-white/5' : 'hover:bg-white border border-transparent hover:border-slate-200'}`}
-                                            >
-                                                <div className="flex items-center gap-2 flex-1 min-w-0" onClick={() => toggleSubTask(task.id, st.id)}>
-                                                    <div className={`transition-colors ${st.completed ? 'text-zinc-500' : 'text-zinc-400 group-hover/sub:text-blue-500'}`}>{st.completed ? <CheckSquare size={16} /> : <Square size={16} />}</div>
-                                                    <span className={`text-sm truncate ${st.completed ? 'text-zinc-600 line-through' : textMain} transition-all`}>{st.text}</span>
+                                    <div className={`border-t p-1 sm:p-2 space-y-1 ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'border-[#1e1e2e] bg-[#1e1e2e]' : 'border-[#e0e5ec] bg-[#e0e5ec]') : isDark ? 'border-zinc-800 bg-zinc-950/30' : 'border-slate-200 bg-slate-50'}`}>
+                                        {task.subTasks.map((st) => {
+                                            // 提取子任务卡片样式逻辑到变量
+                                            let subTaskCardClass = 'flex flex-wrap items-center justify-between gap-1 sm:gap-2 p-1.5 rounded cursor-pointer group/sub transition-all';
+                                            
+                                            if (isNeomorphic) {
+                                                if (theme === 'neomorphic-dark') {
+                                                    subTaskCardClass += ' bg-[#1e1e2e] shadow-[3px_3px_6px_rgba(0,0,0,0.3),-3px_-3px_6px_rgba(30,30,46,0.7)] hover:shadow-[4px_4px_8px_rgba(0,0,0,0.4),-4px_-4px_8px_rgba(30,30,46,0.8)]';
+                                                } else {
+                                                    subTaskCardClass += ' bg-[#e0e5ec] shadow-[3px_3px_6px_rgba(163,177,198,0.4),-3px_-3px_6px_rgba(255,255,255,0.8)] hover:shadow-[4px_4px_8px_rgba(163,177,198,0.5),-4px_-4px_8px_rgba(255,255,255,1)]';
+                                                }
+                                            } else {
+                                                subTaskCardClass += isDark ? ' hover:bg-white/5' : ' hover:bg-white border border-transparent hover:border-slate-200';
+                                            }
+                                            
+                                            return (
+                                                <div 
+                                                    key={st.id} 
+                                                    className={subTaskCardClass}
+                                                >
+                                                    <div className="flex items-center gap-2 flex-1 min-w-0" onClick={() => toggleSubTask(task.id, st.id)}>
+                                                        <div className={`transition-colors ${st.completed ? 'text-zinc-500' : 'text-zinc-400 group-hover/sub:text-blue-500'}`}>
+                                                            {st.completed ? <CheckSquare size={16} /> : <Square size={16} />}
+                                                        </div>
+                                                        <span className={`text-sm truncate ${st.completed ? 'text-zinc-600 line-through' : textMain} transition-all`}>
+                                                            {st.text}
+                                                        </span>
+                                                    </div>
+                                                    {/* 显示子任务的经验、金币和时长 */}
+                                                    <div className="flex items-center gap-1 sm:gap-2 text-xs font-mono text-zinc-500 flex-wrap mb-1 sm:mb-0">
+                                                        <span className="text-purple-400">+{st.xp}</span>
+                                                        <span className="text-yellow-500">+{st.gold}</span>
+                                                        <span className="text-blue-500">{st.duration}m</span>
+                                                    </div>
+                                                    <div className="flex items-center gap-1 sm:gap-0.5">
+                                                        <button onClick={(e) => { e.stopPropagation(); giveUpSubTask(task.id, st.id); }} className="text-zinc-700 hover:text-red-500 p-2 opacity-0 group-hover/sub:opacity-100 transition-opacity" title="放弃子任务">
+                                                            <X size={16}/>
+                                                        </button>
+                                                        <button onClick={(e) => { e.stopPropagation(); handleStartTimer(st.duration || 25); }} className={`p-2 rounded-full text-white transition-colors hover:scale-110 shadow-lg ${isDark ? 'bg-zinc-800 hover:bg-emerald-600' : 'bg-blue-500 hover:bg-blue-600'} opacity-0 group-hover/sub:opacity-100`}>
+                                                            <Play size={16} fill="currentColor"/>
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                                {/* 显示子任务的经验、金币和时长 */}
-                                                <div className="flex items-center gap-1 sm:gap-2 text-xs font-mono text-zinc-500 flex-wrap mb-1 sm:mb-0">
-                                                    <span className="text-purple-400">+{st.xp}</span>
-                                                    <span className="text-yellow-500">+{st.gold}</span>
-                                                    <span className="text-blue-500">{st.duration}m</span>
-                                                </div>
-                                                <div className="flex items-center gap-1 sm:gap-0.5">
-                                                    <button onClick={(e) => { e.stopPropagation(); giveUpSubTask(task.id, st.id); }} className="text-zinc-700 hover:text-red-500 p-2 opacity-0 group-hover/sub:opacity-100 transition-opacity" title="放弃子任务"><X size={16}/></button>
-                                                    <button onClick={(e) => { e.stopPropagation(); handleStartTimer(st.duration || 25); }} className={`p-2 rounded-full text-white transition-colors hover:scale-110 shadow-lg ${isDark ? 'bg-zinc-800 hover:bg-emerald-600' : 'bg-blue-500 hover:bg-blue-600'} opacity-0 group-hover/sub:opacity-100`}><Play size={16} fill="currentColor"/></button>
-                                                </div>
-                                            </div>
-                                        ))}
+                                            );
+                                        })}
                                     </div>
                                 )}
                             </div>
@@ -1697,6 +1728,8 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                         onStartTimer={(duration) => {
                                             onChangeDuration(duration);
                                             onToggleTimer();
+                                            // 进入沉浸式模式
+                                            setIsImmersive(true);
                                         }}
                                         theme={theme.includes('neomorphic') ? 'neomorphic' : 'dark'}
                                     />
@@ -1712,35 +1745,52 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                                 {diceState.pendingTasks.map(taskRecord => (
                                                     <div 
                                                         key={taskRecord.id} 
-                                                        className={`p-3 rounded-lg ${isDark ? 'bg-zinc-800' : 'bg-slate-100'} transition-all hover:shadow-md`}
+                                                        className={`relative group rounded-lg border transition-all overflow-hidden ${cardBg} hover:border-blue-500/50 hover:shadow-lg ${isDark ? 'border-zinc-800' : 'border-slate-200'}`}
                                                     >
-                                                        <div className="flex items-start justify-between gap-2">
-                                                            <div className="flex-1">
-                                                                <p className={`font-medium ${textMain}`}>{taskRecord.task.text}</p>
-                                                                <div className="flex items-center gap-2 text-xs text-zinc-500 mt-1">
-                                                                    <span className="text-yellow-500">+{taskRecord.generatedGold} 金币</span>
-                                                                    <span className="text-purple-500">+{taskRecord.generatedXp} 经验</span>
+                                                        <div className="p-2 sm:p-3 flex items-center gap-2 sm:gap-3">
+                                                            <button onClick={() => {
+                                                                // 直接调用 onDiceResult 处理待完成任务
+                                                                // 首先将当前待完成任务设置为 currentResult，并添加生成的奖励信息
+                                                                const taskWithRewards = {
+                                                                    ...taskRecord.task,
+                                                                    _generatedGold: taskRecord.generatedGold,
+                                                                    _generatedXp: taskRecord.generatedXp
+                                                                } as any;
+                                                                onUpdateDiceState && onUpdateDiceState({
+                                                                    currentResult: taskWithRewards
+                                                                });
+                                                                // 延迟调用 onDiceResult，确保状态更新完成
+                                                                setTimeout(() => {
+                                                                    onDiceResult && onDiceResult('completed');
+                                                                }, 0);
+                                                            }} className={`w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all shrink-0 ${isDark ? 'border-zinc-600 hover:border-emerald-500 text-transparent' : 'border-slate-300 hover:border-emerald-500 bg-white'}`}>
+                                                                <Check size={16} strokeWidth={4} className="text-transparent hover:text-white transition-colors" />
+                                                            </button>
+                                                            <div className="flex-1 min-w-0">
+                                                                <div className="flex items-center gap-1 sm:gap-2 flex-wrap">
+                                                                    <h3 className={`font-bold truncate ${textMain}`}>
+                                                                        {taskRecord.task.text}
+                                                                    </h3>
+                                                                </div>
+                                                                <div className="flex items-center gap-2 sm:gap-3 text-[11px] font-mono text-zinc-500 mt-1 flex-wrap">
+                                                                    <span className="text-purple-400">+{taskRecord.generatedXp}</span>
+                                                                    <span className="text-yellow-500">+{taskRecord.generatedGold}</span>
                                                                     {taskRecord.task.duration && (
-                                                                        <span className="text-blue-500">{taskRecord.task.duration} 分钟</span>
+                                                                        <span className="text-blue-500">{taskRecord.task.duration}m</span>
                                                                     )}
                                                                 </div>
                                                             </div>
-                                                            <button 
-                                                                    onClick={() => {
-                                                                        // 临时将当前任务设置为currentResult，以便完成它
-                                                                        setDiceState(prev => ({
-                                                                            ...prev,
-                                                                            currentResult: taskRecord.task as any
-                                                                        }));
-                                                                        // 延迟调用onDiceResult，确保状态更新完成
-                                                                        setTimeout(() => {
-                                                                            onDiceResult && onDiceResult('completed');
-                                                                        }, 0);
-                                                                    }}
-                                                                    className={`px-3 py-1.5 rounded-full text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white transition-colors`}
-                                                                >
-                                                                    标记完成
+                                                            <div className="flex items-center gap-1 sm:gap-2">
+                                                                <button onClick={() => {
+                                                                    // 直接调用番茄钟功能并进入沉浸式模式
+                                                                    onChangeDuration(taskRecord.task.duration || 25);
+                                                                    onToggleTimer();
+                                                                    // 进入沉浸式模式
+                                                                    setIsImmersive(true);
+                                                                }} className={`p-3 rounded-full text-white transition-colors group-hover:scale-105 shadow-lg ${isDark ? 'bg-zinc-800 hover:bg-emerald-600' : 'bg-blue-500 hover:bg-blue-600'}`}>
+                                                                    <Play size={16} fill="currentColor"/>
                                                                 </button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 ))}
@@ -1756,21 +1806,30 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                                 {diceState.completedTasks.map(taskRecord => (
                                                     <div 
                                                         key={taskRecord.id} 
-                                                        className={`p-3 rounded-lg ${isDark ? 'bg-zinc-800/50' : 'bg-slate-100/50'} transition-all opacity-75`}
+                                                        className={`relative group rounded-lg border transition-all overflow-hidden opacity-50 grayscale ${isDark ? 'bg-zinc-950/50' : 'bg-slate-100'} ${cardBg} ${isDark ? 'border-zinc-800' : 'border-slate-200'}`}
                                                     >
-                                                        <div className="flex items-start justify-between gap-2">
-                                                            <div className="flex-1">
-                                                                <p className={`font-medium ${textMain} line-through`}>{taskRecord.task.text}</p>
-                                                                <div className="flex items-center gap-2 text-xs text-zinc-500 mt-1">
-                                                                    <span className="text-yellow-500">+{taskRecord.generatedGold} 金币</span>
-                                                                    <span className="text-purple-500">+{taskRecord.generatedXp} 经验</span>
+                                                        <div className="p-2 sm:p-3 flex items-center gap-2 sm:gap-3">
+                                                            <div className={`w-8 h-8 rounded-full border-2 bg-emerald-500 border-emerald-500 text-white flex items-center justify-center transition-all shrink-0`}>
+                                                                <Check size={16} strokeWidth={4} />
+                                                            </div>
+                                                            <div className="flex-1 min-w-0">
+                                                                <div className="flex items-center gap-1 sm:gap-2 flex-wrap">
+                                                                    <h3 className={`font-bold truncate text-zinc-500 line-through`}>
+                                                                        {taskRecord.task.text}
+                                                                    </h3>
+                                                                </div>
+                                                                <div className="flex items-center gap-2 sm:gap-3 text-[11px] font-mono text-zinc-500 mt-1 flex-wrap">
+                                                                    <span className="text-purple-400">+{taskRecord.generatedXp}</span>
+                                                                    <span className="text-yellow-500">+{taskRecord.generatedGold}</span>
                                                                     {taskRecord.task.duration && (
-                                                                        <span className="text-blue-500">{taskRecord.task.duration} 分钟</span>
+                                                                        <span className="text-blue-500">{taskRecord.task.duration}m</span>
                                                                     )}
                                                                 </div>
                                                             </div>
-                                                            <div className="flex items-center gap-2">
-                                                                <CheckCircle size={16} className="text-emerald-500" />
+                                                            <div className="flex items-center gap-1 sm:gap-2">
+                                                                <div className={`p-3 rounded-full text-white shadow-lg ${isDark ? 'bg-zinc-800' : 'bg-blue-500'} opacity-50`}>
+                                                                    <Check size={16} fill="currentColor"/>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>

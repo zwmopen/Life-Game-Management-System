@@ -2,6 +2,8 @@ import React, { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three-stdlib';
 import { Theme, DiceState } from '@/types';
+// 导入统一音效管理库
+import soundManager from '../utils/soundManager';
 
 interface FateDiceProps {
   theme: Theme;
@@ -374,8 +376,8 @@ const FateDice: React.FC<FateDiceProps> = ({ theme, diceState, onSpinDice, onUpd
   const rollDice = () => {
     if (isRolling || !diceMeshRef.current || !onSpinDice) return;
     
-    // 播放滚动音效
-    playDiceSound();
+    // 播放滚动音效 - 使用统一音效管理库
+    soundManager.play('dice');
     
     setIsRolling(true);
     

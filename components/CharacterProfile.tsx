@@ -4,6 +4,7 @@ import { Theme } from '../types';
 import AvatarProfile from './shared/AvatarProfile';
 import TomatoTimer from './shared/TomatoTimer';
 import ImmersivePomodoro from './shared/ImmersivePomodoro';
+import InternalImmersivePomodoro from './shared/InternalImmersivePomodoro';
 import MilitaryModule from './shared/MilitaryModule';
 import MantraModule from './shared/MantraModule';
 
@@ -335,6 +336,7 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
 
     const [isSoundMenuOpen, setIsSoundMenuOpen] = useState(false);
     const [isImmersive, setIsImmersive] = useState(false);
+    const [useInternalImmersive, setUseInternalImmersive] = useState(false); // 新状态：控制使用哪种沉浸式模式
     const [showHelp, setShowHelp] = useState(false);
     const [isEditingBalance, setIsEditingBalance] = useState(false);
     const [isEditingKills, setIsEditingKills] = useState(false);
@@ -362,18 +364,18 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
 
     // --- SOUNDS ---
     const SOUNDS = [
-        { id: 'forest', name: '迷雾森林', url: "https://assets.mixkit.co/active_storage/sfx/2441/2441-preview.mp3", icon: Trees, color: 'text-green-600', hex: '#16a34a' }, // 使用海浪声替代失效的森林声
-        { id: 'alpha', name: '阿尔法波', url: "https://assets.mixkit.co/active_storage/sfx/243/243-preview.mp3", icon: Waves, color: 'text-purple-500', hex: '#a855f7' },
-        { id: 'theta', name: '希塔波', url: "https://assets.mixkit.co/active_storage/sfx/244/244-preview.mp3", icon: CloudRain, color: 'text-emerald-500', hex: '#10b981' }, 
-        { id: 'beta', name: '贝塔波', url: "https://assets.mixkit.co/active_storage/sfx/1126/1126-preview.mp3", icon: BrainCircuit, color: 'text-blue-500', hex: '#3b82f6' },
-        { id: 'ocean', name: '海浪声', url: "https://assets.mixkit.co/active_storage/sfx/2441/2441-preview.mp3", icon: Waves, color: 'text-blue-600', hex: '#2563eb' },
-        { id: 'rain', name: '雨声', url: "https://assets.mixkit.co/active_storage/sfx/2442/2442-preview.mp3", icon: CloudRain, color: 'text-gray-500', hex: '#6b7280' },
-        { id: 'night', name: '夏夜虫鸣', url: "https://assets.mixkit.co/active_storage/sfx/2443/2443-preview.mp3", icon: Moon, color: 'text-indigo-600', hex: '#4f46e5' },
-        { id: 'white-noise', name: '白噪音', url: "https://assets.mixkit.co/active_storage/sfx/2444/2444-preview.mp3", icon: Coffee, color: 'text-amber-500', hex: '#f59e0b' },
-        { id: 'pink-noise', name: '粉红噪音', url: "https://assets.mixkit.co/active_storage/sfx/2445/2445-preview.mp3", icon: Coffee, color: 'text-rose-500', hex: '#ec4899' },
-        { id: 'brown-noise', name: '布朗噪音', url: "https://assets.mixkit.co/active_storage/sfx/2446/2446-preview.mp3", icon: Coffee, color: 'text-orange-600', hex: '#ea580c' },
-        { id: 'cafe', name: '咖啡馆环境', url: "https://assets.mixkit.co/active_storage/sfx/2447/2447-preview.mp3", icon: Coffee, color: 'text-amber-600', hex: '#d97706' },
-        { id: 'fireplace', name: '壁炉声', url: "https://assets.mixkit.co/active_storage/sfx/2448/2448-preview.mp3", icon: Coffee, color: 'text-red-500', hex: '#ef4444' },
+        { id: 'forest', name: '迷雾森林', url: "/audio/bgm/forest.mp3", icon: Trees, color: 'text-green-600', hex: '#16a34a' },
+        { id: 'alpha', name: '阿尔法波', url: "/audio/bgm/alpha.mp3", icon: Waves, color: 'text-purple-500', hex: '#a855f7' },
+        { id: 'theta', name: '希塔波', url: "/audio/bgm/theta.mp3", icon: CloudRain, color: 'text-emerald-500', hex: '#10b981' }, 
+        { id: 'beta', name: '贝塔波', url: "/audio/bgm/beta.mp3", icon: BrainCircuit, color: 'text-blue-500', hex: '#3b82f6' },
+        { id: 'ocean', name: '海浪声', url: "/audio/bgm/ocean.mp3", icon: Waves, color: 'text-blue-600', hex: '#2563eb' },
+        { id: 'rain', name: '雨声', url: "/audio/bgm/rain.mp3", icon: CloudRain, color: 'text-gray-500', hex: '#6b7280' },
+        { id: 'night', name: '夏夜虫鸣', url: "/audio/bgm/night.mp3", icon: Moon, color: 'text-indigo-600', hex: '#4f46e5' },
+        { id: 'white-noise', name: '白噪音', url: "/audio/bgm/white-noise.mp3", icon: Coffee, color: 'text-amber-500', hex: '#f59e0b' },
+        { id: 'pink-noise', name: '粉红噪音', url: "/audio/bgm/pink-noise.mp3", icon: Coffee, color: 'text-rose-500', hex: '#ec4899' },
+        { id: 'brown-noise', name: '布朗噪音', url: "/audio/bgm/brown-noise.mp3", icon: Coffee, color: 'text-orange-600', hex: '#ea580c' },
+        { id: 'cafe', name: '咖啡馆环境', url: "/audio/bgm/cafe.mp3", icon: Coffee, color: 'text-amber-600', hex: '#d97706' },
+        { id: 'fireplace', name: '壁炉声', url: "/audio/bgm/fireplace.mp3", icon: Coffee, color: 'text-red-500', hex: '#ef4444' },
     ];
 
     const levelInfo = getLevelInfo(xp);
@@ -460,8 +462,10 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
             interval = window.setInterval(() => onUpdateTimeLeft(timeLeft - 1), 1000);
         } else if (timeLeft === 0 && isActive) {
             onUpdateIsActive(false);
-            const success = new Audio('https://assets.mixkit.co/active_storage/sfx/1435/1435-preview.mp3');
-            success.play().catch(()=>{});
+            // 使用soundManager播放成功音效
+            import('../utils/soundManager').then(({ default: soundManager }) => {
+              soundManager.play('taskComplete');
+            });
             onUpdateTimeLeft(duration * 60);
             if (isImmersive) setIsImmersive(false);
         }
@@ -556,6 +560,10 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
                             onUpdateTimeLeft={onUpdateTimeLeft}
                             onUpdateIsActive={onUpdateIsActive}
                             onImmersiveModeChange={(isImmersive) => setIsImmersive(true)}
+                            onInternalImmersiveModeChange={(isInternalImmersive) => {
+                                setIsImmersive(true);
+                                setUseInternalImmersive(true);
+                            }}
                             onHelpClick={onHelpClick}
                         />
                     </div>
@@ -601,21 +609,54 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
 
         {/* FULLSCREEN IMMERSIVE OVERLAY */}
         {isImmersive && (
-            <ImmersivePomodoro
-                theme={theme}
-                timeLeft={timeLeft}
-                isActive={isActive}
-                duration={duration}
-                onToggleTimer={onToggleTimer}
-                onResetTimer={onResetTimer}
-                onUpdateTimeLeft={onUpdateTimeLeft}
-                onUpdateIsActive={onUpdateIsActive}
-                onExitImmersive={() => setIsImmersive(false)}
-                totalPlants={totalKills || 0}
-                todayPlants={0}
-                isMuted={isMuted}
-                currentSoundId={currentSoundId}
-            />
+            useInternalImmersive ? (
+                <InternalImmersivePomodoro
+                    theme={theme}
+                    timeLeft={timeLeft}
+                    isActive={isActive}
+                    duration={duration}
+                    onToggleTimer={onToggleTimer}
+                    onResetTimer={onResetTimer}
+                    onUpdateTimeLeft={onUpdateTimeLeft}
+                    onUpdateIsActive={onUpdateIsActive}
+                    onExitImmersive={() => {
+                        setIsImmersive(false);
+                        setUseInternalImmersive(false);
+                    }}
+                    totalPlants={totalKills || 20}
+                    todayPlants={0}
+                    isMuted={isMuted}
+                    currentSoundId={currentSoundId}
+                    onUpdateTotalPlants={(count) => {
+                        if (onUpdateTodayStats) {
+                            // 直接更新totalKills值
+                            onUpdateTodayStats(prev => ({
+                                ...prev,
+                                totalKills: count
+                            }));
+                        }
+                    }}
+                    onUpdateTodayPlants={() => {
+                        // 暂时不处理今日数量的更新
+                    }}
+                />
+            ) : (
+                <ImmersivePomodoro
+                    theme={theme}
+                    timeLeft={timeLeft}
+                    isActive={isActive}
+                    duration={duration}
+                    onToggleTimer={onToggleTimer}
+                    onResetTimer={onResetTimer}
+                    onUpdateTimeLeft={onUpdateTimeLeft}
+                    onUpdateIsActive={onUpdateIsActive}
+                    onExitImmersive={() => setIsImmersive(false)}
+                    totalPlants={totalKills || 6}
+                    todayPlants={0}
+                    isMuted={isMuted}
+                    currentSoundId={currentSoundId}
+                />
+            )
         )}
 
         {/* 锦囊库管理模态框 */}
