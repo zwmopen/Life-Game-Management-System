@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Volume2, VolumeX, Music, Headphones, Sun, Moon, Zap, FileText, HelpCircle, Bell, Eye, Database, Info, ShieldAlert, Download, RefreshCw, Trash2, X, ChevronUp, ChevronDown, Upload, Cloud, CloudDownload, Save } from 'lucide-react';
-import { Theme, Settings as SettingsType } from '@/types';
+import { Theme, Settings as SettingsType } from '../types';
 import { GlobalGuideCard, HelpTooltip, helpContent } from './HelpSystem';
 import WebDAVClient, { WebDAVConfig } from '../utils/webdavClient';
 
@@ -326,7 +326,10 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                           const audio = new Audio(soundUrls[validSoundId as keyof typeof soundUrls]);
                           audio.volume = settings.soundEffectVolume;
                           audio.play().catch((error) => {
-                            console.log('播放音效失败:', error);
+                            // 仅在开发环境输出详细日志
+                            if (import.meta.env.DEV) {
+                              console.log('播放音效失败:', error);
+                            }
                           });
                         };
                         

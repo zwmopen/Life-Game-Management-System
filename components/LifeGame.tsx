@@ -12,7 +12,7 @@ import {
   Camera, Tablet, Wind, Fish, Mountain, Home, Car, Heart, Globe, Palette
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
-import { Theme, AttributeType, AttributeTypeValue, Habit, Project, SubTask, TaskType, AutoTaskType, Task, DiceState, DiceTask, DiceCategory, DiceHistory, Settings as SettingsType } from '@/types';
+import { Theme, AttributeType, AttributeTypeValue, Habit, Project, SubTask, TaskType, AutoTaskType, Task, DiceState, DiceTask, DiceCategory, DiceHistory, Settings as SettingsType } from '../types';
 import CharacterProfile, { CharacterProfileHandle } from './CharacterProfile';
 import { GlobalGuideCard, HelpTooltip, helpContent } from './HelpSystem';
 import FateGiftModal from './shared/FateGiftModal';
@@ -74,6 +74,7 @@ interface LifeGameProps {
   // Immersive Mode State
   isImmersive: boolean;
   setIsImmersive: (isImmersive: boolean) => void;
+  onInternalImmersiveModeChange?: (isInternalImmersive: boolean) => void;
   
   // 命运骰子相关
   diceState?: DiceState;
@@ -258,7 +259,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
     // Pomodoro Global State
     timeLeft, isActive, duration, onToggleTimer, onResetTimer, onChangeDuration, onUpdateTimeLeft, onUpdateIsActive,
     // Immersive Mode State
-    isImmersive, setIsImmersive,
+    isImmersive, setIsImmersive, onInternalImmersiveModeChange,
     // Settings
     settings = {},
     // 命运骰子相关
@@ -686,6 +687,14 @@ const LifeGame: React.FC<LifeGameProps> = ({
       if (characterProfileRef.current) {
           characterProfileRef.current.startTimer(duration);
           onAddFloatingReward(`番茄钟: ${duration}min`, "text-emerald-500");
+          
+          // 启动番茄钟后，进入沉浸式全屏模式
+          if (onInternalImmersiveModeChange) {
+              onInternalImmersiveModeChange(true);
+          } else {
+              // 兼容处理，如果没有内部沉浸式模式，则使用外部模式
+              setIsImmersive(true);
+          }
       } else {
           console.error("Timer ref not attached");
       }
@@ -1168,6 +1177,8 @@ const LifeGame: React.FC<LifeGameProps> = ({
                     }
                     setIsImmersive(newIsImmersive);
                 }}
+                // Internal Immersive Mode Callback
+                onInternalImmersiveModeChange={onInternalImmersiveModeChange}
                 // Help System
                 onHelpClick={setActiveHelp}
                 // Settings
@@ -1602,9 +1613,20 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                                 <X size={16} />
                                             </button>
                                         )}
-                                        <button onClick={() => handleStartTimer(task.duration || 25)} disabled={task.completed || task.isGivenUp} className={`p-3 rounded-full text-white transition-colors group-hover:scale-105 shadow-lg ${isDark ? 'bg-zinc-800 hover:bg-emerald-600' : 'bg-blue-500 hover:bg-blue-600'} disabled:opacity-50 disabled:scale-100`}>
-                                            <Play size={16} fill="currentColor"/>
-                                        </button>
+                                        <button onClick={() => {
+                                                // 设置番茄钟时长
+                                                onChangeDuration(task.duration || 25);
+                                                // 启动番茄钟
+                                                onToggleTimer();
+                                                // 进入沉浸式全屏模式
+                                                if (onInternalImmersiveModeChange) {
+                                                    onInternalImmersiveModeChange(true);
+                                                } else {
+                                                    setIsImmersive(true);
+                                                }
+                                            }} disabled={task.completed || task.isGivenUp} className={`p-3 rounded-full text-white transition-colors group-hover:scale-105 shadow-lg ${isDark ? 'bg-zinc-800 hover:bg-emerald-600' : 'bg-blue-500 hover:bg-blue-600'} disabled:opacity-50 disabled:scale-100`}>
+                                                <Play size={16} fill="currentColor"/>
+                                            </button>
                                     </div>
                                 </div>
                             </div>
@@ -1674,10 +1696,10 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                                     key={st.id} 
                                                     className={subTaskCardClass}
                                                 >
-                                                    <div className="flex items-center gap-2 flex-1 min-w-0" onClick={() => toggleSubTask(task.id, st.id)}>
-                                                        <div className={`transition-colors ${st.completed ? 'text-zinc-500' : 'text-zinc-400 group-hover/sub:text-blue-500'}`}>
-                                                            {st.completed ? <CheckSquare size={16} /> : <Square size={16} />}
-                                                        </div>
+                                                    <div className="flex items-center gap-2 flex-1 min-w-0">
+                                                        <button onClick={(e) => { e.stopPropagation(); toggleSubTask(task.id, st.id); }} className={`w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all shrink-0 ${st.completed ? 'bg-emerald-500 border-emerald-500 text-white' : (isDark ? 'border-zinc-600 hover:border-emerald-500 text-transparent' : 'border-slate-300 hover:border-emerald-500 bg-white')}`}>
+                                                            {st.completed && <Check size={16} strokeWidth={4} />}
+                                                        </button>
                                                         <span className={`text-sm truncate ${st.completed ? 'text-zinc-600 line-through' : textMain} transition-all`}>
                                                             {st.text}
                                                         </span>
@@ -1692,7 +1714,19 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                                         <button onClick={(e) => { e.stopPropagation(); giveUpSubTask(task.id, st.id); }} className="text-zinc-700 hover:text-red-500 p-2 opacity-0 group-hover/sub:opacity-100 transition-opacity" title="放弃子任务">
                                                             <X size={16}/>
                                                         </button>
-                                                        <button onClick={(e) => { e.stopPropagation(); handleStartTimer(st.duration || 25); }} className={`p-2 rounded-full text-white transition-colors hover:scale-110 shadow-lg ${isDark ? 'bg-zinc-800 hover:bg-emerald-600' : 'bg-blue-500 hover:bg-blue-600'} opacity-0 group-hover/sub:opacity-100`}>
+                                                        <button onClick={(e) => { 
+                                                            e.stopPropagation(); 
+                                                            // 设置番茄钟时长
+                                                            onChangeDuration(st.duration || 25);
+                                                            // 启动番茄钟
+                                                            onToggleTimer();
+                                                            // 进入沉浸式全屏模式
+                                                            if (onInternalImmersiveModeChange) {
+                                                                onInternalImmersiveModeChange(true);
+                                                            } else {
+                                                                setIsImmersive(true);
+                                                            }
+                                                        }} className={`p-2 rounded-full text-white transition-colors hover:scale-110 shadow-lg ${isDark ? 'bg-zinc-800 hover:bg-emerald-600' : 'bg-blue-500 hover:bg-blue-600'} opacity-0 group-hover/sub:opacity-100`}>
                                                             <Play size={16} fill="currentColor"/>
                                                         </button>
                                                     </div>
@@ -1785,8 +1819,13 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                                                     // 直接调用番茄钟功能并进入沉浸式模式
                                                                     onChangeDuration(taskRecord.task.duration || 25);
                                                                     onToggleTimer();
-                                                                    // 进入沉浸式模式
-                                                                    setIsImmersive(true);
+                                                                    // 优先使用内部沉浸式模式回调，确保使用当前的全屏模式
+                                                                    if (onInternalImmersiveModeChange) {
+                                                                        onInternalImmersiveModeChange(true);
+                                                                    } else {
+                                                                        // 兼容处理，如果没有内部沉浸式模式，则使用外部模式
+                                                                        setIsImmersive(true);
+                                                                    }
                                                                 }} className={`p-3 rounded-full text-white transition-colors group-hover:scale-105 shadow-lg ${isDark ? 'bg-zinc-800 hover:bg-emerald-600' : 'bg-blue-500 hover:bg-blue-600'}`}>
                                                                     <Play size={16} fill="currentColor"/>
                                                                 </button>

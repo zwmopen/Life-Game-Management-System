@@ -3,7 +3,7 @@ import { Smile, Pause, Play, RotateCcw, Volume2, VolumeX, CloudRain, Waves, Brai
 import { Theme } from '../types';
 import AvatarProfile from './shared/AvatarProfile';
 import TomatoTimer from './shared/TomatoTimer';
-import ImmersivePomodoro from './shared/ImmersivePomodoro';
+
 import InternalImmersivePomodoro from './shared/InternalImmersivePomodoro';
 import MilitaryModule from './shared/MilitaryModule';
 import MantraModule from './shared/MantraModule';
@@ -27,6 +27,7 @@ interface CharacterProfileProps {
   onUpdateTimeLeft: (seconds: number) => void;
   onUpdateIsActive: (active: boolean) => void;
   onImmersiveModeChange?: (isImmersive: boolean) => void;
+  onInternalImmersiveModeChange?: (isInternalImmersive: boolean) => void;
   // Global Audio Management
   isMuted: boolean;
   currentSoundId: string;
@@ -101,6 +102,7 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
         onUpdateTimeLeft, 
         onUpdateIsActive, 
         onImmersiveModeChange = undefined, 
+        onInternalImmersiveModeChange = undefined, 
         // Global Audio Management
         isMuted, 
         currentSoundId, 
@@ -609,54 +611,36 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
 
         {/* FULLSCREEN IMMERSIVE OVERLAY */}
         {isImmersive && (
-            useInternalImmersive ? (
-                <InternalImmersivePomodoro
-                    theme={theme}
-                    timeLeft={timeLeft}
-                    isActive={isActive}
-                    duration={duration}
-                    onToggleTimer={onToggleTimer}
-                    onResetTimer={onResetTimer}
-                    onUpdateTimeLeft={onUpdateTimeLeft}
-                    onUpdateIsActive={onUpdateIsActive}
-                    onExitImmersive={() => {
-                        setIsImmersive(false);
-                        setUseInternalImmersive(false);
-                    }}
-                    totalPlants={totalKills || 20}
-                    todayPlants={0}
-                    isMuted={isMuted}
-                    currentSoundId={currentSoundId}
-                    onUpdateTotalPlants={(count) => {
-                        if (onUpdateTodayStats) {
-                            // 直接更新totalKills值
-                            onUpdateTodayStats(prev => ({
-                                ...prev,
-                                totalKills: count
-                            }));
-                        }
-                    }}
-                    onUpdateTodayPlants={() => {
-                        // 暂时不处理今日数量的更新
-                    }}
-                />
-            ) : (
-                <ImmersivePomodoro
-                    theme={theme}
-                    timeLeft={timeLeft}
-                    isActive={isActive}
-                    duration={duration}
-                    onToggleTimer={onToggleTimer}
-                    onResetTimer={onResetTimer}
-                    onUpdateTimeLeft={onUpdateTimeLeft}
-                    onUpdateIsActive={onUpdateIsActive}
-                    onExitImmersive={() => setIsImmersive(false)}
-                    totalPlants={totalKills || 6}
-                    todayPlants={0}
-                    isMuted={isMuted}
-                    currentSoundId={currentSoundId}
-                />
-            )
+            <InternalImmersivePomodoro
+                theme={theme}
+                timeLeft={timeLeft}
+                isActive={isActive}
+                duration={duration}
+                onToggleTimer={onToggleTimer}
+                onResetTimer={onResetTimer}
+                onUpdateTimeLeft={onUpdateTimeLeft}
+                onUpdateIsActive={onUpdateIsActive}
+                onExitImmersive={() => {
+                    setIsImmersive(false);
+                    setUseInternalImmersive(false);
+                }}
+                totalPlants={totalKills || 20}
+                todayPlants={0}
+                isMuted={isMuted}
+                currentSoundId={currentSoundId}
+                onUpdateTotalPlants={(count) => {
+                    if (onUpdateTodayStats) {
+                        // 直接更新totalKills值
+                        onUpdateTodayStats(prev => ({
+                            ...prev,
+                            totalKills: count
+                        }));
+                    }
+                }}
+                onUpdateTodayPlants={() => {
+                    // 暂时不处理今日数量的更新
+                }}
+            />
         )}
 
         {/* 锦囊库管理模态框 */}

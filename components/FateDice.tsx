@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three-stdlib';
-import { Theme, DiceState } from '@/types';
+import { Theme, DiceState } from '../types';
 // 导入统一音效管理库
 import soundManager from '../utils/soundManager';
 
@@ -189,12 +189,18 @@ const FateDice: React.FC<FateDiceProps> = ({ theme, diceState, onSpinDice, onUpd
       return;
     }
     
-    console.log('Initializing Three.js scene...');
+    // 仅在开发环境输出详细日志
+    if (import.meta.env.DEV) {
+      console.log('Initializing Three.js scene...');
+    }
     
     // 确保容器有正确的尺寸
     const containerWidth = canvasContainerRef.current.clientWidth;
     const containerHeight = canvasContainerRef.current.clientHeight;
-    console.log('Canvas container size:', containerWidth, 'x', containerHeight);
+    // 仅在开发环境输出详细日志
+    if (import.meta.env.DEV) {
+      console.log('Canvas container size:', containerWidth, 'x', containerHeight);
+    }
     
     // 创建场景
     const scene = new THREE.Scene();
@@ -263,14 +269,20 @@ const FateDice: React.FC<FateDiceProps> = ({ theme, diceState, onSpinDice, onUpd
     const diceMesh = createDice(renderer);
     scene.add(diceMesh);
     diceMeshRef.current = diceMesh;
-    console.log('Dice mesh created and added to scene');
+    // 仅在开发环境输出详细日志
+    if (import.meta.env.DEV) {
+      console.log('Dice mesh created and added to scene');
+    }
     
     // 立即渲染一帧，确保骰子能够显示
     renderer.render(scene, camera);
     
     // 开始动画循环
     animate();
-    console.log('Three.js scene initialized successfully');
+    // 仅在开发环境输出详细日志
+    if (import.meta.env.DEV) {
+      console.log('Three.js scene initialized successfully');
+    }
   };
   
   // 动画循环
@@ -469,11 +481,17 @@ const FateDice: React.FC<FateDiceProps> = ({ theme, diceState, onSpinDice, onUpd
       audio.addEventListener('error', (e) => {
         console.error('音频加载错误:', e);
         // 回退到生成的音效
-        console.log('回退到生成音效');
+        // 仅在开发环境输出详细日志
+        if (import.meta.env.DEV) {
+          console.log('回退到生成音效');
+        }
       });
       
       diceSoundRef.current = audio;
-      console.log('音频元素初始化成功，使用路径:', audio.src);
+      // 仅在开发环境输出详细日志
+      if (import.meta.env.DEV) {
+        console.log('音频元素初始化成功，使用路径:', audio.src);
+      }
     } catch (error) {
       console.error('无法初始化音频元素:', error);
     }

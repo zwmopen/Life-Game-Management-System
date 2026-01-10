@@ -280,20 +280,6 @@ const TomatoTimer: React.FC<TomatoTimerProps> = ({
         
         {/* 右侧：按钮区域 - 优化按钮大小 */}
         <div className="flex flex-col items-end gap-1 flex-1">
-          {/* 沉浸式模式按钮 */}
-          <div className="flex gap-1.5">
-            {/* Internal immersive mode button */}
-            <button
-              onClick={() => onInternalImmersiveModeChange && onInternalImmersiveModeChange(true)}
-              className={`p-2.5 rounded-full transition-all duration-300 hover:scale-105 active:scale-95 ${isNeomorphic
-                ? `bg-[#e0e5ec] border border-slate-300 shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] hover:shadow-[2px_2px_4px_rgba(163,177,198,0.6),-2px_-2px_4px_rgba(255,255,255,1)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] text-green-600`
-                : `bg-green-500/20 text-green-500 hover:bg-green-500/30`}`}
-              title="沉浸式全屏"
-            >
-              🌲
-            </button>
-          </div>
-          
           {/* 播放/全屏按钮 */}
           <div className="flex gap-1.5">
             {/* Play/pause button */}
@@ -306,9 +292,17 @@ const TomatoTimer: React.FC<TomatoTimerProps> = ({
               {isActive ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" />}
             </button>
             
-            {/* Fullscreen button */}
+            {/* Fullscreen button - 合并了沉浸式全屏功能 */}
             <button
-              onClick={() => onImmersiveModeChange && onImmersiveModeChange(true)}
+              onClick={() => {
+                // 同时触发内部沉浸式全屏功能
+                if (onInternalImmersiveModeChange) {
+                  onInternalImmersiveModeChange(true);
+                } else if (onImmersiveModeChange) {
+                  // 兼容处理，如果没有内部沉浸式模式，则使用外部模式
+                  onImmersiveModeChange(true);
+                }
+              }}
               className={`p-2.5 rounded-full transition-all duration-300 hover:scale-105 active:scale-95 ${isNeomorphic ? 'bg-[#e0e5ec] border border-slate-300 shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] hover:shadow-[2px_2px_4px_rgba(163,177,198,0.6),-2px_-2px_4px_rgba(255,255,255,1)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] text-zinc-600' : 'text-zinc-500 hover:text-blue-400 hover:bg-white/10'}`}
               title="全屏模式"
             >

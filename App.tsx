@@ -60,6 +60,7 @@ const App: React.FC = () => {
   
   // Immersive Mode State (Global)
   const [isImmersive, setIsImmersive] = useState(false);
+  const [useInternalImmersive, setUseInternalImmersive] = useState(false); // 新状态：控制使用哪种沉浸式模式
 
   // 使用模块化 hooks
   const { pomodoroState, toggleTimer, resetTimer, changeDuration, updateTimeLeft, updateIsActive } = usePomodoro();
@@ -278,7 +279,10 @@ const App: React.FC = () => {
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       if (!isDataLoaded) {
-        console.log('数据加载超时，强制设置为已加载状态');
+        // 仅在开发环境输出详细日志
+        if (import.meta.env.DEV) {
+          console.log('数据加载超时，强制设置为已加载状态');
+        }
         setIsDataLoaded(true);
       }
     }, 3000); // 3秒超时
@@ -1155,6 +1159,10 @@ const App: React.FC = () => {
                   // Immersive Mode State
                   isImmersive={isImmersive}
                   setIsImmersive={setIsImmersive}
+                  onInternalImmersiveModeChange={(isInternalImmersive) => {
+                    setIsImmersive(true);
+                    setUseInternalImmersive(true);
+                  }}
                   // Audio Management
                   isMuted={isMuted}
                   currentSoundId={currentSoundId}
@@ -1229,6 +1237,10 @@ const App: React.FC = () => {
                   // Immersive Mode State
                   isImmersive={isImmersive}
                   setIsImmersive={setIsImmersive}
+                  onInternalImmersiveModeChange={(isInternalImmersive) => {
+                    setIsImmersive(true);
+                    setUseInternalImmersive(true);
+                  }}
                   // Audio Management
                   isMuted={isMuted}
                   currentSoundId={currentSoundId}

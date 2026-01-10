@@ -23,10 +23,10 @@ class SoundManager {
 
   private initSounds(): void {
     const soundList: SoundEffect[] = [
-      { id: 'dice', url: '/audio/sounds/dice.mp3', volume: 0.5 },
-      { id: 'taskComplete', url: '/audio/sounds/task-complete.mp3', volume: 0.5 },
-      { id: 'taskGiveUp', url: '/audio/sounds/task-give-up.mp3', volume: 0.5 },
-      { id: 'purchase', url: '/audio/sounds/purchase.mp3', volume: 0.5 },
+      { id: 'dice', url: './audio/sounds/dice.mp3', volume: 0.5 },
+      { id: 'taskComplete', url: './audio/sounds/task-complete.mp3', volume: 0.5 },
+      { id: 'taskGiveUp', url: './audio/sounds/task-give-up.mp3', volume: 0.5 },
+      { id: 'purchase', url: './audio/sounds/purchase.mp3', volume: 0.5 },
     ];
 
     soundList.forEach(sound => {
@@ -36,18 +36,18 @@ class SoundManager {
 
   private initBackgroundMusic(): void {
     const bgmList: SoundEffect[] = [
-      { id: 'forest', url: '/audio/bgm/forest.mp3', volume: 0.3, loop: true },
-      { id: 'alpha', url: '/audio/bgm/alpha.mp3', volume: 0.3, loop: true },
-      { id: 'theta', url: '/audio/bgm/theta.mp3', volume: 0.3, loop: true },
-      { id: 'beta', url: '/audio/bgm/beta.mp3', volume: 0.3, loop: true },
-      { id: 'ocean', url: '/audio/bgm/ocean.mp3', volume: 0.3, loop: true },
-      { id: 'rain', url: '/audio/bgm/rain.mp3', volume: 0.3, loop: true },
-      { id: 'night', url: '/audio/bgm/night.mp3', volume: 0.3, loop: true },
-      { id: 'white-noise', url: '/audio/bgm/white-noise.mp3', volume: 0.3, loop: true },
-      { id: 'pink-noise', url: '/audio/bgm/pink-noise.mp3', volume: 0.3, loop: true },
-      { id: 'brown-noise', url: '/audio/bgm/brown-noise.mp3', volume: 0.3, loop: true },
-      { id: 'cafe', url: '/audio/bgm/cafe.mp3', volume: 0.3, loop: true },
-      { id: 'fireplace', url: '/audio/bgm/fireplace.mp3', volume: 0.3, loop: true },
+      { id: 'forest', url: './audio/bgm/forest.mp3', volume: 0.3, loop: true },
+      { id: 'alpha', url: './audio/bgm/alpha.mp3', volume: 0.3, loop: true },
+      { id: 'theta', url: './audio/bgm/theta.mp3', volume: 0.3, loop: true },
+      { id: 'beta', url: './audio/bgm/beta.mp3', volume: 0.3, loop: true },
+      { id: 'ocean', url: './audio/bgm/ocean.mp3', volume: 0.3, loop: true },
+      { id: 'rain', url: './audio/bgm/rain.mp3', volume: 0.3, loop: true },
+      { id: 'night', url: './audio/bgm/night.mp3', volume: 0.3, loop: true },
+      { id: 'white-noise', url: './audio/bgm/white-noise.mp3', volume: 0.3, loop: true },
+      { id: 'pink-noise', url: './audio/bgm/pink-noise.mp3', volume: 0.3, loop: true },
+      { id: 'brown-noise', url: './audio/bgm/brown-noise.mp3', volume: 0.3, loop: true },
+      { id: 'cafe', url: './audio/bgm/cafe.mp3', volume: 0.3, loop: true },
+      { id: 'fireplace', url: './audio/bgm/fireplace.mp3', volume: 0.3, loop: true },
     ];
 
     bgmList.forEach(bgm => {

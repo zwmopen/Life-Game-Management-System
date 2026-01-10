@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Theme } from '../../types';
+import soundManager from '../../utils/soundManager';
 
 interface InternalImmersivePomodoroProps {
   theme: Theme;
@@ -20,6 +21,7 @@ interface InternalImmersivePomodoroProps {
 }
 
 const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
+  theme,
   onExitImmersive,
   totalPlants: initialTotalPlants,
   todayPlants: initialTodayPlants,
@@ -47,10 +49,9 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
   const [isEditingPreset, setIsEditingPreset] = useState(false);
   const [editingValue, setEditingValue] = useState('');
   const [editingPresetId, setEditingPresetId] = useState<number | null>(null);
-  const [totalPlants, setTotalPlants] = useState(initialTotalPlants);
-  const [todayPlants, setTodayPlants] = useState(initialTodayPlants);
+  const [totalPlants, setTotalPlants] = useState(initialTotalPlants || 20);
+  const [todayPlants, setTodayPlants] = useState(initialTodayPlants || 0);
   const [localCurrentSoundId, setLocalCurrentSoundId] = useState(currentSoundId); // 本地音效ID状态
-  const audioRef = useRef<HTMLAudioElement | null>(null);
   const totalPlantsRef = useRef<HTMLDivElement>(null);
   const todayPlantsRef = useRef<HTMLDivElement>(null);
   
@@ -85,11 +86,11 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
   // 音效数据
   const SOUNDS = {
     mute: '',
-    forest: '/audio/bgm/forest.mp3', // 迷雾森林
-    alpha: '/audio/bgm/alpha.mp3', // 阿尔法波
-    theta: '/audio/bgm/theta.mp3', // 希塔波
-    beta: '/audio/bgm/beta.mp3', // 贝塔波
-    ocean: '/audio/bgm/ocean.mp3', // 海浪声
+    forest: './audio/bgm/forest.mp3', // 迷雾森林
+    alpha: './audio/bgm/alpha.mp3', // 阿尔法波
+    theta: './audio/bgm/theta.mp3', // 希塔波
+    beta: './audio/bgm/beta.mp3', // 贝塔波
+    ocean: './audio/bgm/ocean.mp3', // 海浪声
     none: ''
   };
 
@@ -129,14 +130,68 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           (canvasContainerRef.current as any)._previewMesh = previewMesh;
           (canvasContainerRef.current as any)._createPlant = createPlant;
           (canvasContainerRef.current as any)._createAnimal = createAnimal;
+          (canvasContainerRef.current as any)._updateSceneColors = updateSceneColors; // 添加主题更新方法
         };
 
+        // 根据主题获取颜色
+        const getThemeColors = () => {
+          if (theme === 'dark') {
+            return {
+              bgColor: 0x1a1a2e,
+              groundColor: 0x33334d,
+              grassColor: 0x2d3748,
+              neuBgColor: 0x2d3748
+            };
+          } else {
+            return {
+              bgColor: 0xe0e5ec,
+              groundColor: 0x795548,
+              grassColor: 0x8bc34a,
+              neuBgColor: 0xe0e5ec
+            };
+          }
+        };
+        
+        // 更新场景颜色
+        const updateSceneColors = () => {
+          const colors = getThemeColors();
+          scene.background = new THREE.Color(colors.bgColor);
+          scene.fog = new THREE.Fog(colors.bgColor, 60, 160);
+          
+          // 更新地面材质
+          if (ground) {
+            const materials = Array.isArray(ground.material) ? ground.material : [ground.material];
+            materials.forEach(material => {
+              if (material instanceof THREE.MeshStandardMaterial) {
+                material.color.set(colors.groundColor);
+                material.needsUpdate = true;
+              }
+            });
+          }
+          
+          // 更新草地材质
+          if (ground && ground.children.length > 0) {
+            ground.children.forEach(child => {
+              if (child instanceof THREE.Mesh) {
+                const materials = Array.isArray(child.material) ? child.material : [child.material];
+                materials.forEach(material => {
+                  if (material instanceof THREE.MeshStandardMaterial) {
+                    material.color.set(colors.grassColor);
+                    material.needsUpdate = true;
+                  }
+                });
+              }
+            });
+          }
+        };
+        
         // 初始化场景
         const init = () => {
           // 1. 场景
           scene = new THREE.Scene();
-          scene.background = new THREE.Color(NEU_BG_COLOR);
-          scene.fog = new THREE.Fog(NEU_BG_COLOR, 60, 160);
+          const colors = getThemeColors();
+          scene.background = new THREE.Color(colors.bgColor);
+          scene.fog = new THREE.Fog(colors.bgColor, 60, 160);
 
           camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
           camera.position.set(0, 50, 80);
@@ -199,9 +254,11 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             64               // 分段数，越高越圆
           );
           
-          // 使用更自然的地面材质
+          const colors = getThemeColors();
+          
+          // 使用更自然的地面材质，根据主题变化
           const groundMaterial = new THREE.MeshStandardMaterial({
-            color: 0x795548, // 棕色土地
+            color: colors.groundColor,
             roughness: 0.9,
             metalness: 0.1,
             side: THREE.DoubleSide
@@ -215,7 +272,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           // 在地面上添加一层草地，使用稍微高一点的位置避免Z-fighting
           const grassGeometry = new THREE.CircleGeometry(GROUND_SIZE / 2 - 0.5, 64);
           const grassMaterial = new THREE.MeshStandardMaterial({
-            color: 0x8bc34a,
+            color: colors.grassColor,
             roughness: 0.8,
             metalness: 0.1,
             side: THREE.DoubleSide
@@ -243,17 +300,70 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           tomatoMesh.visible = false;
         };
 
+        // 检查位置是否与现有实体重叠
+        const checkPositionValidity = (x: number, z: number, entitySize: number = 2): boolean => {
+          // 检查是否在大陆范围内
+          const distanceFromCenter = Math.sqrt(x * x + z * z);
+          if (distanceFromCenter > GROUND_SIZE / 2 - entitySize) {
+            return false;
+          }
+          
+          // 检查是否与现有实体重叠
+          for (const entity of entities) {
+            if (entity && entity.position) {
+              const dx = x - entity.position.x;
+              const dz = z - entity.position.z;
+              const distance = Math.sqrt(dx * dx + dz * dz);
+              if (distance < entitySize * 2) {
+                return false;
+              }
+            }
+          }
+          return true;
+        };
+        
+        // 生成有效的随机位置
+        const generateValidPosition = (entitySize: number = 2): { x: number; z: number } => {
+          const maxAttempts = 100;
+          let attempts = 0;
+          
+          while (attempts < maxAttempts) {
+            attempts++;
+            // 避免大陆中心区域（中心半径20范围内）
+            const centerAvoidanceRadius = 20;
+            const angle = Math.random() * Math.PI * 2;
+            const radius = centerAvoidanceRadius + Math.random() * (GROUND_SIZE * 0.5 - centerAvoidanceRadius);
+            const x = Math.cos(angle) * radius;
+            const z = Math.sin(angle) * radius;
+            
+            if (checkPositionValidity(x, z, entitySize)) {
+              return { x, z };
+            }
+          }
+          
+          // 如果多次尝试失败，返回一个默认位置
+          const defaultAngle = Math.random() * Math.PI * 2;
+          const defaultRadius = centerAvoidanceRadius + Math.random() * (GROUND_SIZE * 0.5 - centerAvoidanceRadius);
+          return {
+            x: Math.cos(defaultAngle) * defaultRadius,
+            z: Math.sin(defaultAngle) * defaultRadius
+          };
+        };
+        
         // 初始化生态系统：根据count参数创建指定数量的模型
         const initRandomEcosystem = (count: number) => {
           // 重置实体数组
           entities = [];
           
-          // 清除场景中所有非基础对象（保留地面、番茄、预览模型）
+          // 清除场景中所有非基础对象（只保留地面、番茄）
           scene.children.forEach(child => {
-            if (child !== ground && child !== tomatoMesh && child !== previewMesh) {
+            if (child !== ground && child !== tomatoMesh) {
               scene.remove(child);
             }
           });
+          
+          // 重置预览模型引用
+          previewMesh = null;
           
           // 获取所有可用物种
           const allSpecies = [...SPECIES.plants, ...SPECIES.animals];
@@ -264,12 +374,9 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             // 随机选择一个物种
             const randomSpecies = allSpecies[Math.floor(Math.random() * allSpecies.length)];
             
-            // 随机位置，避免重叠，并且确保不会出现在大陆中心区域（中心半径20范围内）
-            const centerAvoidanceRadius = 20; // 中心避让半径
-            const angle = Math.random() * Math.PI * 2;
-            const radius = centerAvoidanceRadius + Math.random() * (GROUND_SIZE * 0.5 - centerAvoidanceRadius);
-            const x = Math.cos(angle) * radius;
-            const z = Math.sin(angle) * radius;
+            // 生成有效的随机位置，避免重叠
+            const entitySize = 2; // 实体大小，用于碰撞检测
+            const { x, z } = generateValidPosition(entitySize);
             
             const entity = createEntity(randomSpecies.id, x, z);
             
@@ -279,9 +386,79 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
               if (isAnimal) {
                 entity.userData.isAnimal = true;
                 entity.userData.originalPosition = { x: entity.position.x, y: entity.position.y, z: entity.position.z };
-                entity.userData.speed = 0.02 + Math.random() * 0.03;
+                // 直接设置物种ID，避免动画循环中动态推断
+                entity.userData.speciesId = randomSpecies.id;
+                
+                // 根据动物类型设置不同的运动参数
+                let speed, movementRadius, jumpHeight;
+                switch(randomSpecies.id) {
+                  case 'rabbit': // 兔子 - 慢速，小范围跳跃，更自然的运动
+                    speed = 0.008 + Math.random() * 0.01; // 更慢的速度
+                    movementRadius = 2 + Math.random() * 2; // 更小的移动范围
+                    jumpHeight = 0.15; // 更自然的跳跃高度
+                    break;
+                  case 'fox': // 狐狸 - 中速，中等范围移动
+                    speed = 0.015 + Math.random() * 0.02;
+                    movementRadius = 4 + Math.random() * 3;
+                    jumpHeight = 0.15;
+                    break;
+                  case 'panda': // 熊猫 - 慢速，小范围移动
+                    speed = 0.008 + Math.random() * 0.01;
+                    movementRadius = 2 + Math.random() * 2;
+                    jumpHeight = 0.1;
+                    break;
+                  case 'pig': // 小猪 - 慢速，中等范围移动
+                    speed = 0.01 + Math.random() * 0.015;
+                    movementRadius = 3 + Math.random() * 3;
+                    jumpHeight = 0.1;
+                    break;
+                  case 'chick': // 小鸡 - 快速，小范围跳跃
+                    speed = 0.02 + Math.random() * 0.02;
+                    movementRadius = 2 + Math.random() * 2;
+                    jumpHeight = 0.15;
+                    break;
+                  case 'penguin': // 企鹅 - 中速，小范围移动
+                    speed = 0.012 + Math.random() * 0.01;
+                    movementRadius = 3 + Math.random() * 2;
+                    jumpHeight = 0.05;
+                    break;
+                  case 'frog': // 青蛙 - 中速，跳跃较高
+                    speed = 0.015 + Math.random() * 0.015;
+                    movementRadius = 4 + Math.random() * 3;
+                    jumpHeight = 0.4;
+                    break;
+                  case 'sheep': // 绵羊 - 慢速，中等范围移动
+                    speed = 0.009 + Math.random() * 0.012;
+                    movementRadius = 3 + Math.random() * 3;
+                    jumpHeight = 0.1;
+                    break;
+                  case 'bear': // 棕熊 - 慢速，小范围移动
+                    speed = 0.007 + Math.random() * 0.01;
+                    movementRadius = 2 + Math.random() * 2;
+                    jumpHeight = 0.08;
+                    break;
+                  case 'bee': // 蜜蜂 - 快速，大范围移动
+                    speed = 0.03 + Math.random() * 0.03;
+                    movementRadius = 6 + Math.random() * 4;
+                    jumpHeight = 0.5;
+                    break;
+                  default:
+                    speed = 0.015 + Math.random() * 0.02;
+                    movementRadius = 4 + Math.random() * 3;
+                    jumpHeight = 0.2;
+                }
+                
+                entity.userData.speed = speed;
                 entity.userData.angle = Math.random() * Math.PI * 2;
                 entity.userData.waveOffset = Math.random() * Math.PI * 2;
+                entity.userData.movementRadius = movementRadius;
+                entity.userData.jumpHeight = jumpHeight;
+                
+                // 为兔子初始化方向变化相关属性
+                if (randomSpecies.id === 'rabbit') {
+                  entity.userData.directionChangeTimer = 0;
+                  entity.userData.targetAngle = entity.userData.angle;
+                }
               }
             }
           }
@@ -679,11 +856,42 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
         const createEntity = (type: string, x: number, z: number) => {
           let mesh: any;
           
+          // 定义本地的物种数据，避免闭包问题
+          const localSpecies = {
+            plants: [
+              { id: 'pine', name: '松树', icon: '🌲' },
+              { id: 'oak', name: '橡树', icon: '🌳' },
+              { id: 'cherry', name: '樱花', icon: '🌸' },
+              { id: 'willow', name: '垂柳', icon: '🌿' },
+              { id: 'bamboo', name: '竹子', icon: '🎋' },
+              { id: 'palm', name: '椰树', icon: '🌴' },
+              { id: 'cactus', name: '仙人掌', icon: '🌵' },
+              { id: 'mushroom', name: '巨菇', icon: '🍄' },
+              { id: 'sunflower', name: '向日葵', icon: '🌻' },
+              { id: 'birch', name: '白桦', icon: '🪵' }
+            ],
+            animals: [
+              { id: 'rabbit', name: '白兔', icon: '🐰' },
+              { id: 'fox', name: '赤狐', icon: '🦊' },
+              { id: 'panda', name: '熊猫', icon: '🐼' },
+              { id: 'pig', name: '小猪', icon: '🐷' },
+              { id: 'chick', name: '小鸡', icon: '🐤' },
+              { id: 'penguin', name: '企鹅', icon: '🐧' },
+              { id: 'frog', name: '青蛙', icon: '🐸' },
+              { id: 'sheep', name: '绵羊', icon: '🐑' },
+              { id: 'bear', name: '棕熊', icon: '🐻' },
+              { id: 'bee', name: '蜜蜂', icon: '🐝' }
+            ]
+          };
+          
           // 根据类型创建不同的实体
-          if (SPECIES.plants.find(p => p.id === type)) {
+          if (localSpecies.plants.some(p => p.id === type)) {
             mesh = createPlant(type);
-          } else {
+          } else if (localSpecies.animals.some(a => a.id === type)) {
             mesh = createAnimal(type);
+          } else {
+            // 默认创建松树
+            mesh = createPlant('pine');
           }
 
           // 设置位置，确保所有模型底部与地面贴合（地面顶部在y=2.5处）
@@ -708,56 +916,62 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
 
         // 更新预览 - 使用精致模型，直接显示在大陆中心
         const updatePreview = (type: string) => {
-          // 移除旧的预览模型（通过名称查找，避免闭包问题）
-          const oldPreviewMesh = scene.getObjectByName('previewMesh');
-          if (oldPreviewMesh) {
-            scene.remove(oldPreviewMesh);
-          }
+          // 移除场景中所有名为'previewMesh'的对象，确保彻底清理
+          scene.traverse((object) => {
+            if (object.name === 'previewMesh') {
+              if (object.parent) {
+                object.parent.remove(object);
+              }
+            }
+          });
           
-          // 检查番茄模型是否可见（判断是否处于专注状态）
+          // 获取番茄模型，检查是否处于专注模式
           const tomatoMesh = scene.getObjectByName('tomatoMesh');
           const isFocusMode = tomatoMesh && tomatoMesh.visible;
           
           let newPreviewMesh: any;
           
-          // 使用与createEntity相同的精致模型创建函数
-          if (SPECIES.plants.find(p => p.id === type)) {
-            newPreviewMesh = createPlant(type);
-          } else {
-            newPreviewMesh = createAnimal(type);
-          }
-
-          previewMesh = newPreviewMesh;
-          previewMesh.name = 'previewMesh'; // 添加名称，方便查找
-          
-          // 无论是否处于专注模式，都将预览模型显示在大陆中心
-          if (isFocusMode) {
-            // 在专注模式下，更新番茄模型的外观为当前选中的种子
-            if (tomatoMesh) {
-              // 移除番茄模型的子元素
-              while (tomatoMesh.children.length > 0) {
-                tomatoMesh.remove(tomatoMesh.children[0]);
-              }
-              
-              // 将新模型作为番茄模型的子元素
-              newPreviewMesh.position.set(0, 0, 0);
-              newPreviewMesh.scale.set(0.5, 0.5, 0.5);
-              tomatoMesh.add(newPreviewMesh);
+          // 创建新的预览模型
+          try {
+            // 植物类型列表
+            const plantTypes = ['pine', 'oak', 'cherry', 'willow', 'bamboo', 'palm', 'cactus', 'mushroom', 'sunflower', 'birch'];
+            // 动物类型列表
+            const animalTypes = ['rabbit', 'fox', 'panda', 'pig', 'chick', 'penguin', 'frog', 'sheep', 'bear', 'bee'];
+            
+            if (plantTypes.includes(type)) {
+              newPreviewMesh = createPlant(type);
+            } else if (animalTypes.includes(type)) {
+              newPreviewMesh = createAnimal(type);
+            } else {
+              newPreviewMesh = createPlant('pine');
             }
-          } else {
-            // 在非专注模式下，直接显示在大陆中心，不受其他元素影响
-            newPreviewMesh.position.set(0, 3, 0); // 精确位置：大陆圆盘正中心，完全高于地面(地面顶部在y=2.5)
-            newPreviewMesh.castShadow = true;
-            newPreviewMesh.receiveShadow = true;
-            newPreviewMesh.scale.set(2.5, 2.5, 2.5); // 适当放大，确保可见
             
-            // 确保模型位于场景根节点，不受其他元素影响
-            scene.add(newPreviewMesh);
+            // 设置模型名称，方便后续查找和移除
+            newPreviewMesh.name = 'previewMesh';
             
-            // 确保模型在所有其他实体之上
-            newPreviewMesh.renderOrder = 1000; // 设置较高的渲染顺序
-            newPreviewMesh.visible = true; // 确保模型可见
-            newPreviewMesh.matrixAutoUpdate = true; // 确保矩阵自动更新
+            if (isFocusMode) {
+              // 专注模式：将模型作为番茄模型的子元素
+              if (tomatoMesh) {
+                // 清空番茄模型的所有子元素
+                while (tomatoMesh.children.length > 0) {
+                  tomatoMesh.remove(tomatoMesh.children[0]);
+                }
+                
+                newPreviewMesh.position.set(0, 0, 0);
+                newPreviewMesh.scale.set(0.5, 0.5, 0.5);
+                tomatoMesh.add(newPreviewMesh);
+              }
+            } else {
+              // 非专注模式：直接显示在大陆中心
+              newPreviewMesh.position.set(0, 3, 0);
+              newPreviewMesh.scale.set(2.5, 2.5, 2.5);
+              newPreviewMesh.castShadow = true;
+              newPreviewMesh.receiveShadow = true;
+              newPreviewMesh.renderOrder = 1000;
+              scene.add(newPreviewMesh);
+            }
+          } catch (error) {
+            console.error('Error updating preview:', error);
           }
           
           // 更新全局引用
@@ -784,23 +998,97 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
               const originalPos = animal.userData.originalPosition;
               const speed = animal.userData.speed;
               
-              // 更新角度
-              animal.userData.angle += speed;
-              
-              // 计算新位置 - 围绕原始位置小范围移动
-              const movementRadius = 5; // 移动范围半径
-              const x = originalPos.x + Math.cos(animal.userData.angle) * movementRadius;
-              const z = originalPos.z + Math.sin(animal.userData.angle) * movementRadius;
-              
-              // 垂直移动（跳跃效果），确保与地面贴合，底部不低于地面
-              const baseY = Math.max(2.5, originalPos.y); // 确保基础位置与地面贴合
-              const y = baseY + Math.sin(time + animal.userData.waveOffset) * 0.3;
-              
-              // 更新位置
-              animal.position.set(x, y, z);
-              
-              // 旋转动物使其面向移动方向
-              animal.rotation.y = animal.userData.angle + Math.PI / 2;
+              // 兔子特殊处理 - 更自然的跳跃轨迹
+              if (animal.userData.speciesId === 'rabbit' || animal.userData.speciesId === undefined) {
+                // 为所有动物添加物种ID标识
+                if (!animal.userData.speciesId) {
+                  // 从模型类型推断物种ID
+                  const modelType = animal.name ? animal.name.toLowerCase() : '';
+                  animal.userData.speciesId = modelType.includes('rabbit') ? 'rabbit' : 
+                                           modelType.includes('fox') ? 'fox' : 
+                                           modelType.includes('panda') ? 'panda' : 
+                                           modelType.includes('pig') ? 'pig' : 
+                                           modelType.includes('chick') ? 'chick' : 
+                                           modelType.includes('penguin') ? 'penguin' : 
+                                           modelType.includes('frog') ? 'frog' : 
+                                           modelType.includes('sheep') ? 'sheep' : 
+                                           modelType.includes('bear') ? 'bear' : 
+                                           modelType.includes('bee') ? 'bee' : 'unknown';
+                }
+                
+                // 更新角度
+                animal.userData.angle += speed;
+                
+                // 计算新位置 - 围绕原始位置移动，使用动物特定的移动范围
+                const movementRadius = animal.userData.movementRadius || 5; // 使用动物特定的移动范围
+                
+                // 兔子采用更自然的随机游走，而不是完美的圆形轨迹
+                if (animal.userData.speciesId === 'rabbit') {
+                  // 为兔子添加随机方向变化
+                  if (!animal.userData.directionChangeTimer) {
+                    animal.userData.directionChangeTimer = 0;
+                    animal.userData.targetAngle = animal.userData.angle;
+                  }
+                  
+                  // 定期改变方向
+                  animal.userData.directionChangeTimer += speed;
+                  if (animal.userData.directionChangeTimer > 2) {
+                    animal.userData.directionChangeTimer = 0;
+                    // 随机改变方向，范围在当前角度的±30度内
+                    animal.userData.targetAngle = animal.userData.angle + (Math.random() - 0.5) * Math.PI / 3;
+                  }
+                  
+                  // 平滑过渡到目标角度
+                  const angleDiff = animal.userData.targetAngle - animal.userData.angle;
+                  animal.userData.angle += angleDiff * 0.05;
+                  
+                  // 计算新位置，使用更复杂的轨迹
+                  const x = originalPos.x + Math.cos(animal.userData.angle) * movementRadius * Math.sin(time * 0.5);
+                  const z = originalPos.z + Math.sin(animal.userData.angle) * movementRadius * Math.sin(time * 0.3);
+                  
+                  // 垂直移动（跳跃效果），兔子的跳跃更有节奏
+                  const baseY = Math.max(2.5, originalPos.y); // 确保基础位置与地面贴合
+                  const jumpHeight = animal.userData.jumpHeight || 0.2; // 兔子的跳跃高度
+                  // 使用更自然的跳跃曲线，先快后慢
+                  const jumpPhase = (time + animal.userData.waveOffset) % (Math.PI * 2);
+                  const y = baseY + Math.sin(jumpPhase) * jumpHeight;
+                  
+                  // 更新位置
+                  animal.position.set(x, y, z);
+                  
+                  // 旋转动物使其面向移动方向
+                  animal.rotation.y = animal.userData.angle + Math.PI / 2;
+                } else {
+                  // 其他动物保持原有运动逻辑，但优化参数
+                  const x = originalPos.x + Math.cos(animal.userData.angle) * movementRadius;
+                  const z = originalPos.z + Math.sin(animal.userData.angle) * movementRadius;
+                  
+                  // 垂直移动（跳跃效果）
+                  const baseY = Math.max(2.5, originalPos.y);
+                  const jumpHeight = animal.userData.jumpHeight || 0.3;
+                  const y = baseY + Math.sin(time + animal.userData.waveOffset) * jumpHeight;
+                  
+                  // 更新位置
+                  animal.position.set(x, y, z);
+                  
+                  // 旋转动物使其面向移动方向
+                  animal.rotation.y = animal.userData.angle + Math.PI / 2;
+                }
+              } else {
+                // 旧的运动逻辑，为了兼容
+                animal.userData.angle += speed;
+                
+                const movementRadius = animal.userData.movementRadius || 5;
+                const x = originalPos.x + Math.cos(animal.userData.angle) * movementRadius;
+                const z = originalPos.z + Math.sin(animal.userData.angle) * movementRadius;
+                
+                const baseY = Math.max(2.5, originalPos.y);
+                const jumpHeight = animal.userData.jumpHeight || 0.3;
+                const y = baseY + Math.sin(time + animal.userData.waveOffset) * jumpHeight;
+                
+                animal.position.set(x, y, z);
+                animal.rotation.y = animal.userData.angle + Math.PI / 2;
+              }
             }
           });
           
@@ -848,62 +1136,45 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
       }
     }
   }, [totalPlants, isLoaded]);
+  
+  // 当场景初始化完成后，确保生态系统与当前totalPlants同步
+  useEffect(() => {
+    if (canvasContainerRef.current && isLoaded) {
+      const initRandomEcosystem = (canvasContainerRef.current as any)._initRandomEcosystem;
+      if (initRandomEcosystem) {
+        initRandomEcosystem(totalPlants);
+      }
+    }
+  }, [isLoaded, totalPlants]);
+  
+  // 当外部props变化时，同步更新内部状态
+  useEffect(() => {
+    setIsFocusing(isActive);
+    setSecondsRemaining(timeLeft);
+    setCurrentDuration(duration * 60);
+  }, [timeLeft, isActive, duration]);
+  
+  // 当主题变化时，更新3D场景和UI元素
+  useEffect(() => {
+    if (canvasContainerRef.current && isLoaded) {
+      const updateSceneColors = (canvasContainerRef.current as any)._updateSceneColors;
+      if (updateSceneColors) {
+        updateSceneColors();
+      }
+    }
+  }, [theme, isLoaded]);
 
   // 移除重复的useEffect，只保留一个处理currentSeed变化的useEffect
 
-  // 音频管理
+  // 音频管理 - 使用统一的音效管理库
   useEffect(() => {
-    let audioSrc = '';
-    let targetSoundId = localCurrentSoundId;
-    
-    // 无论是否处于专注状态，都设置音频源
-    if (targetSoundId !== 'mute') {
-      audioSrc = SOUNDS[targetSoundId as keyof typeof SOUNDS] || '';
-    }
-    
-    // If no audio source (mute), don't create audio object
-    if (!audioSrc) {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current.src = '';
-        audioRef.current = null;
-      }
-      return;
-    }
-
-    // Create new Audio object if needed
-    let newAudio = audioRef.current;
-    if (!newAudio || newAudio.src !== audioSrc) {
-      if (newAudio) {
-        newAudio.pause();
-        newAudio.src = '';
-      }
-      newAudio = new Audio(audioSrc);
-      newAudio.loop = true;
-      newAudio.volume = 0.3;
-      audioRef.current = newAudio;
-      
-      // 立即播放音频，无论是否处于专注状态
-      newAudio.play().catch((error) => {
-        console.log('Audio play failed, possibly due to browser autoplay policy:', error);
-      });
-    }
-    
-    // 总是尝试播放音频，除非是静音状态
-    if (targetSoundId !== 'mute') {
-      newAudio.play().catch((error) => {
-        console.log('Audio play failed, possibly due to browser autoplay policy:', error);
-      });
+    if (localCurrentSoundId === 'mute') {
+      // 停止所有背景音乐
+      soundManager.stopCurrentBackgroundMusic();
     } else {
-      newAudio.pause();
+      // 播放对应的背景音乐
+      soundManager.playBackgroundMusic(localCurrentSoundId);
     }
-    
-    return () => {
-      if (newAudio) {
-        newAudio.pause();
-        newAudio.src = '';
-      }
-    };
   }, [localCurrentSoundId]);
   
   // 移除重复的音频源变化处理useEffect，合并到上面的主逻辑中
@@ -1266,14 +1537,11 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-[#e0e5ec] flex flex-col">
+    <div className={`fixed inset-0 z-50 flex flex-col ${theme === 'dark' ? 'bg-[#1a1a2e] text-white' : 'bg-[#e0e5ec] text-gray-800'}`}>
       {/* 主容器 - 直接显示，无加载状态 */}
       <div ref={containerRef} className="relative inset-0">
         {/* Canvas容器 */}
         <div ref={canvasContainerRef} id="canvas-container" className="absolute inset-0"></div>
-        
-        {/* 背景音频 */}
-        <audio ref={audioRef} loop></audio>
         
         {/* 退出按钮 */}
         <div className="exit-btn" id="exitBtn" onClick={onExitImmersive}>✕</div>

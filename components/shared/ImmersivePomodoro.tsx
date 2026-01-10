@@ -28,7 +28,8 @@ const ImmersivePomodoro: React.FC<ImmersivePomodoroProps> = ({
   onUpdateTimeLeft,
   onUpdateIsActive,
   isMuted,
-  currentSoundId
+  currentSoundId,
+  theme
 }) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [isIframeLoaded, setIsIframeLoaded] = useState(false);
@@ -74,7 +75,7 @@ const ImmersivePomodoro: React.FC<ImmersivePomodoroProps> = ({
       const durationInSeconds = safeDuration * 60;
       const timeLeftSeconds = typeof timeLeft === 'number' ? timeLeft : durationInSeconds;
       
-      iframeRef.current.src = `/immersive-pomodoro.html?total=${totalPlants}&today=${todayPlants}&timeLeft=${timeLeftSeconds}&isActive=${isActive}&duration=${durationInSeconds}&isMuted=${isMuted}&currentSoundId=${currentSoundId}`;
+      iframeRef.current.src = `/immersive-pomodoro.html?total=${totalPlants}&today=${todayPlants}&timeLeft=${timeLeftSeconds}&isActive=${isActive}&duration=${durationInSeconds}&isMuted=${isMuted}&currentSoundId=${currentSoundId}&theme=${theme}`;
       
       // 监听iframe加载完成事件
       iframeRef.current.onload = () => {
@@ -104,9 +105,10 @@ const ImmersivePomodoro: React.FC<ImmersivePomodoroProps> = ({
       isActive,
       duration: durationInSeconds,
       isMuted,
-      currentSoundId
+      currentSoundId,
+      theme
     });
-  }, [isIframeLoaded, isActive, timeLeft, duration, isMuted, currentSoundId]);
+  }, [isIframeLoaded, isActive, timeLeft, duration, isMuted, currentSoundId, theme]);
 
   return (
     <div className="fixed inset-0 z-50 bg-gradient-to-br from-zinc-900 to-zinc-800 flex items-center justify-center">
