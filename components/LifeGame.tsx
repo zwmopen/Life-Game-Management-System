@@ -687,14 +687,6 @@ const LifeGame: React.FC<LifeGameProps> = ({
       if (characterProfileRef.current) {
           characterProfileRef.current.startTimer(duration);
           onAddFloatingReward(`番茄钟: ${duration}min`, "text-emerald-500");
-          
-          // 启动番茄钟后，进入沉浸式全屏模式
-          if (onInternalImmersiveModeChange) {
-              onInternalImmersiveModeChange(true);
-          } else {
-              // 兼容处理，如果没有内部沉浸式模式，则使用外部模式
-              setIsImmersive(true);
-          }
       } else {
           console.error("Timer ref not attached");
       }
@@ -1614,16 +1606,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                             </button>
                                         )}
                                         <button onClick={() => {
-                                                // 设置番茄钟时长
-                                                onChangeDuration(task.duration || 25);
-                                                // 启动番茄钟
-                                                onToggleTimer();
-                                                // 进入沉浸式全屏模式
-                                                if (onInternalImmersiveModeChange) {
-                                                    onInternalImmersiveModeChange(true);
-                                                } else {
-                                                    setIsImmersive(true);
-                                                }
+                                                handleStartTimer(task.duration || 25);
                                             }} disabled={task.completed || task.isGivenUp} className={`p-3 rounded-full text-white transition-colors group-hover:scale-105 shadow-lg ${isDark ? 'bg-zinc-800 hover:bg-emerald-600' : 'bg-blue-500 hover:bg-blue-600'} disabled:opacity-50 disabled:scale-100`}>
                                                 <Play size={16} fill="currentColor"/>
                                             </button>
@@ -1716,16 +1699,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                                         </button>
                                                         <button onClick={(e) => { 
                                                             e.stopPropagation(); 
-                                                            // 设置番茄钟时长
-                                                            onChangeDuration(st.duration || 25);
-                                                            // 启动番茄钟
-                                                            onToggleTimer();
-                                                            // 进入沉浸式全屏模式
-                                                            if (onInternalImmersiveModeChange) {
-                                                                onInternalImmersiveModeChange(true);
-                                                            } else {
-                                                                setIsImmersive(true);
-                                                            }
+                                                            handleStartTimer(st.duration || 25);
                                                         }} className={`p-2 rounded-full text-white transition-colors hover:scale-110 shadow-lg ${isDark ? 'bg-zinc-800 hover:bg-emerald-600' : 'bg-blue-500 hover:bg-blue-600'} opacity-0 group-hover/sub:opacity-100`}>
                                                             <Play size={16} fill="currentColor"/>
                                                         </button>
@@ -1783,20 +1757,22 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                                     >
                                                         <div className="p-2 sm:p-3 flex items-center gap-2 sm:gap-3">
                                                             <button onClick={() => {
-                                                                // 直接调用 onDiceResult 处理待完成任务
-                                                                // 首先将当前待完成任务设置为 currentResult，并添加生成的奖励信息
-                                                                const taskWithRewards = {
-                                                                    ...taskRecord.task,
-                                                                    _generatedGold: taskRecord.generatedGold,
-                                                                    _generatedXp: taskRecord.generatedXp
-                                                                } as any;
-                                                                onUpdateDiceState && onUpdateDiceState({
-                                                                    currentResult: taskWithRewards
-                                                                });
-                                                                // 延迟调用 onDiceResult，确保状态更新完成
-                                                                setTimeout(() => {
-                                                                    onDiceResult && onDiceResult('completed');
-                                                                }, 0);
+                                                                // 直接标记任务为已完成，不弹出命运的礼物界面
+                                                                if (onUpdateDiceState) {
+                                                                    // 更新待完成任务列表，将当前任务移到已完成任务列表
+                                                                    const updatedPendingTasks = diceState.pendingTasks.filter(t => t.id !== taskRecord.id);
+                                                                    const completedTask = {
+                                                                        ...taskRecord,
+                                                                        status: 'completed' as const,
+                                                                        completedAt: new Date().toISOString()
+                                                                    };
+                                                                    const updatedCompletedTasks = [...diceState.completedTasks, completedTask];
+                                                                    
+                                                                    onUpdateDiceState({
+                                                                        pendingTasks: updatedPendingTasks,
+                                                                        completedTasks: updatedCompletedTasks
+                                                                    });
+                                                                }
                                                             }} className={`w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all shrink-0 ${isDark ? 'border-zinc-600 hover:border-emerald-500 text-transparent' : 'border-slate-300 hover:border-emerald-500 bg-white'}`}>
                                                                 <Check size={16} strokeWidth={4} className="text-transparent hover:text-white transition-colors" />
                                                             </button>
@@ -1816,16 +1792,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                                             </div>
                                                             <div className="flex items-center gap-1 sm:gap-2">
                                                                 <button onClick={() => {
-                                                                    // 直接调用番茄钟功能并进入沉浸式模式
-                                                                    onChangeDuration(taskRecord.task.duration || 25);
-                                                                    onToggleTimer();
-                                                                    // 优先使用内部沉浸式模式回调，确保使用当前的全屏模式
-                                                                    if (onInternalImmersiveModeChange) {
-                                                                        onInternalImmersiveModeChange(true);
-                                                                    } else {
-                                                                        // 兼容处理，如果没有内部沉浸式模式，则使用外部模式
-                                                                        setIsImmersive(true);
-                                                                    }
+                                                                    handleStartTimer(taskRecord.task.duration || 25);
                                                                 }} className={`p-3 rounded-full text-white transition-colors group-hover:scale-105 shadow-lg ${isDark ? 'bg-zinc-800 hover:bg-emerald-600' : 'bg-blue-500 hover:bg-blue-600'}`}>
                                                                     <Play size={16} fill="currentColor"/>
                                                                 </button>

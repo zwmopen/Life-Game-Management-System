@@ -428,6 +428,10 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
             onChangeDuration(minutes);
             onUpdateTimeLeft(minutes * 60);
             onUpdateIsActive(true);
+            // 通知外部组件进入沉浸式模式
+            if (onImmersiveModeChange) {
+                onImmersiveModeChange(true);
+            }
             setIsImmersive(true);
         }
     }));
