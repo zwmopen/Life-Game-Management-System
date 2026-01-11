@@ -120,7 +120,7 @@ const FrostedDiceExample: React.FC<FrostedDiceExampleProps> = ({
               
               {/* 奖励信息 - 磨砂卡片 */}
               <div className="grid grid-cols-3 gap-4 text-center">
-                <div className={`p-4 rounded-lg ${isDark ? 'bg-zinc-800/80 hover:bg-zinc-800' : 'bg-white/80 hover:bg-white'} backdrop-blur-sm transition-all hover:shadow-lg border border-zinc-700/50`}>
+                <div className={`p-4 rounded-lg ${isDark ? 'bg-zinc-800/80 hover:bg-zinc-700/80' : 'bg-white/80 hover:bg-white'} backdrop-blur-sm transition-all hover:shadow-lg border border-zinc-700/50`}>
                   <div className="text-xs text-zinc-500 mb-1">金币</div>
                   <div className="text-lg font-bold text-yellow-500 flex items-center justify-center gap-1">
                     <Coins size={18} />

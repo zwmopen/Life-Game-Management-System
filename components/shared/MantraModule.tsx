@@ -1,6 +1,7 @@
 import React from 'react';
 import { Theme } from '../../types';
-import { List, Edit3, HelpCircle } from 'lucide-react';
+import { List, Edit3 } from 'lucide-react';
+import GlobalHelpCircle from './GlobalHelpCircle';
 
 interface MantraModuleProps {
   theme: Theme;
@@ -19,8 +20,8 @@ const MantraModule: React.FC<MantraModuleProps> = ({
   setIsMantraModalOpen,
   onHelpClick
 }) => {
-  const isDark = theme === 'dark';
-  const isNeomorphic = theme === 'neomorphic';
+  const isDark = theme === 'dark' || theme === 'neomorphic-dark';
+  const isNeomorphic = theme.startsWith('neomorphic');
   const cardBg = isNeomorphic
     ? 'bg-[#e0e5ec] border-[#a3b1c6] rounded-lg shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)] transition-all duration-300'
     : isDark
@@ -42,7 +43,7 @@ const MantraModule: React.FC<MantraModuleProps> = ({
           </span>
         </button>
         <div 
-          className={`text-xs font-bold text-left cursor-pointer select-none hover:text-blue-400 transition-colors truncate relative group ${isDark ? 'text-zinc-300' : 'text-slate-700'}`}
+          className={`text-xs font-bold text-left cursor-pointer select-none hover:text-blue-400 transition-colors truncate relative group ${theme === 'neomorphic-dark' ? 'text-zinc-300' : isNeomorphic ? 'text-zinc-700' : isDark ? 'text-zinc-300' : 'text-slate-700'}`}
           onClick={cycleMantra}
         >
           "{mantras[currentMantraIndex]}"
@@ -51,9 +52,9 @@ const MantraModule: React.FC<MantraModuleProps> = ({
       
       {/* 帮助按钮 */}
       {onHelpClick && (
-        <div className={`p-0.5 rounded-full transition-all duration-300 hover:scale-[1.1] ${isNeomorphic ? 'hover:bg-blue-500/10' : 'hover:bg-blue-500/20'}`} title="查看心法模块指南">
+        <div className={`p-0.5 rounded-full transition-all duration-300 hover:scale-[1.1]`} title="查看心法模块指南">
           <button onClick={() => onHelpClick('mantra')} className="transition-colors">
-            <HelpCircle size={16} className="text-zinc-500 hover:text-white transition-colors" />
+            <GlobalHelpCircle size={14} />
           </button>
         </div>
       )}

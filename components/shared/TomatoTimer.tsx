@@ -1,5 +1,46 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Play, Pause, RotateCcw, VolumeX, Volume2, Maximize2, Sun, Moon, Coffee, Dumbbell, BookOpen, Activity, Waves, CloudRain, Trees, BrainCircuit, HelpCircle } from 'lucide-react';
+import { Play, Pause, RotateCcw, VolumeX, Volume2, Maximize2, Sun, Moon, Coffee, Dumbbell, BookOpen, Activity, Waves, CloudRain, Trees, BrainCircuit } from 'lucide-react';
+
+// 图标映射函数
+const getIconComponentByName = (name: string) => {
+  const lowerName = name.toLowerCase();
+  
+  if (lowerName.includes('forest') || lowerName.includes('woods') || lowerName.includes('trees')) {
+    return Trees;
+  } else if (lowerName.includes('rain') || lowerName.includes('storm') || lowerName.includes('drizzle')) {
+    return CloudRain;
+  } else if (lowerName.includes('ocean') || lowerName.includes('sea') || lowerName.includes('waves')) {
+    return Waves;
+  } else if (lowerName.includes('night') || lowerName.includes('cricket') || lowerName.includes('insects')) {
+    return Moon;
+  } else if (lowerName.includes('cafe') || lowerName.includes('coffee')) {
+    return Coffee;
+  } else if (lowerName.includes('fire') || lowerName.includes('fireplace')) {
+    return Activity;
+  } else if (lowerName.includes('white') && lowerName.includes('noise')) {
+    return BrainCircuit;
+  } else if (lowerName.includes('pink') && lowerName.includes('noise')) {
+    return BrainCircuit;
+  } else if (lowerName.includes('brown') && lowerName.includes('noise')) {
+    return BrainCircuit;
+  } else if (lowerName.includes('alpha')) {
+    return Activity;
+  } else if (lowerName.includes('beta')) {
+    return Activity;
+  } else if (lowerName.includes('theta')) {
+    return Activity;
+  } else if (lowerName.includes('meditation') || lowerName.includes('zen')) {
+    return BrainCircuit;
+  } else if (lowerName.includes('study') || lowerName.includes('focus')) {
+    return BrainCircuit;
+  } else if (lowerName.includes('chill') || lowerName.includes('relax') || lowerName.includes('snow') || lowerName.includes('mountain')) {
+    return Sun; // 使用Sun图标代表放松/雪景/山景
+  } else {
+    // 默认返回Waves图标
+    return Waves;
+  }
+};
+import GlobalHelpCircle from './GlobalHelpCircle';
 import { Theme } from '../../types';
 
 interface Sound {
@@ -26,21 +67,19 @@ interface TomatoTimerProps {
   onHelpClick?: (helpId: string) => void;
 }
 
-// --- SOUNDS ---
-const SOUNDS: Sound[] = [
+// 导入音频管理器
+import audioManager from '../../utils/audioManager';
+import audioStatistics from '../../utils/audioStatistics';
+
+// 定义音频状态类型
+interface AudioState {
+  sounds: Sound[];
+  loading: boolean;
+}
+
+// 在组件外部定义默认音频选项
+const DEFAULT_SOUNDS: Sound[] = [
   { id: 'mute', name: '静音', url: "", icon: VolumeX, color: 'text-zinc-500', hex: '#6b7280' }, // 添加静音选项作为第一个
-  { id: 'forest', name: '迷雾森林', url: "/audio/bgm/forest.mp3", icon: Trees, color: 'text-green-600', hex: '#16a34a' },
-  { id: 'alpha', name: '阿尔法波', url: "/audio/bgm/alpha.mp3", icon: Waves, color: 'text-purple-500', hex: '#a855f7' },
-  { id: 'theta', name: '希塔波', url: "/audio/bgm/theta.mp3", icon: CloudRain, color: 'text-emerald-500', hex: '#10b981' }, 
-  { id: 'beta', name: '贝塔波', url: "/audio/bgm/beta.mp3", icon: BrainCircuit, color: 'text-blue-500', hex: '#3b82f6' },
-  { id: 'ocean', name: '海浪声', url: "/audio/bgm/ocean.mp3", icon: Waves, color: 'text-blue-600', hex: '#2563eb' },
-  { id: 'rain', name: '雨声', url: "/audio/bgm/rain.mp3", icon: CloudRain, color: 'text-gray-500', hex: '#6b7280' },
-  { id: 'night', name: '夏夜虫鸣', url: "/audio/bgm/night.mp3", icon: Moon, color: 'text-indigo-600', hex: '#4f46e5' },
-  { id: 'white-noise', name: '白噪音', url: "/audio/bgm/white-noise.mp3", icon: Coffee, color: 'text-amber-500', hex: '#f59e0b' },
-  { id: 'pink-noise', name: '粉红噪音', url: "/audio/bgm/pink-noise.mp3", icon: Coffee, color: 'text-rose-500', hex: '#ec4899' },
-  { id: 'brown-noise', name: '布朗噪音', url: "/audio/bgm/brown-noise.mp3", icon: Coffee, color: 'text-orange-600', hex: '#ea580c' },
-  { id: 'cafe', name: '咖啡馆环境', url: "/audio/bgm/cafe.mp3", icon: Coffee, color: 'text-amber-600', hex: '#d97706' },
-  { id: 'fireplace', name: '壁炉声', url: "/audio/bgm/fireplace.mp3", icon: Coffee, color: 'text-red-500', hex: '#ef4444' },
 ];
 
 const TomatoTimer: React.FC<TomatoTimerProps> = ({
@@ -62,18 +101,93 @@ const TomatoTimer: React.FC<TomatoTimerProps> = ({
   const [isSoundMenuOpen, setIsSoundMenuOpen] = useState(false);
   // 移除本地isImmersive状态，使用父组件传递的onImmersiveModeChange回调
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
+  const [sounds, setSounds] = useState<Sound[]>(DEFAULT_SOUNDS);
+  const [loading, setLoading] = useState(true);
+  const [initialSoundsLoaded, setInitialSoundsLoaded] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const soundMenuRef = useRef<HTMLDivElement>(null);
 
-  const isDark = theme === 'dark';
-  const isNeomorphic = theme === 'neomorphic';
+  // 点击外部关闭背景音乐面板
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (soundMenuRef.current && !soundMenuRef.current.contains(event.target as Node)) {
+        setIsSoundMenuOpen(false);
+      }
+    };
+
+    if (isSoundMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isSoundMenuOpen]);
+
+  const isDark = theme === 'dark' || theme === 'neomorphic-dark';
+  const isNeomorphic = theme.startsWith('neomorphic');
   const cardBg = isNeomorphic
-    ? 'bg-[#e0e5ec] border-[#a3b1c6] rounded-lg shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)] transition-all duration-300'
+    ? (theme === 'neomorphic-dark'
+      ? 'bg-[#1e1e2e] border-[#1e1e2e] rounded-lg shadow-[10px_10px_20px_rgba(0,0,0,0.4),-10px_-10px_20px_rgba(30,30,46,0.8)] transition-all duration-300'
+      : 'bg-[#e0e5ec] border-[#a3b1c6] rounded-lg shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)] transition-all duration-300')
     : isDark
     ? 'bg-zinc-900 border-zinc-800'
     : 'bg-white border-slate-200';
 
-  const currentSound = SOUNDS.find(s => s.id === currentSoundId) || SOUNDS[0];
+  const currentSound = sounds.find(s => s.id === currentSoundId) || sounds[0];
 
+  // 加载音频文件的函数，提取到组件顶层以便在onClick中调用
+  const loadAudioFiles = async () => {
+    setLoading(true);
+    try {
+      await audioManager.initialize();
+      
+      // 获取所有背景音乐文件，包括番茄钟专用的背景音乐，并去重
+      const allBgMusic = [...audioManager.getBackgroundMusic(), ...audioManager.getCategoryById('pomodoro-bgm')?.files || []];
+      // 使用Map去重，确保每个音频文件只出现一次
+      const uniqueBgmFilesMap = new Map();
+      allBgMusic.forEach(file => {
+        if (!uniqueBgmFilesMap.has(file.id)) {
+          uniqueBgmFilesMap.set(file.id, file);
+        }
+      });
+      const bgmFiles = Array.from(uniqueBgmFilesMap.values());
+      
+      // 第一次加载时按播放次数排序音频文件，后续加载保持当前顺序
+      let sortedBgmFiles = bgmFiles;
+      if (!initialSoundsLoaded) {
+        sortedBgmFiles = audioStatistics.getSortedAudioFiles(bgmFiles);
+        setInitialSoundsLoaded(true);
+      }
+      
+      // 转换为组件所需的格式
+      const convertedSounds: Sound[] = [
+        { id: 'mute', name: '静音', url: "", icon: VolumeX, color: 'text-zinc-500', hex: '#6b7280' },
+        ...sortedBgmFiles.map(file => ({
+          id: file.id,
+          name: file.name,
+          url: file.url,
+          icon: getIconComponentByName(file.name), // 根据文件名获取图标
+          color: 'text-blue-500',
+          hex: '#3b82f6'
+        }))
+      ];
+      
+      setSounds(convertedSounds);
+    } catch (error) {
+      console.error('Failed to load audio files:', error);
+      // 如果加载失败，使用默认音频
+      setSounds(DEFAULT_SOUNDS);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 初始化音频管理器并加载音频文件
+  useEffect(() => {
+    loadAudioFiles();
+  }, []);
+  
   // Current date and time effect
   useEffect(() => {
     const interval = setInterval(() => {
@@ -112,9 +226,14 @@ const TomatoTimer: React.FC<TomatoTimerProps> = ({
     if (isActive) {
       // 如果用户选择了静音，则不播放音乐
       if (targetSoundId !== 'mute') {
-        const targetSound = SOUNDS.find(s => s.id === targetSoundId) || SOUNDS[1];
+        const targetSound = sounds.find(s => s.id === targetSoundId) || sounds[1];
         audioSrc = targetSound.url;
         shouldPlay = true;
+        
+        // �记录音频播放统计
+        if (targetSound.id && targetSound.id !== 'mute') {
+          audioStatistics.recordPlay(targetSound.id);
+        }
       }
     }
     
@@ -196,13 +315,13 @@ const TomatoTimer: React.FC<TomatoTimerProps> = ({
     <div className="flex flex-col gap-2 w-full">
       {/* 番茄钟系统标题 */}
       <div className="flex items-center justify-between">
-        <div className="text-xs text-zinc-500 uppercase font-bold flex items-center gap-1">
+        <div className={`text-xs uppercase font-bold flex items-center gap-1 ${theme === 'neomorphic-dark' ? 'text-zinc-400' : isNeomorphic ? 'text-zinc-600' : isDark ? 'text-zinc-500' : 'text-slate-500'}`}>
           <Coffee size={12}/> 番茄钟系统
         </div>
         {onHelpClick && (
-          <div className={`p-0.5 rounded-full transition-all duration-300 hover:scale-[1.1] ${isNeomorphic ? 'hover:bg-blue-500/10' : 'hover:bg-blue-500/20'}`}>
+          <div className={`p-0.5 rounded-full transition-all duration-300 hover:scale-[1.1]`}>
             <button onClick={() => onHelpClick('pomodoro')} className="transition-colors">
-              <HelpCircle size={16} className="text-zinc-500 hover:text-white transition-colors" />
+              <GlobalHelpCircle size={14} />
             </button>
           </div>
         )}
@@ -210,21 +329,30 @@ const TomatoTimer: React.FC<TomatoTimerProps> = ({
       
       {/* 背景音乐选择菜单 */}
       {isSoundMenuOpen && (
-        <div className={`absolute top-0 right-0 mt-16 mr-2 rounded-xl shadow-lg p-4 backdrop-blur-sm z-50 ${isNeomorphic ? 'bg-[#e0e5ec]/95 border border-slate-300' : isDark ? 'bg-zinc-900/95 border border-zinc-800' : 'bg-white/95 border border-slate-200'}`}>
+        <div 
+          ref={soundMenuRef}
+          className={`absolute top-0 right-0 mt-16 mr-2 rounded-xl p-4 backdrop-blur-sm z-50 ${isNeomorphic ? 'bg-[#e0e5ec] border border-slate-300 shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-900/95 border border-zinc-800' : 'bg-white/95 border border-slate-200 shadow-[10px_10px_20px_rgba(163,177,198,0.4),-10px_-10px_20px_rgba(255,255,255,0.6)]'}`}
+        >
           <div className="flex flex-col gap-2 max-h-60 overflow-y-auto">
-            {SOUNDS.map(sound => {
+            {sounds.map(sound => {
               const IconComponent = sound.icon;
               return (
                 <button 
                   key={sound.id}
                   onClick={() => {
                     setCurrentSoundId(sound.id);
-                    setIsSoundMenuOpen(false);
+                    // 选择音乐时不关闭面板
+                    // setIsSoundMenuOpen(false);
+                    // 记录播放次数，但不重新加载音频文件以避免列表跳动
+                    if (sound.id && sound.id !== 'mute') {
+                      audioStatistics.recordPlay(sound.id);
+                    }
                   }}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${currentSoundId === sound.id ? (isNeomorphic ? 'bg-[#d0d5dc] text-blue-600' : isDark ? 'bg-zinc-800 text-white' : 'bg-blue-50 text-blue-600') : (isNeomorphic ? 'hover:bg-[#d0d5dc]' : isDark ? 'hover:bg-zinc-800 text-zinc-300' : 'hover:bg-slate-100 text-slate-700')}`}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all cursor-pointer ${currentSoundId === sound.id ? (isNeomorphic ? `${isDark ? 'bg-[#3a3f4e] text-blue-300 shadow-[inset_6px_6px_12px_rgba(0,0,0,0.3),inset_-6px_-6px_12px_rgba(58,63,78,0.8)]' : 'bg-[#d0d5dc] text-blue-600 shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(208,213,220,1)]'}` : isDark ? 'bg-zinc-800 text-white' : 'bg-blue-50 text-blue-600') : (isNeomorphic ? `${isDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)] hover:shadow-[12px_12px_24px_rgba(0,0,0,0.4),-12px_-12px_24px_rgba(40,43,52,1)] active:shadow-[inset_8px_8px_16px_rgba(0,0,0,0.4),inset_-8px_-8px_16px_rgba(40,43,52,0.9)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] active:shadow-[inset_8px_8px_16px_rgba(163,177,198,0.6),inset_-8px_-8px_16px_rgba(255,255,255,1)]'} active:scale-[0.98]` : isDark ? 'hover:bg-zinc-700 text-zinc-300' : 'hover:bg-slate-100 text-slate-700')}`}
                 >
+                  <span className="text-[9px] text-zinc-500 w-4">{sounds.findIndex(s => s.id === sound.id) + 1}.</span>
                   <IconComponent size={16} className={sound.color} />
-                  <span className="text-xs font-medium">{sound.name}</span>
+                  <span className={`text-xs font-medium ${theme === 'neomorphic-dark' ? 'text-zinc-300' : isNeomorphic ? 'text-zinc-700' : isDark ? 'text-zinc-300' : 'text-slate-700'}`}>{sound.name}</span>
                 </button>
               );
             })}
@@ -233,18 +361,18 @@ const TomatoTimer: React.FC<TomatoTimerProps> = ({
       )}
       
       {/* 主内容区域：日期时间→计时器→按钮的水平布局 */}
-      <div className="flex items-center gap-3 w-full">
-        {/* 左侧：日期时间周几 */}
-        <div className="text-xs text-zinc-500 flex-shrink-0">
-          <div>{formatDate(currentDateTime)}</div>
-          <div>{formatCurrentTime(currentDateTime)} {getWeekday(currentDateTime)}</div>
+      <div className="flex flex-col sm:flex-row items-center gap-3 w-full">
+        {/* 左侧：日期时间周几 - 在小屏幕上移到顶部 */}
+        <div className="text-xs text-zinc-500 flex-shrink flex-grow-0 min-w-0 sm:text-right w-full sm:w-auto">
+          <div className={`truncate ${theme === 'neomorphic-dark' ? 'text-zinc-300' : isNeomorphic ? 'text-zinc-600' : isDark ? 'text-zinc-400' : 'text-slate-600'}`}>{formatDate(currentDateTime)}</div>
+          <div className={`truncate ${theme === 'neomorphic-dark' ? 'text-zinc-300' : isNeomorphic ? 'text-zinc-600' : isDark ? 'text-zinc-400' : 'text-slate-600'}`}>{formatCurrentTime(currentDateTime)} {getWeekday(currentDateTime)}</div>
         </div>
         
-        {/* 中间：圆形计时器 */}
-        <div className="flex-shrink-0">
+        {/* 中间：圆形计时器 - 在小屏幕上居中放置 */}
+        <div className="flex-shrink flex-grow min-w-0 flex items-center justify-center w-full sm:w-auto">
           {/* Circular Timer */}
-          <div className={`relative flex items-center justify-center p-2 rounded-full transition-all duration-300 hover:scale-105 ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)]' : 'hover:bg-white/5'}`}>
-            <svg width={90} height={90} viewBox="0 0 100 100">
+          <div className={`relative flex items-center justify-center p-2 rounded-full transition-all duration-300 hover:scale-105 aspect-square max-w-[90px] w-full h-full ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)]' : 'hover:bg-white/5'}`}>
+            <svg width="100%" height="100%" viewBox="0 0 100 100" className="w-full h-full max-w-[90px] max-h-[90px] object-contain">
               {/* Background circle - 进一步扩大半径，更接近边缘 */}
               <circle
                 cx="50"
@@ -271,24 +399,23 @@ const TomatoTimer: React.FC<TomatoTimerProps> = ({
             </svg>
             {/* Timer display */}
             <div className={`absolute flex flex-col items-center`}>
-              <div className={`text-lg font-mono font-bold ${isDark ? 'text-white' : 'text-slate-800'} tabular-nums`}>
+              <div className={`text-lg font-mono font-bold ${isDark || isNeomorphic ? 'text-white' : 'text-slate-800'} tabular-nums`}>
                 {formatTime(timeLeft)}
               </div>
             </div>
           </div>
         </div>
         
-        {/* 右侧：按钮区域 - 优化按钮大小 */}
-        <div className="flex flex-col items-end gap-1 flex-1">
+        {/* 右侧：按钮区域 - 在小屏幕上移到底部 */}
+        <div className="flex flex-col items-center sm:items-end gap-1 flex-1 min-w-0 w-full sm:w-auto">
           {/* 播放/全屏按钮 */}
-          <div className="flex gap-1.5">
+          <div className="flex gap-1.5 justify-center sm:justify-end w-full sm:w-auto">
             {/* Play/pause button */}
             <button
               onClick={onToggleTimer}
               className={`p-2.5 rounded-full transition-all duration-300 hover:scale-105 active:scale-95 ${isNeomorphic
-                ? `bg-[#e0e5ec] border border-slate-300 shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] hover:shadow-[2px_2px_4px_rgba(163,177,198,0.6),-2px_-2px_4px_rgba(255,255,255,1)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] ${isActive ? 'text-red-500' : 'text-orange-500'}`
-                : `${isActive ? 'bg-red-500/20 text-red-500 hover:bg-red-500/30' : 'bg-orange-500/20 text-orange-500 hover:bg-orange-500/30'}`}`}
-            >
+                ? `bg-[#e0e5ec] border border-slate-300 shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] hover:shadow-[5px_5px_10px_rgba(163,177,198,0.7),-5px_-5px_10px_rgba(255,255,255,1)] active:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] ${isActive ? 'text-red-500' : 'text-orange-500'} `
+                : `${isActive ? 'bg-red-500/20 text-red-500 hover:bg-red-500/30' : 'bg-orange-500/20 text-orange-500 hover:bg-orange-500/30'}`}`}>
               {isActive ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" />}
             </button>
             
@@ -303,37 +430,36 @@ const TomatoTimer: React.FC<TomatoTimerProps> = ({
                   onImmersiveModeChange(true);
                 }
               }}
-              className={`p-2.5 rounded-full transition-all duration-300 hover:scale-105 active:scale-95 ${isNeomorphic ? 'bg-[#e0e5ec] border border-slate-300 shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] hover:shadow-[2px_2px_4px_rgba(163,177,198,0.6),-2px_-2px_4px_rgba(255,255,255,1)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] text-zinc-600' : 'text-zinc-500 hover:text-blue-400 hover:bg-white/10'}`}
+              className={`p-2.5 rounded-full transition-all duration-300 hover:scale-105 active:scale-95 ${isNeomorphic ? 'bg-[#e0e5ec] border border-slate-300 shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] hover:shadow-[5px_5px_10px_rgba(163,177,198,0.7),-5px_-5px_10px_rgba(255,255,255,1)] active:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] text-zinc-600' : 'text-zinc-500 hover:text-blue-400 hover:bg-white/10'}`}
               title="全屏模式"
             >
               <Maximize2 size={18} />
             </button>
             
-            {/* 背景音乐切换按钮 */}
+            {/* 选择背景音乐按钮 */}
             <button 
               onClick={() => setIsSoundMenuOpen(!isSoundMenuOpen)} 
-              className={`p-2.5 rounded-full transition-all duration-300 hover:scale-105 ${isNeomorphic 
-                ? 'bg-[#e0e5ec] border border-slate-300 shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] hover:shadow-[2px_2px_4px_rgba(163,177,198,0.6),-2px_-2px_4px_rgba(255,255,255,1)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] text-zinc-600' 
+              className={`p-2.5 rounded-full transition-all duration-300 hover:scale-105 active:scale-95 ${isNeomorphic 
+                ? 'bg-[#e0e5ec] border border-slate-300 shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] hover:shadow-[5px_5px_10px_rgba(163,177,198,0.7),-5px_-5px_10px_rgba(255,255,255,1)] active:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] text-zinc-600' 
                 : 'text-zinc-500 hover:text-blue-400 hover:bg-white/10'}`}
-              title={currentSoundId === 'mute' ? '开启音效' : '切换音效'}
+              title="选择背景音乐"
             >
               {currentSoundId === 'mute' ? <VolumeX size={18} /> : <Waves size={18} />}
             </button>
           </div>
           
-          {/* 预设时间按钮：加回60分钟 - 缩小按钮 */}
-          <div className="flex gap-1">
+          {/* 预设时间按钮：加回60分钟 - 圆形拟态风格 */}
+          <div className="flex gap-1 justify-center sm:justify-end flex-wrap w-full sm:w-auto">
             {[25, 45, 60].map(m => (
               <button key={m}
                 onClick={() => onChangeDuration(m)}
-                className={`text-xs px-2.5 py-1 rounded-lg border transition-all duration-300 hover:scale-105 ${isNeomorphic
-                  ? `bg-[#e0e5ec] border border-slate-300 shadow-[2px_2px_4px_rgba(163,177,198,0.6),-2px_-2px_4px_rgba(255,255,255,1)] hover:shadow-[1px_1px_2px_rgba(163,177,198,0.6),-1px_-1px_2px_rgba(255,255,255,1)] active:shadow-[inset_1px_1px_2px_rgba(163,177,198,0.6),inset_-1px_-1px_2px_rgba(255,255,255,1)] ${duration === m ? 'text-blue-600 font-bold' : 'text-zinc-600'}`
+                className={`w-8 h-8 flex items-center justify-center rounded-full border transition-all duration-300 hover:scale-105 ${isNeomorphic
+                  ? `bg-[#e0e5ec] border border-slate-300 shadow-[2px_2px_4px_rgba(163,177,198,0.6),-2px_-2px_4px_rgba(255,255,255,1)] hover:shadow-[4px_4px_8px_rgba(163,177,198,0.7),-4px_-4px_8px_rgba(255,255,255,1)] active:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] ${duration === m ? 'text-blue-600 font-bold' : 'text-zinc-600'} `
                   : duration === m ?
                     (isDark ? 'bg-zinc-700 text-white border-zinc-600' : 'bg-blue-600 text-white border-blue-500') :
-                    (isDark ? 'text-zinc-500 border-zinc-700 hover:text-zinc-300 hover:bg-zinc-800' : 'text-slate-600 border-slate-300 hover:text-slate-800 hover:bg-slate-100')
-                }`}
-              >
-                {m}'
+                    (isDark ? 'text-zinc-500 border-zinc-700 hover:text-zinc-300 hover:bg-zinc-700' : 'text-slate-600 border-slate-300 hover:text-slate-800 hover:bg-slate-100')
+                }`}>
+                {m}
               </button>
             ))}
           </div>

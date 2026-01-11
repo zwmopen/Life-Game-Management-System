@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MouseEvent } from 'react';
 import { X } from 'lucide-react';
 
 interface HelpContent {
@@ -69,9 +69,20 @@ const GlobalGuideCard: React.FC<GlobalGuideCardProps> = ({
     }
   };
 
+  // 检查是否是拟态深色模式，如果是则移除可能的边框类
+  const adjustedCardBg = cardBg.includes('neomorphic-dark') || cardBg.includes('[#1e1e2e]') 
+    ? cardBg.replace(/\bborder-\w+\/\w+\b/g, '').replace(/border/g, '')
+    : cardBg;
+
+  const handleBackdropClick = (e: MouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
   return (
-    <div className="fixed inset-0 z-[9999] bg-black/30 flex items-center justify-center p-4 animate-in fade-in">
-      <div className={`w-full max-w-md p-6 ${getBorderRadiusClass()} ${cardBg} ${getShadowClass()} relative`}>
+    <div className="fixed inset-0 z-[9999] bg-black/30 flex items-center justify-center p-4 sm:p-6 backdrop-blur-sm animate-in fade-in" onClick={handleBackdropClick}>
+      <div className={`w-full max-w-3xl max-h-[90vh] overflow-y-auto p-6 ${getBorderRadiusClass()} ${adjustedCardBg} ${getShadowClass()} relative ${config.borderRadius === 'large' ? 'sm:rounded-[48px]' : ''}`}>
         <button 
           onClick={onClose} 
           className="absolute top-4 right-4 text-zinc-500 hover:text-white transition-colors"
@@ -80,11 +91,11 @@ const GlobalGuideCard: React.FC<GlobalGuideCardProps> = ({
         </button>
         <div className="space-y-6">
           <div className="flex justify-between items-center">
-            <h3 className={`text-xl font-black ${textMain} flex items-center gap-2`}>
+            <h3 className={`text-lg sm:text-xl font-black ${textMain} flex items-center gap-2`}>
               {content.icon}
               {content.title}
             </h3>
-            <div className={`text-xs ${textSub}`}>
+            <div className={`text-xs sm:text-sm ${textSub}`}>
               更新时间: {content.updateTime}
             </div>
           </div>
@@ -96,6 +107,16 @@ const GlobalGuideCard: React.FC<GlobalGuideCardProps> = ({
               {content.productIntro}
             </div>
           </div>
+          
+          {/* 底层原理 - 根据配置决定是否显示 */}
+          {config.showUnderlyingPrinciple && (
+            <div className="space-y-2">
+              <h4 className={`text-lg font-semibold ${textMain}`}>底层原理</h4>
+              <div className={`${getFontSizeClass()} ${textSub} leading-relaxed`}>
+                {content.underlyingPrinciple}
+              </div>
+            </div>
+          )}
           
           {/* 核心规则 */}
           <div className="space-y-2">
@@ -114,6 +135,26 @@ const GlobalGuideCard: React.FC<GlobalGuideCardProps> = ({
           </div>
         </div>
       </div>
+      <style jsx>{`
+        /* 应用番茄钟系统中的精美滚动条样式 */
+        div[class*="max-h-\[90vh\]"]::-webkit-scrollbar {
+          width: 6px;
+        }
+        
+        div[class*="max-h-\[90vh\]"]::-webkit-scrollbar-track {
+          background: rgba(163, 177, 198, 0.1);
+          border-radius: 3px;
+        }
+        
+        div[class*="max-h-\[90vh\]"]::-webkit-scrollbar-thumb {
+          background: rgba(163, 177, 198, 0.5);
+          border-radius: 3px;
+        }
+        
+        div[class*="max-h-\[90vh\]"]::-webkit-scrollbar-thumb:hover {
+          background: rgba(163, 177, 198, 0.7);
+        }
+      `}</style>
     </div>
   );
 };

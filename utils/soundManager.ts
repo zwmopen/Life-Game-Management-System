@@ -1,4 +1,5 @@
 // 统一音效管理库
+import audioManager from './audioManager';
 
 interface SoundEffect {
   id: string;
@@ -23,10 +24,16 @@ class SoundManager {
 
   private initSounds(): void {
     const soundList: SoundEffect[] = [
-      { id: 'dice', url: './audio/sounds/dice.mp3', volume: 0.5 },
-      { id: 'taskComplete', url: './audio/sounds/task-complete.mp3', volume: 0.5 },
-      { id: 'taskGiveUp', url: './audio/sounds/task-give-up.mp3', volume: 0.5 },
-      { id: 'purchase', url: './audio/sounds/purchase.mp3', volume: 0.5 },
+      { id: 'dice', url: '/audio/sounds/dice.mp3', volume: 0.7 },
+      { id: 'taskComplete', url: '/audio/sounds/task-complete.mp3', volume: 0.5 },
+      { id: 'taskGiveUp', url: '/audio/sounds/task-give-up.mp3', volume: 0.5 },
+      { id: 'purchase', url: '/audio/sounds/purchase.mp3', volume: 0.5 },
+      // 使用在线音效作为回退
+      { id: 'dice-fallback', url: 'https://assets.mixkit.co/sfx/preview/mixkit-dice-roll-6125.mp3', volume: 0.7 },
+      { id: 'positive', url: 'https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3', volume: 0.5 },
+      { id: 'coin', url: 'https://assets.mixkit.co/active_storage/sfx/2003/2003-preview.mp3', volume: 0.5 },
+      { id: 'spend', url: 'https://assets.mixkit.co/active_storage/sfx/2004/2004-preview.mp3', volume: 0.5 },
+      { id: 'achievement', url: 'https://assets.mixkit.co/active_storage/sfx/2019/2019-preview.mp3', volume: 0.5 },
     ];
 
     soundList.forEach(sound => {
@@ -34,25 +41,56 @@ class SoundManager {
     });
   }
 
-  private initBackgroundMusic(): void {
-    const bgmList: SoundEffect[] = [
-      { id: 'forest', url: './audio/bgm/forest.mp3', volume: 0.3, loop: true },
-      { id: 'alpha', url: './audio/bgm/alpha.mp3', volume: 0.3, loop: true },
-      { id: 'theta', url: './audio/bgm/theta.mp3', volume: 0.3, loop: true },
-      { id: 'beta', url: './audio/bgm/beta.mp3', volume: 0.3, loop: true },
-      { id: 'ocean', url: './audio/bgm/ocean.mp3', volume: 0.3, loop: true },
-      { id: 'rain', url: './audio/bgm/rain.mp3', volume: 0.3, loop: true },
-      { id: 'night', url: './audio/bgm/night.mp3', volume: 0.3, loop: true },
-      { id: 'white-noise', url: './audio/bgm/white-noise.mp3', volume: 0.3, loop: true },
-      { id: 'pink-noise', url: './audio/bgm/pink-noise.mp3', volume: 0.3, loop: true },
-      { id: 'brown-noise', url: './audio/bgm/brown-noise.mp3', volume: 0.3, loop: true },
-      { id: 'cafe', url: './audio/bgm/cafe.mp3', volume: 0.3, loop: true },
-      { id: 'fireplace', url: './audio/bgm/fireplace.mp3', volume: 0.3, loop: true },
+  private async initBackgroundMusic(): Promise<void> {
+    // 首先加载默认和在线回退音频
+    const defaultBgmList: SoundEffect[] = [
+      { id: 'forest', url: '/audio/bgm/forest.mp3', volume: 0.3, loop: true },
+      { id: 'alpha', url: '/audio/bgm/alpha.mp3', volume: 0.3, loop: true },
+      { id: 'theta', url: '/audio/bgm/theta.mp3', volume: 0.3, loop: true },
+      { id: 'beta', url: '/audio/bgm/beta.mp3', volume: 0.3, loop: true },
+      { id: 'ocean', url: '/audio/bgm/ocean.mp3', volume: 0.3, loop: true },
+      { id: 'rain', url: '/audio/bgm/rain.mp3', volume: 0.3, loop: true },
+      { id: 'night', url: '/audio/bgm/night.mp3', volume: 0.3, loop: true },
+      { id: 'white-noise', url: '/audio/bgm/white-noise.mp3', volume: 0.3, loop: true },
+      { id: 'pink-noise', url: '/audio/bgm/pink-noise.mp3', volume: 0.3, loop: true },
+      { id: 'brown-noise', url: '/audio/bgm/brown-noise.mp3', volume: 0.3, loop: true },
+      { id: 'cafe', url: '/audio/bgm/cafe.mp3', volume: 0.3, loop: true },
+      { id: 'fireplace', url: '/audio/bgm/fireplace.mp3', volume: 0.3, loop: true },
+      // 添加在线背景音乐作为回退
+      { id: 'online-forest', url: 'https://assets.mixkit.co/active_storage/sfx/2441/2441-preview.mp3', volume: 0.3, loop: true },
+      { id: 'online-alpha', url: 'https://assets.mixkit.co/active_storage/sfx/243/243-preview.mp3', volume: 0.3, loop: true },
+      { id: 'online-beta', url: 'https://assets.mixkit.co/active_storage/sfx/1126/1126-preview.mp3', volume: 0.3, loop: true },
+      { id: 'online-theta', url: 'https://assets.mixkit.co/active_storage/sfx/244/244-preview.mp3', volume: 0.3, loop: true },
+      { id: 'online-ocean', url: 'https://assets.mixkit.co/active_storage/sfx/2441/2441-preview.mp3', volume: 0.3, loop: true },
     ];
 
-    bgmList.forEach(bgm => {
+    // 加载默认音频
+    defaultBgmList.forEach(bgm => {
       this.loadBackgroundMusic(bgm);
     });
+    
+    // 异步加载动态音频文件
+    setTimeout(async () => {
+      try {
+        await audioManager.initialize();
+        
+        // 获取所有背景音乐文件，包括番茄钟专用的背景音乐
+        const bgmFiles = [...audioManager.getBackgroundMusic(), ...audioManager.getCategoryById('pomodoro-bgm')?.files || []];
+        
+        // 动态加载新发现的音频文件
+        bgmFiles.forEach(file => {
+          const bgm: SoundEffect = {
+            id: file.id,
+            url: file.url,
+            volume: 0.3,
+            loop: true
+          };
+          this.loadBackgroundMusic(bgm);
+        });
+      } catch (error) {
+        console.error('Failed to load dynamic audio files:', error);
+      }
+    }, 0);
   }
 
   private loadSound(sound: SoundEffect): void {
@@ -114,6 +152,11 @@ class SoundManager {
       this.currentBackgroundMusicId = id;
       audio.play().catch(error => {
         console.error(`Failed to play background music ${id}:`, error);
+      });
+      
+      // 记录音频播放统计
+      import('./audioStatistics').then(({ default: audioStatistics }) => {
+        audioStatistics.recordPlay(id);
       });
     } else {
       console.warn(`Background music ${id} not found`);

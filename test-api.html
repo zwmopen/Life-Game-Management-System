@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Test</title>
+</head>
+<body>
+    <h1>API 测试页面</h1>
+    <button onclick="testApi()">测试音频API</button>
+    <div id="result"></div>
+
+    <script>
+        async function testApi() {
+            try {
+                const response = await fetch('/api/audio-files?folder=/audio/bgm');
+                const data = await response.json();
+                document.getElementById('result').innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+            } catch (error) {
+                document.getElementById('result').innerHTML = '错误: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>

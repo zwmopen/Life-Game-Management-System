@@ -28,19 +28,22 @@ class WebDAVClient {
   // 生成认证头
   private getAuthHeader(): string {
     const { username, password } = this.config;
-    return `Basic ${btoa(`${username}:${password}`)}`;
+    // 使用更安全的编码方式处理用户名和密码中的特殊字符
+    const credentials = `${encodeURIComponent(username)}:${encodeURIComponent(password)}`;
+    // 使用TextEncoder和btoa处理UTF-8字符
+    const encoder = new TextEncoder();
+    const data = encoder.encode(credentials);
+    let binary = '';
+    for (let i = 0; i < data.byteLength; i++) {
+      binary += String.fromCharCode(data[i]);
+    }
+    return `Basic ${btoa(binary)}`;
   }
 
-  // 构建完整URL
+  // 构建完整URL - 使用代理服务器来避免CORS问题
   private buildUrl(path: string): string {
-    const baseUrl = this.config.url.replace(/\/$/, '');
-    const basePath = this.config.basePath.replace(/^\//, '').replace(/\/$/, '');
-    const filePath = path.replace(/^\//, '');
-    
-    if (!basePath) {
-      return `${baseUrl}/${filePath}`;
-    }
-    return `${baseUrl}/${basePath}/${filePath}`;
+    // 使用本地代理服务器来绕过CORS限制
+    return `/webdav`;
   }
 
   // 发送请求
@@ -50,32 +53,76 @@ class WebDAVClient {
     body?: BodyInit,
     headers?: Record<string, string>
   ): Promise<Response> {
-    const url = this.buildUrl(path);
-    const authHeader = this.getAuthHeader();
+    // 构建完整的目标路径（不含基础URL）
+    const basePath = this.config.basePath?.replace(/^\/|\/$/g, '') || '';
+    const filePath = path.replace(/^\//, '');
+    
+    let fullPath;
+    if (!basePath) {
+      fullPath = `/${filePath}`;
+    } else {
+      fullPath = `/${basePath}/${filePath}`;
+    }
+    
+    // 确保路径以/开头
+    if (!fullPath.startsWith('/')) {
+      fullPath = '/' + fullPath;
+    }
+    
+    // 对路径进行URL编码，避免非ISO-8859-1字符导致的问题
+    fullPath = encodeURI(fullPath);
     
     try {
-      const response = await fetch(url, {
-        method,
-        headers: {
-          'Authorization': authHeader,
-          'Content-Type': 'application/json',
+      // 使用代理服务器来避免CORS问题
+      const proxyUrl = this.buildUrl(path);
+      
+      const requestHeaders: Record<string, string> = {
+          'Authorization': this.getAuthHeader(),
+          'X-Target-Url': new URL(fullPath, this.config.url).href, // 通过请求头传递真实的目标URL
           ...headers,
-        },
-        body,
-        credentials: 'include',
-        mode: 'cors',
-      });
+        };
+        
+        // 根据请求方法设置适当的内容类型
+        if (body) {
+          if (method === 'PUT') {
+            // 上传文件时使用通用类型
+            requestHeaders['Content-Type'] = 'application/octet-stream';
+          } else if (method === 'PROPFIND') {
+            // PROPFIND请求通常不需要Content-Type
+          } else {
+            requestHeaders['Content-Type'] = 'application/octet-stream';
+          }
+        }
+        
+        const response = await fetch(proxyUrl, {
+          method,
+          headers: requestHeaders,
+          body,
+          credentials: 'omit', // 不发送cookies，避免不必要的安全问题
+          mode: 'cors',
+        });
 
+      // 处理特定的状态码
       if (!response.ok) {
-        throw new Error(`WebDAV request failed: ${response.status} ${response.statusText}`);
+        if (response.status === 401) {
+          throw new Error('备份失败：认证失败。请检查用户名和密码是否正确。');
+        } else if (response.status === 403) {
+          throw new Error('备份失败：权限不足。请检查账户权限。');
+        } else if (response.status === 404) {
+          throw new Error('备份失败：指定的路径不存在。请检查服务器地址和路径。');
+        } else {
+          throw new Error(`备份失败：${response.status} ${response.statusText}`);
+        }
       }
 
       return response;
     } catch (error) {
       console.error('WebDAV request failed:', error);
-      // 添加更详细的错误信息，帮助用户理解可能的原因
-      if (error instanceof TypeError && error.message === 'Failed to fetch') {
-        throw new Error('备份失败：可能是由于跨域资源共享(CORS)限制。请确保您的WebDAV服务允许来自当前域名的请求，或者尝试使用支持CORS的WebDAV服务。');
+      // 检查错误类型并提供更详细的错误信息
+      if (error instanceof TypeError && (error.message.includes('fetch') || error.message.includes('network'))) {
+        throw new Error('备份失败：网络连接问题。请检查服务器地址是否正确，以及网络连接是否正常。');
+      } else if (error instanceof Error && error.message.includes('Failed to fetch')) {
+        throw new Error('备份失败：无法连接到WebDAV服务器。请检查服务器地址、用户名和密码是否正确。');
       }
       throw error;
     }

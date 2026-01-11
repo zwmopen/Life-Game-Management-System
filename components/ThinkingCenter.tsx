@@ -8,53 +8,55 @@ interface ThinkingCenterProps {
 }
 
 // Button component without drag and drop functionality
-const ModelButton = ({ children, onClick, isActive, theme }: { children: React.ReactNode; onClick: () => void; isActive: boolean; theme: string }) => {
+const ModelButton = ({ children, onClick, isActive, theme }: { children: React.ReactNode; onClick: () => void; isActive: boolean; theme: 'light' | 'dark' | 'neomorphic-light' | 'neomorphic-dark' }) => {
   const isDark = theme === 'dark' || theme === 'neomorphic-dark';
   const isNeomorphic = theme.startsWith('neomorphic');
   const isNeomorphicDark = theme === 'neomorphic-dark';
   
-  // 统一的按钮基础样式，参考补给黑市的商品分类与管理模块按钮设计
-  // 移除白色阴影效果，使用圆角设计，统一边框和背景色处理
-  const baseStyles = 'px-3 py-1.5 rounded-[18px] text-xs font-bold border transition-all duration-200 ease-in-out';
-  
-  // 选中状态样式：蓝色背景色块，明显视觉对比
-  const activeStyle = {
-    neomorphicDark: `${baseStyles} bg-blue-500 text-white border-blue-500`,
-    neomorphicLight: `${baseStyles} bg-blue-500 text-white border-blue-500`,
-    normalDark: `${baseStyles} bg-blue-500 text-white border-blue-500`,
-    normalLight: `${baseStyles} bg-blue-500 text-white border-blue-500`
-  };
-  
-  // 未选中状态样式：统一背景色，移除白色阴影
-  const inactiveStyle = {
-    neomorphicDark: `${baseStyles} bg-transparent text-white border-transparent`,
-    neomorphicLight: `${baseStyles} bg-transparent text-black border-transparent`,
-    normalDark: `${baseStyles} bg-zinc-800 text-zinc-200 border-zinc-700`,
-    normalLight: `${baseStyles} bg-white text-black border-slate-300`
-  };
-  
-  // 点击效果：凹陷视觉效果，模拟物理按压
+  // 拟态风格按钮样式
   const getButtonClass = () => {
-    if (isActive) {
-      // 选中状态：蓝色背景色块
-      if (isNeomorphicDark) return activeStyle.neomorphicDark;
-      if (isNeomorphic) return activeStyle.neomorphicLight;
-      if (isDark) return activeStyle.normalDark;
-      return activeStyle.normalLight;
+    // 根据主题确定基本样式
+    if (isNeomorphic) {
+      if (isNeomorphicDark) {
+        // 拟态暗色主题
+        const baseClass = 'px-3 py-1.5 rounded-[18px] text-xs font-bold transition-all duration-200 ease-in-out flex items-center justify-center border border-transparent';
+        if (isActive) {
+          // 选中状态 - 内凹效果
+          return `${baseClass} bg-[#1e1e2e] text-white shadow-[inset_4px_4px_8px_rgba(0,0,0,0.6),inset_-4px_-4px_8px_rgba(30,30,46,0.8)] transform scale-95`;
+        } else {
+          // 默认状态 - 外凸效果
+          return `${baseClass} bg-[#1e1e2e] text-zinc-300 shadow-[4px_4px_8px_rgba(0,0,0,0.4),-4px_-4px_8px_rgba(30,30,46,0.8)] hover:shadow-[6px_6px_12px_rgba(0,0,0,0.5),-6px_-6px_12px_rgba(30,30,46,1)] active:shadow-[inset_4px_4px_8px_rgba(0,0,0,0.6),inset_-4px_-4px_8px_rgba(30,30,46,0.8)] active:transform active:scale-95`;
+        }
+      } else {
+        // 拟态亮色主题
+        const baseClass = 'px-3 py-1.5 rounded-[18px] text-xs font-bold transition-all duration-200 ease-in-out flex items-center justify-center border border-transparent';
+        if (isActive) {
+          // 选中状态 - 内凹效果
+          return `${baseClass} bg-[#e0e5ec] text-zinc-700 shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] transform scale-95`;
+        } else {
+          // 默认状态 - 外凸效果
+          return `${baseClass} bg-[#e0e5ec] text-zinc-700 shadow-[4px_4px_8px_rgba(163,177,198,0.3),-4px_-4px_8px_rgba(255,255,255,0.8)] hover:shadow-[6px_6px_12px_rgba(163,177,198,0.4),-6px_-6px_12px_rgba(255,255,255,0.9)] active:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] active:transform active:scale-95`;
+        }
+      }
     } else {
-      // 未选中状态
-      if (isNeomorphicDark) return inactiveStyle.neomorphicDark;
-      if (isNeomorphic) return inactiveStyle.neomorphicLight;
-      if (isDark) return inactiveStyle.normalDark;
-      return inactiveStyle.normalLight;
+      // 普通主题
+      const baseClass = 'px-3 py-1.5 rounded-[18px] text-xs font-bold border transition-all duration-200 ease-in-out';
+      if (isActive) {
+        return `${baseClass} bg-blue-500 text-white border-blue-500`;
+      } else {
+        if (isDark) {
+          return `${baseClass} bg-zinc-800 text-zinc-200 border-zinc-700 hover:bg-zinc-700`;
+        } else {
+          return `${baseClass} bg-white text-black border-slate-300 hover:bg-slate-100`;
+        }
+      }
     }
   };
   
   return (
     <button
       onClick={onClick}
-      // 添加点击效果：凹陷视觉效果，通过transform和shadow实现
-      className={`${getButtonClass()} hover:scale-105 active:scale-95 active:shadow-inner`}
+      className={getButtonClass()}
     >
       {children}
     </button>
@@ -232,7 +234,7 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme }) => {
               <p className={`text-sm ${textSub} mt-0`}>{currentModel.description}</p>
               
               {/* Visual Design - Full size display */}
-              <div className={`rounded-xl p-4 border transition-all duration-200 ${isDark ? (isNeomorphic ? 'bg-[#2a2d36] border-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.3),-8px_-8px_16px_rgba(40,43,52,0.8)]' : 'bg-zinc-900 border-zinc-800') : (isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow}` : 'bg-white border-slate-200')}`}>
+              <div className={`rounded-xl p-4 border transition-all duration-200 ${isDark ? (isNeomorphic ? 'bg-[#2a2d36] border-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.3),-8px_-8px_16px_rgba(40,43,52,0.8)]' : 'bg-zinc-900 border-zinc-800') : (isNeomorphic ? `${currentNeomorphicStyle.bg} ${currentNeomorphicStyle.border} ${currentNeomorphicStyle.shadow}` : 'bg-white border-slate-200')}`}>
                 <div 
                   dangerouslySetInnerHTML={{ __html: currentModel.visualDesign }}
                   className="w-full"

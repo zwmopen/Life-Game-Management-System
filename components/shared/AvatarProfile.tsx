@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Smile, Star, Edit3, Check, X, HelpCircle } from 'lucide-react';
+import { Smile, Star, Edit3, Check, X } from 'lucide-react';
+import GlobalHelpCircle from './GlobalHelpCircle';
 import { Theme } from '../../types';
 
 interface AvatarProfileProps {
@@ -24,6 +25,7 @@ interface AvatarProfileProps {
   };
   onLevelChange?: (newLevel: number, type: 'level' | 'focus' | 'wealth') => void;
   onHelpClick?: (helpId: string) => void;
+  onBadgeCategoryClick?: (category: 'LEVEL' | 'FOCUS' | 'WEALTH') => void;
 }
 
 const AvatarProfile: React.FC<AvatarProfileProps> = ({
@@ -35,12 +37,15 @@ const AvatarProfile: React.FC<AvatarProfileProps> = ({
   focusInfo,
   wealthInfo,
   onLevelChange,
-  onHelpClick
+  onHelpClick,
+  onBadgeCategoryClick
 }) => {
-  const isDark = theme === 'dark';
-  const isNeomorphic = theme === 'neomorphic';
+  const isDark = theme === 'dark' || theme === 'neomorphic-dark';
+  const isNeomorphic = theme.startsWith('neomorphic');
   const cardBg = isNeomorphic
-    ? 'bg-[#e0e5ec] border-[#a3b1c6] rounded-[48px] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)] transition-all duration-300'
+    ? (theme === 'neomorphic-dark'
+      ? 'bg-[#1e1e2e] border-[#1e1e2e] rounded-[48px] shadow-[10px_10px_20px_rgba(0,0,0,0.4),-10px_-10px_20px_rgba(30,30,46,0.8)] transition-all duration-300'
+      : 'bg-[#e0e5ec] border-[#a3b1c6] rounded-[48px] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)] transition-all duration-300')
     : isDark
     ? 'bg-zinc-900 border-zinc-800'
     : 'bg-white border-slate-200';
@@ -92,11 +97,11 @@ const AvatarProfile: React.FC<AvatarProfileProps> = ({
                 if (e.key === 'Enter') handleSave();
                 if (e.key === 'Escape') handleCancel();
               }}
-              className={`w-20 px-2 py-1 text-xs rounded-md border ${isDark 
-                ? 'bg-zinc-900 border-zinc-700 text-white focus:ring-blue-500' 
+              className={`w-20 px-2 py-1 text-xs rounded-md ${isDark 
+                ? 'bg-zinc-900 text-white focus:ring-blue-500' 
                 : isNeomorphic 
-                ? 'bg-[#e0e5ec] border-[#a3b1c6] text-zinc-700 shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] focus:ring-blue-500' 
-                : 'bg-white border-slate-300 text-slate-800 focus:ring-blue-500'}`}
+                ? 'bg-[#e0e5ec] text-zinc-700 shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] focus:ring-blue-500' 
+                : 'bg-white text-slate-800 focus:ring-blue-500'}`}
               autoFocus
               min="1"
               max="99"
@@ -130,14 +135,25 @@ const AvatarProfile: React.FC<AvatarProfileProps> = ({
       );
     }
 
+    // 点击称号跳转到荣誉勋章对应分类
+    const handleClick = (e: React.MouseEvent) => {
+      // 阻止双击编辑事件同时触发
+      if (e.detail === 1) { // 单击
+        if (onBadgeCategoryClick) {
+          onBadgeCategoryClick(type.toUpperCase() as 'LEVEL' | 'FOCUS' | 'WEALTH');
+        }
+      }
+    };
+
     return (
       <div 
         className={`flex items-center gap-1 truncate ${textMain} max-w-[100px] cursor-pointer hover:opacity-80 transition-opacity`}
         onDoubleClick={() => handleDoubleClick(type, level)}
-        title="双击编辑等级"
+        onClick={handleClick}
+        title="单击跳转到荣誉勋章对应分类，双击编辑等级"
       >
         <span className={`font-mono ${color} font-bold`}>LV.{level}</span>
-        <span className="text-xs truncate">{title}</span>
+        <span className={`text-xs truncate ${theme === 'neomorphic-dark' ? 'text-zinc-300' : isNeomorphic ? 'text-zinc-600' : isDark ? 'text-zinc-400' : 'text-slate-600'}`}>{title}</span>
       </div>
     );
   };
@@ -150,9 +166,9 @@ const AvatarProfile: React.FC<AvatarProfileProps> = ({
           <Star size={12}/> 角色系统
         </div>
         {onHelpClick && (
-          <div className={`p-0.5 rounded-full transition-all duration-300 hover:scale-[1.1] ${isNeomorphic ? 'hover:bg-blue-500/10' : 'hover:bg-blue-500/20'}`}>
+          <div className={`p-0.5 rounded-full transition-all duration-300 hover:scale-[1.1]`}>
             <button onClick={() => onHelpClick('character')} className="transition-colors">
-              <HelpCircle size={16} className="text-zinc-500 hover:text-white transition-colors" />
+              <GlobalHelpCircle size={14} />
             </button>
           </div>
         )}
@@ -164,7 +180,7 @@ const AvatarProfile: React.FC<AvatarProfileProps> = ({
         <div className="shrink-0">
           <div className={`w-16 h-16 rounded-full border-2 flex items-center justify-center relative overflow-hidden shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl ${isNeomorphic ? 'bg-[#e0e5ec] border-[#a3b1c6] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-800 border-zinc-700 hover:bg-zinc-750' : 'bg-slate-100 border-slate-200 hover:bg-slate-200'}`}>
             <Smile size={36} className={`text-yellow-500 animate-[pulse_3s_infinite]`} strokeWidth={2}/>
-            <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent"></div>
+            <div className={`absolute inset-0 ${theme === 'neomorphic-dark' ? 'bg-gradient-to-t from-white/10 to-transparent' : 'bg-gradient-to-t from-black/10 to-transparent'}`}></div>
           </div>
         </div>
 

@@ -11,6 +11,9 @@ import { GlobalGuideCard, helpContent } from './components/HelpSystem';
 import CharacterProfile, { getAllLevels, getAllFocusTitles, getAllWealthTitles, getAllMilitaryRanks, XP_PER_LEVEL, CharacterProfileHandle } from './components/CharacterProfile';
 import confetti from 'canvas-confetti';
 
+// 导入坚果云配置迁移函数
+import { migrateOldWebDAVConfig } from './utils/secureStorage';
+
 // 导入常量
 import {
   CHECKIN_THRESHOLDS,
@@ -149,6 +152,9 @@ const App: React.FC = () => {
 
   // --- Persistence Engine ---
   useEffect(() => {
+    // 执行坚果云配置迁移
+    migrateOldWebDAVConfig();
+    
     const savedGlobal = localStorage.getItem('aes-global-data-v3');
     const savedLifeGame = localStorage.getItem('life-game-stats-v2');
     const streakStr = localStorage.getItem('aes-checkin-streak');
@@ -280,7 +286,7 @@ const App: React.FC = () => {
     const timeoutId = setTimeout(() => {
       if (!isDataLoaded) {
         // 仅在开发环境输出详细日志
-        if (import.meta.env.DEV) {
+        if (process.env.NODE_ENV === 'development') {
           console.log('数据加载超时，强制设置为已加载状态');
         }
         setIsDataLoaded(true);
@@ -581,12 +587,31 @@ const App: React.FC = () => {
           
           // Update volume and play
           bgMusicRef.current.volume = volume;
-          bgMusicRef.current.play().catch(() => {});
+          bgMusicRef.current.play().catch((e) => {
+              console.error('Failed to play background music:', e);
+          });
       } else {
           // For sound effects, create new Audio objects
           const audio = new Audio(url);
           audio.volume = volume;
-          audio.play().catch(() => {});
+          audio.play().catch((e) => {
+              console.error('Failed to play sound effect:', e);
+              
+              // 如果音效播放失败，尝试其他方法
+              try {
+                  // 创建一个新的音频元素并播放
+                  const fallbackAudio = new Audio(url);
+                  fallbackAudio.volume = volume;
+                  // 延迟播放以绕过某些浏览器限制
+                  setTimeout(() => {
+                      fallbackAudio.play().catch(fallbackError => {
+                          console.error('Fallback sound play failed:', fallbackError);
+                      });
+                  }, 100);
+              } catch (fallbackError) {
+                  console.error('Fallback sound creation failed:', fallbackError);
+              }
+          });
       }
   };
 
@@ -914,7 +939,7 @@ const App: React.FC = () => {
       isSpinning: true
     }));
     
-    // 播放骰子旋转音效
+    // 播放骰子旋转音效 - 使用统一的音效管理
     playSound("https://assets.mixkit.co/sfx/preview/mixkit-dice-roll-6125.mp3", SoundType.SOUND_EFFECT);
     
     // 根据权重选择分类
@@ -1301,6 +1326,12 @@ const App: React.FC = () => {
                   settings={settings} 
                   onUpdateSettings={handleUpdateSettings} 
                   onToggleTheme={handleToggleTheme} 
+                  day={day}
+                  balance={balance}
+                  xp={xp}
+                  checkInStreak={checkInStreak}
+                  transactions={transactions}
+                  reviews={reviews}
                 />;
       case View.THINKING_CENTER:
         return <ThinkingCenter 

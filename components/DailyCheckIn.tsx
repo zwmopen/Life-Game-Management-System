@@ -115,7 +115,7 @@ const DailyCheckIn: React.FC<DailyCheckInProps> = ({ theme, onClaim }) => {
                                         : (isDark ? 'border-zinc-800 bg-zinc-800 text-zinc-600' : 'border-slate-200 bg-slate-100 text-slate-400')
                                 }
                             `}>
-                                {isPast ? <Check size={14} strokeWidth={4}/> : `+${reward}`}
+                                {isPast ? <div className="flex items-center justify-center"><Check size={14} strokeWidth={4}/></div> : `+${reward}`}
                             </div>
                             <span className="text-[10px] text-zinc-500 uppercase">Day {dayNum}</span>
                         </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Theme } from '../../types';
-import { Crosshair, Coins, Target, HelpCircle } from 'lucide-react';
+import { Crosshair, Coins, Target } from 'lucide-react';
+import GlobalHelpCircle from './GlobalHelpCircle';
 
 interface MilitaryModuleProps {
   theme: Theme;
@@ -52,9 +53,9 @@ const MilitaryModule: React.FC<MilitaryModuleProps> = ({
         </span>
         {/* 帮助按钮 */}
         {onHelpClick && (
-          <div className={`p-0.5 rounded-full transition-all duration-300 hover:scale-[1.1] ${isNeomorphic ? 'hover:bg-blue-500/10' : 'hover:bg-blue-500/20'}`} title="查看军工模块指南">
+          <div className={`p-0.5 rounded-full transition-all duration-300 hover:scale-[1.1]`} title="查看军工模块指南">
             <button onClick={() => onHelpClick('military')} className="transition-colors">
-              <HelpCircle size={16} className="text-zinc-500 hover:text-white transition-colors" />
+              <GlobalHelpCircle size={14} />
             </button>
           </div>
         )}

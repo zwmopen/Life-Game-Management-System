@@ -121,11 +121,11 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
       <div className={`
         inset-y-0 left-0 translate-x-0 
         md:translate-x-0 transition duration-200 ease-in-out
-        w-${isNavCollapsed ? '12' : '64'} border-r flex flex-col z-40 ${sidebarClass}
+        w-${isNavCollapsed ? '12' : '56'} border-r flex flex-col z-40 ${sidebarClass}
         fixed md:relative
         ${isNavHidden ? 'hidden' : ''}
       `}>
-          <div className={`p-6 ${isNeomorphic ? (theme === 'neomorphic-dark' ? `bg-[#1e1e2e]` : `bg-[#e0e5ec]`) : ''} flex items-center justify-between ${isNavCollapsed ? 'hidden' : 'md:flex'}`}>
+          <div className={`px-4 py-6 ${isNeomorphic ? (theme === 'neomorphic-dark' ? `bg-[#1e1e2e]` : `bg-[#e0e5ec]`) : ''} flex items-center justify-between ${isNavCollapsed ? 'hidden' : 'md:flex'}`}>
             <h1 className={`text-xl font-bold tracking-tighter ${isDark ? 'text-emerald-500' : 'text-blue-600'}`}>
               人生游戏系统
             </h1>
@@ -168,7 +168,7 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
 
           {/* Entropy Monitor */}
           {!isNavCollapsed && (
-            <div className={`px-6 py-4 ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e]' : 'bg-[#e0e5ec]') : isDark ? 'bg-zinc-900' : 'bg-white'} transition-all duration-300`}>
+            <div className={`px-4 py-4 ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e]' : 'bg-[#e0e5ec]') : isDark ? 'bg-zinc-900' : 'bg-white'} transition-all duration-300`}>
                 <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-1">
                         <span className={`text-[10px] font-bold uppercase tracking-widest flex items-center gap-1 ${entropyColor}`}>
@@ -200,7 +200,7 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
           )}
           
           {/* 主题切换按钮 - 四种主题支持 */}
-          <div className={`${isNavCollapsed ? 'px-3 py-3' : 'p-6'} border-t ${isDark ? 'border-zinc-800' : 'border-slate-100'} flex ${isNavCollapsed ? 'justify-center' : 'justify-between'} items-center`}>
+          <div className={`${isNavCollapsed ? 'px-3 py-3' : 'px-4 py-6'} border-t ${isDark ? 'border-zinc-800' : 'border-slate-100'} flex ${isNavCollapsed ? 'justify-center' : 'justify-between'} items-center`}>
                <button 
                   onClick={() => {
                       setTheme(prev => {
@@ -222,10 +222,10 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
                   title={`切换主题`}
                >
                    {/* 显示当前主题的图标 */}
-                   {theme.includes('dark') && <Moon size={12}/>}
-                   {theme.includes('light') && <Sun size={12}/>}
-                   {theme.startsWith('neomorphic') && <Activity size={12}/>}
-                   
+                   {theme.includes('dark') && <Moon size={12}/>} 
+                   {theme.includes('light') && <Sun size={12}/>} 
+                   {theme.startsWith('neomorphic') && <Activity size={12}/>} 
+                             
                    {/* 显示当前主题的文本 */}
                    {!isNavCollapsed && (
                      <span>

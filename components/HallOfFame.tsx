@@ -385,7 +385,7 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                                         className={`shrink-0 w-28 p-3 rounded-full flex flex-col items-center gap-2 shadow-lg transition-all duration-300 hover:scale-[1.05] ${getBadgeClass()}`}
                                     >
                                         <div className={`w-10 h-10 rounded-full flex items-center justify-center ${badge.isUnlocked ? (isNeomorphic ? (isNeomorphicDark ? `bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-4px_-4px_8px_rgba(30,30,46,0.8)]` : `bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]`) : badge.bgColor) : 'bg-zinc-900/30'}`}>
-                                            <badge.icon size={20} className={badge.isUnlocked ? badge.color : `${badge.color} opacity-70`} strokeWidth={2}/>
+                                            <badge.icon size={20} className={`${badge.color} ${!badge.isUnlocked ? 'opacity-70' : ''}`} strokeWidth={2}/>
                                         </div>
                                         <div className={`text-[10px] font-bold text-center truncate w-full ${badge.isUnlocked ? textMain : 'text-zinc-500'}`}>{badge.title}</div>
                                         <div className={`text-[8px] font-mono ${badge.isUnlocked ? textSub : 'text-zinc-600'}`}>{badge.subTitle}</div>
@@ -481,7 +481,7 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                                 return (
                                     <div key={badge.id} className={`shrink-0 w-28 p-3 rounded-full flex flex-col items-center gap-2 shadow-lg transition-all duration-300 hover:scale-[1.05] ${getBadgeClass()}`}>
                                         <div className={`w-10 h-10 rounded-full flex items-center justify-center ${badge.isUnlocked ? (isNeomorphic ? (isNeomorphicDark ? `bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-4px_-4px_8px_rgba(30,30,46,0.8)]` : `bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]`) : badge.bgColor) : 'bg-zinc-900/30'}`}>
-                                            <badge.icon size={20} className={badge.isUnlocked ? badge.color : `${badge.color} opacity-70`} strokeWidth={2}/>
+                                            <badge.icon size={20} className={`${badge.color} ${!badge.isUnlocked ? 'opacity-70' : ''}`} strokeWidth={2}/>
                                         </div>
                                         <div className={`text-[10px] font-bold text-center truncate w-full ${badge.isUnlocked ? textMain : 'text-zinc-500'}`}>{badge.title}</div>
                                         <div className={`text-[8px] font-mono ${badge.isUnlocked ? textSub : 'text-zinc-600'}`}>{badge.subTitle}</div>
@@ -605,7 +605,7 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                                                 >
                                                     <div className="flex items-center gap-3">
                                                         <div className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-[1.1] ${badge.isUnlocked ? (isNeomorphic ? (isNeomorphicDark ? `bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-4px_-4px_8px_rgba(30,30,46,0.8)] hover:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),-2px_-2px_4px_rgba(30,30,46,0.8)]` : `bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] hover:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),-2px_-2px_4px_rgba(255,255,255,1)]`) : badge.bgColor) : 'bg-zinc-900/30'}`}>
-                                                            <badge.icon size={20} className={badge.color} strokeWidth={2} />
+                                                            <badge.icon size={20} className={`${badge.color} ${!badge.isUnlocked ? 'opacity-70' : ''}`} strokeWidth={2} />
                                                         </div>
                                                         <div className="flex-1">
                                                             <div className={`text-sm font-bold ${textMain} transition-all duration-300 group-hover:scale-[1.05]`}>{badge.title}</div>

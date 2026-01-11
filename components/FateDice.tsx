@@ -190,7 +190,7 @@ const FateDice: React.FC<FateDiceProps> = ({ theme, diceState, onSpinDice, onUpd
     }
     
     // 仅在开发环境输出详细日志
-    if (import.meta.env.DEV) {
+    if (process.env.NODE_ENV === 'development') {
       console.log('Initializing Three.js scene...');
     }
     
@@ -198,7 +198,7 @@ const FateDice: React.FC<FateDiceProps> = ({ theme, diceState, onSpinDice, onUpd
     const containerWidth = canvasContainerRef.current.clientWidth;
     const containerHeight = canvasContainerRef.current.clientHeight;
     // 仅在开发环境输出详细日志
-    if (import.meta.env.DEV) {
+    if (process.env.NODE_ENV === 'development') {
       console.log('Canvas container size:', containerWidth, 'x', containerHeight);
     }
     
@@ -270,7 +270,7 @@ const FateDice: React.FC<FateDiceProps> = ({ theme, diceState, onSpinDice, onUpd
     scene.add(diceMesh);
     diceMeshRef.current = diceMesh;
     // 仅在开发环境输出详细日志
-    if (import.meta.env.DEV) {
+    if (process.env.NODE_ENV === 'development') {
       console.log('Dice mesh created and added to scene');
     }
     
@@ -280,7 +280,7 @@ const FateDice: React.FC<FateDiceProps> = ({ theme, diceState, onSpinDice, onUpd
     // 开始动画循环
     animate();
     // 仅在开发环境输出详细日志
-    if (import.meta.env.DEV) {
+    if (process.env.NODE_ENV === 'development') {
       console.log('Three.js scene initialized successfully');
     }
   };
@@ -388,8 +388,13 @@ const FateDice: React.FC<FateDiceProps> = ({ theme, diceState, onSpinDice, onUpd
   const rollDice = () => {
     if (isRolling || !diceMeshRef.current || !onSpinDice) return;
     
-    // 播放滚动音效 - 使用统一音效管理库
+    // 播放滚动音效 - 优先使用本地音频文件
     soundManager.play('dice');
+    
+    // 如果本地音频播放失败，尝试回退音效
+    setTimeout(() => {
+      soundManager.play('dice-fallback');
+    }, 100);
     
     setIsRolling(true);
     
@@ -473,7 +478,7 @@ const FateDice: React.FC<FateDiceProps> = ({ theme, diceState, onSpinDice, onUpd
       // 创建音频元素并设置音效文件
       const audio = new Audio();
       // 尝试使用相对路径
-      audio.src = '色子音效.mp3';
+      audio.src = '/audio/sounds/dice.mp3';
       audio.volume = 0.7;
       audio.preload = 'auto';
       
@@ -482,14 +487,14 @@ const FateDice: React.FC<FateDiceProps> = ({ theme, diceState, onSpinDice, onUpd
         console.error('音频加载错误:', e);
         // 回退到生成的音效
         // 仅在开发环境输出详细日志
-        if (import.meta.env.DEV) {
+        if (process.env.NODE_ENV === 'development') {
           console.log('回退到生成音效');
         }
       });
       
       diceSoundRef.current = audio;
       // 仅在开发环境输出详细日志
-      if (import.meta.env.DEV) {
+      if (process.env.NODE_ENV === 'development') {
         console.log('音频元素初始化成功，使用路径:', audio.src);
       }
     } catch (error) {
@@ -558,10 +563,14 @@ const FateDice: React.FC<FateDiceProps> = ({ theme, diceState, onSpinDice, onUpd
     const width = canvasContainerRef.current.clientWidth;
     const height = canvasContainerRef.current.clientHeight;
     
-    cameraRef.current.aspect = width / height;
-    cameraRef.current.updateProjectionMatrix();
-    
-    rendererRef.current.setSize(width, height);
+    // 仅在尺寸实际发生变化时更新，避免不必要的重绘
+    if (rendererRef.current.domElement.width !== width || rendererRef.current.domElement.height !== height) {
+      cameraRef.current.aspect = width / height;
+      cameraRef.current.updateProjectionMatrix();
+      
+      rendererRef.current.setSize(width, height);
+      rendererRef.current.setPixelRatio(window.devicePixelRatio);
+    }
   };
   
   // 初始化和清理
@@ -577,6 +586,16 @@ const FateDice: React.FC<FateDiceProps> = ({ theme, diceState, onSpinDice, onUpd
     // 添加窗口大小调整事件监听
     window.addEventListener('resize', handleResize);
     
+    // 使用ResizeObserver监听容器尺寸变化
+    let resizeObserver: ResizeObserver | null = null;
+    if (canvasContainerRef.current) {
+      resizeObserver = new ResizeObserver(() => {
+        // 延迟执行，确保DOM更新完成
+        setTimeout(handleResize, 0);
+      });
+      resizeObserver.observe(canvasContainerRef.current);
+    }
+    
     // 手动触发一次调整大小，确保初始渲染正确
     setTimeout(() => {
       handleResize();
@@ -584,6 +603,12 @@ const FateDice: React.FC<FateDiceProps> = ({ theme, diceState, onSpinDice, onUpd
     
     return () => {
       window.removeEventListener('resize', handleResize);
+      
+      // 清理ResizeObserver
+      if (resizeObserver) {
+        resizeObserver.disconnect();
+        resizeObserver = null;
+      }
       
       // 清理Three.js资源
       if (rendererRef.current) {
@@ -630,7 +655,7 @@ const FateDice: React.FC<FateDiceProps> = ({ theme, diceState, onSpinDice, onUpd
   return (
     <div 
       ref={containerRef}
-      className="w-full rounded-xl p-2 transition-all duration-300"
+      className="w-full max-w-4xl mx-auto rounded-xl p-2 sm:p-3 md:p-4 transition-all duration-300"
       style={{
         backgroundColor: bgColor,
         boxShadow: `9px 9px 16px ${shadowDark}, -9px -9px 16px ${shadowLight}`,
@@ -641,14 +666,14 @@ const FateDice: React.FC<FateDiceProps> = ({ theme, diceState, onSpinDice, onUpd
       {/* 3D骰子容器 */}
       <div 
         ref={canvasContainerRef}
-        className="w-full h-[300px] mb-4 rounded-xl overflow-hidden relative"
+        className="w-full h-[200px] sm:h-[250px] md:h-[300px] mb-4 rounded-xl overflow-hidden relative"
         style={{ backgroundColor: bgColor }}
       ></div>
       
       {/* 剩余次数显示 - 移到按钮上方 */}
-      <div className="mb-4 text-center">
-        <div className="flex items-center justify-center gap-2">
-          <div className="text-base font-medium" style={{ color: textColor }}>
+      <div className="mb-4 text-center px-2">
+        <div className="flex flex-wrap items-center justify-center gap-2 text-sm sm:text-base">
+          <div className="font-medium truncate max-w-[100px]" style={{ color: textColor }}>
             今日剩余次数
           </div>
           {isEditingCount ? (
@@ -702,11 +727,11 @@ const FateDice: React.FC<FateDiceProps> = ({ theme, diceState, onSpinDice, onUpd
       </div>
       
       {/* 掷骰子按钮 */}
-      <div className="text-center">
+      <div className="text-center px-2">
         <button
           onClick={rollDice}
           disabled={isRolling || (diceState?.isSpinning || (remainingCount <= 0))}
-          className={`w-full py-2 text-lg font-bold rounded-md transition-all duration-300 ${
+          className={`w-full py-2 px-4 text-base sm:text-lg font-bold rounded-md transition-all duration-300 ${
             isNeomorphic ? (isNeomorphicDark ? 'bg-[#1e1e2e] text-blue-400 hover:text-blue-300' : 'bg-[#e0e5ec] text-blue-600 hover:text-blue-700') : (isDark ? 'bg-zinc-800 hover:bg-zinc-700 text-white' : 'bg-slate-100 hover:bg-slate-200 text-slate-800')
           } ${
             isNeomorphic ? `shadow-${isNeomorphicDark ? 'inner' : 'md'} hover:shadow-${isNeomorphicDark ? 'lg' : 'lg'} active:shadow-inner` : 'shadow-sm'

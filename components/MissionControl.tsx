@@ -76,7 +76,7 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
           <h3 className={`text-2xl font-bold ${textMain} mb-4`}>欢迎来到作战中心</h3>
           
           {/* 命运骰子功能 */}
-          <div className="mb-8">
+          <div className="mb-8 px-2">
             <FateDice theme={theme} />
           </div>
           

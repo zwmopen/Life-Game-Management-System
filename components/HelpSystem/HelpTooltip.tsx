@@ -1,5 +1,5 @@
 import React from 'react';
-import { HelpCircle } from 'lucide-react';
+import GlobalHelpCircle from '../shared/GlobalHelpCircle';
 
 interface HelpTooltipProps {
   helpId: string;
@@ -21,7 +21,7 @@ const HelpTooltip: React.FC<HelpTooltipProps> = ({
         className={`transition-colors ${className}`}
         aria-label="打开帮助"
       >
-        {children || <HelpCircle size={16} className="text-zinc-500 hover:text-white transition-colors" />}
+        {children || <GlobalHelpCircle size={14} />}
       </button>
     </div>
   );

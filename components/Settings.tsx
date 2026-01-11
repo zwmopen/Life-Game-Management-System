@@ -1,17 +1,26 @@
 import React, { useState } from 'react';
-import { Volume2, VolumeX, Music, Headphones, Sun, Moon, Zap, FileText, HelpCircle, Bell, Eye, Database, Info, ShieldAlert, Download, RefreshCw, Trash2, X, ChevronUp, ChevronDown, Upload, Cloud, CloudDownload, Save } from 'lucide-react';
-import { Theme, Settings as SettingsType } from '../types';
+import { Volume2, VolumeX, Music, Headphones, Sun, Moon, Zap, FileText, Bell, Eye, Database, Info, ShieldAlert, Download, RefreshCw, Trash2, X, ChevronUp, ChevronDown, Upload, Cloud, CloudDownload, Save } from 'lucide-react';
+import GlobalHelpCircle from './shared/GlobalHelpCircle';
+import { Theme, Settings as SettingsType, Transaction, ReviewLog } from '../types';
 import { GlobalGuideCard, HelpTooltip, helpContent } from './HelpSystem';
 import WebDAVClient, { WebDAVConfig } from '../utils/webdavClient';
+import UserAuthManager from './UserAuthManager';
+import { retrieveWebDAVConfig, storeWebDAVConfig } from '../utils/secureStorage';
 
 interface SettingsProps {
   theme: Theme;
   settings: SettingsType;
   onUpdateSettings: (settings: Partial<SettingsType>) => void;
   onToggleTheme: () => void;
+  day?: number;
+  balance?: number;
+  xp?: number;
+  checkInStreak?: number;
+  transactions?: Transaction[];
+  reviews?: ReviewLog[];
 }
 
-const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, onToggleTheme }) => {
+const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, onToggleTheme, day = 1, balance = 59, xp = 10, checkInStreak = 1, transactions = [], reviews = [] }) => {
   const isDark = theme === 'dark' || theme === 'neomorphic-dark';
   const isNeomorphic = theme.startsWith('neomorphic');
   
@@ -35,10 +44,10 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
   // 统一卡片背景样式，与作战中心保持一致
   const cardBg = isDark 
     ? (isNeomorphic 
-      ? `${neomorphicStyles.bg} rounded-[48px] ${neomorphicStyles.shadow} ${neomorphicStyles.transition}` 
+      ? `${neomorphicStyles.bg} rounded-[16px] ${neomorphicStyles.shadow} ${neomorphicStyles.transition}` 
       : 'bg-zinc-900 shadow-lg')
     : isNeomorphic 
-    ? `${neomorphicStyles.bg} rounded-[48px] ${neomorphicStyles.shadow} ${neomorphicStyles.hoverShadow} ${neomorphicStyles.activeShadow} ${neomorphicStyles.transition}` 
+    ? `${neomorphicStyles.bg} rounded-[16px] ${neomorphicStyles.shadow} ${neomorphicStyles.hoverShadow} ${neomorphicStyles.activeShadow} ${neomorphicStyles.transition}` 
     : 'bg-white shadow-sm';
   const textMain = isDark ? 'text-zinc-200' : isNeomorphic ? 'text-zinc-700' : 'text-slate-800';
   const textSub = isDark ? 'text-zinc-500' : isNeomorphic ? 'text-zinc-600' : 'text-slate-500';
@@ -55,11 +64,14 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
   const [activeBackupTab, setActiveBackupTab] = useState<'cloud' | 'local'>('cloud');
   
   // State for WebDAV settings
-  const [webdavConfig, setWebdavConfig] = useState<WebDAVConfig>({
-    url: localStorage.getItem('webdav-url') || 'http://localhost:3000/webdav/',
-    username: localStorage.getItem('webdav-username') || 'admin',
-    password: localStorage.getItem('webdav-password') || 'password',
-    basePath: '/人生游戏管理系统',
+  const [webdavConfig, setWebdavConfig] = useState<WebDAVConfig>(() => {
+    const savedConfig = retrieveWebDAVConfig();
+    return {
+      url: savedConfig.url,
+      username: savedConfig.username,
+      password: savedConfig.password,
+      basePath: '/人生游戏管理系统',
+    };
   });
   // State for WebDAV operation status
   const [webdavStatus, setWebdavStatus] = useState<string>('');
@@ -224,7 +236,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
 
 
           {/* Sound Effects */}
-          <div className={`${cardBg} p-4 transition-all duration-300`}>
+          <div className={`${cardBg} p-4 transition-all duration-300 mt-4`}>
               <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-2">
                 <Headphones size={20} className="text-purple-500" />
@@ -234,7 +246,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                 </div>
               </div>
               <HelpTooltip helpId="sound" onHelpClick={setActiveHelp}>
-                  <HelpCircle size={16} className="text-zinc-500 hover:text-white transition-colors" />
+                  <GlobalHelpCircle size={14} />
                 </HelpTooltip>
             </div>
 
@@ -281,7 +293,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
               {settings.enableSoundEffects && (
                 <div className="mt-3">
                   <h4 className={`font-bold text-xs ${textMain} mb-2`}>按位置分类音效</h4>
-                  <div className={`rounded-xl p-2 h-[250px] overflow-y-auto ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/50' : 'bg-slate-50'}`}>
+                  <div className={`rounded-lg p-2 h-[250px] overflow-y-auto ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/50' : 'bg-slate-50'}`}>
                     <h5 className={`text-[9px] font-mono uppercase mb-2 ${textSub}`}>位置列表</h5>
                     <div className="space-y-2">
                       {[
@@ -327,7 +339,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                           audio.volume = settings.soundEffectVolume;
                           audio.play().catch((error) => {
                             // 仅在开发环境输出详细日志
-                            if (import.meta.env.DEV) {
+                            if (process.env.NODE_ENV === 'development') {
                               console.log('播放音效失败:', error);
                             }
                           });
@@ -336,7 +348,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                         return (
                           <div 
                             key={location.id} 
-                            className={`p-2 rounded-xl flex items-center justify-between transition-all cursor-pointer ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)] hover:shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(40,43,52,0.9)] active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.2),inset_-6px_-6px_12px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/30 hover:bg-zinc-800/50' : 'bg-white/50 hover:bg-slate-100'}`}
+                            className={`p-2 rounded-lg flex items-center justify-between transition-all cursor-pointer ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)] hover:shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(40,43,52,0.9)] active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.2),inset_-6px_-6px_12px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/30 hover:bg-zinc-800/50' : 'bg-white/50 hover:bg-slate-100'}`}
                       >
                             <div className="flex items-center gap-1.5">
                               {location.icon}
@@ -355,7 +367,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                                     // Preview the selected sound immediately
                                     previewSound(e.target.value);
                                   }}
-                                  className={`w-20 text-[10px] px-2 py-1 rounded-xl border-none outline-none ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.2),inset_-4px_-4px_8px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-800 text-white' : 'bg-white text-slate-800'}`}
+                                  className={`w-20 text-[10px] px-2 py-1 rounded-lg border-none outline-none ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.2),inset_-4px_-4px_8px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-800 text-white' : 'bg-white text-slate-800'}`}
                                 >
                                   <option value="mute">静音</option>
                                   <option value="positive-beep">积极</option>
@@ -418,7 +430,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
               </div>
               <div className="flex items-center gap-2">
                 <HelpTooltip helpId="display" onHelpClick={setActiveHelp}>
-                  <HelpCircle size={18} className="text-zinc-500 hover:text-white transition-colors" />
+                  <GlobalHelpCircle size={14} />
                 </HelpTooltip>
                 {/* Collapse/Expand Button */}
                 <button
@@ -434,10 +446,10 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
             </div>
             {/* Conditionally render display settings based on collapse state */}
             {showDisplaySettings && (
-              <div className={`rounded-xl p-3 h-[250px] overflow-y-auto ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/50' : 'bg-slate-50'}`}>
+              <div className={`rounded-lg p-3 h-[250px] overflow-y-auto ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/50' : 'bg-slate-50'}`}>
                 <h5 className={`text-[9px] font-mono uppercase mb-2 ${textSub}`}>显示选项</h5>
                 <div className="space-y-3">
-                  <div className={`flex justify-between items-center p-2 rounded-xl transition-all cursor-pointer ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)] hover:shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(40,43,52,0.9)] active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.2),inset_-6px_-6px_12px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/30 hover:bg-zinc-800/50' : 'bg-white/50 hover:bg-slate-100'}`}>
+                  <div className={`flex justify-between items-center p-2 rounded-lg transition-all cursor-pointer ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)] hover:shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(40,43,52,0.9)] active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.2),inset_-6px_-6px_12px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/30 hover:bg-zinc-800/50' : 'bg-white/50 hover:bg-slate-100'}`}>
                     <span className={`text-sm ${textMain}`}>显示角色系统</span>
                     <button className={`relative inline-flex h-6 w-11 items-center rounded-full transition-all ${isNeomorphic ? `${isNeomorphicDark ? `shadow-[inset_2px_2px_4px_rgba(0,0,0,0.2),inset_-2px_-2px_4px_rgba(40,43,52,0.8)] ${settings.showCharacterSystem ? 'bg-blue-500' : 'bg-[#2a2d36]'}` : `shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] ${settings.showCharacterSystem ? 'bg-blue-500' : 'bg-white'}`}` : settings.showCharacterSystem ? 'bg-blue-600' : 'bg-white'}`} onClick={() => onUpdateSettings({ showCharacterSystem: !settings.showCharacterSystem })}>
                       <span className={`inline-block h-4.5 w-4.5 transform rounded-full transition-transform ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[4px_4px_8px_rgba(0,0,0,0.2),-4px_-4px_8px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]'}` : 'bg-white'} ${settings.showCharacterSystem ? 'translate-x-6' : 'translate-x-1'}`} />
@@ -501,7 +513,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
                 <div className={`p-2 rounded-full ${isDark ? 'bg-zinc-800' : 'bg-slate-100'}`}>
-                  <HelpCircle size={20} className="text-blue-500" />
+                  <GlobalHelpCircle size={16} className="text-blue-500" />
                 </div>
                 <div>
                   <h3 className={`font-bold ${textMain}`}>指南卡片管理</h3>
@@ -510,7 +522,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
               </div>
               <div className="flex items-center gap-2">
                 <HelpTooltip helpId="settings" onHelpClick={setActiveHelp}>
-                  <HelpCircle size={18} className="text-zinc-500 hover:text-white transition-colors" />
+                  <GlobalHelpCircle size={14} />
                 </HelpTooltip>
                 {/* Collapse/Expand Button */}
                 <button
@@ -527,7 +539,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
             
             {/* Conditionally render guide card settings based on collapse state */}
             {showGuideCardSettings && (
-              <div className={`rounded-xl p-3 ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/50' : 'bg-slate-50'}`}>
+              <div className={`rounded-lg p-3 ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/50' : 'bg-slate-50'}`}>
                 <div className="space-y-3">
                   {/* 字体大小设置 */}
                   <div className="flex items-center justify-between">
@@ -546,7 +558,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                               fontSize: option.value as 'small' | 'medium' | 'large' 
                             } 
                           })} 
-                          className={`flex-1 py-1 px-2 rounded-lg transition-all duration-300 text-center text-xs ${isNeomorphic ? `${isNeomorphicDark ? `bg-[#2a2d36] shadow-[6px_6px_12px_rgba(0,0,0,0.2),-6px_-6px_12px_rgba(40,43,52,0.8)] hover:shadow-[8px_8px_16px_rgba(0,0,0,0.3),-8px_-8px_16px_rgba(40,43,52,0.9)] active:shadow-[inset_4px_4px_8px_rgba(0,0,0,0.2),inset_-4px_-4px_8px_rgba(40,43,52,0.8)] ${settings.guideCardConfig.fontSize === option.value ? 'bg-blue-500 text-white' : ''}` : `bg-[#e0e5ec] shadow-[6px_6px_12px_rgba(163,177,198,0.6),-6px_-6px_12px_rgba(255,255,255,1)] hover:shadow-[8px_8px_16px_rgba(163,177,198,0.7),-8px_-8px_16px_rgba(255,255,255,1)] active:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] ${settings.guideCardConfig.fontSize === option.value ? 'bg-blue-500 text-white' : ''}`}` : isDark ? `bg-zinc-800 hover:bg-zinc-700 ${settings.guideCardConfig.fontSize === option.value ? 'bg-blue-600 text-white' : ''}` : `bg-slate-100 hover:bg-slate-200 ${settings.guideCardConfig.fontSize === option.value ? 'bg-blue-500 text-white' : ''}`}`}
+                          className={`flex-1 py-1 px-2 rounded-md transition-all duration-300 text-center text-xs ${isNeomorphic ? `${isNeomorphicDark ? `bg-[#2a2d36] shadow-[6px_6px_12px_rgba(0,0,0,0.2),-6px_-6px_12px_rgba(40,43,52,0.8)] hover:shadow-[8px_8px_16px_rgba(0,0,0,0.3),-8px_-8px_16px_rgba(40,43,52,0.9)] active:shadow-[inset_4px_4px_8px_rgba(0,0,0,0.2),inset_-4px_-4px_8px_rgba(40,43,52,0.8)] ${settings.guideCardConfig.fontSize === option.value ? 'bg-blue-500 text-white' : ''}` : `bg-[#e0e5ec] shadow-[6px_6px_12px_rgba(163,177,198,0.6),-6px_-6px_12px_rgba(255,255,255,1)] hover:shadow-[8px_8px_16px_rgba(163,177,198,0.7),-8px_-8px_16px_rgba(255,255,255,1)] active:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] ${settings.guideCardConfig.fontSize === option.value ? 'bg-blue-500 text-white' : ''}`}` : isDark ? `bg-zinc-800 hover:bg-zinc-700 ${settings.guideCardConfig.fontSize === option.value ? 'bg-blue-600 text-white' : ''}` : `bg-slate-100 hover:bg-slate-200 ${settings.guideCardConfig.fontSize === option.value ? 'bg-blue-500 text-white' : ''}`}`}
                         >
                           {option.label}
                         </button>
@@ -631,7 +643,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
               </div>
               <div className="flex items-center gap-2">
                 <HelpTooltip helpId="data" onHelpClick={setActiveHelp}>
-                  <HelpCircle size={18} className="text-zinc-500 hover:text-white transition-colors" />
+                  <GlobalHelpCircle size={14} />
                 </HelpTooltip>
               </div>
             </div>
@@ -733,19 +745,17 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                       
                       {/* Save Configuration Button */}
                       <button 
-                        className={`w-full py-1.5 rounded-[24px] text-xs font-bold border transition-all flex items-center justify-center gap-2 ${getButtonStyle(false)}`}
-                        onClick={() => {
-                          // Save WebDAV config to localStorage
-                          localStorage.setItem('webdav-url', webdavConfig.url);
-                          localStorage.setItem('webdav-username', webdavConfig.username);
-                          localStorage.setItem('webdav-password', webdavConfig.password);
-                          setWebdavStatus('WebDAV 配置已保存');
-                          setTimeout(() => setWebdavStatus(''), 3000);
-                        }}
-                      >
-                        <Save size={12} />
-                        保存配置
-                      </button>
+                      className={`w-full py-1.5 rounded-[16px] text-xs font-bold border transition-all flex items-center justify-center gap-2 ${getButtonStyle(false)}`}
+                      onClick={() => {
+                        // 使用安全存储保存WebDAV配置
+                        storeWebDAVConfig(webdavConfig);
+                        setWebdavStatus('WebDAV 配置已保存');
+                        setTimeout(() => setWebdavStatus(''), 3000);
+                      }}
+                    >
+                      <Save size={12} />
+                      保存配置
+                    </button>
                     </div>
                   </div>
                 )}
@@ -755,27 +765,30 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                   <div className="flex flex-col md:flex-row gap-3">
                     {/* Backup to Cloud Button */}
                     <button 
-                      className={`flex-1 px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all flex items-center justify-center gap-2 ${getButtonStyle(false)}`}
+                      className={`flex-1 px-4 py-1.5 rounded-[16px] text-xs font-bold border transition-all flex items-center justify-center gap-2 ${getButtonStyle(false)}`}
                       onClick={async () => {
                         setIsBackingUp(true);
                         setWebdavStatus('正在备份到云端...');
                         try {
                           const client = new WebDAVClient(webdavConfig);
-                          // 这里需要获取实际的游戏数据，暂时用模拟数据
+                          // 获取实际的游戏数据
                           const gameData = {
                             settings,
-                            projects: [],
-                            habits: [],
-                            characters: [],
-                            achievements: [],
+                            projects: JSON.parse(localStorage.getItem('projects') || '[]'),
+                            habits: JSON.parse(localStorage.getItem('habits') || '[]'),
+                            characters: JSON.parse(localStorage.getItem('characters') || '[]'),
+                            achievements: JSON.parse(localStorage.getItem('achievements') || '[]'),
+                            day,
+                            balance,
+                            xp,
+                            checkInStreak,
+                            transactions,
+                            reviews,
                             timestamp: new Date().toISOString()
                           };
-                          const backupSuccess = await client.backupData(JSON.stringify(gameData, null, 2));
-                          if (backupSuccess) {
-                            setWebdavStatus('备份成功！');
-                          } else {
-                            setWebdavStatus('备份失败，请检查配置！');
-                          }
+                          const fileName = `LifeGame_Backup_${new Date().toISOString().replace(/[:.]/g, '-')}.json`;
+                          await client.uploadFile(fileName, JSON.stringify(gameData, null, 2));
+                          setWebdavStatus('备份成功！');
                         } catch (error) {
                           console.error('Backup error:', error);
                           setWebdavStatus('备份失败：' + (error as Error).message);
@@ -792,20 +805,28 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                     
                     {/* Restore from Cloud Button */}
                     <button 
-                      className={`flex-1 px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all flex items-center justify-center gap-2 ${getButtonStyle(false)}`}
+                      className={`flex-1 px-4 py-1.5 rounded-[16px] text-xs font-bold border transition-all flex items-center justify-center gap-2 ${getButtonStyle(false)}`}
                       onClick={async () => {
                         setIsRestoring(true);
                         setWebdavStatus('正在从云端恢复...');
                         try {
                           const client = new WebDAVClient(webdavConfig);
-                          const backupData = await client.restoreData();
-                          if (backupData) {
-                            const parsedData = JSON.parse(backupData);
-                            // 这里需要处理恢复逻辑，暂时用模拟数据
-                            setWebdavStatus('恢复成功！');
-                            // 可以在这里添加更新状态的逻辑
+                          // 列出备份文件并让用户选择要恢复的文件
+                          const files = await client.listFiles();
+                          if (files.length > 0) {
+                            // 假设恢复最新的备份文件
+                            const latestFile = files.sort((a, b) => b.mtime.getTime() - a.mtime.getTime())[0];
+                            const backupData = await client.downloadFile(latestFile.name);
+                            if (backupData) {
+                              const parsedData = JSON.parse(backupData);
+                              // 这里需要处理恢复逻辑
+                              setWebdavStatus('恢复成功！');
+                              // 可以在这里添加更新状态的逻辑
+                            } else {
+                              setWebdavStatus('恢复失败，请检查配置！');
+                            }
                           } else {
-                            setWebdavStatus('恢复失败，请检查配置！');
+                            setWebdavStatus('没有找到备份文件！');
                           }
                         } catch (error) {
                           console.error('Restore error:', error);
@@ -833,7 +854,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                   <div className="flex flex-col md:flex-row gap-3">
                     {/* Create Local Backup Button */}
                     <button 
-                      className={`flex-1 px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all flex items-center justify-center gap-2 ${getButtonStyle(false)}`}
+                      className={`flex-1 px-4 py-1.5 rounded-[16px] text-xs font-bold border transition-all flex items-center justify-center gap-2 ${getButtonStyle(false)}`}
                       onClick={createLocalBackup}
                     >
                       <Download size={12} />
@@ -842,7 +863,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                     
                     {/* Upload Backup File Button */}
                     <label 
-                      className={`flex-1 px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all flex items-center justify-center gap-2 ${getButtonStyle(false)} cursor-pointer`}
+                      className={`flex-1 px-4 py-1.5 rounded-[16px] text-xs font-bold border transition-all flex items-center justify-center gap-2 ${getButtonStyle(false)} cursor-pointer`}
                     >
                       <Upload size={12} />
                       <span>上传备份文件</span>
@@ -909,6 +930,73 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                 </div>
               </div>
             )}
+          </div>
+
+          {/* Account Management Module */}
+          <div className={`${cardBg} p-4 transition-all duration-300`}>
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-3">
+                <div className={`p-2 rounded-full ${isDark ? 'bg-zinc-800' : 'bg-slate-100'}`}>
+                  <ShieldAlert size={20} className="text-blue-500" />
+                </div>
+                <div>
+                  <h3 className={`font-bold ${textMain}`}>账户管理</h3>
+                  <p className={`text-xs ${textSub}`}>登录、注册和账户设置</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <HelpTooltip helpId="account" onHelpClick={setActiveHelp}>
+                  <GlobalHelpCircle size={14} />
+                </HelpTooltip>
+              </div>
+            </div>
+            
+            <div className={`rounded-xl p-3 overflow-y-auto ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/50' : 'bg-slate-50'}`}>
+              <UserAuthManager theme={theme} />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* About Module */}
+      <div className={`${cardBg} p-4 transition-all duration-300`}>
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-3">
+            <div className={`p-2 rounded-full ${isDark ? 'bg-zinc-800' : 'bg-slate-100'}`}>
+              <Info size={20} className="text-blue-500" />
+            </div>
+            <div>
+              <h3 className={`font-bold ${textMain}`}>关于</h3>
+              <p className={`text-xs ${textSub}`}>版本信息与联系方式</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <HelpTooltip helpId="about" onHelpClick={setActiveHelp}>
+              <GlobalHelpCircle size={14} />
+            </HelpTooltip>
+          </div>
+        </div>
+        
+        <div className={`rounded-xl p-3 ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/50' : 'bg-slate-50'}`}>
+          <div className="space-y-2">
+            <div className={`flex items-start p-2 rounded-lg transition-all ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)] hover:shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(40,43,52,0.9)] active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.2),inset_-6px_-6px_12px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/30 hover:bg-zinc-800/50' : 'bg-white/50 hover:bg-slate-100'}`}>
+              <span className={`text-sm ${textMain} w-20 flex-shrink-0`}>版本：</span>
+              <span className={`text-sm ${textSub} flex-grow`}>v1.1.0</span>
+            </div>
+            <div className={`flex items-start p-2 rounded-lg transition-all ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)] hover:shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(40,43,52,0.9)] active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.2),inset_-6px_-6px_12px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/30 hover:bg-zinc-800/50' : 'bg-white/50 hover:bg-slate-100'}`}>
+              <span className={`text-sm ${textMain} w-20 flex-shrink-0`}>作者：</span>
+              <span className={`text-sm ${textSub} flex-grow`}>大胆走夜路</span>
+            </div>
+            <div className={`flex items-start p-2 rounded-lg transition-all ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)] hover:shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(40,43,52,0.9)] active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.2),inset_-6px_-6px_12px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/30 hover:bg-zinc-800/50' : 'bg-white/50 hover:bg-slate-100'}`}>
+              <span className={`text-sm ${textMain} w-20 flex-shrink-0`}>联系微信：</span>
+              <span className={`text-sm ${textSub} flex-grow`}>zwmrpg</span>
+            </div>
+            <div className={`p-2 rounded-lg transition-all ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)] hover:shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(40,43,52,0.9)] active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.2),inset_-6px_-6px_12px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/30 hover:bg-zinc-800/50' : 'bg-white/50 hover:bg-slate-100'}`}>
+              <span className={`text-sm ${textMain} block mb-1`}>项目介绍：</span>
+              <p className={`text-xs ${textSub}`}>
+                人生游戏管理系统是一个综合性的个人成长管理工具，集成了任务管理、习惯养成、专注计时、成就系统等功能，旨在帮助用户更好地规划和追踪个人发展。
+              </p>
+            </div>
           </div>
         </div>
       </div>

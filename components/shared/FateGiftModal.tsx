@@ -23,9 +23,29 @@ const FateGiftModal: React.FC<FateGiftModalProps> = ({
 }) => {
   const isDark = theme === 'dark';
   const isNeomorphic = theme === 'neomorphic';
-  const cardBg = isNeomorphic ? 'bg-[#e0e5ec]' : (isDark ? 'bg-zinc-900/90' : 'bg-white/90');
-  const textMain = isDark ? 'text-white' : (isNeomorphic ? 'text-zinc-800' : 'text-zinc-900');
-  const textSub = isDark ? 'text-zinc-400' : (isNeomorphic ? 'text-zinc-600' : 'text-zinc-500');
+  const cardBg = isNeomorphic 
+    ? (isDark ? 'bg-[#2a2a3a]' : 'bg-[#e0e5ec]') 
+    : (isDark ? 'bg-zinc-900/90' : 'bg-white/90');
+  const textMain = isDark || isNeomorphic ? 'text-white' : 'text-zinc-900';
+  const textSub = isDark || isNeomorphic ? 'text-zinc-400' : 'text-zinc-500';
+  
+  // 拟态风格深色模式下的装饰层样式
+  const neomorphicDecoratorStyle = {
+    background: isNeomorphic && isDark 
+      ? 'radial-gradient(circle at 30% 30%, #4a4a5a, #1a1a2a)' 
+      : isNeomorphic 
+        ? 'radial-gradient(circle at 30% 30%, #ffffff, #d0d4dc)' 
+        : 'linear-gradient(to bottom right, rgba(156, 163, 175, 0.1), rgba(209, 213, 219, 0.1))',
+  };
+  
+  // 拟态风格深色模式下的顶部光效样式
+  const neomorphicTopGradientStyle = {
+    background: isNeomorphic && isDark 
+      ? 'linear-gradient(to bottom, rgba(70, 70, 90, 0.3), transparent)' 
+      : isNeomorphic 
+        ? 'linear-gradient(to bottom, rgba(255, 255, 255, 0.5), transparent)' 
+        : 'linear-gradient(to bottom, rgba(255, 255, 255, 0.2), transparent)',
+  };
 
   const getTaskCategoryLabel = (category: DiceCategory) => {
     switch (category) {
@@ -48,14 +68,18 @@ const FateGiftModal: React.FC<FateGiftModalProps> = ({
       <div className={`w-full max-w-md p-8 rounded-2xl border ${cardBg} relative transform transition-all duration-500 animate-in zoom-in`}
            style={{
              boxShadow: isNeomorphic 
-               ? '10px 10px 20px rgba(163, 177, 198, 0.6), -10px -10px 20px rgba(255, 255, 255, 1), inset 1px 1px 2px rgba(255, 255, 255, 0.9), inset -1px -1px 2px rgba(163, 177, 198, 0.3)' 
+               ? (isDark 
+                   ? '10px 10px 20px rgba(10, 10, 20, 0.6), -10px -10px 20px rgba(40, 40, 60, 0.8), inset 1px 1px 2px rgba(90, 90, 110, 0.3), inset -1px -1px 2px rgba(10, 10, 20, 0.6)'
+                   : '10px 10px 20px rgba(163, 177, 198, 0.6), -10px -10px 20px rgba(255, 255, 255, 1), inset 1px 1px 2px rgba(255, 255, 255, 0.9), inset -1px -1px 2px rgba(163, 177, 198, 0.3)')
                : '0 20px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1)'
            }}>
         {/* 拟态设计装饰层 */}
-        <div className="absolute top-0 left-0 w-full h-full rounded-2xl bg-gradient-to-br from-blue-500/5 to-yellow-500/5 opacity-70 pointer-events-none"></div>
+        <div className="absolute top-0 left-0 w-full h-full rounded-2xl pointer-events-none"
+             style={neomorphicDecoratorStyle}></div>
         
         {/* 顶部光效 */}
-        <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-white/20 to-transparent rounded-t-2xl pointer-events-none"></div>
+        <div className="absolute top-0 left-0 w-full h-32 rounded-t-2xl pointer-events-none"
+             style={neomorphicTopGradientStyle}></div>
         
         <h3 className={`font-bold mb-6 ${textMain} flex items-center justify-center gap-2 text-2xl`}>
           <Sparkles size={28} className="text-yellow-500 animate-pulse drop-shadow-[0_0_10px_rgba(234,179,8,0.6)]" />
@@ -86,12 +110,14 @@ const FateGiftModal: React.FC<FateGiftModalProps> = ({
             <p className={`text-lg ${textMain} p-5 rounded-xl backdrop-blur-sm transition-all duration-300 hover:shadow-lg`}
                style={{
                  backgroundColor: isNeomorphic 
-                   ? 'rgba(224, 229, 236, 0.8)' 
+                   ? (isDark ? 'rgba(60, 60, 70, 0.8)' : 'rgba(224, 229, 236, 0.8)')
                    : isDark 
                      ? 'rgba(39, 39, 42, 0.8)' 
                      : 'rgba(255, 255, 255, 0.8)',
                  boxShadow: isNeomorphic 
-                   ? 'inset 3px 3px 6px rgba(163, 177, 198, 0.4), inset -3px -3px 6px rgba(255, 255, 255, 0.8)' 
+                   ? (isDark 
+                       ? 'inset 3px 3px 6px rgba(20, 20, 30, 0.6), inset -3px -3px 6px rgba(70, 70, 90, 0.4)'
+                       : 'inset 3px 3px 6px rgba(163, 177, 198, 0.4), inset -3px -3px 6px rgba(255, 255, 255, 0.8)')
                    : isDark 
                      ? 'inset 2px 2px 4px rgba(0, 0, 0, 0.5), inset -1px -1px 2px rgba(255, 255, 255, 0.05)' 
                      : 'inset 1px 1px 3px rgba(0, 0, 0, 0.1), inset -1px -1px 3px rgba(255, 255, 255, 0.8)'
@@ -105,17 +131,19 @@ const FateGiftModal: React.FC<FateGiftModalProps> = ({
             <div className={`p-5 rounded-xl transition-all duration-300 hover:shadow-xl relative overflow-hidden`}
                  style={{
                    backgroundColor: isNeomorphic 
-                     ? 'rgba(224, 229, 236, 0.8)' 
+                     ? (isDark ? 'rgba(60, 60, 70, 0.8)' : 'rgba(224, 229, 236, 0.8)')
                      : isDark 
                        ? 'rgba(39, 39, 42, 0.8)' 
                        : 'rgba(255, 255, 255, 0.8)',
                    boxShadow: isNeomorphic 
-                     ? '5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 0.8), inset 1px 1px 2px rgba(255, 255, 255, 0.9), inset -1px -1px 2px rgba(163, 177, 198, 0.3)' 
+                     ? (isDark 
+                         ? '5px 5px 10px rgba(20, 20, 30, 0.6), -5px -5px 10px rgba(70, 70, 90, 0.4), inset 1px 1px 2px rgba(40, 40, 50, 0.3), inset -1px -1px 2px rgba(20, 20, 30, 0.6)'
+                         : '5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 0.8), inset 1px 1px 2px rgba(255, 255, 255, 0.9), inset -1px -1px 2px rgba(163, 177, 198, 0.3)')
                      : isDark 
                        ? '3px 3px 6px rgba(0, 0, 0, 0.4), -1px -1px 2px rgba(255, 255, 255, 0.05)' 
                        : '3px 3px 6px rgba(0, 0, 0, 0.1), -1px -1px 3px rgba(255, 255, 255, 0.8)'
                  }}>
-              <div className="text-xs text-zinc-500 mb-2">金币</div>
+              <div className={`text-xs ${isDark || isNeomorphic ? 'text-zinc-400' : 'text-zinc-500'} mb-2`}>金币</div>
               <div className="text-lg font-bold text-yellow-500 flex items-center justify-center gap-1 relative z-10">
                 <Coins size={20} className="drop-shadow-[0_0_8px_rgba(250,204,21,0.6)]" />
                 +{task._generatedGold || 0}
@@ -127,17 +155,19 @@ const FateGiftModal: React.FC<FateGiftModalProps> = ({
             <div className={`p-5 rounded-xl transition-all duration-300 hover:shadow-xl relative overflow-hidden`}
                  style={{
                    backgroundColor: isNeomorphic 
-                     ? 'rgba(224, 229, 236, 0.8)' 
+                     ? (isDark ? 'rgba(60, 60, 70, 0.8)' : 'rgba(224, 229, 236, 0.8)')
                      : isDark 
                        ? 'rgba(39, 39, 42, 0.8)' 
                        : 'rgba(255, 255, 255, 0.8)',
                    boxShadow: isNeomorphic 
-                     ? '5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 0.8), inset 1px 1px 2px rgba(255, 255, 255, 0.9), inset -1px -1px 2px rgba(163, 177, 198, 0.3)' 
+                     ? (isDark 
+                         ? '5px 5px 10px rgba(20, 20, 30, 0.6), -5px -5px 10px rgba(70, 70, 90, 0.4), inset 1px 1px 2px rgba(40, 40, 50, 0.3), inset -1px -1px 2px rgba(20, 20, 30, 0.6)'
+                         : '5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 0.8), inset 1px 1px 2px rgba(255, 255, 255, 0.9), inset -1px -1px 2px rgba(163, 177, 198, 0.3)')
                      : isDark 
                        ? '3px 3px 6px rgba(0, 0, 0, 0.4), -1px -1px 2px rgba(255, 255, 255, 0.05)' 
                        : '3px 3px 6px rgba(0, 0, 0, 0.1), -1px -1px 3px rgba(255, 255, 255, 0.8)'
                  }}>
-              <div className="text-xs text-zinc-500 mb-2">经验</div>
+              <div className={`text-xs ${isDark || isNeomorphic ? 'text-zinc-400' : 'text-zinc-500'} mb-2`}>经验</div>
               <div className="text-lg font-bold text-purple-500 flex items-center justify-center gap-1 relative z-10">
                 <Star size={20} className="drop-shadow-[0_0_8px_rgba(168,85,247,0.6)]" />
                 +{task._generatedXp || 0}
@@ -150,17 +180,19 @@ const FateGiftModal: React.FC<FateGiftModalProps> = ({
               <div className={`p-5 rounded-xl transition-all duration-300 hover:shadow-xl relative overflow-hidden`}
                    style={{
                      backgroundColor: isNeomorphic 
-                       ? 'rgba(224, 229, 236, 0.8)' 
+                       ? (isDark ? 'rgba(60, 60, 70, 0.8)' : 'rgba(224, 229, 236, 0.8)')
                        : isDark 
                          ? 'rgba(39, 39, 42, 0.8)' 
                          : 'rgba(255, 255, 255, 0.8)',
                      boxShadow: isNeomorphic 
-                       ? '5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 0.8), inset 1px 1px 2px rgba(255, 255, 255, 0.9), inset -1px -1px 2px rgba(163, 177, 198, 0.3)' 
+                       ? (isDark 
+                           ? '5px 5px 10px rgba(20, 20, 30, 0.6), -5px -5px 10px rgba(70, 70, 90, 0.4), inset 1px 1px 2px rgba(40, 40, 50, 0.3), inset -1px -1px 2px rgba(20, 20, 30, 0.6)'
+                           : '5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 0.8), inset 1px 1px 2px rgba(255, 255, 255, 0.9), inset -1px -1px 2px rgba(163, 177, 198, 0.3)')
                        : isDark 
                          ? '3px 3px 6px rgba(0, 0, 0, 0.4), -1px -1px 2px rgba(255, 255, 255, 0.05)' 
                          : '3px 3px 6px rgba(0, 0, 0, 0.1), -1px -1px 3px rgba(255, 255, 255, 0.8)'
                    }}>
-                <div className="text-xs text-zinc-500 mb-2">时长</div>
+                <div className={`text-xs ${isDark || isNeomorphic ? 'text-zinc-400' : 'text-zinc-500'} mb-2`}>时长</div>
                 <div className="text-lg font-bold text-blue-500 flex items-center justify-center gap-1 relative z-10">
                   <Clock size={20} className="drop-shadow-[0_0_8px_rgba(59,130,246,0.6)]" />
                   {task.duration} 分钟
@@ -204,7 +236,7 @@ const FateGiftModal: React.FC<FateGiftModalProps> = ({
                 backgroundColor: isNeomorphic 
                   ? 'rgba(224, 229, 236, 0.9)' 
                   : 'bg-emerald-600',
-                color: isNeomorphic ? 'text-emerald-600' : 'text-white',
+                color: isNeomorphic ? (isDark ? 'text-white' : 'text-emerald-600') : 'text-white',
                 boxShadow: isNeomorphic 
                   ? '5px 5px 10px rgba(163, 177, 198, 0.6), -5px -5px 10px rgba(255, 255, 255, 1), inset 0 0 0 rgba(16, 185, 129, 0)' 
                   : '0 8px 25px rgba(16, 185, 129, 0.4)',
@@ -223,7 +255,7 @@ const FateGiftModal: React.FC<FateGiftModalProps> = ({
                 backgroundColor: isNeomorphic 
                   ? 'rgba(224, 229, 236, 0.9)' 
                   : isDark ? 'rgba(39, 39, 42, 0.9)' : 'rgba(255, 255, 255, 0.9)',
-                color: isDark ? 'text-white' : 'text-zinc-700',
+                color: isDark || isNeomorphic ? 'text-white' : 'text-zinc-700',
                 boxShadow: isNeomorphic 
                   ? '5px 5px 10px rgba(163, 177, 198, 0.6), -5px -5px 10px rgba(255, 255, 255, 1), inset 0 0 0 rgba(255, 255, 255, 0)' 
                   : isDark 
@@ -244,7 +276,7 @@ const FateGiftModal: React.FC<FateGiftModalProps> = ({
                 backgroundColor: isNeomorphic 
                   ? 'rgba(224, 229, 236, 0.9)' 
                   : isDark ? 'rgba(39, 39, 42, 0.9)' : 'rgba(255, 255, 255, 0.9)',
-                color: isDark ? 'text-white' : 'text-zinc-700',
+                color: isDark || isNeomorphic ? 'text-white' : 'text-zinc-700',
                 boxShadow: isNeomorphic 
                   ? '5px 5px 10px rgba(163, 177, 198, 0.6), -5px -5px 10px rgba(255, 255, 255, 1), inset 0 0 0 rgba(255, 255, 255, 0)' 
                   : isDark 

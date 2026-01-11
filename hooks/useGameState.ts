@@ -4,6 +4,7 @@
  */
 import { useState, useEffect } from 'react';
 import { Transaction, ReviewLog } from '../types';
+import { useLocalGameState } from './useLocalGameState';
 
 /**
  * useGameState Hook 返回值类型
@@ -44,50 +45,22 @@ interface UseGameStateReturn {
  * @returns {UseGameStateReturn} 游戏状态和操作方法
  */
 export const useGameState = (): UseGameStateReturn => {
-  const [day, setDay] = useState(1);
-  const [balance, setBalance] = useState(59);
-  const [xp, setXp] = useState(10);
-  const [checkInStreak, setCheckInStreak] = useState(1);
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [reviews, setReviews] = useState<ReviewLog[]>([]);
-  const [isDataLoaded, setIsDataLoaded] = useState(false);
-
-  // Load data from localStorage on mount
-  useEffect(() => {
-    const loadData = () => {
-      try {
-        const dayStr = localStorage.getItem('life-game-day');
-        const balanceStr = localStorage.getItem('life-game-balance');
-        const xpStr = localStorage.getItem('life-game-xp');
-        const streakStr = localStorage.getItem('life-game-streak');
-        const transactionsStr = localStorage.getItem('life-game-transactions');
-        const reviewsStr = localStorage.getItem('life-game-reviews');
-
-        if (dayStr) setDay(parseInt(dayStr));
-        if (balanceStr) setBalance(parseInt(balanceStr));
-        if (xpStr) setXp(parseInt(xpStr));
-        if (streakStr) setCheckInStreak(parseInt(streakStr));
-        if (transactionsStr) setTransactions(JSON.parse(transactionsStr));
-        if (reviewsStr) setReviews(JSON.parse(reviewsStr));
-      } catch (error) {
-        console.error('Failed to load data from localStorage:', error);
-      } finally {
-        setIsDataLoaded(true);
-      }
-    };
-
-    loadData();
-  }, []);
-
-  // Save data to localStorage when it changes
-  useEffect(() => {
-    localStorage.setItem('life-game-day', day.toString());
-    localStorage.setItem('life-game-balance', balance.toString());
-    localStorage.setItem('life-game-xp', xp.toString());
-    localStorage.setItem('life-game-streak', checkInStreak.toString());
-    localStorage.setItem('life-game-transactions', JSON.stringify(transactions));
-    localStorage.setItem('life-game-reviews', JSON.stringify(reviews));
-  }, [day, balance, xp, checkInStreak, transactions, reviews]);
+  // 使用新的本地游戏状态Hook
+  const {
+    day,
+    setDay,
+    balance,
+    setBalance,
+    xp,
+    setXp,
+    checkInStreak,
+    setCheckInStreak,
+    transactions,
+    setTransactions,
+    reviews,
+    setReviews,
+    isDataLoaded
+  } = useLocalGameState();
 
   // Handle balance updates with transaction logging
   const handleUpdateBalance = (amount: number, reason: string) => {
@@ -96,13 +69,13 @@ export const useGameState = (): UseGameStateReturn => {
 
     const transaction: Transaction = {
       id: `tx-${Date.now()}`,
+      time: new Date().toLocaleString(),
       amount,
-      balance: newBalance,
-      timestamp: new Date().toISOString(),
-      reason
+      desc: reason
     };
 
-    setTransactions(prev => [...prev.slice(-99), transaction]); // Keep only last 100 transactions
+    const updatedTransactions = [...transactions.slice(-99), transaction];
+    setTransactions(updatedTransactions); // Keep only last 100 transactions
   };
 
   return {

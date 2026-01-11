@@ -37,6 +37,8 @@ interface CharacterProfileProps {
   onHelpClick?: (helpId: string) => void;
   // Character Level Change
   onLevelChange?: (newLevel: number, type: 'level' | 'focus' | 'wealth') => void;
+  // Badge Category Click Handler
+  onBadgeCategoryClick?: (category: 'level' | 'focus' | 'wealth') => void;
   // Update today stats
   onUpdateTodayStats?: (stats: any) => void;
   // Settings
@@ -547,6 +549,7 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
                                     }
                                 }
                             }}
+                            onBadgeCategoryClick={props.onBadgeCategoryClick}
                             onHelpClick={onHelpClick}
                         />
                     </div>
@@ -655,7 +658,7 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
                         <h2 className={`text-lg sm:text-xl font-bold ${isDark ? 'text-white' : isNeomorphic ? 'text-zinc-800' : 'text-slate-800'}`}>管理锦囊库</h2>
                         <button 
                             onClick={() => setIsMantraModalOpen(false)}
-                            className={`p-2 sm:p-3 rounded-full transition-colors ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[3px_3px_6px_rgba(163,177,198,0.5),-3px_-3px_6px_rgba(255,255,255,1)] active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]' : isDark ? 'hover:bg-zinc-800 text-white' : 'hover:bg-slate-100 text-slate-800'}`}
+                            className={`p-2 sm:p-3 rounded-full transition-colors ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[3px_3px_6px_rgba(163,177,198,0.5),-3px_-3px_6px_rgba(255,255,255,1)] active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]' : isDark ? 'hover:bg-zinc-700 text-white' : 'hover:bg-slate-100 text-slate-800'}`}
                         >
                             <X size={20} sm:size={24} className={isDark ? 'text-white' : isNeomorphic ? 'text-zinc-800' : 'text-slate-800'} />
                         </button>
@@ -687,7 +690,7 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
                         <h3 className={`text-sm font-medium mb-3 ${isDark ? 'text-zinc-300' : isNeomorphic ? 'text-zinc-700' : 'text-slate-700'}`}>现有金句 ({mantras.length})</h3>
                         <div className="space-y-3">
                             {mantras.map((mantra, index) => (
-                                <div key={index} className={`flex items-center justify-between p-3 rounded-[24px] transition-all ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[3px_3px_6px_rgba(163,177,198,0.5),-3px_-3px_6px_rgba(255,255,255,1)] active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-slate-50 border-slate-300'} border hover:border-blue-500/50`}>
+                                <div key={index} className={`flex items-center justify-between p-3 rounded-[24px] transition-all ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[3px_3px_6px_rgba(163,177,198,0.5),-3px_-3px_6px_rgba(255,255,255,1)] active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-slate-50 border-slate-300'} border`}>
                                     {editingMantraIndex === index ? (
                                         <div className="flex items-center gap-2 flex-1">
                                             <input 
