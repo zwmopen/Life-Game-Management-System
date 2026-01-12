@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import Navigation from './components/Navigation';
 import MissionControl from './components/MissionControl'; 
 import LifeGame from './components/LifeGame';
@@ -779,7 +780,7 @@ const App: React.FC = () => {
           if (p.id === id) {
               const updatedProject = { ...p, ...updates };
               if (updates.subTasks) {
-                  // 检查哪些子任务从非完成状态变为完成状态，或从完成状态变为非完成状态
+                  // 检���哪些子任务从非完成状态变为完成状态，或从完成状态变为非完成状态
                   const prevCompletedSubTasks = p.subTasks.filter(t => t.completed).length;
                   const newCompletedSubTasks = updatedProject.subTasks.filter(t => t.completed).length;
                   const diff = newCompletedSubTasks - prevCompletedSubTasks;
@@ -1360,6 +1361,7 @@ const App: React.FC = () => {
 
   return (
     <div className={`flex h-screen w-full overflow-hidden font-sans relative transition-colors duration-500 ${bgClass}`}>
+      <Analytics />
       {/* Conditionally render Navigation based on immersive mode */}
       {!isImmersive && (
         <Navigation 
