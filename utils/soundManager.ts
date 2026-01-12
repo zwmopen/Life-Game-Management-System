@@ -106,7 +106,39 @@ class SoundManager {
     audio.volume = bgm.volume || this.bgmVolume;
     audio.loop = bgm.loop || true;
     audio.muted = this.isMuted;
+    // 设置预加载模式为 metadata，只加载元数据而不是整个文件
+    audio.preload = 'metadata';
     this.backgroundMusic[bgm.id] = audio;
+  }
+  
+  // 按需加载背景音乐，在播放前确保音频已加载
+  private async preloadBackgroundMusicOnDemand(id: string): Promise<HTMLAudioElement | null> {
+    const bgm = this.backgroundMusic[id];
+    if (!bgm) {
+      console.warn(`Background music ${id} not found`);
+      return null;
+    }
+    
+    // 如果音频已加载完成，直接返回
+    if (bgm.readyState >= 3) { // HAVE_FUTURE_DATA
+      return bgm;
+    }
+    
+    // 否则等待音频加载完成
+    return new Promise((resolve) => {
+      bgm.oncanplaythrough = () => {
+        resolve(bgm);
+      };
+      bgm.onerror = () => {
+        console.error(`Failed to load background music ${id}`);
+        resolve(null);
+      };
+      
+      // 如果音频还没有开始加载，触发加载
+      if (bgm.readyState === 0) { // HAVE_NOTHING
+        bgm.load();
+      }
+    });
   }
 
   // 播放音效
@@ -135,7 +167,7 @@ class SoundManager {
   }
 
   // 播放背景音乐
-  playBackgroundMusic(id: string): void {
+  async playBackgroundMusic(id: string): Promise<void> {
     if (this.isMuted) return;
     
     // 如果已经在播放相同的音乐，直接返回
@@ -146,8 +178,8 @@ class SoundManager {
     // 停止当前播放的背景音乐
     this.stopCurrentBackgroundMusic();
     
-    // 播放新的背景音乐
-    const audio = this.backgroundMusic[id];
+    // 按需预加载背景音乐
+    const audio = await this.preloadBackgroundMusicOnDemand(id);
     if (audio) {
       this.currentBackgroundMusicId = id;
       audio.play().catch(error => {
@@ -159,7 +191,7 @@ class SoundManager {
         audioStatistics.recordPlay(id);
       });
     } else {
-      console.warn(`Background music ${id} not found`);
+      console.warn(`Background music ${id} not found or failed to load`);
     }
   }
 

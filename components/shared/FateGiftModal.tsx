@@ -21,8 +21,9 @@ const FateGiftModal: React.FC<FateGiftModalProps> = ({
   onStartTimer,
   theme = 'dark'
 }) => {
-  const isDark = theme === 'dark';
-  const isNeomorphic = theme === 'neomorphic';
+  const isDark = theme === 'dark' || theme === 'neomorphic-dark';
+  const isNeomorphic = theme.startsWith('neomorphic');
+  const isNeomorphicDark = theme === 'neomorphic-dark';
   const cardBg = isNeomorphic 
     ? (isDark ? 'bg-[#2a2a3a]' : 'bg-[#e0e5ec]') 
     : (isDark ? 'bg-zinc-900/90' : 'bg-white/90');

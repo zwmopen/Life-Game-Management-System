@@ -40,20 +40,9 @@ class WebDAVClient {
     return `Basic ${btoa(binary)}`;
   }
 
-  // 构建完整URL - 使用代理服务器来避免CORS问题
+  // 构建完整URL - 直接使用目标URL，不依赖代理服务器
   private buildUrl(path: string): string {
-    // 使用本地代理服务器来绕过CORS限制
-    return `/webdav`;
-  }
-
-  // 发送请求
-  private async request(
-    method: string,
-    path: string,
-    body?: BodyInit,
-    headers?: Record<string, string>
-  ): Promise<Response> {
-    // 构建完整的目标路径（不含基础URL）
+    // 直接使用完整的目标URL
     const basePath = this.config.basePath?.replace(/^\/|\/$/g, '') || '';
     const filePath = path.replace(/^\//, '');
     
@@ -69,16 +58,23 @@ class WebDAVClient {
       fullPath = '/' + fullPath;
     }
     
-    // 对路径进行URL编码，避免非ISO-8859-1字符导致的问题
-    fullPath = encodeURI(fullPath);
+    return new URL(fullPath, this.config.url).href;
+  }
+
+  // 发送请求
+  private async request(
+    method: string,
+    path: string,
+    body?: BodyInit,
+    headers?: Record<string, string>
+  ): Promise<Response> {
+    // 构建完整的目标URL
+    const targetUrl = this.buildUrl(path);
     
     try {
-      // 使用代理服务器来避免CORS问题
-      const proxyUrl = this.buildUrl(path);
-      
+      // 直接使用目标URL发送请求
       const requestHeaders: Record<string, string> = {
           'Authorization': this.getAuthHeader(),
-          'X-Target-Url': new URL(fullPath, this.config.url).href, // 通过请求头传递真实的目标URL
           ...headers,
         };
         
@@ -88,13 +84,19 @@ class WebDAVClient {
             // 上传文件时使用通用类型
             requestHeaders['Content-Type'] = 'application/octet-stream';
           } else if (method === 'PROPFIND') {
-            // PROPFIND请求通常不需要Content-Type
+            // PROPFIND请求需要特定的Content-Type
+            requestHeaders['Content-Type'] = 'application/xml';
           } else {
             requestHeaders['Content-Type'] = 'application/octet-stream';
           }
         }
         
-        const response = await fetch(proxyUrl, {
+        // 添加PROPFIND请求所需的Depth头
+        if (method === 'PROPFIND' && !headers?.Depth) {
+          requestHeaders['Depth'] = '1';
+        }
+        
+        const response = await fetch(targetUrl, {
           method,
           headers: requestHeaders,
           body,
@@ -196,7 +198,7 @@ class WebDAVClient {
         await this.createDirectory(currentPath);
       } catch (error) {
         // 目录可能已存在，忽略错误
-        console.log(`Directory ${currentPath} may already exist`);
+        // 目录可能已存在
       }
     }
   }

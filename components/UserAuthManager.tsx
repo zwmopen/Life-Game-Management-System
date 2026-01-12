@@ -34,9 +34,9 @@ const UserAuthManager: React.FC<UserAuthManagerProps> = ({ theme = 'light' }) =>
   
   // 为拟态主题添加额外的样式变量
   const neomorphicContainerBg = isNeomorphic
-    ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]'
+    ? 'bg-[#e0e5ec] shadow-[12px_12px_24px_rgba(163,177,198,0.6),-12px_-12px_24px_rgba(255,255,255,1)] hover:shadow-[14px_14px_28px_rgba(163,177,198,0.7),-14px_-14px_28px_rgba(255,255,255,1)] active:shadow-[inset_8px_8px_16px_rgba(163,177,198,0.6),inset_-8px_-8px_16px_rgba(255,255,255,1)]'
     : isNeomorphicDark
-    ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)]'
+    ? 'bg-[#2a2d36] shadow-[12px_12px_24px_rgba(0,0,0,0.3),-12px_-12px_24px_rgba(40,43,52,0.8)] hover:shadow-[14px_14px_28px_rgba(0,0,0,0.4),-14px_-14px_28px_rgba(40,43,52,1)] active:shadow-[inset_8px_8px_16px_rgba(0,0,0,0.3),inset_-8px_-8px_16px_rgba(40,43,52,0.8)]'
     : '';
   
   const containerBg = isNeomorphic || isNeomorphicDark
@@ -46,20 +46,20 @@ const UserAuthManager: React.FC<UserAuthManagerProps> = ({ theme = 'light' }) =>
     : 'bg-slate-50';
 
   const innerContainerBg = isNeomorphic
-    ? 'bg-[#d4dae3] shadow-inner'
+    ? 'bg-[#e0e5ec] shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]'
     : isNeomorphicDark
-    ? 'bg-[#3a3d46] shadow-inner'
+    ? 'bg-[#2a2d36] shadow-[inset_6px_6px_12px_rgba(0,0,0,0.3),inset_-6px_-6px_12px_rgba(40,43,52,0.8)]'
     : isDark
     ? 'bg-zinc-700'
     : 'bg-slate-100';
     
   const inputBg = isNeomorphic
-    ? 'bg-[#e0e5ec] shadow-inner'
+    ? 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] hover:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.7),inset_-6px_-6px_12px_rgba(255,255,255,1)] focus:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.7),inset_-6px_-6px_12px_rgba(255,255,255,1)]'
     : isNeomorphicDark
-    ? 'bg-[#3a3d46] shadow-inner'
+    ? 'bg-[#2a2d36] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.3),inset_-4px_-4px_8px_rgba(40,43,52,0.8)] hover:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.4),inset_-6px_-6px_12px_rgba(40,43,52,0.9)] focus:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.4),inset_-6px_-6px_12px_rgba(40,43,52,0.9)]'
     : isDark
-    ? 'bg-zinc-700'
-    : 'bg-slate-100';
+    ? 'bg-zinc-700 hover:bg-zinc-600'
+    : 'bg-slate-200 hover:bg-slate-300';
     
   const textMain = isDark || isNeomorphicDark ? 'text-zinc-100' : 'text-zinc-800';
   const textSub = isDark || isNeomorphicDark ? 'text-zinc-300' : 'text-zinc-600';
@@ -67,20 +67,20 @@ const UserAuthManager: React.FC<UserAuthManagerProps> = ({ theme = 'light' }) =>
   const textSuccess = isDark || isNeomorphicDark ? 'text-green-400' : 'text-green-600';
   
   const buttonBg = isNeomorphic
-    ? 'bg-[#505f79] shadow-[inset_2px_2px_4px_rgba(255,255,255,0.3),inset_-2px_-2px_4px_rgba(0,0,0,0.2)] hover:bg-[#607089]'
+    ? 'bg-[#e0e5ec] border-transparent shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)] hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)] transition-all duration-300 text-blue-600 hover:text-blue-700'
     : isNeomorphicDark
-    ? 'bg-[#5a6b8c] shadow-[inset_2px_2px_4px_rgba(90,107,140,0.3),inset_-2px_-2px_4px_rgba(0,0,0,0.4)] hover:bg-[#6a7b9c]'
+    ? 'bg-[#2a2d36] border-transparent shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(40,43,52,0.8)] hover:shadow-[12px_12px_24px_rgba(0,0,0,0.4),-12px_-12px_24px_rgba(40,43,52,1)] active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.3),inset_-6px_-6px_12px_rgba(40,43,52,0.8)] transition-all duration-300 text-blue-400 hover:text-blue-300'
     : isDark
-    ? 'bg-zinc-700 hover:bg-zinc-600'
-    : 'bg-slate-200 hover:bg-slate-300';
+    ? 'bg-zinc-700 hover:bg-zinc-600 transition-all duration-300 text-white'
+    : 'bg-slate-200 hover:bg-slate-300 transition-all duration-300 text-slate-800';
     
   const linkColor = isNeomorphicDark ? 'text-blue-400' : isDark ? 'text-blue-400' : 'text-blue-600';
   
   // 为表单元素添加更明确的拟态深色模式样式
   const formInputBorder = isNeomorphic
-    ? 'border border-[#b8bec9]'
+    ? 'border border-transparent'
     : isNeomorphicDark
-    ? 'border border-[#4a4d56]'
+    ? 'border border-transparent'
     : isDark
     ? 'border border-zinc-600'
     : 'border border-slate-300';
@@ -90,9 +90,9 @@ const UserAuthManager: React.FC<UserAuthManagerProps> = ({ theme = 'light' }) =>
   
   // 为容器添加更清晰的边界
   const containerBorder = isNeomorphicDark
-    ? 'border border-[#3a3d46]'
+    ? 'border border-transparent'
     : isNeomorphic
-    ? 'border border-[#caced5]'
+    ? 'border border-transparent'
     : isDark
     ? 'border border-zinc-700'
     : 'border border-slate-200';

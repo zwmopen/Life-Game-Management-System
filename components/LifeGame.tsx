@@ -535,37 +535,48 @@ const LifeGame: React.FC<LifeGameProps> = ({
       };
   }).sort((a, b) => Number(a.completed) - Number(b.completed));
 
+  // 检查并修复商品图片
   useEffect(() => {
-    const saved = localStorage.getItem('life-game-stats-v2'); 
-    if (saved) {
-      try {
-        const data = JSON.parse(saved);
-        setLevel(data.level || 1);
-        setSavings(data.savings || 0);
-        
-        const savedInv = data.inventory || [];
-        const savedMap = new Map<string, any>(savedInv.map((i: any) => [i.id, i]));
-        
-        let mergedInv = SHOP_CATALOG.map(catItem => {
-            const savedItem = savedMap.get(catItem.id);
-            if (savedItem) {
-                return { 
-                    ...catItem, 
-                    owned: savedItem.owned, 
-                    purchaseCount: savedItem.purchaseCount || 0,
-                    lastPurchased: savedItem.lastPurchased || 0,
-                    image: savedItem.image || catItem.image || ''
-                };
-            }
-            return catItem;
-        });
-        const catalogIds = new Set(SHOP_CATALOG.map(i => i.id));
-        const customItems = savedInv.filter((i: any) => !catalogIds.has(i.id));
-        mergedInv = [...mergedInv, ...customItems];
-
-        setInventory(mergedInv);
-      } catch (e) { console.error("Save file corrupted", e); }
-    }
+    const checkAndFixImages = async () => {
+      const { checkAndFixProductImages } = await import('../utils/imageChecker');
+      
+      const saved = localStorage.getItem('life-game-stats-v2'); 
+      let initialInv = SHOP_CATALOG;
+      
+      if (saved) {
+        try {
+          const data = JSON.parse(saved);
+          setLevel(data.level || 1);
+          setSavings(data.savings || 0);
+          
+          const savedInv = data.inventory || [];
+          const savedMap = new Map<string, any>(savedInv.map((i: any) => [i.id, i]));
+          
+          initialInv = SHOP_CATALOG.map(catItem => {
+              const savedItem = savedMap.get(catItem.id);
+              if (savedItem) {
+                  return { 
+                      ...catItem, 
+                      owned: savedItem.owned, 
+                      purchaseCount: savedItem.purchaseCount || 0,
+                      lastPurchased: savedItem.lastPurchased || 0,
+                      image: savedItem.image || catItem.image || ''
+                  };
+              }
+              return catItem;
+          });
+          const catalogIds = new Set(SHOP_CATALOG.map(i => i.id));
+          const customItems = savedInv.filter((i: any) => !catalogIds.has(i.id));
+          initialInv = [...initialInv, ...customItems];
+        } catch (e) { console.error("Save file corrupted", e); }
+      }
+      
+      // 检查并修复图片
+      const fixedInventory = await checkAndFixProductImages(initialInv);
+      setInventory(fixedInventory);
+    };
+    
+    checkAndFixImages();
   }, []);
 
   useEffect(() => {
@@ -1724,7 +1735,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                         {taskCategory === 'random' && (
                             <div className="space-y-4">
                                 {/* 整合后的3D命运骰子组件 - 移除多余的背景和边框样式，使用组件内部样式 */}
-                                <div className="text-center">
+                                <div className="w-full">
                                     <FateDice 
                                         theme={theme}
                                         diceState={diceState}
@@ -1752,10 +1763,10 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                     />
                                 )}
                                 
-                                {/* 任务列表 */}
-                                <div className="space-y-4">
+                                {/* 任务列表 - 响应式网格布局 */}
+                                <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4">
                                     {/* 未完成任务 */}
-                                    <div className={`${cardBg} border p-2 sm:p-4 rounded-xl`}>
+                                    <div className={`${cardBg} border p-2 sm:p-4 rounded-xl transition-all duration-300`}>
                                         <h4 className={`text-base sm:text-lg font-bold mb-3 ${textMain}`}>待完成任务</h4>
                                         {diceState?.pendingTasks?.length > 0 ? (
                                             <div className="space-y-2">
@@ -1764,7 +1775,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                                         key={taskRecord.id} 
                                                         className={`relative group rounded-lg border transition-all overflow-hidden ${cardBg} hover:shadow-lg ${isDark ? 'border-zinc-800' : 'border-slate-200'}`}
                                                     >
-                                                        <div className="p-2 sm:p-3 flex items-center gap-2 sm:gap-3">
+                                                        <div className="p-2 sm:p-3 flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3">
                                                             <button onClick={() => {
                                                                 // 直接标记任务为已完成，不弹出命运的礼物界面
                                                                 if (onUpdateDiceState) {
@@ -1785,7 +1796,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                                             }} className={`w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all shrink-0 ${isDark ? 'border-zinc-600 hover:border-emerald-500 text-transparent' : 'border-slate-300 hover:border-emerald-500 bg-white'}`}>
                                                                 <Check size={16} strokeWidth={4} className="text-transparent hover:text-white transition-colors" />
                                                             </button>
-                                                            <div className="flex-1 min-w-0">
+                                                            <div className="flex-1 min-w-0 w-full">
                                                                 <div className="flex items-center gap-1 sm:gap-2 flex-wrap">
                                                                     <h3 className={`font-bold truncate flex-1 min-w-0 ${textMain}`}>
                                                                         {taskRecord.task.text}
@@ -1799,7 +1810,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                                                     )}
                                                                 </div>
                                                             </div>
-                                                            <div className="flex items-center gap-1 sm:gap-2">
+                                                            <div className="flex items-center gap-1 sm:gap-2 w-full sm:w-auto justify-start sm:justify-end">
                                                                 <button onClick={(e) => {
                                                                     e.stopPropagation();
                                                                     // 放弃命运骰子任务
@@ -1838,7 +1849,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                     </div>
                                     
                                     {/* 已完成任务 */}
-                                    <div className={`${cardBg} border p-2 sm:p-4 rounded-xl`}>
+                                    <div className={`${cardBg} border p-2 sm:p-4 rounded-xl transition-all duration-300`}>
                                         <h4 className={`text-base sm:text-lg font-bold mb-3 ${textMain}`}>已完成任务</h4>
                                         {diceState?.completedTasks?.length > 0 ? (
                                             <div className="space-y-2">
@@ -1847,11 +1858,11 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                                         key={taskRecord.id} 
                                                         className={`relative group rounded-lg border transition-all overflow-hidden opacity-50 grayscale ${isDark ? 'bg-zinc-950/50' : 'bg-slate-100'} ${cardBg} ${isDark ? 'border-zinc-800' : 'border-slate-200'}`}
                                                     >
-                                                        <div className="p-2 sm:p-3 flex items-center gap-2 sm:gap-3">
+                                                        <div className="p-2 sm:p-3 flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3">
                                                             <div className={`w-8 h-8 rounded-full border-2 bg-emerald-500 border-emerald-500 text-white flex items-center justify-center transition-all shrink-0`}>
                                                                 <Check size={16} strokeWidth={4} />
                                                             </div>
-                                                            <div className="flex-1 min-w-0">
+                                                            <div className="flex-1 min-w-0 w-full">
                                                                 <div className="flex flex-wrap items-center gap-1 sm:gap-2">
                                                                     <h3 className={`font-bold truncate flex-1 min-w-0 text-zinc-500 line-through`}>
                                                                         {taskRecord.task.text}
@@ -1865,7 +1876,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                                                     )}
                                                                 </div>
                                                             </div>
-                                                            <div className="flex items-center gap-1 sm:gap-2">
+                                                            <div className="flex items-center gap-1 sm:gap-2 w-full sm:w-auto justify-start sm:justify-end">
                                                                 <div className={`p-3 rounded-full text-white shadow-lg ${isDark ? 'bg-zinc-800' : 'bg-blue-500'} opacity-50`}>
                                                                     <Check size={16} fill="currentColor"/>
                                                                 </div>
@@ -2011,60 +2022,69 @@ const LifeGame: React.FC<LifeGameProps> = ({
                      ) : (
                          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                              {sortedInventory.map((item, index) => (
-                                 <div key={item.id} draggable={isManageShopMode} onDragStart={() => handleShopDragStart(index)} onDragOver={(e) => handleShopDragOver(e, index)} className={`group relative p-4 rounded-lg border flex flex-col items-center text-center gap-1.5 hover:border-yellow-500/50 hover:shadow-lg transition-all ${cardBg.replace('border-[#a3b1c6]', 'border-[#e0e5ec]')} ${item.type === 'physical' && item.owned ? 'opacity-50' : ''} ${isManageShopMode ? 'border-red-500/30 cursor-move' : 'cursor-default'}`} style={{ minHeight: '160px' }}>
-                                     {isManageShopMode && (<><div className="absolute top-2 right-2 flex gap-2 z-10"><button onClick={(e) => { e.stopPropagation(); setEditingItem(item); setIsEditItemOpen(true); }} className={`p-1.5 rounded text-white transition-all duration-200 ${isNeomorphic ? (isNeomorphicDark ? 'bg-blue-500/80 shadow-[3px_3px_6px_rgba(0,0,0,0.3),-3px_-3px_6px_rgba(30,30,46,0.6)] hover:shadow-[4px_4px_8px_rgba(0,0,0,0.4),-4px_-4px_8px_rgba(30,30,46,0.7)] active:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.3),inset_-2px_-2px_4px_rgba(30,30,46,0.6)]' : 'bg-blue-500/80 shadow-[3px_3px_6px_rgba(163,177,198,0.4),-3px_-3px_6px_rgba(255,255,255,0.8)] hover:shadow-[4px_4px_8px_rgba(163,177,198,0.5),-4px_-4px_8px_rgba(255,255,255,0.9)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.4),inset_-2px_-2px_4px_rgba(255,255,255,0.8)]') : 'bg-blue-500 hover:bg-blue-600'}`}><Edit3 size={12}/></button><button onClick={(e) => handleDeleteItem(e, item.id)} className={`p-1.5 rounded text-white transition-all duration-200 ${isNeomorphic ? (isNeomorphicDark ? 'bg-red-500/80 shadow-[3px_3px_6px_rgba(0,0,0,0.3),-3px_-3px_6px_rgba(30,30,46,0.6)] hover:shadow-[4px_4px_8px_rgba(0,0,0,0.4),-4px_-4px_8px_rgba(30,30,46,0.7)] active:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.3),inset_-2px_-2px_4px_rgba(30,30,46,0.6)]' : 'bg-red-500/80 shadow-[3px_3px_6px_rgba(163,177,198,0.4),-3px_-3px_6px_rgba(255,255,255,0.8)] hover:shadow-[4px_4px_8px_rgba(163,177,198,0.5),-4px_-4px_8px_rgba(255,255,255,0.9)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.4),inset_-2px_-2px_4px_rgba(255,255,255,0.8)]') : 'bg-red-500 hover:bg-red-600'}`}><Trash2 size={12}/></button></div><div className="absolute left-2 top-2 text-zinc-600 opacity-50"><GripVertical size={16}/></div></>)}
-                                     {/* 商品图片或图标 */}
+                                 <div key={item.id} draggable={isManageShopMode} onDragStart={() => handleShopDragStart(index)} onDragOver={(e) => handleShopDragOver(e, index)} className={`group relative rounded-xl overflow-hidden border transition-all duration-300 hover:shadow-lg ${item.type === 'physical' && item.owned ? 'opacity-50' : ''} ${isManageShopMode ? 'border-red-500/30 cursor-move' : 'cursor-pointer'}`} style={{ minHeight: '280px' }}>
+                                     {isManageShopMode && (<><div className="absolute top-2 right-2 flex gap-2 z-10"><button onClick={(e) => { e.stopPropagation(); setEditingItem(item); setIsEditItemOpen(true); }} className={`p-1.5 rounded text-white transition-all duration-200 bg-blue-500/80 shadow-[3px_3px_6px_rgba(163,177,198,0.4),-3px_-3px_6px_rgba(255,255,255,0.8)] hover:shadow-[4px_4px_8px_rgba(163,177,198,0.5),-4px_-4px_8px_rgba(255,255,255,0.9)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.4),inset_-2px_-2px_4px_rgba(255,255,255,0.8)]`}><Edit2 size={12}/></button><button onClick={(e) => handleDeleteItem(e, item.id)} className={`p-1.5 rounded text-white transition-all duration-200 bg-red-500/80 shadow-[3px_3px_6px_rgba(163,177,198,0.4),-3px_-3px_6px_rgba(255,255,255,0.8)] hover:shadow-[4px_4px_8px_rgba(163,177,198,0.5),-4px_-4px_8px_rgba(255,255,255,0.9)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.4),inset_-2px_-2px_4px_rgba(255,255,255,0.8)]`}><Trash2 size={12}/></button></div><div className="absolute left-2 top-2 text-zinc-600 opacity-50"><GripVertical size={16}/></div></>)}
+                                     
+                                     {/* 商品图片：完全铺满卡片 */}
                                      {item.image ? (
-                                         <div className="relative w-full flex items-center justify-center mb-0">
+                                         <div className="product-img absolute top-0 left-0 w-full h-full z-0">
                                              <img 
                                                  src={item.image} 
                                                  alt={item.name}
-                                                 className="w-14 h-14 rounded-full object-cover border-2 group-hover:scale-110 transition-all duration-300"
+                                                 className="w-full h-full object-cover transition-all duration-500 group-hover:scale-105"
                                                  onError={(e) => {
-                                                     // 如果图片加载失败，回退到图标显示
+                                                     // 如果图片加载失败，回退到背景色和图标显示
                                                      const target = e.target as HTMLImageElement;
                                                      target.style.display = 'none';
-                                                     const fallbackDiv = target.parentElement?.getElementsByClassName('fallback-icon')[0] as HTMLElement;
-                                                     if (fallbackDiv) fallbackDiv.style.display = 'block';
-                                                 }}
-                                                 onLoad={(e) => {
-                                                     const target = e.target as HTMLImageElement;
-                                                     const fallbackDiv = target.parentElement?.getElementsByClassName('fallback-icon')[0] as HTMLElement;
-                                                     if (fallbackDiv) fallbackDiv.style.display = 'none';
+                                                     const fallbackDiv = target.parentElement?.getElementsByClassName('fallback-bg')[0] as HTMLElement;
+                                                     if (fallbackDiv) fallbackDiv.style.display = 'flex';
+                                                     
+                                                     // 在开发环境记录失效的图片链接
+                                                     if (process.env.NODE_ENV === 'development') {
+                                                         console.log(`图片加载失败: ${item.image} (商品: ${item.name})`);
+                                                     }
                                                  }}
                                              />
-                                             <div className="fallback-icon relative w-14 h-14 rounded-full flex items-center justify-center border group-hover:scale-110 transition-all duration-300" style={{ display: 'none' }}>
-                                                 <div className={`relative w-14 h-14 rounded-full flex items-center justify-center border ${isDark ? 'bg-gradient-to-br from-zinc-800 to-zinc-900 border-zinc-700' : 'bg-gradient-to-br from-zinc-100 to-zinc-200 border-zinc-300'}`}>
-                                                    <div className="absolute inset-0 rounded-full bg-gradient-to-r from-yellow-500/30 via-purple-500/30 to-blue-500/30 animate-[spin_3s_linear_infinite] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                                                    <div className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 animate-[shine_2s_ease-in-out_infinite] transform -rotate-45 transition-opacity duration-500"></div>
-                                                    <div className="relative z-10 text-7xl group-hover:animate-pulse">{item.icon}</div>
-                                                </div>
+                                             <div className="fallback-bg absolute inset-0 flex items-center justify-center" style={{ display: 'none', backgroundColor: isDark ? '#1a1a2e' : '#e0e5ec' }}>
+                                                 <div className="text-5xl">{item.icon}</div>
                                              </div>
                                          </div>
                                      ) : (
-                                         <div className="relative w-full flex items-center justify-center mb-0">
-                                             <div className={`relative w-14 h-14 rounded-full flex items-center justify-center border ${isDark ? 'bg-gradient-to-br from-zinc-800 to-zinc-900 border-zinc-700' : 'bg-gradient-to-br from-zinc-100 to-zinc-200 border-zinc-300'} group-hover:scale-110 transition-all duration-300`}>
-                                                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-yellow-500/30 via-purple-500/30 to-blue-500/30 animate-[spin_3s_linear_infinite] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                                                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 animate-[shine_2s_ease-in-out_infinite] transform -rotate-45 transition-opacity duration-500"></div>
-                                                <div className="relative z-10 text-7xl group-hover:animate-pulse">{item.icon}</div>
-                                            </div>
+                                         <div className="absolute inset-0 flex items-center justify-center z-0" style={{ backgroundColor: isDark ? '#1a1a2e' : '#e0e5ec' }}>
+                                             <div className="text-6xl">{item.icon}</div>
                                          </div>
                                      )}
-                                     {/* 价格移到商品名称上面 */}
-                                     <span className={`px-3 py-1 text-xs font-bold rounded-full mt-1 ${isDark ? 'bg-yellow-600/30 text-yellow-400 border border-yellow-600/50' : 'bg-yellow-100 text-yellow-800'}`}>¥{item.cost}</span>
-                                     {/* 商品名称允许换行显示 */}
-                                     <h4 className={`font-bold text-sm ${textMain} mt-0 text-center w-full break-words`}>{item.name}</h4>
-                                     {/* 显示购买次数 */}
-                                     {item.purchaseCount > 0 && (
-                                         <span className="text-[10px] text-zinc-500 font-bold">
-                                             已购买 x{item.purchaseCount}
-                                         </span>
-                                     )}
-                                     <p className="text-xs text-zinc-500 mt-0 line-clamp-2 w-full max-w-[120px]">{item.description}</p>
-                                     {/* 购买按钮完全融入商品块 */}
-                                     <button onClick={(e) => handlePurchase(item, e)} className={`w-full py-1 text-[12px] font-bold rounded-md mt-1 transition-all duration-300 ${item.type === 'physical' && item.owned ? 'bg-zinc-800/30 text-zinc-500 hover:bg-zinc-700/50' : (isNeomorphic ? (isNeomorphicDark ? 'bg-[#1e1e2e] text-blue-400 hover:text-blue-300' : neomorphicStyles.bg + ' text-blue-600 hover:text-blue-700') : 'bg-gradient-to-r from-yellow-600/80 to-amber-600/80 hover:from-yellow-500/90 hover:to-amber-500/90 text-white')}`}>
-                                        {item.type === 'physical' && item.owned ? '已拥有' : '购买'}
-                                    </button>
+                                     
+                                     {/* 渐变遮罩：从商品标题区域顶部开始向下渐变覆盖，优化视觉效果 */}
+                                    <div className="gradient-mask absolute left-0 top-1/2 w-full h-2/3 z-10 pointer-events-none" style={{
+                                        background: isDark ? 
+                                            'linear-gradient(to bottom, rgba(26,26,46,0), rgba(26,26,46,0.3) 30%, rgba(26,26,46,0.5) 60%, rgba(26,26,46,0.7) 80%, rgba(26,26,46,0.9) 100%)' : 
+                                            'linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0.3) 30%, rgba(255,255,255,0.5) 60%, rgba(255,255,255,0.7) 80%, rgba(255,255,255,0.9) 100%)'
+                                    }}></div>
+                                     
+                                     {/* 商品信息：叠在遮罩上 */}
+                                     <div className="product-info relative z-20 p-0 20px text-center" style={{ marginTop: '65px' }}>
+                                         {/* 价格：突出显示在商品名称上方 */}
+                                         <div className={`bg-opacity-95 px-4 py-1.5 text-sm font-bold rounded-full mx-auto my-2 inline-block ${isDark ? 'bg-yellow-600/30 text-yellow-400 border border-yellow-600/50' : 'bg-[#fff3cd] text-[#fd7e14]'}`}>¥{item.cost}</div>
+                                         
+                                         {/* 商品名称：加大字号，更醒目 */}
+                                         <h4 className={`font-bold text-xl ${isDark ? 'text-white' : 'text-zinc-900'} mt-2 mb-1 text-shadow ${isDark ? 'text-shadow: 0 1px 2px rgba(0,0,0,0.8)' : 'text-shadow: 0 1px 2px rgba(255,255,255,0.6)'} w-full break-words`}>{item.name}</h4>
+                                         
+                                         {/* 显示购买次数 */}
+                                         {item.purchaseCount > 0 && (
+                                             <span className={`text-sm ${isDark ? 'text-zinc-300' : 'text-zinc-500'} font-bold`}>
+                                                 已购买 x{item.purchaseCount}
+                                             </span>
+                                         )}
+                                         
+                                         {/* 商品描述：限制显示2行，保持卡片整洁 */}
+                                         <p className={`text-sm ${isDark ? 'text-zinc-300' : 'text-zinc-500'} mt-1 mb-6 line-clamp-2 w-full max-w-[240px] mx-auto text-shadow ${isDark ? 'text-shadow: 0 1px 1px rgba(0,0,0,0.6)' : 'text-shadow: 0 1px 1px rgba(255,255,255,0.5)'}`}>{item.description}</p>
+                                         
+                                         {/* 购买按钮：实心设计，突出行动引导 */}
+                                         <button onClick={(e) => handlePurchase(item, e)} className={`inline-block px-8 py-2.5 text-sm font-bold rounded-full transition-all duration-300 shadow-md hover:shadow-lg ${item.type === 'physical' && item.owned ? 'bg-zinc-800/30 text-zinc-500 hover:bg-zinc-700/50' : (isDark ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-500 hover:to-purple-500' : 'bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:from-blue-400 hover:to-purple-400')}`}>
+                                            {item.type === 'physical' && item.owned ? '已拥有' : '购买'}
+                                        </button>
+                                     </div>
                                  </div>
                              ))}
                          </div>

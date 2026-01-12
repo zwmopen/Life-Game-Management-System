@@ -55,7 +55,7 @@ const App: React.FC = () => {
 
   // Global "Game" State
   const [day, setDay] = useState(1); 
-  const [balance, setBalance] = useState(60); // 用户备份数据中的初始余额
+  const [balance, setBalance] = useState(88); // 用户备份数据中的初始余额
   const [xp, setXp] = useState(10); // 用户备份数据中的初始经验值
   const [checkInStreak, setCheckInStreak] = useState(1); // 用户备份数据中的初始签到 streak
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -195,7 +195,7 @@ const App: React.FC = () => {
         setProjects(finalProjects);
         setHabitOrder(data.habitOrder || (data.habits || INITIAL_HABITS).map(h => h.id));
         setProjectOrder(data.projectOrder || (finalProjects).map(p => p.id));
-        setBalance(data.balance ?? 1250);
+        setBalance(data.balance ?? 88);
         setDay(data.day || 1);
         setTransactions(data.transactions || []);
         setReviews(data.reviews || []);
@@ -287,7 +287,7 @@ const App: React.FC = () => {
       if (!isDataLoaded) {
         // 仅在开发环境输出详细日志
         if (process.env.NODE_ENV === 'development') {
-          console.log('数据加载超时，强制设置为已加载状态');
+          // 数据加载超时，强制设置为已加载状态
         }
         setIsDataLoaded(true);
       }

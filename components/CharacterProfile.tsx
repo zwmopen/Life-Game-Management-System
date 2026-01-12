@@ -400,6 +400,11 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
         }
     }, []);
 
+    // Ensure immersive mode is false on component mount
+    useEffect(() => {
+        setIsImmersive(false);
+    }, []);
+
     useEffect(() => {
         localStorage.setItem('aes-global-mantras', JSON.stringify(mantras));
     }, [mantras]);
@@ -464,21 +469,23 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
 
     const currentSound = SOUNDS.find(s => s.id === currentSoundId) || SOUNDS[0];
 
+    // 移除重复的定时器逻辑，使用usePomodoro钩子中的定时器
+    // 当番茄钟结束时，退出沉浸式模式，但不要在暂停时退出
     useEffect(() => {
-        let interval: number;
-        if (isActive && timeLeft > 0) {
-            interval = window.setInterval(() => onUpdateTimeLeft(timeLeft - 1), 1000);
-        } else if (timeLeft === 0 && isActive) {
-            onUpdateIsActive(false);
+        // 只在计时器结束时退出沉浸式模式，而不是在暂停时
+        if (timeLeft === 0 && isActive) {
             // 使用soundManager播放成功音效
             import('../utils/soundManager').then(({ default: soundManager }) => {
               soundManager.play('taskComplete');
             });
-            onUpdateTimeLeft(duration * 60);
-            if (isImmersive) setIsImmersive(false);
+            if (isImmersive) {
+                setIsImmersive(false);
+                if (onImmersiveModeChange) {
+                    onImmersiveModeChange(false);
+                }
+            }
         }
-        return () => clearInterval(interval);
-    }, [isActive, timeLeft, duration, onPomodoroComplete, onUpdateTimeLeft, onUpdateIsActive, isImmersive]);
+    }, [timeLeft, isActive, isImmersive, onImmersiveModeChange]);
 
     const toggleTimer = () => onToggleTimer();
     const resetTimer = () => onResetTimer();
@@ -568,7 +575,7 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
                             onChangeDuration={onChangeDuration}
                             onUpdateTimeLeft={onUpdateTimeLeft}
                             onUpdateIsActive={onUpdateIsActive}
-                            onImmersiveModeChange={(isImmersive) => setIsImmersive(true)}
+                            onImmersiveModeChange={(isImmersive) => setIsImmersive(isImmersive)}
                             onInternalImmersiveModeChange={(isInternalImmersive) => {
                                 setIsImmersive(true);
                                 setUseInternalImmersive(true);

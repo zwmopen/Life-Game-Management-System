@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Menu, X, Sun, Moon, GripVertical, Gamepad2, BarChart2, ShoppingBag, ShieldAlert, Activity, Medal, Book, Settings, HelpCircle, ChevronRight, ChevronLeft } from 'lucide-react';
 import { View, Theme } from '../types';
+import { APP_VERSION } from '../constants/app';
 
 interface NavigationProps {
   currentView: View;
@@ -236,7 +237,7 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
                    )}
                </button>
               {!isNavCollapsed && (
-                <div className={`text-[10px] font-mono ${isDark ? 'text-zinc-600' : 'text-slate-400'}`}>V 4.5.0</div>
+                <div className={`text-[10px] font-mono ${isDark ? 'text-zinc-600' : 'text-slate-400'}`}>V {APP_VERSION}</div>
               )}
           </div>
       </div>

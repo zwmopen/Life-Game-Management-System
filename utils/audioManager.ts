@@ -17,6 +17,8 @@ interface AudioCategory {
 class AudioManager {
   private audioCategories: AudioCategory[] = [];
   private isInitialized: boolean = false;
+  private preloadedAudios: Map<string, HTMLAudioElement> = new Map();
+  private isPreloading: boolean = false;
 
   async initialize() {
     if (this.isInitialized) return;
@@ -56,6 +58,79 @@ class AudioManager {
     ];
 
     this.isInitialized = true;
+  }
+
+  // 预加载指定音频文件
+  preloadAudio(url: string): Promise<HTMLAudioElement> {
+    return new Promise((resolve, reject) => {
+      if (this.preloadedAudios.has(url)) {
+        resolve(this.preloadedAudios.get(url)!);
+        return;
+      }
+
+      const audio = new Audio();
+      audio.preload = 'auto';
+      audio.volume = 0.3;
+
+      audio.oncanplaythrough = () => {
+        this.preloadedAudios.set(url, audio);
+        resolve(audio);
+      };
+
+      audio.onerror = (error) => {
+        console.error(`Failed to preload audio: ${url}`, error);
+        reject(error);
+      };
+
+      audio.src = url;
+    });
+  }
+
+  // 批量预加载音频文件
+  async preloadAudios(urls: string[], progressCallback?: (loaded: number, total: number) => void) {
+    if (this.isPreloading) return;
+
+    this.isPreloading = true;
+    const total = urls.length;
+    let loaded = 0;
+
+    try {
+      const promises = urls.map(url => {
+        return this.preloadAudio(url).then(() => {
+          loaded++;
+          if (progressCallback) progressCallback(loaded, total);
+        }).catch(() => {
+          loaded++;
+          if (progressCallback) progressCallback(loaded, total);
+        });
+      });
+
+      await Promise.all(promises);
+    } finally {
+      this.isPreloading = false;
+    }
+  }
+
+  // 预加载所有背景音乐
+  async preloadAllBackgroundMusic() {
+    if (!this.isInitialized) {
+      await this.initialize();
+    }
+
+    const bgmFiles = this.getBackgroundMusic();
+    const bgmUrls = bgmFiles.map(file => file.url);
+    await this.preloadAudios(bgmUrls);
+  }
+
+  // 预加载前N个背景音乐文件（用于分批加载）
+  async preloadTopBackgroundMusic(limit: number = 10) {
+    if (!this.isInitialized) {
+      await this.initialize();
+    }
+
+    const bgmFiles = this.getBackgroundMusic();
+    const topBgmUrls = bgmFiles.slice(0, limit).map(file => file.url);
+    await this.preloadAudios(topBgmUrls);
   }
 
   private async scanAudioFolder(folderPath: string, type: SoundType): Promise<AudioFile[]> {
@@ -288,17 +363,43 @@ class AudioManager {
     return undefined;
   }
 
-  // 播放音频的方法
-  playAudio(url: string, volume: number = 1.0) {
+  // 播放音频的方法 - 优先使用预加载的音频
+  playAudio(url: string, volume: number = 0.3) {
+    try {
+      // 检查是否有预加载的音频
+      let audio = this.preloadedAudios.get(url);
+      
+      if (audio) {
+        // 克隆预加载的音频元素，以便可以多次播放
+        const clonedAudio = audio.cloneNode() as HTMLAudioElement;
+        clonedAudio.volume = volume;
+        clonedAudio.play().catch(e => {
+          console.error('Error playing preloaded audio:', e);
+          // 如果播放失败，尝试创建新的音频元素
+          this.playAudioFallback(url, volume);
+        });
+        return clonedAudio;
+      } else {
+        // 如果没有预加载，使用回退方法
+        return this.playAudioFallback(url, volume);
+      }
+    } catch (error) {
+      console.error('Error playing audio:', error);
+      return null;
+    }
+  }
+
+  // 播放音频的回退方法 - 用于未预加载的音频
+  private playAudioFallback(url: string, volume: number = 0.3) {
     try {
       const audio = new Audio(url);
       audio.volume = volume;
       audio.play().catch(e => {
-        console.error('Error playing audio:', e);
+        console.error('Error playing audio fallback:', e);
       });
       return audio;
     } catch (error) {
-      console.error('Error creating audio element:', error);
+      console.error('Error creating audio element fallback:', error);
       return null;
     }
   }

@@ -1,10 +1,71 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, Suspense, lazy } from 'react';
 import { Theme } from '../types';
 import { Search, BookOpen } from 'lucide-react';
 import thinkingModels from './thinkingModels.json';
 
 interface ThinkingCenterProps {
   theme: Theme;
+}
+
+// HTML sanitization function to filter unsafe content
+const sanitizeHtml = (html: string): string => {
+  if (!html) return '';
+  
+  // Remove script tags completely
+  let sanitized = html.replace(/<script[^>]*>.*?<\/script>/gi, '');
+  
+  // Remove style tags completely  
+  sanitized = sanitized.replace(/<style[^>]*>.*?<\/style>/gi, '');
+  
+  // Remove all event handlers
+  sanitized = sanitized.replace(/\s+(on\w+)\s*=\s*["']?[^"'>\s]+["']?/gi, '');
+  
+  // Allow only safe HTML tags
+  const allowedTags = ['div', 'span', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'strong', 'em', 'b', 'i', 'a', 'img', 'svg', 'g', 'path', 'circle', 'rect', 'line', 'text', 'animate', 'animateMotion', 'animateTransform', 'defs', 'marker'];
+  const tagRegex = new RegExp(`<\/?(?!(${allowedTags.join('|')}))\w+[^>]*>`, 'gi');
+  sanitized = sanitized.replace(tagRegex, '');
+  
+  // Allow only safe attributes
+  const allowedAttributes = ['class', 'id', 'src', 'href', 'alt', 'title', 'width', 'height', 'viewBox', 'transform', 'fill', 'stroke', 'stroke-width', 'stroke-dasharray', 'stroke-linecap', 'text-anchor', 'dominant-baseline', 'opacity', 'style', 'x', 'y', 'cx', 'cy', 'r', 'rx', 'ry', 'd', 'points', 'x1', 'y1', 'x2', 'y2'];
+  const attributeRegex = new RegExp(`\s+(?!(${allowedAttributes.join('|')}))\w+\s*=\s*["']?[^"'>\s]+["']?`, 'gi');
+  sanitized = sanitized.replace(attributeRegex, '');
+  
+  // Remove any remaining unsafe characters
+  sanitized = sanitized.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+  
+  return sanitized;
+};
+
+// Error boundary component to handle model parsing errors
+class ModelErrorBoundary extends React.Component<{
+  children: React.ReactNode;
+  fallback: React.ReactNode;
+}, {
+  hasError: boolean;
+}> {
+  constructor(props: {
+    children: React.ReactNode;
+    fallback: React.ReactNode;
+  }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(_: Error) {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    console.error('Model rendering error:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return this.props.fallback;
+    }
+
+    return this.props.children;
+  }
 }
 
 // Button component without drag and drop functionality
@@ -179,9 +240,39 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme }) => {
     });
   }, [searchTerm, viewCounts]);
   
-  // Get the current active model data
+  // Get the current active model data with error handling
   const currentModel = useMemo(() => {
-    return thinkingModels.find(model => model.id === activeModel) || thinkingModels[0];
+    try {
+      return thinkingModels.find(model => model.id === activeModel) || thinkingModels[0] || {
+        id: 'default',
+        name: 'default',
+        label: '默认模型',
+        icon: 'BrainCircuit',
+        description: '默认思维模型',
+        deepAnalysis: '这是一个默认思维模型，用于处理错误情况。',
+        principle: '默认原则',
+        scope: '默认范围',
+        tips: '1. 这是一个默认模型',
+        practice: '使用默认模型处理错误情况',
+        visualDesign: '<div style="text-align: center; padding: 20px;">默认可视化设计</div>'
+      };
+    } catch (error) {
+      console.error('Error finding active model:', error);
+      // 返回一个安全的默认模型
+      return {
+        id: 'default',
+        name: 'default',
+        label: '默认模型',
+        icon: 'BrainCircuit',
+        description: '默认思维模型',
+        deepAnalysis: '这是一个默认思维模型，用于处理错误情况。',
+        principle: '默认原则',
+        scope: '默认范围',
+        tips: '1. 这是一个默认模型',
+        practice: '使用默认模型处理错误情况',
+        visualDesign: '<div style="text-align: center; padding: 20px;">默认可视化设计</div>'
+      };
+    }
   }, [activeModel]);
 
   return (
@@ -190,7 +281,7 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col gap-6">
           {/* Search and Model Switcher */}
-          <div className={`${cardBg} p-5 rounded-3xl border`}>
+          <div className={`${cardBg} p-5 rounded-3xl border w-full`}>
             {/* Search Bar */}
             <div className="mb-3">
               <div className="relative">
@@ -226,57 +317,82 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme }) => {
             </div>
           </div>
           
-          {/* Model Display */}
-          <div className={`${cardBg} p-6 rounded-3xl border`}>
+          {/* Model Display with lazy loading and error handling */}
+          <div className={`${cardBg} p-6 rounded-3xl border w-full transition-all duration-300`}>
             {/* Model Content */}
-            <div className="space-y-4">
+            <div className="space-y-4 animate-fadeIn">
               {/* Model Description */}
               <p className={`text-sm ${textSub} mt-0`}>{currentModel.description}</p>
               
-              {/* Visual Design - Full size display */}
+              {/* Visual Design - Lazy loaded with error handling */}
               <div className={`rounded-xl p-4 border transition-all duration-200 ${isDark ? (isNeomorphic ? 'bg-[#2a2d36] border-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.3),-8px_-8px_16px_rgba(40,43,52,0.8)]' : 'bg-zinc-900 border-zinc-800') : (isNeomorphic ? `${currentNeomorphicStyle.bg} ${currentNeomorphicStyle.border} ${currentNeomorphicStyle.shadow}` : 'bg-white border-slate-200')}`}>
-                <div 
-                  dangerouslySetInnerHTML={{ __html: currentModel.visualDesign }}
-                  className="w-full"
-                />
+                {currentModel && currentModel.visualDesign ? (
+                  <ModelErrorBoundary
+                    fallback={
+                      <div className={`flex flex-col items-center justify-center h-40 text-sm ${textSub} p-4`}>
+                        <p className="mb-2">模型可视化渲染出错</p>
+                        <p className="text-xs opacity-70">请尝试刷新页面或选择其他模型</p>
+                      </div>
+                    }
+                  >
+                    <div 
+                      dangerouslySetInnerHTML={{ 
+                        __html: sanitizeHtml(currentModel.visualDesign)
+                      }}
+                      className="w-full"
+                    />
+                  </ModelErrorBoundary>
+                ) : (
+                  <div className={`flex items-center justify-center h-40 text-sm ${textSub}`}>
+                    暂无可视化设计
+                  </div>
+                )}
               </div>
               
-              {/* Model Details - Below the chart */}
-              <div className="space-y-4">
-                {/* Description */}
-                <div className="space-y-1">
-                  <h3 className={`text-sm font-semibold ${textMain}`}>模型描述</h3>
-                  <p className={`text-sm ${textSub}`}>{currentModel.deepAnalysis}</p>
+              {/* Model Details - Lazy loaded below the chart */}
+              <Suspense
+                fallback={
+                  <div className={`flex items-center justify-center h-32 text-sm ${textSub}`}>
+                    正在加载模型详情...
+                  </div>
+                }
+              >
+                <div className="space-y-4">
+                  {/* Description */}
+                  <div className="space-y-1">
+                    <h3 className={`text-sm font-semibold ${textMain}`}>模型描述</h3>
+                    <p className={`text-sm ${textSub}`}>{currentModel.deepAnalysis}</p>
+                  </div>
+                  
+                  {/* Principle */}
+                  <div className="space-y-1">
+                    <h3 className={`text-sm font-semibold ${textMain}`}>核心原则</h3>
+                    <p className={`text-sm ${textSub}`}>{currentModel.principle}</p>
+                  </div>
+                  
+                  {/* Scope */}
+                  <div className="space-y-1">
+                    <h3 className={`text-sm font-semibold ${textMain}`}>应用范围</h3>
+                    <p className={`text-sm ${textSub}`}>{currentModel.scope}</p>
+                  </div>
+                  
+                  {/* Tips */}
+                  <div className="space-y-1">
+                    <h3 className={`text-sm font-semibold ${textMain}`}>使用技巧</h3>
+                    <ul className={`text-sm ${textSub} space-y-1 list-disc list-inside`}>
+                      {currentModel.tips.split('\n').map((tip, index) => (
+                        <li key={index}>{tip}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  
+                  {/* Practice */}
+                  <div className="space-y-1">
+                    <h3 className={`text-sm font-semibold ${textMain}`}>实践建议</h3>
+                    <p className={`text-sm ${textSub}`}>{currentModel.practice}</p>
+                  </div>
                 </div>
-                
-                {/* Principle */}
-                <div className="space-y-1">
-                  <h3 className={`text-sm font-semibold ${textMain}`}>核心原则</h3>
-                  <p className={`text-sm ${textSub}`}>{currentModel.principle}</p>
-                </div>
-                
-                {/* Scope */}
-                <div className="space-y-1">
-                  <h3 className={`text-sm font-semibold ${textMain}`}>应用范围</h3>
-                  <p className={`text-sm ${textSub}`}>{currentModel.scope}</p>
-                </div>
-                
-                {/* Tips */}
-                <div className="space-y-1">
-                  <h3 className={`text-sm font-semibold ${textMain}`}>使用技巧</h3>
-                  <ul className={`text-sm ${textSub} space-y-1 list-disc list-inside`}>
-                    {currentModel.tips.split('\n').map((tip, index) => (
-                      <li key={index}>{tip}</li>
-                    ))}
-                  </ul>
-                </div>
-                
-                {/* Practice */}
-                <div className="space-y-1">
-                  <h3 className={`text-sm font-semibold ${textMain}`}>实践建议</h3>
-                  <p className={`text-sm ${textSub}`}>{currentModel.practice}</p>
-                </div>
-              </div>
+              </Suspense>
             </div>
           </div>
         </div>

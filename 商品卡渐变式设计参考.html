@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>电影票商品卡片渐变效果</title>
+    <style>
+        /* 商品卡片容器：固定尺寸，圆角，溢出隐藏 */
+        .product-card {
+            width: 280px;
+            height: 320px;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden; /* 防止图片超出卡片 */
+            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+            margin: 50px auto;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15); /* 优化：阴影更柔和有层次感 */
+        }
+
+        /* 电影票背景图：完全铺满卡片，零边距 */
+        .product-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0; /* 图片在最下层 */
+        }
+
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* 铺满且不变形，裁剪多余部分 */
+            filter: brightness(0.95); /* 优化：图片亮度微降，避免和文字抢视觉焦点 */
+        }
+
+        /* 渐变遮罩：起始位置上移，渐变范围扩大（核心优化） */
+        .gradient-mask {
+            position: absolute;
+            left: 0;
+            top: 60px; /* 大幅上移：从60px开始，比原来高35px */
+            width: 100%;
+            height: calc(100% - 60px); /* 覆盖面积更大，占卡片下2/3 */
+            /* 渐变节点调整：浅白出现更早，过渡更舒展 */
+            background: linear-gradient(to bottom, 
+                rgba(255,255,255,0), 
+                rgba(255,255,255,0.2) 20%, /* 浅白节点提前到20% */
+                rgba(255,255,255,0.6) 60%, 
+                rgba(255,255,255,1) 100%);
+            pointer-events: none; /* 不影响按钮点击 */
+            z-index: 1; /* 遮罩在图片上层，信息下层 */
+        }
+
+        /* 商品信息：叠在最上层，价格在名称前 */
+        .product-info {
+            position: relative;
+            z-index: 2;
+            padding: 0 20px;
+            text-align: center;
+            margin-top: 65px; /* 位置不变，与上移的渐变遮罩适配 */
+        }
+
+        .product-price {
+            background-color: rgba(255,243,205,0.95); /* 优化：价格框透明度微升，更清晰 */
+            color: #fd7e14;
+            font-size: 15px; /* 优化：价格字号微大，突出核心信息 */
+            font-weight: 600;
+            padding: 5px 14px; /* 优化：内边距增加，更饱满 */
+            border-radius: 20px;
+            width: fit-content;
+            margin: 0 auto 12px; /* 优化：与名称间距增加，层次更分明 */
+        }
+
+        .product-name {
+            font-size: 20px; /* 优化：名称字号加大，更醒目 */
+            font-weight: 700;
+            color: #222; /* 优化：文字颜色加深，对比度更高 */
+            margin-bottom: 8px;
+            text-shadow: 0 1px 2px rgba(255,255,255,0.6); /* 优化：加浅阴影，文字更立体 */
+        }
+
+        .product-desc {
+            font-size: 14px;
+            color: #555; /* 优化：描述颜色加深，可读性提升 */
+            margin-bottom: 22px;
+            text-shadow: 0 1px 1px rgba(255,255,255,0.5); /* 优化：加浅阴影，避免和渐变融合 */
+        }
+
+        .product-btn {
+            display: inline-block;
+            font-size: 16px;
+            color: #fff; /* 优化：按钮文字变白，更吸睛 */
+            font-weight: 600;
+            text-decoration: none;
+            padding: 7px 24px; /* 优化：内边距增加，点击区域更大 */
+            background-color: #007bff; /* 优化：按钮实心，突出行动引导 */
+            border-radius: 24px; /* 优化：圆角更大，更柔和 */
+            box-shadow: 0 2px 6px rgba(0,123,255,0.3); /* 优化：按钮加阴影，更立体 */
+            transition: background-color 0.3s ease; /* 优化：hover过渡，交互更友好 */
+        }
+
+        .product-btn:hover {
+            background-color: #0056b3; /* 优化：hover变色，提升交互体验 */
+        }
+    </style>
+</head>
+<body>
+    <div class="product-card">
+        <!-- 电影票背景图：全屏零边距铺满 -->
+        <div class="product-img">
+            <img src="https://picsum.photos/id/1058/400/400" alt="电影票背景图">
+        </div>
+        <!-- 渐变遮罩：起始位置上移，范围扩大 -->
+        <div class="gradient-mask"></div>
+        <!-- 商品信息 -->
+        <div class="product-info">
+            <div class="product-price">¥45</div>
+            <div class="product-name">电影票</div>
+            <div class="product-desc">娱乐放松，情感共鸣</div>
+            <a href="#" class="product-btn">购买</a>
+        </div>
+    </div>
+</body>
+</html>

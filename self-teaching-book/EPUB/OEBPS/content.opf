@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package version="2.0" xmlns="http://www.idpf.org/2007/opf" unique-identifier="book-id">
+  <metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
+    <dc:title>自学/自学的技艺：如果不能自学，就没有未来</dc:title>
+    <dc:title opf:file-as="自学的技艺" opf:type="main">自学的技艺</dc:title>
+    <dc:creator opf:role="aut">selfteaching</dc:creator>
+    <dc:subject>自学</dc:subject>
+    <dc:subject>自我提升</dc:subject>
+    <dc:subject>教育</dc:subject>
+    <dc:description>One has no future if one couldn't teach themself.</dc:description>
+    <dc:publisher>开源书籍</dc:publisher>
+    <dc:date opf:event="publication">2023-05-03</dc:date>
+    <dc:rights>CC BY-SA 4.0</dc:rights>
+    <dc:language>zh-CN</dc:language>
+    <dc:identifier id="book-id" opf:scheme="URI">https://github.com/selfteaching/the-craft-of-selfteaching</dc:identifier>
+    <meta name="cover" content="cover-image"/>
+  </metadata>
+  <manifest>
+    <item id="ncx" href="toc.ncx" media-type="application/x-dtbncx+xml"/>
+    <item id="cover" href="cover.xhtml" media-type="application/xhtml+xml"/>
+    <item id="title-page" href="title-page.xhtml" media-type="application/xhtml+xml"/>
+    <item id="introduction" href="introduction.xhtml" media-type="application/xhtml+xml"/>
+    <item id="cover-image" href="images/cover.jpg" media-type="image/jpeg"/>
+    <item id="style" href="css/style.css" media-type="text/css"/>
+  </manifest>
+  <spine toc="ncx">
+    <itemref idref="cover" linear="no"/>
+    <itemref idref="title-page"/>
+    <itemref idref="introduction"/>
+  </spine>
+  <guide>
+    <reference type="cover" title="封面" href="cover.xhtml"/>
+    <reference type="title-page" title="扉页" href="title-page.xhtml"/>
+    <reference type="text" title="正文" href="introduction.xhtml"/>
+  </guide>
+</package>

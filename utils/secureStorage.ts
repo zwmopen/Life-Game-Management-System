@@ -124,6 +124,6 @@ export const migrateOldWebDAVConfig = (): void => {
     localStorage.removeItem('webdav-username');
     localStorage.removeItem('webdav-password');
 
-    console.log('WebDAV配置已从旧存储迁移到安全存储');
+    // WebDAV配置已从旧存储迁移到安全存储
   }
 };

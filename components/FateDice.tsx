@@ -191,7 +191,7 @@ const FateDice: React.FC<FateDiceProps> = ({ theme, diceState, onSpinDice, onUpd
     
     // 仅在开发环境输出详细日志
     if (process.env.NODE_ENV === 'development') {
-      console.log('Initializing Three.js scene...');
+      // 初始化Three.js场景...
     }
     
     // 确保容器有正确的尺寸
@@ -199,7 +199,7 @@ const FateDice: React.FC<FateDiceProps> = ({ theme, diceState, onSpinDice, onUpd
     const containerHeight = canvasContainerRef.current.clientHeight;
     // 仅在开发环境输出详细日志
     if (process.env.NODE_ENV === 'development') {
-      console.log('Canvas container size:', containerWidth, 'x', containerHeight);
+      // 获取Canvas容器尺寸...
     }
     
     // 创建场景
@@ -271,7 +271,7 @@ const FateDice: React.FC<FateDiceProps> = ({ theme, diceState, onSpinDice, onUpd
     diceMeshRef.current = diceMesh;
     // 仅在开发环境输出详细日志
     if (process.env.NODE_ENV === 'development') {
-      console.log('Dice mesh created and added to scene');
+      // 骰子网格创建并添加到场景...
     }
     
     // 立即渲染一帧，确保骰子能够显示
@@ -281,7 +281,7 @@ const FateDice: React.FC<FateDiceProps> = ({ theme, diceState, onSpinDice, onUpd
     animate();
     // 仅在开发环境输出详细日志
     if (process.env.NODE_ENV === 'development') {
-      console.log('Three.js scene initialized successfully');
+      // Three.js场景初始化成功...
     }
   };
   
@@ -488,14 +488,14 @@ const FateDice: React.FC<FateDiceProps> = ({ theme, diceState, onSpinDice, onUpd
         // 回退到生成的音效
         // 仅在开发环境输出详细日志
         if (process.env.NODE_ENV === 'development') {
-          console.log('回退到生成音效');
+          // 回退到生成音效...
         }
       });
       
       diceSoundRef.current = audio;
       // 仅在开发环境输出详细日志
       if (process.env.NODE_ENV === 'development') {
-        console.log('音频元素初始化成功，使用路径:', audio.src);
+        // 音频元素初始化成功...
       }
     } catch (error) {
       console.error('无法初始化音频元素:', error);
@@ -575,7 +575,7 @@ const FateDice: React.FC<FateDiceProps> = ({ theme, diceState, onSpinDice, onUpd
   
   // 初始化和清理
   useEffect(() => {
-    console.log('useEffect triggered, theme:', theme);
+    // 主题变化触发useEffect...
     
     // 初始化Three.js场景
     initThreeJS();
@@ -655,7 +655,7 @@ const FateDice: React.FC<FateDiceProps> = ({ theme, diceState, onSpinDice, onUpd
   return (
     <div 
       ref={containerRef}
-      className="w-full max-w-4xl mx-auto rounded-xl p-2 sm:p-3 md:p-4 transition-all duration-300"
+      className="w-full mx-auto rounded-xl p-2 sm:p-3 md:p-4 transition-all duration-300 max-w-none"
       style={{
         backgroundColor: bgColor,
         boxShadow: `9px 9px 16px ${shadowDark}, -9px -9px 16px ${shadowLight}`,

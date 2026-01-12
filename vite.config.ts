@@ -8,7 +8,7 @@ import { webdavProxyPlugin } from './plugins/webdav-proxy-plugin';
 function createAudioScanMiddleware() {
   return (req, res, next) => {
     if (req.url?.startsWith('/api/audio-files')) {
-      console.log('API Request received:', req.url); // 添加调试日志
+      // API请求处理中...
       const url = new URL(`http://${req.headers.host || 'localhost:3000'}${req.url}`);
       const folderParam = url.searchParams.get('folder');
       
@@ -20,7 +20,7 @@ function createAudioScanMiddleware() {
         const fullPath = path.join(process.cwd(), 'public', normalizedPath);
         
         try {
-          console.log('Attempting to read directory:', fullPath); // 调试日志
+          // 尝试读取目录...
           if (fs.existsSync(fullPath) && fs.statSync(fullPath).isDirectory()) {
             const files = fs.readdirSync(fullPath);
             const audioFiles = files.filter(file => {
@@ -28,7 +28,7 @@ function createAudioScanMiddleware() {
               return ['.mp3', '.wav', '.ogg', '.m4a'].includes(ext);
             });
             
-            console.log(`Found ${audioFiles.length} audio files in ${fullPath}:`, audioFiles); // 添加调试日志
+            // 找到音频文件...
             
             res.setHeader('Content-Type', 'application/json');
             res.statusCode = 200;
@@ -40,7 +40,7 @@ function createAudioScanMiddleware() {
             }));
             return;
           } else {
-            console.log(`Directory not found: ${fullPath}`); // 添加调试日志
+            // 目录未找到...
             res.setHeader('Content-Type', 'application/json');
             res.statusCode = 404;
             res.end(JSON.stringify({
@@ -51,7 +51,7 @@ function createAudioScanMiddleware() {
             return;
           }
         } catch (error) {
-          console.log('Error scanning directory:', error); // 添加调试日志
+          // 扫描目录出错...
           res.setHeader('Content-Type', 'application/json');
           res.statusCode = 500;
           res.end(JSON.stringify({
@@ -62,7 +62,7 @@ function createAudioScanMiddleware() {
           return;
         }
       } else {
-        console.log('Missing folder parameter'); // 添加调试日志
+        // 缺少文件夹参数...
         res.setHeader('Content-Type', 'application/json');
         res.statusCode = 400;
         res.end(JSON.stringify({
