@@ -2933,6 +2933,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
       try {
         const THREE = await import('three');
         if (canvasContainerRef.current) {
+          // 安全检查：确保场景已经初始化
           const scene = (canvasContainerRef.current as any)._scene;
           if (scene) {
             if (newPausedState) {  // 修正逻辑：使用新状态来判断
@@ -2965,7 +2966,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           }
         }
       } catch (error) {
-        console.error('Error updating scene:', error);
+        console.error('Error updating scene on pause:', error);
       }
     };
     

@@ -1,4 +1,5 @@
 // 图片检查工具函数
+import { Product } from '../types';
 
 /**
  * 检查单个图片链接是否可用
@@ -86,9 +87,9 @@ export const generateRecommendedImageUrl = (productName: string): string => {
 /**
  * 检查商品图片并修复失效链接
  * @param products 商品数组
- * @returns Promise<Array<any>> 修复后的商品数组
+ * @returns Promise<Product[]> 修复后的商品数组
  */
-export const checkAndFixProductImages = async (products: any[]): Promise<any[]> => {
+export const checkAndFixProductImages = async (products: Product[]): Promise<Product[]> => {
   const productsWithImages = products.filter(product => product.image && product.image.trim() !== '');
   const imageUrls = productsWithImages.map(product => product.image);
   

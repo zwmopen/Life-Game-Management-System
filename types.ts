@@ -6,22 +6,86 @@ import React from 'react';
  */
 /**
  * 商品分类枚举
+ * 定义商品的主要分类，用于商品筛选和展示
  */
 export enum ProductCategory {
-  /** 全部 */
+  /** 全部商品分类 */
   ALL = '全部',
-  /** 吃喝 */
+  /** 数码产品分类，如手机、电脑、耳机等 */
+  DIGITAL = '数码',
+  /** 家居用品分类，如家具、厨具、日用品等 */
+  HOME = '家居',
+  /** 食品饮料分类，如零食、饮料、餐饮等 */
   FOOD = '吃喝',
-  /** 形象设计与穿搭 */
+  /** 饮食相关分类，与FOOD类似，用于更细致的分类 */
+  DIET = '饮食',
+  /** 形象设计与穿搭分类，如服装、化妆品、配饰等 */
   CLOTHING = '形象设计与穿搭',
-  /** 体验 */
-  EXPERIENCE = '体验',
-  /** 休闲娱乐 */
+  /** 休闲娱乐分类，如游戏、电影、旅游等 */
   LEISURE_ENTERTAINMENT = '休闲娱乐',
-  /** 数码家居 */
-  DIGITAL_HOME = '数码家居',
-  /** 会员/权益/充值 */
-  VIP_RECHARGE = '会员/权益/充值'
+  /** 会员/权益/充值分类，如各种会员服务、充值卡等 */
+  VIP_RECHARGE = '会员/权益/充值',
+  /** 体验类商品分类，如课程、活动、服务等 */
+  EXPERIENCE = '体验'
+}
+
+/**
+ * 商品类型枚举
+ * 定义商品的性质和使用方式
+ */
+export enum ProductType {
+  /** 实体商品，可拥有的物理商品 */
+  PHYSICAL = 'physical',
+  /** 休闲商品，用于休闲娱乐的一次性商品 */
+  LEISURE = 'leisure',
+  /** 权益商品，提供某种权益或服务的商品 */
+  RIGHTS = 'rights'
+}
+
+/**
+ * 商品接口
+ * 定义商品的完整数据结构，用于商品管理和展示
+ */
+export interface Product {
+  /** 商品唯一标识符，格式通常为"类型_分类_序号" */
+  id: string;
+  /** 商品名称，用于展示给用户 */
+  name: string;
+  /** 商品描述，详细介绍商品的功能、用途等 */
+  description: string;
+  /** 商品价格，以虚拟货币单位计算 */
+  cost: number;
+  /** 商品类型，决定商品的使用方式和拥有规则 */
+  type: ProductType;
+  /** 是否已拥有该商品，实体商品会标记为true，休闲和权益商品通常为false */
+  owned: boolean;
+  /** 商品图标，用于在商品列表中展示 */
+  icon: React.ReactNode;
+  /** 商品分类，用于商品筛选和分组 */
+  category: ProductCategory;
+  /** 商品图片URL，用于商品详情展示 */
+  image: string;
+  /** 商品购买次数，记录商品被购买的次数 */
+  purchaseCount?: number;
+  /** 最后购买时间戳，记录商品最近一次被购买的时间 */
+  lastPurchased?: number;
+}
+
+/**
+ * 商品管理状态接口
+ * 定义商品管理页面的状态数据结构
+ */
+export interface ProductManagementState {
+  /** 完整的商品列表，包含所有商品数据 */
+  products: Product[];
+  /** 当前选中的商品，用于编辑或查看详情 */
+  selectedProduct: Product | null;
+  /** 可用的商品分类列表，用于筛选器 */
+  categories: ProductCategory[];
+  /** 根据筛选条件过滤后的商品列表，用于展示 */
+  filteredProducts: Product[];
+  /** 当前选中的分类，用于商品筛选 */
+  currentCategory: ProductCategory;
 }
 
 /**

@@ -1,23 +1,49 @@
-// WebDAV客户端工具函数
+/**
+ * WebDAV客户端工具类
+ * 用于处理与WebDAV服务器的交互，包括文件上传、下载、列表查询等操作
+ */
 
-interface WebDAVConfig {
+/**
+ * WebDAV配置接口
+ */
+export interface WebDAVConfig {
+  /** WebDAV服务器URL */
   url: string;
+  /** 用户名 */
   username: string;
+  /** 密码 */
   password: string;
+  /** 基础路径，默认为根目录 */
   basePath?: string;
 }
 
-interface WebDAVFile {
+/**
+ * WebDAV文件信息接口
+ */
+export interface WebDAVFile {
+  /** 文件名 */
   name: string;
+  /** 文件大小（字节） */
   size: number;
+  /** 最后修改时间 */
   mtime: Date;
+  /** 是否为目录 */
   isDirectory: boolean;
+  /** 文件URL */
   url: string;
 }
 
-class WebDAVClient {
+/**
+ * WebDAV客户端类
+ */
+export class WebDAVClient {
+  /** WebDAV配置 */
   private config: WebDAVConfig;
 
+  /**
+   * 构造函数
+   * @param config WebDAV配置信息
+   */
   constructor(config: WebDAVConfig) {
     this.config = {
       ...config,
@@ -25,7 +51,10 @@ class WebDAVClient {
     };
   }
 
-  // 生成认证头
+  /**
+   * 生成Basic认证头
+   * @returns 格式化的Basic认证字符串
+   */
   private getAuthHeader(): string {
     const { username, password } = this.config;
     // 使用更安全的编码方式处理用户名和密码中的特殊字符
@@ -40,7 +69,11 @@ class WebDAVClient {
     return `Basic ${btoa(binary)}`;
   }
 
-  // 构建完整URL - 直接使用目标URL，不依赖代理服务器
+  /**
+   * 构建完整的WebDAV URL
+   * @param path 文件路径
+   * @returns 完整的WebDAV文件URL
+   */
   private buildUrl(path: string): string {
     // 直接使用完整的目标URL
     const basePath = this.config.basePath?.replace(/^\/|\/$/g, '') || '';
@@ -61,7 +94,14 @@ class WebDAVClient {
     return new URL(fullPath, this.config.url).href;
   }
 
-  // 发送请求
+  /**
+   * 发送WebDAV请求
+   * @param method HTTP方法
+   * @param path 文件路径
+   * @param body 请求体
+   * @param headers 额外的请求头
+   * @returns Response对象
+   */
   private async request(
     method: string,
     path: string,
@@ -130,7 +170,11 @@ class WebDAVClient {
     }
   }
 
-  // 列出目录内容
+  /**
+   * 列出目录内容
+   * @param path 目录路径，默认为根目录
+   * @returns WebDAVFile数组
+   */
   async listFiles(path: string = ''): Promise<WebDAVFile[]> {
     try {
       const response = await this.request('PROPFIND', path, undefined, {
@@ -177,7 +221,10 @@ class WebDAVClient {
     }
   }
 
-  // 创建目录
+  /**
+   * 创建目录
+   * @param path 目录路径
+   */
   async createDirectory(path: string): Promise<void> {
     try {
       await this.request('MKCOL', path);
@@ -187,7 +234,10 @@ class WebDAVClient {
     }
   }
 
-  // 确保目录存在
+  /**
+   * 确保目录存在，如果不存在则创建
+   * @param path 目录路径
+   */
   async ensureDirectoryExists(path: string): Promise<void> {
     const pathParts = path.split('/').filter(Boolean);
     let currentPath = '';
@@ -198,12 +248,15 @@ class WebDAVClient {
         await this.createDirectory(currentPath);
       } catch (error) {
         // 目录可能已存在，忽略错误
-        // 目录可能已存在
       }
     }
   }
 
-  // 上传文件
+  /**
+   * 上传文件到WebDAV服务器
+   * @param path 文件路径
+   * @param content 文件内容，可以是字符串或Blob
+   */
   async uploadFile(path: string, content: string | Blob): Promise<void> {
     try {
       // 确保父目录存在
@@ -219,7 +272,11 @@ class WebDAVClient {
     }
   }
 
-  // 下载文件
+  /**
+   * 从WebDAV服务器下载文件
+   * @param path 文件路径
+   * @returns 文件内容字符串
+   */
   async downloadFile(path: string): Promise<string> {
     try {
       const response = await this.request('GET', path);
@@ -230,7 +287,10 @@ class WebDAVClient {
     }
   }
 
-  // 删除文件
+  /**
+   * 删除WebDAV服务器上的文件
+   * @param path 文件路径
+   */
   async deleteFile(path: string): Promise<void> {
     try {
       await this.request('DELETE', path);
@@ -240,7 +300,11 @@ class WebDAVClient {
     }
   }
 
-  // 获取文件信息
+  /**
+   * 获取文件信息
+   * @param path 文件路径
+   * @returns WebDAVFile对象或null
+   */
   async getFileInfo(path: string): Promise<WebDAVFile | null> {
     try {
       const files = await this.listFiles(path.substring(0, path.lastIndexOf('/')));
@@ -252,7 +316,10 @@ class WebDAVClient {
     }
   }
 
-  // 测试连接
+  /**
+   * 测试与WebDAV服务器的连接
+   * @throws 如果连接失败则抛出错误
+   */
   async testConnection(): Promise<void> {
     try {
       // 尝试获取根目录列表来测试连接
@@ -266,4 +333,3 @@ class WebDAVClient {
 
 // 导出默认实例和类
 export default WebDAVClient;
-export type { WebDAVConfig, WebDAVFile };

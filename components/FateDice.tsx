@@ -391,11 +391,6 @@ const FateDice: React.FC<FateDiceProps> = ({ theme, diceState, onSpinDice, onUpd
     // 播放滚动音效 - 优先使用本地音频文件
     soundManager.play('dice');
     
-    // 如果本地音频播放失败，尝试回退音效
-    setTimeout(() => {
-      soundManager.play('dice-fallback');
-    }, 100);
-    
     setIsRolling(true);
     
     // 生成随机结果用于3D动画显示

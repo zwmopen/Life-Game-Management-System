@@ -314,7 +314,17 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
   const backupToWebDAV = async () => {
     setWebdavStatus('正在备份到WebDAV...');
     try {
+      // 验证WebDAV配置
+      if (!webdavConfig.url || !webdavConfig.username || !webdavConfig.password) {
+        throw new Error('WebDAV配置不完整，请检查服务器地址、用户名和密码');
+      }
+      
       const client = new WebDAVClient(webdavConfig);
+      
+      // 测试连接
+      await client.testConnection();
+      
+      // 准备备份数据
       const gameData = {
         settings,
         projects: JSON.parse(localStorage.getItem('projects') || '[]'),
@@ -326,11 +336,28 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
       const backupData = JSON.stringify(gameData, null, 2);
       const backupName = `人生游戏备份_${new Date().toISOString().replace(/[:.]/g, '-')}.json`;
       const path = `${webdavConfig.basePath || ''}/${backupName}`;
+      
+      // 执行备份
       await client.uploadFile(path, backupData);
       setWebdavStatus('WebDAV备份成功！');
     } catch (error) {
       console.error('Failed to backup to WebDAV:', error);
-      setWebdavStatus('WebDAV备份失败：' + (error as Error).message);
+      const errorMessage = error as Error;
+      let userMessage = 'WebDAV备份失败：';
+      
+      if (errorMessage.message.includes('network') || errorMessage.message.includes('fetch')) {
+        userMessage += '网络连接问题，请检查服务器地址和网络连接';
+      } else if (errorMessage.message.includes('401')) {
+        userMessage += '认证失败，请检查用户名和密码';
+      } else if (errorMessage.message.includes('403')) {
+        userMessage += '权限不足，请检查账户权限';
+      } else if (errorMessage.message.includes('404')) {
+        userMessage += '指定路径不存在，请检查服务器地址和路径';
+      } else {
+        userMessage += errorMessage.message;
+      }
+      
+      setWebdavStatus(userMessage);
     } finally {
       setTimeout(() => setWebdavStatus(''), 3000);
     }
@@ -389,13 +416,13 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
         <div className="space-y-3 px-2 md:px-4 lg:px-6 max-w-5xl mx-auto">
 
           {/* Sound Effects */}
-          <div className={`${cardBg} p-4 transition-all duration-300 mt-4`}>
-              <div className="flex items-center justify-between mb-2">
+          <div className={`${cardBg} p-3 transition-all duration-300 mt-4`}>
+              <div className="flex items-center justify-between mb-1">
               <div className="flex items-center gap-2">
-                <Headphones size={20} className="text-purple-500" />
+                <Headphones size={18} className="text-purple-500" />
                 <div>
                   <h3 className={`font-bold text-sm ${textMain}`}>音效设置</h3>
-                  <p className={`text-[10px] ${textSub}`}>控制系统音效音量与位置音效</p>
+                  <p className={`text-[9px] ${textSub}`}>控制系统音效音量与位置音效</p>
                 </div>
               </div>
               <HelpTooltip helpId="sound" onHelpClick={setActiveHelp}>
@@ -403,7 +430,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                 </HelpTooltip>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-2">
               {/* Enable/Disable Sound Effects */}
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-2">
@@ -566,57 +593,14 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
             </div>
           </div>
 
-          {/* About Module */}
-          <div className={`${cardBg} p-4 transition-all duration-300 mt-4`}>
+          {/* 数据管理模块 */}
+          <div className={`${cardBg} p-3 transition-all duration-300 mt-4`}>
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-2">
-                <div className={`p-2 rounded-full ${isDark ? 'bg-zinc-800' : 'bg-slate-100'}`}>
-                  <Info size={20} className="text-blue-500" />
-                </div>
-                <div>
-                  <h3 className={`font-bold text-sm ${textMain}`}>关于</h3>
-                  <p className={`text-[10px] ${textSub}`}>版本信息与联系方式</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <HelpTooltip helpId="about" onHelpClick={setActiveHelp}>
-                  <GlobalHelpCircle size={14} />
-                </HelpTooltip>
-              </div>
-            </div>
-            
-            <div className={`rounded-xl p-3 w-full ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/50' : 'bg-slate-50'}`}>
-              <div className="space-y-2">
-                <div className="flex items-center p-2 rounded-lg">
-                  <span className={`text-sm ${textMain} w-20 flex-shrink-0`}>版本：</span>
-                  <span className={`text-sm ${textSub} flex-grow`}>v{APP_VERSION}</span>
-                </div>
-                <div className="flex items-center p-2 rounded-lg">
-                  <span className={`text-sm ${textMain} w-20 flex-shrink-0`}>作者：</span>
-                  <span className={`text-sm ${textSub} flex-grow`}>大胆走夜路</span>
-                </div>
-                <div className="flex items-center p-2 rounded-lg">
-                  <span className={`text-sm ${textMain} w-20 flex-shrink-0`}>联系微信：</span>
-                  <span className={`text-sm ${textSub} flex-grow`}>zwmrpg</span>
-                </div>
-                <div className="p-2 rounded-lg">
-                  <span className={`text-sm ${textMain} block mb-1`}>项目介绍：</span>
-                  <p className={`text-xs ${textSub} leading-4`}>
-                    人生游戏管理系统是一个综合性的个人成长管理工具，集成了任务管理、习惯养成、专注计时、成就系统等功能，旨在帮助用户更好地规划和追踪个人发展。
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* 数据管理模块 */}
-          <div className={`${cardBg} p-4 transition-all duration-300 mt-4`}>
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2">
-                <Database size={20} className="text-blue-500" />
+                <Database size={18} className="text-blue-500" />
                 <div>
                   <h3 className={`font-bold text-sm ${textMain}`}>数据管理</h3>
-                  <p className={`text-[10px] ${textSub}`}>备份、恢复和管理游戏数据</p>
+                  <p className={`text-[9px] ${textSub}`}>备份、恢复和管理游戏数据</p>
                 </div>
               </div>
               <HelpTooltip helpId="data-management" onHelpClick={setActiveHelp}>
@@ -958,6 +942,45 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                 )}
               </div>
             )}
+          </div>
+
+          {/* About Module */}
+          <div className={`${cardBg} p-3 transition-all duration-300 mt-4`}>
+            <div className="flex items-center justify-between mb-1">
+              <div className="flex items-center gap-2">
+                <Info size={18} className="text-blue-500" />
+                <div>
+                  <h3 className={`font-bold text-sm ${textMain}`}>关于</h3>
+                  <p className={`text-[9px] ${textSub}`}>版本信息与联系方式</p>
+                </div>
+              </div>
+              <HelpTooltip helpId="about" onHelpClick={setActiveHelp}>
+                  <GlobalHelpCircle size={14} />
+                </HelpTooltip>
+            </div>
+            
+            <div className={`rounded-xl p-3 w-full ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/50' : 'bg-slate-50'}`}>
+              <div className="space-y-2">
+                <div className="flex items-center p-2 rounded-lg">
+                  <span className={`text-sm ${textMain} w-20 flex-shrink-0`}>版本：</span>
+                  <span className={`text-sm ${textSub} flex-grow`}>v{APP_VERSION}</span>
+                </div>
+                <div className="flex items-center p-2 rounded-lg">
+                  <span className={`text-sm ${textMain} w-20 flex-shrink-0`}>作者：</span>
+                  <span className={`text-sm ${textSub} flex-grow`}>大胆走夜路</span>
+                </div>
+                <div className="flex items-center p-2 rounded-lg">
+                  <span className={`text-sm ${textMain} w-20 flex-shrink-0`}>联系微信：</span>
+                  <span className={`text-sm ${textSub} flex-grow`}>zwmrpg</span>
+                </div>
+                <div className="p-2 rounded-lg">
+                  <span className={`text-sm ${textMain} block mb-1`}>项目介绍：</span>
+                  <p className={`text-xs ${textSub} leading-4`}>
+                    人生游戏管理系统是一个综合性的个人成长管理工具，集成了任务管理、习惯养成、专注计时、成就系统等功能，旨在帮助用户更好地规划和追踪个人发展。
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Global Guide Card - 使用统一的帮助系统组件 */}
