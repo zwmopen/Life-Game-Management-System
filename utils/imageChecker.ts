@@ -93,17 +93,17 @@ export const checkAndFixProductImages = async (products: Product[]): Promise<Pro
   const productsWithImages = products.filter(product => product.image && product.image.trim() !== '');
   const imageUrls = productsWithImages.map(product => product.image);
   
-  console.log(`开始检查 ${imageUrls.length} 个商品图片链接...`);
+  // 静默处理图片检查开始的情况
   
   const checkResults = await checkImageUrlsInBatches(imageUrls);
   const invalidUrls = checkResults.filter(result => !result.isAvailable).map(result => result.url);
   
-  console.log(`检查完成，发现 ${invalidUrls.length} 个失效链接`);
+  // 静默处理图片检查完成的情况
   
   // 修复失效链接
   const fixedProducts = products.map(product => {
     if (product.image && invalidUrls.includes(product.image)) {
-      console.log(`修复商品图片: ${product.name} - ${product.image}`);
+      // 静默处理商品图片修复的情况
       return {
         ...product,
         image: generateRecommendedImageUrl(product.name)
