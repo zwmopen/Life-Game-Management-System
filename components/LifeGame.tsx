@@ -1505,8 +1505,8 @@ const LifeGame: React.FC<LifeGameProps> = ({
                         <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
                             <div className="flex gap-2">
                                 <button onClick={() => setTaskCategory('random')} className={`px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all duration-200 ${getButtonStyle(taskCategory === 'random')}`}>命运骰子</button>
-                                <button onClick={() => setTaskCategory('daily')} className={`px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all duration-200 ${getButtonStyle(taskCategory === 'daily')}`}>日常任务</button>
                                 <button onClick={() => setTaskCategory('main')} className={`px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all duration-200 ${getButtonStyle(taskCategory === 'main')}`}>主线任务</button>
+                                <button onClick={() => setTaskCategory('daily')} className={`px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all duration-200 ${getButtonStyle(taskCategory === 'daily')}`}>日常任务</button>
                             </div>
                             <div className="flex gap-2 items-center">
                             <HelpTooltip helpId="tasks" onHelpClick={setActiveHelp} className="text-zinc-500 hover:text-white transition-colors relative group">
@@ -2314,9 +2314,9 @@ const LifeGame: React.FC<LifeGameProps> = ({
                     </div>
                     
                     <div className={`flex p-2 border-b ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] border-[#1e1e2e] shadow-[inset_3px_3px_6px_rgba(0,0,0,0.3),inset_-3px_-3px_6px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] border-[#e0e5ec] shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,1)]') : (isDark ? 'border-zinc-800 bg-zinc-900/50' : 'border-slate-200 bg-slate-50')}`}>
-                        <button onClick={() => setManageTaskTab('daily')} className={`flex-1 text-xs py-2 rounded font-bold transition-all duration-200 ${getButtonStyle(manageTaskTab === 'daily')}`}>日常任务</button>
-                        <button onClick={() => setManageTaskTab('main')} className={`flex-1 text-xs py-2 rounded font-bold transition-all duration-200 ${getButtonStyle(manageTaskTab === 'main')}`}>主线任务</button>
                         <button onClick={() => setManageTaskTab('random')} className={`flex-1 text-xs py-2 rounded font-bold flex items-center justify-center gap-1 transition-all duration-200 ${getButtonStyle(manageTaskTab === 'random')}`}><Dice5 size={12} /> 命运骰子</button>
+                        <button onClick={() => setManageTaskTab('main')} className={`flex-1 text-xs py-2 rounded font-bold transition-all duration-200 ${getButtonStyle(manageTaskTab === 'main')}`}>主线任务</button>
+                        <button onClick={() => setManageTaskTab('daily')} className={`flex-1 text-xs py-2 rounded font-bold transition-all duration-200 ${getButtonStyle(manageTaskTab === 'daily')}`}>日常任务</button>
                     </div>
                     
                     <div className={`p-4 overflow-y-auto space-y-2 flex-1 ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[inset_5px_5px_10px_rgba(0,0,0,0.4),inset_-5px_-5px_10px_rgba(30,30,46,0.8)] border-none rounded-xl' : 'bg-[#e0e5ec] shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)] border-none rounded-xl') : (isDark ? 'bg-zinc-900' : 'bg-slate-100')}`}>
@@ -2467,7 +2467,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                             <div className="space-y-4">
                                 {/* 分类选择 */}
                                 <div className={`p-3 border border-dashed rounded ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[5px_5px_10px_rgba(0,0,0,0.4),-5px_-5px_10px_rgba(30,30,46,0.8)] border-none rounded-lg' : 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] border-none rounded-lg') : (isDark ? 'border-zinc-700 bg-zinc-900/50' : 'border-slate-300 bg-slate-50')}`}>
-                                    <h4 className={`text-sm font-bold mb-3 ${textMain}`}>命运事件分类</h4>
+
                                     <div className="flex gap-2 mb-4">
                                         {[
                                             { id: 'health', label: '健康微行动', color: 'emerald' },
