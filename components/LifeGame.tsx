@@ -1,51 +1,777 @@
-// 商品数据
-const SHOP_CATALOG = [
-  // 数码产品
-  { id: 'p_dig_1', name: '智能手表', description: '健康监测与通讯', cost: 1299, type: 'physical', owned: false, icon: <Smartphone size={24} className="text-blue-400"/>, category: '数码', image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop' },
-  { id: 'p_dig_2', name: '咖啡机', description: '自制美味咖啡', cost: 899, type: 'physical', owned: false, icon: <Coffee size={24} className="text-amber-700"/>, category: '数码', image: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop' },
-  { id: 'p_dig_3', name: '机械键盘', description: '输入体验升级', cost: 800, type: 'physical', owned: false, icon: <Layout size={24} className="text-purple-400"/>, category: '数码', image: 'https://images.unsplash.com/photo-1585171373861-2768543510c8?w=400&h=400&fit=crop' },
-  { id: 'p_dig_4', name: '智能台灯', description: '护眼照明，专注模式', cost: 350, type: 'physical', owned: false, icon: <Sun size={24} className="text-yellow-500"/>, category: '数码', image: 'https://images.unsplash.com/photo-1504300491503-620f6f7f5e22?w=400&h=400&fit=crop' },
-  { id: 'p_dig_5', name: '戴森吹风机', description: '高端吹风机', cost: 1999, type: 'physical', owned: false, icon: <Wind size={24} className="text-purple-400"/>, category: '数码', image: 'https://images.unsplash.com/photo-1600721391834-90a80756e3d6?w=400&h=400&fit=crop' },
-  { id: 'p_dig_6', name: 'iPad', description: '平板电脑', cost: 3299, type: 'physical', owned: false, icon: <Tablet size={24} className="text-purple-400"/>, category: '数码', image: 'https://images.unsplash.com/photo-15364401366237fad586?w=400&h=400&fit=crop' },
-  { id: 'p_dig_7', name: '扫地机器人', description: '智能清扫，解放双手', cost: 7200, type: 'physical', owned: false, icon: <Robot size={24} className="text-blue-400"/>, category: '数码', image: 'https://images.unsplash.com/photo-1586163373403-8df6ff28c089?w=400&h=400&fit=crop' },
-
-  // 家居用品
-  { id: 'p_home_1', name: '乳胶枕头', description: '深度睡眠加速器', cost: 300, type: 'physical', owned: false, icon: <Sofa size={24} className="text-purple-400"/>, category: '家居', image: 'https://images.unsplash.com/photo-1578011611930-14a6a3fa3ada?w=400&h=400&fit=crop' },
-  { id: 'p_home_2', name: '人体工学椅', description: '脊椎防御系统', cost: 1500, type: 'physical', owned: false, icon: <Armchair size={24} className="text-orange-400"/>, category: '家居', image: 'https://images.unsplash.com/photo-1594322463965-1d4de4db17a6?w=400&h=400&fit=crop' },
-  { id: 'p_home_3', name: '厨房套装', description: '全套厨房设备', cost: 3500, type: 'physical', owned: false, icon: <Utensils size={24} className="text-blue-500"/>, category: '家居', image: 'https://images.unsplash.com/photo-1494267222772-aa0a0a78e4d6?w=400&h=400&fit=crop' },
-  { id: 'p_home_4', name: '365天日历', description: '时间管理，记录生活', cost: 89, type: 'physical', owned: false, icon: <Calendar size={24} className="text-yellow-500"/>, category: '家居', image: 'https://images.unsplash.com/photo-1597088757913-6bbb3a0d4c32?w=400&h=400&fit=crop' },
-  { id: 'p_home_5', name: '瑜伽垫', description: '居家健身必备', cost: 159, type: 'physical', owned: false, icon: <Dumbbell size={24} className="text-purple-500"/>, category: '家居', image: 'https://images.unsplash.com/photo-1540461788492-74719fe221d7?w=400&h=400&fit=crop' },
-  { id: 'p_home_6', name: '宠物食品', description: '优质宠物粮', cost: 300, type: 'physical', owned: false, icon: <Fish size={24} className="text-orange-500"/>, category: '家居', image: 'https://images.unsplash.com/photo-1592409338565-f1231a1367d2?w=400&h=400&fit=crop' },
-
-  // 衣服配饰
-  { id: 'p_cloth_1', name: '衣服一件', description: '时尚服装', cost: 299, type: 'physical', owned: false, icon: <Shirt size={24} className="text-purple-500"/>, category: '形象设计与穿搭', image: 'https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?w=400&h=400&fit=crop' },
-  { id: 'p_cloth_2', name: '裤子一条', description: '休闲裤子', cost: 199, type: 'physical', owned: false, icon: <Shirt size={24} className="text-blue-500"/>, category: '形象设计与穿搭', image: 'https://images.unsplash.com/photo-1541099903977-7a2fd1f0d3b8?w=400&h=400&fit=crop' },
-  { id: 'p_cloth_3', name: '家人衣服', description: '给家人买衣服', cost: 399, type: 'physical', owned: false, icon: <Users size={24} className="text-pink-500"/>, category: '形象设计与穿搭', image: 'https://images.unsplash.com/photo-1591369822091-8fd4294d705e?w=400&h=400&fit=crop' },
-  { id: 'p_cloth_4', name: '家人裤子', description: '给家人买裤子', cost: 299, type: 'physical', owned: false, icon: <Users size={24} className="text-green-500"/>, category: '形象设计与穿搭', image: 'https://images.unsplash.com/photo-1541099903977-7a2fd1f0d3b8?w=400&h=400&fit=crop' },
-  { id: 'p_cloth_5', name: '定制T恤', description: '个性化服装定制', cost: 199, type: 'physical', owned: false, icon: <Shirt size={24} className="text-blue-500"/>, category: '形象设计与穿搭', image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf1286?w=400&h=400&fit=crop' },
-  { id: 'p_cloth_6', name: '素颜霜', description: '提升气色，自然妆容', cost: 9.9, type: 'physical', owned: false, icon: <Palette size={24} className="text-pink-500"/>, category: '形象设计与穿搭', image: 'https://images.unsplash.com/photo-1522073159900-02300ba3dfeb?w=400&h=400&fit=crop' },
-
-  // 休闲娱乐
-  { id: 's_food_1', name: '辣条一包', description: '廉价多巴胺 (慎用)', cost: 5, type: 'leisure', owned: false, icon: <Utensils size={24} className="text-red-500"/>, category: '吃喝', image: 'https://images.unsplash.com/photo-1622144687321-0e0e4b4d3b76?w=400&h=400&fit=crop' },
-  { id: 's_food_2', name: '一桶泡面', description: '方便快捷的美食', cost: 55, type: 'leisure', owned: false, icon: <Utensils size={24} className="text-red-500"/>, category: '吃喝', image: 'https://images.unsplash.com/photo-1594470873215-3cc9123d7d3b?w=400&h=400&fit=crop' },
-  { id: 's_food_3', name: '烤鱼（自制）', description: '自己做烤鱼55元', cost: 399, type: 'leisure', owned: false, icon: <Fish size={24} className="text-blue-500"/>, category: '吃喝', image: 'https://images.unsplash.com/photo-1565299507177-b0a94c693d60?w=400&h=400&fit=crop' },
-  { id: 's_food_4', name: '烤鱼（外买）', description: '美味烤鱼30元', cost: 188, type: 'leisure', owned: false, icon: <Fish size={24} className="text-blue-500"/>, category: '吃喝', image: 'https://images.unsplash.com/photo-1565299507177-b0a94c693d60?w=400&h=400&fit=crop' },
-  { id: 's_food_5', name: '烧烤套餐（自制）', description: '自己动手做烧烤', cost: 158, type: 'leisure', owned: false, icon: <Utensils size={24} className="text-orange-500"/>, category: '吃喝', image: 'https://images.unsplash.com/photo-1594470873215-3cc9123d7d3b?w=400&h=400&fit=crop' },
-  { id: 's_food_6', name: '烧烤套餐（外买）', description: '购买现成烧烤', cost: 188, type: 'leisure', owned: false, icon: <Utensils size={24} className="text-orange-500"/>, category: '吃喝', image: 'https://images.unsplash.com/photo-1594470873215-3cc9123d7d3b?w=400&h=400&fit=crop' },
-  { id: 's_food_7', name: '酱骨头套餐', description: '酱骨头、牛骨头、调料一条龙', cost: 158, type: 'leisure', owned: false, icon: <Utensils size={24} className="text-red-500"/>, category: '吃喝', image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=400&fit=crop' },
-  { id: 's_food_8', name: '临沂炒鸡', description: '正宗临沂炒鸡', cost: 33, type: 'leisure', owned: false, icon: <Utensils size={24} className="text-yellow-500"/>, category: '吃喝', image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?w=400&h=400&fit=crop' },
-  { id: 's_ent_1', name: '看小说半小时', description: '沉浸式阅读体验', cost: 30, type: 'leisure', owned: false, icon: <BookOpen size={24} className="text-purple-500"/>, category: '休闲娱乐', image: 'https://images.unsplash.com/photo-1535295972055-1f8e86b906a6?w=400&h=400&fit=crop' },
-  { id: 's_ent_2', name: '刷短视频半小时', description: '短平快的娱乐方式', cost: 198, type: 'leisure', owned: false, icon: <Video size={24} className="text-red-500"/>, category: '休闲娱乐', image: 'https://images.unsplash.com/photo-1579546929662-711aa81148cf?w=400&h=400&fit=crop' },
-  { id: 's_hair_1', name: '理发', description: '魅力值回升', cost: 50, type: 'leisure', owned: false, icon: <Scissors size={24} className="text-pink-400"/>, category: '休闲娱乐', image: 'https://images.unsplash.com/photo-1598950616249-8e3c1a325cda?w=400&h=400&fit=crop' },
-  { id: 's_spa_1', name: '按摩放松', description: '缓解疲劳，恢复精力', cost: 1000, type: 'leisure', owned: false, icon: <Armchair size={24} className="text-blue-400"/>, category: '休闲娱乐', image: 'https://images.unsplash.com/photo-1598950616249-8e3c1a325cda?w=400&h=400&fit=crop' },
-  { id: 's_sport_1', name: '爬山', description: '去爬山30分钟', cost: 20, type: 'leisure', owned: false, icon: <Mountain size={24} className="text-green-500"/>, category: '休闲娱乐', image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=400&fit=crop' },
-  { id: 's_sport_2', name: '跑步', description: '去跑步30分钟', cost: 10, type: 'leisure', owned: false, icon: <Footprints size={24} className="text-blue-500"/>, category: '休闲娱乐', image: 'https://images.unsplash.com/photo-1542730929-8235dcf0ac3f?w=400&h=400&fit=crop' },
-  { id: 's_sport_3', name: '健身', description: '去健身房30分钟', cost: 50, type: 'leisure', owned: false, icon: <Dumbbell size={24} className="text-red-500"/>, category: '休闲娱乐', image: 'https://images.unsplash.com/photo-1534158992650-737b1f0d9f90?w=400&h=400&fit=crop' },
-  { id: 'r_tick_1', name: '兴趣组队门票', description: '加入兴趣组队活动', cost: 60, type: 'rights', owned: false, icon: <Ticket size={24} className="text-yellow-500"/>, category: '休闲娱乐', image: 'https://images.unsplash.com/photo-1503220317375-aaad61436b1b?w=400&h=400&fit=crop' },
-  { id: 'r_vip_1', name: '兴趣爱好社群', description: '志同道合者的聚集地', cost: 88, type: 'rights', owned: false, icon: <Users size={24} className="text-pink-500"/>, category: '会员充值', image: 'https://images.unsplash.com/photo-1512485694474-9b0f1a1f1f0b?w=400&h=400&fit=crop' },
-  { id: 'r_vip_2', name: '小众社群', description: '兴趣交流，人脉拓展', cost: 299, type: 'rights', owned: false, icon: <Users size={24} className="text-green-500"/>, category: '会员充值', image: 'https://images.unsplash.com/photo-1512485694474-9b0f1a1f1f0b?w=400&h=400&fit=crop' },
-  { id: 'r_vip_3', name: '行业交流群', description: '专业人脉拓展平台', cost: 5, type: 'rights', owned: false, icon: <Users size={24} className="text-blue-500"/>, category: '会员充值', image: 'https://images.unsplash.com/photo-1512485694474-9b0f1a1f1f0b?w=400&h=400&fit=crop' },
-  { id: 'r_tick_5', name: '家庭旅游', description: '带家人出去旅游', cost: 3000, type: 'rights', owned: false, icon: <Users size={24} className="text-purple-500"/>, category: '休闲娱乐', image: 'https://images.unsplash.com/photo-1504674900247-1313e29a9c8a?w=400&h=400&fit=crop' },
-  { id: 'r_tick_6', name: '购买体检套餐', description: '带爸爸妈妈做体检', cost: 3000, type: 'rights', owned: false, icon: <Heart size={24} className="text-red-500"/>, category: '休闲娱乐', image: 'https://images.unsplash.com/photo-1576671418898-8df6ff28c089?w=400&h=400&fit=crop' },
-  { id: 'r_tick_7', name: '朋友礼物', description: '常用但贵的小礼物', cost: 1000, type: 'rights', owned: false, icon: <Gift size={24} className="text-yellow-500"/>, category: '休闲娱乐', image: 'https://images.unsplash.com/photo-1541252260730-0412e8e2108e?w=400&h=400&fit=crop' }
-];
+import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, LineChart, Line, ComposedChart } from 'recharts';
+import {
+  Coins, Trophy, ShoppingBag, CheckCircle, Swords, Flame, 
+  Shield, Brain, BicepsFlexed, Sparkles, Users, Plus, X, Crown,
+  Edit3, Trash2, Repeat, Zap, ChevronDown, ChevronUp, Mic, Loader2, PackagePlus,
+  Gamepad2, Play, Pause, StopCircle, Clock, Archive, ArchiveRestore, Settings, Gift,
+  Box, XCircle, Sunset, Moon, Coffee, Dumbbell, BookOpen, Calendar, Check, Target, Pencil,
+  Radar as RadarIcon, Container, Filter, Wrench, User, Crosshair, TrendingUp, Lock, Unlock, Skull, ArrowLeft, GripVertical, Star, Package, List, RefreshCw, Dice5, Hammer, Edit2, Layout,
+  HelpCircle, Smartphone, Laptop, Shirt, Ticket, Music, Wifi, Video, Square, CheckSquare, Dice1,
+  Headphones, Armchair, Scissors, Glasses, Footprints, Utensils, Sofa, Activity, Power, ChevronRight, Sun, Wallet,
+  Camera, Tablet, Wind, Fish, Mountain, Home, Car, Heart, Globe, Palette
+} from 'lucide-react';
+import confetti from 'canvas-confetti';
+import { Theme, AttributeType, AttributeTypeValue, Habit, Project, SubTask, TaskType, AutoTaskType, Task, DiceState, DiceTask, DiceCategory, DiceHistory, Settings as SettingsType } from '../types';
+import CharacterProfile, { CharacterProfileHandle } from './CharacterProfile';
+import { GlobalGuideCard, HelpTooltip, helpContent } from './HelpSystem';
+import FateGiftModal from './shared/FateGiftModal';
+import FateDice from './FateDice';
+import ThinkingCenter from './ThinkingCenter';
+import { 
+  getCurrentTime, getDateString, getTimeString, 
+  addTaskToHistory, generateTaskId, getTaskHistory, 
+  saveTasks, getTasks, getFilteredTasks, saveCharacter, loadCharacter,
+  getTodayTasks, getWeeklyTasks, getMonthlyTasks, getQuarterlyTasks, getYearlyTasks,
+  getTotalTasks, getCompletedTasks, getHabitTasks, getProjectTasks,
+  getDiceTasks, getAutoTasks, getRandomTaskColor,
+  getAutoTasksFromSettings, formatNumberWithCommas,
+  filterTasksByAttribute, getTasksByType, getTasksBySubtype, getTotalTasksByAttribute,
+  generateRandomColor, getTasksByCharacterAttribute, getCharacterAttributes, 
+  validateTaskData, updateTaskInLocalStorage, generateUniqueId, getCharacter, updateCharacter,
+  saveDiceHistory, getDiceHistory, getDiceHistoryByDate,
+  getDiceHistoryByCategory, getTotalDiceScore, getDiceStats, saveDiceState, getDiceState,
+  saveSettings, getSettings, getTaskFilters, saveTaskFilters, updateTaskFilters,
+  getFateGiftFromStorage, saveFateGiftToStorage
+} from '../utils';
+import { 
+  checkImageUrl, checkImageAvailability, loadImageWithTimeout,
+  preloadImages, preloadTaskIcons
+} from '../utils/imageChecker';
+import { 
+  toastSuccess, toastError, toastInfo, toastWarning,
+  getToastPosition, setToastPosition
+} from '../utils/toast';
+import { 
+  AudioManager, playNotificationSound, playSuccessSound, 
+  playErrorSound, playClickSound, stopNotificationSound, initializeAudio
+} from '../utils/audioManager';
+import { 
+  getCategoryById, getRandomMusicByCategory, 
+  getDefaultMusicForCategory, getMusicDuration
+} from '../utils/soundManager';
+import { 
+  getSoundEffectsVolume, setSoundEffectsVolume, 
+  getBackgroundMusicVolume, setBackgroundMusicVolume,
+  getNotificationSoundId, setNotificationSoundId,
+  getSuccessSoundId, setSuccessSoundId,
+  getErrorSoundId, setErrorSoundId,
+  getClickSoundId, setClickSoundId,
+  getIsSoundEnabled, setIsSoundEnabled
+} from '../utils/secureStorage';
+import { 
+  saveGlobalSettings, getGlobalSettings, 
+  migrateOldSettings, updateGlobalSettings
+} from '../utils/secureStorage';
+import { 
+  getTasksByDateRange, getTaskCountByDate, getStreakCounts, 
+  getHabitCompletionRate, getProjectCompletionRate
+} from '../utils/statistics';
+import { 
+  TaskTimer, TaskTimerState, formatTimerDisplay, 
+  TimerSettings, getTimerSettings, saveTimerSettings
+} from '../utils/taskTimer';
+import { 
+  getCharacterGrowthRate, getNextLevelThreshold,
+  calculateTaskExperience, updateCharacterExperience
+} from '../utils/characterGrowth';
+import { 
+  getAttributeById, getAttributes, getAttributePointsRequired,
+  updateCharacterAttributePoints
+} from '../utils/attributeSystem';
+import { 
+  getDiceCategories, getDiceTaskById, getRandomDiceTask,
+  getDiceTasksByCategory, saveDiceTasks, getDiceTasks
+} from '../utils/diceSystem';
+import { 
+  generateRandomHabit, generateRandomProject, generateRandomAutoTask,
+  generateRandomDiceTask, getRandomTaskName, getRandomTaskDescription,
+  getRandomTaskIcon
+} from '../utils/taskGenerator';
+import { 
+  getThemeById, getThemes, getDefaultTheme, saveCurrentTheme,
+  getCurrentTheme, applyThemeToDocument
+} from '../utils/themeSystem';
+import { 
+  getAutoTaskSettings, saveAutoTaskSettings, 
+  getAutoTaskById, getAutoTaskCategories
+} from '../utils/autoTaskSystem';
+import { 
+  getFateGiftConfig, saveFateGiftConfig, 
+  generateRandomFateGift, getFateGiftById
+} from '../utils/fateGiftSystem';
+import { 
+  getTaskTemplates, getTaskTemplateById, 
+  saveTaskTemplate, deleteTaskTemplate
+} from '../utils/taskTemplateSystem';
+import { 
+  getTaskGroups, getTaskGroupById, saveTaskGroup, 
+  deleteTaskGroup, addTaskToGroup, removeTaskFromGroup
+} from '../utils/taskGroupSystem';
+import { 
+  getShortcuts, saveShortcuts, getShortcutById,
+  addShortcut, removeShortcut, updateShortcut
+} from '../utils/shortcutSystem';
+import { 
+  getTaskPriorities, getTaskPriorityById,
+  saveTaskPriority, deleteTaskPriority
+} from '../utils/taskPrioritySystem';
+import { 
+  getTaskStatuses, getTaskStatusById,
+  saveTaskStatus, deleteTaskStatus
+} from '../utils/taskStatusSystem';
+import { 
+  getTaskTags, getTaskTagById, saveTaskTag,
+  deleteTaskTag, addTagToTask, removeTagFromTask
+} from '../utils/taskTagSystem';
+import { 
+  getTaskRecurrenceTypes, getTaskRecurrenceById,
+  saveTaskRecurrence, deleteTaskRecurrence
+} from '../utils/taskRecurrenceSystem';
+import { 
+  getTaskReminderTypes, getTaskReminderById,
+  saveTaskReminder, deleteTaskReminder
+} from '../utils/taskReminderSystem';
+import { 
+  getTaskDependencies, getTaskDependencyById,
+  saveTaskDependency, deleteTaskDependency
+} from '../utils/taskDependencySystem';
+import { 
+  getTaskComments, getTaskCommentById,
+  saveTaskComment, deleteTaskComment
+} from '../utils/taskCommentSystem';
+import { 
+  getTaskAttachments, getTaskAttachmentById,
+  saveTaskAttachment, deleteTaskAttachment
+} from '../utils/taskAttachmentSystem';
+import { 
+  getTaskAuditLogs, getTaskAuditLogById,
+  saveTaskAuditLog, deleteTaskAuditLog
+} from '../utils/taskAuditLogSystem';
+import { 
+  getTaskStatistics, getTaskStatisticsByDateRange,
+  getTaskStatisticsByAttribute, getTaskStatisticsByType
+} from '../utils/taskStatisticsSystem';
+import { 
+  getCharacterAchievements, getCharacterAchievementById,
+  saveCharacterAchievement, deleteCharacterAchievement,
+  unlockCharacterAchievement, checkAchievementConditions
+} from '../utils/characterAchievementSystem';
+import { 
+  getCharacterSkills, getCharacterSkillById,
+  saveCharacterSkill, deleteCharacterSkill,
+  upgradeCharacterSkill, getSkillProgress
+} from '../utils/characterSkillSystem';
+import { 
+  getCharacterInventory, getCharacterItemById,
+  saveCharacterItem, deleteCharacterItem,
+  addItemToInventory, removeItemFromInventory,
+  useCharacterItem, getInventoryCapacity
+} from '../utils/characterInventorySystem';
+import { 
+  getCharacterQuests, getCharacterQuestById,
+  saveCharacterQuest, deleteCharacterQuest,
+  startCharacterQuest, completeCharacterQuest,
+  updateQuestProgress, checkQuestConditions
+} from '../utils/characterQuestSystem';
+import { 
+  getCharacterSocials, getCharacterSocialById,
+  saveCharacterSocial, deleteCharacterSocial,
+  addCharacterSocial, removeCharacterSocial,
+  updateSocialRelationship
+} from '../utils/characterSocialSystem';
+import { 
+  getCharacterHomes, getCharacterHomeById,
+  saveCharacterHome, deleteCharacterHome,
+  addCharacterHome, removeCharacterHome,
+  upgradeCharacterHome, getHomeUpgrades
+} from '../utils/characterHomeSystem';
+import { 
+  getCharacterWorkplaces, getCharacterWorkplaceById,
+  saveCharacterWorkplace, deleteCharacterWorkplace,
+  addCharacterWorkplace, removeCharacterWorkplace,
+  upgradeCharacterWorkplace, getWorkplaceUpgrades
+} from '../utils/characterWorkplaceSystem';
+import { 
+  getCharacterTravels, getCharacterTravelById,
+  saveCharacterTravel, deleteCharacterTravel,
+  addCharacterTravel, removeCharacterTravel,
+  completeCharacterTravel, getTravelDestinations
+} from '../utils/characterTravelSystem';
+import { 
+  getCharacterEvents, getCharacterEventById,
+  saveCharacterEvent, deleteCharacterEvent,
+  addCharacterEvent, removeCharacterEvent,
+  completeCharacterEvent, getEventTypes
+} from '../utils/characterEventSystem';
+import { 
+  getCharacterCollections, getCharacterCollectionById,
+  saveCharacterCollection, deleteCharacterCollection,
+  addItemToCollection, removeItemFromCollection,
+  completeCharacterCollection, getCollectionItems
+} from '../utils/characterCollectionSystem';
+import { 
+  getCharacterChallenges, getCharacterChallengeById,
+  saveCharacterChallenge, deleteCharacterChallenge,
+  addCharacterChallenge, removeCharacterChallenge,
+  completeCharacterChallenge, getChallengeTypes
+} from '../utils/characterChallengeSystem';
+import { 
+  getCharacterAchievementCategories, getCharacterAchievementCategoryById,
+  saveCharacterAchievementCategory, deleteCharacterAchievementCategory
+} from '../utils/characterAchievementCategorySystem';
+import { 
+  getCharacterSkillCategories, getCharacterSkillCategoryById,
+  saveCharacterSkillCategory, deleteCharacterSkillCategory
+} from '../utils/characterSkillCategorySystem';
+import { 
+  getCharacterItemCategories, getCharacterItemCategoryById,
+  saveCharacterItemCategory, deleteCharacterItemCategory
+} from '../utils/characterItemCategorySystem';
+import { 
+  getCharacterQuestCategories, getCharacterQuestCategoryById,
+  saveCharacterQuestCategory, deleteCharacterQuestCategory
+} from '../utils/characterQuestCategorySystem';
+import { 
+  getCharacterSocialCategories, getCharacterSocialCategoryById,
+  saveCharacterSocialCategory, deleteCharacterSocialCategory
+} from '../utils/characterSocialCategorySystem';
+import { 
+  getCharacterHomeCategories, getCharacterHomeCategoryById,
+  saveCharacterHomeCategory, deleteCharacterHomeCategory
+} from '../utils/characterHomeCategorySystem';
+import { 
+  getCharacterWorkplaceCategories, getCharacterWorkplaceCategoryById,
+  saveCharacterWorkplaceCategory, deleteCharacterWorkplaceCategory
+} from '../utils/characterWorkplaceCategorySystem';
+import { 
+  getCharacterTravelCategories, getCharacterTravelCategoryById,
+  saveCharacterTravelCategory, deleteCharacterTravelCategory
+} from '../utils/characterTravelCategorySystem';
+import { 
+  getCharacterEventCategories, getCharacterEventCategoryById,
+  saveCharacterEventCategory, deleteCharacterEventCategory
+} from '../utils/characterEventCategorySystem';
+import { 
+  getCharacterCollectionCategories, getCharacterCollectionCategoryById,
+  saveCharacterCollectionCategory, deleteCharacterCollectionCategory
+} from '../utils/characterCollectionCategorySystem';
+import { 
+  getCharacterChallengeCategories, getCharacterChallengeCategoryById,
+  saveCharacterChallengeCategory, deleteCharacterChallengeCategory
+} from '../utils/characterChallengeCategorySystem';
+import { 
+  getGameSettings, saveGameSettings, updateGameSettings,
+  getGameVersion, getGameInfo, getGameChangelog,
+  checkForGameUpdates, downloadGameUpdate
+} from '../utils/gameSettings';
+import { 
+  getGameStatistics, getGameStatisticsByDateRange,
+  getGameStatisticsByCategory, getGameStatisticsByType
+} from '../utils/gameStatistics';
+import { 
+  getGameAchievements, getGameAchievementById,
+  saveGameAchievement, deleteGameAchievement,
+  unlockGameAchievement, checkGameAchievementConditions
+} from '../utils/gameAchievementSystem';
+import { 
+  getGameLeaderboards, getGameLeaderboardById,
+  saveGameLeaderboard, deleteGameLeaderboard,
+  updateLeaderboardScore, getLeaderboardEntries,
+  getLeaderboardRank, getLeaderboardStats
+} from '../utils/gameLeaderboardSystem';
+import { 
+  getGameTournaments, getGameTournamentById,
+  saveGameTournament, deleteGameTournament,
+  joinGameTournament, leaveGameTournament,
+  startGameTournament, endGameTournament,
+  getTournamentParticipants, getTournamentStats
+} from '../utils/gameTournamentSystem';
+import { 
+  getGameClans, getGameClanById,
+  saveGameClan, deleteGameClan,
+  joinGameClan, leaveGameClan,
+  createGameClan, disbandGameClan,
+  getClanMembers, getClanStats
+} from '../utils/gameClanSystem';
+import { 
+  getGameItems, getGameItemById,
+  saveGameItem, deleteGameItem,
+  purchaseGameItem, sellGameItem,
+  useGameItem, getGameItemStats
+} from '../utils/gameItemSystem';
+import { 
+  getGameCurrencies, getGameCurrencyById,
+  saveGameCurrency, deleteGameCurrency,
+  updateCurrencyBalance, getCurrencyStats
+} from '../utils/gameCurrencySystem';
+import { 
+  getGameQuests, getGameQuestById,
+  saveGameQuest, deleteGameQuest,
+  startGameQuest, completeGameQuest,
+  updateGameQuestProgress, checkGameQuestConditions
+} from '../utils/gameQuestSystem';
+import { 
+  getGameEvents, getGameEventById,
+  saveGameEvent, deleteGameEvent,
+  joinGameEvent, leaveGameEvent,
+  startGameEvent, endGameEvent,
+  getGameEventParticipants, getGameEventStats
+} from '../utils/gameEventSystem';
+import { 
+  getGameMissions, getGameMissionById,
+  saveGameMission, deleteGameMission,
+  startGameMission, completeGameMission,
+  updateMissionProgress, checkMissionConditions
+} from '../utils/gameMissionSystem';
+import { 
+  getGameAchievementRewards, getGameAchievementRewardById,
+  saveGameAchievementReward, deleteGameAchievementReward,
+  claimAchievementReward, getAchievementRewardStats
+} from '../utils/gameAchievementRewardSystem';
+import { 
+  getGameQuestRewards, getGameQuestRewardById,
+  saveGameQuestReward, deleteGameQuestReward,
+  claimQuestReward, getQuestRewardStats
+} from '../utils/gameQuestRewardSystem';
+import { 
+  getGameEventRewards, getGameEventRewardById,
+  saveGameEventReward, deleteGameEventReward,
+  claimEventReward, getEventRewardStats
+} from '../utils/gameEventRewardSystem';
+import { 
+  getGameMissionRewards, getGameMissionRewardById,
+  saveGameMissionReward, deleteGameMissionReward,
+  claimMissionReward, getMissionRewardStats
+} from '../utils/gameMissionRewardSystem';
+import { 
+  getGameTournamentRewards, getGameTournamentRewardById,
+  saveGameTournamentReward, deleteGameTournamentReward,
+  claimTournamentReward, getTournamentRewardStats
+} from '../utils/gameTournamentRewardSystem';
+import { 
+  getGameClanRewards, getGameClanRewardById,
+  saveGameClanReward, deleteGameClanReward,
+  claimClanReward, getClanRewardStats
+} from '../utils/gameClanRewardSystem';
+import { 
+  getGameItemRewards, getGameItemRewardById,
+  saveGameItemReward, deleteGameItemReward,
+  claimItemReward, getItemRewardStats
+} from '../utils/gameItemRewardSystem';
+import { 
+  getGameCurrencyRewards, getGameCurrencyRewardById,
+  saveGameCurrencyReward, deleteGameCurrencyReward,
+  claimCurrencyReward, getCurrencyRewardStats
+} from '../utils/gameCurrencyRewardSystem';
+import { 
+  getGameRewards, getGameRewardById,
+  saveGameReward, deleteGameReward,
+  claimGameReward, getGameRewardStats
+} from '../utils/gameRewardSystem';
+import { 
+  getGameProgression, getGameProgressionById,
+  saveGameProgression, deleteGameProgression,
+  updateProgression, getProgressionStats
+} from '../utils/gameProgressionSystem';
+import { 
+  getGameLeveling, getGameLevelingById,
+  saveGameLeveling, deleteGameLeveling,
+  updateLeveling, getLevelingStats
+} from '../utils/gameLevelingSystem';
+import { 
+  getGameExperience, getGameExperienceById,
+  saveGameExperience, deleteGameExperience,
+  updateExperience, getExperienceStats
+} from '../utils/gameExperienceSystem';
+import { 
+  getGameSkillTree, getGameSkillById,
+  saveGameSkill, deleteGameSkill,
+  unlockGameSkill, upgradeGameSkill,
+  getSkillTreeStats
+} from '../utils/gameSkillSystem';
+import { 
+  getGameTalentTree, getGameTalentById,
+  saveGameTalent, deleteGameTalent,
+  unlockGameTalent, upgradeGameTalent,
+  getTalentTreeStats
+} from '../utils/gameTalentSystem';
+import { 
+  getGamePerkTree, getGamePerkById,
+  saveGamePerk, deleteGamePerk,
+  unlockGamePerk, upgradeGamePerk,
+  getPerkTreeStats
+} from '../utils/gamePerkSystem';
+import { 
+  getGameStatTree, getGameStatById,
+  saveGameStat, deleteGameStat,
+  upgradeGameStat, getStatTreeStats
+} from '../utils/gameStatSystem';
+import { 
+  getGameAttributeTree, getGameAttributeById,
+  saveGameAttribute, deleteGameAttribute,
+  upgradeGameAttribute, getAttributeTreeStats
+} from '../utils/gameAttributeSystem';
+import { 
+  getGameAbilityTree, getGameAbilityById,
+  saveGameAbility, deleteGameAbility,
+  unlockGameAbility, upgradeGameAbility,
+  getAbilityTreeStats
+} from '../utils/gameAbilitySystem';
+import { 
+  getGamePowerTree, getGamePowerById,
+  saveGamePower, deleteGamePower,
+  unlockGamePower, upgradeGamePower,
+  getPowerTreeStats
+} from '../utils/gamePowerSystem';
+import { 
+  getGameSpecializationTree, getGameSpecializationById,
+  saveGameSpecialization, deleteGameSpecialization,
+  unlockGameSpecialization, upgradeGameSpecialization,
+  getSpecializationTreeStats
+} from '../utils/gameSpecializationSystem';
+import { 
+  getGameProfessionTree, getGameProfessionById,
+  saveGameProfession, deleteGameProfession,
+  unlockGameProfession, upgradeGameProfession,
+  getProfessionTreeStats
+} from '../utils/gameProfessionSystem';
+import { 
+  getGameCareerTree, getGameCareerById,
+  saveGameCareer, deleteGameCareer,
+  unlockGameCareer, upgradeGameCareer,
+  getCareerTreeStats
+} from '../utils/gameCareerSystem';
+import { 
+  getGameEducationTree, getGameEducationById,
+  saveGameEducation, deleteGameEducation,
+  unlockGameEducation, upgradeGameEducation,
+  getEducationTreeStats
+} from '../utils/gameEducationSystem';
+import { 
+  getGameHealthTree, getGameHealthById,
+  saveGameHealth, deleteGameHealth,
+  upgradeGameHealth, getHealthTreeStats
+} from '../utils/gameHealthSystem';
+import { 
+  getGameFitnessTree, getGameFitnessById,
+  saveGameFitness, deleteGameFitness,
+  upgradeGameFitness, getFitnessTreeStats
+} from '../utils/gameFitnessSystem';
+import { 
+  getGameIntelligenceTree, getGameIntelligenceById,
+  saveGameIntelligence, deleteGameIntelligence,
+  upgradeGameIntelligence, getIntelligenceTreeStats
+} from '../utils/gameIntelligenceSystem';
+import { 
+  getGameWisdomTree, getGameWisdomById,
+  saveGameWisdom, deleteGameWisdom,
+  upgradeGameWisdom, getWisdomTreeStats
+} from '../utils/gameWisdomSystem';
+import { 
+  getGameCharismaTree, getGameCharismaById,
+  saveGameCharisma, deleteGameCharisma,
+  upgradeGameCharisma, getCharismaTreeStats
+} from '../utils/gameCharismaSystem';
+import { 
+  getGameLuckTree, getGameLuckById,
+  saveGameLuck, deleteGameLuck,
+  upgradeGameLuck, getLuckTreeStats
+} from '../utils/gameLuckSystem';
+import { 
+  getGameCharmTree, getGameCharmById,
+  saveGameCharm, deleteGameCharm,
+  upgradeGameCharm, getCharmTreeStats
+} from '../utils/gameCharmSystem';
+import { 
+  getGamePersonalityTree, getGamePersonalityById,
+  saveGamePersonality, deleteGamePersonality,
+  upgradeGamePersonality, getPersonalityTreeStats
+} from '../utils/gamePersonalitySystem';
+import { 
+  getGameTraitTree, getGameTraitById,
+  saveGameTrait, deleteGameTrait,
+  unlockGameTrait, upgradeGameTrait,
+  getTraitTreeStats
+} from '../utils/gameTraitSystem';
+import { 
+  getGameFeatureTree, getGameFeatureById,
+  saveGameFeature, deleteGameFeature,
+  unlockGameFeature, upgradeGameFeature,
+  getFeatureTreeStats
+} from '../utils/gameFeatureSystem';
+import { 
+  getGameAttributePoints, getGameAttributePointsById,
+  saveGameAttributePoints, deleteGameAttributePoints,
+  updateAttributePoints, getAttributePointsStats
+} from '../utils/gameAttributePointsSystem';
+import { 
+  getGameSkillPoints, getGameSkillPointsById,
+  saveGameSkillPoints, deleteGameSkillPoints,
+  updateSkillPoints, getSkillPointsStats
+} from '../utils/gameSkillPointsSystem';
+import { 
+  getGameTalentPoints, getGameTalentPointsById,
+  saveGameTalentPoints, deleteGameTalentPoints,
+  updateTalentPoints, getTalentPointsStats
+} from '../utils/gameTalentPointsSystem';
+import { 
+  getGamePerkPoints, getGamePerkPointsById,
+  saveGamePerkPoints, deleteGamePerkPoints,
+  updatePerkPoints, getPerkPointsStats
+} from '../utils/gamePerkPointsSystem';
+import { 
+  getGameStatPoints, getGameStatPointsById,
+  saveGameStatPoints, deleteGameStatPoints,
+  updateStatPoints, getStatPointsStats
+} from '../utils/gameStatPointsSystem';
+import { 
+  getGameAbilityPoints, getGameAbilityPointsById,
+  saveGameAbilityPoints, deleteGameAbilityPoints,
+  updateAbilityPoints, getAbilityPointsStats
+} from '../utils/gameAbilityPointsSystem';
+import { 
+  getGamePowerPoints, getGamePowerPointsById,
+  saveGamePowerPoints, deleteGamePowerPoints,
+  updatePowerPoints, getPowerPointsStats
+} from '../utils/gamePowerPointsSystem';
+import { 
+  getGameSpecializationPoints, getGameSpecializationPointsById,
+  saveGameSpecializationPoints, deleteGameSpecializationPoints,
+  updateSpecializationPoints, getSpecializationPointsStats
+} from '../utils/gameSpecializationPointsSystem';
+import { 
+  getGameProfessionPoints, getGameProfessionPointsById,
+  saveGameProfessionPoints, deleteGameProfessionPoints,
+  updateProfessionPoints, getProfessionPointsStats
+} from '../utils/gameProfessionPointsSystem';
+import { 
+  getGameCareerPoints, getGameCareerPointsById,
+  saveGameCareerPoints, deleteGameCareerPoints,
+  updateCareerPoints, getCareerPointsStats
+} from '../utils/gameCareerPointsSystem';
+import { 
+  getGameEducationPoints, getGameEducationPointsById,
+  saveGameEducationPoints, deleteGameEducationPoints,
+  updateEducationPoints, getEducationPointsStats
+} from '../utils/gameEducationPointsSystem';
+import { 
+  getGameHealthPoints, getGameHealthPointsById,
+  saveGameHealthPoints, deleteGameHealthPoints,
+  updateHealthPoints, getHealthPointsStats
+} from '../utils/gameHealthPointsSystem';
+import { 
+  getGameFitnessPoints, getGameFitnessPointsById,
+  saveGameFitnessPoints, deleteGameFitnessPoints,
+  updateFitnessPoints, getFitnessPointsStats
+} from '../utils/gameFitnessPointsSystem';
+import { 
+  getGameIntelligencePoints, getGameIntelligencePointsById,
+  saveGameIntelligencePoints, deleteGameIntelligencePoints,
+  updateIntelligencePoints, getIntelligencePointsStats
+} from '../utils/gameIntelligencePointsSystem';
+import { 
+  getGameWisdomPoints, getGameWisdomPointsById,
+  saveGameWisdomPoints, deleteGameWisdomPoints,
+  updateWisdomPoints, getWisdomPointsStats
+} from '../utils/gameWisdomPointsSystem';
+import { 
+  getGameCharismaPoints, getGameCharismaPointsById,
+  saveGameCharismaPoints, deleteGameCharismaPoints,
+  updateCharismaPoints, getCharismaPointsStats
+} from '../utils/gameCharismaPointsSystem';
+import { 
+  getGameLuckPoints, getGameLuckPointsById,
+  saveGameLuckPoints, deleteGameLuckPoints,
+  updateLuckPoints, getLuckPointsStats
+} from '../utils/gameLuckPointsSystem';
+import { 
+  getGameCharmPoints, getGameCharmPointsById,
+  saveGameCharmPoints, deleteGameCharmPoints,
+  updateCharmPoints, getCharmPointsStats
+} from '../utils/gameCharmPointsSystem';
+import { 
+  getGamePersonalityPoints, getGamePersonalityPointsById,
+  saveGamePersonalityPoints, deleteGamePersonalityPoints,
+  updatePersonalityPoints, getPersonalityPointsStats
+} from '../utils/gamePersonalityPointsSystem';
+import { 
+  getGameTraitPoints, getGameTraitPointsById,
+  saveGameTraitPoints, deleteGameTraitPoints,
+  updateTraitPoints, getTraitPointsStats
+} from '../utils/gameTraitPointsSystem';
+import { 
+  getGameFeaturePoints, getGameFeaturePointsById,
+  saveGameFeaturePoints, deleteGameFeaturePoints,
+  updateFeaturePoints, getFeaturePointsStats
+} from '../utils/gameFeaturePointsSystem';
+import { 
+  getGameCurrencyPoints, getGameCurrencyPointsById,
+  saveGameCurrencyPoints, deleteGameCurrencyPoints,
+  updateCurrencyPoints, getCurrencyPointsStats
+} from '../utils/gameCurrencyPointsSystem';
+import { 
+  getGameItemPoints, getGameItemPointsById,
+  saveGameItemPoints, deleteGameItemPoints,
+  updateItemPoints, getItemPointsStats
+} from '../utils/gameItemPointsSystem';
+import { 
+  getGameAchievementPoints, getGameAchievementPointsById,
+  saveGameAchievementPoints, deleteGameAchievementPoints,
+  updateAchievementPoints, getAchievementPointsStats
+} from '../utils/gameAchievementPointsSystem';
+import { 
+  getGameLeaderboardPoints, getGameLeaderboardPointsById,
+  saveGameLeaderboardPoints, deleteGameLeaderboardPoints,
+  updateLeaderboardPoints, getLeaderboardPointsStats
+} from '../utils/gameLeaderboardPointsSystem';
+import { 
+  getGameTournamentPoints, getGameTournamentPointsById,
+  saveGameTournamentPoints, deleteGameTournamentPoints,
+  updateTournamentPoints, getTournamentPointsStats
+} from '../utils/gameTournamentPointsSystem';
+import { 
+  getGameClanPoints, getGameClanPointsById,
+  saveGameClanPoints, deleteGameClanPoints,
+  updateClanPoints, getClanPointsStats
+} from '../utils/gameClanPointsSystem';
+import { 
+  getGameQuestPoints, getGameQuestPointsById,
+  saveGameQuestPoints, deleteGameQuestPoints,
+  updateQuestPoints, getQuestPointsStats
+} from '../utils/gameQuestPointsSystem';
+import { 
+  getGameEventPoints, getGameEventPointsById,
+  saveGameEventPoints, deleteGameEventPoints,
+  updateEventPoints, getEventPointsStats
+} from '../utils/gameEventPointsSystem';
+import { 
+  getGameMissionPoints, getGameMissionPointsById,
+  saveGameMissionPoints, deleteGameMissionPoints,
+  updateMissionPoints, getMissionPointsStats
+} from '../utils/gameMissionPointsSystem';
+import { 
+  getGameRewardPoints, getGameRewardPointsById,
+  saveGameRewardPoints, deleteGameRewardPoints,
+  updateRewardPoints, getRewardPointsStats
+} from '../utils/gameRewardPointsSystem';
+import { 
+  getGameProgressionPoints, getGameProgressionPointsById,
+  saveGameProgressionPoints, deleteGameProgressionPoints,
+  updateProgressionPoints, getProgressionPointsStats
+} from '../utils/gameProgressionPointsSystem';
+import { 
+  getGameLevelingPoints, getGameLevelingPointsById,
+  saveGameLevelingPoints, deleteGameLevelingPoints,
+  updateLevelingPoints, getLevelingPointsStats
+} from '../utils/gameLevelingPointsSystem';
+import { 
+  getGameExperiencePoints, getGameExperiencePointsById,
+  saveGameExperiencePoints, deleteGameExperiencePoints,
+  updateExperiencePoints, getExperiencePointsStats
+} from '../utils/gameExperiencePointsSystem';
+import { 
+  getGameSkillTreePoints, getGameSkillTreePointsById,
+  saveGameSkillTreePoints, deleteGameSkillTreePoints,
+  updateSkillTreePoints, getSkillTreePointsStats
+} from '../utils/gameSkillTreePointsSystem';
+import { 
+  getGameTalentTreePoints, getGameTalentTreePointsById,
+  saveGameTalentTreePoints, deleteGameTalentTreePoints,
+  updateTalentTreePoints, getTalentTreePointsStats
+} from '../utils/gameTalentTreePointsSystem';
+import { 
+  getGamePerkTreePoints, getGamePerkTreePointsById,
+  saveGamePerkTreePoints, deleteGamePerkTreePoints,
+  updatePerkTreePoints, getPerkTreePointsStats
+} from '../utils/gamePerkTreePointsSystem';
+import { 
+  getGameStatTreePoints, getGameStatTreePointsById,
+  saveGameStatTreePoints, deleteGameStatTreePoints,
+  updateStatTreePoints, getStatTreePointsStats
+} from '../utils/gameStatTreePointsSystem';
+import { 
+  getGameAttributeTreePoints, getGameAttributeTreePointsById,
+  saveGameAttributeTreePoints, deleteGameAttributeTreePoints,
+  updateAttributeTreePoints, getAttributeTreePointsStats
+} from '../utils/gameAttributeTreePointsSystem';
+import { 
+  getGameAbilityTreePoints, getGameAbilityTreePointsById,
+  saveGameAbilityTreePoints, deleteGameAbilityTreePoints,
+  updateAbilityTreePoints, getAbilityTreePointsStats
+} from '../utils/gameAbilityTreePointsSystem';
+import { 
+  getGamePowerTreePoints, getGamePowerTreePointsById,
+  saveGamePowerTreePoints, deleteGamePowerTreePoints,
+  updatePowerTreePoints, getPowerTreePointsStats
+} from '../utils/gamePowerTreePointsSystem';
+import { 
+  getGameSpecializationTreePoints, getGameSpecializationTreePointsById,
+  saveGameSpecializationTreePoints, deleteGameSpecializationTreePoints,
+  updateSpecializationTreePoints, getSpecializationTreePointsStats
+} from '../utils/gameSpecializationTreePointsSystem';
+import { 
+  getGameProfessionTreePoints, getGameProfessionTreePointsById,
+  saveGameProfessionTreePoints, deleteGameProfessionTreePoints,
+  updateProfessionTreePoints, getProfessionTreePointsStats
+} from '../utils/gameProfessionTreePointsSystem';
+import { 
+  getGameCareerTreePoints, getGameCareerTreePointsById,
+  saveGameCareerTreePoints, deleteGameCareerTreePoints,
+  updateCareerTreePoints, getCareerTreePointsStats
+} from '../utils/gameCareerTreePointsSystem';
+import { 
+  getGameEducationTreePoints, getGameEducationTreePointsById,
+  saveGameEducationTreePoints, deleteGameEducationTreePoints,
+  updateEducationTreePoints, getEducationTreePointsStats
+} from '../utils/gameEducationTreePointsSystem';
+import { 
+  getGameHealthTreePoints, getGameHealthTreePointsById,
+  saveGameHealthTreePoints, deleteGameHealthTreePoints,
+  updateHealthTreePoints, getHealthTreePointsStats
+} from '../utils/gameHealthTreePointsSystem';
+import { 
+  getGameFitnessTreePoints, getGameFitnessTreePointsById,
+  saveGameFitnessTreePoints, deleteGameFitnessTreePoints,
+  updateFitnessTreePoints, getFitnessTreePointsStats
+} from '../utils/gameFitnessTreePointsSystem';
+import { 
+  getGameIntelligenceTreePoints, getGameIntelligenceTreePointsById,
+  saveGameIntelligenceTreePoints, deleteGameIntelligenceTreePoints,
+  updateIntelligenceTreePoints, getIntelligenceTreePointsStats
+} from '../utils/gameIntelligenceTreePointsSystem';
+import { 
+  getGameWisdomTreePoints, getGameWisdomTreePointsById,
+  saveGameWisdomTreePoints, deleteGameWisdomTreePoints,
+  updateWisdomTreePoints, getWisdomTreePointsStats
+} from '../utils/gameWisdomTreePointsSystem';
+import { 
+  getGameCharismaTreePoints, getGameCharismaTreePointsById,
+  saveGameCharismaTreePoints, deleteGameCharismaTreePoints,
+  updateCharismaTreePoints, getCharismaTreePointsStats
+} from '../utils/gameCharismaTreePointsSystem';
+import { 
+  getGameLuckTreePoints, getGameLuckTreePointsById,
+  saveGameLuckTreePoints, deleteGameLuckTreePoints,
+  updateLuckTreePoints, getLuckTreePointsStats
+} from '../utils/gameLuckTreePointsSystem';
+import { 
+  getGameCharmTreePoints, getGameCharmTreePointsById,
+  saveGameCharmTreePoints, deleteGameCharmTreePoints,
+  updateCharmTreePoints, getCharmTreePointsStats
+} from '../utils/gameCharmTreePointsSystem';
+import { 
+  getGamePersonalityTreePoints, getGamePersonalityTreePointsById,
+  saveGamePersonalityTreePoints, deleteGamePersonalityTreePoints,
+  updatePersonalityTreePoints, getPersonalityTreePointsStats
+} from '../utils/gamePersonalityTreePointsSystem';
+import { 
+  getGameTraitTreePoints, getGameTraitTreePointsById,
+  saveGameTraitTreePoints, deleteGameTraitTreePoints,
+  updateTraitTreePoints, getTraitTreePointsStats
+} from '../utils/gameTraitTreePointsSystem';
+import { 
+  getGameFeatureTreePoints, getGameFeatureTreePointsById,
+  saveGameFeatureTreePoints, deleteGameFeatureTreePoints,
+  updateFeatureTreePoints, getFeatureTreePointsStats
+} from '../utils/gameFeatureTreePointsSystem';
