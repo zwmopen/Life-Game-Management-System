@@ -24,7 +24,7 @@ import {
   saveTasks, getTasks, getFilteredTasks, saveCharacter, loadCharacter,
   getTodayTasks, getWeeklyTasks, getMonthlyTasks, getQuarterlyTasks, getYearlyTasks,
   getTotalTasks, getCompletedTasks, getHabitTasks, getProjectTasks,
-  getDiceTasks, getAutoTasks, getRandomTaskColor,
+  getAutoTasks, getRandomTaskColor,
   getAutoTasksFromSettings, formatNumberWithCommas,
   filterTasksByAttribute, getTasksByType, getTasksBySubtype, getTotalTasksByAttribute,
   generateRandomColor, getTasksByCharacterAttribute, getCharacterAttributes, 
