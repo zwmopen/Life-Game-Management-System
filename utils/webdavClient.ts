@@ -255,12 +255,10 @@ class WebDAVClient {
   // 测试连接
   async testConnection(): Promise<void> {
     try {
-      // 发送一个简单的 PROPFIND 请求到根目录来测试连接
-      await this.request('PROPFIND', '', undefined, {
-        'Depth': '0'
-      });
+      // 尝试获取根目录列表来测试连接
+      await this.listFiles('/');
     } catch (error) {
-      console.error('WebDAV connection test failed:', error);
+      console.error('Failed to test connection:', error);
       throw error;
     }
   }

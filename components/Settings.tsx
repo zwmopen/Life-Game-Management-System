@@ -326,7 +326,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
       const backupData = JSON.stringify(gameData, null, 2);
       const backupName = `人生游戏备份_${new Date().toISOString().replace(/[:.]/g, '-')}.json`;
       const path = `${webdavConfig.basePath || ''}/${backupName}`;
-      await client.putFileContents(path, backupData);
+      await client.uploadFile(path, backupData);
       setWebdavStatus('WebDAV备份成功！');
     } catch (error) {
       console.error('Failed to backup to WebDAV:', error);
@@ -342,7 +342,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
     try {
       const client = new WebDAVClient(webdavConfig);
       const path = `${webdavConfig.basePath || ''}/人生游戏备份_${new Date().toISOString().split('T')[0]}.json`;
-      const backupData = await client.getFileContents(path, { format: 'text' });
+      const backupData = await client.downloadFile(path);
       const gameData = JSON.parse(backupData as string);
       if (gameData.settings) {
         // In a real implementation, you would restore the data

@@ -1,6 +1,25 @@
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Area, AreaChart, Scatter, ScatterChart, ZAxis, ReferenceLine } from 'recharts';
-import { chartConfig, getGridColor, getTooltipStyle } from './ChartConfig';
+
+// 图表配置函数
+export const getGridColor = (isDark: boolean): string => {
+  return isDark ? '#374151' : '#e5e7eb';
+};
+
+export const getTooltipStyle = (isDark: boolean) => {
+  return {
+    contentStyle: {
+      backgroundColor: isDark ? '#1f2937' : '#ffffff',
+      border: `1px solid ${isDark ? '#374151' : '#e5e7eb'}`,
+      borderRadius: '0.5rem',
+      color: isDark ? '#ffffff' : '#111827'
+    },
+    cursor: {
+      stroke: isDark ? '#374151' : '#e5e7eb',
+      strokeDasharray: '3 3'
+    }
+  };
+};
 
 interface ConceptChartsProps {
   isDark: boolean;

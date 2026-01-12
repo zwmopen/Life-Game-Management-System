@@ -92,7 +92,7 @@ export const INITIAL_CHALLENGES = [
 
 // --- Initial Achievements ---
 export const INITIAL_ACHIEVEMENTS: AchievementItem[] = [
-  { id: 'c0', name: '迈出一步', limit: 1, unit: 'kills', iconName: 'Target', color: 'text-red-500', desc: '完成 1 个任务', category: '战役' },
+  { id: 'c0', title: '迈出一步', description: '完成 1 个任务', unlocked: false, target: 1 },
 ];
 
 // --- Initial Dice Tasks ---

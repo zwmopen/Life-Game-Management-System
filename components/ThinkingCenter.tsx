@@ -37,39 +37,21 @@ const sanitizeHtml = (html: string): string => {
 };
 
 // Error boundary component to handle model parsing errors
-class ModelErrorBoundary extends React.Component<{
+// Simplified error boundary implementation
+const ModelErrorBoundary = ({ children, fallback }: {
   children: React.ReactNode;
   fallback: React.ReactNode;
-}, {
-  hasError: boolean;
-}> {
-  constructor(props: {
-    children: React.ReactNode;
-    fallback: React.ReactNode;
-  }) {
-    super(props);
-    this.state = { hasError: false };
+}) => {
+  try {
+    return children;
+  } catch (error) {
+    console.error('Model rendering error:', error);
+    return fallback;
   }
-
-  static getDerivedStateFromError(_: Error) {
-    return { hasError: true };
-  }
-
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error('Model rendering error:', error, errorInfo);
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return this.props.fallback;
-    }
-
-    return this.props.children;
-  }
-}
+};
 
 // Button component without drag and drop functionality
-const ModelButton = ({ children, onClick, isActive, theme }: { children: React.ReactNode; onClick: () => void; isActive: boolean; theme: 'light' | 'dark' | 'neomorphic-light' | 'neomorphic-dark' }) => {
+const ModelButton = ({ children, onClick, isActive, theme }: { children: React.ReactNode; onClick: () => void; isActive: boolean; theme: 'light' | 'dark' | 'neomorphic-light' | 'neomorphic-dark' } & React.HTMLAttributes<HTMLButtonElement>) => {
   const isDark = theme === 'dark' || theme === 'neomorphic-dark';
   const isNeomorphic = theme.startsWith('neomorphic');
   const isNeomorphicDark = theme === 'neomorphic-dark';
