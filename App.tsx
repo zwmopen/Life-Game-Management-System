@@ -41,6 +41,9 @@ import { useStats } from './features/stats';
 // 导入音效管理库
 import soundManager from './utils/soundManager';
 
+// 导入全局音频管理器
+import { GlobalAudioProvider, GlobalBackgroundMusicManager } from './components/GlobalAudioManager';
+
 
 
 const App: React.FC = () => {
@@ -101,7 +104,14 @@ const App: React.FC = () => {
     showSystemStabilityModule: true,
     showLatestBadges: true,
     showChartSummary: true,
-    showSupplyMarket: true
+    showSupplyMarket: true,
+    // 备份设置：默认启用自动备份，每天10:00，不使用自定义路径
+    autoBackupEnabled: true,
+    autoBackupFrequency: 'daily',
+    autoBackupTime: '10:00',
+    customBackupPath: '',
+    // 默认启用WebDAV备份
+    enableWebDAV: true
   });
 
   // Weekly & Daily Goal State
@@ -539,34 +549,14 @@ const App: React.FC = () => {
       });
   };
 
-  // Global Audio Ref for Background Music Persistence
-  const bgMusicRef = useRef<HTMLAudioElement | null>(null);
+  // 全局音频管理已通过 GlobalAudioProvider 在组件树顶层处理
+  // 此处不再需要局部的音频管理逻辑
 
-  // Effect to handle background music based on settings changes
-  useEffect(() => {
-      if (settings.enableBgMusic) {
-          // 创建音频对象但默认不自动播放，只有用户明确点击时才播放
-          if (!bgMusicRef.current) {
-              const defaultSound = {
-                  id: 'forest',
-                  name: '迷雾森林',
-                  url: "https://assets.mixkit.co/active_storage/sfx/2441/2441-preview.mp3"
-              };
-              bgMusicRef.current = new Audio(defaultSound.url);
-              bgMusicRef.current.loop = true;
-              // 设置音量但不播放
-              bgMusicRef.current.volume = settings.bgMusicVolume;
-          }
-      } else if (bgMusicRef.current) {
-          bgMusicRef.current.pause();
-      }
-  }, [settings.enableBgMusic, settings.bgMusicVolume]);
-
-  // Global Sound State
+  // 保留全局音频管理器的状态引用
   const [currentSoundId, setCurrentSoundId] = useState<string>('');
   const [isMuted, setIsMuted] = useState<boolean>(false);
 
-  // Audio Handler
+  // Audio Handler - 保留以兼容旧代码，但优先使用全局音频管理器
   const playSound = (url: string, type: SoundType = SoundType.SOUND_EFFECT) => {
       if ((type === SoundType.SOUND_EFFECT && !settings.enableSoundEffects) || (type === SoundType.BACKGROUND_MUSIC && !settings.enableBgMusic)) {
           return;
@@ -575,22 +565,8 @@ const App: React.FC = () => {
       const volume = isMuted ? 0 : (type === SoundType.SOUND_EFFECT ? settings.soundEffectVolume : settings.bgMusicVolume);
       
       if (type === SoundType.BACKGROUND_MUSIC) {
-          // For background music, use the global audio ref to persist across navigation
-          if (!bgMusicRef.current) {
-              bgMusicRef.current = new Audio(url);
-              bgMusicRef.current.loop = true; // Loop background music
-          } else {
-              // If the URL has changed, update the src
-              if (bgMusicRef.current.src !== url) {
-                  bgMusicRef.current.src = url;
-              }
-          }
-          
-          // Update volume and play
-          bgMusicRef.current.volume = volume;
-          bgMusicRef.current.play().catch((e) => {
-              console.error('Failed to play background music:', e);
-          });
+          // 使用全局音频管理器播放背景音乐
+          soundManager.playBackgroundMusic(url);
       } else {
           // For sound effects, create new Audio objects
           const audio = new Audio(url);
@@ -640,10 +616,8 @@ const App: React.FC = () => {
 
   // Handle Mute Toggle
   const handleMuteToggle = () => {
-      setIsMuted(!isMuted);
-      if (bgMusicRef.current) {
-          bgMusicRef.current.volume = isMuted ? (settings.enableBgMusic ? settings.bgMusicVolume : 0) : 0;
-      }
+      const newMutedState = soundManager.toggleMute();
+      setIsMuted(newMutedState);
   };
 
   const handleToggleRandomChallenge = (taskTitle: string) => {
@@ -765,7 +739,6 @@ const App: React.FC = () => {
                       addFloatingText(`+10 专注时间`, 'text-green-500', window.innerWidth / 2 + 80);
                   }, 600);
 
-                  // Play Success Sound
                   playSound("https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3");
 
                   return { ...h, history: newHistory, streak: h.streak + 1 };
@@ -1189,7 +1162,7 @@ const App: React.FC = () => {
                     setIsImmersive(true);
                     setUseInternalImmersive(true);
                   }}
-                  // Audio Management
+                  // Audio Management - 使用全局音频管理器
                   isMuted={isMuted}
                   currentSoundId={currentSoundId}
                   onToggleMute={handleMuteToggle}
@@ -1360,75 +1333,78 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className={`flex h-screen w-full overflow-hidden font-sans relative transition-colors duration-500 ${bgClass}`}>
-      {/* Conditionally render Navigation based on immersive mode */}
-      {!isImmersive && (
-        <Navigation 
-          currentView={currentView} 
-          setView={setCurrentView} 
-          isMobileOpen={isMobileOpen}
-          setIsMobileOpen={setIsMobileOpen}
-          theme={theme}
-          setTheme={setTheme}
-          entropy={entropy} 
-          isNavCollapsed={isNavCollapsed}
-          setIsNavCollapsed={setIsNavCollapsed}
-        />
-      )}
-      
-      {/* GLOBAL REWARD POPUP */}
-      {activeAchievement && <RewardModal badge={activeAchievement} onClose={handleClaimReward} />}
-
-      {/* 统一背景，消除侧边栏和主体的颜色割裂 */}
-      <main className={`flex-1 h-full overflow-y-auto relative scroll-smooth flex flex-col transition-all duration-200 ${bgClass}`}>
-        {theme === 'dark' ? (
-             <div className="absolute inset-0 z-0 pointer-events-none opacity-20"
-                style={{
-                backgroundImage: 'radial-gradient(circle at 50% 5%, #10b981 0%, transparent 20%), radial-gradient(circle at 90% 90%, #3b82f6 0%, transparent 20%)'
-                }}>
-            </div>
-        ) : (
-             <div className="absolute inset-0 z-0 pointer-events-none opacity-40"
-                style={{
-                backgroundImage: 'radial-gradient(circle at 50% 5%, #cbd5e1 0%, transparent 30%)'
-                }}>
-            </div>
+    <GlobalAudioProvider>
+      <GlobalBackgroundMusicManager />
+      <div className={`flex h-screen w-full overflow-hidden font-sans relative transition-colors duration-500 ${bgClass}`}>
+        {/* Conditionally render Navigation based on immersive mode */}
+        {!isImmersive && (
+          <Navigation 
+            currentView={currentView} 
+            setView={setCurrentView} 
+            isMobileOpen={isMobileOpen}
+            setIsMobileOpen={setIsMobileOpen}
+            theme={theme}
+            setTheme={setTheme}
+            entropy={entropy} 
+            isNavCollapsed={isNavCollapsed}
+            setIsNavCollapsed={setIsNavCollapsed}
+          />
         )}
-       
-        <div className="relative z-10 flex-1 overflow-y-auto">
-          {renderView()}
-        </div>
-      </main>
+        
+        {/* GLOBAL REWARD POPUP */}
+        {activeAchievement && <RewardModal badge={activeAchievement} onClose={handleClaimReward} />}
 
-      {floatingTexts.map(ft => (
-          <div 
-            key={ft.id}
-            className={`fixed pointer-events-none text-xl sm:text-2xl font-black ${ft.color} animate-bounce z-[9999]`}
-            style={{ left: ft.x, top: ft.y, textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}
-          >
-              {ft.text}
+        {/* 统一背景，消除侧边栏和主体的颜色割裂 */}
+        <main className={`flex-1 h-full overflow-y-auto relative scroll-smooth flex flex-col transition-all duration-200 ${bgClass}`}>
+          {theme === 'dark' ? (
+               <div className="absolute inset-0 z-0 pointer-events-none opacity-20"
+                  style={{
+                  backgroundImage: 'radial-gradient(circle at 50% 5%, #10b981 0%, transparent 20%), radial-gradient(circle at 90% 90%, #3b82f6 0%, transparent 20%)'
+                  }}>
+              </div>
+          ) : (
+               <div className="absolute inset-0 z-0 pointer-events-none opacity-40"
+                  style={{
+                  backgroundImage: 'radial-gradient(circle at 50% 5%, #cbd5e1 0%, transparent 30%)'
+                  }}>
+              </div>
+          )}
+         
+          <div className="relative z-10 flex-1 overflow-y-auto">
+            {renderView()}
           </div>
-      ))}
-      
-      {/* 全局帮助指南卡片 */}
-      <GlobalGuideCard
-        activeHelp={activeHelp}
-        helpContent={helpContent}
-        onClose={() => setActiveHelp(null)}
-        cardBg={theme === 'dark' ? 'bg-zinc-900 shadow-lg' : theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[8px_8px_16px_rgba(0,0,0,0.4),-8px_-8px_16px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)]'}
-        textMain={theme === 'dark' ? 'text-zinc-200' : 'text-zinc-800'}
-        textSub={theme === 'dark' ? 'text-zinc-500' : 'text-zinc-600'}
-        config={settings.guideCardConfig || {
-          fontSize: 'medium',
-          borderRadius: 'medium',
-          shadowIntensity: 'medium',
-          showUnderlyingPrinciple: true
-        }}
-      />
-      
-      {/* Vercel Speed Insights for performance monitoring */}
-      <SpeedInsights />
-    </div>
+        </main>
+
+        {floatingTexts.map(ft => (
+            <div 
+              key={ft.id}
+              className={`fixed pointer-events-none text-xl sm:text-2xl font-black ${ft.color} animate-bounce z-[9999]`}
+              style={{ left: ft.x, top: ft.y, textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}
+            >
+                {ft.text}
+            </div>
+        ))}
+        
+        {/* 全局帮助指南卡片 */}
+        <GlobalGuideCard
+          activeHelp={activeHelp}
+          helpContent={helpContent}
+          onClose={() => setActiveHelp(null)}
+          cardBg={theme === 'dark' ? 'bg-zinc-900 shadow-lg' : theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[8px_8px_16px_rgba(0,0,0,0.4),-8px_-8px_16px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)]'}
+          textMain={theme === 'dark' ? 'text-zinc-200' : 'text-zinc-800'}
+          textSub={theme === 'dark' ? 'text-zinc-500' : 'text-zinc-600'}
+          config={settings.guideCardConfig || {
+            fontSize: 'medium',
+            borderRadius: 'medium',
+            shadowIntensity: 'medium',
+            showUnderlyingPrinciple: true
+          }}
+        />
+        
+        {/* Vercel Speed Insights for performance monitoring */}
+        <SpeedInsights />
+      </div>
+    </GlobalAudioProvider>
   );
 };
 

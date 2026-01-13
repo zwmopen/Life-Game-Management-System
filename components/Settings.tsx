@@ -86,9 +86,9 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
   const [localBackupStatus, setLocalBackupStatus] = useState<string>('');
   
   // State for auto backup settings
-  const [autoBackupEnabled, setAutoBackupEnabled] = useState<boolean>(settings.autoBackupEnabled || false);
+  const [autoBackupEnabled, setAutoBackupEnabled] = useState<boolean>(settings.autoBackupEnabled ?? true); // 默认启用自动备份
   const [autoBackupInterval, setAutoBackupInterval] = useState<'daily' | 'weekly' | 'monthly'>(settings.autoBackupInterval || 'daily');
-  const [autoBackupTime, setAutoBackupTime] = useState<string>(settings.autoBackupTime || '02:00');
+  const [autoBackupTime, setAutoBackupTime] = useState<string>(settings.autoBackupTime || '10:00'); // 默认时间为早上10点
   
   // State for backup search and filter
   const [backupSearchQuery, setBackupSearchQuery] = useState<string>('');
@@ -960,24 +960,24 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
             </div>
             
             <div className={`rounded-xl p-3 w-full ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/50' : 'bg-slate-50'}`}>
-              <div className="space-y-2">
-                <div className="flex items-center p-2 rounded-lg">
-                  <span className={`text-sm ${textMain} w-20 flex-shrink-0`}>版本：</span>
-                  <span className={`text-sm ${textSub} flex-grow`}>v{APP_VERSION}</span>
+              <div className="space-y-0.5">
+                <div className="flex items-center py-0.5">
+                  <span className={`text-xs ${textMain} w-12 flex-shrink-0`}>版本：</span>
+                  <span className={`text-xs ${textSub} flex-grow`}>v{APP_VERSION}</span>
                 </div>
-                <div className="flex items-center p-2 rounded-lg">
-                  <span className={`text-sm ${textMain} w-20 flex-shrink-0`}>作者：</span>
-                  <span className={`text-sm ${textSub} flex-grow`}>大胆走夜路</span>
+                <div className="flex items-center py-0.5">
+                  <span className={`text-xs ${textMain} w-12 flex-shrink-0`}>作者：</span>
+                  <span className={`text-xs ${textSub} flex-grow`}>大胆走夜路</span>
                 </div>
-                <div className="flex items-center p-2 rounded-lg">
-                  <span className={`text-sm ${textMain} w-20 flex-shrink-0`}>联系微信：</span>
-                  <span className={`text-sm ${textSub} flex-grow`}>zwmrpg</span>
+                <div className="flex items-center py-0.5">
+                  <span className={`text-xs ${textMain} w-12 flex-shrink-0`}>联系微信：</span>
+                  <span className={`text-xs ${textSub} flex-grow`}>zwmrpg</span>
                 </div>
-                <div className="p-2 rounded-lg">
-                  <span className={`text-sm ${textMain} block mb-1`}>项目介绍：</span>
-                  <p className={`text-xs ${textSub} leading-4`}>
+                <div className="pt-1">
+                  <span className={`text-xs ${textMain} inline mr-1`}>项目介绍：</span>
+                  <span className={`text-xs ${textSub} inline`}>
                     人生游戏管理系统是一个综合性的个人成长管理工具，集成了任务管理、习惯养成、专注计时、成就系统等功能，旨在帮助用户更好地规划和追踪个人发展。
-                  </p>
+                  </span>
                 </div>
               </div>
             </div>

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Theme } from '../../types';
 import soundManager from '../../utils/soundManager';
+import { useGlobalAudio } from '../../components/GlobalAudioManager';
 
 interface InternalImmersivePomodoroProps {
   theme: Theme;
@@ -2431,17 +2432,27 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
         // 更新预览 - 使用精致模型，直接显示在大陆中心
         const updatePreview = (type: string) => {
           // 移除场景中所有名为'previewMesh'的对象，确保彻底清理
-          scene.traverse((object) => {
-            if (object.name === 'previewMesh') {
-              if (object.parent) {
-                object.parent.remove(object);
+          if (!scene || typeof scene !== 'object' || !scene.traverse) {
+            console.warn('Scene not initialized or invalid, skipping preview update');
+            return;
+          }
+          
+          try {
+            scene.traverse((object) => {
+              if (object.name === 'previewMesh') {
+                if (object.parent) {
+                  object.parent.remove(object);
+                }
               }
-            }
-          });
+            });
+          } catch (error) {
+            console.warn('Error traversing scene in updatePreview:', error);
+            return;
+          }
           
           // 获取番茄模型，检查是否处于专注模式
           const tomatoMesh = scene.getObjectByName('tomatoMesh');
-          const isFocusMode = tomatoMesh && tomatoMesh.visible;
+          const isFocusMode = tomatoMesh && typeof tomatoMesh.visible !== 'undefined' && tomatoMesh.visible;
           
           let newPreviewMesh: any;
           
@@ -2623,7 +2634,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           time += 0.05;
           
           if (controls) controls.update();
-          if (renderer && scene && camera) renderer.render(scene, camera);
+          if (renderer && scene && camera && scene.traverse) renderer.render(scene, camera);
         };
 
         // 初始化场景
@@ -2689,19 +2700,22 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
     }
   }, [theme, isLoaded]);
 
+  // 使用全局音频管理器
+  const { playBgMusic, stopBgMusic, currentBgMusicId } = useGlobalAudio();
+  
   // 音频管理 - 独立于番茄钟状态的背景音乐控制
   useEffect(() => {
     let targetSoundId = localCurrentSoundId;
     
     // 如果用户选择了静音，则停止当前背景音乐
     if (targetSoundId === 'mute') {
-      soundManager.stopCurrentBackgroundMusic();
+      stopBgMusic();
     } else {
       // 如果用户选择了音乐，直接播放对应的背景音乐，不需要依赖番茄钟的聚焦状态
       const targetSound = allSounds.find(s => s.id === targetSoundId);
       if (targetSound) {
-        // 播放背景音乐
-        soundManager.playBackgroundMusic(targetSoundId);
+        // 使用全局音频管理器播放背景音乐
+        playBgMusic(targetSoundId);
         
         // 记录音频播放统计
         if (audioStatistics && targetSound.id && targetSound.id !== 'mute') {
@@ -2709,7 +2723,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
         }
       }
     }
-  }, [localCurrentSoundId, allSounds, audioStatistics]);
+  }, [localCurrentSoundId, allSounds, audioStatistics, playBgMusic, stopBgMusic]);
 
   // 计时器效果
   useEffect(() => {
@@ -2812,10 +2826,10 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
     
     // 如果是静音，则停止当前背景音乐
     if (type === 'mute') {
-      soundManager.stopCurrentBackgroundMusic();
+      stopBgMusic();
     } else {
       // 播放对应的背景音乐
-      await soundManager.playBackgroundMusic(type);
+      await playBgMusic(type);
     }
     
     // 记录播放次数
@@ -2877,7 +2891,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
         const THREE = await import('three');
         if (canvasContainerRef.current) {
           const scene = (canvasContainerRef.current as any)._scene;
-          if (scene) {
+          if (scene && typeof scene === 'object' && scene.traverse) {
             // 显示番茄模型
             const tomatoMesh = scene.getObjectByName('tomatoMesh');
             if (tomatoMesh) {
@@ -2910,6 +2924,10 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
               };
               animateHide();
             }
+          } else {
+            console.warn('Scene not initialized or invalid when starting focus');
+            // 如果场景未初始化，仍然更新状态
+            return;
           }
         }
       } catch (error) {
@@ -2935,7 +2953,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
         if (canvasContainerRef.current) {
           // 安全检查：确保场景已经初始化
           const scene = (canvasContainerRef.current as any)._scene;
-          if (scene) {
+          if (scene && typeof scene === 'object' && scene.traverse) {
             if (newPausedState) {  // 修正逻辑：使用新状态来判断
               // 暂停，显示预览模型
               const previewMesh = scene.getObjectByName('previewMesh');
@@ -2963,6 +2981,10 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
                 animateHide();
               }
             }
+          } else {
+            console.warn('Scene not initialized or invalid when pausing focus');
+            // 如果场景未初始化，仍然更新状态
+            return;
           }
         }
       } catch (error) {
@@ -2989,7 +3011,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
         const THREE = await import('three');
         if (canvasContainerRef.current) {
           const scene = (canvasContainerRef.current as any)._scene;
-          if (scene) {
+          if (scene && typeof scene === 'object' && scene.traverse) {
             // 隐藏番茄模型
             const tomatoMesh = scene.getObjectByName('tomatoMesh');
             if (tomatoMesh) {
@@ -3001,6 +3023,10 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             if (updatePreview) {
               updatePreview(currentSeed);
             }
+          } else {
+            console.warn('Scene not initialized or invalid when resetting focus');
+            // 如果场景未初始化，仍然更新状态
+            return;
           }
         }
       } catch (error) {

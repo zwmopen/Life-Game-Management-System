@@ -500,7 +500,7 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                     {/* 模态框标题 */}
                     <div className="flex justify-between items-center mb-4">
                         <h2 className={`text-xl font-bold ${textMain}`}>
-                            <Edit3 size={20} className="inline-block mr-2 text-yellow-500" /> 勋章管理
+                            <Edit3 size={20} className="inline-block mr-2 text-yellow-500" /> 勋章管理系统
                         </h2>
                         <button 
                             onClick={() => setShowManageModal(false)}
@@ -604,7 +604,7 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                                                     className={`p-3 rounded-lg flex items-center justify-between transition-all duration-300 hover:scale-[1.02] group ${isDark ? 'bg-zinc-900/50 hover:bg-zinc-800/70' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.5),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[6px_6px_12px_rgba(163,177,198,0.4),-6px_-6px_12px_rgba(255,255,255,1)]' : 'bg-slate-50 hover:bg-slate-100'}`}
                                                 >
                                                     <div className="flex items-center gap-3">
-                                                        <div className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-[1.1] ${badge.isUnlocked ? (isNeomorphic ? (isNeomorphicDark ? `bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-4px_-4px_8px_rgba(30,30,46,0.8)] hover:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),-2px_-2px_4px_rgba(30,30,46,0.8)]` : `bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] hover:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),-2px_-2px_4px_rgba(255,255,255,1)]`) : badge.bgColor) : 'bg-zinc-900/30'}`}>
+                                                        <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-[1.1] ${badge.isUnlocked ? (isNeomorphic ? (isNeomorphicDark ? `bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-4px_-4px_8px_rgba(30,30,46,0.8)] hover:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),-2px_-2px_4px_rgba(30,30,46,0.8)]` : `bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] hover:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),-2px_-2px_4px_rgba(255,255,255,1)]`) : badge.bgColor) : 'bg-zinc-900/30'}`}>
                                                             <badge.icon size={20} className={`${badge.color} ${!badge.isUnlocked ? 'opacity-70' : ''}`} strokeWidth={2} />
                                                         </div>
                                                         <div className="flex-1">
@@ -614,13 +614,13 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                                                     </div>
                                                     <div className="flex gap-2 opacity-70 transition-opacity duration-300 group-hover:opacity-100">
                                 <button 
-                                    className={`px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all ${getButtonStyle(false)}`}
+                                    className={`w-8 h-8 flex items-center justify-center rounded-full text-xs font-bold border transition-all ${getButtonStyle(false)}`}
                                     onClick={() => setEditingBadge(badge)}
                                 >
                                     <Edit3 size={12} className={isDark ? 'text-yellow-400' : 'text-yellow-600'} />
                                 </button>
                                 <button 
-                                    className={`px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all ${getButtonStyle(false)}`}
+                                    className={`w-8 h-8 flex items-center justify-center rounded-full text-xs font-bold border transition-all ${getButtonStyle(false)}`}
                                     onClick={() => {
                                         // 重置该成就：从claimedBadges中移除
                                         const updatedClaimedBadges = claimedBadges.filter(id => id !== badge.id);
@@ -632,7 +632,7 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                                     <RotateCw size={12} className={isDark ? 'text-blue-400' : 'text-blue-600'} />
                                 </button>
                                 <button 
-                                    className={`px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all ${getButtonStyle(false)}`}
+                                    className={`w-8 h-8 flex items-center justify-center rounded-full text-xs font-bold border transition-all ${getButtonStyle(false)}`}
                                 >
                                     <Trash2 size={12} className={isDark ? 'text-red-400' : 'text-red-600'} />
                                 </button>

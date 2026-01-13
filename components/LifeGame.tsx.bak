@@ -1769,7 +1769,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                 )}
                                 
                                 {/* 任务列表 - 响应式网格布局 */}
-                                <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
+                                <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4">
                                     {/* 未完成任务 */}
                                     <div className={`${cardBg} border p-2 sm:p-4 rounded-xl transition-all duration-300`}>
                                         <h4 className={`text-base sm:text-lg font-bold mb-3 ${textMain}`}>待完成任务</h4>
@@ -2092,11 +2092,11 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                          </div>
                                      )}
                                      
-                                     {/* 渐变遮罩：从商品标题顶部开始向下渐变覆盖，提高文字可见度 */}
-                                    <div className="gradient-mask absolute left-0 top-[110px] w-full h-1/2 z-10 pointer-events-none" style={{
+                                     {/* 渐变遮罩：从商品标题区域顶部开始向下渐变覆盖，优化视觉效果 */}
+                                    <div className="gradient-mask absolute left-0 top-1/2 w-full h-2/3 z-10 pointer-events-none" style={{
                                         background: isDark ? 
-                                            'linear-gradient(to bottom, rgba(26,26,46,0.1), rgba(26,26,46,0.3) 20%, rgba(26,26,46,0.5) 40%, rgba(26,26,46,0.7) 70%, rgba(26,26,46,0.9) 100%)' : 
-                                            'linear-gradient(to bottom, rgba(255,255,255,0.1), rgba(255,255,255,0.3) 20%, rgba(255,255,255,0.5) 40%, rgba(255,255,255,0.7) 70%, rgba(255,255,255,0.9) 100%)'
+                                            'linear-gradient(to bottom, rgba(26,26,46,0), rgba(26,26,46,0.3) 30%, rgba(26,26,46,0.5) 60%, rgba(26,26,46,0.7) 80%, rgba(26,26,46,0.9) 100%)' : 
+                                            'linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0.3) 30%, rgba(255,255,255,0.5) 60%, rgba(255,255,255,0.7) 80%, rgba(255,255,255,0.9) 100%)'
                                     }}></div>
                                      
                                      {/* 商品信息：叠在遮罩上 */}
@@ -2105,7 +2105,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                          <div className={`bg-opacity-95 px-4 py-1.5 text-sm font-bold rounded-full mx-auto my-2 inline-block ${isDark ? 'bg-yellow-600/30 text-yellow-400 border border-yellow-600/50' : 'bg-[#fff3cd] text-[#fd7e14]'}`}>¥{item.cost}</div>
                                          
                                          {/* 商品名称：加大字号，更醒目 */}
-                                         <h4 className={`font-bold text-xl text-white mt-2 mb-1 text-shadow text-shadow: 0 1px 2px rgba(0,0,0,0.8) w-full break-words`}>{item.name}</h4>
+                                         <h4 className={`font-bold text-xl ${isDark ? 'text-white' : 'text-zinc-900'} mt-2 mb-1 text-shadow ${isDark ? 'text-shadow: 0 1px 2px rgba(0,0,0,0.8)' : 'text-shadow: 0 1px 2px rgba(255,255,255,0.6)'} w-full break-words`}>{item.name}</h4>
                                          
                                          {/* 显示购买次数 */}
                                          {item.purchaseCount > 0 && (
@@ -2385,7 +2385,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                         
                         {/* 添加任务表单 - 主线任务 */}
                         {manageTaskTab === 'main' && (
-                            <div className={`p-3 border border-dashed rounded mb-4 ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[5px_5px_10px_rgba(0,0,0,0.4),-5px_-5px_10px_rgba(30,30,46,0.8)] border-none rounded-lg' : 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] border-none rounded-lg') : (isDark ? 'border-zinc-700 bg-zinc-900/50' : 'border-slate-300 bg-slate-50')}`}>
+                            <div className={`p-3 border border-dashed rounded mb-4 ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] border-none rounded-lg' : (isDark ? 'border-zinc-700 bg-zinc-900/50' : 'border-slate-300 bg-slate-50')}`}>
                                 <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-3">
                                     <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>任务标题</label><input value={newTaskTitle} onChange={e => setNewTaskTitle(e.target.value)} className={`w-full py-1 outline-none ${textMain} ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] border-none rounded-lg p-2' : 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-2') : (isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300')}`} placeholder="输入主线任务标题..." /></div>
                                     <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>经验奖励</label><input type="number" value={newTaskXP} onChange={e => setNewTaskXP(e.target.value)} className={`w-full py-1 outline-none ${textMain} ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] border-none rounded-lg p-2' : 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-2') : (isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300')}`} /></div>
@@ -2406,7 +2406,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                                     duration: 30
                                                 }]);
                                             }}
-                                            className={`text-xs text-white px-3 py-1 rounded flex items-center gap-1 ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[5px_5px_10px_rgba(0,0,0,0.4),-5px_-5px_10px_rgba(30,30,46,0.8)] border-none text-blue-400 hover:shadow-[3px_3px_6px_rgba(0,0,0,0.3),-3px_-3px_6px_rgba(30,30,46,0.7)] active:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] border-none text-blue-600 hover:shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)]') : 'bg-blue-600 hover:bg-blue-500'}`}
+                                            className={`text-xs text-white px-3 py-1 rounded flex items-center gap-1 ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] border-none text-blue-600 hover:shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)]' : 'bg-blue-600 hover:bg-blue-500'}`}
                                         >
                                             <Plus size={12}/> 添加子任务
                                         </button>
@@ -2466,7 +2466,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                             setEditingProjectSubTasks([]);
                                         }
                                     }} 
-                                    className={`w-full mt-3 py-2 text-xs text-white rounded flex items-center justify-center gap-2 ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[5px_5px_10px_rgba(0,0,0,0.4),-5px_-5px_10px_rgba(30,30,46,0.8)] border-none text-emerald-400 hover:shadow-[3px_3px_6px_rgba(0,0,0,0.3),-3px_-3px_6px_rgba(30,30,46,0.7)] active:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] border-none text-emerald-600 hover:shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)]') : 'bg-emerald-600 hover:bg-emerald-500'}`}
+                                    className={`w-full mt-3 py-2 text-xs text-white rounded flex items-center justify-center gap-2 ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] border-none text-emerald-600 hover:shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)]' : 'bg-emerald-600 hover:bg-emerald-500'}`}
                                 >
                                     <Plus size={14}/> 添加主线任务
                                 </button>
@@ -2493,7 +2493,21 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                                 <option value="leisure">休闲小奖励</option>
                                             </select>
                                         </div>
-                                        <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>经验奖励</label><input type="number" id="randomXP" value="30" className={`w-full py-1 outline-none ${textMain} ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] border-none rounded-lg p-2' : 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-2') : (isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300')}`} /></div>
+                                        <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>经验奖励</label>
+                                            <select 
+                                                id="randomAttr"
+                                                value={newTaskAttr} 
+                                                onChange={e => setNewTaskAttr(e.target.value as AttributeTypeValue)} 
+                                                className={`w-full py-1 outline-none ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] border-none rounded-lg p-2 text-zinc-200' : 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-2 text-zinc-700') : (isDark ? 'bg-transparent border-zinc-700 text-zinc-200' : 'bg-transparent border-slate-300 text-slate-700')}`}
+                                            >
+                                                <option value={AttributeType.STRENGTH}>力量</option>
+                                                <option value={AttributeType.INTELLIGENCE}>智力</option>
+                                                <option value={AttributeType.DISCIPLINE}>自律</option>
+                                                <option value={AttributeType.CREATIVITY}>创造</option>
+                                                <option value={AttributeType.SOCIABILITY}>社交</option>
+                                                <option value={AttributeType.WEALTH}>财富</option>
+                                            </select>
+                                        </div>
                                         <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>金币奖励</label><input type="number" id="randomReward" value="20" className={`w-full py-1 outline-none ${textMain} ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] border-none rounded-lg p-2' : 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-2') : (isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300')}`} /></div>
                                         <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>预估时长(m)</label><input type="number" id="randomDuration" value="20" className={`w-full py-1 outline-none ${textMain} ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] border-none rounded-lg p-2' : 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-2') : (isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300')}`} /></div>
                                     </div>
@@ -2503,14 +2517,14 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                                 const categorySelect = document.getElementById('diceCategory') as HTMLSelectElement;
                                                 const reward = parseInt((document.getElementById('randomReward') as HTMLInputElement).value) || 20;
                                                 const duration = parseInt((document.getElementById('randomDuration') as HTMLInputElement).value) || 20;
-                                                const xp = parseInt((document.getElementById('randomXP') as HTMLInputElement).value) || 30;
+                                                const attr = (document.getElementById('randomAttr') as HTMLSelectElement).value as AttributeTypeValue;
                                                 
                                                 const newTask = {
                                                     text: newChallengeText,
                                                     gold: reward,
-                                                    xp: xp,
+                                                    xp: Math.ceil(reward * 1.5),
                                                     duration: duration,
-                                                    attr: AttributeType.WEALTH, // 默认设置为财富属性
+                                                    attr: attr,
                                                     category: categorySelect?.value || 'health' // 添加分类信息
                                                 };
                                                 
@@ -2521,7 +2535,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                                 if (categorySelect) categorySelect.value = 'health';
                                                 (document.getElementById('randomReward') as HTMLInputElement).value = '20';
                                                 (document.getElementById('randomDuration') as HTMLInputElement).value = '20';
-                                                (document.getElementById('randomXP') as HTMLInputElement).value = '30';
+                                                (document.getElementById('randomAttr') as HTMLSelectElement).value = AttributeType.WEALTH;
                                             }
                                         }} 
                                         className={`w-full mt-3 py-2 text-xs rounded flex items-center justify-center gap-2 ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[5px_5px_10px_rgba(0,0,0,0.4),-5px_-5px_10px_rgba(30,30,46,0.8)] border-none text-purple-400 hover:shadow-[3px_3px_6px_rgba(0,0,0,0.3),-3px_-3px_6px_rgba(30,30,46,0.7)] active:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] border-none text-purple-600 hover:shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)]') : 'bg-purple-600 hover:bg-purple-500 text-white'}`}
@@ -2589,18 +2603,19 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                                                         onClick={() => {
                                                                             // 编辑任务
                                                                             setNewChallengeText(task.text);
+                                                                            setNewTaskAttr(task.attr || AttributeType.WEALTH);
                                                                             setEditingTaskId(task.id); // 设置编辑任务ID
                                                                             
                                                                             // 设置表单值
                                                                             const categorySelect = document.getElementById('diceCategory') as HTMLSelectElement;
                                                                             const rewardInput = document.getElementById('randomReward') as HTMLInputElement;
                                                                             const durationInput = document.getElementById('randomDuration') as HTMLInputElement;
-                                                                            const xpInput = document.getElementById('randomXP') as HTMLInputElement;
+                                                                            const attrSelect = document.getElementById('randomAttr') as HTMLSelectElement;
                                                                             
                                                                             if (categorySelect) categorySelect.value = task.category || 'health';
                                                                             if (rewardInput) rewardInput.value = (task.gold || 20).toString();
                                                                             if (durationInput) durationInput.value = (task.duration || 20).toString();
-                                                                            if (xpInput) xpInput.value = (task.xp || 30).toString();
+                                                                            if (attrSelect) attrSelect.value = task.attr || AttributeType.WEALTH;
                                                                             
                                                                             setIsAddTaskOpen(true); // 打开编辑任务模态框
                                                                         }}
@@ -2645,7 +2660,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                 <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>经验奖励</label><input type="number" value={newTaskXP} onChange={e => setNewTaskXP(e.target.value)} className={`w-full border-b py-1 outline-none ${textMain} ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] border-none rounded-lg p-1' : 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-1') : (isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300')}`} /></div>
                                 <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>金币奖励</label><input type="number" value={newTaskReward} onChange={e => setNewTaskReward(e.target.value)} className={`w-full border-b py-1 outline-none ${textMain} ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] border-none rounded-lg p-1' : 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-1') : (isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300')}`} /></div>
                                 <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>预估时长(m)</label><input type="number" value={newTaskDuration} onChange={e => setNewTaskDuration(e.target.value)} className={`w-full border-b py-1 outline-none ${textMain} ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] border-none rounded-lg p-1' : 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-1') : (isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300')}`} /></div>
-                                <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>任务属性</label>
+                                <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>预估时长</label>
                                     <select 
                                         value={newTaskAttr} 
                                         onChange={e => setNewTaskAttr(e.target.value as AttributeTypeValue)} 

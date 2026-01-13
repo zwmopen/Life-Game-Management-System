@@ -15,11 +15,17 @@ class SoundManager {
   private isMuted: boolean = false;
   private masterVolume: number = 0.5;
   private bgmVolume: number = 0.3;
+  
+  // 添加页面可见性变化监听，确保音乐在后台运行
+  private visibilityChangeHandler: (() => void) | null = null;
 
   constructor() {
     // 初始化音效列表
     this.initSounds();
     this.initBackgroundMusic();
+    
+    // 监听页面可见性变化，确保音乐在后台运行
+    this.setupVisibilityListener();
   }
 
   private initSounds(): void {
@@ -172,6 +178,13 @@ class SoundManager {
     
     // 如果已经在播放相同的音乐，直接返回
     if (this.currentBackgroundMusicId === id) {
+      // 如果音乐被暂停，恢复播放
+      const audio = this.backgroundMusic[id];
+      if (audio && audio.paused) {
+        audio.play().catch(error => {
+          console.error(`Failed to resume background music ${id}:`, error);
+        });
+      }
       return;
     }
     
@@ -182,14 +195,21 @@ class SoundManager {
     const audio = await this.preloadBackgroundMusicOnDemand(id);
     if (audio) {
       this.currentBackgroundMusicId = id;
-      audio.play().catch(error => {
-        console.error(`Failed to play background music ${id}:`, error);
-      });
+      // 确保音量设置正确
+      audio.volume = this.bgmVolume;
+      audio.muted = false;
       
-      // 记录音频播放统计
-      import('./audioStatistics').then(({ default: audioStatistics }) => {
-        audioStatistics.recordPlay(id);
-      });
+      try {
+        await audio.play();
+        // 记录音频播放统计
+        import('./audioStatistics').then(({ default: audioStatistics }) => {
+          audioStatistics.recordPlay(id);
+        });
+      } catch (error) {
+        console.error(`Failed to play background music ${id}:`, error);
+        // 尝试修复播放问题
+        this.handlePlaybackError(audio, id);
+      }
     } else {
       console.warn(`Background music ${id} not found or failed to load`);
     }
@@ -205,6 +225,22 @@ class SoundManager {
     }
   }
 
+  // 处理播放错误
+  private handlePlaybackError(audio: HTMLAudioElement, id: string): void {
+    // 尝试通过重新加载音频元素来解决播放问题
+    try {
+      audio.load();
+      // 延迟重试播放
+      setTimeout(() => {
+        audio.play().catch(error => {
+          console.error(`Retry failed for background music ${id}:`, error);
+        });
+      }, 500);
+    } catch (error) {
+      console.error(`Failed to reload audio for ${id}:`, error);
+    }
+  }
+
   // 恢复播放背景音乐
   resumeBackgroundMusic(): void {
     if (this.isMuted) return;
@@ -212,8 +248,11 @@ class SoundManager {
     if (this.currentBackgroundMusicId) {
       const audio = this.backgroundMusic[this.currentBackgroundMusicId];
       if (audio) {
+        audio.muted = false;
         audio.play().catch(error => {
           console.error(`Failed to resume background music ${this.currentBackgroundMusicId}:`, error);
+          // 尝试修复播放问题
+          this.handlePlaybackError(audio, this.currentBackgroundMusicId);
         });
       }
     }
@@ -264,6 +303,38 @@ class SoundManager {
     Object.values(this.backgroundMusic).forEach(audio => {
       audio.volume = this.bgmVolume;
     });
+  }
+
+  // 设置单个背景音乐的音量
+  setSingleBgmVolume(id: string, volume: number): void {
+    const audio = this.backgroundMusic[id];
+    if (audio) {
+      audio.volume = Math.max(0, Math.min(1, volume));
+    }
+  }
+
+  // 设置页面可见性监听器
+  private setupVisibilityListener(): void {
+    this.visibilityChangeHandler = () => {
+      if (document.visibilityState === 'visible' && 
+          this.currentBackgroundMusicId && 
+          !this.isMuted) {
+        // 页面重新可见时，检查音乐是否还在播放
+        const audio = this.backgroundMusic[this.currentBackgroundMusicId];
+        if (audio && audio.paused) {
+          // 如果音乐被暂停，尝试恢复播放
+          setTimeout(() => {
+            if (audio.paused && this.currentBackgroundMusicId) {
+              audio.play().catch(error => {
+                console.error('Failed to resume music after visibility change:', error);
+              });
+            }
+          }, 100);
+        }
+      }
+    };
+    
+    document.addEventListener('visibilitychange', this.visibilityChangeHandler);
   }
 
   // 设置主音量
@@ -341,5 +412,15 @@ class SoundManager {
 
 // 创建单例实例
 const soundManager = new SoundManager();
+
+// 确保在页面卸载时清理资源
+window.addEventListener('beforeunload', () => {
+  soundManager.stopAllBackgroundMusic();
+});
+
+// 确保在页面隐藏时也保持音乐播放
+window.addEventListener('pagehide', () => {
+  // 不要停止音乐，让音乐在后台继续播放
+});
 
 export default soundManager;

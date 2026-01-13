@@ -111,12 +111,12 @@ const FateGiftModal: React.FC<FateGiftModalProps> = ({
             <p className={`text-lg ${textMain} p-5 rounded-xl backdrop-blur-sm transition-all duration-300 hover:shadow-lg`}
                style={{
                  backgroundColor: isNeomorphic 
-                   ? (isDark ? 'rgba(60, 60, 70, 0.8)' : 'rgba(224, 229, 236, 0.8)')
+                   ? (isNeomorphicDark ? 'rgba(40, 40, 50, 0.8)' : 'rgba(224, 229, 236, 0.8)')
                    : isDark 
                      ? 'rgba(39, 39, 42, 0.8)' 
                      : 'rgba(255, 255, 255, 0.8)',
                  boxShadow: isNeomorphic 
-                   ? (isDark 
+                   ? (isNeomorphicDark 
                        ? 'inset 3px 3px 6px rgba(20, 20, 30, 0.6), inset -3px -3px 6px rgba(70, 70, 90, 0.4)'
                        : 'inset 3px 3px 6px rgba(163, 177, 198, 0.4), inset -3px -3px 6px rgba(255, 255, 255, 0.8)')
                    : isDark 

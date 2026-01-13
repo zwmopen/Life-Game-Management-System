@@ -643,8 +643,14 @@ export interface Settings {
     showBalance: boolean;
     /** 是否显示任务完成率 */
     showTaskCompletionRate: boolean;
+    /** 自动备份是否启用 */
+    autoBackupEnabled?: boolean;
     /** 自动备份频率 */
     autoBackupFrequency?: 'none' | 'daily' | 'weekly' | 'monthly';
+    /** 自动备份时间 */
+    autoBackupTime?: string;
+    /** 自定义备份路径 */
+    customBackupPath?: string;
     /** NutCloud WebDAV配置 */
     nutcloudWebDAV?: {
         /** 服务器地址 */
@@ -656,4 +662,6 @@ export interface Settings {
     };
     /** 指南卡片配置 */
     guideCardConfig: GuideCardConfig;
+    /** 是否启用WebDAV备份 */
+    enableWebDAV?: boolean;
 }
