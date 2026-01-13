@@ -1,12 +1,12 @@
 预览
 1.https://life-game-management-system.netlify.app/
 2.https://life-game-management-system.vercel.app/
-3.
+3.https://zwmopen.github.io/Life-Game-Management-System/
 
 部署网址
 1.https://vercel.com/zwmopens-projects
 2.https://app.netlify.com/teams/zwmopen/projects
-3.
+3.https://github.com/zwmopen/Life-Game-Management-System/settings/pages
 
 
 # 人生游戏管理系统
