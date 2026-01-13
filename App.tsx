@@ -44,18 +44,19 @@ import soundManager from './utils/soundManager';
 // 导入全局音频管理器
 import { GlobalAudioProvider, GlobalBackgroundMusicManager } from './components/GlobalAudioManager';
 
+// 导入主题管理
+import { ThemeProvider, useTheme } from './contexts/ThemeContext';
+
 
 
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<View>(View.RPG_MISSION_CENTER);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isNavCollapsed, setIsNavCollapsed] = useState(false);
-  const [theme, setTheme] = useState<Theme>(() => {
-    // 从localStorage读取主题，默认为拟态浅色
-    const savedTheme = localStorage.getItem('app-theme');
-    return (savedTheme as Theme) || 'neomorphic-light';
-  });
   const [isDataLoaded, setIsDataLoaded] = useState(false);
+  
+  // 使用主题上下文
+  const { theme, setTheme, toggleTheme } = useTheme();
 
   // Global "Game" State
   const [day, setDay] = useState(1); 
@@ -307,10 +308,7 @@ const App: React.FC = () => {
     return () => clearTimeout(timeoutId);
   }, [isDataLoaded]);
 
-  // 主题持久化到localStorage
-  useEffect(() => {
-    localStorage.setItem('app-theme', theme);
-  }, [theme]);
+
 
   // 使用模块化 hooks
   const { activeAchievement, setActiveAchievement } = useAchievements(
@@ -540,13 +538,8 @@ const App: React.FC = () => {
   };
 
   const handleToggleTheme = () => {
-      setTheme(prev => {
-          // 四种主题循环切换：拟态浅色 → 拟态深色 → 普通浅色 → 普通深色
-          if (prev === 'neomorphic-light') return 'neomorphic-dark';
-          if (prev === 'neomorphic-dark') return 'light';
-          if (prev === 'light') return 'dark';
-          return 'neomorphic-light';
-      });
+      // 使用新的主题上下文来切换主题
+      toggleTheme();
   };
 
   // 全局音频管理已通过 GlobalAudioProvider 在组件树顶层处理
@@ -1333,9 +1326,10 @@ const App: React.FC = () => {
   }
 
   return (
-    <GlobalAudioProvider>
-      <GlobalBackgroundMusicManager />
-      <div className={`flex h-screen w-full overflow-hidden font-sans relative transition-colors duration-500 ${bgClass}`}>
+    <ThemeProvider>
+      <GlobalAudioProvider>
+        <GlobalBackgroundMusicManager />
+        <div className={`flex h-screen w-full overflow-hidden font-sans relative transition-colors duration-500 ${bgClass}`}>
         {/* Conditionally render Navigation based on immersive mode */}
         {!isImmersive && (
           <Navigation 
@@ -1405,6 +1399,7 @@ const App: React.FC = () => {
         <SpeedInsights />
       </div>
     </GlobalAudioProvider>
+  </ThemeProvider>
   );
 };
 

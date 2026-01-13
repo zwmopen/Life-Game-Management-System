@@ -11,6 +11,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 20  # 设置合理的超时时间
     permissions:
       contents: write
     steps:
@@ -21,13 +22,29 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
+          cache: 'npm'  # 启用npm缓存，加快依赖安装速度
 
       - name: Install dependencies
         run: npm ci
+        env:
+          CI: true  # 设置CI环境变量，跳过一些非必要的步骤
 
       - name: Build project
         run: npm run build
+        env:
+          NODE_ENV: production
+          # 增加构建内存限制，避免大型项目构建失败
+          NODE_OPTIONS: --max-old-space-size=4096
+
+      - name: Check build artifacts
+        run: |
+          if [ -d "dist" ]; then
+            echo "Build successful. Found dist folder with $(ls -la dist | wc -l) items."
+            du -sh dist/
+          else
+            echo "Build failed. Dist folder not found."
+            exit 1
+          fi
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
@@ -36,3 +53,14 @@ jobs:
           publish_dir: ./dist
           publish_branch: gh-pages
           force_orphan: true
+        env:
+          CI: true
+
+      - name: Send deployment notification
+        if: always()  # 无论成功还是失败都发送通知
+        run: |
+          if [ ${{ job.status }} = 'success' ]; then
+            echo "✅ GitHub Pages 部署成功完成!"
+          else
+            echo "❌ GitHub Pages 部署失败，请检查日志"
+          fi

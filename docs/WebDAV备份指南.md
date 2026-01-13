@@ -6,9 +6,9 @@
 ## 配置要求
 
 ### 坚果云账号设置
-1. 注册坚果云账号（推荐使用邮箱：2594707308@qq.com）
+1. 注册坚果云账号（推荐使用您的邮箱）
 2. 开通WebDAV服务
-3. 创建应用密码（示例：aecne4vaypmn8zid）
+3. 创建应用密码
 
 ### WebDAV路径设置
 1. 在坚果云中创建名为 `人生游戏管理系统` 的文件夹
@@ -19,8 +19,8 @@
 | 参数 | 值 | 说明 |
 |------|-----|-----|
 | 服务器地址 | `https://dav.jianguoyun.com/dav/` | 坚果云WebDAV标准地址 |
-| 用户名 | `2594707308@qq.com` | 坚果云账号 |
-| 密码 | `aecne4vaypmn8zid` | 坚果云应用密码 |
+| 用户名 | `<YOUR_JIANGUOYUN_EMAIL>` | 坚果云账号 |
+| 密码 | `<YOUR_JIANGUOYUN_APP_PASSWORD>` | 坚果云应用密码 |
 | 基础路径 | `/人生游戏管理系统` | 数据备份的基础目录 |
 
 ## 使用方法
@@ -34,8 +34,8 @@ import WebDAVBackup from '../utils/WebDAVBackup';
 ```javascript
 const webdavConfig = {
   serverUrl: 'https://dav.jianguoyun.com/dav/',
-  username: '2594707308@qq.com',
-  password: 'aecne4vaypmn8zid',
+  username: '<YOUR_JIANGUOYUN_EMAIL>',
+  password: '<YOUR_JIANGUOYUN_APP_PASSWORD>',
   basePath: '/人生游戏管理系统',
   debug: true
 };

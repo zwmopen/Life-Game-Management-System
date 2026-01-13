@@ -650,7 +650,7 @@ const FateDice: React.FC<FateDiceProps> = ({ theme, diceState, onSpinDice, onUpd
   return (
     <div 
       ref={containerRef}
-      className="w-full mx-auto rounded-xl p-2 sm:p-3 md:p-4 transition-all duration-300 max-w-none"
+      className="w-full mx-auto rounded-xl p-1 xs:p-2 sm:p-3 md:p-4 transition-all duration-300 max-w-none"
       style={{
         backgroundColor: bgColor,
         boxShadow: `9px 9px 16px ${shadowDark}, -9px -9px 16px ${shadowLight}`,
@@ -661,13 +661,13 @@ const FateDice: React.FC<FateDiceProps> = ({ theme, diceState, onSpinDice, onUpd
       {/* 3D骰子容器 */}
       <div 
         ref={canvasContainerRef}
-        className="w-full h-[200px] sm:h-[250px] md:h-[300px] mb-4 rounded-xl overflow-hidden relative"
+        className="w-full h-[120px] xs:h-[150px] sm:h-[200px] md:h-[250px] lg:h-[300px] mb-4 rounded-xl overflow-hidden relative"
         style={{ backgroundColor: bgColor }}
       ></div>
       
       {/* 剩余次数显示 - 移到按钮上方 */}
       <div className="mb-4 text-center px-2">
-        <div className="flex flex-wrap items-center justify-center gap-2 text-sm sm:text-base">
+        <div className="flex flex-wrap items-center justify-center gap-1 xs:gap-2 text-xs sm:text-sm md:text-base">
           <div className="font-medium truncate max-w-[100px]" style={{ color: textColor }}>
             今日剩余次数
           </div>
@@ -722,11 +722,11 @@ const FateDice: React.FC<FateDiceProps> = ({ theme, diceState, onSpinDice, onUpd
       </div>
       
       {/* 掷骰子按钮 */}
-      <div className="text-center px-2">
+      <div className="text-center px-1 xs:px-2">
         <button
           onClick={rollDice}
           disabled={isRolling || (diceState?.isSpinning || (remainingCount <= 0))}
-          className={`w-full py-2 px-4 text-base sm:text-lg font-bold rounded-md transition-all duration-300 ${
+          className={`w-full py-1.5 xs:py-2 px-3 xs:px-4 text-sm xs:text-base sm:text-lg font-bold rounded-md transition-all duration-300 ${
             isNeomorphic ? (isNeomorphicDark ? 'bg-[#1e1e2e] text-blue-400 hover:text-blue-300' : 'bg-[#e0e5ec] text-blue-600 hover:text-blue-700') : (isDark ? 'bg-zinc-800 hover:bg-zinc-700 text-white' : 'bg-slate-100 hover:bg-slate-200 text-slate-800')
           } ${
             isNeomorphic ? `shadow-${isNeomorphicDark ? 'inner' : 'md'} hover:shadow-${isNeomorphicDark ? 'lg' : 'lg'} active:shadow-inner` : 'shadow-sm'

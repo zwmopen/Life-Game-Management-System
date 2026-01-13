@@ -87,6 +87,11 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
         transition: 'transition-all duration-200'
     };
     
+    // 全局背景样式 - 确保在所有主题下都正确显示
+    const globalBg = isDark 
+        ? (isNeomorphic ? 'bg-[#1e1e2e]' : 'bg-zinc-950') 
+        : (isNeomorphic ? 'bg-[#e0e5ec]' : 'bg-slate-50');
+    
     // 生成按钮样式的辅助函数 - 与商品分类与管理按钮样式完全一致
     const getButtonStyle = (isActive: boolean, isSpecial?: boolean) => {
         if (isActive) {
@@ -313,7 +318,7 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
     const totalCount = allBadges.length;
 
     return (
-        <div className={`h-full flex flex-col overflow-hidden`}>
+        <div className={`h-full flex flex-col overflow-hidden ${globalBg}`}>
             {/* Add CSS for animations */}
             <style>{styles}</style>
             

@@ -4,7 +4,7 @@ import { Theme } from '../types';
 import AvatarProfile from './shared/AvatarProfile';
 import TomatoTimer from './shared/TomatoTimer';
 
-import InternalImmersivePomodoro from './shared/InternalImmersivePomodoro';
+import OptimizedImmersivePomodoro from './shared/OptimizedImmersivePomodoro';
 import MilitaryModule from './shared/MilitaryModule';
 import MantraModule from './shared/MantraModule';
 
@@ -625,7 +625,7 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
 
         {/* FULLSCREEN IMMERSIVE OVERLAY */}
         {isImmersive && (
-            <InternalImmersivePomodoro
+            <OptimizedImmersivePomodoro
                 theme={theme}
                 timeLeft={timeLeft}
                 isActive={isActive}

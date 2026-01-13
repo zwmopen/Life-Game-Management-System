@@ -131,11 +131,9 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme }) => {
   const currentNeomorphicStyle = neomorphicStyles[theme === 'neomorphic-dark' ? 'dark' : 'light'];
   
   // Theme-specific styles
-  const bgClass = isNeomorphic 
-    ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e]' : 'bg-[#e0e5ec]') 
-    : isDark 
-    ? 'bg-zinc-950' 
-    : 'bg-slate-50';
+  const bgClass = isDark 
+    ? (isNeomorphic ? 'bg-[#1e1e2e]' : 'bg-zinc-950') 
+    : (isNeomorphic ? 'bg-[#e0e5ec]' : 'bg-slate-50');
   
   const cardBg = isDark 
       ? (isNeomorphic 

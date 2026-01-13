@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Volume2, VolumeX, Music, Headphones, Sun, Moon, Zap, FileText, Bell, Eye, Database, Info, ShieldAlert, Download, RefreshCw, Trash2, X, ChevronUp, ChevronDown, Upload, Cloud, CloudDownload, Save } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Volume2, VolumeX, Music, Headphones, Sun, Moon, Zap, FileText, Bell, Eye, Database, Info, ShieldAlert, Download, RefreshCw, Trash2, X, ChevronUp, ChevronDown, Upload, Cloud, CloudDownload, Save, RotateCcw } from 'lucide-react';
 import GlobalHelpCircle from './shared/GlobalHelpCircle';
 import { Theme, Settings as SettingsType, Transaction, ReviewLog } from '../types';
 import { GlobalGuideCard, HelpTooltip, helpContent } from './HelpSystem';
@@ -7,9 +7,13 @@ import WebDAVClient, { WebDAVConfig } from '../utils/webdavClient';
 import UserAuthManager from './UserAuthManager';
 import { retrieveWebDAVConfig, storeWebDAVConfig } from '../utils/secureStorage';
 import { APP_VERSION } from '../constants/app';
+import backupManager from '../utils/BackupManager';
+import { BackupProgress } from '../utils/EnhancedWebDAVBackupManager';
+
+// 导入主题上下文
+import { useTheme } from '../contexts/ThemeContext';
 
 interface SettingsProps {
-  theme: Theme;
   settings: SettingsType;
   onUpdateSettings: (settings: Partial<SettingsType>) => void;
   onToggleTheme: () => void;
@@ -21,7 +25,8 @@ interface SettingsProps {
   reviews?: ReviewLog[];
 }
 
-const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, onToggleTheme, day = 1, balance = 59, xp = 10, checkInStreak = 1, transactions = [], reviews = [] }) => {
+const Settings: React.FC<SettingsProps> = ({ settings, onUpdateSettings, onToggleTheme, day = 1, balance = 59, xp = 10, checkInStreak = 1, transactions = [], reviews = [] }) => {
+  const { theme } = useTheme();
   const isDark = theme === 'dark' || theme === 'neomorphic-dark';
   const isNeomorphic = theme.startsWith('neomorphic');
   
@@ -81,6 +86,10 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
   const [isBackingUp, setIsBackingUp] = useState(false);
   const [isRestoring, setIsRestoring] = useState(false);
   
+  // State for backup progress
+  const [backupProgress, setBackupProgress] = useState<BackupProgress | null>(null);
+  const [showProgress, setShowProgress] = useState(false);
+  
   // State for local backup management
   const [localBackups, setLocalBackups] = useState<Array<{ id: string; name: string; date: string; size: string; status: 'success' | 'failed' | 'in_progress'; type: 'manual' | 'auto' }>>([]);
   const [localBackupStatus, setLocalBackupStatus] = useState<string>('');
@@ -102,7 +111,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
   // State for backup history display settings
   const [showBackupDetails, setShowBackupDetails] = useState<boolean>(true);
   
-  // Load local backups from localStorage
+  // Load local backups from localStorage and setup backup progress
   React.useEffect(() => {
     const loadLocalBackups = () => {
       const backupsJson = localStorage.getItem('localBackups');
@@ -116,6 +125,19 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
       }
     };
     loadLocalBackups();
+    
+    // Add progress callback to backup manager
+    const progressCallback = (progress: BackupProgress) => {
+      setBackupProgress(progress);
+      setShowProgress(true);
+    };
+    
+    backupManager.addProgressCallback(progressCallback);
+    
+    // Cleanup function
+    return () => {
+      backupManager.removeProgressCallback(progressCallback);
+    };
   }, []);
   
   // Test WebDAV connection
@@ -313,32 +335,16 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
   // WebDAV backup function
   const backupToWebDAV = async () => {
     setWebdavStatus('正在备份到WebDAV...');
+    setIsBackingUp(true);
+    
     try {
       // 验证WebDAV配置
       if (!webdavConfig.url || !webdavConfig.username || !webdavConfig.password) {
         throw new Error('WebDAV配置不完整，请检查服务器地址、用户名和密码');
       }
       
-      const client = new WebDAVClient(webdavConfig);
-      
-      // 测试连接
-      await client.testConnection();
-      
-      // 准备备份数据
-      const gameData = {
-        settings,
-        projects: JSON.parse(localStorage.getItem('projects') || '[]'),
-        habits: JSON.parse(localStorage.getItem('habits') || '[]'),
-        characters: JSON.parse(localStorage.getItem('characters') || '[]'),
-        achievements: JSON.parse(localStorage.getItem('achievements') || '[]'),
-        timestamp: new Date().toISOString()
-      };
-      const backupData = JSON.stringify(gameData, null, 2);
-      const backupName = `人生游戏备份_${new Date().toISOString().replace(/[:.]/g, '-')}.json`;
-      const path = `${webdavConfig.basePath || ''}/${backupName}`;
-      
-      // 执行备份
-      await client.uploadFile(path, backupData);
+      // 使用备份管理器进行备份
+      await backupManager.createCloudBackup();
       setWebdavStatus('WebDAV备份成功！');
     } catch (error) {
       console.error('Failed to backup to WebDAV:', error);
@@ -359,6 +365,7 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
       
       setWebdavStatus(userMessage);
     } finally {
+      setIsBackingUp(false);
       setTimeout(() => setWebdavStatus(''), 3000);
     }
   };
@@ -917,15 +924,15 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                       {/* Backup and Restore Buttons */}
                       <div className="mt-3 grid grid-cols-2 gap-2">
                         <button
-                          onClick={backupToWebDAV}
-                          disabled={isBackingUp}
-                          className={`text-xs py-1.5 px-3 rounded-lg transition-all ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)] hover:shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(40,43,52,0.9)] active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.2),inset_-6px_-6px_12px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]'}` : isDark ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-blue-500 text-white hover:bg-blue-600'}`}
-                        >
-                          <div className="flex items-center justify-center gap-1">
-                            <Upload size={12} />
-                            <span>{isBackingUp ? '备份中...' : '备份'}</span>
-                          </div>
-                        </button>
+                            onClick={backupToWebDAV}
+                            disabled={isBackingUp}
+                            className={`text-xs py-1.5 px-3 rounded-lg transition-all ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)] hover:shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(40,43,52,0.9)] active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.2),inset_-6px_-6px_12px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]'}` : isDark ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-blue-500 text-white hover:bg-blue-600'}`}
+                          >
+                            <div className="flex items-center justify-center gap-1">
+                              <Upload size={12} />
+                              <span>{isBackingUp ? '备份中...' : '备份'}</span>
+                            </div>
+                          </button>
                         <button
                           onClick={restoreFromWebDAV}
                           disabled={isRestoring}
@@ -937,6 +944,22 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
                           </div>
                         </button>
                       </div>
+                      
+                      {/* Progress indicator - positioned separately to not affect button sizes */}
+                      {isBackingUp && backupProgress && (
+                        <div className="mt-2 bg-black/80 text-white text-xs p-2 rounded-lg">
+                          <div className="flex justify-between mb-1">
+                            <span>进度: {Math.round(backupProgress.percentage)}%</span>
+                            <span>{backupProgress.currentFile}</span>
+                          </div>
+                          <div className="w-full bg-gray-700 rounded-full h-1.5">
+                            <div 
+                              className="bg-blue-500 h-1.5 rounded-full transition-all duration-300" 
+                              style={{ width: `${backupProgress.percentage}%` }}
+                            ></div>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}
@@ -960,22 +983,21 @@ const Settings: React.FC<SettingsProps> = ({ theme, settings, onUpdateSettings, 
             </div>
             
             <div className={`rounded-xl p-3 w-full ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/50' : 'bg-slate-50'}`}>
-              <div className="space-y-0.5">
-                <div className="flex items-center py-0.5">
-                  <span className={`text-xs ${textMain} w-12 flex-shrink-0`}>版本：</span>
-                  <span className={`text-xs ${textSub} flex-grow`}>v{APP_VERSION}</span>
+              <div className="text-xs space-y-2">
+                <div className="grid grid-cols-[max-content_1fr] gap-x-2 gap-y-1 items-start">
+                  <span className="font-bold text-zinc-700 dark:text-zinc-300 whitespace-nowrap">版本：</span>
+                  <span className="text-zinc-600 dark:text-zinc-400 break-words">v{APP_VERSION}</span>
+                  
+                  <span className="font-bold text-zinc-700 dark:text-zinc-300 whitespace-nowrap">作者：</span>
+                  <span className="text-zinc-600 dark:text-zinc-400 break-words">大胆走夜路</span>
+                  
+                  <span className="font-bold text-zinc-700 dark:text-zinc-300 whitespace-nowrap">联系微信：</span>
+                  <span className="text-zinc-600 dark:text-zinc-400 break-words">zwmrpg</span>
                 </div>
-                <div className="flex items-center py-0.5">
-                  <span className={`text-xs ${textMain} w-12 flex-shrink-0`}>作者：</span>
-                  <span className={`text-xs ${textSub} flex-grow`}>大胆走夜路</span>
-                </div>
-                <div className="flex items-center py-0.5">
-                  <span className={`text-xs ${textMain} w-12 flex-shrink-0`}>联系微信：</span>
-                  <span className={`text-xs ${textSub} flex-grow`}>zwmrpg</span>
-                </div>
-                <div className="pt-1">
-                  <span className={`text-xs ${textMain} inline mr-1`}>项目介绍：</span>
-                  <span className={`text-xs ${textSub} inline`}>
+                
+                <div className="pt-2">
+                  <span className="font-bold text-zinc-700 dark:text-zinc-300 block mb-1">项目介绍：</span>
+                  <span className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
                     人生游戏管理系统是一个综合性的个人成长管理工具，集成了任务管理、习惯养成、专注计时、成就系统等功能，旨在帮助用户更好地规划和追踪个人发展。
                   </span>
                 </div>

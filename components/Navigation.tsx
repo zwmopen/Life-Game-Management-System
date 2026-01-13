@@ -3,19 +3,21 @@ import { Menu, X, Sun, Moon, GripVertical, Gamepad2, BarChart2, ShoppingBag, Shi
 import { View, Theme } from '../types';
 import { APP_VERSION } from '../constants/app';
 
+// 导入主题上下文
+import { useTheme } from '../contexts/ThemeContext';
+
 interface NavigationProps {
   currentView: View;
   setView: (view: View) => void;
   isMobileOpen: boolean;
   setIsMobileOpen: (open: boolean) => void;
-  theme: Theme;
-  setTheme: (t: Theme) => void;
   entropy: number; // New prop
   isNavCollapsed: boolean;
   setIsNavCollapsed: (collapsed: boolean) => void;
 }
 
-const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileOpen, setIsMobileOpen, theme, setTheme, entropy, isNavCollapsed, setIsNavCollapsed }) => {
+const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileOpen, setIsMobileOpen, entropy, isNavCollapsed, setIsNavCollapsed }) => {
+  const { theme, setTheme } = useTheme();
   // 新增状态：控制是否完全隐藏侧边栏（仅手机端）
   const [isNavHidden, setIsNavHidden] = useState(false);
   const [navItems, setNavItems] = useState([

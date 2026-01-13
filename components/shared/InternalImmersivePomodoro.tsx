@@ -320,7 +320,10 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
           camera.position.set(0, 50, 80);
 
-          renderer = new THREE.WebGLRenderer({ antialias: true });
+          renderer = new THREE.WebGLRenderer({ 
+            antialias: true,
+            alpha: true  // 启用透明度以避免默认黑色背景
+          });
           renderer.setSize(window.innerWidth, window.innerHeight);
           renderer.setPixelRatio(window.devicePixelRatio);
           renderer.shadowMap.enabled = true;
@@ -2431,13 +2434,14 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
 
         // 更新预览 - 使用精致模型，直接显示在大陆中心
         const updatePreview = (type: string) => {
-          // 移除场景中所有名为'previewMesh'的对象，确保彻底清理
+          // 检查场景是否存在，避免在场景未初始化时尝试操作
           if (!scene || typeof scene !== 'object' || !scene.traverse) {
             console.warn('Scene not initialized or invalid, skipping preview update');
             return;
           }
           
           try {
+            // 移除场景中所有名为'previewMesh'的对象，确保彻底清理
             scene.traverse((object) => {
               if (object.name === 'previewMesh') {
                 if (object.parent) {
@@ -2488,7 +2492,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
               }
             } else {
               // 非专注模式：直接显示在大陆中心，增加动画效果，确保底部与地面贴合
-            newPreviewMesh.position.set(0, 2.5, 0);
+              newPreviewMesh.position.set(0, 2.5, 0);
               newPreviewMesh.scale.set(0, 0, 0); // 初始缩放为0
               newPreviewMesh.castShadow = true;
               newPreviewMesh.receiveShadow = true;
@@ -2764,7 +2768,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
                         requestAnimationFrame(animateScale);
                       }
                     };
-                    setTimeout(animateScale, 500);
+                    animateScale();
                   }
                 }
               } catch (error) {
@@ -2786,6 +2790,14 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             setTodayPlants(newToday);
             if (onUpdateTodayPlants) {
               onUpdateTodayPlants(newToday);
+            }
+            
+            // 更新3D场景中的生态系统，反映新增的植物/动物
+            if (canvasContainerRef.current && isLoaded) {
+              const initRandomEcosystem = (canvasContainerRef.current as any)._initRandomEcosystem;
+              if (initRandomEcosystem) {
+                initRandomEcosystem(newTotal);
+              }
             }
             
             // 不调用onUpdateIsActive(false)，保持在沉浸式界面
@@ -2860,8 +2872,8 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
 
   // 当选择的种子变化或组件状态改变时，更新预览模型
   useEffect(() => {
-    if (canvasContainerRef.current && isLoaded && (!isFocusing || isPaused)) {
-      // 只有在非专注模式下才更新预览
+    if (canvasContainerRef.current && isLoaded) {
+      // 在暂停状态下或者非专注状态下更新预览
       const updatePreview = (canvasContainerRef.current as any)._updatePreview;
       if (updatePreview) {
         updatePreview(currentSeed);
@@ -2942,10 +2954,10 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
   const pauseFocus = () => {
     const newPausedState = !isPaused;
     setIsPaused(newPausedState);
-    
+            
     // 更新父组件状态：如果暂停则设置isActive为false，否则为true
     onUpdateIsActive(!newPausedState);
-    
+            
     // 如果暂停，显示预览模型；如果继续，隐藏预览模型
     const updateScene = async () => {
       try {
@@ -2956,13 +2968,10 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           if (scene && typeof scene === 'object' && scene.traverse) {
             if (newPausedState) {  // 修正逻辑：使用新状态来判断
               // 暂停，显示预览模型
-              const previewMesh = scene.getObjectByName('previewMesh');
-              if (!previewMesh) {
-                // 调用全局的updatePreview函数
-                const updatePreview = (canvasContainerRef.current as any)._updatePreview;
-                if (updatePreview) {
-                  updatePreview(currentSeed);
-                }
+              // 调用全局的updatePreview函数
+              const updatePreview = (canvasContainerRef.current as any)._updatePreview;
+              if (updatePreview) {
+                updatePreview(currentSeed);
               }
             } else {
               // 继续专注，隐藏预览模型
@@ -2977,7 +2986,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
                   } else {
                     scene.remove(previewMesh);
                   }
-                };
+                }; 
                 animateHide();
               }
             }
@@ -2991,7 +3000,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
         console.error('Error updating scene on pause:', error);
       }
     };
-    
+            
     updateScene();
   };
 
@@ -3227,8 +3236,8 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
 
         {/* UI容器 */}
         <div className="ui-container">
-          {/* 顶部数据栏 - 合并的统计面板 - 修改条件，在专注模式下完全隐藏 */}
-          <div className={`stats-bar ${isFocusing ? 'hidden' : ''}`}>
+          {/* 顶部数据栏 - 合并的统计面板 - 在专注且非暂停时隐藏 */}
+          <div className={`stats-bar ${isFocusing && !isPaused ? 'hidden' : ''}`}>
             <div 
               ref={totalPlantsRef}
               className={`${isNeomorphicDark ? 'neu-out neomorphic-dark-mode' : isDark ? 'neu-out dark-mode' : 'neu-out'} stats-panel`} 
@@ -3285,12 +3294,38 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             </div>
           </div>
           
+          {/* 预测时间模块 - 在专注且非暂停时隐藏 */}
+          <div className={`prediction-module ${isFocusing && !isPaused ? 'hidden' : ''}`} id="predictionModule">
+            <div className={`${isNeomorphicDark ? 'neu-out neomorphic-dark-mode' : isDark ? 'neu-out dark-mode' : 'neu-out'} prediction-panel`}>
+              <div className="prediction-header">
+                <h4>📊 预测时间</h4>
+              </div>
+              <div className="prediction-content">
+                <div className="prediction-item">
+                  <span className="prediction-label">当前时长:</span>
+                  <span className="prediction-value">{formatTime(currentDuration)}</span>
+                </div>
+                <div className="prediction-item">
+                  <span className="prediction-label">预估完成:</span>
+                  <span className="prediction-value">{new Date(Date.now() + currentDuration * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                </div>
+                <div className="prediction-item">
+                  <span className="prediction-label">当前种子:</span>
+                  <span className="prediction-value">
+                    {SPECIES.plants.concat(SPECIES.animals).find(s => s.id === currentSeed)?.icon || '🌱'} 
+                    {SPECIES.plants.concat(SPECIES.animals).find(s => s.id === currentSeed)?.name || '未知'}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
 
 
           {/* 底部控制 */}
           <div className="controls">
-            {/* 预设时间 + 音乐 - 修改条件，在专注模式下完全隐藏 */}
-            <div className={`controls-row ${isFocusing ? 'hidden' : ''}`} id="controlsRow">
+            {/* 预设时间 + 音乐 - 在专注且非暂停时隐藏 */}
+            <div className={`controls-row ${isFocusing && !isPaused ? 'hidden' : ''}`} id="controlsRow">
               <div id="presetGroup" className="flex gap-2">
                 {/* 预设时间选项 */}
                 {[1, 5, 10, 25, 30, 45, 60].map(m => (
@@ -3306,7 +3341,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
                   </div>
                 ))}
               </div>
-                      
+                        
               <div className="audio-dropdown">
                 <button 
                   className="audio-btn" 
@@ -3331,7 +3366,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
                       />
                     </div>
                   </div>
-                  
+                            
                   <div className="flex flex-col gap-2 max-h-60 overflow-y-auto">
                     {/* 优化后的音频菜单样式：添加圆角设计，调整按钮宽度 */}
                     {/* 静音选项 */}
@@ -3343,7 +3378,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
                       <span className="text-16 text-zinc-500 dark:text-zinc-400">🔇</span>
                       <span className="text-xs font-medium">静音</span>
                     </button>
-                    
+                              
                     {/* 音频列表 */}
                     {isSoundListLoaded ? (
                       allSounds
@@ -3366,15 +3401,15 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
                 </div>
               </div>
             </div>
-            
+                      
             {/* 核心：悬浮能量环 */}
             <div 
               className={`focus-ring-container ${isFocusing ? 'focusing' : ''} ${isPaused ? 'paused' : ''}`} 
               id="focusRing"
               onClick={isFocusing ? pauseFocus : startFocus}
             >
-
-              
+          
+                        
               {/* 外部凹槽 */}
               <div className="ring-groove">
                 {/* SVG 进度条 */}
@@ -3395,7 +3430,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
                   />
                 </svg>
               </div>
-
+          
               {/* 内部凸起圆盘 */}
               <div className="center-plate">
                 <div 
@@ -3409,8 +3444,8 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             </div>
           </div>
 
-          {/* 侧边种子选择 - 修改条件，在专注模式下完全隐藏 */}
-          <div className={`${isNeomorphicDark ? 'neu-out neomorphic-dark-mode' : isDark ? 'neu-out dark-mode' : 'neu-out'} seed-selector ${isFocusing ? 'hidden' : ''}`} id="seedSelector">
+          {/* 侧边种子选择 - 在专注且非暂停时隐藏 */}
+          <div className={`${isNeomorphicDark ? 'neu-out neomorphic-dark-mode' : isDark ? 'neu-out dark-mode' : 'neu-out'} seed-selector ${isFocusing && !isPaused ? 'hidden' : ''}`} id="seedSelector">
             <div className="selector-title">🌿 植物类</div>
             {SPECIES.plants.map(plant => (
               <div 
@@ -3746,10 +3781,14 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           flex-direction: column;
           gap: 10px;
           overflow-y: auto;
-          transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+          transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
           transform: translateX(0); opacity: 1;
           z-index: 100;
           min-width: 140px;
+        }
+        
+        .seed-selector.hidden {
+          transform: translateX(150%); opacity: 0; pointer-events: none;
         }
         
         @media (max-width: 768px) {
@@ -4092,8 +4131,9 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           border-radius: 40px; background: var(--bg-color);
           box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
           border: 1px solid rgba(255,255,255,0.2);
-          transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+          transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
           transform: translateY(0); opacity: 1;
+          z-index: 50;
         }
         
         .controls-row.hidden {
@@ -4247,6 +4287,74 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           opacity: 0;
           pointer-events: none;
           transform: scale(0.9);
+        }
+        
+        /* 预测时间模块样式 */
+        .prediction-module {
+          position: absolute;
+          top: 30px;
+          left: 30px;
+          z-index: 50;
+          pointer-events: auto;
+        }
+        
+        .prediction-panel {
+          padding: 15px;
+          border-radius: 16px;
+          min-width: 200px;
+          box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
+        }
+        
+        .prediction-header {
+          margin-bottom: 12px;
+          padding-bottom: 8px;
+          border-bottom: 1px solid rgba(163, 177, 198, 0.2);
+        }
+        
+        .prediction-header h4 {
+          margin: 0;
+          font-size: 14px;
+          font-weight: 600;
+          color: var(--text-main);
+        }
+        
+        .prediction-content {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+        
+        .prediction-item {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          font-size: 12px;
+        }
+        
+        .prediction-label {
+          color: var(--text-sub);
+          font-weight: 500;
+        }
+        
+        .prediction-value {
+          color: var(--text-main);
+          font-weight: 600;
+          text-align: right;
+          flex: 1;
+          margin-left: 10px;
+        }
+        
+        @media (max-width: 768px) {
+          .prediction-module {
+            top: 20px;
+            left: 20px;
+            right: 20px;
+          }
+          
+          .prediction-panel {
+            min-width: auto;
+            width: 100%;
+          }
         }
         
         .guide-card {

@@ -48,17 +48,13 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       ? 'bg-zinc-900' 
       : 'bg-white shadow-sm';
   
-  const textMain = isNeomorphic 
-      ? (theme === 'neomorphic-dark' ? 'text-zinc-300' : 'text-zinc-700') 
-      : isDark 
-      ? 'text-zinc-200' 
-      : 'text-slate-800';
+  const textMain = isDark 
+      ? (isNeomorphic ? 'text-zinc-200' : 'text-zinc-200') 
+      : (isNeomorphic ? 'text-zinc-800' : 'text-slate-800');  
   
-  const textSub = isNeomorphic 
-      ? (theme === 'neomorphic-dark' ? 'text-zinc-400' : 'text-zinc-600') 
-      : isDark 
-      ? 'text-zinc-500' 
-      : 'text-slate-500';
+  const textSub = isDark 
+      ? (isNeomorphic ? 'text-zinc-400' : 'text-zinc-400') 
+      : (isNeomorphic ? 'text-zinc-600' : 'text-slate-500');
 
   const [activeHelp, setActiveHelp] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);

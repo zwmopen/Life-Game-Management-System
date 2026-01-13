@@ -13,8 +13,17 @@
       @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
       body {
         font-family: 'LXGW WenKai Screen', 'Inter', sans-serif;
-        background-color: #18181b; /* Zinc 900 */
-        color: #f4f4f5; /* Zinc 100 */
+        transition: background-color 0.5s ease, color 0.5s ease;
+      }
+      
+      body.light {
+        background-color: #ffffff;
+        color: #18181b;
+      }
+      
+      body.dark {
+        background-color: #18181b;
+        color: #f4f4f5;
       }
       .font-mono {
         font-family: 'JetBrains Mono', monospace;

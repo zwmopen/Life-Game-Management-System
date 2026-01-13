@@ -9,6 +9,7 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 30  # 设置合理的超时时间，避免长时间运行
     permissions:
       contents: write
       deployments: write
@@ -21,12 +22,29 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '20'
+        cache: 'npm'  # 启用npm缓存，加快依赖安装速度
 
     - name: 安装依赖
       run: npm ci
+      env:
+        CI: true  # 设置CI环境变量，跳过一些非必要的步骤
 
     - name: 构建Web应用
       run: npm run build
+      env:
+        NODE_ENV: production
+        # 增加构建内存限制，避免大型项目构建失败
+        NODE_OPTIONS: --max-old-space-size=4096
+
+    - name: 检查构建产物
+      run: |
+        if [ -d "dist" ]; then
+          echo "Build successful. Found dist folder with $(ls -la dist | wc -l) items."
+          du -sh dist/
+        else
+          echo "Build failed. Dist folder not found."
+          exit 1
+        fi
 
     - name: 部署到Vercel
       uses: amondnet/vercel-action@v25
@@ -35,12 +53,15 @@ jobs:
         vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
         vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
         working-directory: ./
-        prod: true
+        vercel-args: '--prod'  # 使用正确的参数格式替代无效的prod参数
+      env:
+        VERCEL_PROJECT_COMMAND: npm run build  # 明确指定构建命令
 
     - name: 上传构建产物到GitHub Artifacts
       uses: actions/upload-artifact@v4
+      if: success()  # 只在构建成功时上传
       with:
-        name: web-build
+        name: web-build-${{ github.sha }}
         path: dist/
         retention-days: 7
 
@@ -48,11 +69,26 @@ jobs:
       if: github.event_name == 'push' && github.ref == 'refs/heads/main'
       uses: softprops/action-gh-release@v2
       with:
-        files: dist/
+        files: dist/**
         draft: false
         prerelease: false
         tag_name: v${{ github.run_number }}
         name: 自动构建版本 v${{ github.run_number }}
-        body: 自动构建于 ${{ github.event.head_commit.timestamp }}
+        body: |
+          自动构建于 ${{ github.event.head_commit.timestamp }}
+          
+          **本次构建信息:**
+          - Commit: ${{ github.sha }}
+          - Branch: ${{ github.ref_name }}
+          - 构建时间: ${{ github.event.head_commit.timestamp }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: 发送部署通知
+      if: always()  # 无论成功还是失败都发送通知
+      run: |
+        if [ ${{ job.status }} = 'success' ]; then
+          echo "✅ 部署成功完成!"
+        else
+          echo "❌ 部署失败，请检查日志"
+        fi

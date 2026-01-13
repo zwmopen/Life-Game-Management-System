@@ -34,8 +34,8 @@ npm run dev -- --port 3004
 | 字段 | 值 | 说明 |
 |------|-----|------|
 | 服务器地址 | `https://dav.jianguoyun.com/dav/` | 坚果云WebDAV服务地址 |
-| 用户名 | `2594707308@qq.com` | 您的坚果云账号 |
-| 密码 | `aecne4vaypmn8zid` | 您的应用密码 |
+| 用户名 | `<YOUR_JIANGUOYUN_EMAIL>` | 您的坚果云账号 |
+| 密码 | `<YOUR_JIANGUOYUN_APP_PASSWORD>` | 您的应用密码 |
 | 基础路径 | `/人生游戏管理系统` | 预先在坚果云中创建的目录 |
 
 ## 测试连接
