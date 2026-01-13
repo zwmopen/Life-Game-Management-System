@@ -305,7 +305,7 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme }) => {
               <p className={`text-sm ${textSub} mt-0`}>{currentModel.description}</p>
               
               {/* Visual Design - Lazy loaded with error handling */}
-              <div className={`rounded-xl p-4 border transition-all duration-200 ${isDark ? (isNeomorphic ? 'bg-[#2a2d36] border-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.3),-8px_-8px_16px_rgba(40,43,52,0.8)]' : 'bg-zinc-900 border-zinc-800') : (isNeomorphic ? `${currentNeomorphicStyle.bg} ${currentNeomorphicStyle.border} ${currentNeomorphicStyle.shadow}` : 'bg-white border-slate-200')}`}>
+              <div className={`rounded-xl p-4 border transition-all duration-200 ${isDark ? (isNeomorphic ? 'bg-[#1e1e2e] border-[#1e1e2e] shadow-[8px_8px_16px_rgba(0,0,0,0.3),-8px_-8px_16px_rgba(40,43,52,0.8)]' : 'bg-zinc-900 border-zinc-800') : (isNeomorphic ? `${currentNeomorphicStyle.bg} ${currentNeomorphicStyle.border} ${currentNeomorphicStyle.shadow}` : 'bg-white border-slate-200')}`}>
                 {currentModel && currentModel.visualDesign ? (
                   <ModelErrorBoundary
                     fallback={

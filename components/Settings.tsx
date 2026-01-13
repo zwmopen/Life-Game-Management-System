@@ -480,7 +480,7 @@ const Settings: React.FC<SettingsProps> = ({ settings, onUpdateSettings, onToggl
               {settings.enableSoundEffects && (
                 <div className="mt-3">
                   <h4 className={`font-bold text-xs ${textMain} mb-2`}>按位置分类音效</h4>
-                  <div className={`rounded-lg p-2 h-[250px] overflow-y-auto ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/50' : 'bg-slate-50'}`}>
+                  <div className={`rounded-lg p-2 h-[250px] overflow-y-auto ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/50' : 'bg-slate-50'}`}>
                     <h5 className={`text-[9px] font-mono uppercase mb-2 ${textSub}`}>位置列表</h5>
                     <div className="space-y-2">
                       {[
@@ -535,7 +535,7 @@ const Settings: React.FC<SettingsProps> = ({ settings, onUpdateSettings, onToggl
                         return (
                           <div 
                             key={location.id} 
-                            className={`p-2 rounded-lg flex items-center justify-between transition-all cursor-pointer ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)] hover:shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(40,43,52,0.9)] active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.2),inset_-6px_-6px_12px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/30 hover:bg-zinc-800/50' : 'bg-white/50 hover:bg-slate-100'}`}
+                            className={`p-2 rounded-lg flex items-center justify-between transition-all cursor-pointer ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(30,30,46,0.8)] hover:shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(30,30,46,0.9)] active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.2),inset_-6px_-6px_12px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/30 hover:bg-zinc-800/50' : 'bg-white/50 hover:bg-slate-100'}`
                       >
                             <div className="flex items-center gap-1.5">
                               {location.icon}
@@ -554,7 +554,7 @@ const Settings: React.FC<SettingsProps> = ({ settings, onUpdateSettings, onToggl
                                     // Preview the selected sound immediately
                                     previewSound(e.target.value);
                                   }}
-                                  className={`w-20 text-[10px] px-2 py-1 rounded-lg border-none outline-none ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.2),inset_-4px_-4px_8px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-800 text-white' : 'bg-white text-slate-800'}`}
+                                  className={`w-20 text-[10px] px-2 py-1 rounded-lg border-none outline-none ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.2),inset_-4px_-4px_8px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-800 text-white' : 'bg-white text-slate-800'}`
                                 >
                                   <option value="mute">静音</option>
                                   <option value="positive-beep">积极</option>
@@ -569,7 +569,7 @@ const Settings: React.FC<SettingsProps> = ({ settings, onUpdateSettings, onToggl
                                 </select>
                                 <button
                                   onClick={() => previewSound(currentSound)}
-                                  className={`p-1 rounded-full transition-all ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[5px_5px_10px_rgba(0,0,0,0.2),-5px_-5px_10px_rgba(40,43,52,0.8)] hover:shadow-[3px_3px_6px_rgba(0,0,0,0.15),-3px_-3px_6px_rgba(40,43,52,0.9)]' : 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[3px_3px_6px_rgba(163,177,198,0.5),-3px_-3px_6px_rgba(255,255,255,1)]'}` : isDark ? 'bg-purple-900/30 text-purple-400 hover:bg-purple-800/50' : 'bg-purple-100 text-purple-700 hover:bg-purple-200'}`}
+                                  className={`p-1 rounded-full transition-all ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[5px_5px_10px_rgba(0,0,0,0.2),-5px_-5px_10px_rgba(30,30,46,0.8)] hover:shadow-[3px_3px_6px_rgba(0,0,0,0.15),-3px_-3px_6px_rgba(30,30,46,0.9)]' : 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[3px_3px_6px_rgba(163,177,198,0.5),-3px_-3px_6px_rgba(255,255,255,1)]'}` : isDark ? 'bg-purple-900/30 text-purple-400 hover:bg-purple-800/50' : 'bg-purple-100 text-purple-700 hover:bg-purple-200'}`
                                   title="试听"
                                 >
                                   <Volume2 size={12} />
@@ -583,10 +583,10 @@ const Settings: React.FC<SettingsProps> = ({ settings, onUpdateSettings, onToggl
                                   };
                                   onUpdateSettings({ soundEffectsByLocation: newSoundEffectsByLocation });
                                 }}
-                                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-all ${isNeomorphic ? `${isNeomorphicDark ? `shadow-[inset_2px_2px_4px_rgba(0,0,0,0.2),inset_-2px_-2px_4px_rgba(40,43,52,0.8)] ${locationSetting.enabled ? 'bg-blue-500' : 'bg-[#2a2d36]'}` : `shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] ${locationSetting.enabled ? 'bg-blue-500' : 'bg-white'}`}` : locationSetting.enabled ? 'bg-blue-600' : 'bg-white'}`}
+                                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-all ${isNeomorphic ? `${isNeomorphicDark ? `shadow-[inset_2px_2px_4px_rgba(0,0,0,0.2),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] ${locationSetting.enabled ? 'bg-blue-500' : 'bg-[#1e1e2e]'}` : `shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] ${locationSetting.enabled ? 'bg-blue-500' : 'bg-white'}`}` : locationSetting.enabled ? 'bg-blue-600' : 'bg-white'}`
                               >
                                 <span
-                                  className={`inline-block h-4.5 w-4.5 transform rounded-full transition-transform ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[4px_4px_8px_rgba(0,0,0,0.2),-4px_-4px_8px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]'}` : 'bg-white'} ${locationSetting.enabled ? 'translate-x-6' : 'translate-x-1'}`}
+                                  className={`inline-block h-4.5 w-4.5 transform rounded-full transition-transform ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[4px_4px_8px_rgba(0,0,0,0.2),-4px_-4px_8px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]'}` : 'bg-white'} ${locationSetting.enabled ? 'translate-x-6' : 'translate-x-1'}`
                                 />
                               </button>
                             </div>
@@ -677,20 +677,20 @@ const Settings: React.FC<SettingsProps> = ({ settings, onUpdateSettings, onToggl
             {activeBackupTab === 'local' && (
               <div className="space-y-3">
                 {/* Local Backup Actions */}
-                <div className={`rounded-lg p-3 ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/50' : 'bg-slate-50'}`}>
+                <div className={`rounded-lg p-3 ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/50' : 'bg-slate-50'}`}>
                   <h4 className={`font-bold text-xs mb-2 ${textMain}`}>本地备份操作</h4>
                   <div className="grid grid-cols-2 gap-2 mb-3">
                     <button
                       onClick={createLocalBackup}
                       disabled={isBackingUp}
-                      className={`text-xs py-1.5 px-3 rounded-lg transition-all ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)] hover:shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(40,43,52,0.9)] active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.2),inset_-6px_-6px_12px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]'}` : isDark ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-blue-500 text-white hover:bg-blue-600'}`}
+                      className={`text-xs py-1.5 px-3 rounded-lg transition-all ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(30,30,46,0.8)] hover:shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(40,43,52,0.9)] active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.2),inset_-6px_-6px_12px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]'}` : isDark ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-blue-500 text-white hover:bg-blue-600'}`}
                     >
                       <div className="flex items-center justify-center gap-1">
                         <Save size={12} />
                         <span>{isBackingUp ? '备份中...' : '创建本地备份'}</span>
                       </div>
                     </button>
-                    <label className={`text-xs py-1.5 px-3 rounded-lg transition-all cursor-pointer flex items-center justify-center gap-1 ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)] hover:shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(40,43,52,0.9)] active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.2),inset_-6px_-6px_12px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]'}` : isDark ? 'bg-green-600 text-white hover:bg-green-700' : 'bg-green-500 text-white hover:bg-green-600'}`}>
+                    <label className={`text-xs py-1.5 px-3 rounded-lg transition-all cursor-pointer flex items-center justify-center gap-1 ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(30,30,46,0.8)] hover:shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(40,43,52,0.9)] active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.2),inset_-6px_-6px_12px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]'}` : isDark ? 'bg-green-600 text-white hover:bg-green-700' : 'bg-green-500 text-white hover:bg-green-600'}`}>
                       <Upload size={12} />
                       <span>导入本地备份</span>
                       <input
@@ -723,7 +723,7 @@ const Settings: React.FC<SettingsProps> = ({ settings, onUpdateSettings, onToggl
                           <select
                             value={autoBackupInterval}
                             onChange={(e) => setAutoBackupInterval(e.target.value as 'daily' | 'weekly' | 'monthly')}
-                            className={`w-full text-xs px-2 py-1 rounded-lg border ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.2),inset_-4px_-4px_8px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-200'} ${isDark ? 'text-zinc-200' : isNeomorphic ? 'text-zinc-700' : 'text-slate-700'}`}
+                            className={`w-full text-xs px-2 py-1 rounded-lg border ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.2),inset_-4px_-4px_8px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-200'} ${isDark ? 'text-zinc-200' : isNeomorphic ? 'text-zinc-700' : 'text-slate-700'}`}
                           >
                             <option value="daily">每日</option>
                             <option value="weekly">每周</option>
@@ -736,7 +736,7 @@ const Settings: React.FC<SettingsProps> = ({ settings, onUpdateSettings, onToggl
                             type="time"
                             value={autoBackupTime}
                             onChange={(e) => setAutoBackupTime(e.target.value)}
-                            className={`w-full text-xs px-2 py-1 rounded-lg border ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.2),inset_-4px_-4px_8px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-200'} ${isDark ? 'text-zinc-200' : isNeomorphic ? 'text-zinc-700' : 'text-slate-700'}`}
+                            className={`w-full text-xs px-2 py-1 rounded-lg border ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.2),inset_-4px_-4px_8px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-200'} ${isDark ? 'text-zinc-200' : isNeomorphic ? 'text-zinc-700' : 'text-slate-700'}`}
                           />
                         </div>
                       </div>
@@ -750,13 +750,13 @@ const Settings: React.FC<SettingsProps> = ({ settings, onUpdateSettings, onToggl
                         value={customBackupPath}
                         onChange={(e) => setCustomBackupPath(e.target.value)}
                         placeholder="默认路径"
-                        className={`w-full text-xs px-2 py-1 rounded-lg border ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.2),inset_-4px_-4px_8px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-200'} ${isDark ? 'text-zinc-200' : isNeomorphic ? 'text-zinc-700' : 'text-slate-700'}`}
+                        className={`w-full text-xs px-2 py-1 rounded-lg border ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.2),inset_-4px_-4px_8px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-200'} ${isDark ? 'text-zinc-200' : isNeomorphic ? 'text-zinc-700' : 'text-slate-700'}`}
                       />
                     </div>
 
                     <button
                       onClick={updateAutoBackupSettings}
-                      className={`w-full text-xs py-1.5 px-3 rounded-lg transition-all ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)] hover:shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(40,43,52,0.9)] active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.2),inset_-6px_-6px_12px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]'}` : isDark ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-blue-500 text-white hover:bg-blue-600'}`}
+                      className={`w-full text-xs py-1.5 px-3 rounded-lg transition-all ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(30,30,46,0.8)] hover:shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(40,43,52,0.9)] active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.2),inset_-6px_-6px_12px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]'}` : isDark ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-blue-500 text-white hover:bg-blue-600'}`}
                     >
                       保存备份设置
                     </button>
@@ -764,17 +764,17 @@ const Settings: React.FC<SettingsProps> = ({ settings, onUpdateSettings, onToggl
                 </div>
 
                 {/* Backup History */}
-                <div className={`rounded-lg p-3 ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/50' : 'bg-slate-50'}`}>
+                <div className={`rounded-lg p-3 ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/50' : 'bg-slate-50'}`}>
                   <div className="flex items-center justify-between mb-2">
                     <h4 className={`font-bold text-xs ${textMain}`}>备份历史记录</h4>
-                    <div className={`relative w-24 ${isNeomorphic ? (isDark ? 'bg-[#2a2d36]' : 'bg-[#e0e5ec]') : (isDark ? 'bg-zinc-800' : 'bg-white')}`}>
+                    <div className={`relative w-24 ${isNeomorphic ? (isDark ? 'bg-[#1e1e2e]' : 'bg-[#e0e5ec]') : (isDark ? 'bg-zinc-800' : 'bg-white')}`}>
                       <span className="absolute left-2 top-1/2 transform -translate-y-1/2 text-zinc-500 dark:text-zinc-400 text-[10px]">🔍</span>
                       <input
                         type="text"
                         placeholder="搜索备份"
                         value={backupSearchQuery}
                         onChange={(e) => setBackupSearchQuery(e.target.value)}
-                        className={`w-full pl-6 pr-2 py-1 text-xs rounded-lg border ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.2),inset_-4px_-4px_8px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-200'} ${isDark ? 'text-zinc-200' : isNeomorphic ? 'text-zinc-700' : 'text-slate-700'}`}
+                        className={`w-full pl-6 pr-2 py-1 text-xs rounded-lg border ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.2),inset_-4px_-4px_8px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-200'} ${isDark ? 'text-zinc-200' : isNeomorphic ? 'text-zinc-700' : 'text-slate-700'}`}
                       />
                     </div>
                   </div>
@@ -787,7 +787,7 @@ const Settings: React.FC<SettingsProps> = ({ settings, onUpdateSettings, onToggl
                     ).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).map((backup) => (
                       <div
                         key={backup.id}
-                        className={`p-2 rounded-lg border ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36]' : 'bg-[#e0e5ec]'}` : isDark ? 'bg-zinc-800/50' : 'bg-white/50'} text-xs flex items-center justify-between`}
+                        className={`p-2 rounded-lg border ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#1e1e2e]' : 'bg-[#e0e5ec]'}` : isDark ? 'bg-zinc-800/50' : 'bg-white/50'} text-xs flex items-center justify-between`}
                       >
                         <div className="flex items-center gap-2">
                           <div className={`w-2 h-2 rounded-full ${backup.status === 'success' ? 'bg-green-500' : backup.status === 'failed' ? 'bg-red-500' : 'bg-yellow-500'}`}></div>
@@ -804,14 +804,14 @@ const Settings: React.FC<SettingsProps> = ({ settings, onUpdateSettings, onToggl
                           <button
                             onClick={() => restoreFromLocalBackup(backup.id)}
                             disabled={isRestoring}
-                            className={`p-1 rounded-full transition-all ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[5px_5px_10px_rgba(0,0,0,0.2),-5px_-5px_10px_rgba(40,43,52,0.8)] hover:shadow-[3px_3px_6px_rgba(0,0,0,0.15),-3px_-3px_6px_rgba(40,43,52,0.9)]' : 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[3px_3px_6px_rgba(163,177,198,0.5),-3px_-3px_6px_rgba(255,255,255,1)]'}` : isDark ? 'bg-blue-900/30 text-blue-400 hover:bg-blue-800/50' : 'bg-blue-100 text-blue-700 hover:bg-blue-200'}`}
+                            className={`p-1 rounded-full transition-all ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[5px_5px_10px_rgba(0,0,0,0.2),-5px_-5px_10px_rgba(30,30,46,0.8)] hover:shadow-[3px_3px_6px_rgba(0,0,0,0.15),-3px_-3px_6px_rgba(30,30,46,0.9)]' : 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[3px_3px_6px_rgba(163,177,198,0.5),-3px_-3px_6px_rgba(255,255,255,1)]'}` : isDark ? 'bg-blue-900/30 text-blue-400 hover:bg-blue-800/50' : 'bg-blue-100 text-blue-700 hover:bg-blue-200'}`}
                             title="恢复"
                           >
                             <Download size={10} />
                           </button>
                           <button
                             onClick={() => deleteLocalBackup(backup.id)}
-                            className={`p-1 rounded-full transition-all ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[5px_5px_10px_rgba(0,0,0,0.2),-5px_-5px_10px_rgba(40,43,52,0.8)] hover:shadow-[3px_3px_6px_rgba(0,0,0,0.15),-3px_-3px_6px_rgba(40,43,52,0.9)]' : 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[3px_3px_6px_rgba(163,177,198,0.5),-3px_-3px_6px_rgba(255,255,255,1)]'}` : isDark ? 'bg-red-900/30 text-red-400 hover:bg-red-800/50' : 'bg-red-100 text-red-700 hover:bg-red-200'}`}
+                            className={`p-1 rounded-full transition-all ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[5px_5px_10px_rgba(0,0,0,0.2),-5px_-5px_10px_rgba(30,30,46,0.8)] hover:shadow-[3px_3px_6px_rgba(0,0,0,0.15),-3px_-3px_6px_rgba(30,30,46,0.9)]' : 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[3px_3px_6px_rgba(163,177,198,0.5),-3px_-3px_6px_rgba(255,255,255,1)]'}` : isDark ? 'bg-red-900/30 text-red-400 hover:bg-red-800/50' : 'bg-red-100 text-red-700 hover:bg-red-200'}`}
                             title="删除"
                           >
                             <Trash2 size={10} />
@@ -847,7 +847,7 @@ const Settings: React.FC<SettingsProps> = ({ settings, onUpdateSettings, onToggl
                 </div>
 
                 {settings.enableWebDAV && (
-                  <div className={`rounded-lg p-3 ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/50' : 'bg-slate-50'}`}>
+                  <div className={`rounded-lg p-3 ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/50' : 'bg-slate-50'}`}>
                     <div className="space-y-2">
                       <div>
                         <label className={`block text-xs ${textSub} mb-1`}>WebDAV服务器地址</label>
@@ -856,7 +856,7 @@ const Settings: React.FC<SettingsProps> = ({ settings, onUpdateSettings, onToggl
                           value={webdavConfig.url}
                           onChange={(e) => setWebdavConfig({ ...webdavConfig, url: e.target.value })}
                           placeholder="https://example.com/webdav"
-                          className={`w-full text-xs px-2 py-1 rounded-lg border ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.2),inset_-4px_-4px_8px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-200'} ${isDark ? 'text-zinc-200' : isNeomorphic ? 'text-zinc-700' : 'text-slate-700'}`}
+                          className={`w-full text-xs px-2 py-1 rounded-lg border ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.2),inset_-4px_-4px_8px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-200'} ${isDark ? 'text-zinc-200' : isNeomorphic ? 'text-zinc-700' : 'text-slate-700'}`}
                         />
                       </div>
                       <div>
@@ -866,7 +866,7 @@ const Settings: React.FC<SettingsProps> = ({ settings, onUpdateSettings, onToggl
                           value={webdavConfig.username}
                           onChange={(e) => setWebdavConfig({ ...webdavConfig, username: e.target.value })}
                           placeholder="username"
-                          className={`w-full text-xs px-2 py-1 rounded-lg border ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.2),inset_-4px_-4px_8px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-200'} ${isDark ? 'text-zinc-200' : isNeomorphic ? 'text-zinc-700' : 'text-slate-700'}`}
+                          className={`w-full text-xs px-2 py-1 rounded-lg border ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.2),inset_-4px_-4px_8px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-200'} ${isDark ? 'text-zinc-200' : isNeomorphic ? 'text-zinc-700' : 'text-slate-700'}`}
                         />
                       </div>
                       <div>
@@ -876,7 +876,7 @@ const Settings: React.FC<SettingsProps> = ({ settings, onUpdateSettings, onToggl
                           value={webdavConfig.password}
                           onChange={(e) => setWebdavConfig({ ...webdavConfig, password: e.target.value })}
                           placeholder="password"
-                          className={`w-full text-xs px-2 py-1 rounded-lg border ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.2),inset_-4px_-4px_8px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-200'} ${isDark ? 'text-zinc-200' : isNeomorphic ? 'text-zinc-700' : 'text-slate-700'}`}
+                          className={`w-full text-xs px-2 py-1 rounded-lg border ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.2),inset_-4px_-4px_8px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-200'} ${isDark ? 'text-zinc-200' : isNeomorphic ? 'text-zinc-700' : 'text-slate-700'}`}
                         />
                       </div>
                       <div>
@@ -886,14 +886,14 @@ const Settings: React.FC<SettingsProps> = ({ settings, onUpdateSettings, onToggl
                           value={webdavConfig.basePath}
                           onChange={(e) => setWebdavConfig({ ...webdavConfig, basePath: e.target.value })}
                           placeholder="/人生游戏管理系统"
-                          className={`w-full text-xs px-2 py-1 rounded-lg border ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.2),inset_-4px_-4px_8px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-200'} ${isDark ? 'text-zinc-200' : isNeomorphic ? 'text-zinc-700' : 'text-slate-700'}`}
+                          className={`w-full text-xs px-2 py-1 rounded-lg border ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.2),inset_-4px_-4px_8px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-200'} ${isDark ? 'text-zinc-200' : isNeomorphic ? 'text-zinc-700' : 'text-slate-700'}`}
                         />
                       </div>
 
                       <div className="grid grid-cols-2 gap-2">
                         <button
                           onClick={testWebdavConnection}
-                          className={`text-xs py-1.5 px-3 rounded-lg transition-all ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)] hover:shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(40,43,52,0.9)] active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.2),inset_-6px_-6px_12px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]'}` : isDark ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-blue-500 text-white hover:bg-blue-600'}`}
+                          className={`text-xs py-1.5 px-3 rounded-lg transition-all ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(30,30,46,0.8)] hover:shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(40,43,52,0.9)] active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.2),inset_-6px_-6px_12px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]'}` : isDark ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-blue-500 text-white hover:bg-blue-600'}`}
                         >
                           测试连接
                         </button>
@@ -908,7 +908,7 @@ const Settings: React.FC<SettingsProps> = ({ settings, onUpdateSettings, onToggl
                               setTimeout(() => setWebdavStatus(''), 3000);
                             }
                           }}
-                          className={`text-xs py-1.5 px-3 rounded-lg transition-all ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)] hover:shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(40,43,52,0.9)] active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.2),inset_-6px_-6px_12px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]'}` : isDark ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-blue-500 text-white hover:bg-blue-600'}`}
+                          className={`text-xs py-1.5 px-3 rounded-lg transition-all ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(30,30,46,0.8)] hover:shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(40,43,52,0.9)] active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.2),inset_-6px_-6px_12px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]'}` : isDark ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-blue-500 text-white hover:bg-blue-600'}`}
                         >
                           保存配置
                         </button>
@@ -926,7 +926,7 @@ const Settings: React.FC<SettingsProps> = ({ settings, onUpdateSettings, onToggl
                         <button
                             onClick={backupToWebDAV}
                             disabled={isBackingUp}
-                            className={`text-xs py-1.5 px-3 rounded-lg transition-all ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)] hover:shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(40,43,52,0.9)] active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.2),inset_-6px_-6px_12px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]'}` : isDark ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-blue-500 text-white hover:bg-blue-600'}`}
+                            className={`text-xs py-1.5 px-3 rounded-lg transition-all ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(30,30,46,0.8)] hover:shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(40,43,52,0.9)] active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.2),inset_-6px_-6px_12px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]'}` : isDark ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-blue-500 text-white hover:bg-blue-600'}`}
                           >
                             <div className="flex items-center justify-center gap-1">
                               <Upload size={12} />
@@ -936,7 +936,7 @@ const Settings: React.FC<SettingsProps> = ({ settings, onUpdateSettings, onToggl
                         <button
                           onClick={restoreFromWebDAV}
                           disabled={isRestoring}
-                          className={`text-xs py-1.5 px-3 rounded-lg transition-all ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)] hover:shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(40,43,52,0.9)] active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.2),inset_-6px_-6px_12px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]'}` : isDark ? 'bg-green-600 text-white hover:bg-green-700' : 'bg-green-500 text-white hover:bg-green-600'}`}
+                          className={`text-xs py-1.5 px-3 rounded-lg transition-all ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(30,30,46,0.8)] hover:shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(40,43,52,0.9)] active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.2),inset_-6px_-6px_12px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]'}` : isDark ? 'bg-green-600 text-white hover:bg-green-700' : 'bg-green-500 text-white hover:bg-green-600'}`}
                         >
                           <div className="flex items-center justify-center gap-1">
                             <Download size={12} />
@@ -982,7 +982,7 @@ const Settings: React.FC<SettingsProps> = ({ settings, onUpdateSettings, onToggl
                 </HelpTooltip>
             </div>
             
-            <div className={`rounded-xl p-3 w-full ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#2a2d36] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/50' : 'bg-slate-50'}`}>
+            <div className={`rounded-xl p-3 w-full ${isNeomorphic ? `${isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]'}` : isDark ? 'bg-zinc-900/50' : 'bg-slate-50'}`}>
               <div className="text-xs space-y-2">
                 <div className="grid grid-cols-[max-content_1fr] gap-x-2 gap-y-1 items-start">
                   <span className="font-bold text-zinc-700 dark:text-zinc-300 whitespace-nowrap">版本：</span>

@@ -2053,11 +2053,10 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                            </div>
                                          </div>
                                        )}
-                                     </div>
                                      
                                      {/* 商品图片：完全铺满卡片 */}
                                      {item.image ? (
-                                         <div className="product-img absolute top-0 left-0 w-full h-full z-0">
+                                         <div className="product-image absolute top-0 left-0 w-full h-full z-0">
                                              <img 
                                                  src={item.image} 
                                                  alt={item.name}

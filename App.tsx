@@ -1313,7 +1313,7 @@ const App: React.FC = () => {
       : theme === 'light' 
       ? 'bg-slate-50 text-slate-900' 
       : theme === 'neomorphic-dark' 
-      ? 'bg-[#1a1a2e] text-zinc-100' // 拟态深色：深紫色背景
+      ? 'bg-[#1e1e2e] text-zinc-100' // 拟态深色：深灰色背景
       : 'bg-[#e0e5ec] text-zinc-800'; // 拟态浅色：高饱和度灰蓝色背景
   const entropy = Math.round((1 - (todayStats.habitsDone / Math.max(1, habits.length))) * 100);
 

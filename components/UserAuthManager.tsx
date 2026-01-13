@@ -36,7 +36,7 @@ const UserAuthManager: React.FC<UserAuthManagerProps> = ({ theme = 'light' }) =>
   const neomorphicContainerBg = isNeomorphic
     ? 'bg-[#e0e5ec] shadow-[12px_12px_24px_rgba(163,177,198,0.6),-12px_-12px_24px_rgba(255,255,255,1)] hover:shadow-[14px_14px_28px_rgba(163,177,198,0.7),-14px_-14px_28px_rgba(255,255,255,1)] active:shadow-[inset_8px_8px_16px_rgba(163,177,198,0.6),inset_-8px_-8px_16px_rgba(255,255,255,1)]'
     : isNeomorphicDark
-    ? 'bg-[#2a2d36] shadow-[12px_12px_24px_rgba(0,0,0,0.3),-12px_-12px_24px_rgba(40,43,52,0.8)] hover:shadow-[14px_14px_28px_rgba(0,0,0,0.4),-14px_-14px_28px_rgba(40,43,52,1)] active:shadow-[inset_8px_8px_16px_rgba(0,0,0,0.3),inset_-8px_-8px_16px_rgba(40,43,52,0.8)]'
+    ? 'bg-[#1e1e2e] shadow-[12px_12px_24px_rgba(0,0,0,0.3),-12px_-12px_24px_rgba(30,30,46,0.8)] hover:shadow-[14px_14px_28px_rgba(0,0,0,0.4),-14px_-14px_28px_rgba(30,30,46,1)] active:shadow-[inset_8px_8px_16px_rgba(0,0,0,0.3),inset_-8px_-8px_16px_rgba(30,30,46,0.8)]'
     : '';
   
   const containerBg = isNeomorphic || isNeomorphicDark
@@ -48,7 +48,7 @@ const UserAuthManager: React.FC<UserAuthManagerProps> = ({ theme = 'light' }) =>
   const innerContainerBg = isNeomorphic
     ? 'bg-[#e0e5ec] shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)]'
     : isNeomorphicDark
-    ? 'bg-[#2a2d36] shadow-[inset_6px_6px_12px_rgba(0,0,0,0.3),inset_-6px_-6px_12px_rgba(40,43,52,0.8)]'
+    ? 'bg-[#1e1e2e] shadow-[inset_6px_6px_12px_rgba(0,0,0,0.3),inset_-6px_-6px_12px_rgba(30,30,46,0.8)]'
     : isDark
     ? 'bg-zinc-700'
     : 'bg-slate-100';
@@ -56,7 +56,7 @@ const UserAuthManager: React.FC<UserAuthManagerProps> = ({ theme = 'light' }) =>
   const inputBg = isNeomorphic
     ? 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] hover:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.7),inset_-6px_-6px_12px_rgba(255,255,255,1)] focus:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.7),inset_-6px_-6px_12px_rgba(255,255,255,1)]'
     : isNeomorphicDark
-    ? 'bg-[#2a2d36] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.3),inset_-4px_-4px_8px_rgba(40,43,52,0.8)] hover:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.4),inset_-6px_-6px_12px_rgba(40,43,52,0.9)] focus:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.4),inset_-6px_-6px_12px_rgba(40,43,52,0.9)]'
+    ? 'bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.3),inset_-4px_-4px_8px_rgba(30,30,46,0.8)] hover:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.4),inset_-6px_-6px_12px_rgba(30,30,46,0.9)] focus:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.4),inset_-6px_-6px_12px_rgba(30,30,46,0.9)]'
     : isDark
     ? 'bg-zinc-700 hover:bg-zinc-600'
     : 'bg-slate-200 hover:bg-slate-300';
@@ -69,7 +69,7 @@ const UserAuthManager: React.FC<UserAuthManagerProps> = ({ theme = 'light' }) =>
   const buttonBg = isNeomorphic
     ? 'bg-[#e0e5ec] border-transparent shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)] hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] active:shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(255,255,255,1)] transition-all duration-300 text-blue-600 hover:text-blue-700'
     : isNeomorphicDark
-    ? 'bg-[#2a2d36] border-transparent shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(40,43,52,0.8)] hover:shadow-[12px_12px_24px_rgba(0,0,0,0.4),-12px_-12px_24px_rgba(40,43,52,1)] active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.3),inset_-6px_-6px_12px_rgba(40,43,52,0.8)] transition-all duration-300 text-blue-400 hover:text-blue-300'
+    ? 'bg-[#1e1e2e] border-transparent shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(30,30,46,0.8)] hover:shadow-[12px_12px_24px_rgba(0,0,0,0.4),-12px_-12px_24px_rgba(30,30,46,1)] active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.3),inset_-6px_-6px_12px_rgba(30,30,46,0.8)] transition-all duration-300 text-blue-400 hover:text-blue-300'
     : isDark
     ? 'bg-zinc-700 hover:bg-zinc-600 transition-all duration-300 text-white'
     : 'bg-slate-200 hover:bg-slate-300 transition-all duration-300 text-slate-800';
