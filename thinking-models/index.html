@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Thinking Model Visualization Hub</title>
+  <title>思维模型可视化中心</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
+
+
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       background-color: #f8fafc;
@@ -35,19 +37,18 @@
       animation: breathe 3s ease-in-out infinite;
     }
   </style>
-<script type="importmap">
-{
-  "imports": {
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "react": "https://esm.sh/react@^19.2.3",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
-  }
-}
-</script>
-<link rel="stylesheet" href="/index.css">
 </head>
-<body class="bg-slate-50 text-slate-900">
-  <div id="root"></div>
-  <script type="module" src="/index.tsx"></script>
-</body>
+<body>data-theme="light" class="bg-slate-50 text-slate-900">
+  <div class="container mx-auto p-8">
+    <h1 class="text-4xl font-bold text-center mb-8 text-blue-600">思维模型可视化中心</h1>
+    <p class="text-center mb-12 text-slate-600">探索各种思维模型，提升你的决策能力和认知水平</p>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- 这里可以添加思维模型的链接列表 -->
+      <div class="glass-card p-6 rounded-xl">
+        <h3 class="text-xl font-semibold mb-2">思维模型列表</h3>
+        <p class="text-slate-500">点击下方链接浏览各个思维模型</p>
+      </div>
+    </div>
+  </div></body>
 </html>

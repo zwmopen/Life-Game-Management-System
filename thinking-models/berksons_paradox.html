@@ -1,29 +1,27 @@
-
 <!DOCTYPE html>
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>伯克松悖论</title>
-</head>
-<body>
+  <title>伯克松悖论</title></head>
+<body >
   <div class="neu-card">
     <svg viewBox="0 0 1000 650">
       <!-- 坐标轴 -->
-      <line x1="150" y1="500" x2="850" y2="500" stroke="var(--heading)" stroke-width="2" opacity="0.1" />
-      <line x1="150" y1="500" x2="150" y2="100" stroke="var(--heading)" stroke-width="2" opacity="0.1" />
+      <line x1="150" y1="500" x2="850" y2="500" stroke="#1e293b" stroke-width="2" opacity="0.1" />
+      <line x1="150" y1="500" x2="150" y2="100" stroke="#1e293b" stroke-width="2" opacity="0.1" />
       
       <!-- 原始散点 (随机分布，无相关性) -->
-      <g opacity="0.1" fill="var(--heading)">
+      <g opacity="0.1" fill="#1e293b">
         <circle cx="250" cy="450" r="8" /><circle cx="350" cy="380" r="8" /><circle cx="450" cy="420" r="8" />
         <circle cx="600" cy="250" r="8" /><circle cx="700" cy="180" r="8" /><circle cx="800" cy="350" r="8" />
       </g>
 
       <!-- 筛选边界 (切割左下角) -->
-      <path d="M150,500 L150,250 Q150,150 250,150 L850,150 L850,500 Z" fill="var(--accent)" fill-opacity="0.05" />
+      <path d="M150,500 L150,250 Q150,150 250,150 L850,150 L850,500 Z" fill="#ef4444" fill-opacity="0.05" />
       <path d="M150,250 Q500,500 850,150" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="10 5" opacity="0.4" />
 
       <!-- 被选中的幸存者 (呈现负相关趋势) -->
-      <g fill="var(--accent)">
+      <g fill="#ef4444">
         <circle cx="200" cy="220" r="10" /><circle cx="350" cy="280" r="10" />
         <circle cx="500" cy="350" r="10" /><circle cx="650" cy="420" r="10" />
         <circle cx="800" cy="180" r="10" />
@@ -35,12 +33,12 @@
       </line>
 
       <text x="500" y="580" text-anchor="middle" fill="#ef4444" style="font-size: 32px; font-weight: 900;">筛选产生了“负相关”幻觉</text>
-      <text x="850" y="530" text-anchor="end" fill="var(--text)" opacity="0.4" style="font-size: 14px;">属性 B (如: 性格) →</text>
-      <text x="130" y="100" text-anchor="middle" fill="var(--text)" opacity="0.4" style="font-size: 14px;" transform="rotate(-90 130 100)">属性 A (如: 才华) ↑</text>
+      <text x="850" y="530" text-anchor="end" fill="#64748b" opacity="0.4" style="font-size: 14px;">属性 B (如: 性格) →</text>
+      <text x="130" y="100" text-anchor="middle" fill="#64748b" opacity="0.4" style="font-size: 14px;" transform="rotate(-90 130 100)">属性 A (如: 才华) ↑</text>
     </svg>
   </div>
   <div class="text-content">
-    <h1>伯克松悖论 (Berkson's Paradox)</h1>
+    <h1>伯克松悖论</h1>
     <p>统计学中的筛选偏误。即使两个变量在全样本中没有关系，如果你的筛选机制（如：只录用才华极高或性格极好的人）剔除了双低人群，那么在剩余的幸存者中，才华与性格会呈现出虚假的负相关。</p>
     <div class="grid">
       <div>
@@ -58,6 +56,5 @@
         </ul>
       </div>
     </div>
-  </div>
-</body>
+  </div></body>
 </html>

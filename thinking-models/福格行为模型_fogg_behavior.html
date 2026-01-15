@@ -1,10 +1,12 @@
-<!DOCTYPE html>
+<!DOCTYPE html>﻿<!DOCTYPE html>
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>福格行为模型 - 行为改变的火箭</title>
+  <title>绂忔牸琛屼负妯″瀷 - 琛屼负鏀瑰彉鐨勭伀绠?/title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
+
+
     body { background: #020617; font-family: -apple-system, sans-serif; color: #f8fafc; }
     .glass { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); }
     @keyframes rocket-sway { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
@@ -14,62 +16,61 @@
     .fire { animation: thrust 0.5s infinite; transform-origin: top; }
   </style>
 </head>
-<body class="p-8 md:p-20 flex items-center justify-center min-h-screen">
-  <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-    <!-- SVG 可视化 -->
+<body>data-theme="light" class="p-8 md:p-20 flex items-center justify-center min-h-screen">
+  <div class="max-w-7xl mx-auto w-full grid grid-cols-1 gap-20">
+    <!-- SVG 鍙鍖?-->
     <div class="relative flex items-center justify-center glass p-12 rounded-[4rem] shadow-2xl overflow-hidden">
       <svg viewBox="0 0 600 600" class="w-full h-auto max-w-[500px]">
-        <!-- 行为门槛曲线 -->
+        <!-- 琛屼负闂ㄦ鏇茬嚎 -->
         <path d="M100,500 Q100,100 500,100" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="4" stroke-dasharray="10 5" />
         <text x="300" y="250" text-anchor="middle" fill="white" fill-opacity="0.1" class="font-black text-6xl uppercase tracking-[0.2em] transform rotate-[-45deg]">Action Line</text>
 
-        <!-- 火箭: 行为发生点 -->
+        <!-- 鐏: 琛屼负鍙戠敓鐐?-->
         <g class="rocket" transform="translate(350, 200)">
-          <!-- 火焰 -->
+          <!-- 鐏劙 -->
           <path class="fire" d="M0,80 L-10,120 L0,110 L10,120 Z" fill="#ef4444" />
-          <!-- 箭身 -->
+          <!-- 绠韩 -->
           <rect x="-20" y="0" width="40" height="80" rx="10" fill="#3b82f6" />
           <path d="M-20,0 Q0,-40 20,0" fill="#60a5fa" />
           <circle cx="0" cy="20" r="8" fill="white" fill-opacity="0.3" />
-          <text text-anchor="middle" y="50" fill="white" class="font-black text-[10px]">B=MAP</text>
+          <text text-anchor="middle" y="50" fill="white" class="font-black text-[10px]">B=MA计划</text>
         </g>
 
-        <!-- 坐标轴 -->
+        <!-- 鍧愭爣杞?-->
         <line x1="50" y1="550" x2="550" y2="550" stroke="#475569" stroke-width="2" />
         <line x1="50" y1="550" x2="50" y2="50" stroke="#475569" stroke-width="2" />
-        <text x="540" y="580" text-anchor="end" fill="#3b82f6" class="font-black text-[10px] uppercase tracking-widest italic">Ability (能力/简易度)</text>
-        <text x="40" y="60" text-anchor="middle" fill="#60a5fa" class="font-black text-[10px] uppercase tracking-widest italic" transform="rotate(-90 40 60)">Motivation (动机)</text>
+        <text x="540" y="580" text-anchor="end" fill="#3b82f6" class="font-black text-[10px] uppercase tracking-widest italic">Ability (鑳藉姏/绠€鏄撳害)</text>
+        <text x="40" y="60" text-anchor="middle" fill="#60a5fa" class="font-black text-[10px] uppercase tracking-widest italic" transform="rotate(-90 40 60)">Motivation (鍔ㄦ満)</text>
 
-        <!-- 提示点 (Prompts) -->
+        <!-- 鎻愮ず鐐?(计划rompts) -->
         <circle cx="350" cy="200" r="10" fill="#fbbf24" class="animate-ping" />
-        <text x="370" y="190" fill="#fbbf24" class="font-black text-[8px] uppercase tracking-widest italic">Prompt (触发信号)</text>
+        <text x="370" y="190" fill="#fbbf24" class="font-black text-[8px] uppercase tracking-widest italic">计划rompt (瑙﹀彂淇″彿)</text>
       </svg>
     </div>
 
-    <!-- 文案内容区 -->
+    <!-- 鏂囨鍐呭鍖?-->
     <div class="space-y-12">
-      <h1 class="text-8xl font-black text-white tracking-tighter leading-[0.8]">福格行为<br><span class="text-blue-500 italic">Fogg Model</span></h1>
+      <h1 class="text-8xl font-black text-white tracking-tighter leading-[0.8]">绂忔牸琛屼负<br><span class="text-blue-500 italic">Fogg Model</span></h1>
       <p class="text-xl text-slate-400 border-l-4 border-blue-500 pl-6 leading-relaxed italic">
-        “行为发生在动机、能力、触发三个要素同时具备的瞬间。”
+        鈥滆涓哄彂鐢熷湪鍔ㄦ満銆佽兘鍔涖€佽Е鍙戜笁涓绱犲悓鏃跺叿澶囩殑鐬棿銆傗€?
       </p>
 
       <div class="glass p-10 rounded-[3rem] space-y-6">
-        <h3 class="text-2xl font-black text-white italic">核心隐喻：火箭发射</h3>
+        <h3 class="text-2xl font-black text-white italic">鏍稿績闅愬柣锛氱伀绠彂灏?/h3>
         <p class="text-sm text-slate-400 leading-relaxed">
-          只有当燃料充足（<b>动机 Motivation</b>）、火箭足够轻（<b>能力/简易度 Ability</b>）且点火指令下达（<b>触发 Prompt</b>）时，发射（行为）才会发生。如果行为没发生，必定是其中一个维度出现了短板。
+          鍙湁褰撶噧鏂欏厖瓒筹紙<b>鍔ㄦ満 Motivation</b>锛夈€佺伀绠冻澶熻交锛?b>鑳藉姏/绠€鏄撳害 Ability</b>锛変笖鐐圭伀鎸囦护涓嬭揪锛?b>瑙﹀彂 计划rompt</b>锛夋椂锛屽彂灏勶紙琛屼负锛夋墠浼氬彂鐢熴€傚鏋滆涓烘病鍙戠敓锛屽繀瀹氭槸鍏朵腑涓€涓淮搴﹀嚭鐜颁簡鐭澘銆?
         </p>
         <div class="grid grid-cols-2 gap-4">
           <div class="bg-blue-600/10 p-5 rounded-3xl border border-blue-500/20">
-             <h4 class="text-blue-400 font-black text-[10px] uppercase mb-1">设计秘诀</h4>
-             <p class="text-[11px] text-slate-300">增加动机很难，但降低难度却立竿见影。</p>
+             <h4 class="text-blue-400 font-black text-[10px] uppercase mb-1">璁捐绉樿瘈</h4>
+             <p class="text-[11px] text-slate-300">澧炲姞鍔ㄦ満寰堥毦锛屼絾闄嶄綆闅惧害鍗寸珛绔胯褰便€?/p>
           </div>
           <div class="bg-white/5 p-5 rounded-3xl border border-white/5">
-             <h4 class="text-slate-500 font-black text-[10px] uppercase mb-1">触发逻辑</h4>
-             <p class="text-[11px] text-slate-400">将行为锚定在已有的习惯之后（Tiny Habits）。</p>
+             <h4 class="text-slate-500 font-black text-[10px] uppercase mb-1">瑙﹀彂閫昏緫</h4>
+             <p class="text-[11px] text-slate-400">灏嗚涓洪敋瀹氬湪宸叉湁鐨勪範鎯箣鍚庯紙Tiny Habits锛夈€?/p>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</body>
+  </div></body>
 </html>

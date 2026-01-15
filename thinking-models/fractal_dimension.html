@@ -1,56 +1,98 @@
-
 <!DOCTYPE html>
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
   <title>分形维数</title>
-</head>
-<body>
-  <div class="neu-card">
-    <svg viewBox="0 0 1000 650">
-      <g transform="translate(500, 325)">
-        <!-- 科赫曲线分形模拟 -->
-        <g stroke="var(--accent)" stroke-width="2" fill="none">
-          <path d="M-400,0 L-133,0 L0,-230 L133,0 L400,0" opacity="0.3" />
-          <g transform="scale(0.33) translate(0, -230)">
-             <path d="M-400,0 L-133,0 L0,-230 L133,0 L400,0" stroke-width="6" />
-          </g>
-          <animateTransform attributeName="transform" type="scale" values="1;1.5;1" dur="4s" repeatCount="indefinite" />
-        </g>
-        
-        <!-- 尺度滑块 -->
-        <g transform="translate(0, 200)">
-          <line x1="-300" y1="0" x2="300" y2="0" stroke="var(--heading)" stroke-width="1" opacity="0.2" />
-          <circle cx="-300" cy="0" r="10" fill="var(--accent)">
-            <animate attributeName="cx" from="-300" to="300" dur="4s" repeatCount="indefinite" />
-          </circle>
-          <text y="40" text-anchor="middle" fill="var(--accent)" style="font-size: 24px; font-weight: 900;">尺度愈细 复杂度愈深</text>
-        </g>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
 
-        <text y="-260" text-anchor="middle" fill="var(--accent)" style="font-size: 48px; font-weight: 900;">1 < D < 2</text>
-        <text y="-220" text-anchor="middle" fill="var(--text)" opacity="0.5" style="font-size: 14px;">(介于线与面之间的真实世界)</text>
-      </g>
-    </svg>
-  </div>
-  <div class="text-content">
-    <h1>分形维数 (Fractal Dimension)</h1>
-    <p>曼德博指出：真实世界的边界（如海岸线、云朵、大脑皮层）其长度取决于你测量的尺子有多小。由于自相似性的嵌套，现实的复杂度不是整数，它永远在尺度的变换中展现出无穷的细节。</p>
-    <div class="grid">
-      <div>
-        <h3>自相似逻辑</h3>
-        <ul>
-          <li><strong>尺度不变性：</strong>局部是整体的缩影。如果你在微观层面处理不好一个 Bug，由于组织的分形特质，你在宏观架构上必然会遇到同样类型的崩塌。</li>
-          <li><strong>细节的欺骗：</strong>在分形系统中，没有任何一个尺度能代表全局。想要理解系统，必须具备跨尺度的观察力。</li>
-        </ul>
-      </div>
-      <div>
-        <h3>管理与工程</h3>
-        <ul>
-          <li><strong>管理分形：</strong>优秀的文化必须在每一个 3 人的小组内和 3 万人的总部内保持自相似。如果底层的分形基因坏了，规模扩张只是在复制错误。</li>
-          <li><strong>无限复杂度处理：</strong>面对具有分形特征的问题（如用户需求），不要试图穷尽所有细节，要定义那个能无限生成细节的“自相似算法”。</li>
-        </ul>
+
+    
+    body {
+      background: #ffffff;
+      font-family: -apple-system, sans-serif;
+      color: #64748b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: auto;
+    }
+    .neu-card {
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 4rem;
+      padding: 2rem;
+      box-shadow: 20px 20px 60px rgba(0, 0, 0, 0.5), -20px -20px 60px rgba(255, 255, 255, 0.02);
+    }
+    .text-content {
+      color: #64748b;
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 0 2rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>data-theme="light" class="p-8">
+  <div class="max-w-7xl mx-auto w-full grid grid-cols-1 gap-20">
+    <!-- SVG图表区域 -->
+    <div class="neu-card p-12 flex items-center justify-center">
+      <svg viewBox="0 0 1000 650" class="w-full h-auto">
+        <g transform="translate(500, 325)">
+          <!-- 科赫曲线分形模拟 -->
+          <g stroke="#ef4444" stroke-width="2" fill="none">
+            <path d="M-400,0 L-133,0 L0,-230 L133,0 L400,0" opacity="0.3" />
+            <g transform="scale(0.33) translate(0, -230)">
+               <path d="M-400,0 L-133,0 L0,-230 L133,0 L400,0" stroke-width="6" />
+            </g>
+            <animateTransform attributeName="transform" type="scale" values="1;1.5;1" dur="4s" repeatCount="indefinite" />
+          </g>
+          
+          <!-- 尺度滑块 -->
+          <g transform="translate(0, 200)">
+            <line x1="-300" y1="0" x2="300" y2="0" stroke="#1e293b" stroke-width="1" opacity="0.2" />
+            <circle cx="-300" cy="0" r="10" fill="#ef4444">
+              <animate attributeName="cx" from="-300" to="300" dur="4s" repeatCount="indefinite" />
+            </circle>
+            <text y="40" text-anchor="middle" fill="#ef4444" style="font-size: 24px; font-weight: 900;">尺度愈细 复杂度愈深</text>
+          </g>
+
+          <text y="-260" text-anchor="middle" fill="#ef4444" style="font-size: 48px; font-weight: 900;">1 &lt; 维度 &lt; 2</text>
+          <text y="-220" text-anchor="middle" fill="#64748b" opacity="0.5" style="font-size: 14px;">(介于线与面之间的真实世界)</text>
+        </g>
+      </svg>
+    </div>
+
+    <!-- 文档内容区域 -->
+    <div class="text-content">
+      <h1 class="text-8xl font-black text-white tracking-tighter leading-[0.8]">分形维数<br><span class="text-blue-500 italic">Fractal Dimension</span></h1>
+      <p class="text-xl text-slate-400 border-l-4 border-blue-500 pl-6 leading-relaxed italic">
+        "真实世界的边界其长度取决于你测量的尺子有多小。"
+      </p>
+
+      <div class="grid">
+        <div class="bg-blue-600/10 p-6 rounded-3xl border border-blue-500/20">
+          <h3 class="text-2xl font-black text-white mb-4">自相似逻辑</h3>
+          <ul class="text-slate-300 space-y-2">
+            <li><strong>尺度不变性：</strong>局部是整体的缩影。如果你在微观层面处理不好一个 Bug，由于组织的分形特质，你在宏观架构上必然会遇到同样类型的崩塌。</li>
+            <li><strong>细节的欺骗：</strong>在分形系统中，没有任何一个尺度能代表全局。想要理解系统，必须具备跨尺度的观察力。</li>
+          </ul>
+        </div>
+        <div class="bg-white/5 p-6 rounded-3xl border border-white/5">
+          <h3 class="text-2xl font-black text-white mb-4">管理与工程</h3>
+          <ul class="text-slate-300 space-y-2">
+            <li><strong>管理分形：</strong>优秀的文化必须在每一个 3 人的小组内和 3 万人的总部内保持自相似。如果底层的分形基因坏了，规模扩张只是在复制错误。</li>
+            <li><strong>无限复杂度处理：</strong>面对具有分形特征的问题（如用户需求），不要试图穷尽所有细节，要定义那个能无限生成细节的“自相似算法”。</li>
+          </ul>
+        </div>
       </div>
     </div>
-  </div>
-</body>
+  </div></body>
 </html>

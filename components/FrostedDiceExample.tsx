@@ -1,17 +1,20 @@
 import React from 'react';
 import { Dice5, Sparkles, Coins, Star, Clock } from 'lucide-react';
 import { DiceState, DiceTask, DiceCategory } from '../types';
+import { getNeomorphicStyles, getCardBgStyle, getTextStyle } from '../utils/styleHelpers';
 
 interface FrostedDiceExampleProps {
   diceState?: DiceState;
   isDark?: boolean;
   isNeomorphic?: boolean;
+  theme?: string;
 }
 
 const FrostedDiceExample: React.FC<FrostedDiceExampleProps> = ({ 
   diceState, 
   isDark = false, 
-  isNeomorphic = false 
+  isNeomorphic = false,
+  theme
 }) => {
   // 生成示例骰子结果
   const exampleResult: DiceTask = {
@@ -23,24 +26,15 @@ const FrostedDiceExample: React.FC<FrostedDiceExampleProps> = ({
     duration: 30
   };
 
+  const isNeomorphicDark = theme === 'neomorphic-dark';
+  
   // 拟态风格样式变量
-  const neomorphicStyles = {
-    bg: 'bg-[#e0e5ec]',
-    border: 'border-[#e0e5ec]',
-    shadow: 'shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]',
-    hoverShadow: 'hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)]',
-    activeShadow: 'active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]',
-    transition: 'transition-all duration-200'
-  };
+  const neomorphicStyles = getNeomorphicStyles(isNeomorphicDark);
 
   // 卡片背景样式 - 包含磨砂质感效果
-  const cardBg = isNeomorphic 
-      ? `${neomorphicStyles.bg} ${neomorphicStyles.border} rounded-[48px] ${neomorphicStyles.shadow} ${neomorphicStyles.hoverShadow} ${neomorphicStyles.activeShadow} ${neomorphicStyles.transition}` 
-      : isDark 
-      ? 'bg-zinc-900 border-zinc-800 shadow-[inset_-15px_-15px_30px_rgba(255,255,255,0.05),inset_15px_15px_30px_rgba(0,0,0,0.3)]' 
-      : 'bg-white border-slate-200 shadow-[inset_-15px_-15px_30px_rgba(255,255,255,0.8),inset_15px_15px_30px_rgba(0,0,0,0.1)]';
+  const cardBg = getCardBgStyle(isNeomorphic, theme, isDark);
 
-  const textMain = isDark ? 'text-zinc-200' : isNeomorphic ? 'text-zinc-700' : 'text-slate-800';
+  const textMain = getTextStyle(isDark, isNeomorphic, 'main');
 
   return (
     <div className="space-y-6 p-6 max-w-2xl mx-auto">
@@ -50,9 +44,9 @@ const FrostedDiceExample: React.FC<FrostedDiceExampleProps> = ({
       <div className="bg-gray-100 dark:bg-gray-900 p-8 rounded-2xl shadow-lg">
         <h2 className="text-xl font-bold mb-4 text-center">磨砂质感骰子按钮</h2>
         <div className="flex justify-center">
-          <button 
-            className={`relative w-24 h-24 rounded-full flex items-center justify-center transition-all duration-300 transform ${diceState?.isSpinning ? 'animate-[spin_2s_ease-in-out]' : 'hover:scale-110 hover:rotate-12'} ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]' : isDark ? 'bg-gradient-to-br from-zinc-800 to-zinc-900 border-zinc-700' : 'bg-gradient-to-br from-white to-slate-100 border-slate-200'} border-4 ${diceState?.isSpinning ? 'border-yellow-500' : 'border-blue-500'} shadow-lg hover:shadow-xl group`}
-          >
+            <button 
+              className={`relative w-24 h-24 rounded-full flex items-center justify-center transition-all duration-300 transform ${diceState?.isSpinning ? 'animate-[spin_2s_ease-in-out]' : 'hover:scale-110 hover:rotate-12'} ${isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.shadow}` : isDark ? 'bg-gradient-to-br from-zinc-800 to-zinc-900 border-zinc-700' : 'bg-gradient-to-br from-white to-slate-100 border-slate-200'} border-4 ${diceState?.isSpinning ? 'border-yellow-500' : 'border-blue-500'} shadow-lg hover:shadow-xl group`}
+            >
             {/* 3D骰子效果容器 - 磨砂质感核心实现 */}
             <div className={`relative transition-all duration-500 ${diceState?.isSpinning ? 'animate-[spin_1s_linear_infinite]' : 'animate-[rotate3d_5s_linear_infinite]'}`} style={{ perspective: '500px' }}>
               {/* 骰子立体磨砂效果 */}
@@ -194,8 +188,8 @@ const FrostedDiceExample: React.FC<FrostedDiceExampleProps> = ({
           <div>
             <h3 className="font-semibold mb-2">拟态设计（Neomorphic）磨砂效果：</h3>
             <ul className="list-disc list-inside space-y-1 text-gray-600 dark:text-gray-400">
-              <li><code>bg-[#e0e5ec]</code> - 拟态背景色</li>
-              <li><code>shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]</code> - 拟态阴影</li>
+              <li><code>{neomorphicStyles.bg}</code> - 拟态背景色</li>
+              <li><code>{neomorphicStyles.shadow}</code> - 拟态阴影</li>
               <li><code>perspective: '500px'</code> - 3D透视效果</li>
               <li><code>transformStyle: 'preserve-3d'</code> - 3D变换样式</li>
             </ul>

@@ -1,39 +1,38 @@
-
+<!DOCTYPE html>
 <!DOCTYPE html>
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>峰终定律</title>
-</head>
-<body>
+  <title>峰终定律</title></head>
+<body >
   <div class="neu-card">
     <svg viewBox="0 0 1000 600">
       <!-- 坐标轴 -->
-      <line x1="100" y1="500" x2="900" y2="500" stroke="var(--heading)" stroke-width="2" opacity="0.1" />
-      <text x="900" y="530" text-anchor="end" fill="var(--text)" opacity="0.3" style="font-size: 10px;">体验时间 →</text>
+      <line x1="100" y1="500" x2="900" y2="500" stroke="#1e293b" stroke-width="2" opacity="0.1" />
+      <text x="900" y="530" text-anchor="end" fill="#64748b" opacity="0.3" style="font-size: 10px;">体验时间 →</text>
 
       <!-- 体验曲线 -->
-      <path d="M100,450 Q200,450 300,100 T500,400 T700,150 T900,150" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="10 5" opacity="0.2" />
+      <path d="M100,450 Q200,450 300,100 T500,400 T700,150 T900,150" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="10 5" opacity="0.2" />
       
-      <!-- 峰值 (PEAK) -->
+      <!-- 峰值 (计划EaK) -->
       <g transform="translate(300, 100)">
         <circle r="40" fill="#ef4444" fill-opacity="0.1" class="animate-ping" />
         <circle r="15" fill="#ef4444" />
-        <text y="-30" text-anchor="middle" fill="#ef4444" style="font-size: 14px; font-weight: 900;">峰值 (PEAK)</text>
+        <text y="-30" text-anchor="middle" fill="#ef4444" style="font-size: 14px; font-weight: 900;">峰值 (计划EaK)</text>
       </g>
 
-      <!-- 结尾 (END) -->
+      <!-- 结尾 (ENd) -->
       <g transform="translate(900, 150)">
         <circle r="40" fill="#10b981" fill-opacity="0.1" class="animate-ping" />
         <circle r="15" fill="#10b981" />
-        <text x="-40" y="-30" text-anchor="end" fill="#10b981" style="font-size: 14px; font-weight: 900;">终点 (END)</text>
+        <text x="-40" y="-30" text-anchor="end" fill="#10b981" style="font-size: 14px; font-weight: 900;">终点 (ENd)</text>
       </g>
 
       <!-- 记忆平均线 -->
-      <line x1="300" y1="125" x2="900" y2="150" stroke="var(--accent)" stroke-width="4" stroke-linecap="round">
+      <line x1="300" y1="125" x2="900" y2="150" stroke="#ef4444" stroke-width="4" stroke-linecap="round">
         <animate attributeName="stroke-dasharray" from="0,600" to="600,0" dur="2s" fill="freeze" />
       </line>
-      <text x="600" y="120" text-anchor="middle" fill="var(--accent)" style="font-size: 16px; font-weight: 900;">主观记忆 = (峰 + 终) / 2</text>
+      <text x="600" y="120" text-anchor="middle" fill="#ef4444" style="font-size: 16px; font-weight: 900;">主观记忆 = (峰 + 终) / 2</text>
     </svg>
   </div>
 
@@ -56,6 +55,5 @@
         </ul>
       </div>
     </div>
-  </div>
-</body>
+  </div></body>
 </html>

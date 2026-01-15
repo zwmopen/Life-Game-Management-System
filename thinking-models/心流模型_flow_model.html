@@ -3,36 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>心流模型 - 动态体验</title>
+  <title>蹇冩祦妯″瀷 - 鍔ㄦ€佷綋楠?/title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body { background: #fdf2f8; font-family: 'Inter', sans-serif; }
+
+
+    body { background: #fdf2f8; font-family: '我nter', sans-serif; }
     .flow-channel { animation: pulse-channel 4s infinite ease-in-out; }
     @keyframes pulse-channel { 0%, 100% { fill-opacity: 0.1; } 50% { fill-opacity: 0.2; } }
     .particle { animation: travel 8s infinite linear; }
     @keyframes travel { from { stroke-dashoffset: 1000; } to { stroke-dashoffset: 0; } }
   </style>
 </head>
-<body class="p-8 md:p-16 flex items-center justify-center min-h-screen">
-  <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+<body>data-theme="light" class="p-8 md:p-16 flex items-center justify-center min-h-screen">
+  <div class="max-w-7xl mx-auto w-full grid grid-cols-1 gap-20">
     <div class="space-y-8">
-      <h1 class="text-7xl font-black text-pink-900 leading-[0.9]">心流模型<br><span class="text-pink-500">Flow Model</span></h1>
+      <h1 class="text-7xl font-black text-pink-900 leading-[0.9]">蹇冩祦妯″瀷<br><span class="text-pink-500">Flow Model</span></h1>
       <p class="text-xl text-pink-700 italic border-l-4 border-pink-400 pl-6">
-        “当挑战与技能处于微妙的平衡时，自我感消失，时间感扭曲。”
+        鈥滃綋鎸戞垬涓庢妧鑳藉浜庡井濡欑殑骞宠　鏃讹紝鑷垜鎰熸秷澶憋紝鏃堕棿鎰熸壄鏇层€傗€?
       </p>
       
       <div class="space-y-4">
         <div class="p-6 bg-white border border-pink-100 rounded-3xl shadow-sm">
-          <h4 class="font-black text-pink-800 mb-1 uppercase">焦虑区 (Anxiety)</h4>
-          <p class="text-[10px] text-slate-400">挑战过高，技能不足。感到压力与恐惧。</p>
+          <h4 class="font-black text-pink-800 mb-1 uppercase">鐒﹁檻鍖?(Anxiety)</h4>
+          <p class="text-[10px] text-slate-400">鎸戞垬杩囬珮锛屾妧鑳戒笉瓒炽€傛劅鍒板帇鍔涗笌鎭愭儳銆?/p>
         </div>
         <div class="p-6 bg-pink-600 rounded-3xl text-white shadow-xl shadow-pink-500/20">
-          <h4 class="font-black mb-1 uppercase">心流通道 (Flow)</h4>
-          <p class="text-[10px] opacity-80">沉浸、效率巅峰、极致喜悦。</p>
+          <h4 class="font-black mb-1 uppercase">蹇冩祦閫氶亾 (Flow)</h4>
+          <p class="text-[10px] opacity-80">娌夋蹈銆佹晥鐜囧穮宄般€佹瀬鑷村枩鎮︺€?/p>
         </div>
         <div class="p-6 bg-white border border-pink-100 rounded-3xl shadow-sm">
-          <h4 class="font-black text-pink-800 mb-1 uppercase">无聊区 (Boredom)</h4>
-          <p class="text-[10px] text-slate-400">技能过高，挑战不足。感到重复与厌倦。</p>
+          <h4 class="font-black text-pink-800 mb-1 uppercase">鏃犺亰鍖?(Boredom)</h4>
+          <p class="text-[10px] text-slate-400">鎶€鑳借繃楂橈紝鎸戞垬涓嶈冻銆傛劅鍒伴噸澶嶄笌鍘屽€︺€?/p>
         </div>
       </div>
     </div>
@@ -42,22 +44,21 @@
         {/* Axes */}
         <line x1="100" y1="500" x2="550" y2="500" stroke="#cbd5e1" stroke-width="2" />
         <line x1="100" y1="500" x2="100" y2="50" stroke="#cbd5e1" stroke-width="2" />
-        <text x="540" y="530" text-anchor="end" fill="#94a3b8" class="font-black text-[10px] uppercase">技能 (Skills)</text>
-        <text x="70" y="60" text-anchor="middle" fill="#94a3b8" class="font-black text-[10px] uppercase" transform="rotate(-90 70 60)">挑战 (Challenges)</text>
+        <text x="540" y="530" text-anchor="end" fill="#94a3b8" class="font-black text-[10px] uppercase">鎶€鑳?(Skills)</text>
+        <text x="70" y="60" text-anchor="middle" fill="#94a3b8" class="font-black text-[10px] uppercase" transform="rotate(-90 70 60)">鎸戞垬 (Challenges)</text>
         
         {/* Flow Channel */}
         <path d="M100,500 L550,50 L550,200 L250,500 Z" fill="#ec4899" class="flow-channel" />
         <line x1="100" y1="500" x2="550" y2="50" stroke="#ec4899" stroke-width="4" stroke-dasharray="10 5" class="particle" />
         
-        <text x="350" y="250" text-anchor="middle" fill="#be185d" class="font-black text-4xl uppercase tracking-[0.3em] opacity-30">FLOW</text>
+        <text x="350" y="250" text-anchor="middle" fill="#be185d" class="font-black text-4xl uppercase tracking-[0.3em] opacity-30">心流</text>
         
         {/* Zones */}
-        <text x="200" y="150" text-anchor="middle" fill="#fb7185" class="font-bold text-xs">ANXIETY</text>
-        <text x="450" y="400" text-anchor="middle" fill="#f472b6" class="font-bold text-xs">BOREDOM</text>
+        <text x="200" y="150" text-anchor="middle" fill="#fb7185" class="font-bold text-xs">焦虑</text>
+        <text x="450" y="400" text-anchor="middle" fill="#f472b6" class="font-bold text-xs">无聊</text>
         
         <circle cx="100" cy="500" r="10" fill="#be185d" />
       </svg>
     </div>
-  </div>
-</body>
+  </div></body>
 </html>

@@ -1,10 +1,13 @@
 import React, { useState, useMemo, Suspense, lazy } from 'react';
 import { Theme } from '../types';
-import { Search, BookOpen } from 'lucide-react';
+import { Search, BookOpen, Settings, ChevronLeft, ChevronRight } from 'lucide-react';
 import thinkingModels from './thinkingModels.json';
+import { GlobalHelpButton } from './HelpSystem';
+import { getNeomorphicStyles, getCardBgStyle, getTextStyle } from '../utils/styleHelpers';
 
 interface ThinkingCenterProps {
   theme: Theme;
+  onHelpClick?: (helpId: string) => void;
 }
 
 // HTML sanitization function to filter unsafe content
@@ -106,47 +109,24 @@ const ModelButton = ({ children, onClick, isActive, theme }: { children: React.R
   );
 };
 
-const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme }) => {
+const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme, onHelpClick }) => {
   const isDark = theme === 'dark' || theme === 'neomorphic-dark';
   const isNeomorphic = theme.startsWith('neomorphic');
   
-  // 拟态风格样式变量 - 与MissionControl保持一致
-  const neomorphicStyles = {
-    light: {
-      bg: 'bg-[#e0e5ec]',
-      border: 'border-[#e0e5ec]',
-      shadow: 'shadow-[8px_8px_16px_rgba(163,177,198,0.2),-8px_-8px_16px_rgba(255,255,255,0.8)] rounded-[24px]',
-      hoverShadow: 'hover:shadow-[10px_10px_20px_rgba(163,177,198,0.3),-10px_-10px_20px_rgba(255,255,255,0.9)] rounded-[24px]',
-      transition: 'transition-all duration-200'
-    },
-    dark: {
-      bg: 'bg-[#1e1e2e]',
-      border: 'border-[#1e1e2e]',
-      shadow: 'shadow-[8px_8px_16px_rgba(0,0,0,0.4),-8px_-8px_16px_rgba(30,30,46,0.8)] rounded-[24px]',
-      hoverShadow: 'hover:shadow-[10px_10px_20px_rgba(0,0,0,0.5),-10px_-10px_20px_rgba(30,30,46,1)] rounded-[24px]',
-      transition: 'transition-all duration-200'
-    }
-  };
-  
-  const currentNeomorphicStyle = neomorphicStyles[theme === 'neomorphic-dark' ? 'dark' : 'light'];
+  const isNeomorphicDark = theme === 'neomorphic-dark';
+  const neomorphicStyles = getNeomorphicStyles(isNeomorphicDark);
   
   // Theme-specific styles
   const bgClass = isDark 
     ? (isNeomorphic ? 'bg-[#1e1e2e]' : 'bg-zinc-950') 
     : (isNeomorphic ? 'bg-[#e0e5ec]' : 'bg-slate-50');
   
-  const cardBg = isDark 
-      ? (isNeomorphic 
-        ? `${currentNeomorphicStyle.bg} ${currentNeomorphicStyle.border} ${currentNeomorphicStyle.shadow} ${currentNeomorphicStyle.hoverShadow} transition-all duration-300` 
-        : 'bg-zinc-900 shadow-xl hover:shadow-2xl transition-all duration-300')
-      : (isNeomorphic 
-        ? `${currentNeomorphicStyle.bg} ${currentNeomorphicStyle.border} ${currentNeomorphicStyle.shadow} ${currentNeomorphicStyle.hoverShadow} transition-all duration-300` 
-        : 'bg-white shadow-xl hover:shadow-2xl transition-all duration-300');
+  const cardBg = getCardBgStyle(isNeomorphic, theme, isDark);
   
   // 将字体颜色统一设置为黑色或白色，确保可读性
-  const textMain = isDark ? 'text-zinc-200' : 'text-black';
-  const textSub = isDark ? 'text-zinc-500' : 'text-gray-700';
-  
+  const textMain = getTextStyle(isDark, isNeomorphic, 'main');
+  const textSub = getTextStyle(isDark, isNeomorphic, 'sub');
+
   // 生成搜索框样式类
   const getSearchInputClass = () => {
     const baseClass = 'w-full px-4 py-2 pr-10 rounded-[24px] text-sm border transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500/50';
@@ -197,6 +177,32 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme }) => {
     // 更新当前激活的模型和上一次点击的模型
     setActiveModel(modelId);
     setPreviousModel(modelId);
+  };
+
+  // 快速切换到上一个模型
+  const handlePrevModel = () => {
+    if (filteredModels.length <= 1) return;
+    const currentIndex = filteredModels.findIndex(m => m.id === activeModel);
+    // 如果当前模型不在过滤后的列表中（比如正在搜索），则跳转到第一个
+    if (currentIndex === -1) {
+      handleModelClick(filteredModels[0].id);
+      return;
+    }
+    const prevIndex = (currentIndex - 1 + filteredModels.length) % filteredModels.length;
+    handleModelClick(filteredModels[prevIndex].id);
+  };
+
+  // 快速切换到下一个模型
+  const handleNextModel = () => {
+    if (filteredModels.length <= 1) return;
+    const currentIndex = filteredModels.findIndex(m => m.id === activeModel);
+    // 如果当前模型不在过滤后的列表中，则跳转到第一个
+    if (currentIndex === -1) {
+      handleModelClick(filteredModels[0].id);
+      return;
+    }
+    const nextIndex = (currentIndex + 1) % filteredModels.length;
+    handleModelClick(filteredModels[nextIndex].id);
   };
   
   // Filter and sort models based on search term and view counts
@@ -260,22 +266,63 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme }) => {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col gap-6">
+          {/* Header with Help Button */}
+          <div className="flex items-center justify-between">
+            <h1 className={`text-2xl font-bold flex items-center gap-2 ${textMain}`}>
+              <BookOpen className="text-blue-500" /> 思维中心
+            </h1>
+            {onHelpClick && (
+              <GlobalHelpButton 
+                helpId="thinkingCenter" 
+                onHelpClick={onHelpClick} 
+                size={18} 
+                variant="ghost" 
+              />
+            )}
+          </div>
+
           {/* Search and Model Switcher */}
           <div className={`${cardBg} p-5 rounded-3xl border w-full`}>
-            {/* Search Bar */}
+            {/* Search Bar with Arrows */}
             <div className="mb-3">
-              <div className="relative">
-                {/* 拟态风格搜索框 */}
-                <input
-                  type="text"
-                  placeholder="搜索思维模型..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className={getSearchInputClass()}
-                />
-                <div className={`absolute right-3 top-1/2 transform -translate-y-1/2 transition-all duration-300 ${isDark ? 'text-zinc-400 hover:text-zinc-300' : 'text-slate-500 hover:text-slate-400'}`}>
-                  <Search size={18} />
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={handlePrevModel}
+                  className={`p-2 rounded-full transition-all duration-300 flex-shrink-0 ${
+                    isNeomorphic 
+                      ? (isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[4px_4px_8px_rgba(0,0,0,0.4),-4px_-4px_8px_rgba(30,30,46,0.8)] active:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.5)]' : 'bg-[#e0e5ec] shadow-[3px_3px_6px_rgba(163,177,198,0.4),-3px_-3px_6px_rgba(255,255,255,0.8)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.5)]')
+                      : (isDark ? 'bg-zinc-800 hover:bg-zinc-700 text-white' : 'bg-white hover:bg-slate-100 border border-slate-200 shadow-sm')
+                  } ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}
+                  title="上一个模型"
+                >
+                  <ChevronLeft size={20} />
+                </button>
+
+                <div className="relative flex-1">
+                  {/* 拟态风格搜索框 */}
+                  <input
+                    type="text"
+                    placeholder="搜索思维模型..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className={getSearchInputClass()}
+                  />
+                  <div className={`absolute right-3 top-1/2 transform -translate-y-1/2 transition-all duration-300 ${isDark ? 'text-zinc-400 hover:text-zinc-300' : 'text-slate-500 hover:text-slate-400'}`}>
+                    <Search size={18} />
+                  </div>
                 </div>
+
+                <button
+                  onClick={handleNextModel}
+                  className={`p-2 rounded-full transition-all duration-300 flex-shrink-0 ${
+                    isNeomorphic 
+                      ? (isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[4px_4px_8px_rgba(0,0,0,0.4),-4px_-4px_8px_rgba(30,30,46,0.8)] active:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.5)]' : 'bg-[#e0e5ec] shadow-[3px_3px_6px_rgba(163,177,198,0.4),-3px_-3px_6px_rgba(255,255,255,0.8)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.5)]')
+                      : (isDark ? 'bg-zinc-800 hover:bg-zinc-700 text-white' : 'bg-white hover:bg-slate-100 border border-slate-200 shadow-sm')
+                  } ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}
+                  title="下一个模型"
+                >
+                  <ChevronRight size={20} />
+                </button>
               </div>
             </div>
             
@@ -305,7 +352,7 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme }) => {
               <p className={`text-sm ${textSub} mt-0`}>{currentModel.description}</p>
               
               {/* Visual Design - Lazy loaded with error handling */}
-              <div className={`rounded-xl p-4 border transition-all duration-200 ${isDark ? (isNeomorphic ? 'bg-[#1e1e2e] border-[#1e1e2e] shadow-[8px_8px_16px_rgba(0,0,0,0.3),-8px_-8px_16px_rgba(40,43,52,0.8)]' : 'bg-zinc-900 border-zinc-800') : (isNeomorphic ? `${currentNeomorphicStyle.bg} ${currentNeomorphicStyle.border} ${currentNeomorphicStyle.shadow}` : 'bg-white border-slate-200')}`}>
+              <div className={`rounded-xl p-4 border transition-all duration-200 ${isDark ? (isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow}` : 'bg-zinc-900 border-zinc-800') : (isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow}` : 'bg-white border-slate-200')}`}>
                 {currentModel && currentModel.visualDesign ? (
                   <ModelErrorBoundary
                     fallback={

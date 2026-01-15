@@ -2,9 +2,11 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>汉隆剃刀 - 剔除恶意</title>
+  <title>姹夐殕鍓冨垁 - 鍓旈櫎鎭舵剰</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
+
+
     body { background: #020617; font-family: -apple-system, sans-serif; color: #f8fafc; }
     .glass { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); }
     @keyframes split { 0% { transform: translateY(-50px); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
@@ -12,60 +14,59 @@
     .filter-gate:hover { fill-opacity: 0.2; stroke-width: 4; }
   </style>
 </head>
-<body class="p-8 md:p-20 flex items-center justify-center min-h-screen">
-  <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-    <!-- SVG 可视化 -->
+<body>data-theme="light" class="p-8 md:p-20 flex items-center justify-center min-h-screen">
+  <div class="max-w-7xl mx-auto w-full grid grid-cols-1 gap-20">
+    <!-- SVG 鍙鍖?-->
     <div class="relative flex items-center justify-center glass p-12 rounded-[4rem] shadow-2xl overflow-hidden">
       <svg viewBox="0 0 600 600" class="w-full h-auto max-w-[500px]">
-        <!-- 顶端：冲突事件 (暗色) -->
+        <!-- 椤剁锛氬啿绐佷簨浠?(鏆楄壊) -->
         <path d="M100,100 Q300,50 500,100 L500,150 L100,150 Z" fill="#475569" class="animate-pulse" />
         <text x="300" y="130" text-anchor="middle" fill="white" class="font-black text-xs uppercase tracking-widest italic">Conflict / Mistake</text>
 
-        <!-- 剃刀/过滤器 -->
+        <!-- 鍓冨垁/杩囨护鍣?-->
         <rect x="50" y="250" width="500" height="20" rx="10" fill="#3b82f6" />
         <text x="300" y="235" text-anchor="middle" fill="#3b82f6" class="font-black text-[8px] uppercase tracking-[0.5em]">The Rational Razor</text>
 
-        <!-- 过滤结果 A: 恶意 (被挡住) -->
+        <!-- 杩囨护缁撴灉 A: 鎭舵剰 (琚尅浣? -->
         <g opacity="0.2">
           <path d="M150,270 L250,270 L200,350 Z" fill="#ef4444" />
-          <text x="200" y="380" text-anchor="middle" fill="#ef4444" class="text-[8px] font-black italic">MALICE (恶意)</text>
+          <text x="200" y="380" text-anchor="middle" fill="#ef4444" class="text-[8px] font-black italic">MAL我CE (鎭舵剰)</text>
         </g>
 
-        <!-- 过滤结果 B: 无知/愚蠢 (通过) -->
+        <!-- 杩囨护缁撴灉 B: 鏃犵煡/鎰氳牏 (閫氳繃) -->
         <g>
           <path d="M350,270 L450,270 L400,550 Z" fill="#10b981" fill-opacity="0.6" />
-          <text x="400" y="580" text-anchor="middle" fill="#10b981" class="font-black text-xl italic tracking-widest">STUPIDITY</text>
+          <text x="400" y="580" text-anchor="middle" fill="#10b981" class="font-black text-xl italic tracking-widest">愚蠢</text>
         </g>
 
-        <!-- 流动线条 -->
+        <!-- 娴佸姩绾挎潯 -->
         <line x1="300" y1="150" x2="300" y2="250" stroke="white" stroke-width="2" stroke-dasharray="10 5" />
       </svg>
     </div>
 
-    <!-- 文案内容区 -->
+    <!-- 鏂囨鍐呭鍖?-->
     <div class="space-y-12">
-      <h1 class="text-8xl font-black text-white tracking-tighter leading-[0.8]">汉隆剃刀<br><span class="text-emerald-500 italic">Hanlon's Razor</span></h1>
+      <h1 class="text-8xl font-black text-white tracking-tighter leading-[0.8]">姹夐殕鍓冨垁<br><span class="text-emerald-500 italic">Hanlon's Razor</span></h1>
       <p class="text-xl text-slate-400 border-l-4 border-emerald-500 pl-6 leading-relaxed italic">
-        “能解释为愚蠢的，就不要解释为恶意。”
+        鈥滆兘瑙ｉ噴涓烘剼锠㈢殑锛屽氨涓嶈瑙ｉ噴涓烘伓鎰忋€傗€?
       </p>
 
       <div class="glass p-10 rounded-[3rem] space-y-6">
-        <h3 class="text-2xl font-black text-white italic">核心隐喻：逻辑滤镜</h3>
+        <h3 class="text-2xl font-black text-white italic">鏍稿績闅愬柣锛氶€昏緫婊ら暅</h3>
         <p class="text-sm text-slate-400 leading-relaxed">
-          在社交和管理中，当我们面对负面事件（如迟到、代码 Bug、冷漠）时，大脑会自动激活“防御机制”将其理解为故意的冒犯（恶意）。汉隆剃刀强制我们将认知降级，理解为对方的无知、疏忽或能力不足。这不仅更接近真相，也能极大地减少不必要的防御成本。
+          鍦ㄧぞ浜ゅ拰绠＄悊涓紝褰撴垜浠潰瀵硅礋闈簨浠讹紙濡傝繜鍒般€佷唬鐮?Bug銆佸喎婕狅級鏃讹紝澶ц剳浼氳嚜鍔ㄦ縺娲烩€滈槻寰℃満鍒垛€濆皢鍏剁悊瑙ｄ负鏁呮剰鐨勫啋鐘紙鎭舵剰锛夈€傛眽闅嗗墐鍒€寮哄埗鎴戜滑灏嗚鐭ラ檷绾э紝鐞嗚В涓哄鏂圭殑鏃犵煡銆佺枏蹇芥垨鑳藉姏涓嶈冻銆傝繖涓嶄粎鏇存帴杩戠湡鐩革紝涔熻兘鏋佸ぇ鍦板噺灏戜笉蹇呰鐨勯槻寰℃垚鏈€?
         </p>
         <div class="grid grid-cols-2 gap-4">
           <div class="bg-emerald-600/10 p-5 rounded-3xl border border-emerald-500/20">
-             <h4 class="text-emerald-400 font-black text-[10px] uppercase mb-1">情绪解药</h4>
-             <p class="text-[11px] text-slate-300 italic">避免陷入受害者心态，保持冷静协作。</p>
+             <h4 class="text-emerald-400 font-black text-[10px] uppercase mb-1">鎯呯华瑙ｈ嵂</h4>
+             <p class="text-[11px] text-slate-300 italic">閬垮厤闄峰叆鍙楀鑰呭績鎬侊紝淇濇寔鍐烽潤鍗忎綔銆?/p>
           </div>
           <div class="bg-white/5 p-5 rounded-3xl border border-white/5">
-             <h4 class="text-slate-500 font-black text-[10px] uppercase mb-1">概率逻辑</h4>
-             <p class="text-[11px] text-slate-300 italic">概率上，愚蠢发生的频率远高于精心策划的恶意。</p>
+             <h4 class="text-slate-500 font-black text-[10px] uppercase mb-1">姒傜巼閫昏緫</h4>
+             <p class="text-[11px] text-slate-300 italic">姒傜巼涓婏紝鎰氳牏鍙戠敓鐨勯鐜囪繙楂樹簬绮惧績绛栧垝鐨勬伓鎰忋€?/p>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</body>
+  </div></body>
 </html>

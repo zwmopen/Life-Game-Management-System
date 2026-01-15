@@ -1,11 +1,10 @@
-
+<!DOCTYPE html>
 <!DOCTYPE html>
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>颗粒度缩减算法</title>
-</head>
-<body>
+  <title>颗粒度缩减算法</title></head>
+<body >
   <div class="neu-card">
     <svg viewBox="0 0 1000 650">
       <g transform="translate(500, 325)">
@@ -18,19 +17,19 @@
         
         <!-- 切割器 (算法中心) -->
         <g>
-          <circle r="60" fill="none" stroke="var(--accent)" stroke-width="4" stroke-dasharray="10 5" class="animate-spin" />
-          <text text-anchor="middle" y="5" fill="var(--accent)" style="font-size: 48px; font-weight: 900;">/</text>
+          <circle r="60" fill="none" stroke="#ef4444" stroke-width="4" stroke-dasharray="10 5" class="animate-spin" />
+          <text text-anchor="middle" y="5" fill="#ef4444" style="font-size: 48px; font-weight: 900;">/</text>
         </g>
 
         <!-- 极小颗粒流 (右 - 顺滑移动) -->
         <g transform="translate(250, 0)">
-          <circle r="10" cx="-100" fill="var(--accent)"><animate attributeName="cx" from="-100" to="200" dur="2s" repeatCount="indefinite" /></circle>
-          <circle r="10" cx="-50" fill="var(--accent)" style="animation-delay: 0.5s"><animate attributeName="cx" from="-100" to="200" dur="2s" repeatCount="indefinite" /></circle>
-          <circle r="10" cx="0" fill="var(--accent)" style="animation-delay: 1s"><animate attributeName="cx" from="-100" to="200" dur="2s" repeatCount="indefinite" /></circle>
-          <text x="50" y="80" text-anchor="middle" fill="var(--accent)" style="font-size: 24px; font-weight: 900;">原子动作流 (Easy!)</text>
+          <circle r="10" cx="-100" fill="#ef4444"><animate attributeName="cx" from="-100" to="200" dur="2s" repeatCount="indefinite" /></circle>
+          <circle r="10" cx="-50" fill="#ef4444" style="animation-delay: 0.5s"><animate attributeName="cx" from="-100" to="200" dur="2s" repeatCount="indefinite" /></circle>
+          <circle r="10" cx="0" fill="#ef4444" style="animation-delay: 1s"><animate attributeName="cx" from="-100" to="200" dur="2s" repeatCount="indefinite" /></circle>
+          <text x="50" y="80" text-anchor="middle" fill="#ef4444" style="font-size: 24px; font-weight: 900;">原子动作流 (Easy!)</text>
         </g>
 
-        <text y="-220" text-anchor="middle" fill="var(--accent)" style="font-size: 32px; font-weight: 900; letter-spacing: 0.1em;">重物搬不动，那就把它切成粉末</text>
+        <text y="-220" text-anchor="middle" fill="#ef4444" style="font-size: 32px; font-weight: 900; letter-spacing: 0.1em;">重物搬不动，那就把它切成粉末</text>
       </g>
     </svg>
   </div>
@@ -53,6 +52,5 @@
         </ul>
       </div>
     </div>
-  </div>
-</body>
+  </div></body>
 </html>

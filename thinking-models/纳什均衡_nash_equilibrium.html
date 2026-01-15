@@ -1,10 +1,12 @@
-<!DOCTYPE html>
+<!DOCTYPE html>﻿<!DOCTYPE html>
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>纳什均衡 - 稳态博弈</title>
+  <title>绾充粈鍧囪　 - 绋虫€佸崥寮?/title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
+
+
     body { background: #020617; font-family: -apple-system, sans-serif; color: #f8fafc; }
     .glass { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); }
     @keyframes grid-flow { 0% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 40; } }
@@ -13,12 +15,12 @@
     .point:hover { transform: scale(1.5); filter: drop-shadow(0 0 20px #3b82f6); }
   </style>
 </head>
-<body class="p-8 md:p-20 flex items-center justify-center min-h-screen">
-  <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-    <!-- SVG 可视化 -->
+<body>data-theme="light" class="p-8 md:p-20 flex items-center justify-center min-h-screen">
+  <div class="max-w-7xl mx-auto w-full grid grid-cols-1 gap-20">
+    <!-- SVG 鍙鍖?-->
     <div class="relative flex items-center justify-center glass p-12 rounded-[4rem] shadow-2xl">
       <svg viewBox="0 0 600 600" class="w-full h-auto max-w-[500px]">
-        <!-- 坐标轴 -->
+        <!-- 鍧愭爣杞?-->
         <g stroke="rgba(255,255,255,0.1)" stroke-width="2">
           <line x1="100" y1="100" x2="500" y2="100" />
           <line x1="100" y1="100" x2="100" y2="500" />
@@ -26,18 +28,18 @@
           <line x1="500" y1="100" x2="500" y2="500" />
         </g>
         
-        <!-- 策略交织线 -->
+        <!-- 绛栫暐浜ょ粐绾?-->
         <path d="M100,200 Q300,300 500,400" fill="none" stroke="#ef4444" stroke-width="2" opacity="0.4" class="grid-line" />
         <path d="M100,400 Q300,300 500,200" fill="none" stroke="#3b82f6" stroke-width="2" opacity="0.4" class="grid-line" style="animation-delay: 1s" />
 
-        <!-- 均衡点: 核心交点 -->
+        <!-- 鍧囪　鐐? 鏍稿績浜ょ偣 -->
         <g class="point">
           <circle cx="300" cy="300" r="15" fill="white" />
           <circle cx="300" cy="300" r="40" fill="white" fill-opacity="0.05" stroke="white" stroke-width="1" stroke-dasharray="5 5" class="animate-spin" />
-          <text x="300" y="335" text-anchor="middle" fill="white" class="text-[8px] font-black uppercase tracking-[0.3em]">The Equilibrium Point</text>
+          <text x="300" y="335" text-anchor="middle" fill="white" class="text-[8px] font-black uppercase tracking-[0.3em]">The Equilibrium 计划oint</text>
         </g>
         
-        <!-- 外部偏离力 (箭头) -->
+        <!-- 澶栭儴鍋忕鍔?(绠ご) -->
         <g opacity="0.3">
            <path d="M250,250 L280,280" stroke="white" marker-end="url(#arrow)" />
            <path d="M350,350 L320,320" stroke="white" marker-end="url(#arrow)" />
@@ -50,30 +52,29 @@
       <div class="absolute bottom-8 text-blue-500 font-bold text-[8px] uppercase tracking-[0.4em]">Game Theory Stability Matrix</div>
     </div>
 
-    <!-- 文案内容区 -->
+    <!-- 鏂囨鍐呭鍖?-->
     <div class="space-y-12">
-      <h1 class="text-8xl font-black text-white tracking-tighter leading-[0.8]">纳什均衡<br><span class="text-blue-500 italic">Nash Equilibrium</span></h1>
+      <h1 class="text-8xl font-black text-white tracking-tighter leading-[0.8]">绾充粈鍧囪　<br><span class="text-blue-500 italic">Nash Equilibrium</span></h1>
       <p class="text-xl text-slate-400 border-l-4 border-blue-600 pl-6 leading-relaxed italic">
-        “在已知对手策略的情况下，没有人能通过单方面改变策略而获益。”
+        鈥滃湪宸茬煡瀵规墜绛栫暐鐨勬儏鍐典笅锛屾病鏈変汉鑳介€氳繃鍗曟柟闈㈡敼鍙樼瓥鐣ヨ€岃幏鐩娿€傗€?
       </p>
 
       <div class="glass p-10 rounded-[3rem] space-y-6">
-        <h3 class="text-2xl font-black text-white italic">核心隐喻：博弈稳态</h3>
+        <h3 class="text-2xl font-black text-white italic">鏍稿績闅愬柣锛氬崥寮堢ǔ鎬?/h3>
         <p class="text-sm text-slate-400 leading-relaxed">
-          想象多支力量在沼泽中互相对峙，每一方都处于一种微妙的“不动点”。即使现状并非最优（例如囚徒困境），但由于缺乏信任和协作，任何一方贸然打破现状都会导致更糟的结果。这解释了为什么职场内卷或价格战难以通过单方面努力而终止。
+          鎯宠薄澶氭敮鍔涢噺鍦ㄦ布娉戒腑浜掔浉瀵瑰硻锛屾瘡涓€鏂归兘澶勪簬涓€绉嶅井濡欑殑鈥滀笉鍔ㄧ偣鈥濄€傚嵆浣跨幇鐘跺苟闈炴渶浼橈紙渚嬪鍥氬緬鍥板锛夛紝浣嗙敱浜庣己涔忎俊浠诲拰鍗忎綔锛屼换浣曚竴鏂硅锤鐒舵墦鐮寸幇鐘堕兘浼氬鑷存洿绯熺殑缁撴灉銆傝繖瑙ｉ噴浜嗕负浠€涔堣亴鍦哄唴鍗锋垨浠锋牸鎴橀毦浠ラ€氳繃鍗曟柟闈㈠姫鍔涜€岀粓姝€?
         </p>
         <div class="grid grid-cols-2 gap-4">
           <div class="bg-blue-600/10 p-5 rounded-3xl border border-blue-500/20">
-             <h4 class="text-blue-400 font-black text-[10px] uppercase mb-1">关键状态</h4>
-             <p class="text-[11px] text-slate-300 italic">“锁定”在次优解，等待外部规则重塑。</p>
+             <h4 class="text-blue-400 font-black text-[10px] uppercase mb-1">鍏抽敭鐘舵€?/h4>
+             <p class="text-[11px] text-slate-300 italic">鈥滈攣瀹氣€濆湪娆′紭瑙ｏ紝绛夊緟澶栭儴瑙勫垯閲嶅銆?/p>
           </div>
           <div class="bg-white/5 p-5 rounded-3xl border border-white/5">
-             <h4 class="text-slate-500 font-black text-[10px] uppercase mb-1">应用场景</h4>
-             <p class="text-[11px] text-slate-400">核威慑博弈、公地悲剧、商业标准化竞争。</p>
+             <h4 class="text-slate-500 font-black text-[10px] uppercase mb-1">搴旂敤鍦烘櫙</h4>
+             <p class="text-[11px] text-slate-400">鏍稿▉鎱戝崥寮堛€佸叕鍦版偛鍓с€佸晢涓氭爣鍑嗗寲绔炰簤銆?/p>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</body>
+  </div></body>
 </html>

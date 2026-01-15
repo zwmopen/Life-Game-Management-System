@@ -1,16 +1,14 @@
-
 <!DOCTYPE html>
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>40/70 决策准则</title>
-</head>
-<body>
+  <title>40/70 决策准则</title></head>
+<body >
   <div class="neu-card">
     <svg viewBox="0 0 1000 650">
       <g transform="translate(100, 325)">
         <!-- 仪表盘 -->
-        <rect x="0" y="0" width="800" height="40" rx="20" fill="none" stroke="var(--heading)" stroke-width="2" opacity="0.1" />
+        <rect x="0" y="0" width="800" height="40" rx="20" fill="none" stroke="#1e293b" stroke-width="2" opacity="0.1" />
         
         <!-- 40% 线 -->
         <line x1="320" y1="-20" x2="320" y2="60" stroke="#ef4444" stroke-width="4" stroke-dasharray="5 5" />
@@ -20,21 +18,21 @@
         <line x1="560" y1="-20" x2="560" y2="60" stroke="#ef4444" stroke-width="4" stroke-dasharray="5 5" />
         <text x="560" y="-40" text-anchor="middle" fill="#ef4444" style="font-size: 14px; font-weight: 900;">70% (浪费线)</text>
 
-        <!-- 黄金行动区间 -->
+        <!-- 黄金A区间 -->
         <rect x="320" y="5" width="240" height="30" rx="15" fill="#10b981" fill-opacity="0.2">
            <animate attributeName="fill-opacity" values="0.2;0.6;0.2" dur="2s" repeatCount="indefinite" />
         </rect>
-        <text x="440" y="100" text-anchor="middle" fill="#10b981" style="font-size: 32px; font-weight: 900;">最佳下注区 (GOLDEN ZONE)</text>
+        <text x="440" y="100" text-anchor="middle" fill="#10b981" style="font-size: 32px; font-weight: 900;">最佳下注区 (GOLdEN ZONE)</text>
 
         <!-- 指针 (当前信息量) -->
         <g>
           <animateTransform attributeName="transform" type="translate" values="50,0; 440,0; 50,0" dur="10s" repeatCount="indefinite" />
-          <path d="M0,0 L0,-100" stroke="var(--accent)" stroke-width="8" marker-end="url(#blueArrow)" />
-          <text y="-120" text-anchor="middle" fill="var(--accent)" style="font-size: 16px; font-weight: 900;">当前认知量</text>
+          <path d="M0,0 L0,-100" stroke="#ef4444" stroke-width="8" marker-end="url(#blueArrow)" />
+          <text y="-120" text-anchor="middle" fill="#ef4444" style="font-size: 16px; font-weight: 900;">当前认知量</text>
         </g>
       </g>
       <defs>
-        <marker id="blueArrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="var(--accent)"/></marker>
+        <marker id="blueArrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#ef4444"/></marker>
       </defs>
     </svg>
   </div>
@@ -52,11 +50,10 @@
       <div>
         <h3>实战应用</h3>
         <ul>
-          <li><strong>灰度执行：</strong>承认现在的路可能不是最优，但它是目前赔率最好的牌。不犹豫，先打出去。</li>
-          <li><strong>纠错溢价：</strong>在 50% 信息时行动，你拥有了“时间”这一最强维度来在执行中修正错误。</li>
+          <li><strong>灰度决策：</strong>承认现在的路可能不是最优，但它是目前赔率最好的牌。不犹豫，先打出去。</li>
+          <li><strong>纠错溢价：</strong>在 50% 信息时行动，你拥有了“时间”这一最强维度来在决策中修正错误。</li>
         </ul>
       </div>
     </div>
-  </div>
-</body>
+  </div></body>
 </html>

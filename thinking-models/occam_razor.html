@@ -1,29 +1,28 @@
-
+<!DOCTYPE html>
 <!DOCTYPE html>
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>奥卡姆剃刀</title>
-</head>
-<body>
+  <title>奥卡姆剃刀</title></head>
+<body >
   <div class="neu-card">
     <svg viewBox="0 0 1000 650">
       <!-- 混沌的背景 -->
-      <g opacity="0.03" stroke="var(--heading)" stroke-width="1" fill="none">
+      <g opacity="0.03" stroke="#1e293b" stroke-width="1" fill="none">
         <path d="M100,100 Q400,500 900,100" /><path d="M100,500 Q500,50 900,500" />
       </g>
       
       <!-- 剃刀划过 -->
       <g transform="translate(500, 300)">
-        <rect x="-10" y="-300" width="20" height="600" fill="var(--accent)" opacity="0.1">
+        <rect x="-10" y="-300" width="20" height="600" fill="#ef4444" opacity="0.1">
           <animateTransform attributeName="transform" type="translate" values="-30,0; 30,0; -30,0" dur="4s" repeatCount="indefinite" />
         </rect>
-        <circle r="80" fill="var(--accent)" filter="drop-shadow(0 0 40px var(--accent))" />
+        <circle r="80" fill="#ef4444" filter="drop-shadow(0 0 40px #ef4444)" />
         <text text-anchor="middle" y="10" fill="white" style="font-size: 36px; font-weight: 900; letter-spacing: 0.1em;">底层真相</text>
       </g>
 
-      <text x="500" y="520" text-anchor="middle" fill="var(--accent)" style="font-size: 48px; font-weight: 900; letter-spacing: 0.1em;">如无必要 勿增实体</text>
-      <text x="500" y="580" text-anchor="middle" fill="var(--text)" opacity="0.3" style="font-size: 20px; font-weight: 900;">切掉所有的冗余假设</text>
+      <text x="500" y="520" text-anchor="middle" fill="#ef4444" style="font-size: 48px; font-weight: 900; letter-spacing: 0.1em;">如无必要 勿增实体</text>
+      <text x="500" y="580" text-anchor="middle" fill="#64748b" opacity="0.3" style="font-size: 20px; font-weight: 900;">切掉所有的冗余假设</text>
     </svg>
   </div>
 
@@ -46,6 +45,5 @@
         </ul>
       </div>
     </div>
-  </div>
-</body>
+  </div></body>
 </html>

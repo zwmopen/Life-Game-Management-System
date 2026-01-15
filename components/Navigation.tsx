@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Menu, X, Sun, Moon, GripVertical, Gamepad2, BarChart2, ShoppingBag, ShieldAlert, Activity, Medal, Book, Settings, HelpCircle, ChevronRight, ChevronLeft } from 'lucide-react';
+import { Menu, X, Sun, Moon, GripVertical, Gamepad2, BarChart2, ShoppingBag, ShieldAlert, Activity, Medal, Book, Settings, ChevronRight, ChevronLeft } from 'lucide-react';
 import { View, Theme } from '../types';
 import { APP_VERSION } from '../constants/app';
+import { GlobalHelpButton } from './HelpSystem';
 
 // 导入主题上下文
 import { useTheme } from '../contexts/ThemeContext';
@@ -14,9 +15,10 @@ interface NavigationProps {
   entropy: number; // New prop
   isNavCollapsed: boolean;
   setIsNavCollapsed: (collapsed: boolean) => void;
+  onHelpClick: (helpId: string) => void;
 }
 
-const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileOpen, setIsMobileOpen, entropy, isNavCollapsed, setIsNavCollapsed }) => {
+const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileOpen, setIsMobileOpen, entropy, isNavCollapsed, setIsNavCollapsed, onHelpClick }) => {
   const { theme, setTheme } = useTheme();
   // 新增状态：控制是否完全隐藏侧边栏（仅手机端）
   const [isNavHidden, setIsNavHidden] = useState(false);
@@ -177,14 +179,11 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
                         <span className={`text-[10px] font-bold uppercase tracking-widest flex items-center gap-1 ${entropyColor}`}>
                             <Activity size={12}/> 系统稳定性
                         </span>
-                        <div className="relative group">
-                            <button className={`text-zinc-500 hover:text-zinc-800 transition-colors ${isDark ? 'hover:text-white' : ''}`}>
-                                <HelpCircle size={10}/>
-                            </button>
-                            <div className={`absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-48 p-2 rounded text-[10px] ${isDark ? 'bg-zinc-800 text-zinc-300 border border-zinc-700' : 'bg-white text-slate-800 border border-slate-200 shadow-lg'} opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50`}>
-                                系统稳定性 = 100% - 熵值<br/>熵值越高，系统越混乱<br/>完成习惯任务可降低熵值
-                            </div>
-                        </div>
+                        <GlobalHelpButton 
+                            helpId="system-stability" 
+                            onHelpClick={onHelpClick} 
+                            size={10} 
+                        />
                     </div>
                     <span className={`text-xs font-mono font-bold ${entropyColor}`}>{100 - entropy}%</span>
                 </div>

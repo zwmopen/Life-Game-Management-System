@@ -272,6 +272,15 @@ export interface Habit {
   color: string;
   /** 关联属性 */
   attr?: AttributeTypeValue;
+  /** 提醒设置 */
+  reminder?: {
+    enabled: boolean;
+    date?: string; // YYYY-MM-DD
+    time?: string; // HH:mm
+    repeat: 'none' | 'daily' | 'weekly' | 'monthly' | 'custom';
+    repeatInterval?: number; // 每隔 X 天
+    lastTriggered?: string; // 上次提醒时间
+  };
   /** 历史记录 */
   history: { [dateString: string]: boolean };
   /** 日志记录 */
@@ -334,6 +343,15 @@ export interface Project {
   todayFocusMinutes: number;
   /** 关联属性 */
   attr?: AttributeTypeValue;
+  /** 提醒设置 */
+  reminder?: {
+    enabled: boolean;
+    date?: string; // YYYY-MM-DD
+    time?: string; // HH:mm
+    repeat: 'none' | 'daily' | 'weekly' | 'monthly' | 'custom';
+    repeatInterval?: number; // 每隔 X 天
+    lastTriggered?: string; // 上次提醒时间
+  };
 }
 
 /**
@@ -408,6 +426,15 @@ export interface Task {
   originalData?: Habit | Project;
   /** 关联属性 */
   attr?: AttributeTypeValue;
+  /** 提醒设置 */
+  reminder?: {
+    enabled: boolean;
+    date?: string; // YYYY-MM-DD
+    time?: string; // HH:mm
+    repeat: 'none' | 'daily' | 'weekly' | 'monthly' | 'custom';
+    repeatInterval?: number; // 每隔 X 天
+    lastTriggered?: string; // 上次提醒时间
+  };
 }
 
 /**
@@ -462,6 +489,15 @@ export interface DiceTask {
   xpRange?: [number, number];
   /** 任务时长（分钟） */
   duration?: number;
+  /** 提醒设置 */
+  reminder?: {
+    enabled: boolean;
+    date?: string;
+    time?: string;
+    repeat: 'none' | 'daily' | 'weekly' | 'monthly' | 'custom';
+    repeatInterval?: number;
+    lastTriggered?: string;
+  };
 }
 
 /**

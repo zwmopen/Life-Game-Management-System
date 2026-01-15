@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dice5, Calendar, Target, Zap, Clock, Wallet, ShoppingBag, BarChart2, Settings, Layout, User, BookOpen, Crosshair } from 'lucide-react';
+import { Dice5, Calendar, Target, Zap, Clock, Wallet, ShoppingBag, BarChart2, Settings, Layout, User, BookOpen, Crosshair, Activity, Trophy } from 'lucide-react';
 
 export interface HelpContentItem {
   title: string;
@@ -23,7 +23,7 @@ export const helpContent: Record<string, HelpContentItem> = {
     updateTime: '2026-01-01'
   },
   
-  // 角色系统帮助
+  // 角色系统帮助卡片
   character: {
     title: '【角色系统】行动指南',
     icon: <User size={24} className="text-green-500" />,
@@ -34,7 +34,7 @@ export const helpContent: Record<string, HelpContentItem> = {
     updateTime: '2025-12-31'
   },
   
-  // 番茄钟系统帮助
+  // 番茄钟系统帮助卡片
   pomodoro: {
     title: '【番茄钟系统】行动指南',
     icon: <Clock size={24} className="text-red-500" />,
@@ -45,7 +45,7 @@ export const helpContent: Record<string, HelpContentItem> = {
     updateTime: '2026-01-09'
   },
   
-  // 命运骰子帮助
+  // 命运骰子帮助卡片
   fateDice: {
     title: '【命运骰子】行动指南',
     icon: <Dice5 size={24} className="text-blue-500" />,
@@ -56,7 +56,7 @@ export const helpContent: Record<string, HelpContentItem> = {
     updateTime: '2025-12-26'
   },
   
-  // 任务管理帮助
+  // 任务管理帮助卡片
   tasks: {
     title: '【任务管理系统】行动指南',
     icon: <Layout size={24} className="text-green-500" />,
@@ -67,7 +67,18 @@ export const helpContent: Record<string, HelpContentItem> = {
     updateTime: '2026-01-09'
   },
   
-  // 成就系统帮助
+  // 思维中心帮助卡片
+  thinkingCenter: {
+    title: '【思维中心】行动指南',
+    icon: <BookOpen size={24} className="text-blue-500" />,
+    productIntro: '思维中心是全系统的智慧引擎，汇集了人类历史上经典的思维模型与底层逻辑。通过结构化的模型解析与可视化设计，协助你升级认知系统，在复杂问题面前实现降维打击。',
+    underlyingPrinciple: '基于查理·芒格的"多元思维模型"理论。将不同学科的底层规律进行跨界整合，构建多维度的认知格栅，从而避免单一视角的盲点，实现更客观、高效的判断与决策。',
+    coreRules: '包含三大核心能力：1. 模型库：检索并学习各领域的经典思维工具；2. 深度解析：提供核心原理、适用范围、操作建议、实践案例；3. 可视化：通过直观图表辅助理解复杂抽象的概念。',
+    usageMethods: '1. 通过搜索栏快速定位所需的思维模型；2. 浏览模型分类，系统学习特定领域的决策工具；3. 查看可视化图表，快速捕捉模型的核心逻辑；4. 研读深度解析，掌握模型在实际生活中的应用技巧；5. 结合当前面临的难题，选择合适的模型进行推演。',
+    updateTime: '2026-01-12'
+  },
+  
+  // 成就系统帮助卡片
   achievements: {
     title: '【勋章系统】行动指南',
     icon: <Target size={24} className="text-yellow-500" />,
@@ -78,7 +89,7 @@ export const helpContent: Record<string, HelpContentItem> = {
     updateTime: '2025-12-26'
   },
   
-  // 主题切换帮助
+  // 主题切换帮助卡片
   theme: {
     title: '【主题切换】行动指南',
     icon: <Zap size={24} className="text-purple-500" />,
@@ -89,7 +100,7 @@ export const helpContent: Record<string, HelpContentItem> = {
     updateTime: '2025-12-26'
   },
   
-  // 音效设置帮助
+  // 音效设置帮助卡片
   sound: {
     title: '【音效系统】行动指南',
     icon: <Clock size={24} className="text-red-500" />,
@@ -100,7 +111,7 @@ export const helpContent: Record<string, HelpContentItem> = {
     updateTime: '2025-12-26'
   },
   
-  // 显示设置帮助
+  // 显示设置帮助卡片
   display: {
     title: '【显示设置】行动指南',
     icon: <Layout size={24} className="text-indigo-500" />,
@@ -111,7 +122,7 @@ export const helpContent: Record<string, HelpContentItem> = {
     updateTime: '2025-12-26'
   },
   
-  // 数据管理帮助
+  // 数据管理帮助卡片
   data: {
     title: '【数据管理】行动指南',
     icon: <Wallet size={24} className="text-emerald-500" />,
@@ -122,7 +133,7 @@ export const helpContent: Record<string, HelpContentItem> = {
     updateTime: '2025-12-26'
   },
   
-  // 图表汇总帮助
+  // 图表汇总帮助卡片
   charts: {
     title: '【图表汇总】行动指南',
     icon: <BarChart2 size={24} className="text-orange-500" />,
@@ -133,7 +144,7 @@ export const helpContent: Record<string, HelpContentItem> = {
     updateTime: '2025-12-26'
   },
   
-  // 图表深度解析模块帮助
+  // 图表深度解析帮助卡片
   chartDetail: {
     title: '【图表深度解析模块】指南',
     icon: <BarChart2 size={24} className="text-blue-500" />,
@@ -197,5 +208,38 @@ export const helpContent: Record<string, HelpContentItem> = {
     coreRules: '支持多种专注模式，包括标准番茄钟、自定义时长等；专注时间自动累计，记录到个人统计数据中；专注时间可转换为经验值和积分奖励；支持专注状态下的沉浸式模式，减少外界干扰；提供专注时间统计和分析功能，帮助用户优化专注习惯。',
     usageMethods: '1. 进入专注时间系统，选择适合的专注模式；2. 设置专注时长，点击"开始"按钮进入专注状态；3. 专注结束后查看专注时间统计；4. 查看专注历史记录，了解自身专注习惯；5. 结合任务管理系统，将专注时间与具体任务关联；6. 根据专注数据分析，调整专注策略，提升专注效率。',
     updateTime: '2026-01-08'
+  },
+  
+  // 系统稳定性帮助
+  'system-stability': {
+    title: '【系统稳定性】行动指南',
+    icon: <Activity size={24} className="text-emerald-500" />,
+    productIntro: '系统稳定性代表了你当前生活系统的有序程度。它是由熵值决定的：稳定性 = 100% - 熵值。',
+    underlyingPrinciple: '基于热力学第二定律（熵增定律）设计。在封闭系统中，事物总是趋向于混乱。通过完成习惯和任务，你向系统输入"负熵"，从而维持系统的稳定。',
+    coreRules: '熵值越高，系统越混乱；完成每日习惯任务可有效降低熵值；长时间不作为会导致熵值自动增加（熵增）；低稳定性可能会触发系统负面事件或降低奖励。',
+    usageMethods: '1. 查看导航栏下方的系统稳定性进度条；2. 优先完成高亮显示的习惯任务以降低熵值；3. 维持稳定性在80%以上以获得最佳收益；4. 当出现"警告: 熵增过高"时，立即采取行动。',
+    updateTime: '2026-01-12'
+  },
+
+  // 勋章奖励规则帮助
+  'badge-reward-rules': {
+    title: '【勋章奖励规则】指南',
+    icon: <Trophy size={24} className="text-yellow-500" />,
+    productIntro: '勋章奖励规则定义了在达成不同类型的勋章时，用户所获得的经验值和金币的具体计算方式。',
+    underlyingPrinciple: '基于游戏平衡性设计，确保不同难度的成就对应合理的激励强度。通过比例化奖励，让高价值的目标产生更高的成就感。',
+    coreRules: '默认规则：1. 经验类勋章：仅奖励经验值，通常为目标值的10%；2. 金币类勋章：仅奖励金币，通常为目标值的10%；3. 专注时间类：同时奖励经验和金币，均为目标值的10%；4. 消费类勋章：仅奖励金币（返利性质），通常为10%。',
+    usageMethods: '1. 在编辑勋章界面查看当前的奖励配置；2. 根据勋章的分类，参考默认比例进行调整；3. 确保奖励值与达成难度相匹配；4. 保存设置后，后续解锁该勋章的用户将按新规则获得奖励。',
+    updateTime: '2026-01-12'
+  },
+
+  // 作战中心帮助卡片
+  'mission-control': {
+    title: '【作战中心】行动指南',
+    icon: <Target size={24} className="text-red-500" />,
+    productIntro: '作战中心是全系统的战略指挥中枢，汇集了实时情报、命运挑战、核心战役及日常勤务。通过数据可视化与随机事件驱动，协助你掌控生活节奏，实现高效决策与行动。',
+    underlyingPrinciple: '基于 OODA 循环（观察-判断-决策-行动）与游戏化指挥部逻辑。将枯燥的任务转化为具体的战役目标，利用实时反馈维持行动张力，通过命运随机性对抗决策疲劳。',
+    coreRules: '包含四个核心区域：1. 实时情报：监控专注趋势与签到状态；2. 命运骰子：抽取每日随机行动；3. 战略战役：管理长期主线任务；4. 每日勤务：处理循环习惯任务。所有行动均产出经验值与金币。',
+    usageMethods: '1. 每日启动后首先进行签到并查看实时情报；2. 投掷命运骰子获取突发灵感任务；3. 在主线任务中拆解并推进大型项目；4. 勾选日常任务维持基础稳定性；5. 通过点击各模块的帮助图标获取更细致的战术指导。',
+    updateTime: '2026-01-12'
   }
 };

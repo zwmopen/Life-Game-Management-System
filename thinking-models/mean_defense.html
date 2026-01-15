@@ -1,17 +1,16 @@
-
+<!DOCTYPE html>
 <!DOCTYPE html>
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>均值回归防御</title>
-</head>
-<body>
+  <title>均值回归防御</title></head>
+<body >
   <div class="neu-card">
     <svg viewBox="0 0 1000 650">
       <g transform="translate(500, 325)">
         <!-- 均值基准线 (坚实的水平) -->
-        <line x1="-450" y1="50" x2="450" y2="50" stroke="var(--accent)" stroke-width="4" stroke-dasharray="10 5" opacity="0.3" />
-        <text x="460" y="55" fill="var(--accent)" style="font-size: 14px; font-weight: 900;">真实能力均值</text>
+        <line x1="-450" y1="50" x2="450" y2="50" stroke="#ef4444" stroke-width="4" stroke-dasharray="10 5" opacity="0.3" />
+        <text x="460" y="55" fill="#ef4444" style="font-size: 14px; font-weight: 900;">真实能力均值</text>
         
         <!-- 波动路径 (外部偶然) -->
         <path d="M-450,50 L-300,-200 L-100,50 L100,200 L300,50" fill="none" stroke="#94a3b8" stroke-width="2" opacity="0.2" />
@@ -19,8 +18,8 @@
         <!-- 核心重锤 (你的重心) -->
         <g>
           <animateTransform attributeName="transform" type="translate" values="0,0; 0,-10; 0,0" dur="2s" repeatCount="indefinite" />
-          <path d="M0,50 L0,200" stroke="var(--accent)" stroke-width="8" stroke-linecap="round" />
-          <rect x="-100" y="150" width="200" height="80" rx="40" fill="var(--accent)" filter="drop-shadow(0 0 30px var(--accent))" />
+          <path d="M0,50 L0,200" stroke="#ef4444" stroke-width="8" stroke-linecap="round" />
+          <rect x="-100" y="150" width="200" height="80" rx="40" fill="#ef4444" filter="drop-shadow(0 0 30px #ef4444)" />
           <text text-anchor="middle" y="200" fill="white" style="font-size: 24px; font-weight: 900;">逻辑重心</text>
         </g>
 
@@ -34,7 +33,7 @@
           <text y="70" text-anchor="middle" fill="#ef4444" style="font-size: 18px; font-weight: 900;">惨淡：保持耐心 (相信回归)</text>
         </g>
 
-        <text y="-280" text-anchor="middle" fill="var(--accent)" style="font-size: 42px; font-weight: 900; letter-spacing: 0.1em;">不奖赏运气，不惩罚随机</text>
+        <text y="-280" text-anchor="middle" fill="#ef4444" style="font-size: 42px; font-weight: 900; letter-spacing: 0.1em;">不奖赏运气，不惩罚随机</text>
       </g>
     </svg>
   </div>
@@ -57,6 +56,5 @@
         </ul>
       </div>
     </div>
-  </div>
-</body>
+  </div></body>
 </html>

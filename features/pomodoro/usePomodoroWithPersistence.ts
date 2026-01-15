@@ -4,7 +4,7 @@
  */
 
 import { useState, useEffect, useCallback } from 'react';
-import { useLocalGameState } from '../../hooks/useLocalGameState';
+import { useLocalGameState } from '../../docs/hooks/useLocalGameState';
 
 export interface PomodoroState {
   timeLeft: number;

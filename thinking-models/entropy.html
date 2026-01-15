@@ -1,66 +1,69 @@
-
 <!DOCTYPE html>
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>熵增定律 - 系统瓦解</title>
+  <title>熵增定律 - 系统崩溃</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    :root { --bg: #121212; --dark: #080808; --light: #1c1c1c; --accent: #3b82f6; }
-    body { background: var(--bg); font-family: -apple-system, sans-serif; color: #94a3b8; overflow: hidden; display: flex; align-items: center; justify-content: center; height: 100vh; }
-    .neu-card { background: var(--bg); border-radius: 60px; box-shadow: 20px 20px 60px var(--dark), -20px -20px 60px var(--light); }
+
+
+    
+    body { background: #ffffff; font-family: -apple-system, sans-serif; color: #94a3b8; overflow: auto; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+    .neu-card { background: #ffffff; border-radius: 60px; box-shadow: 20px 20px 60px var(--dark), -20px -20px 60px var(--light); }
     @keyframes decay { 0% { transform: translate(0, 0) rotate(0); opacity: 1; } 100% { transform: translate(var(--tx), var(--ty)) rotate(45deg); opacity: 0.2; } }
     .debris { animation: decay 6s infinite alternate cubic-bezier(0.4, 0, 0.2, 1); }
     .core { transition: all 0.5s; cursor: pointer; }
-    .core:hover { filter: drop-shadow(0 0 30px var(--accent)); }
+    .core:hover { filter: drop-shadow(0 0 30px #ef4444); }
   </style>
 </head>
-<body class="p-12">
-  <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-    <div class="neu-card p-12 flex items-center justify-center aspect-square relative overflow-hidden bg-blue-900/5">
-      <svg viewBox="0 0 600 600" class="w-full h-auto">
-        <!-- 负熵输入力场 -->
-        <circle cx="300" cy="300" r="280" fill="none" stroke="var(--accent)" stroke-opacity="0.05" stroke-width="1" stroke-dasharray="10 20" />
+<body>data-theme="light" class="p-12">
+  <div class="max-w-7xl mx-auto w-full grid grid-cols-1 gap-20">
+    <div class="neu-card p-12 flex items-center justify-center overflow-hidden bg-blue-900/5">
+      <svg viewBox="0 0 800 800" class="w-full h-auto">
+        <!-- 标题 -->
+        <text x="400" y="100" text-anchor="middle" fill="#ef4444" style="font-size: 42px; font-weight: 900;">熵增定律</text>
         
-        <!-- 瓦解中的有序核心 -->
+        <!-- 稳定输入引擎 -->
+        <circle cx="400" cy="400" r="280" fill="none" stroke="#ef4444" stroke-opacity="0.05" stroke-width="1" stroke-dasharray="10 20" />
+        
+        <!-- 崩溃中的有序核心 -->
         <g class="core">
-          <rect x="250" y="250" width="100" height="100" rx="10" fill="none" stroke="var(--accent)" stroke-width="4" stroke-dasharray="10 5" />
-          <text x="300" y="305" text-anchor="middle" fill="white" class="font-black text-xl italic tracking-widest">ORDER</text>
+          <rect x="350" y="350" width="100" height="100" rx="10" fill="none" stroke="#ef4444" stroke-width="4" stroke-dasharray="10 5" />
+          <text x="400" y="405" text-anchor="middle" fill="white" class="font-black text-xl italic tracking-widest">秩序</text>
         </g>
 
-        <!-- 漂浮瓦解的碎片 -->
-        <rect x="280" y="280" width="40" height="40" rx="5" fill="#3b82f6" class="debris" style="--tx: -180px; --ty: -150px; animation-delay: 0s" />
-        <rect x="280" y="280" width="30" height="30" rx="5" fill="#1d4ed8" class="debris" style="--tx: 200px; --ty: -120px; animation-delay: 1s" />
-        <rect x="280" y="280" width="35" height="35" rx="5" fill="#60a5fa" class="debris" style="--tx: -150px; --ty: 180px; animation-delay: 2s" />
-        <rect x="280" y="280" width="45" height="45" rx="5" fill="#2563eb" class="debris" style="--tx: 160px; --ty: 210px; animation-delay: 3s" />
+        <!-- 随机崩溃的碎片 -->
+        <rect x="380" y="380" width="40" height="40" rx="5" fill="#3b82f6" class="debris" style="--tx: -180px; --ty: -150px; animation-delay: 0s" />
+        <rect x="380" y="380" width="30" height="30" rx="5" fill="#1d4ed8" class="debris" style="--tx: 200px; --ty: -120px; animation-delay: 1s" />
+        <rect x="380" y="380" width="35" height="35" rx="5" fill="#60a5fa" class="debris" style="--tx: -150px; --ty: 180px; animation-delay: 2s" />
+        <rect x="380" y="380" width="45" height="45" rx="5" fill="#2563eb" class="debris" style="--tx: 160px; --ty: 210px; animation-delay: 3s" />
 
-        <text x="300" y="550" text-anchor="middle" fill="#333" class="font-black text-[10px] uppercase tracking-[1em]">Chaos is the Default State</text>
+        <text x="400" y="700" text-anchor="middle" fill="#ef4444" class="font-black text-[12px] uppercase tracking-[1em]">混沌是默认状态</text>
       </svg>
     </div>
 
     <div class="space-y-12">
-      <h1 class="text-8xl font-black tracking-tighter leading-[0.8] text-blue-500 italic">Entropy<br><span class="text-slate-200 not-italic uppercase">Law</span></h1>
+      <h1 class="text-8xl font-black tracking-tighter leading-[0.8] text-blue-500 italic">熵增定律</h1>
       <p class="text-xl text-slate-500 border-l-4 border-blue-500 pl-6 leading-relaxed italic">
-        “孤立系统的熵总是倾向于增加。无序是自然的终点。”
+        "这个宇宙的熵值是趋向于增加。无序是自然的终点。"
       </p>
 
       <div class="neu-card p-10 space-y-6">
-        <h3 class="text-2xl font-black text-slate-200">核心隐喻：坍塌的沙堡</h3>
+        <h3 class="text-2xl font-black text-slate-200">有序艰难：整洁的房间</h3>
         <p class="text-sm text-slate-400 leading-relaxed">
-          如果不持续投入能量，房子会变乱、知识会遗忘、组织会平庸。<b>熵增</b>是宇宙最令人绝望的法则：毁灭不需要努力，而维持秩序需要源源不断的开放与输入。生命本身，就是通过吸收能量来换取“负熵”的奇迹。
+          如果不持续投入能量，房间会变脏、知识会遗忘、组织会老化。<b>熵增</b>是宇宙最令人沮丧的定律：破坏不需要努力，而维持秩序需要资源不断的开发与输入。生命本身，就是通过吸收能量来换取「负熵」的过程。
         </p>
         <div class="grid grid-cols-2 gap-6">
            <div class="bg-[#121212] shadow-[inset_6px_6px_12px_var(--dark),inset_-6px_-6px_12px_var(--light)] p-6 rounded-3xl">
-              <h4 class="text-blue-500 font-black text-[10px] uppercase mb-1">对抗方法</h4>
-              <p class="text-[11px] text-slate-400">保持系统开放，持续引入新鲜血液与冲突。</p>
+              <h4 class="text-blue-500 font-black text-[10px] uppercase mb-1">应对方法</h4>
+              <p class="text-[11px] text-slate-400">保持系统开放，持续输入新鲜血液与营养。</p>
            </div>
            <div class="bg-[#121212] shadow-[inset_6px_6px_12px_var(--dark),inset_-6px_-6px_12px_var(--light)] p-6 rounded-3xl">
-              <h4 class="text-slate-500 font-black text-[10px] uppercase mb-1">反思</h4>
-              <p class="text-[11px] text-slate-400 italic">舒适圈是熵增最快的温床。</p>
+              <h4 class="text-slate-500 font-black text-[10px] uppercase mb-1">反例</h4>
+              <p class="text-[11px] text-slate-400 italic">闭关锁国是熵增最快的途径。</p>
            </div>
         </div>
       </div>
     </div>
-  </div>
-</body>
+  </div></body>
 </html>

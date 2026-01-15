@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, memo } from 'react';
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three-stdlib';
 import { Theme, DiceState } from '../types';
@@ -13,7 +13,7 @@ interface FateDiceProps {
   onAddFloatingReward?: (text: string, color: string) => void;
 }
 
-const FateDice: React.FC<FateDiceProps> = ({ theme, diceState, onSpinDice, onUpdateDiceState, onAddFloatingReward }) => {
+const FateDice: React.FC<FateDiceProps> = memo(({ theme, diceState, onSpinDice, onUpdateDiceState, onAddFloatingReward }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasContainerRef = useRef<HTMLDivElement>(null);
   const [isRolling, setIsRolling] = useState(false);
@@ -742,6 +742,8 @@ const FateDice: React.FC<FateDiceProps> = ({ theme, diceState, onSpinDice, onUpd
       </div>
     </div>
   );
-};
+});
+
+FateDice.displayName = 'FateDice';
 
 export default FateDice;

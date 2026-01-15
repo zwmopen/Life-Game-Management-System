@@ -1,38 +1,37 @@
-
+<!DOCTYPE html>
 <!DOCTYPE html>
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>元认知循环</title>
-</head>
-<body>
+  <title>元认知循环</title></head>
+<body >
   <div class="neu-card">
     <svg viewBox="0 0 1000 650">
       <g transform="translate(500, 325)">
         <!-- 观察层 (外环) -->
-        <circle r="250" fill="none" stroke="var(--accent)" stroke-width="8" stroke-dasharray="10 30" opacity="0.2">
+        <circle r="250" fill="none" stroke="#ef4444" stroke-width="8" stroke-dasharray="10 30" opacity="0.2">
           <animate attributeName="stroke-dashoffset" from="0" to="100" dur="5s" repeatCount="indefinite" />
         </circle>
-        <text y="-260" text-anchor="middle" fill="var(--accent)" style="font-size: 24px; font-weight: 900;">元认知：观察者的视角</text>
+        <text y="-260" text-anchor="middle" fill="#ef4444" style="font-size: 24px; font-weight: 900;">元认知：观察者的视角</text>
 
         <!-- 被观察的自我 (内环) -->
         <g>
-          <circle r="120" fill="var(--accent)" fill-opacity="0.1" stroke="var(--accent)" stroke-width="2" />
-          <path d="M-40,0 Q0,-80 40,0" fill="none" stroke="var(--accent)" stroke-width="4" opacity="0.3" />
-          <text text-anchor="middle" y="20" fill="var(--accent)" style="font-size: 16px; font-weight: 900;">执行层 (Thinking)</text>
+          <circle r="120" fill="#ef4444" fill-opacity="0.1" stroke="#ef4444" stroke-width="2" />
+          <path d="M-40,0 Q0,-80 40,0" fill="none" stroke="#ef4444" stroke-width="4" opacity="0.3" />
+          <text text-anchor="middle" y="20" fill="#ef4444" style="font-size: 16px; font-weight: 900;">D层 (Thinking)</text>
         </g>
 
         <!-- 递归校准线 -->
         <g>
           <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="10s" repeatCount="indefinite" />
-          <line x1="0" y1="-250" x2="0" y2="-120" stroke="#ef4444" stroke-width="4" marker-end="url(#redArrow)" />
+          <line x1="0" y1="-250" x2="0" y2="-120" stroke="#ef4444" stroke-width="4" marker-end="url(#redarrow)" />
           <circle r="10" cy="-250" fill="#ef4444" class="animate-ping" />
         </g>
 
         <text y="320" text-anchor="middle" fill="#ef4444" style="font-size: 32px; font-weight: 900;">意识到“我在想什么”</text>
       </g>
       <defs>
-        <marker id="redArrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#ef4444"/></marker>
+        <marker id="redarrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#ef4444"/></marker>
       </defs>
     </svg>
   </div>
@@ -55,6 +54,5 @@
         </ul>
       </div>
     </div>
-  </div>
-</body>
+  </div></body>
 </html>

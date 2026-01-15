@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Smile, Star, Edit3, Check, X } from 'lucide-react';
-import GlobalHelpCircle from './GlobalHelpCircle';
+import { GlobalHelpButton } from '../HelpSystem';
 import { Theme } from '../../types';
 
 interface AvatarProfileProps {
@@ -166,11 +166,12 @@ const AvatarProfile: React.FC<AvatarProfileProps> = ({
           <Star size={12}/> 角色系统
         </div>
         {onHelpClick && (
-          <div className={`p-0.5 rounded-full transition-all duration-300 hover:scale-[1.1]`}>
-            <button onClick={() => onHelpClick('character')} className="transition-colors">
-              <GlobalHelpCircle size={14} />
-            </button>
-          </div>
+          <GlobalHelpButton 
+            helpId="character" 
+            onHelpClick={onHelpClick} 
+            size={14} 
+            className="hover:scale-[1.1]" 
+          />
         )}
       </div>
       

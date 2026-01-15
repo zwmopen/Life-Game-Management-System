@@ -1,28 +1,26 @@
-
 <!DOCTYPE html>
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>创造性破坏</title>
-</head>
-<body>
+  <title>创造性破坏</title></head>
+<body >
   <div class="neu-card">
     <svg viewBox="0 0 1000 650">
       <g transform="translate(500, 325)">
         <!-- 旧系统 (瓦解中) -->
         <g opacity="0.1">
-          <rect x="-250" y="-150" width="500" height="300" rx="40" fill="var(--heading)" />
+          <rect x="-250" y="-150" width="500" height="300" rx="40" fill="#1e293b" />
           <path d="M-100,-100 L100,100 M-100,100 L100,-100" stroke="#ef4444" stroke-width="20" opacity="0.3" />
           <animateTransform attributeName="transform" type="translate" values="0,0; 5,5; 0,0" dur="0.2s" repeatCount="indefinite" />
         </g>
         
         <!-- 新势力 (破土而出) -->
         <g transform="translate(0, 50)">
-          <path d="M-60,0 Q0,-300 60,0 Z" fill="var(--accent)" filter="drop-shadow(0 0 40px var(--accent))">
+          <path d="M-60,0 Q0,-300 60,0 Z" fill="#ef4444" filter="drop-shadow(0 0 40px #ef4444)">
             <animate attributeName="d" values="M-60,0 Q0,-50 60,0 Z; M-80,0 Q0,-450 80,0 Z" dur="3s" repeatCount="indefinite" />
           </path>
           <text y="-200" text-anchor="middle" fill="white" style="font-size: 42px; font-weight: 900; letter-spacing: 0.2em;">新秩序</text>
-          <circle r="100" fill="none" stroke="var(--accent)" stroke-width="2" class="animate-ping" />
+          <circle r="100" fill="none" stroke="#ef4444" stroke-width="2" class="animate-ping" />
         </g>
 
         <text y="280" text-anchor="middle" fill="#ef4444" style="font-size: 24px; font-weight: 900;">破坏是创造的前提</text>
@@ -48,6 +46,5 @@
         </ul>
       </div>
     </div>
-  </div>
-</body>
+  </div></body>
 </html>

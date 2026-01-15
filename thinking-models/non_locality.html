@@ -1,19 +1,18 @@
-
+<!DOCTYPE html>
 <!DOCTYPE html>
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>非定域感应</title>
-</head>
-<body>
+  <title>非定域感应</title></head>
+<body >
   <div class="neu-card">
     <svg viewBox="0 0 1000 650">
       <g transform="translate(500, 325)">
         <!-- 核心脉冲源 -->
-        <circle r="20" fill="white" filter="drop-shadow(0 0 30px var(--accent))" class="animate-ping" />
+        <circle r="20" fill="white" filter="drop-shadow(0 0 30px #ef4444)" class="animate-ping" />
         
         <!-- 全局瞬间相关的节点组 -->
-        <g fill="var(--accent)">
+        <g fill="#ef4444">
           <circle cx="-300" cy="-200" r="15">
             <animate attributeName="fill" values="#3b82f6;#ef4444;#3b82f6" dur="0.5s" repeatCount="indefinite" />
           </circle>
@@ -29,12 +28,12 @@
         </g>
 
         <!-- 瞬间连接的虚线网 (无接触传导) -->
-        <g stroke="var(--accent)" stroke-width="1" opacity="0.1">
+        <g stroke="#ef4444" stroke-width="1" opacity="0.1">
           <line x1="-300" y1="-200" x2="350" y2="150" />
           <line x1="-200" y1="220" x2="280" y2="-180" />
         </g>
 
-        <text y="280" text-anchor="middle" fill="var(--accent)" style="font-size: 32px; font-weight: 900; letter-spacing: 0.1em;">感应：无需传导的同步</text>
+        <text y="280" text-anchor="middle" fill="#ef4444" style="font-size: 32px; font-weight: 900; letter-spacing: 0.1em;">感应：无需传导的同步</text>
       </g>
     </svg>
   </div>
@@ -57,6 +56,5 @@
         </ul>
       </div>
     </div>
-  </div>
-</body>
+  </div></body>
 </html>

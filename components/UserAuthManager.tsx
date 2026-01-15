@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useGameState } from '../hooks/useGameState';
+import { useGameState } from '../docs/hooks/useGameState';
 import { Theme } from '../types';
 
 interface UserData {

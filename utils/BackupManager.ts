@@ -2,6 +2,7 @@ import dataPersistenceManager from './DataPersistenceManager';
 import WebDAVBackupWrapper from './WebDAVBackupWrapper';
 import EnhancedWebDAVBackupManager from './EnhancedWebDAVBackupManager';
 import { BackupProgress } from './EnhancedWebDAVBackupManager';
+import { retrieveWebDAVConfig } from './secureStorage';
 
 interface BackupConfig {
   localAutoBackup?: boolean;
@@ -26,6 +27,8 @@ class BackupManager {
   private backupIntervalId: NodeJS.Timeout | null = null;
   private currentProgress: BackupProgress | null = null;
   private progressCallbacks: Array<(progress: BackupProgress) => void> = [];
+  private initialized: boolean = false;
+  private initializingPromise: Promise<void> | null = null;
   
   constructor(config?: BackupConfig) {
     this.config = {
@@ -39,41 +42,87 @@ class BackupManager {
 
   /**
    * 初始化备份管理器
+   * @param force 是否强制重新初始化
    */
-  async initialize(): Promise<void> {
-    // 初始化WebDAV备份（如果配置了云备份）
-    if (this.config.cloudAutoBackup) {
+  async initialize(force: boolean = false): Promise<void> {
+    if (this.initializingPromise && !force) {
+      return this.initializingPromise;
+    }
+
+    this.initializingPromise = (async () => {
+      console.log('正在初始化备份管理器...', force ? '(强制重置)' : '');
+      
+      // 获取WebDAV配置
+      const webdavConfig = retrieveWebDAVConfig();
+      
+      // 重置现有实例
+      if (force) {
+        this.webDAVBackup = null;
+        this.enhancedWebDAVBackup = null;
+        this.initialized = false;
+      }
+
+      // 初始化WebDAV备份
       try {
-        // 尝试初始化增强版WebDAV备份
-        const webdavConfig = JSON.parse(localStorage.getItem('webdavConfig') || '{}');
         if (webdavConfig.url && webdavConfig.username && webdavConfig.password) {
+          console.log('检测到WebDAV完整配置，初始化增强版管理器');
+          // 尝试初始化增强版WebDAV备份
           this.enhancedWebDAVBackup = new EnhancedWebDAVBackupManager({
-            url: webdavConfig.serverUrl || webdavConfig.url,
+            url: webdavConfig.url,
             username: webdavConfig.username,
             password: webdavConfig.password,
-            basePath: webdavConfig.basePath || '/人生游戏管理系统'
+            basePath: '/人生游戏管理系统'
           });
           
           // 测试连接
           const isConnected = await this.enhancedWebDAVBackup.testConnection();
           if (!isConnected) {
-            console.warn('增强版WebDAV连接失败，回退到传统方式');
-            throw new Error('Enhanced WebDAV connection failed');
+            console.warn('增强版WebDAV连接测试失败，但仍保留实例供后续重试');
           }
         } else {
+          console.log('WebDAV配置不完整，尝试传统方式初始化');
           // 如果没有配置，尝试传统方式
           this.webDAVBackup = new WebDAVBackupWrapper();
           await this.webDAVBackup.initialize();
         }
       } catch (error) {
-        console.error('WebDAV初始化失败:', error);
-        // 即使WebDAV初始化失败，也要继续运行
+        console.error('WebDAV初始化过程中出错:', error);
+        // 即使出错也继续，避免阻塞后续逻辑
       }
-    }
 
-    // 设置自动备份定时器
-    if (this.config.backupInterval && this.config.backupInterval > 0) {
-      this.startAutoBackup();
+      this.initialized = true;
+
+      // 设置自动备份定时器
+      if (this.config.backupInterval && this.config.backupInterval > 0) {
+        this.startAutoBackup();
+      }
+    })();
+
+    return this.initializingPromise;
+  }
+
+  /**
+   * 确保已初始化并尝试创建备份客户端
+   */
+  private async ensureInitialized(): Promise<void> {
+    // 检查是否已初始化，以及实例是否存在
+    if (!this.initialized || (!this.webDAVBackup && !this.enhancedWebDAVBackup)) {
+      await this.initialize();
+      return;
+    }
+    
+    // 检查当前实例的配置是否与存储中的配置匹配
+    const currentConfig = retrieveWebDAVConfig();
+    
+    // 检查当前配置是否有效
+    const hasValidConfig = currentConfig.url && currentConfig.username && currentConfig.password;
+    const hasEnhancedInstance = this.enhancedWebDAVBackup !== null;
+    const hasBasicInstance = this.webDAVBackup !== null;
+    
+    // 如果配置有效但没有增强版实例（应该有），或者配置无效但没有基本实例（应该有），则需要重新初始化
+    if ((hasValidConfig && !hasEnhancedInstance) || (!hasValidConfig && !hasBasicInstance)) {
+      console.log('配置与实例不匹配，正在重新初始化...');
+      await this.initialize(true); // 强制重新初始化
     }
   }
 
@@ -158,8 +207,24 @@ class BackupManager {
    * 创建云端备份
    */
   async createCloudBackup(backupName?: string): Promise<BackupInfo> {
+    console.log('正在执行云端备份...');
+    await this.ensureInitialized();
+    
+    // 检查是否有可用的WebDAV配置
+    const webdavConfig = retrieveWebDAVConfig();
+    if (!webdavConfig.username || !webdavConfig.password) {
+      console.error('WebDAV配置不完整，无法执行云端备份');
+      throw new Error('WebDAV备份未配置，请在设置中输入用户名和密码');
+    }
+
+    // 如果实例不存在或配置已更新，确保实例可用
     if (!this.webDAVBackup && !this.enhancedWebDAVBackup) {
-      throw new Error('WebDAV备份未初始化');
+      console.log('未检测到备份实例，尝试重新初始化...');
+      await this.initialize(true);
+    }
+    
+    if (!this.webDAVBackup && !this.enhancedWebDAVBackup) {
+      throw new Error('WebDAV备份客户端创建失败，请检查配置或网络连接');
     }
 
     const backupId = backupName || `cloud-backup-${Date.now()}`;
@@ -240,6 +305,7 @@ class BackupManager {
    * 从云端恢复备份
    */
   async restoreFromCloudBackup(backupId: string): Promise<boolean> {
+    await this.ensureInitialized();
     if (!this.webDAVBackup && !this.enhancedWebDAVBackup) {
       throw new Error('WebDAV备份未初始化');
     }
@@ -408,6 +474,7 @@ class BackupManager {
    * 批量创建云端备份
    */
   async batchCreateCloudBackups(backups: Array<{ id: string; data: string }>): Promise<{ success: number; failed: string[] }> {
+    await this.ensureInitialized();
     if (!this.enhancedWebDAVBackup) {
       throw new Error('增强版WebDAV备份未初始化');
     }
@@ -465,7 +532,7 @@ class BackupManager {
       result.local = await this.createLocalBackup(backupName + '-local');
     }
     
-    if (options?.cloud !== false && this.config.cloudAutoBackup && this.webDAVBackup) {
+    if (options?.cloud !== false && this.config.cloudAutoBackup && (this.webDAVBackup || this.enhancedWebDAVBackup)) {
       result.cloud = await this.createCloudBackup(backupName + '-cloud');
     }
     

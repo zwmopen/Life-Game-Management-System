@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Habit, DailyStats } from '../types';
-import { INITIAL_HABITS } from '../constants/index';
+import { Habit, DailyStats } from '../../types';
+import { INITIAL_HABITS } from '../../constants/index';
 
 interface UseHabitsReturn {
   habits: Habit[];

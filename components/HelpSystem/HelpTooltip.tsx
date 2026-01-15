@@ -19,7 +19,7 @@ const HelpTooltip: React.FC<HelpTooltipProps> = ({
       <button
         onClick={() => onHelpClick(helpId)}
         className={`transition-colors ${className}`}
-        aria-label="打开帮助"
+        aria-label="打开帮助卡片"
       >
         {children || <GlobalHelpCircle size={14} />}
       </button>

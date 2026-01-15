@@ -1,40 +1,39 @@
-
+<!DOCTYPE html>
 <!DOCTYPE html>
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>香农熵</title>
-</head>
-<body>
+  <title>香农熵</title></head>
+<body >
   <div class="neu-card">
     <svg viewBox="0 0 1000 650">
       <g transform="translate(500, 325)">
         <!-- 原始不确定性场 (高熵) -->
         <g opacity="0.1">
-          <rect x="-400" y="-200" width="800" height="400" rx="40" fill="var(--heading)" />
+          <rect x="-400" y="-200" width="800" height="400" rx="40" fill="#1e293b" />
           <g transform="translate(0, 0)">
-            <circle cx="-300" cy="-100" r="5" fill="var(--heading)" /><circle cx="200" cy="150" r="5" fill="var(--heading)" />
+            <circle cx="-300" cy="-100" r="5" fill="#1e293b" /><circle cx="200" cy="150" r="5" fill="#1e293b" />
             <animateTransform attributeName="transform" type="translate" values="0,0; 10,10; 0,0" dur="0.1s" repeatCount="indefinite" />
           </g>
         </g>
         
         <!-- 信息的介入 (减熵) -->
         <g transform="translate(-100, 0)">
-          <path d="M-200,0 L150,0" stroke="var(--accent)" stroke-width="80" opacity="0.1" stroke-linecap="round" />
-          <path d="M-200,0 L150,0" stroke="var(--accent)" stroke-width="4" stroke-dasharray="10 10">
+          <path d="M-200,0 L150,0" stroke="#ef4444" stroke-width="80" opacity="0.1" stroke-linecap="round" />
+          <path d="M-200,0 L150,0" stroke="#ef4444" stroke-width="4" stroke-dasharray="10 10">
              <animate attributeName="stroke-dashoffset" from="0" to="100" dur="1s" repeatCount="indefinite" />
           </path>
-          <text x="-150" y="-60" fill="var(--accent)" style="font-size: 32px; font-weight: 900;">信息注入 (I)</text>
+          <text x="-150" y="-60" fill="#ef4444" style="font-size: 32px; font-weight: 900;">信息注入 (我)</text>
         </g>
 
         <!-- 有序的比特 (低熵) -->
         <g transform="translate(300, 0)">
-          <rect x="-80" y="-80" width="160" height="160" rx="20" fill="var(--accent)" filter="drop-shadow(0 0 40px var(--accent))" />
+          <rect x="-80" y="-80" width="160" height="160" rx="20" fill="#ef4444" filter="drop-shadow(0 0 40px #ef4444)" />
           <text text-anchor="middle" y="10" fill="white" style="font-size: 42px; font-weight: 900;">0 / 1</text>
-          <text y="110" text-anchor="middle" fill="var(--accent)" style="font-size: 14px; font-weight: 900;">确定性的增加</text>
+          <text y="110" text-anchor="middle" fill="#ef4444" style="font-size: 14px; font-weight: 900;">确定性的增加</text>
         </g>
 
-        <text y="240" text-anchor="middle" fill="var(--accent)" style="font-size: 36px; font-weight: 900;">信息 = 不确定性的消除</text>
+        <text y="240" text-anchor="middle" fill="#ef4444" style="font-size: 36px; font-weight: 900;">信息 = 不确定性的消除</text>
       </g>
     </svg>
   </div>
@@ -57,6 +56,5 @@
         </ul>
       </div>
     </div>
-  </div>
-</body>
+  </div></body>
 </html>

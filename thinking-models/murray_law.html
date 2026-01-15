@@ -1,45 +1,44 @@
-
+<!DOCTYPE html>
 <!DOCTYPE html>
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>默里定律</title>
-</head>
-<body>
+  <title>默里定律</title></head>
+<body >
   <div class="neu-card">
     <svg viewBox="0 0 1000 650">
       <defs>
-        <marker id="fluidArrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="var(--accent)"/></marker>
+        <marker id="fluidarrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#ef4444"/></marker>
       </defs>
       <g transform="translate(500, 325)">
         <!-- 父管 -->
-        <path d="M-450,0 L-100,0" stroke="var(--heading)" stroke-width="60" stroke-linecap="round" opacity="0.05" />
-        <path d="M-450,0 L-120,0" stroke="var(--accent)" stroke-width="4" stroke-dasharray="15 30" marker-end="url(#fluidArrow)">
+        <path d="M-450,0 L-100,0" stroke="#1e293b" stroke-width="60" stroke-linecap="round" opacity="0.05" />
+        <path d="M-450,0 L-120,0" stroke="#ef4444" stroke-width="4" stroke-dasharray="15 30" marker-end="url(#fluidarrow)">
            <animate attributeName="stroke-dashoffset" from="0" to="100" dur="2s" repeatCount="indefinite" />
         </path>
-        <text x="-280" y="-50" text-anchor="middle" fill="var(--heading)" style="font-size: 36px; font-weight: 900;">父级系统</text>
+        <text x="-280" y="-50" text-anchor="middle" fill="#1e293b" style="font-size: 36px; font-weight: 900;">父级系统</text>
 
         <!-- 分支点 -->
-        <circle r="40" fill="var(--accent)" fill-opacity="0.1" />
+        <circle r="40" fill="#ef4444" fill-opacity="0.1" />
 
         <!-- 子管 1 -->
         <g transform="rotate(-30)">
-          <path d="M40,0 L350,0" stroke="var(--heading)" stroke-width="35" stroke-linecap="round" opacity="0.05" />
-          <path d="M40,0 L320,0" stroke="var(--accent)" stroke-width="3" stroke-dasharray="10 20" marker-end="url(#fluidArrow)">
+          <path d="M40,0 L350,0" stroke="#1e293b" stroke-width="35" stroke-linecap="round" opacity="0.05" />
+          <path d="M40,0 L320,0" stroke="#ef4444" stroke-width="3" stroke-dasharray="10 20" marker-end="url(#fluidarrow)">
             <animate attributeName="stroke-dashoffset" from="0" to="100" dur="1.5s" repeatCount="indefinite" />
           </path>
         </g>
         <!-- 子管 2 -->
         <g transform="rotate(30)">
-          <path d="M40,0 L350,0" stroke="var(--heading)" stroke-width="35" stroke-linecap="round" opacity="0.05" />
-          <path d="M40,0 L320,0" stroke="var(--accent)" stroke-width="3" stroke-dasharray="10 20" marker-end="url(#fluidArrow)">
+          <path d="M40,0 L350,0" stroke="#1e293b" stroke-width="35" stroke-linecap="round" opacity="0.05" />
+          <path d="M40,0 L320,0" stroke="#ef4444" stroke-width="3" stroke-dasharray="10 20" marker-end="url(#fluidarrow)">
             <animate attributeName="stroke-dashoffset" from="0" to="100" dur="1.5s" repeatCount="indefinite" />
           </path>
         </g>
         
-        <text x="350" y="0" fill="var(--accent)" style="font-size: 32px; font-weight: 900;">高能分支</text>
+        <text x="350" y="0" fill="#ef4444" style="font-size: 32px; font-weight: 900;">高能分支</text>
       </g>
-      <text x="500" y="580" text-anchor="middle" fill="var(--accent)" opacity="0.3" style="font-size: 20px; font-weight: 900;">输送能耗与维持成本的终极平衡</text>
+      <text x="500" y="580" text-anchor="middle" fill="#ef4444" opacity="0.3" style="font-size: 20px; font-weight: 900;">输送能耗与维持成本的终极平衡</text>
     </svg>
   </div>
 
@@ -62,6 +61,5 @@
         </ul>
       </div>
     </div>
-  </div>
-</body>
+  </div></body>
 </html>

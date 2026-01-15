@@ -6,7 +6,9 @@
   <title>二阶思维 - 涟漪可视化</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body { background: #0f172a; color: white; font-family: 'Inter', sans-serif; overflow: hidden; }
+
+
+    body { background: #0f172a; color: white; font-family: '我nter', sans-serif; overflow: hidden; }
     .ripple { animation: pulse-ripple 6s infinite; transform-origin: center; opacity: 0; }
     @keyframes pulse-ripple { 
       0% { transform: scale(0.5); opacity: 0; }
@@ -15,20 +17,20 @@
     }
   </style>
 </head>
-<body class="p-8 md:p-16 flex items-center justify-center min-h-screen">
-  <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+<body>data-theme="light" class="p-8 md:p-16 flex items-center justify-center min-h-screen">
+  <div class="max-w-7xl mx-auto w-full grid grid-cols-1 gap-20">
     <div class="space-y-12">
-      <h1 class="text-8xl font-black text-white leading-none tracking-tighter italic">Second<br><span class="text-blue-400 not-italic uppercase">Order</span></h1>
-      <p class="text-xl text-slate-500 italic">“不要问：‘现在发生了什么？’ 要问：‘在那之后，会发生什么？’”</p>
+      <h1 class="text-8xl font-black text-white leading-none tracking-tighter italic">二阶<br><span class="text-blue-400 not-italic uppercase">思维</span></h1>
+      <p class="text-xl text-slate-500 italic">"不要问：现在发生了什么？要问：在那之后，会发生什么？"</p>
       
       <div class="grid grid-cols-1 gap-6">
         <div class="p-8 bg-white/5 border-l-4 border-slate-700 rounded-3xl opacity-50">
-          <h4 class="font-black text-slate-400 mb-2">一阶思维 (Immediate)</h4>
-          <p class="text-xs">关注直接后果。如：饥饿时吃饭。</p>
+          <h4 class="font-black text-slate-400 mb-2">一阶思维 (即时)</h4>
+          <p class="text-xs">关注直接后果。如：饥饿时吃蛋糕。</p>
         </div>
         <div class="p-8 bg-blue-500/10 border-l-4 border-blue-400 rounded-3xl">
-          <h4 class="font-black text-blue-400 mb-2">二阶思维 (Ripple Effect)</h4>
-          <p class="text-xs">关注连锁反应及其后果的后果。如：频繁外卖对健康的长期影响。</p>
+          <h4 class="font-black text-blue-400 mb-2">二阶思维 (涟漪效应)</h4>
+          <p class="text-xs">关注连锁反应及其后果的后果。如：经常外出对健康的长期影响。</p>
         </div>
       </div>
     </div>
@@ -42,16 +44,15 @@
         
         {/* Core Node */}
         <circle cx="300" cy="300" r="60" fill="#0ea5e9" />
-        <text x="300" y="305" text-anchor="middle" fill="white" class="font-black text-xs uppercase tracking-widest">Initial Decision</text>
+        <text x="300" y="305" text-anchor="middle" fill="white" class="font-black text-xs uppercase tracking-widest">初始决策</text>
         
         {/* Secondary Labels */}
         <g opacity="0.4">
-          <text x="300" y="150" text-anchor="middle" fill="#38bdf8" class="font-bold text-[8px] uppercase">Then What?</text>
-          <text x="450" y="300" text-anchor="middle" fill="#38bdf8" class="font-bold text-[8px] uppercase" transform="rotate(90 450 300)">Long Term</text>
-          <text x="150" y="300" text-anchor="middle" fill="#38bdf8" class="font-bold text-[8px] uppercase" transform="rotate(-90 150 300)">Feedback</text>
+          <text x="300" y="150" text-anchor="middle" fill="#38bdf8" class="font-bold text-[8px] uppercase">然后呢？</text>
+          <text x="450" y="300" text-anchor="middle" fill="#38bdf8" class="font-bold text-[8px] uppercase" transform="rotate(90 450 300)">长期影响</text>
+          <text x="150" y="300" text-anchor="middle" fill="#38bdf8" class="font-bold text-[8px] uppercase" transform="rotate(-90 150 300)">反馈</text>
         </g>
       </svg>
     </div>
-  </div>
-</body>
+  </div></body>
 </html>

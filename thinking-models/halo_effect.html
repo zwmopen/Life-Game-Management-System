@@ -1,11 +1,13 @@
-
+<!DOCTYPE html>﻿
 <!DOCTYPE html>
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>光环效应 - 认知晕染</title>
+  <title>鍏夌幆鏁堝簲 - 璁ょ煡鏅曟煋</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
+
+
     body { background: #020617; font-family: -apple-system, sans-serif; color: #f8fafc; overflow: hidden; }
     .glass { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05); }
     @keyframes expand-glow { 0%, 100% { r: 50; opacity: 0.3; } 50% { r: 200; opacity: 0.1; } }
@@ -14,20 +16,20 @@
     .node:hover { transform: scale(1.1); filter: brightness(1.2); }
   </style>
 </head>
-<body class="p-8 md:p-20 flex items-center justify-center min-h-screen">
-  <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+<body>data-theme="light" class="p-8 md:p-20 flex items-center justify-center min-h-screen">
+  <div class="max-w-7xl mx-auto w-full grid grid-cols-1 gap-20">
     <div class="relative flex items-center justify-center glass p-12 rounded-[4rem] shadow-2xl overflow-hidden bg-sky-900/5">
       <svg viewBox="0 0 600 600" class="w-full h-auto max-w-[500px]">
-        <!-- 漫反射光环 -->
+        <!-- 婕弽灏勫厜鐜?-->
         <circle cx="300" cy="200" r="100" fill="#3b82f6" class="halo" />
         
-        <!-- 核心优点节点 -->
+        <!-- 鏍稿績浼樼偣鑺傜偣 -->
         <g class="node" transform="translate(300, 200)">
            <circle r="40" fill="#3b82f6" filter="drop-shadow(0 0 20px #3b82f6)" />
            <text text-anchor="middle" y="5" fill="white" class="font-black text-xs italic tracking-widest uppercase">Good Trait</text>
         </g>
 
-        <!-- 被“照亮”的其他平庸节点 -->
+        <!-- 琚€滅収浜€濈殑鍏朵粬骞冲焊鑺傜偣 -->
         <g class="node" transform="translate(150, 400)">
            <circle r="30" fill="#334155" stroke="#3b82f6" stroke-width="1" stroke-dasharray="2 2" />
            <text text-anchor="middle" y="5" fill="#3b82f6" class="text-[8px] font-bold">Smart?</text>
@@ -45,25 +47,25 @@
       </svg>
     </div>
     <div class="space-y-12">
-      <h1 class="text-8xl font-black text-white tracking-tighter leading-[0.8]">光环效应<br><span class="text-sky-500 italic">Halo Effect</span></h1>
-      <p class="text-xl text-slate-400 border-l-4 border-sky-500 pl-6 italic">“当你爱上一个人的长相，你会觉得他的性格、智力、人品全都无懈可击。”</p>
+      <h1 class="text-8xl font-black text-white tracking-tighter leading-[0.8]">鍏夌幆鏁堝簲<br><span class="text-sky-500 italic">Halo Effect</span></h1>
+      <p class="text-xl text-slate-400 border-l-4 border-sky-500 pl-6 italic">鈥滃綋浣犵埍涓婁竴涓汉鐨勯暱鐩革紝浣犱細瑙夊緱浠栫殑鎬ф牸銆佹櫤鍔涖€佷汉鍝佸叏閮芥棤鎳堝彲鍑汇€傗€?/p>
       <div class="glass p-10 rounded-[3rem] space-y-6 shadow-xl">
-        <h3 class="text-2xl font-black text-white italic">核心隐喻：透镜晕染</h3>
+        <h3 class="text-2xl font-black text-white italic">鏍稿績闅愬柣锛氶€忛暅鏅曟煋</h3>
         <p class="text-sm text-slate-400 leading-relaxed">
-          这是一种典型的认知偏误。当我们对一个人的某个特征（如相貌、学历、演讲能力）产生极佳的印象时，这种印象会像强光一样向周围“晕染”，导致我们对他完全无关的其他特征产生正面评价。
+          杩欐槸涓€绉嶅吀鍨嬬殑璁ょ煡鍋忚銆傚綋鎴戜滑瀵逛竴涓汉鐨勬煇涓壒寰侊紙濡傜浉璨屻€佸鍘嗐€佹紨璁茶兘鍔涳級浜х敓鏋佷匠鐨勫嵃璞℃椂锛岃繖绉嶅嵃璞′細鍍忓己鍏変竴鏍峰悜鍛ㄥ洿鈥滄檿鏌撯€濓紝瀵艰嚧鎴戜滑瀵逛粬瀹屽叏鏃犲叧鐨勫叾浠栫壒寰佷骇鐢熸闈㈣瘎浠枫€?
         </p>
         <div class="grid grid-cols-2 gap-4">
           <div class="bg-sky-600/10 p-5 rounded-3xl border border-sky-500/20">
-             <h4 class="text-sky-400 font-black text-[10px] uppercase mb-1">商业应用</h4>
-             <p class="text-[11px] text-slate-300 italic">邀请高颜值的明星代言，让产品看起来更可靠。</p>
+             <h4 class="text-sky-400 font-black text-[10px] uppercase mb-1">鍟嗕笟搴旂敤</h4>
+             <p class="text-[11px] text-slate-300 italic">閭€璇烽珮棰滃€肩殑鏄庢槦浠ｈ█锛岃浜у搧鐪嬭捣鏉ユ洿鍙潬銆?/p>
           </div>
           <div class="bg-white/5 p-5 rounded-3xl border border-white/5">
-             <h4 class="text-slate-500 font-black text-[10px] uppercase mb-1">逆向应用</h4>
-             <p class="text-[11px] text-slate-300 italic">警惕“权威光环”，剥离名人的光环去审视他的具体言论。</p>
+             <h4 class="text-slate-500 font-black text-[10px] uppercase mb-1">閫嗗悜搴旂敤</h4>
+             <p class="text-[11px] text-slate-300 italic">璀︽儠鈥滄潈濞佸厜鐜€濓紝鍓ョ鍚嶄汉鐨勫厜鐜幓瀹¤浠栫殑鍏蜂綋瑷€璁恒€?/p>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</body>
+  </div></body>
 </html>
+

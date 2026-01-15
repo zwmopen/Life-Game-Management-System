@@ -1,17 +1,16 @@
-
+<!DOCTYPE html>
 <!DOCTYPE html>
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>拓扑鲁棒性</title>
-</head>
-<body>
+  <title>拓扑鲁棒性</title></head>
+<body >
   <div class="neu-card">
     <svg viewBox="0 0 1000 650">
       <g transform="translate(500, 325)">
         <!-- 甜甜圈拓扑 (Torus) -->
-        <ellipse rx="300" ry="150" fill="none" stroke="var(--accent)" stroke-width="40" stroke-opacity="0.1" />
-        <ellipse rx="300" ry="150" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="10 30" class="animate-spin" style="animation-duration: 20s" />
+        <ellipse rx="300" ry="150" fill="none" stroke="#ef4444" stroke-width="40" stroke-opacity="0.1" />
+        <ellipse rx="300" ry="150" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="10 30" class="animate-spin" style="animation-duration: 20s" />
         
         <!-- 局部被破坏的节点 (红色碎片) -->
         <g>
@@ -21,11 +20,11 @@
         </g>
 
         <!-- 整体环路依然通畅 (蓝色能量流) -->
-        <path d="M300,0 A300,150 0 1,1 -300,0 A300,150 0 1,1 300,0" fill="none" stroke="var(--accent)" stroke-width="6" stroke-dasharray="15 45">
+        <path d="M300,0 A300,150 0 1,1 -300,0 A300,150 0 1,1 300,0" fill="none" stroke="#ef4444" stroke-width="6" stroke-dasharray="15 45">
           <animate attributeName="stroke-dashoffset" from="0" to="1000" dur="10s" repeatCount="indefinite" />
         </path>
 
-        <text y="240" text-anchor="middle" fill="var(--accent)" style="font-size: 32px; font-weight: 900; letter-spacing: 0.1em;">整体形状 > 局部质量</text>
+        <text y="240" text-anchor="middle" fill="#ef4444" style="font-size: 32px; font-weight: 900; letter-spacing: 0.1em;">整体形状 > 局部质量</text>
       </g>
     </svg>
   </div>
@@ -48,6 +47,5 @@
         </ul>
       </div>
     </div>
-  </div>
-</body>
+  </div></body>
 </html>

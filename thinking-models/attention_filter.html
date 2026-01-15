@@ -1,23 +1,21 @@
-
 <!DOCTYPE html>
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>注意力过滤</title>
-</head>
-<body>
+  <title>注意力过滤</title></head>
+<body >
   <div class="neu-card">
     <svg viewBox="0 0 1000 650">
       <g transform="translate(500, 325)">
         <!-- 嘈杂的信息流 (背景) -->
         <g opacity="0.1">
-          <circle r="10" cx="-400" cy="-200" fill="var(--heading)" />
-          <rect x="300" y="150" width="20" height="20" fill="var(--heading)" />
+          <circle r="10" cx="-400" cy="-200" fill="#1e293b" />
+          <rect x="300" y="150" width="20" height="20" fill="#1e293b" />
           <animateTransform attributeName="transform" type="translate" values="0,0; 10,10; 0,0" dur="0.1s" repeatCount="indefinite" />
         </g>
         
         <!-- 过滤漏斗 -->
-        <path d="M-300,-250 L300,-250 L100,0 L-100,0 Z" fill="var(--accent)" fill-opacity="0.1" stroke="var(--accent)" stroke-width="4" stroke-dasharray="10 5" />
+        <path d="M-300,-250 L300,-250 L100,0 L-100,0 Z" fill="#ef4444" fill-opacity="0.1" stroke="#ef4444" stroke-width="4" stroke-dasharray="10 5" />
         
         <!-- 被剔除的杂质 (向侧面飞出) -->
         <g fill="#94a3b8" opacity="0.3">
@@ -27,17 +25,17 @@
 
         <!-- 纯净的输出 (核心) -->
         <g transform="translate(0, 150)">
-          <circle r="60" fill="var(--accent)" filter="drop-shadow(0 0 30px var(--accent))" />
+          <circle r="60" fill="#ef4444" filter="drop-shadow(0 0 30px #ef4444)" />
           <text text-anchor="middle" y="10" fill="white" style="font-size: 24px; font-weight: 900;">有效信号</text>
-          <circle r="90" fill="none" stroke="var(--accent)" stroke-width="2" class="animate-ping" />
+          <circle r="90" fill="none" stroke="#ef4444" stroke-width="2" class="animate-ping" />
         </g>
 
-        <text y="-280" text-anchor="middle" fill="var(--accent)" style="font-size: 42px; font-weight: 900;">卓越源于对99%的冷酷拒绝</text>
+        <text y="-280" text-anchor="middle" fill="#ef4444" style="font-size: 42px; font-weight: 900;">卓越源于对99%的冷酷拒绝</text>
       </g>
     </svg>
   </div>
   <div class="text-content">
-    <h1>注意力过滤器 (Attention Filter)</h1>
+    <h1>注意力过滤器</h1>
     <p>智慧不仅是“看到”，更是“决定不看什么”。在信息无限的环境中，系统的处理上限是固定的。通过极端的过滤，将有限的认知能量饱和式地注入到那 1% 的核心信号中。</p>
     <div class="grid">
       <div>
@@ -55,6 +53,5 @@
         </ul>
       </div>
     </div>
-  </div>
-</body>
+  </div></body>
 </html>

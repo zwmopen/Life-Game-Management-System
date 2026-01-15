@@ -1,23 +1,22 @@
-
+<!DOCTYPE html>
 <!DOCTYPE html>
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>机会成本</title>
-</head>
-<body>
+  <title>机会成本</title></head>
+<body >
   <div class="neu-card">
     <svg viewBox="0 0 1000 600">
       <!-- 决策分叉 -->
       <g transform="translate(500, 500)">
-        <path d="M0,0 Q0,-150 -250,-400" fill="none" stroke="var(--accent)" stroke-width="40" opacity="0.05" />
-        <path d="M0,0 Q0,-150 250,-400" fill="none" stroke="var(--heading)" stroke-width="40" opacity="0.05" />
+        <path d="M0,0 Q0,-150 -250,-400" fill="none" stroke="#ef4444" stroke-width="40" opacity="0.05" />
+        <path d="M0,0 Q0,-150 250,-400" fill="none" stroke="#1e293b" stroke-width="40" opacity="0.05" />
         
         <!-- 被选中的路径 -->
-        <path d="M0,0 Q0,-150 -250,-400" fill="none" stroke="var(--accent)" stroke-width="4" stroke-dasharray="10 20">
+        <path d="M0,0 Q0,-150 -250,-400" fill="none" stroke="#ef4444" stroke-width="4" stroke-dasharray="10 20">
           <animate attributeName="stroke-dashoffset" from="0" to="100" dur="2s" repeatCount="indefinite" />
         </path>
-        <circle cx="-250" cy="-400" r="50" fill="var(--accent)" />
+        <circle cx="-250" cy="-400" r="50" fill="#ef4444" />
         <text x="-250" y="-395" text-anchor="middle" fill="white" style="font-size: 14px; font-weight: 900;">选择 A (已选)</text>
 
         <!-- 机会成本路径 -->
@@ -27,8 +26,8 @@
           <text x="250" y="-395" text-anchor="middle" fill="#ef4444" style="font-size: 12px; font-weight: 900;">被放弃的 B (成本)</text>
         </g>
 
-        <circle r="20" fill="var(--heading)" />
-        <text y="40" text-anchor="middle" fill="var(--text)" style="font-size: 12px; font-weight: 900; letter-spacing: 0.2em;">DECISION POINT</text>
+        <circle r="20" fill="#1e293b" />
+        <text y="40" text-anchor="middle" fill="#64748b" style="font-size: 12px; font-weight: 900; letter-spacing: 0.2em;">DEc我S我ON 计划O我NT</text>
       </g>
     </svg>
   </div>
@@ -52,6 +51,5 @@
         </ul>
       </div>
     </div>
-  </div>
-</body>
+  </div></body>
 </html>

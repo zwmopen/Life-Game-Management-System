@@ -1,40 +1,38 @@
-
 <!DOCTYPE html>
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>对比效应</title>
-</head>
-<body>
+  <title>对比效应</title></head>
+<body >
   <div class="neu-card">
     <svg viewBox="0 0 1000 600">
       <!-- 场景 A: 被巨物包围 -->
       <g transform="translate(250, 300)">
-        <circle r="120" fill="var(--heading)" opacity="0.05" />
-        <circle cx="0" cy="-100" r="40" fill="var(--heading)" opacity="0.1" />
-        <circle cx="85" cy="50" r="40" fill="var(--heading)" opacity="0.1" />
-        <circle cx="-85" cy="50" r="40" fill="var(--heading)" opacity="0.1" />
+        <circle r="120" fill="#1e293b" opacity="0.05" />
+        <circle cx="0" cy="-100" r="40" fill="#1e293b" opacity="0.1" />
+        <circle cx="85" cy="50" r="40" fill="#1e293b" opacity="0.1" />
+        <circle cx="-85" cy="50" r="40" fill="#1e293b" opacity="0.1" />
         
         <!-- 核心圆 (看上去很小) -->
-        <circle r="20" fill="var(--accent)">
+        <circle r="20" fill="#ef4444">
            <animate attributeName="r" values="20;18;20" dur="2s" repeatCount="indefinite" />
         </circle>
-        <text y="160" text-anchor="middle" fill="var(--text)" opacity="0.5" style="font-size: 12px;">显得很小 (Small)</text>
+        <text y="160" text-anchor="middle" fill="#64748b" opacity="0.5" style="font-size: 12px;">显得很小 (Small)</text>
       </g>
 
       <!-- 场景 B: 被微物包围 (核心圆物理大小一致) -->
       <g transform="translate(750, 300)">
-        <circle cx="0" cy="-40" r="5" fill="var(--heading)" opacity="0.2" />
-        <circle cx="35" cy="20" r="5" fill="var(--heading)" opacity="0.2" />
-        <circle cx="-35" cy="20" r="5" fill="var(--heading)" opacity="0.2" />
+        <circle cx="0" cy="-40" r="5" fill="#1e293b" opacity="0.2" />
+        <circle cx="35" cy="20" r="5" fill="#1e293b" opacity="0.2" />
+        <circle cx="-35" cy="20" r="5" fill="#1e293b" opacity="0.2" />
         
         <!-- 核心圆 (看上去很大) -->
-        <circle r="20" fill="var(--accent)" />
-        <text y="160" text-anchor="middle" fill="var(--text)" opacity="0.5" style="font-size: 12px;">显得很大 (Large)</text>
+        <circle r="20" fill="#ef4444" />
+        <text y="160" text-anchor="middle" fill="#64748b" opacity="0.5" style="font-size: 12px;">显得很大 (Large)</text>
       </g>
 
-      <path d="M400,300 L600,300" stroke="var(--heading)" stroke-width="1" stroke-dasharray="5 10" opacity="0.1" />
-      <text x="500" y="550" text-anchor="middle" fill="var(--text)" opacity="0.3" style="font-size: 12px; font-weight: 900; letter-spacing: 0.5em;">EVERYTHING IS RELATIVE</text>
+      <path d="M400,300 L600,300" stroke="#1e293b" stroke-width="1" stroke-dasharray="5 10" opacity="0.1" />
+      <text x="500" y="550" text-anchor="middle" fill="#64748b" opacity="0.3" style="font-size: 12px; font-weight: 900; letter-spacing: 0.5em;">EVERYTHING IS RELATIVE</text>
     </svg>
   </div>
 
@@ -57,6 +55,5 @@
         </ul>
       </div>
     </div>
-  </div>
-</body>
+  </div></body>
 </html>

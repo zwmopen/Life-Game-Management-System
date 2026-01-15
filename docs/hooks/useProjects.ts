@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Project } from '../types';
-import { INITIAL_PROJECTS } from '../constants/index';
+import { Project } from '../../types';
+import { INITIAL_PROJECTS } from '../../constants/index';
 
 interface UseProjectsReturn {
   projects: Project[];

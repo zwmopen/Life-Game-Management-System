@@ -86,34 +86,34 @@ export const generateRecommendedImageUrl = (productName: string): string => {
   
   if (lowerKeyword.includes("食物") || lowerKeyword.includes("饮食") || lowerKeyword.includes("鸡腿") || lowerKeyword.includes("鸡排") || lowerKeyword.includes("烤鱼") || lowerKeyword.includes("烧烤") || lowerKeyword.includes("奶茶") || lowerKeyword.includes("饮料") || lowerKeyword.includes("日历")) {
     // 食物类商品
-    return `https://source.unsplash.com/400x400/?food,${encodeURIComponent(keyword)}`;
+    return `https://images.unsplash.com/featured/400x400?food,${encodeURIComponent(keyword)}`;
   } else if (lowerKeyword.includes("书") || lowerKeyword.includes("小说") || lowerKeyword.includes("课程") || lowerKeyword.includes("知识")) {
     // 书籍/知识类商品
-    return `https://source.unsplash.com/400x400/?book,reading,${encodeURIComponent(keyword)}`;
+    return `https://images.unsplash.com/featured/400x400?book,reading,${encodeURIComponent(keyword)}`;
   } else if (lowerKeyword.includes("健身") || lowerKeyword.includes("运动") || lowerKeyword.includes("瑜伽") || lowerKeyword.includes("爬山") || lowerKeyword.includes("跑步")) {
     // 运动健身类商品
-    return `https://source.unsplash.com/400x400/?fitness,sport,exercise,${encodeURIComponent(keyword)}`;
+    return `https://images.unsplash.com/featured/400x400?fitness,sport,exercise,${encodeURIComponent(keyword)}`;
   } else if (lowerKeyword.includes("按摩") || lowerKeyword.includes("理发") || lowerKeyword.includes("放松") || lowerKeyword.includes("spa")) {
     // 服务类商品
-    return `https://source.unsplash.com/400x400/?service,relax,${encodeURIComponent(keyword)}`;
+    return `https://images.unsplash.com/featured/400x400?service,relax,${encodeURIComponent(keyword)}`;
   } else if (lowerKeyword.includes("社群") || lowerKeyword.includes("门票") || lowerKeyword.includes("会员") || lowerKeyword.includes("交流")) {
     // 社群/会员类商品
-    return `https://source.unsplash.com/400x400/?community,people,${encodeURIComponent(keyword)}`;
+    return `https://images.unsplash.com/featured/400x400?community,people,${encodeURIComponent(keyword)}`;
   } else if (lowerKeyword.includes("衣服") || lowerKeyword.includes("裤子") || lowerKeyword.includes("鞋子") || lowerKeyword.includes("服装") || lowerKeyword.includes("素颜霜")) {
     // 服饰美容类商品
-    return `https://source.unsplash.com/400x400/?clothing,fashion,${encodeURIComponent(keyword)}`;
+    return `https://images.unsplash.com/featured/400x400?clothing,fashion,${encodeURIComponent(keyword)}`;
   } else if (lowerKeyword.includes("数码") || lowerKeyword.includes("键盘") || lowerKeyword.includes("手表") || lowerKeyword.includes("耳机") || lowerKeyword.includes("手机") || lowerKeyword.includes("电脑") || lowerKeyword.includes("相机") || lowerKeyword.includes("音响")) {
     // 数码类商品
-    return `https://source.unsplash.com/400x400/?technology,gadget,electronics,${encodeURIComponent(keyword)}`;
+    return `https://images.unsplash.com/featured/400x400?technology,gadget,electronics,${encodeURIComponent(keyword)}`;
   } else if (lowerKeyword.includes("家居") || lowerKeyword.includes("家具") || lowerKeyword.includes("床垫") || lowerKeyword.includes("枕头") || lowerKeyword.includes("台灯") || lowerKeyword.includes("厨房") || lowerKeyword.includes("椅子") || lowerKeyword.includes("沙发")) {
     // 家居类商品
-    return `https://source.unsplash.com/400x400/?home,furniture,household,${encodeURIComponent(keyword)}`;
+    return `https://images.unsplash.com/featured/400x400?home,furniture,household,${encodeURIComponent(keyword)}`;
   } else if (lowerKeyword.includes("票") || lowerKeyword.includes("旅游") || lowerKeyword.includes("旅行") || lowerKeyword.includes("电影") || lowerKeyword.includes("演唱会") || lowerKeyword.includes("门票")) {
     // 票务/旅游类商品
-    return `https://source.unsplash.com/400x400/?ticket,travel,event,${encodeURIComponent(keyword)}`;
+    return `https://images.unsplash.com/featured/400x400?ticket,travel,event,${encodeURIComponent(keyword)}`;
   } else {
     // 默认使用通用图片
-    return `https://source.unsplash.com/400x400/?product,item,${encodeURIComponent(keyword)}`;
+    return `https://images.unsplash.com/featured/400x400?product,item,${encodeURIComponent(keyword)}`;
   }
 };
 

@@ -1,20 +1,19 @@
-
+<!DOCTYPE html>
 <!DOCTYPE html>
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>偏好依附</title>
-</head>
-<body>
+  <title>偏好依附</title></head>
+<body >
   <div class="neu-card">
     <svg viewBox="0 0 1000 650">
       <g transform="translate(500, 325)">
         <!-- 核心超级节点 (Hub) -->
-        <circle r="60" fill="var(--accent)" filter="drop-shadow(0 0 40px var(--accent))" />
-        <circle r="120" fill="none" stroke="var(--accent)" stroke-width="1" stroke-dasharray="5 10" opacity="0.2" class="animate-spin" />
+        <circle r="60" fill="#ef4444" filter="drop-shadow(0 0 40px #ef4444)" />
+        <circle r="120" fill="none" stroke="#ef4444" stroke-width="1" stroke-dasharray="5 10" opacity="0.2" class="animate-spin" />
         
         <!-- 正在加入的新节点 (被核心吸引) -->
-        <g fill="var(--accent)">
+        <g fill="#ef4444">
            <circle r="10"><animateMotion path="M-400,-200 L0,0" dur="2s" repeatCount="indefinite" /></circle>
            <circle r="10" style="animation-delay: 0.5s"><animateMotion path="M400,-150 L0,0" dur="2.5s" repeatCount="indefinite" /></circle>
            <circle r="10" style="animation-delay: 1s"><animateMotion path="M100,400 L0,0" dur="1.8s" repeatCount="indefinite" /></circle>
@@ -26,12 +25,12 @@
            <text y="40" text-anchor="middle" style="font-size: 10px;">边缘节点</text>
         </g>
 
-        <text y="240" text-anchor="middle" fill="var(--accent)" style="font-size: 42px; font-weight: 900;">富者愈富：连接的重力</text>
+        <text y="240" text-anchor="middle" fill="#ef4444" style="font-size: 42px; font-weight: 900;">富者愈富：连接的重力</text>
       </g>
     </svg>
   </div>
   <div class="text-content">
-    <h1>偏好依附 (Preferential Attachment)</h1>
+    <h1>偏好依附 (计划referential Attachment)</h1>
     <p>网络增长的底层法则：新的节点在加入网络时，倾向于链接那些已有链接更多的节点。这种“跟风”行为导致网络迅速演化为极少数超级 Hub 统治全局的形态。</p>
     <div class="grid">
       <div>
@@ -49,6 +48,5 @@
         </ul>
       </div>
     </div>
-  </div>
-</body>
+  </div></body>
 </html>

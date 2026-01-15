@@ -2,9 +2,11 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>沉没成本 - 理性的终点</title>
+  <title>娌夋病鎴愭湰 - 鐞嗘€х殑缁堢偣</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
+
+
     body { background: #020617; font-family: -apple-system, sans-serif; color: #f8fafc; }
     .glass { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); }
     @keyframes ship-sink { 0% { transform: translateY(0) rotate(0deg); } 100% { transform: translateY(40px) rotate(5deg); } }
@@ -13,29 +15,29 @@
     .bubble { animation: rise-bubble 4s infinite linear; }
   </style>
 </head>
-<body class="p-8 md:p-20 flex items-center justify-center min-h-screen">
-  <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-    <!-- SVG 可视化 -->
+<body>data-theme="light" class="p-8 md:p-20 flex items-center justify-center min-h-screen">
+  <div class="max-w-7xl mx-auto w-full grid grid-cols-1 gap-20">
+    <!-- SVG 鍙鍖?-->
     <div class="relative flex items-center justify-center glass p-12 rounded-[4rem] shadow-2xl overflow-hidden bg-slate-900/50">
       <svg viewBox="0 0 600 600" class="w-full h-auto max-w-[500px]">
-        <!-- 水面线 -->
+        <!-- 姘撮潰绾?-->
         <line x1="50" y1="350" x2="550" y2="350" stroke="rgba(255,255,255,0.2)" stroke-width="2" stroke-dasharray="10 10" />
         
-        <!-- 下沉的船 -->
+        <!-- 涓嬫矇鐨勮埞 -->
         <g class="sinking-ship" transform="translate(150, 300)">
            <path d="M0,50 L300,50 L250,130 L50,130 Z" fill="#1e293b" stroke="#475569" stroke-width="2" />
            <rect x="100" y="0" width="30" height="50" fill="#334155" />
-           <text x="150" y="100" text-anchor="middle" fill="#ef4444" class="font-black text-xs italic">SUNK COST</text>
+           <text x="150" y="100" text-anchor="middle" fill="#ef4444" class="font-black text-xs italic">沉没成本</text>
         </g>
 
-        <!-- 气泡 -->
+        <!-- 姘旀场 -->
         <circle cx="200" cy="450" r="10" fill="white" fill-opacity="0.1" class="bubble" style="animation-delay: 0s" />
         <circle cx="400" cy="500" r="15" fill="white" fill-opacity="0.1" class="bubble" style="animation-delay: 2s" />
         
-        <!-- 岸边指示 (未来收益) -->
+        <!-- 宀歌竟鎸囩ず (鏈潵鏀剁泭) -->
         <g transform="translate(500, 100)">
           <circle r="40" fill="#10b981" />
-          <text text-anchor="middle" y="5" fill="white" class="font-black text-[10px]">FUTURE</text>
+          <text text-anchor="middle" y="5" fill="white" class="font-black text-[10px]">未来</text>
           <path d="M-60,0 L-20,0" stroke="#10b981" marker-end="url(#arrow)" />
         </g>
 
@@ -45,30 +47,29 @@
       </svg>
     </div>
 
-    <!-- 文案内容区 -->
+    <!-- 鏂囨鍐呭鍖?-->
     <div class="space-y-12">
-      <h1 class="text-8xl font-black text-white tracking-tighter leading-[0.8]">沉没成本<br><span class="text-slate-500 italic">Sunk Cost</span></h1>
+      <h1 class="text-8xl font-black text-white tracking-tighter leading-[0.8]">娌夋病鎴愭湰<br><span class="text-slate-500 italic">Sunk Cost</span></h1>
       <p class="text-xl text-slate-400 border-l-4 border-slate-600 pl-6 leading-relaxed italic">
-        “如果你已经掉进坑里，最重要的事是停止挖掘。”
+        鈥滃鏋滀綘宸茬粡鎺夎繘鍧戦噷锛屾渶閲嶈鐨勪簨鏄仠姝㈡寲鎺樸€傗€?
       </p>
 
       <div class="glass p-10 rounded-[3rem] space-y-6">
-        <h3 class="text-2xl font-black text-white italic">核心隐喻：漏水之船</h3>
+        <h3 class="text-2xl font-black text-white italic">鏍稿績闅愬柣锛氭紡姘翠箣鑸?/h3>
         <p class="text-sm text-slate-400 leading-relaxed">
-          想象你正坐在一艘漏水的船上，你已经花了很多钱来修补它（<b>过去投入</b>）。此时理性的做法不是继续投入，而是计算：换一艘新船的成本是否低于继续修补旧船。
+          鎯宠薄浣犳鍧愬湪涓€鑹樻紡姘寸殑鑸逛笂锛屼綘宸茬粡鑺变簡寰堝閽辨潵淇ˉ瀹冿紙<b>杩囧幓鎶曞叆</b>锛夈€傛鏃剁悊鎬х殑鍋氭硶涓嶆槸缁х画鎶曞叆锛岃€屾槸璁＄畻锛氭崲涓€鑹樻柊鑸圭殑鎴愭湰鏄惁浣庝簬缁х画淇ˉ鏃ц埞銆?
         </p>
         <div class="grid grid-cols-2 gap-4">
           <div class="bg-red-600/10 p-5 rounded-3xl border border-red-500/20">
-             <h4 class="text-red-400 font-black text-[10px] uppercase mb-1">典型陷阱</h4>
-             <p class="text-[11px] text-slate-300 italic">“票都买了，看完再说吧。”</p>
+             <h4 class="text-red-400 font-black text-[10px] uppercase mb-1">鍏稿瀷闄烽槺</h4>
+             <p class="text-[11px] text-slate-300 italic">鈥滅エ閮戒拱浜嗭紝鐪嬪畬鍐嶈鍚с€傗€?/p>
           </div>
           <div class="bg-emerald-600/10 p-5 rounded-3xl border border-emerald-500/20">
-             <h4 class="text-emerald-400 font-black text-[10px] uppercase mb-1">决策逻辑</h4>
-             <p class="text-[11px] text-slate-300 italic">只根据未来收益进行当前决策。</p>
+             <h4 class="text-emerald-400 font-black text-[10px] uppercase mb-1">鍐崇瓥閫昏緫</h4>
+             <p class="text-[11px] text-slate-300 italic">鍙牴鎹湭鏉ユ敹鐩婅繘琛屽綋鍓嶅喅绛栥€?/p>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</body>
+  </div></body>
 </html>

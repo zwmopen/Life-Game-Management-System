@@ -1,25 +1,24 @@
-
+<!DOCTYPE html>
 <!DOCTYPE html>
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>帕累托前沿</title>
-</head>
-<body>
+  <title>帕累托前沿</title></head>
+<body >
   <div class="neu-card">
     <svg viewBox="0 0 1000 650">
       <!-- 坐标轴 -->
-      <line x1="150" y1="550" x2="150" y2="100" stroke="var(--heading)" stroke-width="2" opacity="0.1" />
-      <line x1="150" y1="550" x2="850" y2="550" stroke="var(--heading)" stroke-width="2" opacity="0.1" />
+      <line x1="150" y1="550" x2="150" y2="100" stroke="#1e293b" stroke-width="2" opacity="0.1" />
+      <line x1="150" y1="550" x2="850" y2="550" stroke="#1e293b" stroke-width="2" opacity="0.1" />
       
       <!-- 低效区 (点集) -->
-      <g fill="var(--heading)" opacity="0.1">
+      <g fill="#1e293b" opacity="0.1">
         <circle cx="250" cy="450" r="10" /><circle cx="400" cy="400" r="10" />
         <circle cx="300" cy="500" r="10" /><circle cx="500" cy="350" r="10" />
       </g>
 
       <!-- 帕累托前沿曲线 -->
-      <path d="M200,100 Q850,100 850,500" fill="none" stroke="var(--accent)" stroke-width="12" stroke-linecap="round" opacity="0.8">
+      <path d="M200,100 Q850,100 850,500" fill="none" stroke="#ef4444" stroke-width="12" stroke-linecap="round" opacity="0.8">
         <animate attributeName="stroke-dasharray" from="0,1500" to="1500,0" dur="4s" fill="freeze" />
       </path>
       
@@ -34,12 +33,12 @@
         </text>
       </g>
 
-      <text x="850" y="580" text-anchor="end" fill="var(--text)" opacity="0.4" style="font-size: 14px; font-weight: 900;">指标 B (如: 低价格) →</text>
-      <text x="130" y="100" text-anchor="middle" fill="var(--text)" opacity="0.4" style="font-size: 14px; font-weight: 900;" transform="rotate(-90 130 100)">指标 A (如: 高性能) ↑</text>
+      <text x="850" y="580" text-anchor="end" fill="#64748b" opacity="0.4" style="font-size: 14px; font-weight: 900;">指标 B (如: 低价格) →</text>
+      <text x="130" y="100" text-anchor="middle" fill="#64748b" opacity="0.4" style="font-size: 14px; font-weight: 900;" transform="rotate(-90 130 100)">指标 A (如: 高性能) ↑</text>
     </svg>
   </div>
   <div class="text-content">
-    <h1>帕累托前沿 (Pareto Frontier)</h1>
+    <h1>帕累托前沿 (计划areto Frontier)</h1>
     <p>多目标决策的“物理墙”。在这一边界上，任何想要提升 A 指标的尝试，都物理性地必然导致 B 指标的下降。这是效率与取舍的终极红线。</p>
     <div class="grid">
       <div>
@@ -57,6 +56,5 @@
         </ul>
       </div>
     </div>
-  </div>
-</body>
+  </div></body>
 </html>

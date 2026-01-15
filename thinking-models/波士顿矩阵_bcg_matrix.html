@@ -1,10 +1,12 @@
-<!DOCTYPE html>
+<!DOCTYPE html>﻿<!DOCTYPE html>
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>波士顿矩阵 - 战略星图</title>
+  <title>娉㈠＋椤跨煩闃?- 鎴樼暐鏄熷浘</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
+
+
     body { background: #020617; font-family: -apple-system, sans-serif; color: #f8fafc; }
     .glass { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); }
     .quadrant { transition: all 0.4s ease; cursor: pointer; }
@@ -13,74 +15,73 @@
     .star { animation: star-pulse 3s infinite; }
   </style>
 </head>
-<body class="p-8 md:p-20 flex items-center justify-center min-h-screen">
-  <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-    <!-- SVG 可视化 -->
+<body>data-theme="light" class="p-8 md:p-20 flex items-center justify-center min-h-screen">
+  <div class="max-w-7xl mx-auto w-full grid grid-cols-1 gap-20">
+    <!-- SVG 鍙鍖?-->
     <div class="relative flex items-center justify-center glass p-8 rounded-[4rem] shadow-2xl">
       <svg viewBox="0 0 600 600" class="w-full h-auto max-w-[500px]">
-        <!-- 坐标轴 -->
+        <!-- 鍧愭爣杞?-->
         <line x1="100" y1="100" x2="500" y2="100" stroke="white" stroke-opacity="0.1" />
         <line x1="100" y1="500" x2="500" y2="500" stroke="white" stroke-opacity="0.1" />
         <line x1="300" y1="80" x2="300" y2="520" stroke="white" stroke-opacity="0.2" stroke-dasharray="5 5" />
         <line x1="80" y1="300" x2="520" y2="300" stroke="white" stroke-opacity="0.2" stroke-dasharray="5 5" />
         
-        <!-- 明星 (Star) -->
+        <!-- 鏄庢槦 (Star) -->
         <g class="quadrant" transform="translate(100, 100)">
           <rect width="195" height="195" rx="20" fill="#3b82f6" fill-opacity="0.1" stroke="#3b82f6" />
           <path d="M97,60 L105,85 L130,85 L110,105 L118,130 L97,115 L76,130 L84,105 L64,85 L89,85 Z" fill="#3b82f6" class="star" />
-          <text x="97" y="160" text-anchor="middle" fill="#3b82f6" class="font-black text-xs">明星产品 (Stars)</text>
+          <text x="97" y="160" text-anchor="middle" fill="#3b82f6" class="font-black text-xs">鏄庢槦浜у搧 (Stars)</text>
         </g>
 
-        <!-- 问题 (Question Mark) -->
+        <!-- 闂 (Question Mark) -->
         <g class="quadrant" transform="translate(305, 100)">
           <rect width="195" height="195" rx="20" fill="#f59e0b" fill-opacity="0.1" stroke="#f59e0b" />
           <text x="97" y="110" text-anchor="middle" fill="#f59e0b" class="font-black text-5xl">?</text>
-          <text x="97" y="160" text-anchor="middle" fill="#f59e0b" class="font-black text-xs">问题产品 (Question)</text>
+          <text x="97" y="160" text-anchor="middle" fill="#f59e0b" class="font-black text-xs">闂浜у搧 (Question)</text>
         </g>
 
-        <!-- 金牛 (Cash Cow) -->
+        <!-- 閲戠墰 (Cash Cow) -->
         <g class="quadrant" transform="translate(100, 305)">
           <rect width="195" height="195" rx="20" fill="#10b981" fill-opacity="0.1" stroke="#10b981" />
-          <text x="97" y="110" text-anchor="middle" fill="#10b981" class="font-black text-5xl">💰</text>
-          <text x="97" y="160" text-anchor="middle" fill="#10b981" class="font-black text-xs">金牛产品 (Cows)</text>
+          <text x="97" y="110" text-anchor="middle" fill="#10b981" class="font-black text-5xl">馃挵</text>
+          <text x="97" y="160" text-anchor="middle" fill="#10b981" class="font-black text-xs">閲戠墰浜у搧 (Cows)</text>
         </g>
 
-        <!-- 瘦狗 (Dog) -->
+        <!-- 鐦︾嫍 (Dog) -->
         <g class="quadrant" transform="translate(305, 305)">
           <rect width="195" height="195" rx="20" fill="#ef4444" fill-opacity="0.1" stroke="#ef4444" />
-          <text x="97" y="110" text-anchor="middle" fill="#ef4444" class="font-black text-5xl">🦴</text>
-          <text x="97" y="160" text-anchor="middle" fill="#ef4444" class="font-black text-xs">瘦狗产品 (Dogs)</text>
+          <text x="97" y="110" text-anchor="middle" fill="#ef4444" class="font-black text-5xl">馃Υ</text>
+          <text x="97" y="160" text-anchor="middle" fill="#ef4444" class="font-black text-xs">鐦︾嫍浜у搧 (Dogs)</text>
         </g>
 
-        <text x="300" y="550" text-anchor="middle" fill="white" class="text-[10px] font-black uppercase tracking-widest">Market Share (市场份额)</text>
-        <text x="40" y="300" text-anchor="middle" fill="white" class="text-[10px] font-black uppercase tracking-widest" transform="rotate(-90 40 300)">Growth Rate (增长率)</text>
+        <text x="300" y="550" text-anchor="middle" fill="white" class="text-[10px] font-black uppercase tracking-widest">Market Share (甯傚満浠介)</text>
+        <text x="40" y="300" text-anchor="middle" fill="white" class="text-[10px] font-black uppercase tracking-widest" transform="rotate(-90 40 300)">Growth Rate (澧為暱鐜?</text>
       </svg>
     </div>
 
-    <!-- 文案内容区 -->
+    <!-- 鏂囨鍐呭鍖?-->
     <div class="space-y-12">
-      <h1 class="text-8xl font-black text-white tracking-tighter leading-[0.8]">波士顿矩阵<br><span class="text-blue-500 italic">BCG Matrix</span></h1>
+      <h1 class="text-8xl font-black text-white tracking-tighter leading-[0.8]">娉㈠＋椤跨煩闃?br><span class="text-blue-500 italic">BCG Matrix</span></h1>
       <p class="text-xl text-slate-400 border-l-4 border-blue-500 pl-6 leading-relaxed italic">
-        “企业不应追求单一产品的成功，而应追求产品组合的动态平衡。”
+        鈥滀紒涓氫笉搴旇拷姹傚崟涓€浜у搧鐨勬垚鍔燂紝鑰屽簲杩芥眰浜у搧缁勫悎鐨勫姩鎬佸钩琛°€傗€?
       </p>
 
       <div class="glass p-10 rounded-[3rem] space-y-6">
-        <h3 class="text-2xl font-black text-white italic">核心隐喻：战略星图</h3>
+        <h3 class="text-2xl font-black text-white italic">鏍稿績闅愬柣锛氭垬鐣ユ槦鍥?/h3>
         <p class="text-sm text-slate-400 leading-relaxed">
-          想象你的业务是一个星系：<b>问题</b>是刚诞生的星云，前途未卜；<b>明星</b>是璀璨的发光体，消耗巨大但潜力无限；<b>金牛</b>是稳定的恒星，源源不断产生能量；<b>瘦狗</b>是熄灭的死星，应当被清理。
+          鎯宠薄浣犵殑涓氬姟鏄竴涓槦绯伙細<b>闂</b>鏄垰璇炵敓鐨勬槦浜戯紝鍓嶉€旀湭鍗滐紱<b>鏄庢槦</b>鏄拃鐠ㄧ殑鍙戝厜浣擄紝娑堣€楀法澶т絾娼滃姏鏃犻檺锛?b>閲戠墰</b>鏄ǔ瀹氱殑鎭掓槦锛屾簮婧愪笉鏂骇鐢熻兘閲忥紱<b>鐦︾嫍</b>鏄唲鐏殑姝绘槦锛屽簲褰撹娓呯悊銆?
         </p>
         <div class="grid grid-cols-2 gap-4">
           <div class="bg-blue-600/10 p-5 rounded-3xl border border-blue-500/20">
-             <h4 class="text-blue-400 font-black text-[10px] uppercase mb-1">现金流转</h4>
-             <p class="text-[11px] text-slate-300">用金牛的钱，养明星和问题的未来。</p>
+             <h4 class="text-blue-400 font-black text-[10px] uppercase mb-1">鐜伴噾娴佽浆</h4>
+             <p class="text-[11px] text-slate-300">鐢ㄩ噾鐗涚殑閽憋紝鍏绘槑鏄熷拰闂鐨勬湭鏉ャ€?/p>
           </div>
           <div class="bg-red-600/10 p-5 rounded-3xl border border-red-500/20">
-             <h4 class="text-red-400 font-black text-[10px] uppercase mb-1">淘汰逻辑</h4>
-             <p class="text-[11px] text-slate-300">停止在瘦狗身上浪费任何战略注意力。</p>
+             <h4 class="text-red-400 font-black text-[10px] uppercase mb-1">娣樻卑閫昏緫</h4>
+             <p class="text-[11px] text-slate-300">鍋滄鍦ㄧ槮鐙楄韩涓婃氮璐逛换浣曟垬鐣ユ敞鎰忓姏銆?/p>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</body>
+  </div></body>
 </html>

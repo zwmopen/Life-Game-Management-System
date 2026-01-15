@@ -37,12 +37,14 @@ import { useDice } from './features/dice';
 import { useAchievements } from './features/achievements';
 import { useStorage } from './features/storage';
 import { useStats } from './features/stats';
+import { useTaskReducer } from './hooks/useTaskReducer';
 
 // 导入音效管理库
 import soundManager from './utils/soundManager';
+import backupManager from './utils/BackupManager';
 
 // 导入全局音频管理器
-import { GlobalAudioProvider, GlobalBackgroundMusicManager } from './components/GlobalAudioManager';
+import { GlobalAudioProvider, GlobalBackgroundMusicManager } from './components/GlobalAudioManagerOptimized';
 
 // 导入主题管理
 import { ThemeProvider, useTheme } from './contexts/ThemeContext';
@@ -122,11 +124,30 @@ const App: React.FC = () => {
   // Navigation Deep Linking State
   const [initialTaskCategory, setInitialTaskCategory] = useState<'daily' | 'main' | 'random'>('random');
 
-  // Data State
-  const [habits, setHabits] = useState<Habit[]>(INITIAL_HABITS);
-  const [projects, setProjects] = useState<Project[]>(INITIAL_PROJECTS);
-  const [habitOrder, setHabitOrder] = useState<string[]>(INITIAL_HABITS.map(h => h.id));
-  const [projectOrder, setProjectOrder] = useState<string[]>(INITIAL_PROJECTS.map(p => p.id));
+  // Data State - Using useReducer for complex task state management
+  const {
+    state: { habits, projects, habitOrder, projectOrder },
+    setHabits,
+    setProjects,
+    setHabitOrder,
+    setProjectOrder,
+    addHabit,
+    addProject,
+    updateHabit,
+    updateProject,
+    deleteHabit,
+    deleteProject,
+    toggleHabit: toggleHabitReducer,
+    toggleSubTask,
+    reorderHabits,
+    reorderProjects,
+    resetAll: resetTaskState
+  } = useTaskReducer({
+    habits: INITIAL_HABITS,
+    projects: INITIAL_PROJECTS,
+    habitOrder: INITIAL_HABITS.map(h => h.id),
+    projectOrder: INITIAL_PROJECTS.map(p => p.id)
+  });
   
   const [challengePool, setChallengePool] = useState<string[]>(INITIAL_CHALLENGES);
   const [todaysChallenges, setTodaysChallenges] = useState<{date: string, tasks: string[]}>({ date: '', tasks: [] });
@@ -164,6 +185,9 @@ const App: React.FC = () => {
 
   // --- Persistence Engine ---
   useEffect(() => {
+    // 初始化备份管理器
+    backupManager.initialize();
+    
     // 执行坚果云配置迁移
     migrateOldWebDAVConfig();
     
@@ -432,7 +456,7 @@ const App: React.FC = () => {
   }, [todayStats, day, isDataLoaded]);
 
   const [floatingTexts, setFloatingTexts] = useState<{id: number, text: string, x: number, y: number, color: string}[]>([]);
-  // 帮助系统状态
+  // 帮助卡片系统状态
   const [activeHelp, setActiveHelp] = useState<string | null>(null);
 
   // 处理角色等级变化
@@ -1249,7 +1273,7 @@ const App: React.FC = () => {
                   onUpdateDiceTask={updateDiceTask}
                   onUpdateDiceConfig={updateDiceConfig}
                   onUpdateDiceState={updateDiceState}
-                  // 帮助系统
+                  // 帮助卡片系统
                   onHelpClick={setActiveHelp}
                />;
       case View.HALL_OF_FAME:
@@ -1277,7 +1301,7 @@ const App: React.FC = () => {
                   onChangeDuration={changeDuration}
                   onUpdateTimeLeft={updateTimeLeft}
                   onUpdateIsActive={updateIsActive}
-                  // 帮助系统
+                  // 帮助卡片系统
                   onHelpClick={setActiveHelp}
                />;
       case View.DATA_CHARTS:
@@ -1285,6 +1309,7 @@ const App: React.FC = () => {
                   theme={theme} 
                   projects={projects}
                   habits={habits}
+                  onHelpClick={setActiveHelp}
                />;
 
       case View.SETTINGS:
@@ -1303,6 +1328,7 @@ const App: React.FC = () => {
       case View.THINKING_CENTER:
         return <ThinkingCenter 
                   theme={theme} 
+                  onHelpClick={setActiveHelp}
                 />;
       default: return null;
     }
@@ -1326,7 +1352,6 @@ const App: React.FC = () => {
   }
 
   return (
-    <ThemeProvider>
       <GlobalAudioProvider>
         <GlobalBackgroundMusicManager />
         <div className={`flex h-screen w-full overflow-hidden font-sans relative transition-colors duration-500 ${bgClass}`}>
@@ -1342,6 +1367,7 @@ const App: React.FC = () => {
             entropy={entropy} 
             isNavCollapsed={isNavCollapsed}
             setIsNavCollapsed={setIsNavCollapsed}
+            onHelpClick={setActiveHelp}
           />
         )}
         
@@ -1379,7 +1405,7 @@ const App: React.FC = () => {
             </div>
         ))}
         
-        {/* 全局帮助指南卡片 */}
+        {/* 全局帮助卡片 */}
         <GlobalGuideCard
           activeHelp={activeHelp}
           helpContent={helpContent}
@@ -1399,7 +1425,6 @@ const App: React.FC = () => {
         <SpeedInsights />
       </div>
     </GlobalAudioProvider>
-  </ThemeProvider>
   );
 };
 

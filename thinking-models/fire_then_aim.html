@@ -1,18 +1,17 @@
-
+<!DOCTYPE html>
 <!DOCTYPE html>
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>开枪先行律</title>
-</head>
-<body>
+  <title>开枪先行律</title></head>
+<body >
   <div class="neu-card">
     <svg viewBox="0 0 1000 650">
       <g transform="translate(100, 325)">
         <!-- 完美的瞄准 (左 - 滞后) -->
         <g transform="translate(100, -150)" opacity="0.3">
-          <circle r="80" fill="none" stroke="var(--heading)" stroke-width="2" stroke-dasharray="10 5" />
-          <path d="M-80,0 L80,0 M0,-80 L0,80" stroke="var(--heading)" />
+          <circle r="80" fill="none" stroke="#1e293b" stroke-width="2" stroke-dasharray="10 5" />
+          <path d="M-80,0 L80,0 M0,-80 L0,80" stroke="#1e293b" />
           <text y="110" text-anchor="middle" style="font-size: 14px;">等待 100% 准备好</text>
           <text y="130" text-anchor="middle" fill="#ef4444" style="font-size: 18px; font-weight: 900;">结果：永远没开枪</text>
         </g>
@@ -24,8 +23,8 @@
             <animate attributeName="cx" from="0" to="800" dur="3s" fill="freeze" id="bullet" />
           </circle>
           <!-- 在飞行中修正的弹道 -->
-          <path d="M0,0 L300,50 L600,-20 L800,0" fill="none" stroke="var(--accent)" stroke-width="4" stroke-dasharray="10 5" opacity="0.5" />
-          <text x="400" y="80" text-anchor="middle" fill="var(--accent)" style="font-size: 24px; font-weight: 900;">在飞行中修正 (Aiming while flying)</text>
+          <path d="M0,0 L300,50 L600,-20 L800,0" fill="none" stroke="#ef4444" stroke-width="4" stroke-dasharray="10 5" opacity="0.5" />
+          <text x="400" y="80" text-anchor="middle" fill="#ef4444" style="font-size: 24px; font-weight: 900;">在飞行中修正 (Aiming while flying)</text>
           
           <!-- 击中点 -->
           <g transform="translate(800, 0)">
@@ -57,6 +56,5 @@
         </ul>
       </div>
     </div>
-  </div>
-</body>
+  </div></body>
 </html>

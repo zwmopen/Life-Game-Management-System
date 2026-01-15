@@ -1,24 +1,23 @@
-
+<!DOCTYPE html>
 <!DOCTYPE html>
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>红皇后效应</title>
-</head>
-<body>
+  <title>红皇后效应</title></head>
+<body >
   <div class="neu-card">
     <svg viewBox="0 0 1000 600">
       <!-- 跑步机履带 -->
       <g transform="translate(500, 450)">
-        <rect x="-350" y="-10" width="700" height="40" rx="20" fill="var(--heading)" opacity="0.05" />
-        <line x1="-300" y1="10" x2="300" y2="10" stroke="var(--heading)" stroke-width="2" stroke-dasharray="20 10" opacity="0.2">
+        <rect x="-350" y="-10" width="700" height="40" rx="20" fill="#1e293b" opacity="0.05" />
+        <line x1="-300" y1="10" x2="300" y2="10" stroke="#1e293b" stroke-width="2" stroke-dasharray="20 10" opacity="0.2">
           <animate attributeName="stroke-dashoffset" from="0" to="30" dur="1s" repeatCount="indefinite" />
         </line>
       </g>
       
       <!-- 跑者 A (你) -->
       <g transform="translate(400, 400)">
-        <circle r="40" fill="var(--accent)" />
+        <circle r="40" fill="#ef4444" />
         <text text-anchor="middle" y="5" fill="white" style="font-size: 14px; font-weight: 900;">你</text>
         <animateTransform attributeName="transform" type="translate" values="400,400; 405,395; 400,400" dur="0.2s" repeatCount="indefinite" />
       </g>
@@ -30,7 +29,7 @@
         <animateTransform attributeName="transform" type="translate" values="600,400; 595,405; 600,400" dur="0.25s" repeatCount="indefinite" />
       </g>
 
-      <text x="500" y="200" text-anchor="middle" fill="var(--text)" style="font-size: 32px; font-weight: 900; letter-spacing: 0.1em; opacity: 0.1;">RUNNING TO STAND STILL</text>
+      <text x="500" y="200" text-anchor="middle" fill="#64748b" style="font-size: 32px; font-weight: 900; letter-spacing: 0.1em; opacity: 0.1;">RUNN我NG TO STANd ST我LL</text>
       <text x="500" y="250" text-anchor="middle" fill="#ef4444" style="font-size: 16px; font-weight: 900;">相对速度 > 绝对努力</text>
     </svg>
   </div>
@@ -54,6 +53,5 @@
         </ul>
       </div>
     </div>
-  </div>
-</body>
+  </div></body>
 </html>

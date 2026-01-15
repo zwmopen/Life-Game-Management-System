@@ -1,35 +1,34 @@
-
+<!DOCTYPE html>
 <!DOCTYPE html>
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>机会窗口</title>
-</head>
-<body>
+  <title>机会窗口</title></head>
+<body >
   <div class="neu-card">
     <svg viewBox="0 0 1000 650">
       <!-- 时间轴 -->
-      <line x1="100" y1="550" x2="900" y2="550" stroke="var(--heading)" stroke-width="2" opacity="0.1" />
+      <line x1="100" y1="550" x2="900" y2="550" stroke="#1e293b" stroke-width="2" opacity="0.1" />
       
       <!-- 准入难度曲线 -->
       <path d="M100,100 Q200,500 500,520 T900,530" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="10 5" opacity="0.3" />
       
       <!-- 机会窗口 (突然打开的门) -->
       <g transform="translate(400, 300)">
-        <rect x="-100" y="-150" width="200" height="300" rx="20" fill="var(--accent)" fill-opacity="0.1" stroke="var(--accent)" stroke-width="4" stroke-dasharray="15 10">
+        <rect x="-100" y="-150" width="200" height="300" rx="20" fill="#ef4444" fill-opacity="0.1" stroke="#ef4444" stroke-width="4" stroke-dasharray="15 10">
            <animate attributeName="stroke-dashoffset" from="0" to="100" dur="2s" repeatCount="indefinite" />
         </rect>
         <circle r="40" fill="#fbbf24" class="animate-ping" />
-        <text y="200" text-anchor="middle" fill="var(--accent)" style="font-size: 32px; font-weight: 900;">非对称机会 (Window)</text>
+        <text y="200" text-anchor="middle" fill="#ef4444" style="font-size: 32px; font-weight: 900;">非对称机会 (Window)</text>
       </g>
 
       <!-- 错过的平庸期 -->
       <g transform="translate(800, 450)" opacity="0.2">
-        <rect x="-50" y="-30" width="100" height="60" rx="10" fill="var(--heading)" />
+        <rect x="-50" y="-30" width="100" height="60" rx="10" fill="#1e293b" />
         <text y="60" text-anchor="middle" style="font-size: 12px;">已内卷 (Red Ocean)</text>
       </g>
 
-      <text x="500" y="80" text-anchor="middle" fill="var(--accent)" style="font-size: 32px; font-weight: 900; letter-spacing: 0.2em;">捕捉那一秒的结构性不平衡</text>
+      <text x="500" y="80" text-anchor="middle" fill="#ef4444" style="font-size: 32px; font-weight: 900; letter-spacing: 0.2em;">捕捉那一秒的结构性不平衡</text>
     </svg>
   </div>
   <div class="text-content">
@@ -39,7 +38,7 @@
       <div>
         <h3>结构性机会</h3>
         <ul>
-          <li><strong>技术奇点：</strong>如 2023 年初的 AI。规则每天都在变，领先半步就意味着拥有一整块处女地的定价权。</li>
+          <li><strong>技术奇点：</strong>如 2023 年初的 A我。规则每天都在变，领先半步就意味着拥有一整块处女地的定价权。</li>
           <li><strong>套利窗口：</strong>当 A 领域成熟而 B 领域对此一无所知时，跨界的信息差就是你唯一的非对称优势。</li>
         </ul>
       </div>
@@ -51,6 +50,5 @@
         </ul>
       </div>
     </div>
-  </div>
-</body>
+  </div></body>
 </html>

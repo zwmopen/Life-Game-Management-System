@@ -1,37 +1,36 @@
-
+<!DOCTYPE html>
 <!DOCTYPE html>
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>量子纠缠</title>
-</head>
-<body>
+  <title>量子纠缠</title></head>
+<body >
   <div class="neu-card">
     <svg viewBox="0 0 1000 650">
       <g transform="translate(500, 325)">
         <!-- 纠缠波纹 -->
-        <circle r="250" fill="none" stroke="var(--accent)" stroke-width="1" stroke-dasharray="5 15" opacity="0.1" />
+        <circle r="250" fill="none" stroke="#ef4444" stroke-width="1" stroke-dasharray="5 15" opacity="0.1" />
         
         <!-- 粒子 A -->
         <g transform="translate(-250, 0)">
-          <circle r="50" fill="var(--accent)" />
+          <circle r="50" fill="#ef4444" />
           <path d="M-20,-20 L20,20 M20,-20 L-20,20" stroke="white" stroke-width="2" />
           <animateTransform attributeName="transform" type="rotate" from="0 -250 0" to="360 -250 0" dur="4s" repeatCount="indefinite" />
         </g>
 
         <!-- 粒子 B (同步动作) -->
         <g transform="translate(250, 0)">
-          <circle r="50" fill="var(--accent)" />
+          <circle r="50" fill="#ef4444" />
           <path d="M-20,-20 L20,20 M20,-20 L-20,20" stroke="white" stroke-width="2" />
           <animateTransform attributeName="transform" type="rotate" from="0 250 0" to="360 250 0" dur="4s" repeatCount="indefinite" />
         </g>
 
         <!-- 瞬间关联线 (幽灵般的超距作用) -->
-        <line x1="-200" y1="0" x2="200" y2="0" stroke="var(--accent)" stroke-width="2" stroke-dasharray="10 5" opacity="0.4">
+        <line x1="-200" y1="0" x2="200" y2="0" stroke="#ef4444" stroke-width="2" stroke-dasharray="10 5" opacity="0.4">
            <animate attributeName="stroke-dashoffset" from="0" to="100" dur="1s" repeatCount="indefinite" />
         </line>
 
-        <text y="-260" text-anchor="middle" fill="var(--accent)" style="font-size: 32px; font-weight: 900; letter-spacing: 0.1em;">非定域性：全局的一致性</text>
+        <text y="-260" text-anchor="middle" fill="#ef4444" style="font-size: 32px; font-weight: 900; letter-spacing: 0.1em;">非定域性：全局的一致性</text>
       </g>
     </svg>
   </div>
@@ -54,6 +53,5 @@
         </ul>
       </div>
     </div>
-  </div>
-</body>
+  </div></body>
 </html>

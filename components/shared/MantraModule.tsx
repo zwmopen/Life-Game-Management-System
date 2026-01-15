@@ -1,7 +1,7 @@
 import React from 'react';
 import { Theme } from '../../types';
 import { List, Edit3 } from 'lucide-react';
-import GlobalHelpCircle from './GlobalHelpCircle';
+import { GlobalHelpButton } from '../HelpSystem';
 
 interface MantraModuleProps {
   theme: Theme;
@@ -23,7 +23,9 @@ const MantraModule: React.FC<MantraModuleProps> = ({
   const isDark = theme === 'dark' || theme === 'neomorphic-dark';
   const isNeomorphic = theme.startsWith('neomorphic');
   const cardBg = isNeomorphic
-    ? 'bg-[#e0e5ec] border-[#a3b1c6] rounded-lg shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)] transition-all duration-300'
+    ? (theme === 'neomorphic-dark'
+      ? 'bg-[#1e1e2e] border-[#1e1e2e] rounded-lg shadow-[8px_8px_16px_rgba(0,0,0,0.4),-8px_-8px_16px_rgba(30,30,46,0.8)] transition-all duration-300'
+      : 'bg-[#e0e5ec] border-[#e0e5ec] rounded-lg shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)] transition-all duration-300')
     : isDark
     ? 'bg-zinc-900 border-zinc-800'
     : 'bg-white border-slate-200';
@@ -39,7 +41,7 @@ const MantraModule: React.FC<MantraModuleProps> = ({
         >
           <span className="text-xs text-zinc-500 uppercase font-bold flex items-center gap-1">
             <List size={12} className="text-purple-500"/>
-            锦囊库
+            锦囊库管理
           </span>
         </button>
         <div 
@@ -52,11 +54,12 @@ const MantraModule: React.FC<MantraModuleProps> = ({
       
       {/* 帮助按钮 */}
       {onHelpClick && (
-        <div className={`p-0.5 rounded-full transition-all duration-300 hover:scale-[1.1]`} title="查看心法模块指南">
-          <button onClick={() => onHelpClick('mantra')} className="transition-colors">
-            <GlobalHelpCircle size={14} />
-          </button>
-        </div>
+        <GlobalHelpButton 
+          helpId="mantra" 
+          onHelpClick={onHelpClick} 
+          size={14} 
+          className="hover:scale-[1.1]" 
+        />
       )}
     </div>
   );

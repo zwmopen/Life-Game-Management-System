@@ -4,7 +4,7 @@
  */
 
 import { useState, useEffect } from 'react';
-import { localDataStore, GameState } from '../utils/LocalDataStore';
+import { localDataStore, GameState } from '../../utils/LocalDataStore';
 
 /**
  * useLocalGameState Hook 返回值类型

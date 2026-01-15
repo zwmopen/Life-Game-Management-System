@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { Theme } from '../../types';
 import soundManager from '../../utils/soundManager';
-import { useGlobalAudio } from '../../components/GlobalAudioManager';
+import { useGlobalAudio } from '../../components/GlobalAudioManagerOptimized';
 import OptimizedImmersivePomodoro3D from './OptimizedImmersivePomodoro3D';
+import { getNeomorphicStyles } from '../../utils/styleHelpers';
 
 interface OptimizedImmersivePomodoroProps {
   theme: Theme;
@@ -313,6 +314,22 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
     }
   }, [audioStatistics, playBgMusic, stopBgMusic]);
 
+  // 切换到下一个音效
+  const handleNextSound = useCallback(() => {
+    if (allSounds.length === 0) return;
+    const currentIndex = allSounds.findIndex(s => s.id === localCurrentSoundId);
+    const nextIndex = (currentIndex + 1) % allSounds.length;
+    setSound(allSounds[nextIndex].id);
+  }, [allSounds, localCurrentSoundId, setSound]);
+
+  // 切换到上一个音效
+  const handlePrevSound = useCallback(() => {
+    if (allSounds.length === 0) return;
+    const currentIndex = allSounds.findIndex(s => s.id === localCurrentSoundId);
+    const prevIndex = (currentIndex - 1 + allSounds.length) % allSounds.length;
+    setSound(allSounds[prevIndex].id);
+  }, [allSounds, localCurrentSoundId, setSound]);
+
   // 选择种子
   const selectSeed = useCallback((type: string) => {
     setCurrentSeed(type);
@@ -445,20 +462,22 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
   const isNeomorphicDark = theme === 'neomorphic-dark';
   
   // 拟态风格样式变量
-  const neomorphicStyles = useMemo(() => ({
-    bg: isNeomorphicDark ? 'bg-[#1e1e2e]' : 'bg-[#e0e5ec]',
-    border: isNeomorphicDark ? 'border-[#1e1e2e]' : 'border-[#e0e5ec]',
-    shadow: isNeomorphicDark 
-      ? 'shadow-[8px_8px_16px_rgba(0,0,0,0.4),-8px_-8px_16px_rgba(30,30,46,0.8)]' 
-      : 'shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]',
-    hoverShadow: isNeomorphicDark 
-      ? 'hover:shadow-[10px_10px_20px_rgba(0,0,0,0.5),-10px_-10px_20px_rgba(30,30,46,1)]' 
-      : 'hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)]',
-    activeShadow: isNeomorphicDark 
-      ? 'active:shadow-[inset_5px_5px_10px_rgba(0,0,0,0.4),inset_-5px_-5px_10px_rgba(30,30,46,0.8)]' 
-      : 'active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]',
-    transition: 'transition-all duration-200'
-  }), [isNeomorphicDark]);
+  const neomorphicStyles = typeof getNeomorphicStyles === 'function' 
+    ? getNeomorphicStyles(isNeomorphicDark) 
+    : {
+        bg: isNeomorphicDark ? 'bg-[#1e1e2e]' : 'bg-[#e0e5ec]',
+        border: isNeomorphicDark ? 'border-[#1e1e2e]' : 'border-[#e0e5ec]',
+        shadow: isNeomorphicDark 
+          ? 'shadow-[8px_8px_16px_rgba(0,0,0,0.4),-8px_-8px_16px_rgba(30,30,46,0.8)]' 
+          : 'shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]',
+        hoverShadow: isNeomorphicDark 
+          ? 'hover:shadow-[10px_10px_20px_rgba(0,0,0,0.5),-10px_-10px_20px_rgba(30,30,46,1)]' 
+          : 'hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)]',
+        activeShadow: isNeomorphicDark 
+          ? 'active:shadow-[inset_5px_5px_10px_rgba(0,0,0,0.4),inset_-5px_-5px_10px_rgba(30,30,46,0.8)]' 
+          : 'active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]',
+        transition: 'transition-all duration-200'
+      };
 
   return (
     <div className={`fixed inset-0 z-50 flex flex-col ${isNeomorphicDark ? 'bg-[#1e1e2e] text-white' : theme === 'dark' ? 'bg-[#1a1a2e] text-white dark' : 'bg-[#e0e5ec] text-gray-800'}`}>
@@ -623,17 +642,35 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
                 <div 
                   className={`${isNeomorphicDark ? 'bg-[#1e1e2e] border border-zinc-700 shadow-[8px_8px_16px_rgba(0,0,0,0.3),-8px_-8px_16px_rgba(40,43,52,0.8)]' : isDark ? 'bg-zinc-900/95 border border-zinc-800' : (isNeomorphic ? 'bg-[#e0e5ec] border border-slate-300 shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]' : 'bg-white/95 border border-slate-200 shadow-[10px_10px_20px_rgba(163,177,198,0.4),-10px_-10px_20px_rgba(255,255,255,0.6)]')} absolute top-0 right-0 mt-16 mr-2 rounded-xl p-4 backdrop-blur-sm z-50 audio-menu ${isAudioMenuOpen ? 'show' : ''}`}
                 >
-                  {/* 搜索框 */}
+                  {/* 搜索框与切换按钮 */}
                   <div className="mb-3">
-                    <div className={`relative w-full ${isNeomorphic ? (isDark ? 'bg-[#1e1e2e]' : 'bg-[#e0e5ec]') : (isDark ? 'bg-zinc-800' : 'bg-white')}`}>
-                      <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-zinc-500 dark:text-zinc-400">🔍</span>
-                      <input
-                        type="text"
-                        placeholder="搜索背景音乐..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        className={`w-full pl-9 pr-3 py-1.5 rounded-lg border ${isNeomorphic ? (isDark ? 'bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.2),inset_-4px_-4px_8px_rgba(40,43,52,0.8)] border-[#3a3f4e]' : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] border-[#caced5]') : (isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-200')} text-sm ${isDark ? 'text-zinc-200' : 'text-zinc-700'}`}
-                      />
+                    <div className="flex items-center gap-2">
+                      <button 
+                        onClick={handlePrevSound}
+                        className={`p-1.5 rounded-lg border ${isNeomorphic ? (isDark ? 'bg-[#1e1e2e] shadow-[4px_4px_8px_rgba(0,0,0,0.2),-4px_-4px_8px_rgba(40,43,52,0.8)] border-[#3a3f4e]' : 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)] border-[#caced5]') : (isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-200')} transition-all active:scale-95`}
+                        title="上一个背景音乐"
+                      >
+                        <span className={isDark ? 'text-zinc-400' : 'text-zinc-600'}>←</span>
+                      </button>
+                      
+                      <div className={`relative flex-1 ${isNeomorphic ? (isDark ? 'bg-[#1e1e2e]' : 'bg-[#e0e5ec]') : (isDark ? 'bg-zinc-800' : 'bg-white')}`}>
+                        <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-zinc-500 dark:text-zinc-400">🔍</span>
+                        <input
+                          type="text"
+                          placeholder="搜索..."
+                          value={searchQuery}
+                          onChange={(e) => setSearchQuery(e.target.value)}
+                          className={`w-full pl-9 pr-3 py-1.5 rounded-lg border ${isNeomorphic ? (isDark ? 'bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.2),inset_-4px_-4px_8px_rgba(40,43,52,0.8)] border-[#3a3f4e]' : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] border-[#caced5]') : (isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-200')} text-sm ${isDark ? 'text-zinc-200' : 'text-zinc-700'}`}
+                        />
+                      </div>
+
+                      <button 
+                        onClick={handleNextSound}
+                        className={`p-1.5 rounded-lg border ${isNeomorphic ? (isDark ? 'bg-[#1e1e2e] shadow-[4px_4px_8px_rgba(0,0,0,0.2),-4px_-4px_8px_rgba(40,43,52,0.8)] border-[#3a3f4e]' : 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)] border-[#caced5]') : (isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-200')} transition-all active:scale-95`}
+                        title="下一个背景音乐"
+                      >
+                        <span className={isDark ? 'text-zinc-400' : 'text-zinc-600'}>→</span>
+                      </button>
                     </div>
                   </div>
                   

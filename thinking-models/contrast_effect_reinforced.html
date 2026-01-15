@@ -1,34 +1,32 @@
-
 <!DOCTYPE html>
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>对比效应 (强化)</title>
-</head>
-<body>
+  <title>对比效应 (强化)</title></head>
+<body >
   <div class="neu-card">
     <svg viewBox="0 0 1000 600">
       <!-- 强化场：三个极端锚点 -->
-      <g opacity="0.1" fill="var(--heading)">
+      <g opacity="0.1" fill="#1e293b">
         <circle cx="200" cy="150" r="100" />
         <circle cx="800" cy="150" r="100" />
         <circle cx="500" cy="500" r="100" />
       </g>
       
       <!-- 连接引力线 -->
-      <g stroke="var(--heading)" stroke-width="1" opacity="0.05">
+      <g stroke="#1e293b" stroke-width="1" opacity="0.05">
         <line x1="200" y1="150" x2="500" y2="300" /><line x1="800" y1="150" x2="500" y2="300" />
         <line x1="500" y1="500" x2="500" y2="300" />
       </g>
 
       <!-- 核心观察物：在极端环境下被扭曲 -->
       <g transform="translate(500, 300)">
-        <circle r="40" fill="var(--accent)">
+        <circle r="40" fill="#ef4444">
            <animate attributeName="r" values="40;30;40" dur="1.5s" repeatCount="indefinite" />
            <animate attributeName="fill-opacity" values="0.8;0.3;0.8" dur="1.5s" repeatCount="indefinite" />
         </circle>
-        <text y="80" text-anchor="middle" fill="var(--accent)" style="font-size: 24px; font-weight: 900;">目标感知</text>
-        <text y="105" text-anchor="middle" fill="var(--text)" opacity="0.5" style="font-size: 10px;">(受 3 个极端对比物影响)</text>
+        <text y="80" text-anchor="middle" fill="#ef4444" style="font-size: 24px; font-weight: 900;">目标感知</text>
+        <text y="105" text-anchor="middle" fill="#64748b" opacity="0.5" style="font-size: 10px;">(受 3 个极端对比物影响)</text>
       </g>
 
       <text x="500" y="50" text-anchor="middle" fill="#ef4444" style="font-size: 32px; font-weight: 900; letter-spacing: 0.1em; opacity: 0.05;">INTENSIFIED CONTRAST</text>
@@ -54,6 +52,5 @@
         </ul>
       </div>
     </div>
-  </div>
-</body>
+  </div></body>
 </html>

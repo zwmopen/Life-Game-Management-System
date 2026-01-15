@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { getNeomorphicStyles } from '../../utils/styleHelpers';
 import { Theme } from '../../types';
 import soundManager from '../../utils/soundManager';
-import { useGlobalAudio } from '../../components/GlobalAudioManager';
+import { useGlobalAudio } from '../../components/GlobalAudioManagerOptimized';
 
 interface InternalImmersivePomodoroProps {
   theme: Theme;
@@ -2965,7 +2966,8 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
         if (canvasContainerRef.current) {
           // 安全检查：确保场景已经初始化
           const scene = (canvasContainerRef.current as any)._scene;
-          if (scene && typeof scene === 'object' && scene.traverse) {
+          // 添加额外检查确保scene对象存在且有效
+          if (scene && typeof scene === 'object' && typeof scene.traverse === 'function') {
             if (newPausedState) {  // 修正逻辑：使用新状态来判断
               // 暂停，显示预览模型
               // 调用全局的updatePreview函数
@@ -3157,20 +3159,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
   const isNeomorphicDark = theme === 'neomorphic-dark';
   
   // 拟态风格样式变量
-  const neomorphicStyles = {
-    bg: isNeomorphicDark ? 'bg-[#1e1e2e]' : 'bg-[#e0e5ec]',
-    border: isNeomorphicDark ? 'border-[#1e1e2e]' : 'border-[#e0e5ec]',
-    shadow: isNeomorphicDark 
-      ? 'shadow-[8px_8px_16px_rgba(0,0,0,0.4),-8px_-8px_16px_rgba(30,30,46,0.8)]' 
-      : 'shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]',
-    hoverShadow: isNeomorphicDark 
-      ? 'hover:shadow-[10px_10px_20px_rgba(0,0,0,0.5),-10px_-10px_20px_rgba(30,30,46,1)]' 
-      : 'hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)]',
-    activeShadow: isNeomorphicDark 
-      ? 'active:shadow-[inset_5px_5px_10px_rgba(0,0,0,0.4),inset_-5px_-5px_10px_rgba(30,30,46,0.8)]' 
-      : 'active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]',
-    transition: 'transition-all duration-200'
-  };
+  const neomorphicStyles = getNeomorphicStyles(isNeomorphicDark);
   
   return (
     <div className={`fixed inset-0 z-50 flex flex-col ${isNeomorphicDark ? 'bg-[#1e1e2e] text-white' : theme === 'dark' ? 'bg-[#1a1a2e] text-white dark' : 'bg-[#e0e5ec] text-gray-800'}`}>

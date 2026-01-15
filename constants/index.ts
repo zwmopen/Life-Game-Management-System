@@ -1,4 +1,4 @@
-import { AchievementItem, DiceCategory } from '../types';
+import { AchievementItem, DiceCategory, Project, Habit } from '../types';
 import { AttributeType } from '../types';
 
 // --- Check-in Thresholds ---
@@ -54,31 +54,31 @@ export const INITIAL_HABITS = [
 ];
 
 // --- Initial Projects ---
-export const INITIAL_PROJECTS = [
+export const INITIAL_PROJECTS: Project[] = [
   {
-    id: 'p1', name: '数码博主养成', startDate: '2025-12-23', description: '创建并运营第一个粉丝量达到1万的数码账号', status: 'active', logs: [], dailyFocus: {}, todayFocusMinutes: 0, fears: [], attr: AttributeType.WEALTH,
+    id: 'p1', name: '数码博主养成', startDate: '2025-12-23', description: '创建并运营第一个粉丝量达到1万的数码账号', status: 'active' as const, logs: [], dailyFocus: {}, todayFocusMinutes: 0, fears: [], attr: AttributeType.WEALTH,
     subTasks: [
-      { id: 't1_1', title: '找爆款', duration: 5, completed: false, frequency: 'daily' },
-      { id: 't1_2', title: '二创爆款', duration: 5, completed: false, frequency: 'daily' },
-      { id: 't1_3', title: '发布作品', duration: 5, completed: false, frequency: 'daily' }
+      { id: 't1_1', title: '找爆款', duration: 5, completed: false, frequency: 'daily' as const },
+      { id: 't1_2', title: '二创爆款', duration: 5, completed: false, frequency: 'daily' as const },
+      { id: 't1_3', title: '发布作品', duration: 5, completed: false, frequency: 'daily' as const }
     ]
   },
   {
-    id: 'p3', name: '成长型博主养成', startDate: '2025-12-23', description: '成为一个拥有1000粉丝的成长型博主', status: 'active', logs: [], dailyFocus: {}, todayFocusMinutes: 0, fears: [], attr: AttributeType.INTELLIGENCE,
+    id: 'p3', name: '成长型博主养成', startDate: '2025-12-23', description: '成为一个拥有1000粉丝的成长型博主', status: 'active' as const, logs: [], dailyFocus: {}, todayFocusMinutes: 0, fears: [], attr: AttributeType.INTELLIGENCE,
     subTasks: [
-      { id: 't3_1', title: '刷爆款选题', duration: 10, completed: false, frequency: 'daily' },
-      { id: 't3_2', title: '全网搜集， AI梳理文案', duration: 20, completed: false, frequency: 'daily' },
-      { id: 't3_3', title: '拍摄视频', duration: 20, completed: false, frequency: 'daily' },
-      { id: 't3_4', title: '剪辑视频', duration: 20, completed: false, frequency: 'daily' },
-      { id: 't3_5', title: '发布视频', duration: 10, completed: false, frequency: 'daily' }
+      { id: 't3_1', title: '刷爆款选题', duration: 10, completed: false, frequency: 'daily' as const },
+      { id: 't3_2', title: '全网搜集， AI梳理文案', duration: 20, completed: false, frequency: 'daily' as const },
+      { id: 't3_3', title: '拍摄视频', duration: 20, completed: false, frequency: 'daily' as const },
+      { id: 't3_4', title: '剪辑视频', duration: 20, completed: false, frequency: 'daily' as const },
+      { id: 't3_5', title: '发布视频', duration: 10, completed: false, frequency: 'daily' as const }
     ]
   },
   {
-    id: 'p4', name: '小红书虚拟资料项目推进', startDate: '2025-12-23', description: '运营虚拟资料店铺，销售虚拟资料产品', status: 'active', logs: [], dailyFocus: {}, todayFocusMinutes: 0, fears: [], attr: AttributeType.WEALTH,
+    id: 'p4', name: '小红书虚拟资料项目推进', startDate: '2025-12-23', description: '运营虚拟资料店铺，销售虚拟资料产品', status: 'active' as const, logs: [], dailyFocus: {}, todayFocusMinutes: 0, fears: [], attr: AttributeType.WEALTH,
     subTasks: [
-      { id: 't4_1', title: '找同行选品二创上架', duration: 5, completed: false, frequency: 'daily' },
-      { id: 't4_2', title: '多平台搜索爆款笔记二创上架', duration: 5, completed: false, frequency: 'daily' },
-      { id: 't4_3', title: '发布作品', duration: 5, completed: false, frequency: 'daily' }
+      { id: 't4_1', title: '找同行选品二创上架', duration: 5, completed: false, frequency: 'daily' as const },
+      { id: 't4_2', title: '多平台搜索爆款笔记二创上架', duration: 5, completed: false, frequency: 'daily' as const },
+      { id: 't4_3', title: '发布作品', duration: 5, completed: false, frequency: 'daily' as const }
     ]
   }
 ];

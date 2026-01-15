@@ -9,9 +9,7 @@ async function testWebDAVBackup() {
   const webdavConfig = {
     serverUrl: 'https://dav.jianguoyun.com/dav/',
     username: '2594707308@qq.com',
-    password: 'aecne4vaypmn8zid',
-    basePath: '/人生游戏管理系统',
-    debug: true
+    password: '您的WebDAV密码' // 请替换为实际的坚果云WebDAV授权密码
   };
   
   const webdavClient = new WebDAVBackup(webdavConfig);

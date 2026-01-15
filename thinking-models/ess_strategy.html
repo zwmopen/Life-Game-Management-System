@@ -1,19 +1,18 @@
-
+<!DOCTYPE html>
 <!DOCTYPE html>
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>进化稳定策略</title>
-</head>
-<body>
+  <title>进化稳定策略</title></head>
+<body >
   <div class="neu-card">
     <svg viewBox="0 0 1000 650">
       <g transform="translate(500, 325)">
         <!-- 种群背景 -->
-        <circle r="300" fill="none" stroke="var(--heading)" stroke-width="1" opacity="0.05" />
+        <circle r="300" fill="none" stroke="#1e293b" stroke-width="1" opacity="0.05" />
         
         <!-- 稳定种群 (蓝色) -->
-        <g fill="var(--accent)" opacity="0.2">
+        <g fill="#ef4444" opacity="0.2">
           <circle cx="-150" cy="-100" r="15" /><circle cx="120" cy="180" r="15" />
           <circle cx="200" cy="-50" r="15" /><circle cx="-80" cy="220" r="15" />
           <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="20s" repeatCount="indefinite" />
@@ -21,21 +20,21 @@
 
         <!-- 核心稳态 -->
         <g>
-          <circle r="120" fill="var(--accent)" fill-opacity="0.1" stroke="var(--accent)" stroke-width="4" stroke-dasharray="10 5" class="animate-spin" style="animation-duration: 8s;" />
-          <text text-anchor="middle" y="5" fill="var(--accent)" style="font-size: 32px; font-weight: 900;">ESS 稳态</text>
+          <circle r="120" fill="#ef4444" fill-opacity="0.1" stroke="#ef4444" stroke-width="4" stroke-dasharray="10 5" class="animate-spin" style="animation-duration: 8s;" />
+          <text text-anchor="middle" y="5" fill="#ef4444" style="font-size: 32px; font-weight: 900;">ESS 稳态</text>
         </g>
         
         <!-- 突变者 (红色 - 试图入侵但被挤出) -->
         <g transform="translate(400, 0)">
            <circle r="20" fill="#ef4444" class="animate-pulse" />
-           <path d="M0,0 L-100,0" stroke="#ef4444" stroke-width="4" stroke-dasharray="5 5" marker-end="url(#redArrow)" />
+           <path d="M0,0 L-100,0" stroke="#ef4444" stroke-width="4" stroke-dasharray="5 5" marker-end="url(#redarrow)" />
            <text y="50" text-anchor="middle" fill="#ef4444" style="font-size: 14px; font-weight: 900;">变异者 (无法入侵)</text>
         </g>
 
-        <text y="280" text-anchor="middle" fill="var(--accent)" style="font-size: 36px; font-weight: 900; letter-spacing: 0.1em;">不可被取代的系统均衡</text>
+        <text y="280" text-anchor="middle" fill="#ef4444" style="font-size: 36px; font-weight: 900; letter-spacing: 0.1em;">不可被取代的系统均衡</text>
       </g>
       <defs>
-        <marker id="redArrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#ef4444"/></marker>
+        <marker id="redarrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#ef4444"/></marker>
       </defs>
     </svg>
   </div>
@@ -58,6 +57,5 @@
         </ul>
       </div>
     </div>
-  </div>
-</body>
+  </div></body>
 </html>

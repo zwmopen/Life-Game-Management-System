@@ -1,40 +1,69 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Theme, Project, Habit } from '../types';
-import { HelpCircle, Search } from 'lucide-react';
-import { GlobalGuideCard, HelpTooltip, helpContent } from './HelpSystem';
+import { Theme, Project, Habit, DiceState } from '../types';
+import { INITIAL_DICE_STATE } from '../constants/index';
+import { Search } from 'lucide-react';
+import { GlobalHelpButton } from './HelpSystem';
 import FateDice from './FateDice';
+import { getNeomorphicStyles, getButtonStyle, getCardBgStyle, getTextStyle } from '../utils/styleHelpers';
 
 interface MissionControlProps {
   theme: Theme;
   projects: Project[];
   habits: Habit[];
+  onHelpClick: (id: string) => void;
 }
 
-const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits }) => {
+const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits, onHelpClick }) => {
+  const [diceState, setDiceState] = useState<DiceState>(INITIAL_DICE_STATE);
+  
   const isDark = theme === 'dark' || theme === 'neomorphic-dark';
   const isNeomorphic = theme.startsWith('neomorphic');
   
-  // 拟态风格样式变量 - 优化阴影效果，使其与按钮圆角匹配
-  const neomorphicStyles = {
-    light: {
-      bg: 'bg-[#e0e5ec]',
-      border: 'border-[#e0e5ec]',
-      shadow: 'shadow-[8px_8px_16px_rgba(163,177,198,0.2),-8px_-8px_16px_rgba(255,255,255,0.8)] rounded-[24px]',
-      hoverShadow: 'hover:shadow-[10px_10px_20px_rgba(163,177,198,0.3),-10px_-10px_20px_rgba(255,255,255,0.9)] rounded-[24px]',
-      activeShadow: 'active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.3),inset_-5px_-5px_10px_rgba(255,255,255,0.8)] rounded-[24px]',
-      transition: 'transition-all duration-200'
-    },
-    dark: {
-      bg: 'bg-[#1e1e2e]',
-      border: 'border-[#1e1e2e]',
-      shadow: 'shadow-[8px_8px_16px_rgba(0,0,0,0.4),-8px_-8px_16px_rgba(30,30,46,0.8)] rounded-[24px]',
-      hoverShadow: 'hover:shadow-[10px_10px_20px_rgba(0,0,0,0.5),-10px_-10px_20px_rgba(30,30,46,1)] rounded-[24px]',
-      activeShadow: 'active:shadow-[inset_5px_5px_10px_rgba(0,0,0,0.4),inset_-5px_-5px_10px_rgba(30,30,46,0.8)] rounded-[24px]',
-      transition: 'transition-all duration-200'
+  // 模拟掷骰子功能
+  const onSpinDice = () => {
+    if (diceState.todayCount >= diceState.config.dailyLimit) {
+      return { success: false, message: '今日次数已达上限' };
     }
+    
+    // 更新骰子状态
+    setDiceState(prev => ({
+      ...prev,
+      todayCount: prev.todayCount + 1,
+      isSpinning: true
+    }));
+    
+    // 模拟骰子结果
+    setTimeout(() => {
+      setDiceState(prev => ({
+        ...prev,
+        isSpinning: false
+      }));
+    }, 2000);
+    
+    return { success: true };
   };
   
-  const currentNeomorphicStyle = neomorphicStyles[theme === 'neomorphic-dark' ? 'dark' : 'light'];
+  // 更新骰子状态
+  const onUpdateDiceState = (updates: Partial<DiceState>) => {
+    setDiceState(prev => ({
+      ...prev,
+      ...updates
+    }));
+  };
+  
+  // 添加浮动奖励
+  const onAddFloatingReward = (text: string, color: string) => {
+    // 这里可以添加奖励提示逻辑
+    console.log(`Floating reward: ${text} with color ${color}`);
+  };
+  
+  const isNeomorphicDark = theme === 'neomorphic-dark';
+  const neomorphicStyles = getNeomorphicStyles(isNeomorphicDark);
+
+  // 生成按钮样式的辅助函数
+  const getButtonStyleLocal = (isActive: boolean, isSpecial?: boolean) => {
+    return getButtonStyle(isActive, isSpecial, isNeomorphic, theme, isDark);
+  };
   
   const bgClass = isNeomorphic 
       ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e]' : 'bg-[#e0e5ec]') 
@@ -42,21 +71,12 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       ? 'bg-zinc-950' 
       : 'bg-slate-50';
   
-  const cardBg = isNeomorphic 
-      ? `${currentNeomorphicStyle.bg} rounded-[48px] ${currentNeomorphicStyle.shadow} ${currentNeomorphicStyle.hoverShadow} ${currentNeomorphicStyle.activeShadow} ${currentNeomorphicStyle.transition}` 
-      : isDark 
-      ? 'bg-zinc-900' 
-      : 'bg-white shadow-sm';
+  const cardBg = getCardBgStyle(isNeomorphic, theme, isDark);
   
-  const textMain = isDark 
-      ? (isNeomorphic ? 'text-zinc-200' : 'text-zinc-200') 
-      : (isNeomorphic ? 'text-zinc-800' : 'text-slate-800');  
+  const textMain = getTextStyle(isDark, isNeomorphic, 'main');
   
-  const textSub = isDark 
-      ? (isNeomorphic ? 'text-zinc-400' : 'text-zinc-400') 
-      : (isNeomorphic ? 'text-zinc-600' : 'text-slate-500');
+  const textSub = getTextStyle(isDark, isNeomorphic, 'sub');
 
-  const [activeHelp, setActiveHelp] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   return (
@@ -64,7 +84,10 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
       {/* 作战中心主界面 */}
       <div className="p-4">
         <div className="flex justify-between items-center mb-4">
-          <h2 className={`text-xl font-bold ${textMain}`}>作战中心</h2>
+          <div className="flex items-center gap-2">
+            <h2 className={`text-xl font-bold ${textMain}`}>作战中心</h2>
+            <GlobalHelpButton helpId="mission-control" onHelpClick={onHelpClick} size={16} variant="ghost" />
+          </div>
         </div>
         
         {/* 核心功能区域 */}
@@ -73,16 +96,22 @@ const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits
           
           {/* 命运骰子功能 */}
           <div className="mb-8 px-2">
-            <FateDice theme={theme} />
+            <FateDice 
+              theme={theme}
+              diceState={diceState}
+              onSpinDice={onSpinDice}
+              onUpdateDiceState={onUpdateDiceState}
+              onAddFloatingReward={onAddFloatingReward}
+            />
           </div>
           
           {/* 项目和习惯数据概览 */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full mt-6">
-            <div className={`${isNeomorphic ? `${currentNeomorphicStyle.bg} ${currentNeomorphicStyle.border} ${currentNeomorphicStyle.shadow} ${currentNeomorphicStyle.hoverShadow} ${currentNeomorphicStyle.transition}` : (isDark ? 'bg-zinc-800' : 'bg-white shadow-sm')} p-4 rounded-xl transition-all duration-300 hover:shadow-lg`}>
+            <div className={`${isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow} ${neomorphicStyles.hoverShadow} ${neomorphicStyles.transition}` : (isDark ? 'bg-zinc-800' : 'bg-white shadow-sm')} p-4 rounded-xl transition-all duration-300 hover:shadow-lg`}>
               <h4 className={`text-lg font-semibold ${textMain} mb-2`}>项目总数</h4>
               <p className={`text-4xl font-bold ${textMain}`}>{projects.length}</p>
             </div>
-            <div className={`${isNeomorphic ? `${currentNeomorphicStyle.bg} ${currentNeomorphicStyle.border} ${currentNeomorphicStyle.shadow} ${currentNeomorphicStyle.hoverShadow} ${currentNeomorphicStyle.transition}` : (isDark ? 'bg-zinc-800' : 'bg-white shadow-sm')} p-4 rounded-xl transition-all duration-300 hover:shadow-lg`}>
+            <div className={`${isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow} ${neomorphicStyles.hoverShadow} ${neomorphicStyles.transition}` : (isDark ? 'bg-zinc-800' : 'bg-white shadow-sm')} p-4 rounded-xl transition-all duration-300 hover:shadow-lg`}>
               <h4 className={`text-lg font-semibold ${textMain} mb-2`}>习惯总数</h4>
               <p className={`text-4xl font-bold ${textMain}`}>{habits.length}</p>
             </div>

@@ -1,32 +1,31 @@
-
+<!DOCTYPE html>
 <!DOCTYPE html>
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>地图不等于疆域</title>
-</head>
-<body>
+  <title>地图不等于疆域</title></head>
+<body >
   <div class="neu-card">
     <svg viewBox="0 0 1000 650">
       <!-- 复杂的疆域 (有机、不规则) -->
       <g transform="translate(300, 325)">
-        <path d="M-200,-150 Q-100,-250 50,-180 T250,-50 T150,150 T-50,250 T-250,50 Z" fill="var(--accent)" fill-opacity="0.05" stroke="var(--accent)" stroke-width="2" />
-        <path d="M-150,-100 L-100,-120 M100,50 L120,80" stroke="var(--accent)" stroke-width="1" opacity="0.3" />
-        <text y="0" text-anchor="middle" fill="var(--accent)" style="font-size: 42px; font-weight: 900; opacity: 0.4;">疆域 (REALITY)</text>
+        <path d="M-200,-150 Q-100,-250 50,-180 T250,-50 T150,150 T-50,250 T-250,50 Z" fill="#ef4444" fill-opacity="0.05" stroke="#ef4444" stroke-width="2" />
+        <path d="M-150,-100 L-100,-120 M100,50 L120,80" stroke="#ef4444" stroke-width="1" opacity="0.3" />
+        <text y="0" text-anchor="middle" fill="#ef4444" style="font-size: 42px; font-weight: 900; opacity: 0.4;">疆域 (REaL我TY)</text>
       </g>
       
       <!-- 简化的地图 (规则、抽象) -->
       <g transform="translate(750, 325)">
-        <rect x="-120" y="-120" width="240" height="240" rx="20" fill="var(--accent)" fill-opacity="0.1" stroke="var(--accent)" stroke-width="4" />
-        <line x1="-120" y1="0" x2="120" y2="0" stroke="var(--accent)" stroke-width="1" />
-        <line x1="0" y1="-120" x2="0" y2="120" stroke="var(--accent)" stroke-width="1" />
-        <text y="160" text-anchor="middle" fill="var(--accent)" style="font-size: 32px; font-weight: 900;">地图 (MODEL)</text>
-        <text y="190" text-anchor="middle" fill="var(--text)" opacity="0.5" style="font-size: 14px;">(模型只是简化的投影)</text>
+        <rect x="-120" y="-120" width="240" height="240" rx="20" fill="#ef4444" fill-opacity="0.1" stroke="#ef4444" stroke-width="4" />
+        <line x1="-120" y1="0" x2="120" y2="0" stroke="#ef4444" stroke-width="1" />
+        <line x1="0" y1="-120" x2="0" y2="120" stroke="#ef4444" stroke-width="1" />
+        <text y="160" text-anchor="middle" fill="#ef4444" style="font-size: 32px; font-weight: 900;">地图 (MOdEL)</text>
+        <text y="190" text-anchor="middle" fill="#64748b" opacity="0.5" style="font-size: 14px;">(模型只是简化的投影)</text>
       </g>
 
-      <path d="M500,325 L600,325" stroke="var(--heading)" stroke-width="4" stroke-dasharray="10 10" opacity="0.2" marker-end="url(#blackArrow)" />
+      <path d="M500,325 L600,325" stroke="#1e293b" stroke-width="4" stroke-dasharray="10 10" opacity="0.2" marker-end="url(#blackarrow)" />
       <defs>
-        <marker id="blackArrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="var(--heading)"/></marker>
+        <marker id="blackarrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#1e293b"/></marker>
       </defs>
     </svg>
   </div>
@@ -49,6 +48,5 @@
         </ul>
       </div>
     </div>
-  </div>
-</body>
+  </div></body>
 </html>

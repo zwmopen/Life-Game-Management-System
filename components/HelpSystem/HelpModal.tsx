@@ -1,4 +1,5 @@
 import React, { MouseEvent } from 'react';
+import ReactDOM from 'react-dom';
 import { X } from 'lucide-react';
 
 interface HelpContent {
@@ -28,7 +29,7 @@ interface GlobalGuideCardProps {
   config: GuideCardConfig;
 }
 
-// 全局指南卡片通用组件
+// 全局帮助卡片通用组件
 const GlobalGuideCard: React.FC<GlobalGuideCardProps> = ({
   activeHelp,
   helpContent,
@@ -80,7 +81,11 @@ const GlobalGuideCard: React.FC<GlobalGuideCardProps> = ({
     }
   };
 
-  return (
+  const portalElement = typeof document !== 'undefined' ? document.body : null;
+
+  if (!portalElement) return null;
+
+  return ReactDOM.createPortal(
     <div className="fixed inset-0 z-[9999] bg-black/30 flex items-center justify-center p-4 sm:p-6 backdrop-blur-sm animate-in fade-in" onClick={handleBackdropClick}>
       <div className={`w-full max-w-3xl max-h-[90vh] overflow-y-auto p-6 ${getBorderRadiusClass()} ${adjustedCardBg} ${getShadowClass()} relative ${config.borderRadius === 'large' ? 'sm:rounded-[48px]' : ''}`}>
         <button 
@@ -93,7 +98,7 @@ const GlobalGuideCard: React.FC<GlobalGuideCardProps> = ({
           <div className="flex justify-between items-center">
             <h3 className={`text-lg sm:text-xl font-black ${textMain} flex items-center gap-2`}>
               {content.icon}
-              {content.title}
+              {content.title} - 帮助卡片
             </h3>
             <div className={`text-xs sm:text-sm ${textSub}`}>
               更新时间: {content.updateTime}
@@ -155,7 +160,8 @@ const GlobalGuideCard: React.FC<GlobalGuideCardProps> = ({
           background: rgba(163, 177, 198, 0.7);
         }
       `}</style>
-    </div>
+    </div>,
+    portalElement
   );
 };
 

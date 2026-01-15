@@ -3,7 +3,7 @@
  * 负责管理游戏的核心状态，包括天数、余额、经验值、签到 streak 等
  */
 import { useState, useEffect } from 'react';
-import { Transaction, ReviewLog } from '../types';
+import { Transaction, ReviewLog } from '../../types';
 import { useLocalGameState } from './useLocalGameState';
 
 /**

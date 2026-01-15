@@ -1,73 +1,75 @@
-
+<!DOCTYPE html>
 <!DOCTYPE html>
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>曼陀罗思考法 - 几何发散</title>
+  <title>鏇奸檧缃楁€濊€冩硶 - 鍑犱綍鍙戞暎</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    :root { --bg: #121212; --dark: #080808; --light: #1c1c1c; --accent: #8b5cf6; }
-    body { background: var(--bg); font-family: -apple-system, sans-serif; color: #94a3b8; overflow: hidden; display: flex; align-items: center; justify-content: center; height: 100vh; }
-    .neu-card { background: var(--bg); border-radius: 60px; box-shadow: 20px 20px 60px var(--dark), -20px -20px 60px var(--light); }
+
+
+    
+    body { background: #ffffff; font-family: -apple-system, sans-serif; color: #94a3b8; overflow: hidden; display: flex; align-items: center; justify-content: center; height: 100vh; }
+    .neu-card { background: #ffffff; border-radius: 60px; box-shadow: 20px 20px 60px var(--dark), -20px -20px 60px var(--light); }
     .cell { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; border: 1px solid rgba(255,255,255,0.02); }
-    .cell:hover { transform: scale(1.05); border-color: var(--accent); z-index: 10; }
+    .cell:hover { transform: scale(1.05); border-color: #ef4444; z-index: 10; }
     @keyframes radiate { 0% { opacity: 0.1; } 50% { opacity: 0.4; } 100% { opacity: 0.1; } }
-    .lotus-bg { animation: radiate 4s infinite ease-in-out; fill: none; stroke: var(--accent); stroke-width: 1; stroke-dasharray: 10 5; }
+    .lotus-bg { animation: radiate 4s infinite ease-in-out; fill: none; stroke: #ef4444; stroke-width: 1; stroke-dasharray: 10 5; }
   </style>
 </head>
-<body class="p-12">
-  <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+<body>data-theme="light" class="p-12">
+  <div class="max-w-7xl mx-auto w-full grid grid-cols-1 gap-20">
     <div class="neu-card p-12 flex items-center justify-center aspect-square relative overflow-hidden bg-purple-900/5">
       <svg viewBox="0 0 600 600" class="w-full h-auto">
-        <!-- 几何背景线 -->
+        <!-- 鍑犱綍鑳屾櫙绾?-->
         <circle cx="300" cy="300" r="280" class="lotus-bg" />
         <line x1="0" y1="0" x2="600" y2="600" class="lotus-bg" />
         <line x1="600" y1="0" x2="0" y2="600" class="lotus-bg" />
         
-        <!-- 九宫格 -->
+        <!-- 涔濆鏍?-->
         <g transform="translate(100, 100)">
           <!-- Row 1 -->
-          <rect x="0" y="0" width="125" height="125" rx="15" fill="var(--bg)" class="cell" /><text x="62" y="70" text-anchor="middle" fill="#444" class="text-[8px] font-bold">DIM A</text>
-          <rect x="135" y="0" width="125" height="125" rx="15" fill="var(--bg)" class="cell" />
-          <rect x="270" y="0" width="125" height="125" rx="15" fill="var(--bg)" class="cell" />
+          <rect x="0" y="0" width="125" height="125" rx="15" fill="#ffffff" class="cell" /><text x="62" y="70" text-anchor="middle" fill="#444" class="text-[8px] font-bold">维度A</text>
+          <rect x="135" y="0" width="125" height="125" rx="15" fill="#ffffff" class="cell" />
+          <rect x="270" y="0" width="125" height="125" rx="15" fill="#ffffff" class="cell" />
           <!-- Row 2 -->
-          <rect x="0" y="135" width="125" height="125" rx="15" fill="var(--bg)" class="cell" />
-          <rect x="135" y="135" width="125" height="125" rx="30" fill="var(--accent)" class="cell shadow-lg shadow-purple-500/20" /> <!-- CORE -->
-          <text x="197" y="205" text-anchor="middle" fill="white" class="font-black text-xl italic uppercase">CORE</text>
-          <rect x="270" y="135" width="125" height="125" rx="15" fill="var(--bg)" class="cell" />
+          <rect x="0" y="135" width="125" height="125" rx="15" fill="#ffffff" class="cell" />
+          <rect x="135" y="135" width="125" height="125" rx="30" fill="#ef4444" class="cell shadow-lg shadow-purple-500/20" /> <!-- 核心 -->
+          <text x="197" y="205" text-anchor="middle" fill="white" class="font-black text-xl italic uppercase">核心</text>
+          <rect x="270" y="135" width="125" height="125" rx="15" fill="#ffffff" class="cell" />
           <!-- Row 3 -->
-          <rect x="0" y="270" width="125" height="125" rx="15" fill="var(--bg)" class="cell" />
-          <rect x="135" y="270" width="125" height="125" rx="15" fill="var(--bg)" class="cell" />
-          <rect x="270" y="270" width="125" height="125" rx="15" fill="var(--bg)" class="cell" />
+          <rect x="0" y="270" width="125" height="125" rx="15" fill="#ffffff" class="cell" />
+          <rect x="135" y="270" width="125" height="125" rx="15" fill="#ffffff" class="cell" />
+          <rect x="270" y="270" width="125" height="125" rx="15" fill="#ffffff" class="cell" />
         </g>
 
-        <text x="300" y="550" text-anchor="middle" fill="#333" class="font-black text-[10px] uppercase tracking-[1em]">The Geometric Divergence</text>
+        <text x="300" y="550" text-anchor="middle" fill="#333" class="font-black text-[10px] uppercase tracking-[1em]">几何发散</text>
       </svg>
     </div>
 
     <div class="space-y-12">
       <h1 class="text-8xl font-black tracking-tighter leading-[0.8] text-purple-500 italic">Mandala<br><span class="text-slate-200 not-italic uppercase">Thinking</span></h1>
       <p class="text-xl text-slate-500 border-l-4 border-purple-500 pl-6 leading-relaxed italic">
-        “将混沌的灵感锁定在几何秩序中，强制大脑填补空白。”
+        鈥滃皢娣锋矊鐨勭伒鎰熼攣瀹氬湪鍑犱綍绉╁簭涓紝寮哄埗澶ц剳濉ˉ绌虹櫧銆傗€?
       </p>
 
       <div class="neu-card p-10 space-y-6">
-        <h3 class="text-2xl font-black text-slate-200">核心隐喻：宇宙莲花</h3>
+        <h3 class="text-2xl font-black text-slate-200">鏍稿績闅愬柣锛氬畤瀹欒幉鑺?/h3>
         <p class="text-sm text-slate-400 leading-relaxed">
-          源于密宗曼陀罗。通过 3x3 的九宫格，将中心目标辐射到 8 个维度。这种结构能强制大脑打破线性的“点对点”思维，实现全景式的扫描。大谷翔平曾用此模型规划他成为棒球巨星的每一个细节。
+          婧愪簬瀵嗗畻鏇奸檧缃椼€傞€氳繃 3x3 鐨勪節瀹牸锛屽皢涓績鐩爣杈愬皠鍒?8 涓淮搴︺€傝繖绉嶇粨鏋勮兘寮哄埗澶ц剳鎵撶牬绾挎€х殑鈥滅偣瀵圭偣鈥濇€濈淮锛屽疄鐜板叏鏅紡鐨勬壂鎻忋€傚ぇ璋风繑骞虫浘鐢ㄦ妯″瀷瑙勫垝浠栨垚涓烘鐞冨法鏄熺殑姣忎竴涓粏鑺傘€?
         </p>
         <div class="grid grid-cols-2 gap-6">
            <div class="bg-[#121212] shadow-[inset_6px_6px_12px_var(--dark),inset_-6px_-6px_12px_var(--light)] p-6 rounded-3xl text-center">
-              <h4 class="text-purple-500 font-black text-[10px] uppercase mb-1">维度</h4>
-              <p class="text-[11px] text-slate-400">8x8 = 64 个执行细节。</p>
+              <h4 class="text-purple-500 font-black text-[10px] uppercase mb-1">缁村害</h4>
+              <p class="text-[11px] text-slate-400">8x8 = 64 涓墽琛岀粏鑺傘€?/p>
            </div>
            <div class="bg-[#121212] shadow-[inset_6px_6px_12px_var(--dark),inset_-6px_-6px_12px_var(--light)] p-6 rounded-3xl text-center">
-              <h4 class="text-slate-500 font-black text-[10px] uppercase mb-1">功能</h4>
-              <p class="text-[11px] text-slate-400">强制填空，消除思维死角。</p>
+              <h4 class="text-slate-500 font-black text-[10px] uppercase mb-1">鍔熻兘</h4>
+              <p class="text-[11px] text-slate-400">寮哄埗濉┖锛屾秷闄ゆ€濈淮姝昏銆?/p>
            </div>
         </div>
       </div>
     </div>
-  </div>
-</body>
+  </div></body>
 </html>
+

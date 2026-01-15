@@ -1,35 +1,34 @@
-
+<!DOCTYPE html>
 <!DOCTYPE html>
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>波普尔证伪主义</title>
-</head>
-<body>
+  <title>波普尔证伪主义</title></head>
+<body >
   <div class="neu-card">
     <svg viewBox="0 0 1000 650">
       <g transform="translate(500, 325)">
         <!-- 科学理论 (坚实的城堡) -->
-        <rect x="-250" y="-150" width="500" height="300" rx="40" fill="var(--accent)" fill-opacity="0.1" stroke="var(--accent)" stroke-width="4" />
-        <text text-anchor="middle" y="5" fill="var(--accent)" style="font-size: 32px; font-weight: 900;">可证伪的理论</text>
+        <rect x="-250" y="-150" width="500" height="300" rx="40" fill="#ef4444" fill-opacity="0.1" stroke="#ef4444" stroke-width="4" />
+        <text text-anchor="middle" y="5" fill="#ef4444" style="font-size: 32px; font-weight: 900;">可证伪的理论</text>
         
         <!-- 攻击矛头 (证伪尝试) -->
         <g stroke="#ef4444" stroke-width="4">
-          <line x1="-300" y1="-200" x2="-220" y2="-120" marker-end="url(#redArrow)" />
-          <line x1="300" y1="200" x2="220" y2="120" marker-end="url(#redArrow)" />
+          <line x1="-300" y1="-200" x2="-220" y2="-120" marker-end="url(#redarrow)" />
+          <line x1="300" y1="200" x2="220" y2="120" marker-end="url(#redarrow)" />
           <animate attributeName="stroke-dasharray" from="0,100" to="100,0" dur="0.5s" repeatCount="indefinite" />
         </g>
 
         <!-- 伪科学 (由于无法攻击而无敌) -->
         <g transform="translate(0, 220)" opacity="0.2">
-          <circle r="60" fill="none" stroke="var(--heading)" stroke-width="2" stroke-dasharray="2 10" class="animate-spin" />
+          <circle r="60" fill="none" stroke="#1e293b" stroke-width="2" stroke-dasharray="2 10" class="animate-spin" />
           <text text-anchor="middle" y="5" style="font-size: 14px;">万能解释 (无法证伪)</text>
         </g>
         
         <text y="-200" text-anchor="middle" fill="#ef4444" style="font-size: 42px; font-weight: 900;">真理必须经得起火烧</text>
       </g>
       <defs>
-        <marker id="redArrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#ef4444"/></marker>
+        <marker id="redarrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#ef4444"/></marker>
       </defs>
     </svg>
   </div>
@@ -52,6 +51,5 @@
         </ul>
       </div>
     </div>
-  </div>
-</body>
+  </div></body>
 </html>

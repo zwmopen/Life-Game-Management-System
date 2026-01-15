@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>思维模型轮播预览</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 白色主题（默认） */
+        :root {
+            --bg: #f9fafb;
+            --container-bg: #ffffff;
+            --heading: #1e293b;
+            --text: #64748b;
+            --border-color: #e5e7eb;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --button-bg: #3b82f6;
+            --button-text: #ffffff;
+            --button-hover: #2563eb;
+            --file-item-hover: #f3f4f6;
+            --file-item-active: #e5e7eb;
+        }
+        
+        /* 深色主题 */
+        [data-theme="dark"] {
+            --bg: #020617;
+            --container-bg: #1e293b;
+            --heading: #f8fafc;
+            --text: #94a3b8;
+            --border-color: #334155;
+            --shadow-color: rgba(0, 0, 0, 0.5);
+            --button-bg: #3b82f6;
+            --button-text: #ffffff;
+            --button-hover: #2563eb;
+            --file-item-hover: #334155;
+            --file-item-active: #475569;
+        }
+        
+        /* 主题切换按钮 */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--button-bg);
+            color: var(--button-text);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 4px 12px var(--shadow-color);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            background: var(--button-hover);
+            box-shadow: 0 6px 16px var(--shadow-color);
+        }
+        
+        /* 核心样式覆盖 */
+        body {
+            background: var(--bg) !important;
+            color: var(--text) !important;
+            transition: all 0.3s ease;
+        }
+        
+        /* 覆盖所有背景类 */
+        body .bg-white,
+        body .bg-gray-50 {
+            background-color: var(--container-bg) !important;
+        }
+        
+        /* 覆盖文字颜色类 */
+        body .text-gray-800 {
+            color: var(--heading) !important;
+        }
+        
+        body .text-gray-600,
+        body .text-gray-700 {
+            color: var(--text) !important;
+        }
+        
+        /* 覆盖边框颜色 */
+        body .border-gray-200 {
+            border-color: var(--border-color) !important;
+        }
+        
+        /* 预览框架样式 */
+        .preview-frame {
+            height: 80vh;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px var(--shadow-color), 0 2px 4px -1px var(--shadow-color);
+        }
+        
+        /* 导航按钮样式 */
+        .nav-button {
+            transition: all 0.2s ease;
+        }
+        
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px var(--shadow-color), 0 2px 4px -1px var(--shadow-color);
+        }
+        
+        /* 文件列表样式 */
+        .file-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .file-item {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .file-item:hover {
+            background-color: var(--file-item-hover);
+        }
+        
+        .file-item.active {
+            background-color: var(--file-item-active);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen" data-theme="light">
+    <!-- 主题切换按钮 -->
+    <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
+    <div class="container mx-auto px-4 py-8">
+        <header class="mb-8 text-center">
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">思维模型轮播预览</h1>
+            <p class="text-gray-600">浏览和预览所有思维模型</p>
+        </header>
+
+        <div class="mb-6 flex justify-between items-center flex-wrap gap-4">
+            <div class="flex items-center space-x-4">
+                <button id="prevBtn" class="nav-button bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold">
+                    ← 上一个
+                </button>
+                <button id="nextBtn" class="nav-button bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold">
+                    下一个 →
+                </button>
+            </div>
+            <div class="flex items-center space-x-2">
+                <div class="text-gray-700 font-medium">
+                    <span id="currentIndex">1</span> / <span id="totalFiles">0</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <input type="number" id="jumpInput" class="w-20 px-3 py-2 border border-gray-300 rounded-lg text-center" placeholder="数字" min="1" max="0">
+                    <button id="jumpBtn" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold">跳转</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 搜索功能 -->
+        <div class="mb-6">
+            <div class="flex items-center space-x-2">
+                <input type="text" id="searchInput" class="flex-1 px-4 py-2 border border-gray-300 rounded-lg" placeholder="搜索思维模型...">
+                <button id="searchBtn" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold">搜索</button>
+                <button id="clearSearchBtn" class="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg font-semibold">清除</button>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+            <div class="mb-4">
+                <h2 id="currentFileName" class="text-2xl font-semibold text-gray-800">思维模型名称</h2>
+            </div>
+            <iframe id="previewFrame" class="preview-frame w-full" src=""></iframe>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="lg:col-span-2 bg-white rounded-xl shadow-lg p-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">文件列表</h2>
+                <div id="fileList" class="file-list grid grid-cols-2 md:grid-cols-3 gap-2">
+                    <!-- 文件列表将通过JavaScript动态生成 -->
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">操作说明</h2>
+                <ul class="space-y-3 text-gray-600">
+                    <li class="flex items-start">
+                        <span class="text-blue-600 font-bold mr-2">•</span>
+                        使用上方按钮浏览不同的思维模型
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-blue-600 font-bold mr-2">•</span>
+                        点击文件列表中的项目直接跳转到对应模型
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-blue-600 font-bold mr-2">•</span>
+                        iframe中显示当前思维模型的完整内容
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-blue-600 font-bold mr-2">•</span>
+                        当前显示的是thinking-models文件夹中的HTML文件
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 思维模型文件列表
+        const thinkingModelFiles = [
+            "3c_model.html",
+            "5M1E分析法_5m1e.html",
+            "5m1e.html",
+            "5w1h.html",
+            "aarrr.html",
+            "abilene_paradox.html",
+            "active_recall.html",
+            "aisas.html",
+            "algo_resistance.html",
+            "anchoring_effect.html",
+            "anna_karenina_principle.html",
+            "ansoff.html",
+            "ansoff_matrix.html",
+            "antifragile.html",
+            "aronson_effect.html",
+            "ashbys_law.html",
+            "asymmetric_info.html",
+            "atomic_habits.html",
+            "attention_compounding.html",
+            "attention_economy.html",
+            "attention_filter.html",
+            "attribution_bias.html",
+            "autopoiesis.html",
+            "availability_cascade.html",
+            "availability_heuristic.html",
+            "backpropagation.html",
+            "backward_induction.html",
+            "bandwagon_effect.html",
+            "barbell.html",
+            "barnum_effect.html",
+            "base_rate_fallacy.html",
+            "bayes_theorem.html",
+            "bayesian_prior.html",
+            "bcg_matrix.html",
+            "belief_bias.html",
+            "bells_theorem.html",
+            "benard_cells.html",
+            "benfords_law.html",
+            "berksons_paradox.html",
+            "bernal_effect.html",
+            "bike_shedding.html",
+            "biscuit_digestion.html",
+            "black_swan.html",
+            "blue_ocean.html",
+            "body_collision.html",
+            "boiling_frog.html",
+            "booles_logic.html",
+            "boorstin_effect.html",
+            "braess_paradox.html",
+            "brain_high_block.html",
+            "brandolinis_law.html",
+            "break_recovery.html",
+            "broken_windows.html",
+            "broken_windows_reinforced.html",
+            "brooks_law.html",
+            "brownian_search.html",
+            "buffett_525.html",
+            "buridans_ass.html",
+            "butterfly_effect.html",
+            "bystander_effect.html",
+            "campbells_law.html",
+            "cannikin_law.html",
+            "cannikin_law_deep.html",
+            "capability_overflow.html",
+            "cardin_law.html",
+            "catfish_effect.html",
+            "central_limit_theorem.html",
+            "chestertons_fence.html",
+            "chua_circuit.html",
+            "circle_of_competence.html",
+            "circles_of_influence.html",
+            "coase_theorem.html",
+            "cobras_effect.html",
+            "cocktail_party.html",
+            "coevolutionary_dynamics.html",
+            "cog_comp_defense.html",
+            "cognitive_arbitrage.html",
+            "cognitive_attrition.html",
+            "cognitive_bandwidth.html",
+            "cognitive_dissonance.html",
+            "cognitive_flexibility.html",
+            "cognitive_leverage.html",
+            "cognitive_load.html",
+            "cognitive_negative_feedback.html",
+            "cognitive_poverty.html",
+            "cognitive_tunneling.html",
+            "collective_action.html",
+            "common_knowledge.html",
+            "comparative_advantage.html",
+            "complexity_bias.html",
+            "compound_interest.html",
+            "compounding_decay.html",
+            "condition_illusion.html",
+            "confirmation_bias.html",
+            "contrarian_thinking.html",
+            "contrast_effect.html",
+            "contrast_effect_reinforced.html",
+            "convexity_preference.html",
+            "conway.html",
+            "cpm.html",
+            "crab_mentality.html",
+            "creative_destruction.html",
+            "cunninghams_law.html",
+            "death_valley_phase.html",
+            "deci_effect.html",
+            "decision_4070.html",
+            "decision_fatigue.html",
+            "decision_tree.html",
+            "decoherence.html",
+            "decoy_effect.html",
+            "deep_work.html",
+            "degeneracy_pressure.html",
+            "delayed_gratification.html",
+            "deliberate_practice.html",
+            "design_thinking.html",
+            "diderot_effect.html",
+            "diffusion_innovation.html",
+            "digital_sovereignty.html",
+            "diminishing_returns.html",
+            "discounting_defense.html",
+            "dissipative_resonance.html",
+            "dissipative_structures.html",
+            "domino_advanced.html",
+            "dopamine_detox.html",
+            "dopamine_rpe.html",
+            "double_blind.html",
+            "double_diamond.html",
+            "dreyfus_model.html",
+            "dual_track_value.html",
+            "dugan_law.html",
+            "dullness_gravity.html",
+            "dunbars_layers.html",
+            "dunbars_number.html",
+            "dunning_kruger.html",
+            "dunning_kruger_deep.html",
+            "dunning_kruger_expert.html",
+            "eat_the_frog.html",
+            "echo_chamber.html",
+            "economies_of_scale.html",
+            "edge_of_chaos.html",
+            "ego_depletion.html",
+            "eisenhower.html",
+            "elliott_wave.html",
+            "ellsberg_paradox.html",
+            "emergence.html",
+            "emotional_compounding.html",
+            "emotional_entropy.html",
+            "emotional_intelligence.html",
+            "emotional_stoploss.html",
+            "endowment_effect.html",
+            "energy_anchor.html",
+            "energy_conservation.html",
+            "energy_management.html",
+            "entropy.html",
+            "entropy_law.html",
+            "env_design.html",
+            "ergodicity.html",
+            "escalation_commitment.html",
+            "ess_strategy.html",
+            "excretory_output.html",
+            "exposure_effect.html",
+            "externalities.html",
+            "false_consensus.html",
+            "falsificationism.html",
+            "feedback_deep.html",
+            "feedback_delay.html",
+            "feedback_lag.html",
+            "feedback_lag_calibration.html",
+            "feedback_loops.html",
+            "feedback_polarization.html",
+            "feigenbaum_constant.html",
+            "fermi_estimation.html",
+            "festinger_law.html",
+            "feynman_advanced.html",
+            "feynman_technique.html",
+            "filter_bubble.html",
+            "fire_then_aim.html",
+            "first_principles.html",
+            "five_hour_rule.html",
+            "flow_model.html",
+            "flywheel.html",
+            "fogg_behavior.html",
+            "fogg_engine.html",
+            "foot_in_the_door.html",
+            "forgetting_curve.html",
+            "four_burners.html",
+            "fractal_dimension.html",
+            "framing_effect.html",
+            "gaia_hypothesis.html",
+            "galls_law.html",
+            "gamblers_fallacy.html",
+            "game_punishment.html",
+            "ge_matrix.html",
+            "gibsons_law.html",
+            "gidlin_law.html",
+            "giffen_paradox.html",
+            "gini_coefficient.html",
+            "goedels_incompleteness.html",
+            "golden_circle.html",
+            "gompertz_curve.html",
+            "goodharts_law.html",
+            "goodman_theorem.html",
+            "gpu_execution.html",
+            "granularity_shrink.html",
+            "gray_rhino.html",
+            "greshams_law.html",
+            "grow.html",
+            "growth_mindset.html",
+            "habit_stacking.html",
+            "halo_effect.html",
+            "halo_effect_deep.html",
+            "hamiltons_rule.html",
+            "hanlons_razor.html",
+            "hawkins_scale.html",
+            "hawthorne_effect.html",
+            "hedgehog_concept.html",
+            "hedgehog_principle.html",
+            "herd_effect.html",
+            "hicks_law.html",
+            "hindsight_bias.html",
+            "hofstadters_law.html",
+            "homans_propositions.html",
+            "hook_model.html",
+            "hot_hand.html",
+            "hotellings_law.html",
+            "huffman_logic.html",
+            "hypercycle.html",
+            "hysteresis.html",
+            "iceberg_model.html",
+            "ikea_effect.html",
+            "ikigai.html",
+            "illusion_of_control.html",
+            "impossible_trinity.html",
+            "imposter_syndrome.html",
+            "information_delta.html",
+            "information_geometry.html",
+            "innovators_dilemma.html",
+            "institutional_imperative.html",
+            "inverse_square.html",
+            "inversion.html",
+            "inversion_advanced.html",
+            "iron_triangle.html",
+            "janssen_effect.html",
+            "johari_window.html",
+            "kanizsa_triangle.html",
+            "kano.html",
+            "kardashev_scale.html",
+            "kelly_criterion.html",
+            "keynesian_beauty.html",
+            "kick_the_cat.html",
+            "knowledge_trap.html",
+            "kolb_cycle.html",
+            "kolmogorov_complexity.html",
+            "kondratiev_waves.html",
+            "kuleshov_effect.html",
+            "kuznets_curve.html",
+            "ladder_inference.html",
+            "laffer_curve.html",
+            "lanchester_square.html",
+            "landauers_bound.html",
+            "landauers_principle.html",
+            "lansden_principle.html",
+            "large_numbers.html",
+            "learned_helplessness.html",
+            "learning_702010.html",
+            "lewis_law.html",
+            "life_gamification.html",
+            "lindemans_law.html",
+            "lindy_deep.html",
+            "lindy_effect.html",
+            "lipstick_effect.html",
+            "lock_in.html",
+            "locus_of_control.html",
+            "loeb_theorem.html",
+            "logic_breaker.html",
+            "logic_firewall.html",
+            "lollapalooza.html",
+            "long_tail.html",
+            "long_term_games.html",
+            "loss_aversion.html",
+            "lotka_volterra.html",
+            "lucas_critique.html",
+            "luck_surface_area.html",
+            "mandala.html",
+            "mandala_chart.html",
+            "map_territory.html",
+            "margin_of_safety.html",
+            "marginal_cost.html",
+            "marginal_utility.html",
+            "marketing_4p.html",
+            "markov_chain.html",
+            "maslow.html",
+            "matthew_effect.html",
+            "matthew_effect_reinforced.html",
+            "maxwells_demon.html",
+            "mckinsey_3_horizons.html",
+            "mckinsey_7s.html",
+            "mean_defense.html",
+            "mece.html",
+            "metacognition.html",
+            "metadata.json",
+            "metcalfe.html",
+            "metcalfe_law.html",
+            "micro_habit_launcher.html",
+            "millers_law.html",
+            "mind_loop_test.html",
+            "mindfulness.html",
+            "mini_habits.html",
+            "minimalist_execution.html",
+            "minsky_moment.html",
+            "mixed_strategy.html",
+            "moat.html",
+            "mosco_law.html",
+            "multitasking_myth.html",
+            "murphys_law.html",
+            "murray_law.html",
+            "muscle_memory_first.html",
+            "mute_soldier.html",
+            "mva_protocol.html",
+            "mvp_evolution.html",
+            "nash_equilibrium.html",
+            "need_for_closure.html",
+            "negative_list.html",
+            "negentropy_flow.html",
+            "negotiation_curse.html",
+            "network_brokerage.html",
+            "network_effect.html",
+            "niche_strategy.html",
+            "nk_model.html",
+            "non_local_games.html",
+            "non_locality.html",
+            "non_standard_assets.html",
+            "non_standard_premium.html",
+            "normal_distribution.html",
+            "nvc_model.html",
+            "occam_razor.html",
+            "ogilvy_law.html",
+            "okr.html",
+            "ooda_loop.html",
+            "operant_conditioning.html",
+            "opp_cost_deep.html",
+            "opportunity.html",
+            "opportunity_window.html",
+            "optimism_bias.html",
+            "optionality.html",
+            "ostrich_effect.html",
+            "overjustification_effect.html",
+            "paradigm_shift.html",
+            "pareto.html",
+            "pareto_2080.html",
+            "pareto_fractal.html",
+            "pareto_frontier.html",
+            "pareto_optimality.html",
+            "parkinson_law.html",
+            "path_dependency.html",
+            "pavlovian_response.html",
+            "pdca.html",
+            "peak_end_rule.html",
+            "peltzman_effect.html",
+            "penetration_pricing.html",
+            "permission_marketing.html",
+            "personal_ledger.html",
+            "personal_swot.html",
+            "pestel.html",
+            "peter_principle.html",
+            "phase_transition.html",
+            "placebo_effect.html",
+            "planck_scale.html",
+            "plancks_principle.html",
+            "planning_fallacy.html",
+            "plateau_tolerance.html",
+            "pmf_model.html",
+            "poincare_recurrence.html",
+            "pomodoro.html",
+            "porter_diamond.html",
+            "porter_five.html",
+            "positive_sum.html",
+            "power_law.html",
+            "preferential_attachment.html",
+            "premack_principle.html",
+            "prices_law.html",
+            "primacy_effect.html",
+            "principal_agent.html",
+            "prisoner.html",
+            "product_lifecycle.html",
+            "public_contract.html",
+            "pygmalion_effect.html",
+            "pyramid.html",
+            "quantum_entanglement.html",
+            "ratchet_effect.html",
+            "recency_effect.html",
+            "recklessness_protocol.html",
+            "red_queen_effect.html",
+            "redundancy.html",
+            "reflexivity.html",
+            "regression_mean.html",
+            "regression_mean_deep.html",
+            "regret_minimization.html",
+            "renormalization.html",
+            "research_programmes.html",
+            "restorff_effect.html",
+            "rfm_model.html",
+            "rosenthal_effect.html",
+            "rubicon_model.html",
+            "rubicon_trap.html",
+            "rule_101010.html",
+            "salami_slicing.html",
+            "sapir_whorf.html",
+            "satisficing.html",
+            "sayres_law.html",
+            "says_law.html",
+            "scale_free_network.html",
+            "scamper.html",
+            "scarcity_effect.html",
+            "schelling_point.html",
+            "schelling_segregation.html",
+            "schwartz_thesis.html",
+            "second_order.html",
+            "second_order_thinking.html",
+            "segals_law.html",
+            "self_efficacy.html",
+            "self_organized_criticality.html",
+            "self_serving_bias.html",
+            "serial_position.html",
+            "shadow_audit.html",
+            "shannon_entropy.html",
+            "shannon_limit.html",
+            "signal_noise.html",
+            "singularity_thinking.html",
+            "six_degrees.html",
+            "six_hats.html",
+            "skill_half_life.html",
+            "skill_stacking.html",
+            "skimming_pricing.html",
+            "skin.html",
+            "sleeper_effect.html",
+            "social_proof.html",
+            "socratic_deep.html",
+            "soldier_ceo_mode.html",
+            "solo_decision_blackbox.html",
+            "solo_redundancy.html",
+            "solopreneur_canvas.html",
+            "south_wind.html",
+            "spaced_repetition.html",
+            "spontaneous_symmetry_breaking.html",
+            "spotlight_effect.html",
+            "status_quo_bias.html",
+            "steiner_law.html",
+            "stereotype.html",
+            "stern_principle.html",
+            "stochastic_resonance.html",
+            "stock_and_flow.html",
+            "strange_loops.html",
+            "streisand_effect.html",
+            "stroop_effect.html",
+            "structural_holes.html",
+            "student_syndrome.html",
+            "sturgeons_law.html",
+            "sunflower_feedback.html",
+            "sunk_cost.html",
+            "sunk_cost_personal.html",
+            "sunk_cost_protocol.html",
+            "survivorship_bias.html",
+            "suttons_law.html",
+            "swot.html",
+            "symbiogenesis.html",
+            "symbiotic_effect.html",
+            "symmetry_breaking.html",
+            "synergetics.html",
+            "system_1_2.html",
+            "t_shaped_skills.html",
+            "teslers_law.html",
+            "the_dip.html",
+            "thermal_shutdown.html",
+            "thermodynamics_second_law.html",
+            "third_law_thermodynamics.html",
+            "tipping_point.html",
+            "tit_for_tat_forgiveness.html",
+            "tolider_law.html",
+            "topological_error_correction.html",
+            "topological_order.html",
+            "topological_robustness.html",
+            "tragedy_commons_deep.html",
+            "tragedy_of_commons.html",
+            "trash_output.html",
+            "true_fans.html",
+            "turing_completeness.html",
+            "turing_patterns.html",
+            "two_minute_rule.html",
+            "ultralearning.html",
+            "universal_constructor.html",
+            "unseen_cemetery.html",
+            "upstream.html",
+            "value_anchoring.html",
+            "value_chain.html",
+            "veblen_effect.html",
+            "via_negativa.html",
+            "virtual_wage.html",
+            "vrio_model.html",
+            "wagners_law.html",
+            "wallach_effect.html",
+            "wallenda_effect.html",
+            "weber_fechner.html",
+            "wilson_law.html",
+            "wine_sewage_law.html",
+            "zeigarnik_effect.html",
+            "zero_marginal.html",
+            "zero_risk_bias.html",
+            "zero_sum.html",
+            "zettelkasten.html",
+            "zipfs_law.html",
+            "乔哈里视窗_johari_window.html",
+            "二阶思维_second_order_thinking.html",
+            "双系统理论_system_1_2.html",
+            "复利效应_compound_interest.html",
+            "安索夫矩阵_ansoff_matrix.html",
+            "峰终定律_peak_end_rule.html",
+            "幸存者偏差_survivorship_bias.html",
+            "心流模型_flow_model.html",
+            "曼陀罗思考法_mandala_chart.html",
+            "林迪效应_lindy_effect.html",
+            "梅特卡夫定律_metcalfe.html",
+            "汉隆剃刀_hanlons_razor.html",
+            "沉没成本_sunk_cost.html",
+            "波士顿矩阵_bcg_matrix.html",
+            "福格行为模型_fogg_behavior.html",
+            "系统动力学_stock_and_flow.html",
+            "纳什均衡_nash_equilibrium.html",
+            "蓝海战略_blue_ocean.html",
+            "蔡格尼克效应_zeigarnik_effect.html",
+            "螃蟹效应_crab_mentality.html",
+            "费曼技巧_feynman_technique.html",
+            "逆向思维_inversion.html",
+            "邓巴数字_dunbars_number.html",
+            "霍桑效应_hawthorne_effect.html",
+            "马太效应_matthew_effect.html"
+        ];
+
+        // 过滤掉非HTML文件
+        const htmlFiles = thinkingModelFiles.filter(file => file.endsWith('.html'));
+        let filteredFiles = [...htmlFiles]; // 搜索过滤后的文件列表
+        
+        let currentIndex = 0;
+        const totalFiles = filteredFiles.length;
+        
+        const previewFrame = document.getElementById('previewFrame');
+        const currentFileName = document.getElementById('currentFileName');
+        const currentIndexEl = document.getElementById('currentIndex');
+        const totalFilesEl = document.getElementById('totalFiles');
+        const fileList = document.getElementById('fileList');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        
+        // 初始化
+        function init() {
+            updateTotalFiles();
+            renderFileList();
+            loadFile(currentIndex);
+        }
+        
+        // 更新总文件数显示
+        function updateTotalFiles() {
+            const total = filteredFiles.length;
+            totalFilesEl.textContent = total;
+            // 设置输入框的max属性
+            const jumpInput = document.getElementById('jumpInput');
+            jumpInput.max = total;
+        }
+        
+        // 渲染文件列表
+        function renderFileList() {
+            fileList.innerHTML = '';
+            filteredFiles.forEach((file, index) => {
+                const fileItem = document.createElement('div');
+                fileItem.className = `file-item p-2 rounded-lg text-sm text-gray-700 ${index === currentIndex ? 'active' : ''}`;
+                fileItem.textContent = getDisplayName(file);
+                fileItem.onclick = () => loadFile(index);
+                fileList.appendChild(fileItem);
+            });
+        }
+        
+        // 获取文件名（不含扩展名）
+        function getDisplayName(fileName) {
+            return fileName.replace('.html', '');
+        }
+        
+        // 加载文件
+        function loadFile(index) {
+            if (index < 0 || index >= filteredFiles.length) return;
+            
+            currentIndex = index;
+            const fileName = filteredFiles[currentIndex];
+            const filePath = `thinking-models/${fileName}`;
+            
+            previewFrame.src = filePath;
+            currentFileName.textContent = getDisplayName(fileName);
+            currentIndexEl.textContent = currentIndex + 1;
+            
+            // 更新文件列表的活跃状态
+            document.querySelectorAll('.file-item').forEach((item, i) => {
+                item.classList.toggle('active', i === currentIndex);
+            });
+        }
+        
+        // 上一个文件
+        function prevFile() {
+            loadFile(currentIndex - 1);
+        }
+        
+        // 下一个文件
+        function nextFile() {
+            loadFile(currentIndex + 1);
+        }
+        
+        // 事件监听
+        prevBtn.addEventListener('click', prevFile);
+        nextBtn.addEventListener('click', nextFile);
+        
+        // 跳转功能
+        const jumpBtn = document.getElementById('jumpBtn');
+        const jumpInput = document.getElementById('jumpInput');
+        
+        // 跳转按钮点击事件
+        jumpBtn.addEventListener('click', () => {
+            const jumpTo = parseInt(jumpInput.value);
+            if (jumpTo && jumpTo >= 1 && jumpTo <= totalFiles) {
+                loadFile(jumpTo - 1);
+            } else {
+                alert(`请输入1到${totalFiles}之间的数字`);
+            }
+        });
+        
+        // 输入框回车键事件
+        jumpInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                jumpBtn.click();
+            }
+        });
+        
+        // 键盘导航
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                prevFile();
+            } else if (e.key === 'ArrowRight') {
+                nextFile();
+            }
+        });
+        
+        // 搜索功能
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const clearSearchBtn = document.getElementById('clearSearchBtn');
+        
+        // 处理搜索
+        function handleSearch() {
+            const searchTerm = searchInput.value.trim().toLowerCase();
+            if (searchTerm) {
+                filteredFiles = htmlFiles.filter(file => {
+                    const displayName = getDisplayName(file).toLowerCase();
+                    return displayName.includes(searchTerm);
+                });
+            } else {
+                filteredFiles = [...htmlFiles];
+            }
+            currentIndex = 0;
+            updateTotalFiles();
+            renderFileList();
+            loadFile(currentIndex);
+        }
+        
+        // 清除搜索
+        function clearSearch() {
+            searchInput.value = '';
+            filteredFiles = [...htmlFiles];
+            currentIndex = 0;
+            updateTotalFiles();
+            renderFileList();
+            loadFile(currentIndex);
+        }
+        
+        // 搜索按钮点击事件
+        searchBtn.addEventListener('click', handleSearch);
+        
+        // 清除按钮点击事件
+        clearSearchBtn.addEventListener('click', clearSearch);
+        
+        // 输入框回车键事件
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                handleSearch();
+            }
+        });
+        
+        // 初始化
+        init();
+    </script>
+    
+    <script>
+        // 主题切换功能
+        function toggleTheme() {
+            const body = document.body;
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            body.setAttribute('data-theme', newTheme);
+            
+            // 保存主题偏好到本地存储
+            localStorage.setItem('theme', newTheme);
+        }
+        
+        // 初始化主题
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.body.setAttribute('data-theme', savedTheme);
+        });
+    </script>
+</body>
+</html>

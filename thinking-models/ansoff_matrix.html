@@ -1,23 +1,20 @@
-
 <!DOCTYPE html>
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>安索夫矩阵 - 战略罗盘</title>
+  <title>安索夫矩阵 - 成长罗盘</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body { background: #020617; font-family: -apple-system, sans-serif; color: #f8fafc; }
-    .glass { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); }
-    .quadrant { transition: all 0.4s ease; cursor: pointer; }
-    .quadrant:hover { transform: scale(1.03); filter: brightness(1.2); }
-    @keyframes compass-rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-    .compass { animation: compass-rotate 20s linear infinite; transform-origin: center; }
+    
+    
+    .glass { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(16px); border: 1px solid rgba(0, 0, 0, 0.1); transition: all 0.3s ease; }
+    @keyframes grow { from { stroke-dashoffset: 1000; } to { stroke-dashoffset: 0; } }
+    .branch { stroke-dasharray: 1000; animation: grow 3s forwards ease-out; }
+    .node:hover { transform: scale(1.1); filter: brightness(1.2); transition: all 0.3s; cursor: pointer; }
   </style>
 </head>
-<body class="p-8 md:p-20 flex items-center justify-center min-h-screen">
-  <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-    <!-- SVG 可视化 -->
-    <div class="relative flex items-center justify-center glass p-8 rounded-[4rem] shadow-2xl overflow-hidden">
+<body class="p-8 md:p-20 flex items-center justify-center min-h-screen" ><div class="max-w-7xl mx-auto w-full grid grid-cols-1 gap-20">
+    <div class="relative flex items-center justify-center glass p-12 rounded-[4rem] shadow-2xl">
       <svg viewBox="0 0 600 600" class="w-full h-auto max-w-[500px]">
         <!-- 坐标轴 -->
         <g stroke="rgba(255,255,255,0.1)" stroke-width="2">
@@ -25,63 +22,62 @@
           <line x1="50" y1="300" x2="550" y2="300" />
         </g>
 
-        <!-- 市场渗透 (Market Penetration) -->
+        <!-- 市场渗透(Market 计划enetration) -->
         <g class="quadrant" transform="translate(100, 100)">
           <rect width="195" height="195" rx="20" fill="#10b981" fill-opacity="0.1" stroke="#10b981" />
           <text x="97" y="110" text-anchor="middle" fill="#10b981" class="font-black text-xl">市场渗透</text>
           <text x="97" y="135" text-anchor="middle" fill="#10b981" class="text-[8px] font-bold opacity-60">现有产品 / 现有市场</text>
         </g>
 
-        <!-- 产品开发 (Product Development) -->
+        <!-- 产品开发(计划roduct Development) -->
         <g class="quadrant" transform="translate(305, 100)">
           <rect width="195" height="195" rx="20" fill="#3b82f6" fill-opacity="0.1" stroke="#3b82f6" />
           <text x="97" y="110" text-anchor="middle" fill="#3b82f6" class="font-black text-xl">产品开发</text>
           <text x="97" y="135" text-anchor="middle" fill="#3b82f6" class="text-[8px] font-bold opacity-60">新产品 / 现有市场</text>
         </g>
 
-        <!-- 市场开发 (Market Development) -->
+        <!-- 市场开发(Market Development) -->
         <g class="quadrant" transform="translate(100, 305)">
           <rect width="195" height="195" rx="20" fill="#f59e0b" fill-opacity="0.1" stroke="#f59e0b" />
           <text x="97" y="110" text-anchor="middle" fill="#f59e0b" class="font-black text-xl">市场开发</text>
           <text x="97" y="135" text-anchor="middle" fill="#f59e0b" class="text-[8px] font-bold opacity-60">现有产品 / 新市场</text>
         </g>
 
-        <!-- 多元化 (Diversification) -->
+        <!-- 多元化(Diversification) -->
         <g class="quadrant" transform="translate(305, 305)">
           <rect width="195" height="195" rx="20" fill="#ef4444" fill-opacity="0.1" stroke="#ef4444" />
           <text x="97" y="110" text-anchor="middle" fill="#ef4444" class="font-black text-xl">多元化</text>
           <text x="97" y="135" text-anchor="middle" fill="#ef4444" class="text-[8px] font-bold opacity-60">新产品 / 新市场</text>
         </g>
 
-        <text x="300" y="580" text-anchor="middle" fill="#475569" class="text-[10px] font-black uppercase tracking-[0.5em]">产品维度 (现有 → 新)</text>
-        <text x="30" y="300" text-anchor="middle" fill="#475569" class="text-[10px] font-black uppercase tracking-[0.5em]" transform="rotate(-90 30 300)">市场维度 (现有 → 新)</text>
+        <text x="300" y="580" text-anchor="middle" fill="#64748b" class="text-[10px] font-black uppercase tracking-[0.5em]">产品维度 (现有 → 新)</text>
+        <text x="30" y="300" text-anchor="middle" fill="#64748b" class="text-[10px] font-black uppercase tracking-[0.5em]" transform="rotate(-90 30 300)">市场维度 (现有 → 新)</text>
       </svg>
     </div>
 
-    <!-- 文案内容区 -->
+    <!-- 文档内容区域 -->
     <div class="space-y-12">
-      <h1 class="text-8xl font-black text-white tracking-tighter leading-[0.8]">安索夫<br><span class="text-indigo-500 italic">扩张矩阵</span></h1>
-      <p class="text-xl text-slate-400 border-l-4 border-indigo-500 pl-6 leading-relaxed italic">
-        “增长不仅仅是做加法，更是维度的选择。”
+      <h1 class="text-8xl font-black text-[#1e293b] tracking-tighter leading-[0.8]">安索夫矩阵<br><span class="text-indigo-500 italic">成长罗盘</span></h1>
+      <p class="text-xl text-[#64748b] border-l-4 border-indigo-500 pl-6 leading-relaxed italic">
+        "增长不仅仅是做加法，更是维度的选择。"
       </p>
 
       <div class="glass p-10 rounded-[3rem] space-y-6">
-        <h3 class="text-2xl font-black text-white italic">核心隐喻：扩张罗盘</h3>
-        <p class="text-sm text-slate-400 leading-relaxed">
-          矩阵为企业的扩张路径指明了四个方向。风险由左上角（渗透）向右下角（多元化）递增。每一家成熟的公司都必须同时在这四个象限中进行不同权重的布局。
+        <h3 class="text-2xl font-black text-[#1e293b] italic">核心困境：扩张陷阱</h3>
+        <p class="text-sm text-[#64748b] leading-relaxed">
+          矩阵为企业的增长路径指明了四个方向。风险由左上角（渗透）向右下角（多元化）递增。每个成功的公司都必须同时在这四个象限中进行不同权重的布局。
         </p>
         <div class="grid grid-cols-2 gap-4">
           <div class="bg-indigo-600/10 p-5 rounded-3xl border border-indigo-500/20">
-             <h4 class="text-indigo-400 font-black text-[10px] uppercase mb-1">风险提示</h4>
-             <p class="text-[11px] text-slate-300 italic">盲目进行不相关的“多元化”是多数巨头陨落的开始。</p>
+             <h4 class="text-indigo-400 font-black text-[10px] uppercase mb-1">风险提醒</h4>
+             <p class="text-[11px] text-[#64748b] italic">盲目进行不相关的"多元化"是多数巨头陨落的开始。</p>
           </div>
-          <div class="bg-white/5 p-5 rounded-3xl border border-white/5">
-             <h4 class="text-slate-500 font-black text-[10px] uppercase mb-1">深耕逻辑</h4>
-             <p class="text-[11px] text-slate-400 italic">在渗透象限挖掘存量价值是成本最低的增长。</p>
+          <div class="bg-[rgba(0, 0, 0, 0.05)] p-5 rounded-3xl border border-[rgba(0, 0, 0, 0.1)]">
+             <h4 class="text-[#64748b] font-black text-[10px] uppercase mb-1">效率建议</h4>
+             <p class="text-[11px] text-[#64748b] italic">在熟悉象限积累资源优势是成本最低的增长。</p>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</body>
+  </div></body>
 </html>
