@@ -123,6 +123,51 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
     }
   }, [taskCategory, habitTasks, projectTasks, diceState]);
 
+  // 函数：计算过期未完成任务数量
+  const calculateOverdueTasks = useCallback((tasks: any[], taskType: 'habit' | 'project' | 'dice') => {
+    const now = new Date();
+    let overdueCount = 0;
+    
+    tasks.forEach(task => {
+      // 检查任务是否有截止日期且未完成
+      if (!task.completed && task.reminder && task.reminder.enabled && task.reminder.date) {
+        const deadline = new Date(task.reminder.date);
+        // 如果截止日期早于当前日期，则视为过期
+        if (deadline < now) {
+          overdueCount++;
+        }
+      }
+      
+      // 如果是项目任务，还需要检查子任务的过期情况
+      if (taskType === 'project' && task.subTasks && Array.isArray(task.subTasks)) {
+        task.subTasks.forEach(subTask => {
+          if (!subTask.completed && subTask.reminder && subTask.reminder.enabled && subTask.reminder.date) {
+            const deadline = new Date(subTask.reminder.date);
+            if (deadline < now) {
+              overdueCount++;
+            }
+          }
+        });
+      }
+    });
+    
+    return overdueCount;
+  }, []);
+
+  // 计算各类别过期未完成任务数量
+  const dailyOverdueCount = useMemo(() => {
+    return calculateOverdueTasks(habitTasks, 'habit');
+  }, [habitTasks, calculateOverdueTasks]);
+
+  const mainOverdueCount = useMemo(() => {
+    return calculateOverdueTasks(projectTasks, 'project');
+  }, [projectTasks, calculateOverdueTasks]);
+
+  const randomOverdueCount = useMemo(() => {
+    if (!diceState) return 0;
+    return calculateOverdueTasks(diceState.pendingTasks || [], 'dice');
+  }, [diceState, calculateOverdueTasks]);
+
   // 使用useCallback缓存事件处理器，避免重复创建函数
   const handleDiceTaskComplete = useCallback((taskId: string) => {
     if (!onUpdateDiceState || !diceState) return;
@@ -172,7 +217,7 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
         <div className="flex items-center gap-1 sm:gap-2 flex-wrap">
           <button 
             onClick={() => setTaskCategory('daily')} 
-            className={`flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg transition-all font-semibold text-xs sm:text-sm ${
+            className={`relative flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg transition-all font-semibold text-xs sm:text-sm ${
               taskCategory === 'daily' 
                 ? (isNeomorphic 
                   ? (theme === 'neomorphic-dark' 
@@ -183,10 +228,15 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
             }`}
           >
             <ListTodo size={14} /> 日常任务
+            {dailyOverdueCount > 0 && (
+              <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[8px] text-white border border-white">
+                {dailyOverdueCount > 9 ? '9+' : dailyOverdueCount}
+              </span>
+            )}
           </button>
           <button 
             onClick={() => setTaskCategory('main')} 
-            className={`flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg transition-all font-semibold text-xs sm:text-sm ${
+            className={`relative flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg transition-all font-semibold text-xs sm:text-sm ${
               taskCategory === 'main' 
                 ? (isNeomorphic 
                   ? (theme === 'neomorphic-dark' 
@@ -197,10 +247,15 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
             }`}
           >
             <Target size={14} /> 主线任务
+            {mainOverdueCount > 0 && (
+              <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[8px] text-white border border-white">
+                {mainOverdueCount > 9 ? '9+' : mainOverdueCount}
+              </span>
+            )}
           </button>
           <button 
             onClick={() => setTaskCategory('random')} 
-            className={`flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg transition-all font-semibold text-xs sm:text-sm ${
+            className={`relative flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg transition-all font-semibold text-xs sm:text-sm ${
               taskCategory === 'random' 
                 ? (isNeomorphic 
                   ? (theme === 'neomorphic-dark' 
@@ -211,6 +266,11 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
             }`}
           >
             <Sparkles size={14} /> 命运骰子
+            {randomOverdueCount > 0 && (
+              <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[8px] text-white border border-white">
+                {randomOverdueCount > 9 ? '9+' : randomOverdueCount}
+              </span>
+            )}
           </button>
           {onShowHelp && (
             <GlobalHelpButton 
