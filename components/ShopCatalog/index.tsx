@@ -346,41 +346,43 @@ const ShopCatalog: React.FC<ShopCatalogProps> = memo(({
                   </div>
                 )}
                 
-                {/* 渐变遮罩 - 从标题/价格顶部往下的白色渐变阴影遮罩效果 */}
-                <div className="gradient-overlay absolute left-0 top-0 w-full h-full z-10 pointer-events-none" style={{
+                {/* 渐变遮罩 - 从价格标签位置开始的半透明遮罩，让整体更有层次感 */}
+                <div className="gradient-overlay absolute left-0 top-0 w-full h-2/5 z-10 pointer-events-none" style={{
                   background: isDark ? 
-                    'linear-gradient(to bottom, rgba(26,26,46,0.6) 0%, rgba(26,26,46,0.4) 30%, rgba(26,26,46,0.2) 60%, rgba(26,26,46,0) 100%)' : 
-                    'linear-gradient(to bottom, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.4) 30%, rgba(255,255,255,0.2) 60%, rgba(255,255,255,0) 100%)',
+                    'linear-gradient(to bottom, rgba(26,26,46,0.7) 0%, rgba(26,26,46,0.5) 30%, rgba(26,26,46,0.2) 60%, rgba(26,26,46,0) 100%)' : 
+                    'linear-gradient(to bottom, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.6) 30%, rgba(255,255,255,0.3) 60%, rgba(255,255,255,0) 100%)',
                 }}></div>
                 
                 {/* 商品信息 */}
-                <div className="product-info relative z-20 p-5 text-center" style={{ marginTop: '65px' }}>
-                  {/* 价格 */}
-                  <div className={`bg-opacity-95 px-4 py-1.5 text-sm font-bold rounded-full mx-auto my-2 inline-block ${isDark ? 'bg-yellow-600/30 text-yellow-400 border border-yellow-600/50' : 'bg-[#fff3cd] text-[#fd7e14]'}`}>
-                    ¥{item.cost}
+                <div className="product-info relative z-20 p-5 text-center flex flex-col justify-between" style={{ height: 'calc(100% - 65px)', marginTop: '65px' }}>
+                  <div className="flex-grow">
+                    {/* 价格 */}
+                    <div className={`bg-opacity-95 px-4 py-1.5 text-sm font-bold rounded-full mx-auto my-2 inline-block ${isDark ? 'bg-yellow-600/30 text-yellow-400 border border-yellow-600/50' : 'bg-[#fff3cd] text-[#fd7e14]'}`}>
+                      ¥{item.cost}
+                    </div>
+                    
+                    {/* 商品名称 */}
+                    <h4 className={`font-bold text-xl text-white mt-2 mb-1 text-shadow w-full break-words`} style={{textShadow: '0 1px 2px rgba(0,0,0,0.8)'}}>
+                      {item.name}
+                    </h4>
+                    
+                    {/* 购买次数 */}
+                    {item.purchaseCount > 0 && (
+                      <span className={`text-sm ${isDark ? 'text-zinc-300' : 'text-zinc-500'} font-bold`}>
+                        已购买 x{item.purchaseCount}
+                      </span>
+                    )}
+                    
+                    {/* 商品描述 */}
+                    <p className={`text-sm ${isDark ? 'text-zinc-300' : 'text-zinc-500'} mt-1 mb-6 line-clamp-2 w-full max-w-[240px] mx-auto text-shadow`} style={{textShadow: isDark ? '0 1px 1px rgba(0,0,0,0.6)' : '0 1px 1px rgba(255,255,255,0.5)'}}>
+                      {item.description}
+                    </p>
                   </div>
                   
-                  {/* 商品名称 */}
-                  <h4 className={`font-bold text-xl text-white mt-2 mb-1 text-shadow w-full break-words`} style={{textShadow: '0 1px 2px rgba(0,0,0,0.8)'}}>
-                    {item.name}
-                  </h4>
-                  
-                  {/* 购买次数 */}
-                  {item.purchaseCount && item.purchaseCount > 0 && (
-                    <span className={`text-sm ${isDark ? 'text-zinc-300' : 'text-zinc-500'} font-bold`}>
-                      已购买 x{item.purchaseCount}
-                    </span>
-                  )}
-                  
-                  {/* 商品描述 */}
-                  <p className={`text-sm ${isDark ? 'text-zinc-300' : 'text-zinc-500'} mt-1 mb-6 line-clamp-2 w-full max-w-[240px] mx-auto text-shadow`} style={{textShadow: isDark ? '0 1px 1px rgba(0,0,0,0.6)' : '0 1px 1px rgba(255,255,255,0.5)'}}>
-                    {item.description}
-                  </p>
-                  
-                  {/* 购买按钮 */}
+                  {/* 购买按钮 - 固定在底部 */}
                   <button 
                     onClick={(e) => onPurchase(item, e)} 
-                    className={`inline-block px-8 py-2.5 text-sm font-bold rounded-full transition-all duration-300 shadow-md hover:shadow-lg ${item.type === 'physical' && item.owned ? 'bg-zinc-800/30 text-zinc-500 hover:bg-zinc-700/50' : (isDark ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-500 hover:to-purple-500' : 'bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:from-blue-400 hover:to-purple-400')}`}
+                    className={`w-full px-8 py-2.5 text-sm font-bold rounded-full transition-all duration-300 shadow-md hover:shadow-lg ${item.type === 'physical' && item.owned ? 'bg-zinc-800/30 text-zinc-500 hover:bg-zinc-700/50' : (isDark ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-500 hover:to-purple-500' : 'bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:from-blue-400 hover:to-purple-400')}`}
                   >
                     {item.type === 'physical' && item.owned ? '已拥有' : '购买'}
                   </button>

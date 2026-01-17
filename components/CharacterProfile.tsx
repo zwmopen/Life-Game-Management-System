@@ -281,9 +281,10 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
 
     // 移除重复的定时器逻辑，使用usePomodoro钩子中的定时器
     // 当番茄钟结束时，退出沉浸式模式，但不要在暂停时退出
+    const prevTimeLeft = useRef(timeLeft);
     useEffect(() => {
-        // 只在计时器结束时退出沉浸式模式，而不是在暂停时
-        if (timeLeft === 0 && isActive) {
+        // 检测番茄钟是否自然结束（从非零变为零）
+        if (prevTimeLeft.current > 0 && timeLeft === 0 && isActive) {
             // 使用soundManager播放成功音效
             import('../utils/soundManager').then(({ default: soundManager }) => {
               soundManager.play('taskComplete');
@@ -295,6 +296,8 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
                 }
             }
         }
+        // 更新上一次的时间
+        prevTimeLeft.current = timeLeft;
     }, [timeLeft, isActive, isImmersive, onImmersiveModeChange]);
 
     const toggleTimer = () => onToggleTimer();

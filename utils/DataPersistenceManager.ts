@@ -293,15 +293,56 @@ class DataPersistenceManager {
 
   /**
    * 导出所有数据（用于备份）
+   * 包括DataPersistenceManager管理的数据和所有其他关键localStorage数据
    */
   exportAllData(): string {
     const data: Record<string, any> = {};
     
+    // 导出DataPersistenceManager管理的数据
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
       if (key && key.startsWith(this.STORAGE_PREFIX)) {
         const actualKey = key.replace(this.STORAGE_PREFIX, '');
         data[actualKey] = this.getItem(actualKey);
+      }
+    }
+    
+    // 导出所有其他关键localStorage数据
+    const criticalKeys = [
+      'aes-global-data-v3',
+      'life-game-stats-v2',
+      'aes-checkin-streak',
+      'aes-dice-state',
+      'aes-last-checkin-date',
+      'aes-global-mantras',
+      'aes-level-thresholds',
+      'aes-focus-thresholds',
+      'aes-wealth-thresholds',
+      'aes-combat-thresholds',
+      'claimedBadges',
+      'life-game-weekly-checkin',
+      'life-game-state-v2',
+      'theme',
+      'pomodoro-state',
+      'life-game-habits',
+      'life-game-today-stats',
+      'life-game-habit-order',
+      'life-game-last-date',
+      'life-game-projects',
+      'life-game-project-order',
+      // 添加更多关键存储键...
+    ];
+    
+    for (const key of criticalKeys) {
+      const value = localStorage.getItem(key);
+      if (value !== null) {
+        try {
+          // 尝试解析JSON，如果失败则直接存储原始字符串
+          data[key] = JSON.parse(value);
+        } catch (e) {
+          // 如果不是有效的JSON，则存储原始字符串
+          data[key] = value;
+        }
       }
     }
     
@@ -316,7 +357,14 @@ class DataPersistenceManager {
       const data = JSON.parse(dataString);
       
       for (const key in data) {
-        this.setItem(key, data[key]);
+        // 检查是否为DataPersistenceManager管理的数据
+        if (this.isCriticalDataKey(key)) {
+          // 对于关键数据键，直接使用localStorage存储
+          localStorage.setItem(key, typeof data[key] === 'string' ? data[key] : JSON.stringify(data[key]));
+        } else {
+          // 对于DataPersistenceManager管理的数据，使用setItem方法
+          this.setItem(key, data[key]);
+        }
       }
       
       return true;
@@ -324,6 +372,38 @@ class DataPersistenceManager {
       console.error('导入数据失败:', error);
       return false;
     }
+  }
+
+  /**
+   * 检查是否为关键数据键
+   */
+  private isCriticalDataKey(key: string): boolean {
+    const criticalKeys = [
+      'aes-global-data-v3',
+      'life-game-stats-v2',
+      'aes-checkin-streak',
+      'aes-dice-state',
+      'aes-last-checkin-date',
+      'aes-global-mantras',
+      'aes-level-thresholds',
+      'aes-focus-thresholds',
+      'aes-wealth-thresholds',
+      'aes-combat-thresholds',
+      'claimedBadges',
+      'life-game-weekly-checkin',
+      'life-game-state-v2',
+      'theme',
+      'pomodoro-state',
+      'life-game-habits',
+      'life-game-today-stats',
+      'life-game-habit-order',
+      'life-game-last-date',
+      'life-game-projects',
+      'life-game-project-order',
+      // 添加更多关键存储键...
+    ];
+    
+    return criticalKeys.includes(key);
   }
 }
 

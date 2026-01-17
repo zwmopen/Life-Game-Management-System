@@ -671,7 +671,7 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
                   <p className={['text-[9px]', textSub].join(' ')}>备份与恢复您的数据</p>
                 </div>
               </div>
-              <GlobalHelpButton helpId="backup" onHelpClick={setActiveHelp} size={14} variant="ghost" />
+              <GlobalHelpButton helpId="data" onHelpClick={setActiveHelp} size={14} variant="ghost" />
             </div>
 
             {/* Backup Tabs */}
@@ -836,11 +836,10 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
                   <p className={`text-[9px] ${textSub}`}>版本信息与联系方式</p>
                 </div>
               </div>
-              <GlobalHelpButton helpId="about" onHelpClick={setActiveHelp} size={14} variant="ghost" />
             </div>
             
             <div className="text-xs space-y-3 pt-2">
-              <div className="grid grid-cols-[max-content_auto] gap-x-1.5 gap-y-2 items-start">
+              <div className="grid grid-cols-[max-content_auto] gap-x-1 gap-y-1 items-start">
                 <span className={`font-bold whitespace-nowrap min-w-[50px] ${textMain}`}>版本：</span>
                 <span className={`${textSub} break-words`}>v{APP_VERSION}</span>
                 
@@ -852,10 +851,12 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
               </div>
               
               <div className="pt-1">
-                <span className={`font-bold block mb-2 text-sm border-b ${isNeomorphic ? (isNeomorphicDark ? 'border-[#a3b1c6]/30' : 'border-[#a3b1c6]/30') : (isDark ? 'border-zinc-700/50' : 'border-slate-300/50')} pb-1 ${textMain}`}>项目介绍</span>
-                <span className={`${textSub} leading-relaxed text-sm`}>
-                  人生游戏管理系统是一个综合性的个人成长管理工具，集成了任务管理、习惯养成、专注计时、成就系统等功能，旨在帮助用户更好地规划和追踪个人发展。
-                </span>
+                <div className="flex items-start gap-1">
+                  <span className={`font-bold text-sm ${textMain}`}>项目介绍：</span>
+                  <span className={`${textSub} leading-relaxed text-sm flex-1`}>
+                    人生游戏管理系统是一个综合性的个人成长管理工具，集成了任务管理、习惯养成、专注计时、成就系统等功能，旨在帮助用户更好地规划和追踪个人发展。
+                  </span>
+                </div>
               </div>
             </div>
           </div>

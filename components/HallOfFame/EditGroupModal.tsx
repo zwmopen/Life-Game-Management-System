@@ -24,7 +24,7 @@ const EditGroupModal: React.FC<EditGroupModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-[10002] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in">
-      <div className={`w-full max-w-md rounded-xl ${isNeomorphicDark ? 'bg-[#1e1e2e] border-[#1e1e2e] shadow-[10px_10px_20px_rgba(0,0,0,0.4),-10px_-10px_20px_rgba(30,30,46,0.8)]' : isDark ? 'bg-zinc-900' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)]' : 'bg-white'} p-6 border`}>
+      <div className={`w-full max-w-md rounded-xl ${isNeomorphicDark ? 'bg-[#1e1e2e] border-[#1e1e2e] shadow-[10px_10px_20px_rgba(0,0,0,0.4),-10px_-10px_20px_rgba(30,30,46,0.8)]' : isDark ? 'bg-zinc-900 border-zinc-700' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)]' : 'bg-white border-gray-300'} p-6 border`}>
         <h3 className={`text-lg font-bold mb-4 ${textMain}`}>编辑分组名称</h3>
         <div className="space-y-4">
           <div>

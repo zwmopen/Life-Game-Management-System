@@ -2813,8 +2813,8 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
               }
             }
             
-            // 不调用onUpdateIsActive(false)，保持在沉浸式界面
-            // 重置计时器，但不退出沉浸式界面
+            // 重置计时器，但保持在沉浸式界面，不调用onUpdateIsActive(false)
+            // 这样就不会退出沉浸式模式
             setTimeout(() => {
               setSecondsRemaining(currentDuration);
               onUpdateTimeLeft(currentDuration);
@@ -2968,8 +2968,11 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
     const newPausedState = !isPaused;
     setIsPaused(newPausedState);
             
-    // 更新父组件状态：如果暂停则设置isActive为false，否则为true
-    onUpdateIsActive(!newPausedState);
+    // 更新父组件状态：只有在从专注状态变为暂停状态时才通知父组件
+    // 避免在计时器结束时意外退出沉浸式模式
+    if (isFocusing) {
+      onUpdateIsActive(!newPausedState);
+    }
             
     // 如果暂停，显示预览模型；如果继续，隐藏预览模型
     const updateScene = async () => {

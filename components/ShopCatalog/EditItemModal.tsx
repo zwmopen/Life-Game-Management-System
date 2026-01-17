@@ -39,8 +39,8 @@ const EditItemModal: React.FC<EditItemModalProps> = ({
     
     // 定义关键词到图片URL的映射
     const keywordToImage: { [key: string]: string } = {
-      '辣条': 'https://images.unsplash.com/photo-1603047577851-1775de9b92ad?w=300&h=300&fit=crop',
-      '辣': 'https://images.unsplash.com/photo-1603047577851-1775de9b92ad?w=300&h=300&fit=crop',
+      '辣条': 'https://images.unsplash.com/photo-1562967916-ef262167ce5c?w=300&h=300&fit=crop',
+      '辣': 'https://images.unsplash.com/photo-1562967916-ef262167ce5c?w=300&h=300&fit=crop',
       '零食': 'https://images.unsplash.com/photo-1588979364652-7f8ed33c31c9?w=300&h=300&fit=crop',
       '食品': 'https://images.unsplash.com/photo-1562967916-ef262167ce5c?w=300&h=300&fit=crop',
       '饮料': 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=300&h=300&fit=crop',
@@ -107,7 +107,7 @@ const EditItemModal: React.FC<EditItemModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+    <div className="fixed inset-0 z-[100000] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
       <div 
         className={`rounded-2xl max-w-md w-full max-h-[90vh] overflow-y-auto ${isNeomorphic ? 
           (theme === 'neomorphic-dark' ? 

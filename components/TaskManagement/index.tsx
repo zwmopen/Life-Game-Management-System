@@ -375,6 +375,21 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
             abandonedTasks={filteredDiceTasks.abandoned}
             onCompleteTask={handleDiceTaskComplete}
             onAbandonTask={handleDiceTaskAbandon}
+            onEditTask={(taskRecord) => {
+              // 将DiceTaskRecord转换为TaskItem格式进行编辑
+              const taskItem = {
+                id: taskRecord.id,
+                text: taskRecord.task.text,
+                attr: taskRecord.task.attr || 'general',
+                xp: taskRecord.generatedXp,
+                gold: taskRecord.generatedGold,
+                duration: taskRecord.task.duration || 0,
+                type: 'random' as const,
+                completed: taskRecord.status === 'completed',
+                frequency: 'once' as const,
+              };
+              onOpenEditTask(taskItem);
+            }}
             onStartTimer={onStartTimer}
             onHelpClick={onShowHelp}
             cardBg={cardBg}

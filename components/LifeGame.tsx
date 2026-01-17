@@ -1135,7 +1135,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
         
         {/* Task Management Modal - FIXED */}
         {isManageTasksOpen && (
-            <div className="fixed inset-0 z-[100] bg-black/80 flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in">
+            <div className="fixed inset-0 z-[100000] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in">
                 <div className={`w-full max-w-lg rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[80vh] ${cardBg}`}>
                     <div className={`p-4 border-b flex justify-between items-center shrink-0 ${isDark ? 'border-zinc-800' : 'border-slate-200'}`}>
                         <h3 className={`font-bold ${textMain}`}>任务管理系统</h3>
@@ -1289,7 +1289,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
 
         {/* Edit Item Modal */}
         {isEditItemOpen && (
-            <div className="fixed inset-0 z-[100] bg-black/80 flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in">
+            <div className="fixed inset-0 z-[100000] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in">
                 <div className={`w-full max-w-2xl p-4 sm:p-6 rounded-2xl sm:rounded-[48px] border bg-[#e0e5ec] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)] overflow-y-auto max-h-[90vh] transition-all duration-300 relative ${isNeomorphicDark ? '!bg-[#1e1e2e] !shadow-[10px_10px_20px_rgba(0,0,0,0.4),-10px_-10px_20px_rgba(30,30,46,0.8)]' : ''}`}>
                     <div className="flex justify-between items-center mb-4 sm:mb-6">
                         <h3 className={`font-bold ${isNeomorphicDark ? 'text-white' : 'text-zinc-800'}`}>{editingItem.id ? '编辑商品' : '添加新商品'}</h3>

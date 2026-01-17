@@ -70,7 +70,7 @@ const GlobalGuideCard: React.FC<GlobalGuideCardProps> = ({
 
   return ReactDOM.createPortal(
     <div 
-      className="fixed inset-0 z-[9999] bg-black/30 flex items-center justify-center p-4 backdrop-blur-sm" 
+      className="fixed inset-0 z-[100000] bg-black/30 backdrop-blur-sm flex items-center justify-center p-4"
       onClick={handleBackdropClick}
     >
       <div className={`guide-card neu-out ${isNeomorphicDark ? 'neomorphic-dark' : isDark ? 'dark' : isNeomorphic ? 'neomorphic-light' : ''} ${getFontSizeClass()}`} style={

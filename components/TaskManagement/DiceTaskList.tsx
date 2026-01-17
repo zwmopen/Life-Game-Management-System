@@ -4,7 +4,7 @@
  */
 
 import React, { memo } from 'react';
-import { Check, X, Play } from 'lucide-react';
+import { Check, X, Play, Edit3 } from 'lucide-react';
 import { GlobalHelpButton } from '../HelpSystem';
 import { DiceTaskRecord } from './types';
 
@@ -14,6 +14,7 @@ interface DiceTaskListProps {
   abandonedTasks?: DiceTaskRecord[];
   onCompleteTask: (taskId: string) => void;
   onAbandonTask: (taskId: string) => void;
+  onEditTask: (taskRecord: DiceTaskRecord) => void;
   onStartTimer: (duration: number) => void;
   onHelpClick?: (helpId: string) => void;
   cardBg: string;
@@ -29,6 +30,7 @@ const DiceTaskList: React.FC<DiceTaskListProps> = memo(({
   abandonedTasks = [],
   onCompleteTask,
   onAbandonTask,
+  onEditTask,
   onStartTimer,
   onHelpClick,
   cardBg,
@@ -72,6 +74,16 @@ const DiceTaskList: React.FC<DiceTaskListProps> = memo(({
         </div>
         {isPending && (
           <div className="flex items-center gap-1 sm:gap-2 w-full sm:w-auto justify-start sm:justify-end">
+            <button 
+              onClick={(e) => {
+                e.stopPropagation();
+                onEditTask(taskRecord);
+              }} 
+              className="text-zinc-600 hover:text-blue-500 p-2 rounded hover:bg-blue-900/10 transition-colors" 
+              title="编辑任务"
+            >
+              <Edit3 size={16} />
+            </button>
             <button 
               onClick={(e) => {
                 e.stopPropagation();

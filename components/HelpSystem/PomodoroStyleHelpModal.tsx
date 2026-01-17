@@ -60,7 +60,7 @@ const PomodoroStyleHelpModal: React.FC<PomodoroStyleHelpModalProps> = ({
 
   return ReactDOM.createPortal(
     <div 
-      className="fixed inset-0 z-[3000] bg-black/30 flex items-center justify-center p-4 backdrop-blur-sm" 
+      className="fixed inset-0 z-[100000] bg-black/30 backdrop-blur-sm flex items-center justify-center p-4" 
       onClick={handleBackdropClick}
     >
       <div className="guide-card neu-out" style={{

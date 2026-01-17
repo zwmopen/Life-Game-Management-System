@@ -31,7 +31,7 @@ const BankModal: React.FC<BankModalProps> = ({
   if (!show) return null;
 
   return (
-    <div className="fixed inset-0 z-[9999] bg-black/90 backdrop-blur-xl flex items-center justify-center p-4 animate-in fade-in duration-300">
+    <div className="fixed inset-0 z-[100000] bg-black/90 backdrop-blur-xl flex items-center justify-center p-4 animate-in fade-in duration-300">
       <div className={`max-w-lg w-full bg-zinc-900 border border-green-900/50 rounded-2xl p-8 shadow-2xl relative overflow-hidden`}>
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-500 to-yellow-500"></div>
         <div className="flex justify-between items-center mb-6">
