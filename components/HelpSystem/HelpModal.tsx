@@ -44,12 +44,17 @@ const GlobalGuideCard: React.FC<GlobalGuideCardProps> = ({
 
   const content = helpContent[activeHelp];
   
+  // 主题判断逻辑
+  const isDark = cardBg.includes('dark') && !cardBg.includes('neomorphic');
+  const isNeomorphic = cardBg.includes('neomorphic');
+  const isNeomorphicDark = cardBg.includes('neomorphic-dark') || (cardBg.includes('dark') && cardBg.includes('neomorphic'));
+  
   // 根据配置生成样式类
   const getFontSizeClass = () => {
     switch (config.fontSize) {
-      case 'small': return 'text-sm';
-      case 'large': return 'text-lg';
-      default: return 'text-base';
+      case 'small': return 'small-font';
+      case 'large': return 'large-font';
+      default: return 'medium-font';
     }
   };
 
@@ -68,13 +73,13 @@ const GlobalGuideCard: React.FC<GlobalGuideCardProps> = ({
       className="fixed inset-0 z-[9999] bg-black/30 flex items-center justify-center p-4 backdrop-blur-sm" 
       onClick={handleBackdropClick}
     >
-      <div className="guide-card neu-out" style={{
-        '--bg-color': cardBg.includes('dark') ? '#1a1a2e' : cardBg.includes('neomorphic') ? '#1e1e2e' : '#e0e5ec',
-        '--text-main': textMain.includes('text-slate') || textMain.includes('text-zinc') ? '#f4f4f5' : '#4d5b6d',
-        '--text-sub': textSub.includes('text-zinc') || textSub.includes('text-slate') ? '#a3b1c6' : '#a3b1c6',
-        '--text-gray': textSub.includes('text-zinc') || textSub.includes('text-slate') ? '#a3b1c6' : '#64748b',
-        '--shadow-dark': cardBg.includes('dark') ? '#0f172a' : cardBg.includes('neomorphic') ? '#0f0f17' : '#a3b1c6',
-        '--shadow-light': cardBg.includes('dark') ? '#1e293b' : cardBg.includes('neomorphic') ? '#2d2d42' : '#ffffff',
+      <div className={`guide-card neu-out ${isNeomorphicDark ? 'neomorphic-dark' : isDark ? 'dark' : isNeomorphic ? 'neomorphic-light' : ''} ${getFontSizeClass()}`} style={
+        '--bg-color': isNeomorphicDark ? '#1e1e2e' : isDark ? '#1a1a2e' : isNeomorphic ? '#e0e5ec' : '#e0e5ec',
+        '--text-main': isNeomorphicDark || isDark ? '#f4f4f5' : '#4d5b6d',
+        '--text-sub': isNeomorphicDark || isDark ? '#a3b1c6' : '#a3b1c6',
+        '--text-gray': isNeomorphicDark || isDark ? '#a3b1c6' : '#64748b',
+        '--shadow-dark': isNeomorphicDark ? '#0f0f17' : isDark ? '#0f172a' : '#a3b1c6',
+        '--shadow-light': isNeomorphicDark ? '#2d2d42' : isDark ? '#1e293b' : '#ffffff',
         maxWidth: '600px',
         width: '80%',
         maxHeight: '90vh',
@@ -131,6 +136,11 @@ const GlobalGuideCard: React.FC<GlobalGuideCardProps> = ({
           pointer-events: auto;
         }
         
+        .neomorphic-light .guide-card {
+          background: var(--bg-color, #e0e5ec);
+          box-shadow: 20px 20px 60px var(--shadow-dark, #a3b1c6), -20px -20px 60px var(--shadow-light, #ffffff);
+        }
+        
         .guide-card.show {
           display: flex;
           animation: fadeInScale 0.3s ease-out forwards;
@@ -158,13 +168,13 @@ const GlobalGuideCard: React.FC<GlobalGuideCardProps> = ({
         
         .guide-header h3 {
           margin: 0;
-          color: var(--text-main, #4d5b6d);
+          color: var(--text-main);
           font-size: 24px;
           font-weight: 700;
         }
         
         .guide-close {
-          background: var(--bg-color, #e0e5ec);
+          background: var(--bg-color);
           border: none;
           border-radius: 50%;
           width: 35px;
@@ -174,15 +184,15 @@ const GlobalGuideCard: React.FC<GlobalGuideCardProps> = ({
           justify-content: center;
           cursor: pointer;
           font-size: 18px;
-          color: var(--text-sub, #a3b1c6);
-          box-shadow: 3px 3px 6px var(--shadow-dark, #a3b1c6), -3px -3px 6px var(--shadow-light, #ffffff);
+          color: var(--text-sub);
+          box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
           transition: all 0.2s ease;
         }
         
         .guide-close:hover {
-          color: var(--text-main, #4d5b6d);
+          color: var(--text-main);
           transform: translateY(-1px);
-          box-shadow: 5px 5px 10px var(--shadow-dark, #a3b1c6), -5px -5px 10px var(--shadow-light, #ffffff);
+          box-shadow: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light);
         }
         
         .guide-content {
@@ -211,7 +221,7 @@ const GlobalGuideCard: React.FC<GlobalGuideCardProps> = ({
         
         .guide-content h4 {
           margin: 20px 0 10px 0;
-          color: var(--text-main, #4d5b6d);
+          color: var(--text-main);
           font-size: 16px;
           font-weight: 700;
         }
@@ -222,7 +232,7 @@ const GlobalGuideCard: React.FC<GlobalGuideCardProps> = ({
         
         .guide-content p {
           margin: 0 0 15px 0;
-          color: var(--text-gray, #64748b);
+          color: var(--text-gray);
           font-size: 14px;
           line-height: 1.6;
         }
@@ -230,9 +240,29 @@ const GlobalGuideCard: React.FC<GlobalGuideCardProps> = ({
         .guide-content ul {
           margin: 0 0 15px 0;
           padding-left: 25px;
-          color: var(--text-gray, #64748b);
+          color: var(--text-gray);
           font-size: 14px;
           line-height: 1.6;
+        }
+        
+        /* 字体大小配置 */
+        .guide-content.small-font p {
+          font-size: 12px;
+        }
+        .guide-content.small-font h4 {
+          font-size: 14px;
+        }
+        .guide-content.medium-font p {
+          font-size: 14px;
+        }
+        .guide-content.medium-font h4 {
+          font-size: 16px;
+        }
+        .guide-content.large-font p {
+          font-size: 16px;
+        }
+        .guide-content.large-font h4 {
+          font-size: 18px;
         }
         
         .guide-content li {
@@ -240,7 +270,7 @@ const GlobalGuideCard: React.FC<GlobalGuideCardProps> = ({
         }
         
         .guide-content strong {
-          color: var(--text-main, #4d5b6d);
+          color: var(--text-main);
           font-weight: 600;
         }
         
@@ -250,34 +280,76 @@ const GlobalGuideCard: React.FC<GlobalGuideCardProps> = ({
           box-shadow: 20px 20px 60px var(--shadow-dark, #0f172a), -20px -20px 60px var(--shadow-light, #1e293b);
         }
         
+        /* 拟态深色模式样式 */
+        .neomorphic-dark .guide-card {
+          background: var(--bg-color, #1e1e2e);
+          box-shadow: 20px 20px 60px var(--shadow-dark, #0f0f17), -20px -20px 60px var(--shadow-light, #2d2d42);
+        }
+        
         .dark .guide-header {
           border-bottom: 2px solid rgba(163, 177, 198, 0.1);
         }
         
         .dark .guide-header h3 {
-          color: var(--text-main, #f4f4f5);
+          color: var(--text-main);
         }
         
         .dark .guide-close {
-          background: var(--bg-color, #1a1a2e);
-          color: var(--text-sub, #a3b1c6);
-          box-shadow: 3px 3px 6px var(--shadow-dark, #0f172a), -3px -3px 6px var(--shadow-light, #1e293b);
+          background: var(--bg-color);
+          color: var(--text-sub);
+          box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
         }
         
         .dark .guide-close:hover {
-          color: var(--text-main, #f4f4f5);
+          color: var(--text-main);
         }
         
         .dark .guide-content p {
-          color: var(--text-gray, #a3b1c6);
+          color: var(--text-gray);
         }
         
         .dark .guide-content h4 {
-          color: var(--text-main, #f4f4f5);
+          color: var(--text-main);
         }
         
         .dark .guide-content strong {
-          color: var(--text-main, #f4f4f5);
+          color: var(--text-main);
+        }
+        
+        /* 拟态浅色模式样式 */
+        .neomorphic-light .guide-card {
+          background: var(--bg-color, #e0e5ec);
+          box-shadow: 20px 20px 60px var(--shadow-dark, #a3b1c6), -20px -20px 60px var(--shadow-light, #ffffff);
+        }
+        
+        .neomorphic-light .guide-header {
+          border-bottom: 2px solid rgba(163, 177, 198, 0.2);
+        }
+        
+        .neomorphic-light .guide-header h3 {
+          color: var(--text-main);
+        }
+        
+        .neomorphic-light .guide-close {
+          background: var(--bg-color);
+          color: var(--text-sub);
+          box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
+        }
+        
+        .neomorphic-light .guide-close:hover {
+          color: var(--text-main);
+        }
+        
+        .neomorphic-light .guide-content p {
+          color: var(--text-gray);
+        }
+        
+        .neomorphic-light .guide-content h4 {
+          color: var(--text-main);
+        }
+        
+        .neomorphic-light .guide-content strong {
+          color: var(--text-main);
         }
         
         /* 拟态深色模式样式 */
@@ -291,29 +363,29 @@ const GlobalGuideCard: React.FC<GlobalGuideCardProps> = ({
         }
         
         .neomorphic-dark .guide-header h3 {
-          color: var(--text-main, #f4f4f5);
+          color: var(--text-main);
         }
         
         .neomorphic-dark .guide-close {
-          background: var(--bg-color, #1e1e2e);
-          color: var(--text-sub, #a3b1c6);
-          box-shadow: 3px 3px 6px var(--shadow-dark, #0f0f17), -3px -3px 6px var(--shadow-light, #2d2d42);
+          background: var(--bg-color);
+          color: var(--text-sub);
+          box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
         }
         
         .neomorphic-dark .guide-close:hover {
-          color: var(--text-main, #f4f4f5);
+          color: var(--text-main);
         }
         
         .neomorphic-dark .guide-content p {
-          color: var(--text-gray, #a3b1c6);
+          color: var(--text-gray);
         }
         
         .neomorphic-dark .guide-content h4 {
-          color: var(--text-main, #f4f4f5);
+          color: var(--text-main);
         }
         
         .neomorphic-dark .guide-content strong {
-          color: var(--text-main, #f4f4f5);
+          color: var(--text-main);
         }
       `}</style>
     </div>,

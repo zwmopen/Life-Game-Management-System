@@ -332,6 +332,11 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           renderer.toneMapping = THREE.ACESFilmicToneMapping;
           renderer.toneMappingExposure = 1.1;
           canvasContainerRef.current?.appendChild(renderer.domElement);
+          
+          // 确保canvas容器样式正确设置为全屏
+          const canvas = renderer.domElement;
+          canvas.style.width = '100vw';
+          canvas.style.height = '100vh';
 
           const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
           scene.add(ambientLight);
@@ -2528,6 +2533,13 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           camera.aspect = window.innerWidth / window.innerHeight;
           camera.updateProjectionMatrix();
           renderer.setSize(window.innerWidth, window.innerHeight);
+          
+          // 确保canvas容器也调整到全屏
+          if (canvasContainerRef.current) {
+            const canvas = renderer.domElement;
+            canvas.style.width = '100vw';
+            canvas.style.height = '100vh';
+          }
         };
 
         // 动画循环
@@ -2639,7 +2651,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           time += 0.05;
           
           if (controls) controls.update();
-          if (renderer && scene && camera && scene.traverse) renderer.render(scene, camera);
+          if (renderer && scene && camera) renderer.render(scene, camera);
         };
 
         // 初始化场景
@@ -3518,6 +3530,10 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           width: 100vw;
           height: 100vh;
           display: block;
+          position: absolute;
+          top: 0;
+          left: 0;
+          z-index: 0;
         }
 
         .ui-container {

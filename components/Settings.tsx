@@ -433,7 +433,7 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
         <div className="space-y-3 px-2 md:px-4 lg:px-6 max-w-5xl mx-auto">
 
           {/* Sound Effects */}
-          <div className={`${cardBg} border p-4 rounded-2xl transition-all duration-300 mt-4`}>
+          <div className={`${cardBg} border p-4 rounded-xl transition-all duration-300 mt-4`}>
               <div className="flex items-center justify-between mb-1">
               <div className="flex items-center gap-2">
                 <Headphones size={18} className="text-purple-500" />
@@ -662,7 +662,7 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
           </div>
 
           {/* Data Management Module */}
-          <div className={[cardBg, 'border p-4 rounded-2xl transition-all duration-300 mt-4'].join(' ')}>
+          <div className={[cardBg, 'border p-4 rounded-xl transition-all duration-300 mt-4'].join(' ')}>
             <div className="flex items-center justify-between mb-1">
               <div className="flex items-center gap-2">
                 <Database size={18} className="text-green-500" />
@@ -827,7 +827,7 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
           </div>
 
           {/* About Module */}
-          <div className={`${cardBg} border p-4 rounded-2xl transition-all duration-300 mt-4`}>
+          <div className={`${cardBg} border p-4 rounded-xl transition-all duration-300 mt-4`}>
             <div className="flex items-center justify-between mb-1">
               <div className="flex items-center gap-2">
                 <Info size={18} className="text-blue-500" />

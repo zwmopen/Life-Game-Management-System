@@ -147,13 +147,13 @@ const PomodoroStyleHelpModal: React.FC<PomodoroStyleHelpModalProps> = ({
         
         .guide-header h3 {
           margin: 0;
-          color: var(--text-main, #4d5b6d);
+          color: var(--text-main);
           font-size: 24px;
           font-weight: 700;
         }
         
         .guide-close {
-          background: var(--bg-color, #e0e5ec);
+          background: var(--bg-color);
           border: none;
           border-radius: 50%;
           width: 35px;
@@ -163,15 +163,15 @@ const PomodoroStyleHelpModal: React.FC<PomodoroStyleHelpModalProps> = ({
           justify-content: center;
           cursor: pointer;
           font-size: 18px;
-          color: var(--text-sub, #a3b1c6);
-          box-shadow: 3px 3px 6px var(--shadow-dark, #a3b1c6), -3px -3px 6px var(--shadow-light, #ffffff);
+          color: var(--text-sub);
+          box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
           transition: all 0.2s ease;
         }
         
         .guide-close:hover {
-          color: var(--text-main, #4d5b6d);
+          color: var(--text-main);
           transform: translateY(-1px);
-          box-shadow: 5px 5px 10px var(--shadow-dark, #a3b1c6), -5px -5px 10px var(--shadow-light, #ffffff);
+          box-shadow: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light);
         }
         
         .guide-content {
@@ -200,7 +200,7 @@ const PomodoroStyleHelpModal: React.FC<PomodoroStyleHelpModalProps> = ({
         
         .guide-content h4 {
           margin: 20px 0 10px 0;
-          color: var(--text-main, #4d5b6d);
+          color: var(--text-main);
           font-size: 16px;
           font-weight: 700;
         }
@@ -211,7 +211,7 @@ const PomodoroStyleHelpModal: React.FC<PomodoroStyleHelpModalProps> = ({
         
         .guide-content p {
           margin: 0 0 15px 0;
-          color: var(--text-gray, #64748b);
+          color: var(--text-gray);
           font-size: 14px;
           line-height: 1.6;
         }
@@ -219,7 +219,7 @@ const PomodoroStyleHelpModal: React.FC<PomodoroStyleHelpModalProps> = ({
         .guide-content ul {
           margin: 0 0 15px 0;
           padding-left: 25px;
-          color: var(--text-gray, #64748b);
+          color: var(--text-gray);
           font-size: 14px;
           line-height: 1.6;
         }
@@ -229,7 +229,7 @@ const PomodoroStyleHelpModal: React.FC<PomodoroStyleHelpModalProps> = ({
         }
         
         .guide-content strong {
-          color: var(--text-main, #4d5b6d);
+          color: var(--text-main);
           font-weight: 600;
         }
         
@@ -244,29 +244,65 @@ const PomodoroStyleHelpModal: React.FC<PomodoroStyleHelpModalProps> = ({
         }
         
         .dark .guide-header h3 {
-          color: var(--text-main, #f4f4f5);
+          color: var(--text-main);
         }
         
         .dark .guide-close {
-          background: var(--bg-color, #1a1a2e);
-          color: var(--text-sub, #a3b1c6);
-          box-shadow: 3px 3px 6px var(--shadow-dark, #0f172a), -3px -3px 6px var(--shadow-light, #1e293b);
+          background: var(--bg-color);
+          color: var(--text-sub);
+          box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
         }
         
         .dark .guide-close:hover {
-          color: var(--text-main, #f4f4f5);
+          color: var(--text-main);
         }
         
         .dark .guide-content p {
-          color: var(--text-gray, #a3b1c6);
+          color: var(--text-gray);
         }
         
         .dark .guide-content h4 {
-          color: var(--text-main, #f4f4f5);
+          color: var(--text-main);
         }
         
         .dark .guide-content strong {
-          color: var(--text-main, #f4f4f5);
+          color: var(--text-main);
+        }
+        
+        /* 拟态浅色模式样式 */
+        .neomorphic-light .guide-card {
+          background: var(--bg-color);
+          box-shadow: 20px 20px 60px var(--shadow-dark), -20px -20px 60px var(--shadow-light);
+        }
+        
+        .neomorphic-light .guide-header {
+          border-bottom: 2px solid rgba(163, 177, 198, 0.2);
+        }
+        
+        .neomorphic-light .guide-header h3 {
+          color: var(--text-main);
+        }
+        
+        .neomorphic-light .guide-close {
+          background: var(--bg-color);
+          color: var(--text-sub);
+          box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
+        }
+        
+        .neomorphic-light .guide-close:hover {
+          color: var(--text-main);
+        }
+        
+        .neomorphic-light .guide-content p {
+          color: var(--text-gray);
+        }
+        
+        .neomorphic-light .guide-content h4 {
+          color: var(--text-main);
+        }
+        
+        .neomorphic-light .guide-content strong {
+          color: var(--text-main);
         }
         
         /* 拟态深色模式样式 */
@@ -280,29 +316,29 @@ const PomodoroStyleHelpModal: React.FC<PomodoroStyleHelpModalProps> = ({
         }
         
         .neomorphic-dark .guide-header h3 {
-          color: var(--text-main, #f4f4f5);
+          color: var(--text-main);
         }
         
         .neomorphic-dark .guide-close {
-          background: var(--bg-color, #1e1e2e);
-          color: var(--text-sub, #a3b1c6);
-          box-shadow: 3px 3px 6px var(--shadow-dark, #0f0f17), -3px -3px 6px var(--shadow-light, #2d2d42);
+          background: var(--bg-color);
+          color: var(--text-sub);
+          box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
         }
         
         .neomorphic-dark .guide-close:hover {
-          color: var(--text-main, #f4f4f5);
+          color: var(--text-main);
         }
         
         .neomorphic-dark .guide-content p {
-          color: var(--text-gray, #a3b1c6);
+          color: var(--text-gray);
         }
         
         .neomorphic-dark .guide-content h4 {
-          color: var(--text-main, #f4f4f5);
+          color: var(--text-main);
         }
         
         .neomorphic-dark .guide-content strong {
-          color: var(--text-main, #f4f4f5);
+          color: var(--text-main);
         }
       `}</style>
     </div>,

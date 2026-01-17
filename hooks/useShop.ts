@@ -233,6 +233,12 @@ export const useShop = ({
         setIsAddingGroup(false);
     }, []);
 
+    const handleDeleteGroup = useCallback((groupName: string) => {
+        if (window.confirm(`确定要删除分类 "${groupName}" 吗？此操作不会删除该分类下的商品。`)) {
+            setGroups(prev => prev.filter(g => g !== groupName));
+        }
+    }, []);
+
     const handleShopDragStart = useCallback((index: number) => {
         if (!isManageShopMode) return;
         setDraggedShopIndex(index);
@@ -272,6 +278,7 @@ export const useShop = ({
         handleAddNewItem,
         handleAddNewGroup,
         handleCancelAddGroup,
+        handleDeleteGroup,
         isAddingGroup,
         setIsAddingGroup,
         newGroupName,

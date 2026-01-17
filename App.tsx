@@ -1142,301 +1142,313 @@ const App: React.FC = () => {
     }));
   };
 
+  // 使用React.memo来优化组件渲染，避免不必要的重渲染
+  const RenderedView = useMemo(() => {
+    return () => {
+      switch (currentView) {
+        case View.RPG_MISSION_CENTER:
+          return <LifeGame 
+                    theme={theme} 
+                    balance={balance}
+                    onUpdateBalance={handleUpdateBalance}
+                    habits={habits}
+                    projects={projects}
+                    habitOrder={habitOrder}
+                    projectOrder={projectOrder}
+                    onUpdateHabitOrder={setHabitOrder}
+                    onUpdateProjectOrder={setProjectOrder}
+                    onToggleHabit={handleToggleHabit}
+                    onUpdateHabit={handleUpdateHabit}
+                    onDeleteHabit={handleDeleteHabit}
+                    onUpdateProject={handleUpdateProject}
+                    onDeleteProject={handleDeleteProject}
+                    onAddHabit={handleAddHabit}
+                    onAddProject={handleAddProject}
+                    initialTab="battle"
+                    initialCategory={initialTaskCategory}
+                    onAddFloatingReward={addFloatingText}
+                    totalTasksCompleted={totalKills}
+                    totalHours={totalHours}
+                    challengePool={challengePool}
+                    setChallengePool={setChallengePool}
+                    todaysChallenges={todaysChallenges}
+                    completedRandomTasks={completedRandomTasks}
+                    onToggleRandomChallenge={handleToggleRandomChallenge}
+                    onStartAutoTask={handleStartAutoTask}
+                    checkInStreak={checkInStreak}
+                    onPomodoroComplete={handlePomodoroComplete}
+                    xp={xp}
+                    todayStats={todayStats}
+                    statsHistory={statsHistory}
+                    onUpdateTodayStats={setTodayStats}
+                    weeklyGoal={weeklyGoal}
+                    setWeeklyGoal={setWeeklyGoal}
+                    todayGoal={todayGoal}
+                    setTodayGoal={setTodayGoal}
+                    givenUpTasks={givenUpTasks}
+                    onGiveUpTask={handleGiveUpTask}
+                    isNavCollapsed={isNavCollapsed}
+                    setIsNavCollapsed={setIsNavCollapsed}
+                    // Pomodoro Global State
+                    timeLeft={pomodoroState.timeLeft}
+                    isActive={pomodoroState.isActive}
+                    duration={pomodoroState.duration}
+                    onToggleTimer={toggleTimer}
+                    onResetTimer={resetTimer}
+                    onChangeDuration={changeDuration}
+                    onUpdateTimeLeft={updateTimeLeft}
+                    onUpdateIsActive={updateIsActive}
+                    // Immersive Mode State
+                    isImmersive={isImmersive}
+                    setIsImmersive={setIsImmersive}
+                    onInternalImmersiveModeChange={(isInternalImmersive) => {
+                      setIsImmersive(true);
+                      setUseInternalImmersive(true);
+                    }}
+                    // Audio Management - 使用全局音频管理器
+                    isMuted={isMuted}
+                    currentSoundId={currentSoundId}
+                    onToggleMute={handleMuteToggle}
+                    onSoundChange={handleSoundChange}
+                    // Settings
+                    settings={settings}
+                    // 命运骰子相关
+                    diceState={diceState}
+                    onSpinDice={spinDice}
+                    onDiceResult={handleDiceResult}
+                    onAddDiceTask={addDiceTask}
+                    onDeleteDiceTask={deleteDiceTask}
+                    onUpdateDiceTask={updateDiceTask}
+                    onUpdateDiceConfig={updateDiceConfig}
+                    onUpdateDiceState={updateDiceState}
+                    // 角色等级变化回调
+                    onLevelChange={handleLevelChange}
+                 />;
+        case View.BLACK_MARKET:
+          return <LifeGame 
+                    theme={theme} 
+                    balance={balance}
+                    onUpdateBalance={handleUpdateBalance}
+                    habits={habits}
+                    projects={projects}
+                    habitOrder={habitOrder}
+                    projectOrder={projectOrder}
+                    onUpdateHabitOrder={setHabitOrder}
+                    onUpdateProjectOrder={setProjectOrder}
+                    onToggleHabit={handleToggleHabit}
+                    onUpdateHabit={handleUpdateHabit}
+                    onDeleteHabit={handleDeleteHabit}
+                    onUpdateProject={handleUpdateProject}
+                    onDeleteProject={handleDeleteProject}
+                    onAddHabit={handleAddHabit}
+                    onAddProject={handleAddProject}
+                    initialTab="shop"
+                    initialCategory={initialTaskCategory}
+                    onAddFloatingReward={addFloatingText}
+                    totalTasksCompleted={totalKills}
+                    totalHours={totalHours}
+                    challengePool={challengePool}
+                    setChallengePool={setChallengePool}
+                    todaysChallenges={todaysChallenges}
+                    completedRandomTasks={completedRandomTasks}
+                    onToggleRandomChallenge={handleToggleRandomChallenge}
+                    onStartAutoTask={handleStartAutoTask}
+                    checkInStreak={checkInStreak}
+                    onPomodoroComplete={handlePomodoroComplete}
+                    xp={xp}
+                    todayStats={todayStats}
+                    statsHistory={statsHistory}
+                    onUpdateTodayStats={setTodayStats}
+                    weeklyGoal={weeklyGoal}
+                    setWeeklyGoal={setWeeklyGoal}
+                    todayGoal={todayGoal}
+                    setTodayGoal={setTodayGoal}
+                    givenUpTasks={givenUpTasks}
+                    onGiveUpTask={handleGiveUpTask}
+                    isNavCollapsed={isNavCollapsed}
+                    setIsNavCollapsed={setIsNavCollapsed}
+                    // Pomodoro Global State
+                    timeLeft={pomodoroState.timeLeft}
+                    isActive={pomodoroState.isActive}
+                    duration={pomodoroState.duration}
+                    onToggleTimer={toggleTimer}
+                    onResetTimer={resetTimer}
+                    onChangeDuration={changeDuration}
+                    onUpdateTimeLeft={updateTimeLeft}
+                    onUpdateIsActive={updateIsActive}
+                    // Immersive Mode State
+                    isImmersive={isImmersive}
+                    setIsImmersive={setIsImmersive}
+                    onInternalImmersiveModeChange={(isInternalImmersive) => {
+                      setIsImmersive(true);
+                      setUseInternalImmersive(true);
+                    }}
+                    // Audio Management
+                    isMuted={isMuted}
+                    currentSoundId={currentSoundId}
+                    onToggleMute={handleMuteToggle}
+                    onSoundChange={handleSoundChange}
+                    // Settings
+                    settings={settings}
+                    // 命运骰子相关
+                    diceState={diceState}
+                    onSpinDice={spinDice}
+                    onDiceResult={handleDiceResult}
+                    onAddDiceTask={addDiceTask}
+                    onDeleteDiceTask={deleteDiceTask}
+                    onUpdateDiceTask={updateDiceTask}
+                    onUpdateDiceConfig={updateDiceConfig}
+                    onUpdateDiceState={updateDiceState}
+                    // 帮助卡片系统
+                    onHelpClick={setActiveHelp}
+                 />;
+        case View.HALL_OF_FAME:
+          return <HallOfFame 
+                    theme={theme} 
+                    balance={balance}
+                    totalHours={totalHours}
+                    totalCampaignsWon={totalKills}
+                    achievements={achievements}
+                    setAchievements={setAchievements}
+                    xp={xp}
+                    checkInStreak={checkInStreak}
+                    onPomodoroComplete={handlePomodoroComplete}
+                    totalSpent={totalSpent}
+                    claimedBadges={claimedBadges}
+                    onClaimReward={handleClaimReward}
+                    isNavCollapsed={isNavCollapsed}
+                    setIsNavCollapsed={setIsNavCollapsed}
+                    // Pomodoro Global State
+                    timeLeft={pomodoroState.timeLeft}
+                    isActive={pomodoroState.isActive}
+                    duration={pomodoroState.duration}
+                    onToggleTimer={toggleTimer}
+                    onResetTimer={resetTimer}
+                    onChangeDuration={changeDuration}
+                    onUpdateTimeLeft={updateTimeLeft}
+                    onUpdateIsActive={updateIsActive}
+                    // 帮助卡片系统
+                    onHelpClick={setActiveHelp}
+                 />;
+        case View.DATA_CHARTS:
+          return <MissionControl 
+                    theme={theme} 
+                    projects={projects}
+                    habits={habits}
+                    onHelpClick={setActiveHelp}
+                 />;
+
+        case View.SETTINGS:
+          return <Settings 
+                    theme={theme} 
+                    settings={settings} 
+                    onUpdateSettings={handleUpdateSettings} 
+                    onToggleTheme={handleToggleTheme} 
+                    day={day}
+                    balance={balance}
+                    xp={xp}
+                    checkInStreak={checkInStreak}
+                    transactions={transactions}
+                    reviews={reviews}
+                  />;
+        case View.THINKING_CENTER:
+          return <ThinkingCenter 
+                    theme={theme} 
+                    onHelpClick={setActiveHelp}
+                  />;
+        case View.PROJECT_MANUAL:
+          // 项目开发书视图 - 可以显示思维模型等内容
+          return <ThinkingCenter 
+                    theme={theme} 
+                    onHelpClick={setActiveHelp}
+                  />;
+        default: 
+          // 当遇到未知视图时，返回默认组件而不是null，防止白屏问题
+          // 如果当前View状态异常，先显示错误信息并尝试重置
+          console.error('Unknown view encountered:', currentView);
+          return <LifeGame 
+                    theme={theme} 
+                    balance={balance}
+                    onUpdateBalance={handleUpdateBalance}
+                    habits={habits}
+                    projects={projects}
+                    habitOrder={habitOrder}
+                    projectOrder={projectOrder}
+                    onUpdateHabitOrder={setHabitOrder}
+                    onUpdateProjectOrder={setProjectOrder}
+                    onToggleHabit={handleToggleHabit}
+                    onUpdateHabit={handleUpdateHabit}
+                    onDeleteHabit={handleDeleteHabit}
+                    onUpdateProject={handleUpdateProject}
+                    onDeleteProject={handleDeleteProject}
+                    onAddHabit={handleAddHabit}
+                    onAddProject={handleAddProject}
+                    initialTab="battle"
+                    initialCategory={initialTaskCategory}
+                    onAddFloatingReward={addFloatingText}
+                    totalTasksCompleted={totalKills}
+                    totalHours={totalHours}
+                    challengePool={challengePool}
+                    setChallengePool={setChallengePool}
+                    todaysChallenges={todaysChallenges}
+                    completedRandomTasks={completedRandomTasks}
+                    onToggleRandomChallenge={handleToggleRandomChallenge}
+                    onStartAutoTask={handleStartAutoTask}
+                    checkInStreak={checkInStreak}
+                    onPomodoroComplete={handlePomodoroComplete}
+                    xp={xp}
+                    todayStats={todayStats}
+                    statsHistory={statsHistory}
+                    onUpdateTodayStats={setTodayStats}
+                    weeklyGoal={weeklyGoal}
+                    setWeeklyGoal={setWeeklyGoal}
+                    todayGoal={todayGoal}
+                    setTodayGoal={setTodayGoal}
+                    givenUpTasks={givenUpTasks}
+                    onGiveUpTask={handleGiveUpTask}
+                    isNavCollapsed={isNavCollapsed}
+                    setIsNavCollapsed={setIsNavCollapsed}
+                    // Pomodoro Global State
+                    timeLeft={pomodoroState.timeLeft}
+                    isActive={pomodoroState.isActive}
+                    duration={pomodoroState.duration}
+                    onToggleTimer={toggleTimer}
+                    onResetTimer={resetTimer}
+                    onChangeDuration={changeDuration}
+                    onUpdateTimeLeft={updateTimeLeft}
+                    onUpdateIsActive={updateIsActive}
+                    // Immersive Mode State
+                    isImmersive={isImmersive}
+                    setIsImmersive={setIsImmersive}
+                    onInternalImmersiveModeChange={(isInternalImmersive) => {
+                      setIsImmersive(true);
+                      setUseInternalImmersive(true);
+                    }}
+                    // Audio Management - 使用全局音频管理器
+                    isMuted={isMuted}
+                    currentSoundId={currentSoundId}
+                    onToggleMute={handleMuteToggle}
+                    onSoundChange={handleSoundChange}
+                    // Settings
+                    settings={settings}
+                    // 命运骰子相关
+                    diceState={diceState}
+                    onSpinDice={spinDice}
+                    onDiceResult={handleDiceResult}
+                    onAddDiceTask={addDiceTask}
+                    onDeleteDiceTask={deleteDiceTask}
+                    onUpdateDiceTask={updateDiceTask}
+                    onUpdateDiceConfig={updateDiceConfig}
+                    onUpdateDiceState={updateDiceState}
+                    // 角色等级变化回调
+                    onLevelChange={handleLevelChange}
+                 />;
+      }
+    };
+  }, [currentView, theme, balance, habits, projects, habitOrder, projectOrder, totalKills, totalHours, challengePool, todaysChallenges, completedRandomTasks, checkInStreak, xp, todayStats, statsHistory, weeklyGoal, todayGoal, givenUpTasks, isNavCollapsed, pomodoroState, isImmersive, isMuted, currentSoundId, settings, diceState, transactions, reviews, day]);
+
   const renderView = () => {
-    switch (currentView) {
-
-      case View.RPG_MISSION_CENTER:
-        return <LifeGame 
-                  theme={theme} 
-                  balance={balance}
-                  onUpdateBalance={handleUpdateBalance}
-                  habits={habits}
-                  projects={projects}
-                  habitOrder={habitOrder}
-                  projectOrder={projectOrder}
-                  onUpdateHabitOrder={setHabitOrder}
-                  onUpdateProjectOrder={setProjectOrder}
-                  onToggleHabit={handleToggleHabit}
-                  onUpdateHabit={handleUpdateHabit}
-                  onDeleteHabit={handleDeleteHabit}
-                  onUpdateProject={handleUpdateProject}
-                  onDeleteProject={handleDeleteProject}
-                  onAddHabit={handleAddHabit}
-                  onAddProject={handleAddProject}
-                  initialTab="battle"
-                  initialCategory={initialTaskCategory}
-                  onAddFloatingReward={addFloatingText}
-                  totalTasksCompleted={totalKills}
-                  totalHours={totalHours}
-                  challengePool={challengePool}
-                  setChallengePool={setChallengePool}
-                  todaysChallenges={todaysChallenges}
-                  completedRandomTasks={completedRandomTasks}
-                  onToggleRandomChallenge={handleToggleRandomChallenge}
-                  onStartAutoTask={handleStartAutoTask}
-                  checkInStreak={checkInStreak}
-                  onPomodoroComplete={handlePomodoroComplete}
-                  xp={xp}
-                  todayStats={todayStats}
-                  statsHistory={statsHistory}
-                  onUpdateTodayStats={setTodayStats}
-                  weeklyGoal={weeklyGoal}
-                  setWeeklyGoal={setWeeklyGoal}
-                  todayGoal={todayGoal}
-                  setTodayGoal={setTodayGoal}
-                  givenUpTasks={givenUpTasks}
-                  onGiveUpTask={handleGiveUpTask}
-                  isNavCollapsed={isNavCollapsed}
-                  setIsNavCollapsed={setIsNavCollapsed}
-                  // Pomodoro Global State
-                  timeLeft={pomodoroState.timeLeft}
-                  isActive={pomodoroState.isActive}
-                  duration={pomodoroState.duration}
-                  onToggleTimer={toggleTimer}
-                  onResetTimer={resetTimer}
-                  onChangeDuration={changeDuration}
-                  onUpdateTimeLeft={updateTimeLeft}
-                  onUpdateIsActive={updateIsActive}
-                  // Immersive Mode State
-                  isImmersive={isImmersive}
-                  setIsImmersive={setIsImmersive}
-                  onInternalImmersiveModeChange={(isInternalImmersive) => {
-                    setIsImmersive(true);
-                    setUseInternalImmersive(true);
-                  }}
-                  // Audio Management - 使用全局音频管理器
-                  isMuted={isMuted}
-                  currentSoundId={currentSoundId}
-                  onToggleMute={handleMuteToggle}
-                  onSoundChange={handleSoundChange}
-                  // Settings
-                  settings={settings}
-                  // 命运骰子相关
-                  diceState={diceState}
-                  onSpinDice={spinDice}
-                  onDiceResult={handleDiceResult}
-                  onAddDiceTask={addDiceTask}
-                  onDeleteDiceTask={deleteDiceTask}
-                  onUpdateDiceTask={updateDiceTask}
-                  onUpdateDiceConfig={updateDiceConfig}
-                  onUpdateDiceState={updateDiceState}
-                  // 角色等级变化回调
-                  onLevelChange={handleLevelChange}
-               />;
-      case View.BLACK_MARKET:
-        return <LifeGame 
-                  theme={theme} 
-                  balance={balance}
-                  onUpdateBalance={handleUpdateBalance}
-                  habits={habits}
-                  projects={projects}
-                  habitOrder={habitOrder}
-                  projectOrder={projectOrder}
-                  onUpdateHabitOrder={setHabitOrder}
-                  onUpdateProjectOrder={setProjectOrder}
-                  onToggleHabit={handleToggleHabit}
-                  onUpdateHabit={handleUpdateHabit}
-                  onDeleteHabit={handleDeleteHabit}
-                  onUpdateProject={handleUpdateProject}
-                  onDeleteProject={handleDeleteProject}
-                  onAddHabit={handleAddHabit}
-                  onAddProject={handleAddProject}
-                  initialTab="shop"
-                  initialCategory={initialTaskCategory}
-                  onAddFloatingReward={addFloatingText}
-                  totalTasksCompleted={totalKills}
-                  totalHours={totalHours}
-                  challengePool={challengePool}
-                  setChallengePool={setChallengePool}
-                  todaysChallenges={todaysChallenges}
-                  completedRandomTasks={completedRandomTasks}
-                  onToggleRandomChallenge={handleToggleRandomChallenge}
-                  onStartAutoTask={handleStartAutoTask}
-                  checkInStreak={checkInStreak}
-                  onPomodoroComplete={handlePomodoroComplete}
-                  xp={xp}
-                  todayStats={todayStats}
-                  statsHistory={statsHistory}
-                  onUpdateTodayStats={setTodayStats}
-                  weeklyGoal={weeklyGoal}
-                  setWeeklyGoal={setWeeklyGoal}
-                  todayGoal={todayGoal}
-                  setTodayGoal={setTodayGoal}
-                  givenUpTasks={givenUpTasks}
-                  onGiveUpTask={handleGiveUpTask}
-                  isNavCollapsed={isNavCollapsed}
-                  setIsNavCollapsed={setIsNavCollapsed}
-                  // Pomodoro Global State
-                  timeLeft={pomodoroState.timeLeft}
-                  isActive={pomodoroState.isActive}
-                  duration={pomodoroState.duration}
-                  onToggleTimer={toggleTimer}
-                  onResetTimer={resetTimer}
-                  onChangeDuration={changeDuration}
-                  onUpdateTimeLeft={updateTimeLeft}
-                  onUpdateIsActive={updateIsActive}
-                  // Immersive Mode State
-                  isImmersive={isImmersive}
-                  setIsImmersive={setIsImmersive}
-                  onInternalImmersiveModeChange={(isInternalImmersive) => {
-                    setIsImmersive(true);
-                    setUseInternalImmersive(true);
-                  }}
-                  // Audio Management
-                  isMuted={isMuted}
-                  currentSoundId={currentSoundId}
-                  onToggleMute={handleMuteToggle}
-                  onSoundChange={handleSoundChange}
-                  // Settings
-                  settings={settings}
-                  // 命运骰子相关
-                  diceState={diceState}
-                  onSpinDice={spinDice}
-                  onDiceResult={handleDiceResult}
-                  onAddDiceTask={addDiceTask}
-                  onDeleteDiceTask={deleteDiceTask}
-                  onUpdateDiceTask={updateDiceTask}
-                  onUpdateDiceConfig={updateDiceConfig}
-                  onUpdateDiceState={updateDiceState}
-                  // 帮助卡片系统
-                  onHelpClick={setActiveHelp}
-               />;
-      case View.HALL_OF_FAME:
-        return <HallOfFame 
-                  theme={theme} 
-                  balance={balance}
-                  totalHours={totalHours}
-                  totalCampaignsWon={totalKills}
-                  achievements={achievements}
-                  setAchievements={setAchievements}
-                  xp={xp}
-                  checkInStreak={checkInStreak}
-                  onPomodoroComplete={handlePomodoroComplete}
-                  totalSpent={totalSpent}
-                  claimedBadges={claimedBadges}
-                  onClaimReward={handleClaimReward}
-                  isNavCollapsed={isNavCollapsed}
-                  setIsNavCollapsed={setIsNavCollapsed}
-                  // Pomodoro Global State
-                  timeLeft={pomodoroState.timeLeft}
-                  isActive={pomodoroState.isActive}
-                  duration={pomodoroState.duration}
-                  onToggleTimer={toggleTimer}
-                  onResetTimer={resetTimer}
-                  onChangeDuration={changeDuration}
-                  onUpdateTimeLeft={updateTimeLeft}
-                  onUpdateIsActive={updateIsActive}
-                  // 帮助卡片系统
-                  onHelpClick={setActiveHelp}
-               />;
-      case View.DATA_CHARTS:
-        return <MissionControl 
-                  theme={theme} 
-                  projects={projects}
-                  habits={habits}
-                  onHelpClick={setActiveHelp}
-               />;
-
-      case View.SETTINGS:
-        return <Settings 
-                  theme={theme} 
-                  settings={settings} 
-                  onUpdateSettings={handleUpdateSettings} 
-                  onToggleTheme={handleToggleTheme} 
-                  day={day}
-                  balance={balance}
-                  xp={xp}
-                  checkInStreak={checkInStreak}
-                  transactions={transactions}
-                  reviews={reviews}
-                />;
-      case View.THINKING_CENTER:
-        return <ThinkingCenter 
-                  theme={theme} 
-                  onHelpClick={setActiveHelp}
-                />;
-      default: 
-        // 当遇到未知视图时，返回默认组件而不是null，防止白屏问题
-        // 如果当前View状态异常，先显示错误信息并尝试重置
-        console.error('Unknown view encountered:', currentView);
-        return <LifeGame 
-                  theme={theme} 
-                  balance={balance}
-                  onUpdateBalance={handleUpdateBalance}
-                  habits={habits}
-                  projects={projects}
-                  habitOrder={habitOrder}
-                  projectOrder={projectOrder}
-                  onUpdateHabitOrder={setHabitOrder}
-                  onUpdateProjectOrder={setProjectOrder}
-                  onToggleHabit={handleToggleHabit}
-                  onUpdateHabit={handleUpdateHabit}
-                  onDeleteHabit={handleDeleteHabit}
-                  onUpdateProject={handleUpdateProject}
-                  onDeleteProject={handleDeleteProject}
-                  onAddHabit={handleAddHabit}
-                  onAddProject={handleAddProject}
-                  initialTab="battle"
-                  initialCategory={initialTaskCategory}
-                  onAddFloatingReward={addFloatingText}
-                  totalTasksCompleted={totalKills}
-                  totalHours={totalHours}
-                  challengePool={challengePool}
-                  setChallengePool={setChallengePool}
-                  todaysChallenges={todaysChallenges}
-                  completedRandomTasks={completedRandomTasks}
-                  onToggleRandomChallenge={handleToggleRandomChallenge}
-                  onStartAutoTask={handleStartAutoTask}
-                  checkInStreak={checkInStreak}
-                  onPomodoroComplete={handlePomodoroComplete}
-                  xp={xp}
-                  todayStats={todayStats}
-                  statsHistory={statsHistory}
-                  onUpdateTodayStats={setTodayStats}
-                  weeklyGoal={weeklyGoal}
-                  setWeeklyGoal={setWeeklyGoal}
-                  todayGoal={todayGoal}
-                  setTodayGoal={setTodayGoal}
-                  givenUpTasks={givenUpTasks}
-                  onGiveUpTask={handleGiveUpTask}
-                  isNavCollapsed={isNavCollapsed}
-                  setIsNavCollapsed={setIsNavCollapsed}
-                  // Pomodoro Global State
-                  timeLeft={pomodoroState.timeLeft}
-                  isActive={pomodoroState.isActive}
-                  duration={pomodoroState.duration}
-                  onToggleTimer={toggleTimer}
-                  onResetTimer={resetTimer}
-                  onChangeDuration={changeDuration}
-                  onUpdateTimeLeft={updateTimeLeft}
-                  onUpdateIsActive={updateIsActive}
-                  // Immersive Mode State
-                  isImmersive={isImmersive}
-                  setIsImmersive={setIsImmersive}
-                  onInternalImmersiveModeChange={(isInternalImmersive) => {
-                    setIsImmersive(true);
-                    setUseInternalImmersive(true);
-                  }}
-                  // Audio Management - 使用全局音频管理器
-                  isMuted={isMuted}
-                  currentSoundId={currentSoundId}
-                  onToggleMute={handleMuteToggle}
-                  onSoundChange={handleSoundChange}
-                  // Settings
-                  settings={settings}
-                  // 命运骰子相关
-                  diceState={diceState}
-                  onSpinDice={spinDice}
-                  onDiceResult={handleDiceResult}
-                  onAddDiceTask={addDiceTask}
-                  onDeleteDiceTask={deleteDiceTask}
-                  onUpdateDiceTask={updateDiceTask}
-                  onUpdateDiceConfig={updateDiceConfig}
-                  onUpdateDiceState={updateDiceState}
-                  // 角色等级变化回调
-                  onLevelChange={handleLevelChange}
-               />;
-    }
+    return <RenderedView />;
   };
 
   const bgClass = theme === 'dark' 

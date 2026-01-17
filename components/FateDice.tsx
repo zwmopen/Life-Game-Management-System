@@ -286,8 +286,10 @@ const FateDice: React.FC<FateDiceProps> = memo(({ theme, diceState, onSpinDice, 
   };
   
   // 动画循环
+  const animationFrameRef = useRef<number>(0);
+  
   const animate = () => {
-    requestAnimationFrame(animate);
+    animationFrameRef.current = requestAnimationFrame(animate);
     
     if (rendererRef.current && sceneRef.current && cameraRef.current && diceMeshRef.current) {
       if (!isRolling) {
@@ -605,6 +607,11 @@ const FateDice: React.FC<FateDiceProps> = memo(({ theme, diceState, onSpinDice, 
         resizeObserver = null;
       }
       
+      // 清理动画帧
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+      
       // 清理Three.js资源
       if (rendererRef.current) {
         rendererRef.current.dispose();
@@ -615,24 +622,64 @@ const FateDice: React.FC<FateDiceProps> = memo(({ theme, diceState, onSpinDice, 
         // 清理场景中的所有对象
         sceneRef.current.traverse((object) => {
           if (object instanceof THREE.Mesh) {
-            object.geometry.dispose();
-            if (Array.isArray(object.material)) {
-              object.material.forEach(material => material.dispose());
-            } else {
-              object.material.dispose();
+            if (object.geometry) {
+              object.geometry.dispose();
+            }
+            if (object.material) {
+              if (Array.isArray(object.material)) {
+                object.material.forEach(material => {
+                  if (material.map) material.map.dispose();
+                  if (material.lightMap) material.lightMap.dispose();
+                  if (material.bumpMap) material.bumpMap.dispose();
+                  if (material.normalMap) material.normalMap.dispose();
+                  if (material.specularMap) material.specularMap.dispose();
+                  if (material.alphaMap) material.alphaMap.dispose();
+                  if (material.aoMap) material.aoMap.dispose();
+                  if (material.displacementMap) material.displacementMap.dispose();
+                  if (material.emissiveMap) material.emissiveMap.dispose();
+                  if (material.environmentMap) material.environmentMap.dispose();
+                  material.dispose();
+                });
+              } else {
+                const material = object.material;
+                if (material.map) material.map.dispose();
+                if (material.lightMap) material.lightMap.dispose();
+                if (material.bumpMap) material.bumpMap.dispose();
+                if (material.normalMap) material.normalMap.dispose();
+                if (material.specularMap) material.specularMap.dispose();
+                if (material.alphaMap) material.alphaMap.dispose();
+                if (material.aoMap) material.aoMap.dispose();
+                if (material.displacementMap) material.displacementMap.dispose();
+                if (material.emissiveMap) material.emissiveMap.dispose();
+                if (material.environmentMap) material.environmentMap.dispose();
+                material.dispose();
+              }
             }
           }
         });
         sceneRef.current = null;
       }
       
-      cameraRef.current = null;
-      diceMeshRef.current = null;
+      if (cameraRef.current) {
+        cameraRef.current = null;
+      }
+      
+      if (diceMeshRef.current) {
+        diceMeshRef.current = null;
+      }
       
       // 清理音频资源
       if (diceSoundRef.current) {
         diceSoundRef.current.pause();
         diceSoundRef.current = null;
+      }
+      
+      // 清理音频上下文
+      if (audioContextRef.current) {
+        if (audioContextRef.current.state !== 'closed') {
+          audioContextRef.current.close();
+        }
+        audioContextRef.current = null;
       }
     };
   }, [theme, bgColor, shadowDark, shadowLight, textColor]);

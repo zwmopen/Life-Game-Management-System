@@ -4,6 +4,7 @@ import soundManager from '../../utils/soundManager';
 import { useGlobalAudio } from '../../components/GlobalAudioManagerOptimized';
 import OptimizedImmersivePomodoro3D from './OptimizedImmersivePomodoro3D';
 import { getNeomorphicStyles } from '../../utils/styleHelpers';
+import UnifiedBgMusicSelector from './UnifiedBgMusicSelector';
 
 interface OptimizedImmersivePomodoroProps {
   theme: Theme;
@@ -506,7 +507,7 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
             guideCard.classList.toggle('show');
           }
         }}>?</div>
-        <div className={`${isNeomorphicDark ? 'guide-card neu-out neomorphic-dark-mode' : isDark ? 'guide-card neu-out dark-mode' : 'guide-card neu-out'}`} id="guideCard">
+        <div className={`${isNeomorphicDark ? 'guide-card neu-out neomorphic-dark-mode' : isDark ? 'guide-card neu-out dark-mode' : 'guide-card neu-out'} medium-font`} id="guideCard">
           <div className="guide-header">
             <h3>🌲 3D专注生态指南</h3>
             <button className="guide-close" id="guideClose" onClick={() => {
@@ -631,82 +632,13 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
                 ))}
               </div>
                       
-              <div className="audio-dropdown">
-                <button 
-                  className="audio-btn" 
-                  id="audioToggle"
-                  onClick={() => setIsAudioMenuOpen(!isAudioMenuOpen)}
-                >
-                  {localCurrentSoundId === 'mute' ? '🔇' : '🎵'}
-                </button>
-                <div 
-                  className={`${isNeomorphicDark ? 'bg-[#1e1e2e] border border-zinc-700 shadow-[8px_8px_16px_rgba(0,0,0,0.3),-8px_-8px_16px_rgba(40,43,52,0.8)]' : isDark ? 'bg-zinc-900/95 border border-zinc-800' : (isNeomorphic ? 'bg-[#e0e5ec] border border-slate-300 shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]' : 'bg-white/95 border border-slate-200 shadow-[10px_10px_20px_rgba(163,177,198,0.4),-10px_-10px_20px_rgba(255,255,255,0.6)]')} absolute top-0 right-0 mt-16 mr-2 rounded-xl p-4 backdrop-blur-sm z-50 audio-menu ${isAudioMenuOpen ? 'show' : ''}`}
-                >
-                  {/* 搜索框与切换按钮 */}
-                  <div className="mb-3">
-                    <div className="flex items-center gap-2">
-                      <button 
-                        onClick={handlePrevSound}
-                        className={`p-1.5 rounded-lg border ${isNeomorphic ? (isDark ? 'bg-[#1e1e2e] shadow-[4px_4px_8px_rgba(0,0,0,0.2),-4px_-4px_8px_rgba(40,43,52,0.8)] border-[#3a3f4e]' : 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)] border-[#caced5]') : (isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-200')} transition-all active:scale-95`}
-                        title="上一个背景音乐"
-                      >
-                        <span className={isDark ? 'text-zinc-400' : 'text-zinc-600'}>←</span>
-                      </button>
-                      
-                      <div className={`relative flex-1 ${isNeomorphic ? (isDark ? 'bg-[#1e1e2e]' : 'bg-[#e0e5ec]') : (isDark ? 'bg-zinc-800' : 'bg-white')}`}>
-                        <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-zinc-500 dark:text-zinc-400">🔍</span>
-                        <input
-                          type="text"
-                          placeholder="搜索..."
-                          value={searchQuery}
-                          onChange={(e) => setSearchQuery(e.target.value)}
-                          className={`w-full pl-9 pr-3 py-1.5 rounded-lg border ${isNeomorphic ? (isDark ? 'bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.2),inset_-4px_-4px_8px_rgba(40,43,52,0.8)] border-[#3a3f4e]' : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] border-[#caced5]') : (isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-200')} text-sm ${isDark ? 'text-zinc-200' : 'text-zinc-700'}`}
-                        />
-                      </div>
-
-                      <button 
-                        onClick={handleNextSound}
-                        className={`p-1.5 rounded-lg border ${isNeomorphic ? (isDark ? 'bg-[#1e1e2e] shadow-[4px_4px_8px_rgba(0,0,0,0.2),-4px_-4px_8px_rgba(40,43,52,0.8)] border-[#3a3f4e]' : 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)] border-[#caced5]') : (isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-200')} transition-all active:scale-95`}
-                        title="下一个背景音乐"
-                      >
-                        <span className={isDark ? 'text-zinc-400' : 'text-zinc-600'}>→</span>
-                      </button>
-                    </div>
-                  </div>
-                  
-                  <div className="flex flex-col gap-2 max-h-60 overflow-y-auto">
-                    {/* 优化后的音频菜单样式：添加圆角设计，调整按钮宽度 */}
-                    {/* 静音选项 */}
-                    <button 
-                      className="flex items-center gap-2 px-3 py-2 rounded-2xl transition-all cursor-pointer active:scale-[0.98] hover:bg-gray-100 dark:hover:bg-zinc-700 w-full"
-                      onClick={() => setSound('mute')}
-                    >
-                      <span className="text-[9px] text-zinc-500 dark:text-zinc-400 w-4">1.</span>
-                      <span className="text-16 text-zinc-500 dark:text-zinc-400">🔇</span>
-                      <span className="text-xs font-medium">静音</span>
-                    </button>
-                    
-                    {/* 音频列表 */}
-                    {isSoundListLoaded ? (
-                      allSounds
-                        .filter(sound => sound.id !== 'mute' && sound.name.toLowerCase().includes(searchQuery.toLowerCase()))
-                        .map((sound, index) => (
-                          <button 
-                            key={sound.id}
-                            className="flex items-center gap-2 px-3 py-2 rounded-2xl transition-all cursor-pointer active:scale-[0.98] hover:bg-gray-100 dark:hover:bg-zinc-700 w-full"
-                            onClick={() => setSound(sound.id)}
-                          >
-                            <span className="text-[9px] text-zinc-500 dark:text-zinc-400 w-4">{index + 2}.</span>
-                            <span className="text-16 text-blue-500 dark:text-zinc-300">{sound.icon || '🎵'}</span>
-                            <span className="text-xs font-medium flex-1">{sound.name}</span>
-                          </button>
-                        ))
-                    ) : (
-                      <div className="audio-item loading">加载中...</div>
-                    )}
-                  </div>
-                </div>
-              </div>
+              {/* 使用统一的背景音乐选择组件 */}
+              <UnifiedBgMusicSelector
+                theme={theme}
+                currentSoundId={localCurrentSoundId}
+                onSoundChange={setSound}
+                className="relative"
+              />
             </div>
             
             {/* 核心：悬浮能量环 */}
@@ -1074,7 +1006,7 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
         .seed-selector {
           pointer-events: auto;
           position: absolute;
-          top: 100px; max-height: calc(100vh - 140px); right: 30px; width: 160px;
+          top: 100px; max-height: calc((100vh - 140px) / 2); right: 30px; width: 160px;
           padding: 15px;
           display: flex;
           flex-direction: column;
@@ -1197,7 +1129,7 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
           pointer-events: none; /* 让背景3D场景能够接收鼠标事件 */
           align-self: center; text-align: center;
           display: flex; flex-direction: column; align-items: center; gap: 35px;
-          margin-top: auto; /* 移除固定上边距 */
+          margin-top: 60px; /* 增加上边距，使整个组件向下移动 */
           margin-bottom: 80px; /* 增加底部边距，使元素更靠底部 */
           position: fixed;
           bottom: 0;
@@ -1474,8 +1406,8 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
         .neomorphic-dark .audio-btn:hover { color: var(--primary-green); }
 
         .audio-menu {
-          display: none; position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%);
-          width: 140px; padding: 15px; z-index: 100; flex-direction: column; gap: 10px;
+          display: none; position: absolute; bottom: 60px; left: 0; transform: translateX(0);
+          width: 140px; padding: 15px; z-index: 2000; flex-direction: column; gap: 10px;
           margin-bottom: 0;
         }
         .audio-menu.show {
@@ -1691,6 +1623,13 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
           margin-top: 0;
         }
         
+        .guide-content p {
+          margin: 0 0 15px 0;
+          color: var(--text-gray);
+          font-size: 14px;
+          line-height: 1.6;
+        }
+        
         .guide-content ul {
           margin: 0 0 15px 0;
           padding-left: 25px;
@@ -1706,6 +1645,26 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
         .guide-content strong {
           color: var(--text-main);
           font-weight: 600;
+        }
+        
+        /* 字体大小配置 */
+        .guide-content.small-font p {
+          font-size: 12px;
+        }
+        .guide-content.small-font h4 {
+          font-size: 14px;
+        }
+        .guide-content.medium-font p {
+          font-size: 14px;
+        }
+        .guide-content.medium-font h4 {
+          font-size: 16px;
+        }
+        .guide-content.large-font p {
+          font-size: 16px;
+        }
+        .guide-content.large-font h4 {
+          font-size: 18px;
         }
       `}</style>
     </div>

@@ -45,7 +45,8 @@ const ShopCatalog: React.FC<ShopCatalogProps> = memo(({
   newGroupName,
   setNewGroupName,
   handleAddNewGroup,
-  handleCancelAddGroup
+  handleCancelAddGroup,
+  onDeleteGroup
 }) => {
   // 添加搜索状态
   const [searchTerm, setSearchTerm] = React.useState('');
@@ -144,13 +145,27 @@ const ShopCatalog: React.FC<ShopCatalogProps> = memo(({
         {/* 分类过滤按钮 */}
         <div className="flex flex-wrap gap-2 mb-4">
           {categories.map(f => (
-            <button 
-              key={f.id} 
-              onClick={() => setShopFilter(f.id as any)} 
-              className={`px-2 py-1.5 rounded-[24px] text-xs font-bold border transition-all duration-200 whitespace-nowrap ${getButtonStyle(shopFilter === f.id)}`}
-            >
-              {f.label} <span className="text-[9px] opacity-80">({f.count})</span>
-            </button>
+            <div key={f.id} className="flex items-center gap-1">
+              <button 
+                key={f.id} 
+                onClick={() => setShopFilter(f.id as any)} 
+                className={`px-2 py-1.5 rounded-[24px] text-xs font-bold border transition-all duration-200 whitespace-nowrap ${getButtonStyle(shopFilter === f.id)}`}
+              >
+                {f.label} <span className="text-[9px] opacity-80">({f.count})</span>
+              </button>
+              {/* 删除分组按钮 - 仅在管理模式且不是内置分类时显示 */}
+              {isManageShopMode && f.id !== 'all' && f.id !== 'blindbox' && f.id !== 'owned' && (
+                <button 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onDeleteGroup(f.id as string);
+                  }}
+                  className={`w-5 h-5 rounded-full flex items-center justify-center transition-all duration-200 ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] text-red-400 shadow-[3px_3px_6px_rgba(0,0,0,0.4),-3px_-3px_6px_rgba(30,30,46,0.8)] hover:shadow-[4px_4px_8px_rgba(0,0,0,0.5),-4px_-4px_8px_rgba(30,30,46,0.9)] active:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] text-red-600 shadow-[3px_3px_6px_rgba(163,177,198,0.4),-3px_-3px_6px_rgba(255,255,255,0.8)] hover:shadow-[4px_4px_8px_rgba(163,177,198,0.5),-4px_-4px_8px_rgba(255,255,255,0.9)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.4),inset_-2px_-2px_4px_rgba(255,255,255,0.8)]') : 'bg-red-500 text-white hover:bg-red-600'}`}
+                >
+                  <Trash2 size={10}/>
+                </button>
+              )}
+            </div>
           ))}
         </div>
 
@@ -179,7 +194,7 @@ const ShopCatalog: React.FC<ShopCatalogProps> = memo(({
                   }}
                   className={`text-xs px-3 py-1.5 rounded-[24px] border font-bold flex items-center gap-1 transition-all ${getButtonStyle(false, true)}`}
                 >
-                  <Plus size={12}/> 添加分组
+                  <Plus size={12}/> 添加分类
                 </button>
               </>
             )}

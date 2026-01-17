@@ -93,7 +93,7 @@ const TaskSearchBar: React.FC<TaskSearchBarProps> = memo(({
           }`}
         >
           <Plus size={18} />
-          <span className="hidden sm:inline">添加任务</span>
+          <span className="hidden sm:inline">任务管理</span>
         </button>
       )}
       

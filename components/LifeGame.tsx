@@ -182,6 +182,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
     handleAddNewItem,
     handleAddNewGroup,
     handleCancelAddGroup,
+    handleDeleteGroup,
     isAddingGroup,
     setIsAddingGroup,
     newGroupName,
@@ -1112,6 +1113,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                     setNewGroupName={setNewGroupName}
                     handleAddNewGroup={handleAddNewGroup}
                     handleCancelAddGroup={handleCancelAddGroup}
+                    onDeleteGroup={handleDeleteGroup}
                 />
             )}
             {mainTab === 'armory' && (

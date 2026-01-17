@@ -40,6 +40,7 @@ export interface ShopCatalogProps {
   onAddNewItem: () => void;
   onDeleteItem: (e: React.MouseEvent, id: string) => void;
   onEditItem: (item: ShopItem) => void;
+  onDeleteGroup: (groupName: string) => void;
   
   // 商品拖拽
   onDragStart: (index: number) => void;
