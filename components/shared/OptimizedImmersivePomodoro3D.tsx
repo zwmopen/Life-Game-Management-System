@@ -265,10 +265,9 @@ const OptimizedImmersivePomodoro3D: React.FC<{
       return cleanup;
     } catch (error) {
       console.error('Failed to initialize 3D scene:', error);
+      // 发生错误时返回一个空的清理函数
+      return () => {};
     }
-    
-    // 如果初始化失败，返回一个空的清理函数
-    return () => {};
   };
 
   // 创建实体
@@ -595,115 +594,140 @@ const OptimizedImmersivePomodoro3D: React.FC<{
 
   // 动画循环
   const animate = () => {
-    if (!sceneRef.current || !cameraRef.current || !rendererRef.current) return;
-
-    // 更新动物动画
-    entitiesRef.current.forEach(entity => {
-      if (entity.userData && entity.userData.isAnimal) {
-        const animal = entity;
-        const originalPos = animal.userData.originalPosition;
-        const speed = animal.userData.speed;
-
-        // 兔子特殊处理 - 更自然的跳跃轨迹
-        if (animal.userData.speciesId === 'rabbit' || animal.userData.speciesId === undefined) {
-          // 为所有动物添加物种ID标识
-          if (!animal.userData.speciesId) {
-            // 从模型类型推断物种ID
-            const modelType = animal.name ? animal.name.toLowerCase() : '';
-            animal.userData.speciesId = modelType.includes('rabbit') ? 'rabbit' : 
-                                     modelType.includes('fox') ? 'fox' : 
-                                     modelType.includes('panda') ? 'panda' : 
-                                     modelType.includes('pig') ? 'pig' : 
-                                     modelType.includes('chick') ? 'chick' : 
-                                     modelType.includes('penguin') ? 'penguin' : 
-                                     modelType.includes('frog') ? 'frog' : 
-                                     modelType.includes('sheep') ? 'sheep' : 
-                                     modelType.includes('bear') ? 'bear' : 
-                                     modelType.includes('bee') ? 'bee' : 'unknown';
-          }
-
-          // 更新角度
-          animal.userData.angle += speed;
-
-          // 计算新位置 - 围绕原始位置移动，使用动物特定的移动范围
-          const movementRadius = animal.userData.movementRadius || 5; // 使用动物特定的移动范围
-
-          // 兔子采用更自然的随机游走，而不是完美的圆形轨迹
-          if (animal.userData.speciesId === 'rabbit') {
-            // 为兔子添加随机方向变化
-            if (!animal.userData.directionChangeTimer) {
-              animal.userData.directionChangeTimer = 0;
-              animal.userData.targetAngle = animal.userData.angle;
-            }
-            
-            // 定期改变方向
-            animal.userData.directionChangeTimer += speed;
-            if (animal.userData.directionChangeTimer > 2) {
-              animal.userData.directionChangeTimer = 0;
-              // 随机改变方向，范围在当前角度的±30度内
-              animal.userData.targetAngle = animal.userData.angle + (Math.random() - 0.5) * Math.PI / 3;
-            }
-            
-            // 平滑过渡到目标角度
-            const angleDiff = animal.userData.targetAngle - animal.userData.angle;
-            animal.userData.angle += angleDiff * 0.05;
-
-            // 计算新位置，使用更复杂的轨迹
-            const x = originalPos.x + Math.cos(animal.userData.angle) * movementRadius * Math.sin(Date.now() * 0.0005);
-            const z = originalPos.z + Math.sin(animal.userData.angle) * movementRadius * Math.sin(Date.now() * 0.0003);
-            
-            // 垂直移动（跳跃效果），兔子的跳跃更有节奏
-            const baseY = Math.max(2.5, originalPos.y); // 确保基础位置与地面贴合
-            const jumpHeight = animal.userData.jumpHeight || 0.2; // 兔子的跳跃高度
-            // 使用更自然的跳跃曲线，先快后慢
-            const jumpPhase = (Date.now() * 0.001 + animal.userData.waveOffset) % (Math.PI * 2);
-            const y = baseY + Math.sin(jumpPhase) * jumpHeight;
-            
-            // 更新位置
-            animal.position.set(x, y, z);
-            
-            // 旋转动物使其面向移动方向
-            animal.rotation.y = animal.userData.angle + Math.PI / 2;
-          } else {
-            // 其他动物保持原有运动逻辑，但优化参数
-            const x = originalPos.x + Math.cos(animal.userData.angle) * movementRadius;
-            const z = originalPos.z + Math.sin(animal.userData.angle) * movementRadius;
-            
-            // 垂直移动（跳跃效果）
-            const baseY = Math.max(2.5, originalPos.y);
-            const jumpHeight = animal.userData.jumpHeight || 0.3;
-            const y = baseY + Math.sin(Date.now() * 0.001 + animal.userData.waveOffset) * jumpHeight;
-            
-            // 更新位置
-            animal.position.set(x, y, z);
-            
-            // 旋转动物使其面向移动方向
-            animal.rotation.y = animal.userData.angle + Math.PI / 2;
-          }
-        } else {
-          // 旧的运动逻辑，为了兼容
-          animal.userData.angle += speed;
-          
-          const movementRadius = animal.userData.movementRadius || 5;
-          const x = originalPos.x + Math.cos(animal.userData.angle) * movementRadius;
-          const z = originalPos.z + Math.sin(animal.userData.angle) * movementRadius;
-          
-          const baseY = Math.max(2.5, originalPos.y);
-          const jumpHeight = animal.userData.jumpHeight || 0.3;
-          const y = baseY + Math.sin(Date.now() * 0.001 + animal.userData.waveOffset) * jumpHeight;
-          
-          animal.position.set(x, y, z);
-          animal.rotation.y = animal.userData.angle + Math.PI / 2;
-        }
+    // 添加安全检查，防止在组件卸载后继续动画
+    if (!sceneRef.current || !cameraRef.current || !rendererRef.current) {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
       }
-    });
-
-    // 渲染场景
-    if (rendererRef.current && sceneRef.current && cameraRef.current) {
-      rendererRef.current.render(sceneRef.current, cameraRef.current);
+      return;
     }
 
-    // 请求下一帧
+    // 更新动物动画
+    try {
+      if (entitiesRef.current && Array.isArray(entitiesRef.current)) {
+        entitiesRef.current.forEach(entity => {
+          if (entity && entity.userData && entity.userData.isAnimal) {
+            try {
+              const animal = entity;
+              const originalPos = animal.userData.originalPosition;
+              const speed = animal.userData.speed;
+
+              // 兔子特殊處理 - 更自然的跳躍軌跡
+              if (animal.userData.speciesId === 'rabbit' || animal.userData.speciesId === undefined) {
+                // 為所有動物添加物種ID標識
+                if (!animal.userData.speciesId) {
+                  // 從模型類型推斷物種ID
+                  const modelType = animal.name ? animal.name.toLowerCase() : '';
+                  animal.userData.speciesId = modelType.includes('rabbit') ? 'rabbit' : 
+                                           modelType.includes('fox') ? 'fox' : 
+                                           modelType.includes('panda') ? 'panda' : 
+                                           modelType.includes('pig') ? 'pig' : 
+                                           modelType.includes('chick') ? 'chick' : 
+                                           modelType.includes('penguin') ? 'penguin' : 
+                                           modelType.includes('frog') ? 'frog' : 
+                                           modelType.includes('sheep') ? 'sheep' : 
+                                           modelType.includes('bear') ? 'bear' : 
+                                           modelType.includes('bee') ? 'bee' : 'unknown';
+                }
+
+                // 更新角度
+                animal.userData.angle = (animal.userData.angle || 0) + (speed || 0.015);
+
+                // 計算新位置 - 圍繞原始位置移動，使用動物特定的移動範圍
+                const movementRadius = animal.userData.movementRadius || 5; // 使用動物特定的移動範圍
+
+                // 兔子採用更自然的隨機遊走，而不是完美的圓形軌跡
+                if (animal.userData.speciesId === 'rabbit') {
+                  // 為兔子添加隨機方向變化
+                  if (!animal.userData.directionChangeTimer) {
+                    animal.userData.directionChangeTimer = 0;
+                    animal.userData.targetAngle = animal.userData.angle || 0;
+                  }
+                  
+                  // 定期改變方向
+                  animal.userData.directionChangeTimer += speed || 0.015;
+                  if (animal.userData.directionChangeTimer > 2) {
+                    animal.userData.directionChangeTimer = 0;
+                    // 隨機改變方向，範圍在當前角度的±30度內
+                    animal.userData.targetAngle = (animal.userData.angle || 0) + (Math.random() - 0.5) * Math.PI / 3;
+                  }
+                  
+                  // 平滑過渡到目標角度
+                  const angleDiff = animal.userData.targetAngle - (animal.userData.angle || 0);
+                  animal.userData.angle = (animal.userData.angle || 0) + angleDiff * 0.05;
+
+                  // 計算新位置，使用更複雜的軌跡
+                  const x = (originalPos?.x || 0) + Math.cos(animal.userData.angle) * movementRadius * Math.sin(Date.now() * 0.0005);
+                  const z = (originalPos?.z || 0) + Math.sin(animal.userData.angle) * movementRadius * Math.sin(Date.now() * 0.0003);
+                  
+                  // 垂直移動（跳躍效果），兔子的跳躍更有節奏
+                  const baseY = Math.max(2.5, originalPos?.y || 2.5); // 確保基礎位置與地面貼合
+                  const jumpHeight = animal.userData.jumpHeight || 0.2; // 兔子的跳躍高度
+                  // 使用更自然的跳躍曲線，先快後慢
+                  const jumpPhase = (Date.now() * 0.001 + (animal.userData.waveOffset || 0)) % (Math.PI * 2);
+                  const y = baseY + Math.sin(jumpPhase) * jumpHeight;
+                  
+                  // 更新位置
+                  animal.position.set(x, y, z);
+                  
+                  // 旋轉動物使其面向移動方向
+                  animal.rotation.y = (animal.userData.angle || 0) + Math.PI / 2;
+                } else {
+                  // 其他動物保持原有運動邏輯，但優化參數
+                  const x = (originalPos?.x || 0) + Math.cos((animal.userData.angle || 0) + (speed || 0.015) * Date.now() * 0.001) * movementRadius;
+                  const z = (originalPos?.z || 0) + Math.sin((animal.userData.angle || 0) + (speed || 0.015) * Date.now() * 0.001) * movementRadius;
+                  
+                  // 垂直移動（跳躍效果）
+                  const baseY = Math.max(2.5, originalPos?.y || 2.5);
+                  const jumpHeight = animal.userData.jumpHeight || 0.3;
+                  const y = baseY + Math.sin(Date.now() * 0.001 + (animal.userData.waveOffset || 0)) * jumpHeight;
+                  
+                  // 更新位置
+                  animal.position.set(x, y, z);
+                  
+                  // 旋轉動物使其面向移動方向
+                  animal.rotation.y = (animal.userData.angle || 0) + Math.PI / 2;
+                }
+              } else {
+                // 舊的運動邏輯，為了相容
+                animal.userData.angle = (animal.userData.angle || 0) + (speed || 0.015);
+                
+                const movementRadius = animal.userData.movementRadius || 5;
+                const x = (originalPos?.x || 0) + Math.cos(animal.userData.angle || 0) * movementRadius;
+                const z = (originalPos?.z || 0) + Math.sin(animal.userData.angle || 0) * movementRadius;
+                
+                const baseY = Math.max(2.5, originalPos?.y || 2.5);
+                const jumpHeight = animal.userData.jumpHeight || 0.3;
+                const y = baseY + Math.sin(Date.now() * 0.001 + (animal.userData.waveOffset || 0)) * jumpHeight;
+                
+                animal.position.set(x, y, z);
+                animal.rotation.y = (animal.userData.angle || 0) + Math.PI / 2;
+              }
+            } catch (animalError) {
+              console.warn('Error updating animal animation:', animalError);
+              // 移除有问题的实体
+              const index = entitiesRef.current.indexOf(entity);
+              if (index > -1) {
+                entitiesRef.current.splice(index, 1);
+              }
+            }
+          }
+        });
+      }
+    } catch (error) {
+      console.error('Error updating animations:', error);
+    }
+
+    // 渲染場景
+    try {
+      if (rendererRef.current && sceneRef.current && cameraRef.current) {
+        rendererRef.current.render(sceneRef.current, cameraRef.current);
+      }
+    } catch (error) {
+      console.error('Error rendering scene:', error);
+    }
+
+    // 請求下一幀
     animationFrameRef.current = requestAnimationFrame(animate);
   };
 
@@ -2162,15 +2186,20 @@ const OptimizedImmersivePomodoro3D: React.FC<{
 
     // 初始化场景
     useEffect(() => {
+      let isMounted = true;
       let cleanupFunc: (() => void) | null = null;
       
       const initScene = async () => {
-        cleanupFunc = await initializeScene();
+        // 确保组件仍然挂载再进行初始化
+        if (isMounted) {
+          cleanupFunc = await initializeScene();
+        }
       };
       
       initScene();
       
       return () => {
+        isMounted = false;
         if (cleanupFunc) {
           cleanupFunc();
         }
@@ -2179,20 +2208,34 @@ const OptimizedImmersivePomodoro3D: React.FC<{
 
     // 监听totalPlants变化，更新生态系统
     useEffect(() => {
+      let isMounted = true;
+      
       const updateEcosystemAsync = async () => {
-        if (sceneRef.current) {
+        if (isMounted && sceneRef.current) {
           await updateEcosystem(totalPlants);
         }
       };
       updateEcosystemAsync();
+      
+      return () => {
+        isMounted = false;
+      };
     }, [totalPlants, updateEcosystem]);
 
     // 监听currentSeed变化，更新预览
     useEffect(() => {
+      let isMounted = true;
+      
       const updatePreviewAsync = async () => {
-        await updatePreview(currentSeed);
+        if (isMounted) {
+          await updatePreview(currentSeed);
+        }
       };
       updatePreviewAsync();
+      
+      return () => {
+        isMounted = false;
+      };
     }, [currentSeed, updatePreview]);
 
     // 组件卸载时清理资源
@@ -2205,58 +2248,92 @@ const OptimizedImmersivePomodoro3D: React.FC<{
         
         // 清理场景中的所有对象
         if (sceneRef.current) {
-          while(sceneRef.current.children.length > 0) { 
-            const obj = sceneRef.current.children[0];
-            sceneRef.current.remove(obj);
-            
-            // 递归清理对象及其子对象
-            if (obj.geometry) {
-              obj.geometry.dispose();
-            }
-            
-            if (obj.material) {
-              if (Array.isArray(obj.material)) {
-                obj.material.forEach(material => {
-                  if (material.map) material.map.dispose();
-                  if (material.lightMap) material.lightMap.dispose();
-                  if (material.bumpMap) material.bumpMap.dispose();
-                  if (material.normalMap) material.normalMap.dispose();
-                  if (material.specularMap) material.specularMap.dispose();
-                  if (material.alphaMap) material.alphaMap.dispose();
-                  if (material.aoMap) material.aoMap.dispose();
-                  if (material.displacementMap) material.displacementMap.dispose();
-                  if (material.emissiveMap) material.emissiveMap.dispose();
-                  if (material.environmentMap) material.environmentMap.dispose();
-                });
-              } else {
-                const material = obj.material;
-                if (material.map) material.map.dispose();
-                if (material.lightMap) material.lightMap.dispose();
-                if (material.bumpMap) material.bumpMap.dispose();
-                if (material.normalMap) material.normalMap.dispose();
-                if (material.specularMap) material.specularMap.dispose();
-                if (material.alphaMap) material.alphaMap.dispose();
-                if (material.aoMap) material.aoMap.dispose();
-                if (material.displacementMap) material.displacementMap.dispose();
-                if (material.emissiveMap) material.emissiveMap.dispose();
-                if (material.environmentMap) material.environmentMap.dispose();
+          const disposeObject = (object: any) => {
+            try {
+              // 递归清理子对象
+              while(object.children && object.children.length > 0) {
+                disposeObject(object.children[0]);
               }
-              obj.material.dispose();
+              
+              // 清理几何体
+              if (object.geometry) {
+                if (typeof object.geometry.dispose === 'function') {
+                  object.geometry.dispose();
+                }
+              }
+              
+              // 清理材质
+              if (object.material) {
+                if (Array.isArray(object.material)) {
+                  object.material.forEach(material => {
+                    if (material && typeof material === 'object' && typeof material.dispose === 'function') {
+                      // 安全清理纹理贴图
+                      ['map', 'lightMap', 'bumpMap', 'normalMap', 'specularMap', 'alphaMap', 'aoMap', 'displacementMap', 'emissiveMap', 'environmentMap'].forEach(mapType => {
+                        if (material[mapType] && typeof material[mapType].dispose === 'function') {
+                          material[mapType].dispose();
+                        }
+                      });
+                      material.dispose();
+                    }
+                  });
+                } else {
+                  const material = object.material;
+                  if (material && typeof material === 'object' && typeof material.dispose === 'function') {
+                    // 安全清理纹理贴图
+                    ['map', 'lightMap', 'bumpMap', 'normalMap', 'specularMap', 'alphaMap', 'aoMap', 'displacementMap', 'emissiveMap', 'environmentMap'].forEach(mapType => {
+                      if (material[mapType] && typeof material[mapType].dispose === 'function') {
+                        material[mapType].dispose();
+                      }
+                    });
+                    material.dispose();
+                  }
+                }
+              }
+              
+              // 从父级移除对象
+              if (object.parent) {
+                object.parent.remove(object);
+              }
+            } catch (e) {
+              console.warn('Error disposing object:', e);
+            }
+          };
+          
+          // 清理场景中的所有对象
+          if (sceneRef.current.children) {
+            while(sceneRef.current.children.length > 0) { 
+              disposeObject(sceneRef.current.children[0]);
             }
           }
         }
         
         // 清理渲染器
         if (rendererRef.current && rendererRef.current.dispose) {
-          rendererRef.current.dispose();
+          try {
+            rendererRef.current.dispose();
+          } catch (e) {
+            console.warn('Error disposing renderer:', e);
+          }
+        }
+        
+        // 清理控制器
+        if (cameraRef.current && sceneRef.current) {
+          const THREE = (globalThis as any).THREE || null;
+          if (THREE && (cameraRef.current as any).controls) {
+            try {
+              (cameraRef.current as any).controls.dispose();
+            } catch (e) {
+              console.warn('Error disposing controls:', e);
+            }
+          }
         }
         
         // 清理所有存储的引用
         sceneObjectsRef.current = [];
         entitiesRef.current = [];
         
-        // 移除事件监听器
-        window.removeEventListener('resize', () => {});
+        // 注意：不能移除通用的resize监听器，因为我们不知道它是什么函数
+        // 现在resize监听器是在initializeScene中注册的，也应该在那里注销
       };
     }, []);
 

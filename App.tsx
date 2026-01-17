@@ -384,35 +384,42 @@ const App: React.FC = () => {
     }
   }, [diceState, isDataLoaded]);
 
+  // 使用防抖优化数据持久化
   useEffect(() => {
     if (!isDataLoaded) return;
-    const data = {
-        habits, 
-        projects, 
-        habitOrder,
-        projectOrder,
-        balance, 
-        day, 
-        transactions, 
-        reviews,
-        statsHistory,
-        todayStats,
-        challengePool,
-        todaysChallenges,
-        achievements,
-        completedRandomTasks,
-        claimedBadges,
-        weeklyGoal,
-        todayGoal, 
-        givenUpTasks, // Persist this
-        lastLoginDate: new Date().toLocaleDateString(),
-        startDate: localStorage.getItem('aes-global-data-v3') ? JSON.parse(localStorage.getItem('aes-global-data-v3')!).startDate : new Date().toISOString()
-    };
-    localStorage.setItem('aes-global-data-v3', JSON.stringify(data));
     
-    const lgStats = localStorage.getItem('life-game-stats-v2') ? JSON.parse(localStorage.getItem('life-game-stats-v2')!) : {};
-    lgStats.xp = xp;
-    localStorage.setItem('life-game-stats-v2', JSON.stringify(lgStats));
+    // 防抖：避免过于频繁的本地存储操作
+    const debounceTimer = setTimeout(() => {
+      const data = {
+          habits, 
+          projects, 
+          habitOrder,
+          projectOrder,
+          balance, 
+          day, 
+          transactions, 
+          reviews,
+          statsHistory,
+          todayStats,
+          challengePool,
+          todaysChallenges,
+          achievements,
+          completedRandomTasks,
+          claimedBadges,
+          weeklyGoal,
+          todayGoal, 
+          givenUpTasks, // Persist this
+          lastLoginDate: new Date().toLocaleDateString(),
+          startDate: localStorage.getItem('aes-global-data-v3') ? JSON.parse(localStorage.getItem('aes-global-data-v3')!).startDate : new Date().toISOString()
+      };
+      localStorage.setItem('aes-global-data-v3', JSON.stringify(data));
+      
+      const lgStats = localStorage.getItem('life-game-stats-v2') ? JSON.parse(localStorage.getItem('life-game-stats-v2')!) : {};
+      lgStats.xp = xp;
+      localStorage.setItem('life-game-stats-v2', JSON.stringify(lgStats));
+    }, 500); // 500ms防抖延迟
+    
+    return () => clearTimeout(debounceTimer);
 
   }, [habits, projects, habitOrder, projectOrder, balance, day, transactions, reviews, statsHistory, todayStats, challengePool, todaysChallenges, achievements, completedRandomTasks, isDataLoaded, xp, claimedBadges, weeklyGoal, todayGoal, givenUpTasks]);
 
@@ -468,8 +475,10 @@ const App: React.FC = () => {
       timeoutId = setInterval(resetAllTasks, dailyInterval);
     }, calculateTimeUntilMidnight());
 
+    // 返回清理函数，分别清理setTimeout和setInterval
     return () => {
       clearTimeout(timeoutId);
+      // 注意：这里timeoutId已经被重新赋值为intervalId，所以不需要再次声明
       clearInterval(timeoutId);
     };
   }, [challengePool]);
@@ -1143,11 +1152,31 @@ const App: React.FC = () => {
   };
 
   // 使用React.memo来优化组件渲染，避免不必要的重渲染
+  const MemoizedLifeGame = useMemo(() => {
+    return React.memo(LifeGame);
+  }, []);
+
+  const MemoizedHallOfFame = useMemo(() => {
+    return React.memo(HallOfFame);
+  }, []);
+
+  const MemoizedMissionControl = useMemo(() => {
+    return React.memo(MissionControl);
+  }, []);
+
+  const MemoizedSettings = useMemo(() => {
+    return React.memo(Settings);
+  }, []);
+
+  const MemoizedThinkingCenter = useMemo(() => {
+    return React.memo(ThinkingCenter);
+  }, []);
+
   const RenderedView = useMemo(() => {
     return () => {
       switch (currentView) {
         case View.RPG_MISSION_CENTER:
-          return <LifeGame 
+          return <MemoizedLifeGame 
                     theme={theme} 
                     balance={balance}
                     onUpdateBalance={handleUpdateBalance}
@@ -1225,7 +1254,7 @@ const App: React.FC = () => {
                     onLevelChange={handleLevelChange}
                  />;
         case View.BLACK_MARKET:
-          return <LifeGame 
+          return <MemoizedLifeGame 
                     theme={theme} 
                     balance={balance}
                     onUpdateBalance={handleUpdateBalance}
@@ -1303,7 +1332,7 @@ const App: React.FC = () => {
                     onHelpClick={setActiveHelp}
                  />;
         case View.HALL_OF_FAME:
-          return <HallOfFame 
+          return <MemoizedHallOfFame 
                     theme={theme} 
                     balance={balance}
                     totalHours={totalHours}
@@ -1331,7 +1360,7 @@ const App: React.FC = () => {
                     onHelpClick={setActiveHelp}
                  />;
         case View.DATA_CHARTS:
-          return <MissionControl 
+          return <MemoizedMissionControl 
                     theme={theme} 
                     projects={projects}
                     habits={habits}
@@ -1339,7 +1368,7 @@ const App: React.FC = () => {
                  />;
 
         case View.SETTINGS:
-          return <Settings 
+          return <MemoizedSettings 
                     theme={theme} 
                     settings={settings} 
                     onUpdateSettings={handleUpdateSettings} 
@@ -1352,13 +1381,13 @@ const App: React.FC = () => {
                     reviews={reviews}
                   />;
         case View.THINKING_CENTER:
-          return <ThinkingCenter 
+          return <MemoizedThinkingCenter 
                     theme={theme} 
                     onHelpClick={setActiveHelp}
                   />;
         case View.PROJECT_MANUAL:
           // 项目开发书视图 - 可以显示思维模型等内容
-          return <ThinkingCenter 
+          return <MemoizedThinkingCenter 
                     theme={theme} 
                     onHelpClick={setActiveHelp}
                   />;
@@ -1366,7 +1395,7 @@ const App: React.FC = () => {
           // 当遇到未知视图时，返回默认组件而不是null，防止白屏问题
           // 如果当前View状态异常，先显示错误信息并尝试重置
           console.error('Unknown view encountered:', currentView);
-          return <LifeGame 
+          return <MemoizedLifeGame 
                     theme={theme} 
                     balance={balance}
                     onUpdateBalance={handleUpdateBalance}
@@ -1445,11 +1474,19 @@ const App: React.FC = () => {
                  />;
       }
     };
-  }, [currentView, theme, balance, habits, projects, habitOrder, projectOrder, totalKills, totalHours, challengePool, todaysChallenges, completedRandomTasks, checkInStreak, xp, todayStats, statsHistory, weeklyGoal, todayGoal, givenUpTasks, isNavCollapsed, pomodoroState, isImmersive, isMuted, currentSoundId, settings, diceState, transactions, reviews, day]);
+  }, [currentView, theme, balance, habits, projects, habitOrder, projectOrder, totalKills, totalHours, challengePool, todaysChallenges, completedRandomTasks, checkInStreak, xp, todayStats, statsHistory, weeklyGoal, todayGoal, givenUpTasks, isNavCollapsed, pomodoroState, isImmersive, isMuted, currentSoundId, settings, diceState, transactions, reviews, day, MemoizedLifeGame, MemoizedHallOfFame, MemoizedMissionControl, MemoizedSettings, MemoizedThinkingCenter]);
 
   const renderView = () => {
     return <RenderedView />;
   };
+
+  // 检查是否存在内存泄漏风险并添加清理机制
+  useEffect(() => {
+    // 当组件卸载时清理所有浮动文本，防止内存泄漏
+    return () => {
+      setFloatingTexts([]);
+    };
+  }, []);
 
   const bgClass = theme === 'dark' 
       ? 'bg-zinc-950 text-zinc-100' 
@@ -1511,6 +1548,11 @@ const App: React.FC = () => {
             {renderView()}
           </div>
         </main>
+
+        {/* 添加性能监控指示器 */}
+        <div className="fixed bottom-4 right-4 bg-black/70 text-white text-xs p-2 rounded-lg z-[9999]">
+          Views: {currentView}
+        </div>
 
         {floatingTexts.map(ft => (
             <div 

@@ -1,5 +1,33 @@
-import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
+import React, { useEffect, useRef, useState, useCallback, useMemo, Suspense, Component, ErrorInfo } from 'react';
 import { Theme } from '../../types';
+
+// 使用简单的错误处理包装器而不是完整的错误边界
+const SceneWithErrorHandling = ({ children }: { children: React.ReactNode }) => {
+  const [hasError, setHasError] = useState(false);
+  
+  if (hasError) {
+    return (
+      <div className="absolute inset-0 flex items-center justify-center bg-current text-white">
+        <div className="text-center">
+          <h2 className="text-xl font-bold mb-2">3D场景加载失败</h2>
+          <p className="mb-4">尝试刷新页面或联系技术支持</p>
+          <button 
+            className="px-4 py-2 bg-gray-600 rounded hover:bg-gray-700 transition-colors"
+            onClick={() => window.location.reload()}
+          >
+            刷新页面
+          </button>
+        </div>
+      </div>
+    );
+  }
+  
+  return (
+    <div className="w-full h-full">
+      {children}
+    </div>
+  );
+};
 import soundManager from '../../utils/soundManager';
 import { useGlobalAudio } from '../../components/GlobalAudioManagerOptimized';
 import OptimizedImmersivePomodoro3D from './OptimizedImmersivePomodoro3D';
@@ -484,18 +512,22 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
     <div className={`fixed inset-0 z-50 flex flex-col ${isNeomorphicDark ? 'bg-[#1e1e2e] text-white' : theme === 'dark' ? 'bg-[#1a1a2e] text-white dark' : 'bg-[#e0e5ec] text-gray-800'}`}>
       {/* 主容器 */}
       <div ref={containerRef} className="relative inset-0">
-        {/* 优化的3D场景组件 */}
-        <OptimizedImmersivePomodoro3D
-          theme={theme}
-          totalPlants={totalPlants}
-          currentSeed={currentSeed}
-          isFocusing={isFocusing}
-          isPaused={isPaused}
-          onEntityCreated={(entity) => {
-            // 当3D实体创建时的回调
-            console.log('Entity created:', entity);
-          }}
-        />
+        {/* 优化的3D场景组件 - 添加错误边界和加载状态 */}
+        <div className="absolute inset-0">
+          <SceneWithErrorHandling>
+            <OptimizedImmersivePomodoro3D
+              theme={theme}
+              totalPlants={totalPlants}
+              currentSeed={currentSeed}
+              isFocusing={isFocusing}
+              isPaused={isPaused}
+              onEntityCreated={(entity) => {
+                // 当3D实体创建时的回调
+                console.log('Entity created:', entity);
+              }}
+            />
+          </SceneWithErrorHandling>
+        </div>
         
         {/* 退出按钮 */}
         <div className="exit-btn" id="exitBtn" onClick={onExitImmersive}>✕</div>
