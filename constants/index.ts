@@ -57,6 +57,11 @@ export const INITIAL_HABITS = [
 export const INITIAL_PROJECTS: Project[] = [
   {
     id: 'p1', name: '数码博主养成', startDate: '2025-12-23', description: '创建并运营第一个粉丝量达到1万的数码账号', status: 'active' as const, logs: [], dailyFocus: {}, todayFocusMinutes: 0, fears: [], attr: AttributeType.WEALTH,
+    reminder: {
+      enabled: true,
+      time: '14:00',
+      repeat: 'daily' as const
+    },
     subTasks: [
       { id: 't1_1', title: '找爆款', duration: 5, completed: false, frequency: 'daily' as const },
       { id: 't1_2', title: '二创爆款', duration: 5, completed: false, frequency: 'daily' as const },
@@ -65,6 +70,11 @@ export const INITIAL_PROJECTS: Project[] = [
   },
   {
     id: 'p3', name: '成长型博主养成', startDate: '2025-12-23', description: '成为一个拥有1000粉丝的成长型博主', status: 'active' as const, logs: [], dailyFocus: {}, todayFocusMinutes: 0, fears: [], attr: AttributeType.INTELLIGENCE,
+    reminder: {
+      enabled: true,
+      time: '16:00',
+      repeat: 'daily' as const
+    },
     subTasks: [
       { id: 't3_1', title: '刷爆款选题', duration: 10, completed: false, frequency: 'daily' as const },
       { id: 't3_2', title: '全网搜集， AI梳理文案', duration: 20, completed: false, frequency: 'daily' as const },
@@ -75,6 +85,11 @@ export const INITIAL_PROJECTS: Project[] = [
   },
   {
     id: 'p4', name: '小红书虚拟店铺运营', startDate: '2025-12-23', description: '运营虚拟资料店铺，销售虚拟资料产品', status: 'active' as const, logs: [], dailyFocus: {}, todayFocusMinutes: 0, fears: [], attr: AttributeType.WEALTH,
+    reminder: {
+      enabled: true,
+      time: '15:00',
+      repeat: 'daily' as const
+    },
     subTasks: [
       { id: 't4_1', title: '找同行选品二创上架', duration: 5, completed: false, frequency: 'daily' as const },
       { id: 't4_2', title: '多平台搜索爆款笔记二创上架', duration: 5, completed: false, frequency: 'daily' as const },
