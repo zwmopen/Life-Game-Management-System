@@ -78,55 +78,63 @@ const RewardModal: React.FC<RewardModalProps> = ({ badge, onClose }) => {
     });
   }, []);
 
+  // 获取拟态样式
+  const isNeomorphic = true; // 使用拟态风格
+  const isDark = true; // 暗色主题
+  const neomorphicBg = isDark ? 'bg-[#1e1e2e]' : 'bg-[#e0e5ec]';
+  const neomorphicShadow = isDark 
+    ? 'shadow-[10px_10px_20px_rgba(0,0,0,0.4),-10px_-10px_20px_rgba(30,30,46,0.8)]' 
+    : 'shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)]';
+  
   return (
     <div 
-      className="fixed inset-0 z-[99999] bg-black/90 flex items-center justify-center p-4 backdrop-blur-md animate-in fade-in duration-500"
+      className="fixed inset-0 z-[99999] bg-black/50 flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in duration-500"
       onClick={() => onClose(badge.id, rewardXp, rewardGold)} // 点击空白关闭
     >
       <div 
-        className="flex flex-col items-center text-center space-y-6 animate-in zoom-in duration-500 max-w-sm w-full bg-zinc-900 border border-yellow-500/30 p-6 rounded-md relative overflow-hidden"
+        className={`flex flex-col items-center text-center space-y-6 animate-in zoom-in duration-500 max-w-sm w-full ${neomorphicBg} ${neomorphicShadow} p-8 rounded-2xl relative overflow-visible transition-all duration-300`}
         onClick={(e) => e.stopPropagation()} // 防止点击卡片内部触发关闭
       >
-        {/* 背景光效 */}
-        <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/20 to-purple-500/20 opacity-30"></div>
         
-        {/* 关闭按钮 */}
+        {/* 关闭按钮 - 采用拟态风格 */}
         <button 
           onClick={() => onClose(badge.id, rewardXp, rewardGold)} 
-          className="absolute top-4 right-4 text-zinc-400 hover:text-white transition-colors z-10"
+          className={`absolute top-3 right-3 rounded-full ${isDark ? 'bg-[#1e1e2e] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] hover:shadow-[inset_4px_4px_8px_rgba(0,0,0,0.5),inset_-4px_-4px_8px_rgba(30,30,46,0.9)]' : 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] hover:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.7),inset_-4px_-4px_8px_rgba(255,255,255,0.9)]'} transition-all z-10`}
           aria-label="关闭"
         >
-          <X size={20} />
+          <X size={16} className={isDark ? 'text-zinc-400' : 'text-zinc-600'} />
         </button>
         
         {/* 烟火特效图标 */}
-        <div className="relative z-10">
-          <div className={`absolute inset-0 ${iconColor.replace('text-', 'bg-')}/30 blur-[80px] rounded-full animate-pulse`}></div>
+        <div className="relative z-10 mt-4">
+          <div className={`absolute inset-0 ${iconColor.replace('text-', 'bg-')}/20 blur-[60px] rounded-full animate-pulse`}></div>
           <div className="relative text-[100px] animate-[spin_3s_linear_infinite]">
-            <Sparkles className="text-white opacity-30 absolute -top-10 -left-10 animate-pulse" size={40}/>
-            <Sparkles className="text-white opacity-30 absolute top-20 -right-10 animate-pulse" size={30}/>
-            <Sparkles className="text-white opacity-30 absolute -bottom-10 left-10 animate-pulse" size={30}/>
-            <IconComp className={`${iconColor} ${animationClass}`} size={100} strokeWidth={1.5}/>
+            <Sparkles className="text-white opacity-20 absolute -top-10 -left-10 animate-pulse" size={40}/>
+            <Sparkles className="text-white opacity-20 absolute top-20 -right-10 animate-pulse" size={30}/>
+            <Sparkles className="text-white opacity-20 absolute -bottom-10 left-10 animate-pulse" size={30}/>
+            <div className={`${isDark ? 'shadow-[5px_5px_10px_rgba(0,0,0,0.5),-5px_-5px_10px_rgba(30,30,46,0.8)]' : 'shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)]'} p-4 rounded-full bg-gradient-to-br from-yellow-400/10 to-purple-500/10`}>
+              <IconComp className={`${iconColor} ${animationClass}`} size={80} strokeWidth={1.5}/>
+            </div>
           </div>
         </div>
         
         {/* 成就标题 */}
-        <div className="w-full z-10">
-          <h2 className="text-3xl font-black text-white mb-2 uppercase tracking-widest">成就达成</h2>
-          <div className={`text-xl font-bold ${badge.color}`}>{badge.title}</div>
-          <div className="text-zinc-400 font-mono mt-1">{badge.subTitle}</div>
+        <div className="w-full z-10 text-center -mt-4">
+          <h2 className={`text-2xl font-black mb-2 uppercase tracking-widest ${isDark ? 'text-white' : 'text-zinc-900'}`}>成就达成</h2>
+          <div className={`text-lg font-bold ${badge.color}`}>{badge.title}</div>
+          <div className={`text-sm font-mono mt-1 ${isDark ? 'text-zinc-400' : 'text-zinc-500'}`}>{badge.subTitle}</div>
         </div>
         
-        {/* 奖励信息 */}
-        <div className="w-full flex justify-around items-center pt-2 border-t border-zinc-800 z-10">
+        {/* 奖励信息 - 拟态风格 */}
+        <div className={`w-full flex justify-around items-center pt-4 z-10 ${isDark ? 'border-t border-[#3a3f4e]' : 'border-t border-[#caced5]'}`}>
           <div className="flex flex-col items-center">
-            <div className="text-xs text-zinc-500 font-bold uppercase mb-1">经验奖励</div>
-            <div className={`text-2xl font-black ${rewardXp > 0 ? 'text-blue-400' : 'text-zinc-600'} animate-bounce`}>+{rewardXp}</div>
+            <div className={`text-xs font-bold uppercase mb-1 ${isDark ? 'text-zinc-500' : 'text-zinc-600'}`}>经验奖励</div>
+            <div className={`text-xl font-black ${rewardXp > 0 ? 'text-blue-400' : 'text-zinc-600'} animate-bounce`}>+{rewardXp}</div>
           </div>
-          <div className="w-px h-10 bg-zinc-800"></div>
+          <div className={`w-0.5 h-8 ${isDark ? 'bg-[#3a3f4e]' : 'bg-[#caced5]'}`}></div>
           <div className="flex flex-col items-center">
-            <div className="text-xs text-zinc-500 font-bold uppercase mb-1">金币奖励</div>
-            <div className={`text-2xl font-black ${rewardGold > 0 ? 'text-yellow-400' : 'text-zinc-600'} animate-bounce`}>+{rewardGold}</div>
+            <div className={`text-xs font-bold uppercase mb-1 ${isDark ? 'text-zinc-500' : 'text-zinc-600'}`}>金币奖励</div>
+            <div className={`text-xl font-black ${rewardGold > 0 ? 'text-yellow-400' : 'text-zinc-600'} animate-bounce`}>+{rewardGold}</div>
           </div>
         </div>
       </div>
