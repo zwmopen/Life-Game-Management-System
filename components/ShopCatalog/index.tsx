@@ -37,8 +37,19 @@ const ShopCatalog: React.FC<ShopCatalogProps> = memo(({
   textMain,
   textSub,
   neomorphicStyles,
-  justPurchasedItem
+  justPurchasedItem,
+  groups = ['数码', '运动健康', '服装礼品', '家居', '会员充值', '休闲娱乐', '形象设计与穿搭'],
+  setGroups,
+  isAddingGroup,
+  setIsAddingGroup,
+  newGroupName,
+  setNewGroupName,
+  handleAddNewGroup,
+  handleCancelAddGroup
 }) => {
+  // 添加搜索状态
+  const [searchTerm, setSearchTerm] = React.useState('');
+  
   // 生成按钮样式的辅助函数
   const getButtonStyle = (isActive: boolean, isSpecial?: boolean) => {
     if (isActive) {
@@ -65,15 +76,24 @@ const ShopCatalog: React.FC<ShopCatalogProps> = memo(({
   // 使用useMemo缓存过滤和排序后的商品列表
   const filteredInventory = useMemo(() => {
     return inventory.filter(i => {
+      // 首先根据分类过滤
       if (shopFilter === 'owned') {
-        return i.owned === true;
+        if (i.owned !== true) return false;
+      } else if (shopFilter !== 'all') {
+        if (i.category !== shopFilter) return false;
       }
-      if (shopFilter === 'all') {
-        return true;
+      
+      // 然后根据搜索词过滤
+      if (searchTerm) {
+        const lowerSearchTerm = searchTerm.toLowerCase();
+        return i.name.toLowerCase().includes(lowerSearchTerm) || 
+               i.description.toLowerCase().includes(lowerSearchTerm) ||
+               i.category.toLowerCase().includes(lowerSearchTerm);
       }
-      return i.category === shopFilter;
+      
+      return true;
     });
-  }, [inventory, shopFilter]);
+  }, [inventory, shopFilter, searchTerm]);
 
   const sortedInventory = useMemo(() => {
     return [...filteredInventory].sort((a, b) => {
@@ -85,16 +105,31 @@ const ShopCatalog: React.FC<ShopCatalogProps> = memo(({
   }, [filteredInventory]);
 
   // 商品分类列表
-  const categories = useMemo(() => [
-    { id: 'all', label: '全部', count: inventory.length },
-    { id: '数码', label: '数码', count: inventory.filter(i => i.category === '数码').length },
-    { id: '运动健康', label: '运动健康', count: inventory.filter(i => i.category === '运动健康').length },
-    { id: '服装礼品', label: '服装礼品', count: inventory.filter(i => i.category === '服装礼品').length },
-    { id: '家居', label: '家居', count: inventory.filter(i => i.category === '家居').length },
-    { id: '会员充值', label: '会员充值', count: inventory.filter(i => i.category === '会员充值').length },
-    { id: 'blindbox', label: '盲盒', count: BLIND_BOX_PRICES.length },
-    { id: 'owned', label: '已购买', count: inventory.filter(i => i.owned).length }
-  ], [inventory]);
+  const categories = useMemo(() => {
+    const baseCategories = [
+      { id: 'all', label: '全部', count: inventory.length },
+      ...groups.map(group => ({
+        id: group,
+        label: group,
+        count: inventory.filter(i => i.category === group).length
+      }))
+    ];
+    
+    // 如果是管理模式且不在添加新分组，则添加盲盒和已购买分类
+    if (isManageShopMode && !isAddingGroup) {
+      baseCategories.push(
+        { id: 'blindbox', label: '盲盒', count: BLIND_BOX_PRICES.length },
+        { id: 'owned', label: '已购买', count: inventory.filter(i => i.owned).length }
+      );
+    } else if (!isManageShopMode) {
+      baseCategories.push(
+        { id: 'blindbox', label: '盲盒', count: BLIND_BOX_PRICES.length },
+        { id: 'owned', label: '已购买', count: inventory.filter(i => i.owned).length }
+      );
+    }
+    
+    return baseCategories;
+  }, [inventory, groups, isManageShopMode, isAddingGroup]);
 
   return (
     <div className="max-w-5xl mx-auto space-y-6">
@@ -125,31 +160,88 @@ const ShopCatalog: React.FC<ShopCatalogProps> = memo(({
             <GlobalHelpButton helpId="shop" onHelpClick={onShowHelp} size={16} className="text-zinc-500 hover:text-white transition-colors" />
             {!isManageShopMode && (
               <div className={`text-xs ${textSub} flex items-center gap-1`}>
-                <Wallet size={12} className="text-yellow-500"/> 储备金: {balance}
-              </div>
+              <Wallet size={12} className="text-yellow-500"/> 储备金: {balance}
+            </div>
             )}
           </div>
-          <button 
-            onClick={() => setIsManageShopMode(!isManageShopMode)} 
-            className={`text-xs px-3 py-1.5 rounded-[24px] border font-bold flex items-center gap-1 transition-all ${getButtonStyle(isManageShopMode, true)}`}
-          >
-            {isManageShopMode ? <CheckCircle size={12}/> : <Hammer size={12}/>} 
-            {isManageShopMode ? '完成管理' : '管理商品'}
-          </button>
+          <div className="flex gap-2">
+            {isManageShopMode && (
+              <>
+                <button 
+                  onClick={onAddNewItem} 
+                  className={`text-xs px-3 py-1.5 rounded-[24px] border font-bold flex items-center gap-1 transition-all ${getButtonStyle(false, true)}`}
+                >
+                  <Plus size={12}/> 上架新商品
+                </button>
+                <button 
+                  onClick={() => {
+                    setIsAddingGroup && setIsAddingGroup(true);
+                  }}
+                  className={`text-xs px-3 py-1.5 rounded-[24px] border font-bold flex items-center gap-1 transition-all ${getButtonStyle(false, true)}`}
+                >
+                  <Plus size={12}/> 添加分组
+                </button>
+              </>
+            )}
+            {/* 搜索框 */}
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="搜索商品..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className={`px-3 py-1.5 rounded-[24px] text-xs border transition-all ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] border-[#1e1e2e] text-white placeholder:text-zinc-500' : 'bg-[#e0e5ec] border-[#e0e5ec] text-black placeholder:text-gray-500') : isDark ? 'bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-500' : 'bg-white border-slate-300 text-black placeholder:text-gray-500'}`}
+                style={{ minWidth: '100px', maxWidth: '150px' }}
+              />
+              <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-xs">🔍</span>
+            </div>
+            <button 
+              onClick={() => setIsManageShopMode(!isManageShopMode)} 
+              className={`text-xs px-3 py-1.5 rounded-[24px] border font-bold flex items-center gap-1 transition-all ${getButtonStyle(isManageShopMode, true)}`}
+            >
+              {isManageShopMode ? <CheckCircle size={12}/> : <Hammer size={12}/>} 
+              {isManageShopMode ? '完成管理' : '管理商品'}
+            </button>
+          </div>
         </div>
+
+        {/* 添加新分组弹窗 */}
+        {isAddingGroup && (
+          <div className="mt-4 p-4 rounded-xl border transition-all duration-300 bg-opacity-50 backdrop-blur-sm" style={{
+            background: isNeomorphic ? (theme === 'neomorphic-dark' ? 'rgba(30, 30, 46, 0.5)' : 'rgba(224, 229, 236, 0.5)') : isDark ? 'rgba(24, 24, 28, 0.5)' : 'rgba(255, 255, 255, 0.5)',
+            border: isNeomorphic ? (theme === 'neomorphic-dark' ? '1px solid #1e1e2e' : '1px solid #e0e5ec') : isDark ? '1px solid #374151' : '1px solid #d1d5db',
+            boxShadow: isNeomorphic ? (theme === 'neomorphic-dark' ? '8px 8px 16px rgba(0,0,0,0.4), -8px -8px 16px rgba(30,30,46,0.8)' : '8px 8px 16px rgba(163,177,198,0.4), -8px -8px 16px rgba(255,255,255,0.8)') : 'none'
+          }}>
+            <div className="flex items-center gap-3 mb-3">
+              <h3 className={`font-bold ${isDark ? 'text-white' : 'text-gray-800'}`}>添加新分组</h3>
+            </div>
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={newGroupName || ''}
+                onChange={(e) => setNewGroupName && setNewGroupName(e.target.value)}
+                placeholder="输入分组名称（最多50字符）"
+                maxLength={50}
+                className={`flex-1 px-3 py-2 rounded-lg border text-sm ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] border-[#1e1e2e] text-white' : 'bg-[#e0e5ec] border-[#e0e5ec] text-gray-800') : isDark ? 'bg-zinc-800 border-zinc-700 text-white' : 'bg-white border-gray-300 text-gray-800'}`}
+              />
+              <button
+                onClick={() => handleAddNewGroup && handleAddNewGroup()}
+                className={`px-4 py-2 rounded-lg text-sm font-medium ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-blue-500 text-white hover:bg-blue-600') : isDark ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-blue-500 text-white hover:bg-blue-600'}`}
+              >
+                确认
+              </button>
+              <button
+                onClick={() => handleCancelAddGroup && handleCancelAddGroup()}
+                className={`px-4 py-2 rounded-lg text-sm font-medium ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-gray-600 text-white hover:bg-gray-700' : 'bg-gray-400 text-white hover:bg-gray-500') : isDark ? 'bg-gray-600 text-white hover:bg-gray-700' : 'bg-gray-400 text-white hover:bg-gray-500'}`}
+              >
+                取消
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
-      {/* 添加新商品按钮 */}
-      {isManageShopMode && (
-        <div className="mb-4">
-          <button 
-            onClick={onAddNewItem} 
-            className={`w-full py-3 border ${isNeomorphic ? 'border-dashed ' + neomorphicStyles.bg + ' ' + neomorphicStyles.border + ' ' + neomorphicStyles.shadow + ' ' + neomorphicStyles.hoverShadow + ' ' + neomorphicStyles.activeShadow : 'border-dashed border-zinc-700'} rounded-[24px] text-zinc-500 hover:text-white hover:border-zinc-500 transition-all flex items-center justify-center gap-2 text-sm font-bold`}
-          >
-            <Plus size={16}/> 上架新商品
-          </button>
-        </div>
-      )}
+
 
       {/* 盲盒商品列表 */}
       {shopFilter === 'blindbox' ? (
@@ -237,11 +329,11 @@ const ShopCatalog: React.FC<ShopCatalogProps> = memo(({
                   </div>
                 )}
                 
-                {/* 渐变遮罩 - 使用百分比实现自适应 */}
-                <div className="gradient-mask absolute left-0 top-[40%] w-full h-[60%] z-10 pointer-events-none" style={{
+                {/* 渐变遮罩 - 从标题/价格顶部往下的白色渐变阴影遮罩效果 */}
+                <div className="gradient-overlay absolute left-0 top-0 w-full h-full z-10 pointer-events-none" style={{
                   background: isDark ? 
-                    'linear-gradient(to bottom, rgba(26,26,46,0.1), rgba(26,26,46,0.3) 20%, rgba(26,26,46,0.5) 40%, rgba(26,26,46,0.7) 70%, rgba(26,26,46,0.9) 100%)' : 
-                    'linear-gradient(to bottom, rgba(255,255,255,0.1), rgba(255,255,255,0.3) 20%, rgba(255,255,255,0.5) 40%, rgba(255,255,255,0.7) 70%, rgba(255,255,255,0.9) 100%)',
+                    'linear-gradient(to bottom, rgba(26,26,46,0.6) 0%, rgba(26,26,46,0.4) 30%, rgba(26,26,46,0.2) 60%, rgba(26,26,46,0) 100%)' : 
+                    'linear-gradient(to bottom, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.4) 30%, rgba(255,255,255,0.2) 60%, rgba(255,255,255,0) 100%)',
                 }}></div>
                 
                 {/* 商品信息 */}
@@ -288,3 +380,5 @@ const ShopCatalog: React.FC<ShopCatalogProps> = memo(({
 ShopCatalog.displayName = 'ShopCatalog';
 
 export default ShopCatalog;
+
+ShopCatalog.displayName = 'ShopCatalog';

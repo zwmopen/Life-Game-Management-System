@@ -6,6 +6,7 @@ import LifeGame from './components/LifeGame';
 import HallOfFame from './components/HallOfFame';
 import Settings from './components/Settings';
 import ThinkingCenter from './components/ThinkingCenter';
+import { AlertTriangle } from 'lucide-react';
 import { View, Transaction, ReviewLog, Habit, Task, TaskType, DailyStats, Theme, Project, AttributeType, AttributeTypeValue, AchievementItem, AutoTask, AutoTaskType, SoundType, DiceState, DiceTask, DiceCategory, DiceHistory } from './types';
 import { Wallet, Crown, Clock, Brain, Zap, Target, Crosshair, Skull, Star, Gift, Medal, Sparkles, Swords, Flame, Footprints, Calendar, ShoppingBag, Dumbbell, Shield } from 'lucide-react';
 import { GlobalGuideCard, helpContent } from './components/HelpSystem';
@@ -1354,7 +1355,87 @@ const App: React.FC = () => {
                   theme={theme} 
                   onHelpClick={setActiveHelp}
                 />;
-      default: return null;
+      default: 
+        // 当遇到未知视图时，返回默认组件而不是null，防止白屏问题
+        // 如果当前View状态异常，先显示错误信息并尝试重置
+        console.error('Unknown view encountered:', currentView);
+        return <LifeGame 
+                  theme={theme} 
+                  balance={balance}
+                  onUpdateBalance={handleUpdateBalance}
+                  habits={habits}
+                  projects={projects}
+                  habitOrder={habitOrder}
+                  projectOrder={projectOrder}
+                  onUpdateHabitOrder={setHabitOrder}
+                  onUpdateProjectOrder={setProjectOrder}
+                  onToggleHabit={handleToggleHabit}
+                  onUpdateHabit={handleUpdateHabit}
+                  onDeleteHabit={handleDeleteHabit}
+                  onUpdateProject={handleUpdateProject}
+                  onDeleteProject={handleDeleteProject}
+                  onAddHabit={handleAddHabit}
+                  onAddProject={handleAddProject}
+                  initialTab="battle"
+                  initialCategory={initialTaskCategory}
+                  onAddFloatingReward={addFloatingText}
+                  totalTasksCompleted={totalKills}
+                  totalHours={totalHours}
+                  challengePool={challengePool}
+                  setChallengePool={setChallengePool}
+                  todaysChallenges={todaysChallenges}
+                  completedRandomTasks={completedRandomTasks}
+                  onToggleRandomChallenge={handleToggleRandomChallenge}
+                  onStartAutoTask={handleStartAutoTask}
+                  checkInStreak={checkInStreak}
+                  onPomodoroComplete={handlePomodoroComplete}
+                  xp={xp}
+                  todayStats={todayStats}
+                  statsHistory={statsHistory}
+                  onUpdateTodayStats={setTodayStats}
+                  weeklyGoal={weeklyGoal}
+                  setWeeklyGoal={setWeeklyGoal}
+                  todayGoal={todayGoal}
+                  setTodayGoal={setTodayGoal}
+                  givenUpTasks={givenUpTasks}
+                  onGiveUpTask={handleGiveUpTask}
+                  isNavCollapsed={isNavCollapsed}
+                  setIsNavCollapsed={setIsNavCollapsed}
+                  // Pomodoro Global State
+                  timeLeft={pomodoroState.timeLeft}
+                  isActive={pomodoroState.isActive}
+                  duration={pomodoroState.duration}
+                  onToggleTimer={toggleTimer}
+                  onResetTimer={resetTimer}
+                  onChangeDuration={changeDuration}
+                  onUpdateTimeLeft={updateTimeLeft}
+                  onUpdateIsActive={updateIsActive}
+                  // Immersive Mode State
+                  isImmersive={isImmersive}
+                  setIsImmersive={setIsImmersive}
+                  onInternalImmersiveModeChange={(isInternalImmersive) => {
+                    setIsImmersive(true);
+                    setUseInternalImmersive(true);
+                  }}
+                  // Audio Management - 使用全局音频管理器
+                  isMuted={isMuted}
+                  currentSoundId={currentSoundId}
+                  onToggleMute={handleMuteToggle}
+                  onSoundChange={handleSoundChange}
+                  // Settings
+                  settings={settings}
+                  // 命运骰子相关
+                  diceState={diceState}
+                  onSpinDice={spinDice}
+                  onDiceResult={handleDiceResult}
+                  onAddDiceTask={addDiceTask}
+                  onDeleteDiceTask={deleteDiceTask}
+                  onUpdateDiceTask={updateDiceTask}
+                  onUpdateDiceConfig={updateDiceConfig}
+                  onUpdateDiceState={updateDiceState}
+                  // 角色等级变化回调
+                  onLevelChange={handleLevelChange}
+               />;
     }
   };
 

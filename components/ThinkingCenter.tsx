@@ -283,46 +283,52 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme, onHelpClick }) =
 
           {/* Search and Model Switcher */}
           <div className={`${cardBg} p-5 rounded-3xl border w-full`}>
-            {/* Search Bar with Arrows */}
+            {/* Search Bar with Arrows - 两个按钮都放在搜索框右边并且紧挨着 */}
             <div className="mb-3">
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={handlePrevModel}
-                  className={`p-2 rounded-full transition-all duration-300 flex-shrink-0 ${
-                    isNeomorphic 
-                      ? (isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[4px_4px_8px_rgba(0,0,0,0.4),-4px_-4px_8px_rgba(30,30,46,0.8)] active:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.5)]' : 'bg-[#e0e5ec] shadow-[3px_3px_6px_rgba(163,177,198,0.4),-3px_-3px_6px_rgba(255,255,255,0.8)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.5)]')
-                      : (isDark ? 'bg-zinc-800 hover:bg-zinc-700 text-white' : 'bg-white hover:bg-slate-100 border border-slate-200 shadow-sm')
-                  } ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}
-                  title="上一个模型"
-                >
-                  <ChevronLeft size={20} />
-                </button>
-
-                <div className="relative flex-1">
-                  {/* 拟态风格搜索框 */}
+              <div className="relative flex items-center">
+                {/* 搜索框 */}
+                <div className="flex-1 mr-2">
                   <input
                     type="text"
                     placeholder="搜索思维模型..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className={getSearchInputClass()}
+                    className={`${getSearchInputClass()}`}
                   />
-                  <div className={`absolute right-3 top-1/2 transform -translate-y-1/2 transition-all duration-300 ${isDark ? 'text-zinc-400 hover:text-zinc-300' : 'text-slate-500 hover:text-slate-400'}`}>
-                    <Search size={18} />
+                </div>
+                
+                {/* 视觉上合并的切换按钮容器 */}
+                <div className={`p-1 rounded-lg transition-all duration-300 flex-shrink-0 ${
+                  isNeomorphic 
+                    ? (isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[4px_4px_8px_rgba(0,0,0,0.4),-4px_-4px_8px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[3px_3px_6px_rgba(163,177,198,0.4),-3px_-3px_6px_rgba(255,255,255,0.8)]')
+                    : (isDark ? 'bg-zinc-800 shadow-sm' : 'bg-white shadow-sm')
+                }`}>
+                  <div className="flex items-center gap-0">
+                    <button
+                      onClick={handlePrevModel}
+                      className={`p-2 rounded-l-lg transition-all duration-300 flex-shrink-0 ${
+                        isNeomorphic 
+                          ? (isNeomorphicDark ? 'bg-[#1e1e2e] active:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.5)]' : 'bg-[#e0e5ec] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.5)]')
+                          : (isDark ? 'bg-zinc-800 hover:bg-zinc-700 text-white' : 'bg-white hover:bg-slate-100')
+                      } ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}
+                      title="上一个模型"
+                    >
+                      <ChevronLeft size={20} />
+                    </button>
+                    
+                    <button
+                      onClick={handleNextModel}
+                      className={`p-2 rounded-r-lg transition-all duration-300 flex-shrink-0 ${
+                        isNeomorphic 
+                          ? (isNeomorphicDark ? 'bg-[#1e1e2e] border-l border-zinc-700 active:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.5)]' : 'bg-[#e0e5ec] border-l border-slate-300 active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.5)]')
+                          : (isDark ? 'bg-zinc-800 hover:bg-zinc-700 text-white border-l border-zinc-700' : 'bg-white hover:bg-slate-100 border-l border-slate-200')
+                      } ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}
+                      title="下一个模型"
+                    >
+                      <ChevronRight size={20} />
+                    </button>
                   </div>
                 </div>
-
-                <button
-                  onClick={handleNextModel}
-                  className={`p-2 rounded-full transition-all duration-300 flex-shrink-0 ${
-                    isNeomorphic 
-                      ? (isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[4px_4px_8px_rgba(0,0,0,0.4),-4px_-4px_8px_rgba(30,30,46,0.8)] active:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.5)]' : 'bg-[#e0e5ec] shadow-[3px_3px_6px_rgba(163,177,198,0.4),-3px_-3px_6px_rgba(255,255,255,0.8)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.5)]')
-                      : (isDark ? 'bg-zinc-800 hover:bg-zinc-700 text-white' : 'bg-white hover:bg-slate-100 border border-slate-200 shadow-sm')
-                  } ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}
-                  title="下一个模型"
-                >
-                  <ChevronRight size={20} />
-                </button>
               </div>
             </div>
             

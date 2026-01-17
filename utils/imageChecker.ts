@@ -84,36 +84,37 @@ export const generateRecommendedImageUrl = (productName: string): string => {
   // 针对特定商品类型使用不同的图片源
   const lowerKeyword = keyword.toLowerCase();
   
-  if (lowerKeyword.includes("食物") || lowerKeyword.includes("饮食") || lowerKeyword.includes("鸡腿") || lowerKeyword.includes("鸡排") || lowerKeyword.includes("烤鱼") || lowerKeyword.includes("烧烤") || lowerKeyword.includes("奶茶") || lowerKeyword.includes("饮料") || lowerKeyword.includes("日历")) {
+  // 优化商品名称关键词，使其更准确地匹配商品类别
+  if (lowerKeyword.includes("食物") || lowerKeyword.includes("饮食") || lowerKeyword.includes("鸡腿") || lowerKeyword.includes("鸡排") || lowerKeyword.includes("烤鱼") || lowerKeyword.includes("烧烤") || lowerKeyword.includes("奶茶") || lowerKeyword.includes("饮料") || lowerKeyword.includes("辣条") || lowerKeyword.includes("快乐水") || lowerKeyword.includes("烤全羊") || lowerKeyword.includes("正新鸡排") || lowerKeyword.includes("香辣大鸡腿") || lowerKeyword.includes("烤鸭") || lowerKeyword.includes("疯狂星期四") || lowerKeyword.includes("买一瓶饮料")) {
     // 食物类商品
-    return `https://images.unsplash.com/featured/400x400?food,${encodeURIComponent(keyword)}`;
-  } else if (lowerKeyword.includes("书") || lowerKeyword.includes("小说") || lowerKeyword.includes("课程") || lowerKeyword.includes("知识")) {
+    return `https://source.unsplash.com/featured/400x400/?food,meal,dish,${encodeURIComponent(keyword)}`;
+  } else if (lowerKeyword.includes("书") || lowerKeyword.includes("小说") || lowerKeyword.includes("课程") || lowerKeyword.includes("知识") || lowerKeyword.includes("网课") || lowerKeyword.includes("在线课程") || lowerKeyword.includes("看书") || lowerKeyword.includes("看小说")) {
     // 书籍/知识类商品
-    return `https://images.unsplash.com/featured/400x400?book,reading,${encodeURIComponent(keyword)}`;
-  } else if (lowerKeyword.includes("健身") || lowerKeyword.includes("运动") || lowerKeyword.includes("瑜伽") || lowerKeyword.includes("爬山") || lowerKeyword.includes("跑步")) {
+    return `https://source.unsplash.com/featured/400x400/?book,reading,education,learning,${encodeURIComponent(keyword)}`;
+  } else if (lowerKeyword.includes("健身") || lowerKeyword.includes("运动") || lowerKeyword.includes("瑜伽") || lowerKeyword.includes("爬山") || lowerKeyword.includes("跑步") || lowerKeyword.includes("按摩") || lowerKeyword.includes("按摩放松") || lowerKeyword.includes("足疗") || lowerKeyword.includes("spa")) {
     // 运动健身类商品
-    return `https://images.unsplash.com/featured/400x400?fitness,sport,exercise,${encodeURIComponent(keyword)}`;
-  } else if (lowerKeyword.includes("按摩") || lowerKeyword.includes("理发") || lowerKeyword.includes("放松") || lowerKeyword.includes("spa")) {
+    return `https://source.unsplash.com/featured/400x400/?fitness,sport,exercise,wellness,${encodeURIComponent(keyword)}`;
+  } else if (lowerKeyword.includes("理发") || lowerKeyword.includes("放松") || lowerKeyword.includes("服务") || lowerKeyword.includes("理疗") || lowerKeyword.includes("美容") || lowerKeyword.includes("保养")) {
     // 服务类商品
-    return `https://images.unsplash.com/featured/400x400?service,relax,${encodeURIComponent(keyword)}`;
-  } else if (lowerKeyword.includes("社群") || lowerKeyword.includes("门票") || lowerKeyword.includes("会员") || lowerKeyword.includes("交流")) {
+    return `https://source.unsplash.com/featured/400x400/?service,relax,beauty,${encodeURIComponent(keyword)}`;
+  } else if (lowerKeyword.includes("社群") || lowerKeyword.includes("门票") || lowerKeyword.includes("会员") || lowerKeyword.includes("交流") || lowerKeyword.includes("兴趣") || lowerKeyword.includes("论坛") || lowerKeyword.includes("星球") || lowerKeyword.includes("交流群") || lowerKeyword.includes("活动") || lowerKeyword.includes("组队") || lowerKeyword.includes("知识") || lowerKeyword.includes("小众") || lowerKeyword.includes("专业") || lowerKeyword.includes("线下")) {
     // 社群/会员类商品
-    return `https://images.unsplash.com/featured/400x400?community,people,${encodeURIComponent(keyword)}`;
-  } else if (lowerKeyword.includes("衣服") || lowerKeyword.includes("裤子") || lowerKeyword.includes("鞋子") || lowerKeyword.includes("服装") || lowerKeyword.includes("素颜霜")) {
+    return `https://source.unsplash.com/featured/400x400/?community,people,meeting,group,${encodeURIComponent(keyword)}`;
+  } else if (lowerKeyword.includes("衣服") || lowerKeyword.includes("裤子") || lowerKeyword.includes("鞋子") || lowerKeyword.includes("服装") || lowerKeyword.includes("素颜霜") || lowerKeyword.includes("定制t恤") || lowerKeyword.includes("t恤") || lowerKeyword.includes("服饰") || lowerKeyword.includes("穿搭") || lowerKeyword.includes("礼服") || lowerKeyword.includes("帽子") || lowerKeyword.includes("饰品")) {
     // 服饰美容类商品
-    return `https://images.unsplash.com/featured/400x400?clothing,fashion,${encodeURIComponent(keyword)}`;
-  } else if (lowerKeyword.includes("数码") || lowerKeyword.includes("键盘") || lowerKeyword.includes("手表") || lowerKeyword.includes("耳机") || lowerKeyword.includes("手机") || lowerKeyword.includes("电脑") || lowerKeyword.includes("相机") || lowerKeyword.includes("音响")) {
+    return `https://source.unsplash.com/featured/400x400/?clothing,fashion,clothes,apparel,${encodeURIComponent(keyword)}`;
+  } else if (lowerKeyword.includes("数码") || lowerKeyword.includes("键盘") || lowerKeyword.includes("手表") || lowerKeyword.includes("耳机") || lowerKeyword.includes("手机") || lowerKeyword.includes("电脑") || lowerKeyword.includes("相机") || lowerKeyword.includes("音响") || lowerKeyword.includes("ipad") || lowerKeyword.includes("macbook") || lowerKeyword.includes("airpods") || lowerKeyword.includes("大疆") || lowerKeyword.includes("pocket") || lowerKeyword.includes("降噪") || lowerKeyword.includes("机械") || lowerKeyword.includes("智能") || lowerKeyword.includes("科技") || lowerKeyword.includes("vr") || lowerKeyword.includes("ar")) {
     // 数码类商品
-    return `https://images.unsplash.com/featured/400x400?technology,gadget,electronics,${encodeURIComponent(keyword)}`;
-  } else if (lowerKeyword.includes("家居") || lowerKeyword.includes("家具") || lowerKeyword.includes("床垫") || lowerKeyword.includes("枕头") || lowerKeyword.includes("台灯") || lowerKeyword.includes("厨房") || lowerKeyword.includes("椅子") || lowerKeyword.includes("沙发")) {
+    return `https://source.unsplash.com/featured/400x400/?technology,gadget,electronics,smart,${encodeURIComponent(keyword)}`;
+  } else if (lowerKeyword.includes("家居") || lowerKeyword.includes("家具") || lowerKeyword.includes("床垫") || lowerKeyword.includes("枕头") || lowerKeyword.includes("台灯") || lowerKeyword.includes("厨房") || lowerKeyword.includes("椅子") || lowerKeyword.includes("沙发") || lowerKeyword.includes("咖啡机") || lowerKeyword.includes("瑜伽垫") || lowerKeyword.includes("炉锅桌子") || lowerKeyword.includes("日历") || lowerKeyword.includes("装饰") || lowerKeyword.includes("餐具") || lowerKeyword.includes("厨具")) {
     // 家居类商品
-    return `https://images.unsplash.com/featured/400x400?home,furniture,household,${encodeURIComponent(keyword)}`;
-  } else if (lowerKeyword.includes("票") || lowerKeyword.includes("旅游") || lowerKeyword.includes("旅行") || lowerKeyword.includes("电影") || lowerKeyword.includes("演唱会") || lowerKeyword.includes("门票")) {
+    return `https://source.unsplash.com/featured/400x400/?home,furniture,household,kitchen,${encodeURIComponent(keyword)}`;
+  } else if (lowerKeyword.includes("票") || lowerKeyword.includes("旅游") || lowerKeyword.includes("旅行") || lowerKeyword.includes("电影") || lowerKeyword.includes("演唱会") || lowerKeyword.includes("门票") || lowerKeyword.includes("车票") || lowerKeyword.includes("国际") || lowerKeyword.includes("短途") || lowerKeyword.includes("长途") || lowerKeyword.includes("机票") || lowerKeyword.includes("酒店") || lowerKeyword.includes("住宿")) {
     // 票务/旅游类商品
-    return `https://images.unsplash.com/featured/400x400?ticket,travel,event,${encodeURIComponent(keyword)}`;
+    return `https://source.unsplash.com/featured/400x400/?ticket,travel,event,tourism,trip,${encodeURIComponent(keyword)}`;
   } else {
-    // 默认使用通用图片
-    return `https://images.unsplash.com/featured/400x400?product,item,${encodeURIComponent(keyword)}`;
+    // 默认使用通用图片，根据商品名称生成更相关的关键词
+    return `https://source.unsplash.com/featured/400x400/?product,item,${encodeURIComponent(keyword)}`;
   }
 };
 

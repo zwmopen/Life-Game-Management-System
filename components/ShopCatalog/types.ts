@@ -66,4 +66,14 @@ export interface ShopCatalogProps {
   
   // 辅助状态
   justPurchasedItem: ShopItem | null;
+
+  // 分组管理
+  groups?: string[];
+  setGroups?: (groups: string[] | ((prev: string[]) => string[])) => void;
+  isAddingGroup?: boolean;
+  setIsAddingGroup?: (isAdding: boolean) => void;
+  newGroupName?: string;
+  setNewGroupName?: (name: string) => void;
+  handleAddNewGroup?: () => void;
+  handleCancelAddGroup?: () => void;
 }

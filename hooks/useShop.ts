@@ -27,6 +27,9 @@ export const useShop = ({
     const [isEditItemOpen, setIsEditItemOpen] = useState(false);
     const [editingItem, setEditingItem] = useState<any>(null);
     const [draggedShopIndex, setDraggedShopIndex] = useState<number | null>(null);
+    const [groups, setGroups] = useState<string[]>(['数码', '运动健康', '服装礼品', '家居', '会员充值', '休闲娱乐', '形象设计与穿搭']); // 商品分组
+    const [isAddingGroup, setIsAddingGroup] = useState(false); // 控制添加分组弹窗
+    const [newGroupName, setNewGroupName] = useState(''); // 新分组名称
 
     // 检查并修复商品图片 (从 LifeGame.tsx 移入)
     useEffect(() => {
@@ -217,6 +220,19 @@ export const useShop = ({
         setIsEditItemOpen(true);
     }, []);
 
+    const handleAddNewGroup = useCallback(() => {
+        if (newGroupName.trim() && !groups.includes(newGroupName.trim())) {
+            setGroups(prev => [...prev, newGroupName.trim()]);
+            setNewGroupName('');
+            setIsAddingGroup(false);
+        }
+    }, [newGroupName, groups]);
+
+    const handleCancelAddGroup = useCallback(() => {
+        setNewGroupName('');
+        setIsAddingGroup(false);
+    }, []);
+
     const handleShopDragStart = useCallback((index: number) => {
         if (!isManageShopMode) return;
         setDraggedShopIndex(index);
@@ -254,6 +270,14 @@ export const useShop = ({
         handleDeleteItem,
         handleEditItemSave,
         handleAddNewItem,
+        handleAddNewGroup,
+        handleCancelAddGroup,
+        isAddingGroup,
+        setIsAddingGroup,
+        newGroupName,
+        setNewGroupName,
+        groups,
+        setGroups,
         handleShopDragStart,
         handleShopDragOver
     };

@@ -180,6 +180,14 @@ const LifeGame: React.FC<LifeGameProps> = ({
     handleDeleteItem,
     handleEditItemSave,
     handleAddNewItem,
+    handleAddNewGroup,
+    handleCancelAddGroup,
+    isAddingGroup,
+    setIsAddingGroup,
+    newGroupName,
+    setNewGroupName,
+    groups,
+    setGroups,
     handleShopDragStart,
     handleShopDragOver
   } = useShop({
@@ -1095,6 +1103,14 @@ const LifeGame: React.FC<LifeGameProps> = ({
                     textSub={textSub}
                     neomorphicStyles={neomorphicStyles}
                     justPurchasedItem={justPurchasedItem}
+                    groups={groups}
+                    setGroups={setGroups}
+                    isAddingGroup={isAddingGroup}
+                    setIsAddingGroup={setIsAddingGroup}
+                    newGroupName={newGroupName}
+                    setNewGroupName={setNewGroupName}
+                    handleAddNewGroup={handleAddNewGroup}
+                    handleCancelAddGroup={handleCancelAddGroup}
                 />
             )}
             {mainTab === 'armory' && (

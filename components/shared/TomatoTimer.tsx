@@ -403,33 +403,50 @@ const TomatoTimer: React.FC<TomatoTimerProps> = ({
         >
           {/* 搜索框与切换按钮 */}
           <div className="mb-3">
-            <div className="flex items-center gap-2">
-              <button 
-                onClick={handlePrevSound}
-                className={`p-1.5 rounded-full transition-all duration-300 hover:scale-110 active:scale-95 ${isNeomorphic ? (isDark ? 'bg-[#1e1e2e] shadow-[4px_4px_8px_rgba(0,0,0,0.3),-4px_-4px_8px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.4),-4px_-4px_8px_rgba(255,255,255,1)]') : (isDark ? 'bg-zinc-800' : 'bg-slate-100')}`}
-                title="上一个音乐"
-              >
-                <ChevronLeft size={16} className={isDark ? 'text-zinc-400' : 'text-zinc-600'} />
-              </button>
-
-              <div className={`relative flex-1 ${isNeomorphic ? (isDark ? 'bg-[#1e1e2e]' : 'bg-[#e0e5ec]') : (isDark ? 'bg-zinc-800' : 'bg-white')}`}>
-                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-zinc-500 dark:text-zinc-400">🔍</span>
+            <div className="relative flex items-center">
+              {/* 搜索框 */}
+              <div className="flex-1 mr-2">
                 <input
                   type="text"
                   placeholder="搜索背景音乐..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className={`w-full pl-9 pr-3 py-1.5 rounded-lg border ${isNeomorphic ? `${isDark ? 'bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.2),inset_-4px_-4px_8px_rgba(40,43,52,0.8)] border-[#3a3f4e]' : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] border-[#caced5]'}` : isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-200'} text-sm ${isDark ? 'text-zinc-200' : 'text-zinc-700'}`}
+                  className={`w-full px-4 py-1.5 rounded-[24px] text-sm border transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500/50 ${isNeomorphic ? (isDark ? 'bg-[#1e1e2e] border-[#1e1e2e] text-white placeholder-white/50 shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] hover:shadow-[inset_3px_3px_6px_rgba(0,0,0,0.5),inset_-3px_-3px_6px_rgba(30,30,46,1)]' : 'bg-[#e0e5ec] border-[#e0e5ec] text-black placeholder-black/50 shadow-[inset_2px_2px_4px_rgba(163,177,198,0.3),inset_-2px_-2px_4px_rgba(255,255,255,0.8)] hover:shadow-[inset_3px_3px_6px_rgba(163,177,198,0.4),inset_-3px_-3px_6px_rgba(255,255,255,0.9)]') : (isDark ? 'bg-zinc-900 border-zinc-800 text-white placeholder-zinc-500' : 'bg-white border-slate-300 text-black placeholder-gray-500')}`}
                 />
               </div>
-
-              <button 
-                onClick={handleNextSound}
-                className={`p-1.5 rounded-full transition-all duration-300 hover:scale-110 active:scale-95 ${isNeomorphic ? (isDark ? 'bg-[#1e1e2e] shadow-[4px_4px_8px_rgba(0,0,0,0.3),-4px_-4px_8px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.4),-4px_-4px_8px_rgba(255,255,255,1)]') : (isDark ? 'bg-zinc-800' : 'bg-slate-100')}`}
-                title="下一个音乐"
-              >
-                <ChevronRight size={16} className={isDark ? 'text-zinc-400' : 'text-zinc-600'} />
-              </button>
+              
+              {/* 视觉上合并的切换按钮容器 */}
+              <div className={`p-1 rounded-lg transition-all duration-300 flex-shrink-0 ${
+                isNeomorphic 
+                  ? (isDark ? 'bg-[#1e1e2e] shadow-[4px_4px_8px_rgba(0,0,0,0.4),-4px_-4px_8px_rgba(0,0,0,0.8)]' : 'bg-[#e0e5ec] shadow-[3px_3px_6px_rgba(163,177,198,0.4),-3px_-3px_6px_rgba(255,255,255,0.8)]')
+                  : (isDark ? 'bg-zinc-800 shadow-sm' : 'bg-white shadow-sm')
+              }`}>
+                <div className="flex items-center gap-0">
+                  <button
+                    onClick={handlePrevSound}
+                    className={`p-2 rounded-l-lg transition-all duration-300 flex-shrink-0 ${
+                      isNeomorphic 
+                        ? (isDark ? 'bg-[#1e1e2e] active:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.5)]' : 'bg-[#e0e5ec] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.5)]')
+                        : (isDark ? 'bg-zinc-800 hover:bg-zinc-700 text-white' : 'bg-white hover:bg-slate-100')
+                    } ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}
+                    title="上一个音乐"
+                  >
+                    <ChevronLeft size={20} />
+                  </button>
+                  
+                  <button
+                    onClick={handleNextSound}
+                    className={`p-2 rounded-r-lg transition-all duration-300 flex-shrink-0 ${
+                      isNeomorphic 
+                        ? (isDark ? 'bg-[#1e1e2e] border-l border-zinc-700 active:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.5)]' : 'bg-[#e0e5ec] border-l border-slate-300 active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.5)]')
+                        : (isDark ? 'bg-zinc-800 hover:bg-zinc-700 text-white border-l border-zinc-700' : 'bg-white hover:bg-slate-100 border-l border-slate-200')
+                    } ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}
+                    title="下一个音乐"
+                  >
+                    <ChevronRight size={20} />
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
           

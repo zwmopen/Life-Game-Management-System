@@ -104,7 +104,7 @@ const BadgeManagementModal: React.FC<BadgeManagementModalProps> = ({
 
   return (
     <>
-      <div className="fixed inset-0 z-[10001] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in">
+      <div className="fixed inset-0 z-[10001] bg-black/80 backdrop-blur-sm flex items-center justify-end p-4 animate-in fade-in">
         <div className={`w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-xl ${isDark ? (isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[8px_8px_16px_rgba(0,0,0,0.4),-8px_-8px_16px_rgba(30,30,46,0.8)]' : 'bg-zinc-900') : isNeomorphic ? 'bg-[#e0e5ec] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)]' : 'bg-white'} p-6 border ${isNeomorphicDark ? 'border-[#1e1e2e]' : 'border-transparent'}`}>
           <div className="flex justify-between items-center mb-4">
             <div className="flex items-center gap-2">
