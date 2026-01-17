@@ -114,6 +114,7 @@ const EditItemModal: React.FC<EditItemModalProps> = ({
             'bg-[#1e1e2e] border border-zinc-700 shadow-[10px_10px_20px_rgba(0,0,0,0.4),-10px_-10px_20px_rgba(30,30,46,0.8)]' : 
             'bg-[#e0e5ec] border border-slate-300 shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)]') : 
           isDark ? 'bg-zinc-900/95 border border-zinc-700 shadow-zinc-900/30' : 'bg-white/95 border border-slate-200 shadow-lg'}`}
+        style={{ marginLeft: '220px' }} // 增加左边距以避开侧边栏
       >
         <form onSubmit={handleSubmit} className="p-6">
           <div className="flex justify-between items-center mb-4">
@@ -257,8 +258,8 @@ const EditItemModal: React.FC<EditItemModalProps> = ({
               className={`flex-1 py-2 rounded-lg font-bold ${isNeomorphic ? 
                 (theme === 'neomorphic-dark' ? 
                   'bg-blue-600 text-white hover:bg-blue-700' : 
-                  'bg-blue-500 text-white hover:bg-blue-600') : 
-                isDark ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-blue-500 text-white hover:bg-blue-600'}`}
+                  'bg-blue-500 text-zinc-800 hover:bg-blue-600') : 
+                isDark ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-blue-500 text-zinc-800 hover:bg-blue-600'}`}
             >
               保存
             </button>

@@ -74,6 +74,7 @@ const GlobalGuideCard: React.FC<GlobalGuideCardProps> = ({
       onClick={handleBackdropClick}
     >
       <div className={`guide-card neu-out ${isNeomorphicDark ? 'neomorphic-dark' : isDark ? 'dark' : isNeomorphic ? 'neomorphic-light' : ''} ${getFontSizeClass()}`} style={
+        {
         '--bg-color': isNeomorphicDark ? '#1e1e2e' : isDark ? '#1a1a2e' : isNeomorphic ? '#e0e5ec' : '#e0e5ec',
         '--text-main': isNeomorphicDark || isDark ? '#f4f4f5' : '#4d5b6d',
         '--text-sub': isNeomorphicDark || isDark ? '#a3b1c6' : '#a3b1c6',
@@ -90,7 +91,8 @@ const GlobalGuideCard: React.FC<GlobalGuideCardProps> = ({
         flexDirection: 'column',
         overflowY: 'auto',
         pointerEvents: 'auto',
-      }}>
+        }
+      }>
         <div className="guide-header">
           <h3>{content.icon} {content.title}</h3>
           <button 
