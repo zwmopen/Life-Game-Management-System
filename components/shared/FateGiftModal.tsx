@@ -108,7 +108,7 @@ const FateGiftModal: React.FC<FateGiftModalProps> = ({
               {getTaskCategoryLabel(task.category)}
             </h4>
             
-            <p className={`text-lg ${textMain} p-5 rounded-xl backdrop-blur-sm transition-all duration-300 hover:shadow-lg`}
+            <p className={`text-lg ${isNeomorphic && !isDark ? 'text-zinc-800' : textMain} p-5 rounded-xl backdrop-blur-sm transition-all duration-300 hover:shadow-lg`}
                style={{
                  backgroundColor: isNeomorphic 
                    ? (isNeomorphicDark ? 'rgba(40, 40, 50, 0.8)' : 'rgba(224, 229, 236, 0.8)')
