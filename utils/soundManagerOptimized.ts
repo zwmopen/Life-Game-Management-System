@@ -91,7 +91,11 @@ class SoundManager {
     const audio = this.sounds[soundId] || this.sounds[`${soundId}-fallback`];
     if (audio) {
       audio.currentTime = 0;
-      audio.play().catch(e => console.error('Error playing sound effect:', e));
+      audio.play().catch(e => {
+        if (process.env.NODE_ENV === 'development') {
+          console.error('Error playing sound effect:', e);
+        }
+      });
     } else {
       // 如果没有找到对应的音效，尝试使用audioManager播放
       const allSounds = audioManager.getSoundEffects();
@@ -120,7 +124,9 @@ class SoundManager {
         await this.backgroundMusic[musicId].play();
         this.currentBackgroundMusicId = musicId;
       } catch (e) {
-        console.error('Error playing background music:', e);
+        if (process.env.NODE_ENV === 'development') {
+          console.error('Error playing background music:', e);
+        }
       }
     } else {
       // 从audioManager获取音乐文件并播放
@@ -144,7 +150,9 @@ class SoundManager {
           this.backgroundMusic[musicId] = tempAudio;
           this.currentBackgroundMusicId = musicId;
         } catch (e) {
-          console.error('Error playing background music from manager:', e);
+          if (process.env.NODE_ENV === 'development') {
+            console.error('Error playing background music from manager:', e);
+          }
         }
       }
     }
@@ -250,7 +258,9 @@ class SoundManager {
       await audio.play();
       return audio;
     } catch (e) {
-      console.error('Error playing custom audio:', e);
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Error playing custom audio:', e);
+      }
       return null;
     }
   }

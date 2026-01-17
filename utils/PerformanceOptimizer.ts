@@ -53,18 +53,35 @@ class FPSMonitor {
 
 // 内存使用监控器
 class MemoryMonitor {
-  getMemoryInfo(): { used: number; total: number; percentage: number } | null {
-    // @ts-ignore - 只在支持的浏览器中可用
-    if (performance.memory) {
-      // @ts-ignore
+  private isSupported: boolean;
+  
+  constructor() {
+    // 检查浏览器是否支持内存监控
+    this.isSupported = typeof performance !== 'undefined' && 
+                     // @ts-ignore - performance.memory is non-standard API
+                     performance.memory && 
+                     // @ts-ignore
+                     typeof performance.memory.usedJSHeapSize !== 'undefined';
+  }
+  
+  getMemoryInfo(): { used: number; total: number; percentage: number; limit: number } | null {
+    if (!this.isSupported) {
+      return null;
+    }
+    
+    try {
+      // @ts-ignore - 只在支持的浏览器中可用
       const mem = performance.memory;
       return {
         used: mem.usedJSHeapSize,
-        total: mem.jsHeapSizeLimit,
+        total: mem.totalJSHeapSize,
+        limit: mem.jsHeapSizeLimit,
         percentage: (mem.usedJSHeapSize / mem.jsHeapSizeLimit) * 100
       };
+    } catch (error) {
+      console.warn('[Memory Monitor] Failed to get memory info:', error);
+      return null;
     }
-    return null;
   }
 
   isMemoryHigh(): boolean {
@@ -73,6 +90,14 @@ class MemoryMonitor {
       return memInfo.percentage > 80; // 内存使用超过80%认为过高
     }
     return false;
+  }
+  
+  getMemoryUsageString(): string {
+    const memInfo = this.getMemoryInfo();
+    if (memInfo) {
+      return `${(memInfo.used / 1024 / 1024).toFixed(2)}MB / ${(memInfo.limit / 1024 / 1024).toFixed(2)}MB (${memInfo.percentage.toFixed(2)}%)`;
+    }
+    return 'N/A';
   }
 }
 

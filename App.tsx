@@ -10,6 +10,8 @@ import { View, Transaction, ReviewLog, Habit, Task, TaskType, DailyStats, Theme,
 import { Wallet, Crown, Clock, Brain, Zap, Target, Crosshair, Skull, Star, Gift, Medal, Sparkles, Swords, Flame, Footprints, Calendar, ShoppingBag, Dumbbell, Shield } from 'lucide-react';
 import { GlobalGuideCard, helpContent } from './components/HelpSystem';
 import CharacterProfile, { getAllLevels, getAllFocusTitles, getAllWealthTitles, getAllMilitaryRanks, XP_PER_LEVEL, CharacterProfileHandle } from './components/CharacterProfile';
+import PerformanceMonitor from './components/PerformanceMonitor';
+import PerformanceStats from './components/PerformanceStats';
 import confetti from 'canvas-confetti';
 
 // 导入坚果云配置迁移函数
@@ -48,6 +50,28 @@ import { GlobalAudioProvider, GlobalBackgroundMusicManager } from './components/
 
 // 导入主题管理
 import { ThemeProvider, useTheme } from './contexts/ThemeContext';
+
+// 日志管理函数
+const createLogger = () => {
+  const isDevelopment = process.env.NODE_ENV === 'development';
+  
+  return {
+    log: (...args: any[]) => isDevelopment && console.log('[APP]', ...args),
+    warn: (...args: any[]) => isDevelopment && console.warn('[APP-WARN]', ...args),
+    error: (...args: any[]) => {
+      if (isDevelopment) {
+        console.error('[APP-ERROR]', ...args);
+      } else {
+        // 生产环境中收集错误信息但不打印到控制台
+        // 可以发送到错误监控服务
+        // logErrorToService(args);
+      }
+    },
+    info: (...args: any[]) => isDevelopment && console.info('[APP-INFO]', ...args)
+  };
+};
+
+const logger = createLogger();
 
 
 
@@ -249,7 +273,7 @@ const App: React.FC = () => {
         setDay(diff);
 
       } catch (e) { 
-          console.error("Global save corrupted", e); 
+          logger.error("Global save corrupted", e); 
           // 数据损坏时，使用默认数据
           setHabits(INITIAL_HABITS);
           setProjects(INITIAL_PROJECTS);
@@ -294,7 +318,7 @@ const App: React.FC = () => {
         });
       }
     } catch (e) {
-      console.error("Dice save corrupted", e);
+      logger.error("Dice save corrupted", e);
       setDiceState(INITIAL_DICE_STATE);
     }
   } else {
@@ -307,7 +331,7 @@ const App: React.FC = () => {
             const lgData = JSON.parse(savedLifeGame);
             if (lgData.xp) setXp(lgData.xp);
         } catch (e) { 
-            console.error("LifeGame save corrupted", e); 
+            logger.error("LifeGame save corrupted", e); 
             // 数据损坏时，使用默认数据
             setXp(0);
         }
@@ -589,7 +613,7 @@ const App: React.FC = () => {
           const audio = new Audio(url);
           audio.volume = volume;
           audio.play().catch((e) => {
-              console.error('Failed to play sound effect:', e);
+              logger.error('Failed to play sound effect:', e);
               
               // 如果音效播放失败，尝试其他方法
               try {
@@ -599,11 +623,11 @@ const App: React.FC = () => {
                   // 延迟播放以绕过某些浏览器限制
                   setTimeout(() => {
                       fallbackAudio.play().catch(fallbackError => {
-                          console.error('Fallback sound play failed:', fallbackError);
+                          logger.error('Fallback sound play failed:', fallbackError);
                       });
                   }, 100);
               } catch (fallbackError) {
-                  console.error('Fallback sound creation failed:', fallbackError);
+                  logger.error('Fallback sound creation failed:', fallbackError);
               }
           });
       }
@@ -1423,6 +1447,10 @@ const App: React.FC = () => {
         
         {/* Vercel Speed Insights for performance monitoring */}
         <SpeedInsights />
+        
+        {/* Performance Monitors */}
+        <PerformanceMonitor />
+        <PerformanceStats />
       </div>
     </GlobalAudioProvider>
   );

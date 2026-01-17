@@ -65,7 +65,9 @@ export const GlobalAudioProvider: React.FC<GlobalAudioProviderProps> = ({ childr
       // 更新最后播放信息
       lastPlayedMusicInfoRef.current = { id, isPlaying: true };
     } catch (error) {
-      console.error('Failed to play background music:', error);
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Failed to play background music:', error);
+      }
     }
   }, []);
 

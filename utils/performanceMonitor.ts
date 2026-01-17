@@ -47,9 +47,22 @@ class PerformanceMonitor {
 
     // 在控制台输出性能警告
     if (value > this.getThreshold(type)) {
-      console.warn(
-        `[Performance Warning] ${name} took ${value.toFixed(2)}ms (${type})`
-      );
+      const warningMessage = `[Performance Warning] ${name} took ${value.toFixed(2)}${type === 'memory' ? '%' : 'ms'} (${type})`;
+      console.warn(warningMessage, {
+        timestamp: new Date().toISOString(),
+        threshold: this.getThreshold(type),
+        type
+      });
+    } else {
+      // 抽样记录正常性能数据
+      if (this.enabled && Math.random() < 0.05) { // 5%的概率记录正常性能数据
+        const logMessage = `[Performance Log] ${name} took ${value.toFixed(2)}${type === 'memory' ? '%' : 'ms'} (${type})`;
+        console.log(logMessage, {
+          timestamp: new Date().toISOString(),
+          type,
+          threshold: this.getThreshold(type)
+        });
+      }
     }
   }
 
@@ -61,7 +74,7 @@ class PerformanceMonitor {
       render: 16.67, // 60fps
       api: 1000,     // 1秒
       interaction: 100, // 100ms
-      memory: 50     // 50MB
+      memory: 80     // 80%内存使用率
     };
     return thresholds[type];
   }
@@ -120,11 +133,16 @@ class PerformanceMonitor {
   recordMemoryUsage() {
     if (!this.enabled) return;
 
-    // @ts-ignore - performance.memory is not in all browsers
-    if (performance.memory) {
-      // @ts-ignore
-      const usedMemory = performance.memory.usedJSHeapSize / 1048576; // MB
-      this.recordMetric('Memory Usage', usedMemory, 'memory');
+    // @ts-ignore - performance.memory is non-standard API
+    if (typeof performance !== 'undefined' && performance.memory) {
+      try {
+        // @ts-ignore
+        const memory = performance.memory;
+        const percentage = (memory.usedJSHeapSize / memory.jsHeapSizeLimit) * 100;
+        this.recordMetric('Memory Usage', percentage, 'memory');
+      } catch (error) {
+        console.warn('[Performance Monitor] Memory info not available:', error);
+      }
     }
   }
 

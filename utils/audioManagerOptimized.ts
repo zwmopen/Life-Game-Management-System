@@ -99,7 +99,9 @@ class AudioManager {
       // 获取目录中的所有音频文件
       const response = await fetch(`${folderPath}?t=${Date.now()}`);
       if (!response.ok) {
-        console.warn(`Failed to scan folder: ${folderPath}`, response.status, response.statusText);
+        if (process.env.NODE_ENV === 'development') {
+          console.warn(`Failed to scan folder: ${folderPath}`, response.status, response.statusText);
+        }
         return [];
       }
 
@@ -118,11 +120,15 @@ class AudioManager {
       } else {
         // 如果没有 files.json，尝试从硬编码的列表中获取（用于演示目的）
         // 实际应用中应该有一个更好的机制来发现音频文件
-        console.log(`Directory listing not available for ${folderPath}, using fallback`);
+        if (process.env.NODE_ENV === 'development') {
+          console.log(`Directory listing not available for ${folderPath}, using fallback`);
+        }
         return this.getDefaultFilesForFolder(folderPath, type);
       }
     } catch (error) {
-      console.warn(`Error scanning folder: ${folderPath}`, error);
+      if (process.env.NODE_ENV === 'development') {
+        console.warn(`Error scanning folder: ${folderPath}`, error);
+      }
       return this.getDefaultFilesForFolder(folderPath, type);
     }
   }
@@ -263,7 +269,9 @@ class AudioManager {
 
   getCategories(): AudioCategory[] {
     if (!this.isInitialized) {
-      console.warn('AudioManager not initialized. Call initialize() first.');
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('AudioManager not initialized. Call initialize() first.');
+      }
       return [];
     }
     return this.audioCategories;
@@ -271,7 +279,9 @@ class AudioManager {
 
   getCategoryById(id: string): AudioCategory | undefined {
     if (!this.isInitialized) {
-      console.warn('AudioManager not initialized. Call initialize() first.');
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('AudioManager not initialized. Call initialize() first.');
+      }
       return undefined;
     }
     return this.audioCategories.find(category => category.id === id);
@@ -279,7 +289,9 @@ class AudioManager {
 
   getBackgroundMusic(): AudioFile[] {
     if (!this.isInitialized) {
-      console.warn('AudioManager not initialized. Call initialize() first.');
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('AudioManager not initialized. Call initialize() first.');
+      }
       return [];
     }
     const bgmCategory = this.audioCategories.find(cat => cat.id === 'bgm');
@@ -295,7 +307,9 @@ class AudioManager {
 
   getSoundEffects(): AudioFile[] {
     if (!this.isInitialized) {
-      console.warn('AudioManager not initialized. Call initialize() first.');
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('AudioManager not initialized. Call initialize() first.');
+      }
       return [];
     }
     return this.audioCategories
@@ -304,7 +318,9 @@ class AudioManager {
 
   async playAudio(url: string, volume: number = 1.0): Promise<HTMLAudioElement | null> {
     if (!url) {
-      console.warn('Empty URL provided to playAudio');
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('Empty URL provided to playAudio');
+      }
       return null;
     }
 
@@ -335,7 +351,9 @@ class AudioManager {
 
       return audio;
     } catch (error) {
-      console.error(`Error playing audio: ${url}`, error);
+      if (process.env.NODE_ENV === 'development') {
+        console.error(`Error playing audio: ${url}`, error);
+      }
       return null;
     }
   }
@@ -359,19 +377,25 @@ class AudioManager {
       this.preloadedAudios.set(url, audio);
       return true;
     } catch (error) {
-      console.error(`Error preloading audio: ${url}`, error);
+      if (process.env.NODE_ENV === 'development') {
+        console.error(`Error preloading audio: ${url}`, error);
+      }
       return false;
     }
   }
 
   async preloadCategory(categoryId: string): Promise<void> {
     if (!this.isInitialized) {
-      console.warn('AudioManager not initialized. Call initialize() first.');
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('AudioManager not initialized. Call initialize() first.');
+      }
       return;
     }
 
     if (this.isPreloading) {
-      console.warn('Preloading already in progress');
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('Preloading already in progress');
+      }
       return;
     }
 
@@ -384,7 +408,9 @@ class AudioManager {
         await Promise.all(promises);
       }
     } catch (error) {
-      console.error(`Error preloading category: ${categoryId}`, error);
+      if (process.env.NODE_ENV === 'development') {
+        console.error(`Error preloading category: ${categoryId}`, error);
+      }
     } finally {
       this.isPreloading = false;
     }
