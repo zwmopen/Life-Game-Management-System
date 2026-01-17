@@ -10,6 +10,7 @@ interface FateGiftModalProps {
   onSkip: () => void;
   onStartTimer: (duration: number) => void;
   theme?: 'dark' | 'light' | 'neomorphic';
+  isNavCollapsed?: boolean;
 }
 
 const FateGiftModal: React.FC<FateGiftModalProps> = ({
@@ -19,7 +20,8 @@ const FateGiftModal: React.FC<FateGiftModalProps> = ({
   onLater,
   onSkip,
   onStartTimer,
-  theme = 'dark'
+  theme = 'dark',
+  isNavCollapsed = false
 }) => {
   const isDark = theme === 'dark' || theme === 'neomorphic-dark';
   const isNeomorphic = theme.startsWith('neomorphic');
@@ -62,7 +64,7 @@ const FateGiftModal: React.FC<FateGiftModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-[99999] bg-black/80 flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in">
+    <div className="fixed inset-0 z-[99999] bg-black/80 flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in" style={{ paddingLeft: isNavCollapsed ? '0px' : 'var(--sidebar-width, 0px)' }}>
       {/* 立体投影背景 */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-900/30 via-purple-900/30 to-pink-900/30 blur-3xl opacity-50 animate-pulse"></div>
       

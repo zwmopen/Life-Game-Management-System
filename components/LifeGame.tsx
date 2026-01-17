@@ -649,6 +649,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                         setIsImmersive(true);
                     }}
                     theme={theme}
+                    isNavCollapsed={isNavCollapsed}
                 />
             )}
 
