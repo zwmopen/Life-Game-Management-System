@@ -415,37 +415,30 @@ const TomatoTimer: React.FC<TomatoTimerProps> = ({
                 />
               </div>
               
-              {/* 视觉上合并的切换按钮容器 */}
-              <div className={`p-1 rounded-lg transition-all duration-300 flex-shrink-0 ${
-                isNeomorphic 
-                  ? (isDark ? 'bg-[#1e1e2e] shadow-[4px_4px_8px_rgba(0,0,0,0.4),-4px_-4px_8px_rgba(0,0,0,0.8)]' : 'bg-[#e0e5ec] shadow-[3px_3px_6px_rgba(163,177,198,0.4),-3px_-3px_6px_rgba(255,255,255,0.8)]')
-                  : (isDark ? 'bg-zinc-800 shadow-sm' : 'bg-white shadow-sm')
-              }`}>
-                <div className="flex items-center gap-0">
-                  <button
-                    onClick={handlePrevSound}
-                    className={`p-2 rounded-l-lg transition-all duration-300 flex-shrink-0 ${
-                      isNeomorphic 
-                        ? (isDark ? 'bg-[#1e1e2e] active:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.5)]' : 'bg-[#e0e5ec] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.5)]')
-                        : (isDark ? 'bg-zinc-800 hover:bg-zinc-700 text-white' : 'bg-white hover:bg-slate-100')
-                    } ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}
-                    title="上一个音乐"
-                  >
-                    <ChevronLeft size={20} />
-                  </button>
-                  
-                  <button
-                    onClick={handleNextSound}
-                    className={`p-2 rounded-r-lg transition-all duration-300 flex-shrink-0 ${
-                      isNeomorphic 
-                        ? (isDark ? 'bg-[#1e1e2e] border-l border-zinc-700 active:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.5)]' : 'bg-[#e0e5ec] border-l border-slate-300 active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.5)]')
-                        : (isDark ? 'bg-zinc-800 hover:bg-zinc-700 text-white border-l border-zinc-700' : 'bg-white hover:bg-slate-100 border-l border-slate-200')
-                    } ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}
-                    title="下一个音乐"
-                  >
-                    <ChevronRight size={20} />
-                  </button>
-                </div>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={handlePrevSound}
+                  className={`p-2 rounded-full transition-all duration-300 flex-shrink-0 ${
+                    isNeomorphic 
+                      ? (isDark ? 'bg-[#1e1e2e] shadow-[4px_4px_8px_rgba(0,0,0,0.4),-4px_-4px_8px_rgba(30,30,46,0.8)] hover:shadow-[6px_6px_12px_rgba(0,0,0,0.5),-6px_-6px_12px_rgba(30,30,46,1)] active:shadow-[inset_4px_4px_8px_rgba(0,0,0,0.5)]' : 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.4),-4px_-4px_8px_rgba(255,255,255,0.8)] hover:shadow-[6px_6px_12px_rgba(163,177,198,0.5),-6px_-6px_12px_rgba(255,255,255,1)] active:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.5)]')
+                      : (isDark ? 'bg-zinc-800 hover:bg-zinc-700 text-white shadow-sm' : 'bg-white hover:bg-slate-100 shadow-sm')
+                  } ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}
+                  title="上一个音乐"
+                >
+                  <ChevronLeft size={20} />
+                </button>
+                
+                <button
+                  onClick={handleNextSound}
+                  className={`p-2 rounded-full transition-all duration-300 flex-shrink-0 ${
+                    isNeomorphic 
+                      ? (isDark ? 'bg-[#1e1e2e] shadow-[4px_4px_8px_rgba(0,0,0,0.4),-4px_-4px_8px_rgba(30,30,46,0.8)] hover:shadow-[6px_6px_12px_rgba(0,0,0,0.5),-6px_-6px_12px_rgba(30,30,46,1)] active:shadow-[inset_4px_4px_8px_rgba(0,0,0,0.5)]' : 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.4),-4px_-4px_8px_rgba(255,255,255,0.8)] hover:shadow-[6px_6px_12px_rgba(163,177,198,0.5),-6px_-6px_12px_rgba(255,255,255,1)] active:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.5)]')
+                      : (isDark ? 'bg-zinc-800 hover:bg-zinc-700 text-white shadow-sm' : 'bg-white hover:bg-slate-100 shadow-sm')
+                  } ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}
+                  title="下一个音乐"
+                >
+                  <ChevronRight size={20} />
+                </button>
               </div>
             </div>
           </div>
