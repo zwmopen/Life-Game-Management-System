@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, memo } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import { Volume2, VolumeX, Music, Headphones, Sun, Moon, Zap, FileText, Bell, Eye, Database, Info, ShieldAlert, Download, RefreshCw, Trash2, X, ChevronUp, ChevronDown, Upload, Cloud, CloudDownload, Save, RotateCcw } from 'lucide-react';
 import { Theme, Settings as SettingsType, Transaction, ReviewLog } from '../types';
 import { GlobalGuideCard, helpContent, GlobalHelpButton } from './HelpSystem';
@@ -27,7 +27,7 @@ interface SettingsProps {
 
 const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, onToggleTheme, day = 1, balance = 59, xp = 10, checkInStreak = 1, transactions = [], reviews = [] }) => {
   const { theme } = useTheme();
-  const isDark = theme === 'dark' || theme === 'neomorphic-dark';
+  const isDark = theme.includes('dark');
   const isNeomorphic = theme.startsWith('neomorphic');
   
   const isNeomorphicDark = theme === 'neomorphic-dark';
@@ -433,7 +433,7 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
         <div className="space-y-3 px-2 md:px-4 lg:px-6 max-w-5xl mx-auto">
 
           {/* Sound Effects */}
-          <div className={`${cardBg} border p-4 rounded-xl transition-all duration-300 mt-4`}>
+          <div className={`${cardBg} border p-4 rounded-3xl transition-all duration-300 mt-4`}>
               <div className="flex items-center justify-between mb-1">
               <div className="flex items-center gap-2">
                 <Headphones size={18} className="text-purple-500" />
@@ -662,7 +662,7 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
           </div>
 
           {/* Data Management Module */}
-          <div className={[cardBg, 'border p-4 rounded-xl transition-all duration-300 mt-4'].join(' ')}>
+          <div className={[cardBg, 'border p-4 rounded-3xl transition-all duration-300 mt-4'].join(' ')}>
             <div className="flex items-center justify-between mb-1">
               <div className="flex items-center gap-2">
                 <Database size={18} className="text-green-500" />
@@ -827,7 +827,7 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
           </div>
 
           {/* About Module */}
-          <div className={`${cardBg} border p-4 rounded-xl transition-all duration-300 mt-4`}>
+          <div className={`${cardBg} border p-4 rounded-3xl transition-all duration-300 mt-4`}>
             <div className="flex items-center justify-between mb-1">
               <div className="flex items-center gap-2">
                 <Info size={18} className="text-blue-500" />

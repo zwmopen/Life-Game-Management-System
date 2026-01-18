@@ -26,7 +26,7 @@ const PerformanceMonitor: React.FC = () => {
     };
   }, []);
 
-  const isDark = theme === 'dark' || theme === 'neomorphic-dark';
+  const isDark = theme.includes('dark');
   const isNeomorphic = theme.startsWith('neomorphic');
 
   // 获取FPS颜色指示器

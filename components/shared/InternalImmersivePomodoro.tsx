@@ -253,14 +253,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
 
         // 根据主题获取颜色
         const getThemeColors = () => {
-          if (theme === 'dark') {
-            return {
-              bgColor: 0x1a1a2e,
-              groundColor: 0x33334d,
-              grassColor: 0x2d3748,
-              neuBgColor: 0x2d3748
-            };
-          } else if (theme === 'neomorphic-dark') {
+          if (theme.includes('dark')) {
             return {
               bgColor: 0x1e1e2e,  // 深灰蓝底色
               groundColor: 0x33334d,  // 深棕色地面
@@ -3269,7 +3262,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
     }
   };
 
-  const isDark = theme === 'dark' || theme === 'neomorphic-dark';
+  const isDark = theme.includes('dark');
   const isNeomorphic = theme.startsWith('neomorphic');
   const isNeomorphicDark = theme === 'neomorphic-dark';
   
@@ -3277,7 +3270,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
   const neomorphicStyles = getNeomorphicStyles(isNeomorphicDark);
   
   return (
-    <div className={`fixed inset-0 z-50 flex flex-col ${isNeomorphicDark ? 'bg-[#1e1e2e] text-white' : theme === 'dark' ? 'bg-[#1a1a2e] text-white dark' : 'bg-[#e0e5ec] text-gray-800'}`}>
+    <div className={`fixed inset-0 z-50 flex flex-col ${isNeomorphicDark ? 'bg-[#1e1e2e] text-white' : 'bg-[#e0e5ec] text-gray-800'}`}>
       {/* 主容器 - 直接显示，无加载状态 */}
       <div ref={containerRef} className="relative inset-0">
         {/* Canvas容器 */}

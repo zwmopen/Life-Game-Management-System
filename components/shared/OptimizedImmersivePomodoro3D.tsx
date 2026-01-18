@@ -80,14 +80,7 @@ const OptimizedImmersivePomodoro3D: React.FC<{
 
   // 根据主题获取颜色
   const getThemeColors = useMemo(() => () => {
-    if (theme === 'dark') {
-      return {
-        bgColor: 0x1a1a2e,
-        groundColor: 0x33334d,
-        grassColor: 0x2d3748,
-        neuBgColor: 0x2d3748
-      };
-    } else if (theme === 'neomorphic-dark') {
+    if (theme.includes('dark')) {
       return {
         bgColor: 0x1e1e2e,
         groundColor: 0x33334d,

@@ -62,6 +62,11 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
   });
   const [localCurrentSoundId, setLocalCurrentSoundId] = useState(currentSoundId); // 本地音效ID状态
   
+  // 当父组件的currentSoundId变化时，更新本地音效ID状态
+  useEffect(() => {
+    setLocalCurrentSoundId(currentSoundId);
+  }, [currentSoundId]);
+  
   const totalPlantsRef = useRef<HTMLDivElement>(null);
   const todayPlantsRef = useRef<HTMLDivElement>(null);
   const soundMenuRef = useRef<HTMLDivElement>(null);
@@ -488,7 +493,7 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
     }
   }, [saveEdit, saveEditPreset]);
 
-  const isDark = theme === 'dark' || theme === 'neomorphic-dark';
+  const isDark = theme.includes('dark');
   const isNeomorphic = theme.startsWith('neomorphic');
   const isNeomorphicDark = theme === 'neomorphic-dark';
   
@@ -681,7 +686,7 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
                 {isSoundMenuOpen && (
                   <div 
                     ref={soundMenuRef}
-                    className={`absolute top-full right-0 mt-2 mr-2 w-64 sm:w-72 md:w-80 rounded-xl p-4 backdrop-blur-sm z-100 ${isNeomorphic ? (isDark ? 'bg-[#1e1e2e] border border-zinc-700 shadow-[8px_8px_16px_rgba(0,0,0,0.3),-8px_-8px_16px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] border border-slate-300 shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]') : isDark ? 'bg-zinc-900/95 border border-zinc-800' : 'bg-white/95 border border-slate-200 shadow-[10px_10px_20px_rgba(163,177,198,0.4),-10px_-10px_20px_rgba(255,255,255,0.6)]'}`}
+                    className={`absolute top-full right-0 mt-2 mr-2 w-64 sm:w-72 md:w-80 rounded-xl p-4 backdrop-blur-sm z-[1000] ${isNeomorphic ? (isDark ? 'bg-[#1e1e2e] border border-zinc-700 shadow-[8px_8px_16px_rgba(0,0,0,0.3),-8px_-8px_16px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] border border-slate-300 shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]') : isDark ? 'bg-zinc-900/95 border border-zinc-800' : 'bg-white/95 border border-slate-200 shadow-[10px_10px_20px_rgba(163,177,198,0.4),-10px_-10px_20px_rgba(255,255,255,0.6)]'}`}
                   >
                     {/* 搜索框与切换按钮 */}
                     <div className="mb-3">

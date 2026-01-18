@@ -135,7 +135,7 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
             showSupplyMarket: true
         }
     } = props;
-    const isDark = theme === 'dark' || theme === 'neomorphic-dark';
+    const isDark = theme.includes('dark');
     const isNeomorphic = theme.startsWith('neomorphic');
     const cardBg = isNeomorphic 
         ? (theme === 'neomorphic-dark' 

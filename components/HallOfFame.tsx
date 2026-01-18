@@ -72,7 +72,7 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
     // Help System
     onHelpClick
 }) => {
-    const isDark = theme === 'dark' || theme === 'neomorphic-dark';
+    const isDark = theme.includes('dark');
     const isNeomorphic = theme.startsWith('neomorphic');
     // 拟态风格样式变量，区分浅色和深色
     const isNeomorphicDark = theme === 'neomorphic-dark';

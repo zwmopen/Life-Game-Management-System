@@ -103,24 +103,20 @@ export enum View {
 
 /**
  * 主题类型
- * - dark: 深色主题
- * - light: 浅色主题
  * - neomorphic: 拟态风格主题
  */
-export type Theme = 'light' | 'dark' | 'neomorphic-light' | 'neomorphic-dark';
+export type Theme = 'neomorphic-light' | 'neomorphic-dark';
 
 /**
  * 主题类型分组
  */
 export const ThemeGroups = {
-  /** 普通主题 */
-  NORMAL: ['light', 'dark'] as Theme[],
   /** 拟态主题 */
   NEOMORPHIC: ['neomorphic-light', 'neomorphic-dark'] as Theme[],
   /** 浅色主题 */
-  LIGHT: ['light', 'neomorphic-light'] as Theme[],
+  LIGHT: ['neomorphic-light'] as Theme[],
   /** 深色主题 */
-  DARK: ['dark', 'neomorphic-dark'] as Theme[]
+  DARK: ['neomorphic-dark'] as Theme[]
 };
 
 /**

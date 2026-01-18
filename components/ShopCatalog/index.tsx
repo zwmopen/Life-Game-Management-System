@@ -185,7 +185,7 @@ const ShopCatalog: React.FC<ShopCatalogProps> = memo(({
   return (
     <div className="max-w-5xl mx-auto space-y-6">
       {/* 商品分组和管理商品组合模块 */}
-      <div className={`p-4 rounded-xl border ${cardBg} shadow-lg`}>
+      <div className={`p-4 rounded-3xl border ${cardBg} shadow-lg`}>
         {/* 左上角小图标和文字 */}
         <div className="flex items-center gap-2 mb-3">
           <ShoppingBag size={18} className="text-yellow-500" />

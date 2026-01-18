@@ -52,7 +52,7 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
       setDraggedItem(index);
   };
 
-  const isDark = theme === 'dark' || theme === 'neomorphic-dark';
+  const isDark = theme.includes('dark');
   const isNeomorphic = theme.startsWith('neomorphic');
   
   // 拟态风格样式 - 符合规格的高饱和度灰蓝色底色，135度光源，增强阴影效果
@@ -206,21 +206,15 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
                <button 
                   onClick={() => {
                       setTheme(prev => {
-                          // 按照指定顺序切换主题：拟态浅色 → 拟态深色 → 普通浅色 → 普通深色
+                          // 按照指定顺序切换主题：浅色 → 深色
                           if (prev === 'neomorphic-light') return 'neomorphic-dark';
-                          if (prev === 'neomorphic-dark') return 'light';
-                          if (prev === 'light') return 'dark';
                           return 'neomorphic-light';
                       });
                   }}
                   className={`flex items-center gap-2 text-xs font-bold px-3 py-1.5 rounded-full transition-all duration-300 
                       ${theme === 'neomorphic-light' 
                           ? 'bg-[#e0e5ec] text-zinc-700 shadow-[inset_-3px_-3px_6px_rgba(255,255,255,0.7),inset_3px_3px_6px_rgba(0,0,0,0.1)]' 
-                          : theme === 'neomorphic-dark' 
-                          ? 'bg-[#1e1e2e] text-zinc-300 shadow-[inset_-3px_-3px_6px_rgba(30,30,46,0.7),inset_3px_3px_6px_rgba(0,0,0,0.3)]' 
-                          : isDark 
-                          ? 'bg-zinc-900 text-zinc-400 hover:text-white' 
-                          : 'bg-slate-100 text-slate-500 hover:text-blue-600'}`}
+                          : 'bg-[#1e1e2e] text-zinc-300 shadow-[inset_-3px_-3px_6px_rgba(30,30,46,0.7),inset_3px_3px_6px_rgba(0,0,0,0.3)]'}`}
                   title={`切换主题`}
                >
                    {/* 显示当前主题的图标 */}
@@ -231,9 +225,7 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
                    {/* 显示当前主题的文本 */}
                    {!isNavCollapsed && (
                      <span>
-                       {theme === 'neomorphic-light' ? '拟态浅色' : 
-                        theme === 'neomorphic-dark' ? '拟态深色' : 
-                        theme === 'light' ? '普通浅色' : '普通深色'}
+                       {theme === 'neomorphic-light' ? '浅色' : '深色'}
                      </span>
                    )}
                </button>

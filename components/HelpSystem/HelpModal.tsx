@@ -248,19 +248,22 @@ const GlobalGuideCard: React.FC<GlobalGuideCardProps> = ({
         }
         
         /* 字体大小配置 */
-        .guide-content.small-font p {
+        .guide-content.small-font p,
+        .guide-content.small-font ul {
           font-size: 12px;
         }
         .guide-content.small-font h4 {
           font-size: 14px;
         }
-        .guide-content.medium-font p {
+        .guide-content.medium-font p,
+        .guide-content.medium-font ul {
           font-size: 14px;
         }
         .guide-content.medium-font h4 {
           font-size: 16px;
         }
-        .guide-content.large-font p {
+        .guide-content.large-font p,
+        .guide-content.large-font ul {
           font-size: 16px;
         }
         .guide-content.large-font h4 {

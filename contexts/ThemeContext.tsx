@@ -35,9 +35,16 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
     if (savedTheme) {
-      setThemeState(savedTheme);
+      // 确保保存的主题是有效的拟态主题
+      const validThemes: Theme[] = ['neomorphic-light', 'neomorphic-dark'];
+      if (validThemes.includes(savedTheme)) {
+        setThemeState(savedTheme);
+      } else {
+        // 如果保存的主题无效，使用系统偏好设置
+        setThemeState(prefersDark ? 'neomorphic-dark' : 'neomorphic-light');
+      }
     } else {
-      setThemeState(prefersDark ? 'dark' : 'neomorphic-light');
+      setThemeState(prefersDark ? 'neomorphic-dark' : 'neomorphic-light');
     }
   }, []);
 
@@ -51,10 +58,8 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
 
   const toggleTheme = () => {
     setThemeState(prev => {
-      // 四种主题循环切换：拟态浅色 → 拟态深色 → 普通浅色 → 普通深色
+      // 两种主题循环切换：拟态浅色 → 拟态深色
       if (prev === 'neomorphic-light') return 'neomorphic-dark';
-      if (prev === 'neomorphic-dark') return 'light';
-      if (prev === 'light') return 'dark';
       return 'neomorphic-light';
     });
   };

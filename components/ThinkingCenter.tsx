@@ -55,7 +55,7 @@ const ModelErrorBoundary = ({ children, fallback }: {
 
 // Button component without drag and drop functionality
 const ModelButton = ({ children, onClick, isActive, theme }: { children: React.ReactNode; onClick: () => void; isActive: boolean; theme: 'light' | 'dark' | 'neomorphic-light' | 'neomorphic-dark' } & React.HTMLAttributes<HTMLButtonElement>) => {
-  const isDark = theme === 'dark' || theme === 'neomorphic-dark';
+  const isDark = theme.includes('dark');
   const isNeomorphic = theme.startsWith('neomorphic');
   const isNeomorphicDark = theme === 'neomorphic-dark';
   
@@ -110,7 +110,7 @@ const ModelButton = ({ children, onClick, isActive, theme }: { children: React.R
 };
 
 const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme, onHelpClick }) => {
-  const isDark = theme === 'dark' || theme === 'neomorphic-dark';
+  const isDark = theme.includes('dark');
   const isNeomorphic = theme.startsWith('neomorphic');
   
   const isNeomorphicDark = theme === 'neomorphic-dark';

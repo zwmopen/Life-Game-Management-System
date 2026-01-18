@@ -140,7 +140,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
     setModalState
 }) => {
   const { theme } = useTheme();
-  const isDark = theme === 'dark' || theme === 'neomorphic-dark';
+  const isDark = theme.includes('dark');
   const isNeomorphic = theme.startsWith('neomorphic');
   const isNeomorphicDark = theme === 'neomorphic-dark';
   const todayStr = new Date().toLocaleDateString();

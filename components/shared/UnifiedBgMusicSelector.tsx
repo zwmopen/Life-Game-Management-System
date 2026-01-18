@@ -71,7 +71,7 @@ const UnifiedBgMusicSelector: React.FC<UnifiedBgMusicSelectorProps> = ({
   const [initialSoundsLoaded, setInitialSoundsLoaded] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
-  const isDark = theme === 'dark' || theme === 'neomorphic-dark';
+  const isDark = theme.includes('dark');
   const isNeomorphic = theme.startsWith('neomorphic');
   const cardBg = isNeomorphic
     ? (theme === 'neomorphic-dark'

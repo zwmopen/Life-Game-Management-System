@@ -1512,13 +1512,9 @@ const App: React.FC = () => {
     }
   };
 
-  const bgClass = theme === 'dark' 
-      ? 'bg-zinc-950 text-zinc-100' 
-      : theme === 'light' 
-      ? 'bg-slate-50 text-slate-900' 
-      : theme === 'neomorphic-dark' 
-      ? 'bg-[#1e1e2e] text-zinc-100' // 拟态深色：深灰色背景
-      : 'bg-[#e0e5ec] text-zinc-800'; // 拟态浅色：高饱和度灰蓝色背景
+  const bgClass = theme.includes('dark') 
+      ? 'bg-[#1e1e2e] text-zinc-100' // 深色主题：深灰色背景
+      : 'bg-[#e0e5ec] text-zinc-800'; // 浅色主题：高饱和度灰蓝色背景
   const entropy = Math.round((1 - (todayStats.habitsDone / Math.max(1, habits.length))) * 100);
 
   if (!isDataLoaded) {
@@ -1554,7 +1550,7 @@ const App: React.FC = () => {
 
         {/* 统一背景，消除侧边栏和主体的颜色割裂 */}
         <main className={`flex-1 h-full overflow-y-auto relative scroll-smooth flex flex-col transition-all duration-200 ${bgClass}`}>
-          {theme === 'dark' ? (
+          {theme.includes('dark') ? (
                <div className="absolute inset-0 z-0 pointer-events-none opacity-20"
                   style={{
                   backgroundImage: 'radial-gradient(circle at 50% 5%, #10b981 0%, transparent 20%), radial-gradient(circle at 90% 90%, #3b82f6 0%, transparent 20%)'
@@ -1588,9 +1584,9 @@ const App: React.FC = () => {
           activeHelp={activeHelp}
           helpContent={helpContent}
           onClose={() => { setIsModalOpen(false); setActiveHelp(null); }}
-          cardBg={theme === 'dark' ? 'bg-zinc-900 shadow-lg' : theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[8px_8px_16px_rgba(0,0,0,0.4),-8px_-8px_16px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)]'}
-          textMain={theme === 'dark' ? 'text-zinc-200' : 'text-zinc-800'}
-          textSub={theme === 'dark' ? 'text-zinc-500' : 'text-zinc-600'}
+          cardBg={theme.includes('dark') ? 'bg-[#1e1e2e] shadow-[8px_8px_16px_rgba(0,0,0,0.4),-8px_-8px_16px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)]'}
+          textMain={theme.includes('dark') ? 'text-zinc-200' : 'text-zinc-800'}
+          textSub={theme.includes('dark') ? 'text-zinc-500' : 'text-zinc-600'}
           config={settings.guideCardConfig || {
             fontSize: 'medium',
             borderRadius: 'medium',

@@ -16,7 +16,7 @@ interface MissionControlProps {
 const MissionControl: React.FC<MissionControlProps> = ({ theme, projects, habits, onHelpClick }) => {
   const [diceState, setDiceState] = useState<DiceState>(INITIAL_DICE_STATE);
   
-  const isDark = theme === 'dark' || theme === 'neomorphic-dark';
+  const isDark = theme.includes('dark');
   const isNeomorphic = theme.startsWith('neomorphic');
   
   // 模拟掷骰子功能

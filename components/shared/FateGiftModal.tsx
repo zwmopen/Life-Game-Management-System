@@ -23,7 +23,7 @@ const FateGiftModal: React.FC<FateGiftModalProps> = ({
   theme = 'dark',
   onModalOpen
 }) => {
-  const isDark = theme === 'dark' || theme === 'neomorphic-dark';
+  const isDark = theme.includes('dark');
   const isNeomorphic = theme.startsWith('neomorphic');
   
   // 在组件挂载时触发onModalOpen回调

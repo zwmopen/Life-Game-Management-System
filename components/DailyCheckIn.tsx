@@ -76,7 +76,7 @@ const DailyCheckIn: React.FC<DailyCheckInProps> = ({ theme, onClaim }) => {
 
   if (!isOpen) return null;
 
-  const isDark = theme === 'dark';
+  const isDark = theme.includes('dark');
   const cardBg = isDark ? 'bg-zinc-900 border-zinc-800' : 'bg-white border-slate-200';
   const textMain = isDark ? 'text-white' : 'text-slate-900';
 
