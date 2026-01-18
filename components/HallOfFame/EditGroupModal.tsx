@@ -38,13 +38,13 @@ const EditGroupModal: React.FC<EditGroupModalProps> = ({
           <div className="flex gap-2">
             <button 
               onClick={onClose}
-              className={`flex-1 py-3 rounded-lg transition-all ${isDark ? 'bg-zinc-800 hover:bg-zinc-700' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)]' : 'bg-slate-100 hover:bg-slate-200'}`}
+              className={`flex-1 py-3 rounded-lg transition-all ${isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[8px_8px_16px_rgba(0,0,0,0.3),-8px_-8px_16px_rgba(30,30,46,0.8)] hover:shadow-[10px_10px_20px_rgba(0,0,0,0.4),-10px_-10px_20px_rgba(30,30,46,0.9)]' : isDark ? 'bg-zinc-800 hover:bg-zinc-700' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)]' : 'bg-slate-100 hover:bg-slate-200'}`}
             >
               取消
             </button>
             <button 
               onClick={onClose}
-              className={`flex-1 py-3 rounded-lg transition-all ${isDark ? 'bg-yellow-600 hover:bg-yellow-500' : isNeomorphic ? 'bg-blue-500 text-white shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)]' : 'bg-yellow-500 hover:bg-yellow-400'} text-white font-bold`}
+              className={`flex-1 py-3 rounded-lg transition-all ${isNeomorphicDark ? 'bg-blue-500 text-white shadow-[8px_8px_16px_rgba(0,0,0,0.3),-8px_-8px_16px_rgba(30,30,46,0.8)] hover:shadow-[10px_10px_20px_rgba(0,0,0,0.4),-10px_-10px_20px_rgba(30,30,46,0.9)]' : isDark ? 'bg-yellow-600 hover:bg-yellow-500' : isNeomorphic ? 'bg-blue-500 text-white shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)]' : 'bg-yellow-500 hover:bg-yellow-400'} text-white font-bold`}
             >
               保存
             </button>

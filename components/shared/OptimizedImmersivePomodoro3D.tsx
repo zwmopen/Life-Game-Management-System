@@ -332,12 +332,23 @@ const OptimizedImmersivePomodoro3D: React.FC<{
     console.log('Focus state changed:', isFocusing);
   }, [isFocusing]);
 
+  // 将十六进制颜色值转换为CSS颜色格式
+  const getCSSBackgroundColor = () => {
+    const colors = getThemeColors();
+    if (typeof colors.bgColor === 'number') {
+      // 将十六进制数字转换为 #RRGGBB 格式
+      const hexColor = colors.bgColor.toString(16).padStart(6, '0');
+      return `#${hexColor}`;
+    }
+    return colors.bgColor;
+  };
+
   return (
     <div ref={containerRef} className="relative w-full h-full">
       <canvas 
         ref={canvasRef} 
         className="w-full h-full"
-        style={{ background: getThemeColors().bgColor.toString(16) }}
+        style={{ background: getCSSBackgroundColor() }}
       />
     </div>
   );

@@ -6,6 +6,7 @@
  */
 
 import React, { useCallback, useMemo, useState } from 'react';
+import { logInfo, logError, logWarn } from '../../utils/logger';
 import { ListTodo, Target, Sparkles, Plus } from 'lucide-react';
 import { GlobalHelpButton } from '../HelpSystem';
 import TaskList from './TaskList';
@@ -94,6 +95,65 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
     };
   }, [diceState, searchTerm, filterTasks]);
 
+  // 检查任务是否逾期的辅助函数
+  const isTaskOverdue = (task: any) => {
+    if (!task.reminder || !task.reminder.enabled || task.completed || task.isGivenUp) {
+      return false;
+    }
+    
+    const reminderDate = task.reminder.date;
+    const reminderTime = task.reminder.time;
+    
+    if (!reminderDate) {
+      return false;
+    }
+    
+    // 如果设置了时间，结合日期和时间；否则只使用日期
+    const dateTimeStr = reminderTime ? `${reminderDate}T${reminderTime}` : `${reminderDate}T23:59:59`;
+    const reminderDateTime = new Date(dateTimeStr);
+    const now = new Date();
+    
+    // 检查是否超过提醒时间
+    return now > reminderDateTime;
+  };
+  
+  // 计算各类别逾期未完成任务数量
+  const overdueDailyTasksCount = useMemo(() => {
+    return habitTasks.filter(task => !task.completed && !task.isGivenUp && isTaskOverdue(task)).length;
+  }, [habitTasks]);
+  
+  const overdueMainTasksCount = useMemo(() => {
+    return projectTasks.filter(task => !task.completed && !task.isGivenUp && isTaskOverdue(task)).length;
+  }, [projectTasks]);
+  
+  const overdueRandomTasksCount = useMemo(() => {
+    if (!diceState?.pendingTasks) return 0;
+    return diceState.pendingTasks.filter((task: any) => {
+      // 检查命运骰子任务是否逾期
+      if (task.reminder && task.reminder.enabled && task.status !== 'completed') {
+        const reminderDate = task.reminder.date;
+        const reminderTime = task.reminder.time;
+        
+        if (!reminderDate) {
+          return false;
+        }
+        
+        const dateTimeStr = reminderTime ? `${reminderDate}T${reminderTime}` : `${reminderDate}T23:59:59`;
+        const reminderDateTime = new Date(dateTimeStr);
+        const now = new Date();
+        
+        return now > reminderDateTime;
+      }
+      return false;
+    }).length;
+  }, [diceState]);
+  
+  // 计算命运任务总的未完成数量（不考虑时间）
+  const pendingRandomTasksCount = useMemo(() => {
+    if (!diceState?.pendingTasks) return 0;
+    return diceState.pendingTasks.length;
+  }, [diceState]);
+  
   // 使用useMemo缓存任务完成进度计算结果
   const taskProgress = useMemo(() => {
     if (taskCategory === 'daily') {
@@ -183,6 +243,14 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
             }`}
           >
             <ListTodo size={14} /> 日常任务
+            {overdueDailyTasksCount > 0 && (
+              <span className="ml-1 relative flex h-5 w-5 items-center justify-center">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-5 w-5 bg-red-500 items-center justify-center text-[8px] font-bold text-white">
+                  {overdueDailyTasksCount > 9 ? '9+' : overdueDailyTasksCount}
+                </span>
+              </span>
+            )}
           </button>
           <button 
             onClick={() => setTaskCategory('main')} 
@@ -197,6 +265,14 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
             }`}
           >
             <Target size={14} /> 主线任务
+            {overdueMainTasksCount > 0 && (
+              <span className="ml-1 relative flex h-5 w-5 items-center justify-center">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-5 w-5 bg-red-500 items-center justify-center text-[8px] font-bold text-white">
+                  {overdueMainTasksCount > 9 ? '9+' : overdueMainTasksCount}
+                </span>
+              </span>
+            )}
           </button>
           <button 
             onClick={() => setTaskCategory('random')} 
@@ -211,6 +287,16 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
             }`}
           >
             <Sparkles size={14} /> 命运骰子
+            {(overdueRandomTasksCount > 0 || pendingRandomTasksCount > 0) && (
+              <span className="ml-1 relative flex h-5 w-5 items-center justify-center">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-5 w-5 bg-red-500 items-center justify-center text-[8px] font-bold text-white">
+                  {pendingRandomTasksCount > 0 
+                    ? (pendingRandomTasksCount > 9 ? '9+' : pendingRandomTasksCount)
+                    : 0}
+                </span>
+              </span>
+            )}
           </button>
           {onShowHelp && (
             <GlobalHelpButton 

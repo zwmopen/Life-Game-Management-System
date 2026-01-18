@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Play, Pause, RotateCcw, VolumeX, Volume2, Maximize2, Sun, Moon, Coffee, Dumbbell, BookOpen, Activity, Waves, CloudRain, Trees, BrainCircuit, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useGlobalAudio } from '../GlobalAudioManager';
 
 // 图标映射函数
 const getIconComponentByName = (name: string) => {
@@ -65,6 +66,11 @@ interface TomatoTimerProps {
   onImmersiveModeChange?: (isImmersive: boolean) => void;
   onInternalImmersiveModeChange?: (isInternalImmersive: boolean) => void;
   onHelpClick?: (helpId: string) => void;
+  // Global audio management props
+  currentSoundId?: string;
+  isMuted?: boolean;
+  onSoundChange?: (soundId: string) => void;
+  onToggleMute?: () => void;
 }
 
 // 导入音频管理器
@@ -94,9 +100,28 @@ const TomatoTimer: React.FC<TomatoTimerProps> = ({
   onUpdateIsActive,
   onImmersiveModeChange,
   onInternalImmersiveModeChange,
-  onHelpClick
+  onHelpClick,
+  currentSoundId: propCurrentSoundId,
+  isMuted: propIsMuted,
+  onSoundChange,
+  onToggleMute
 }) => {
-  const [currentSoundId, setCurrentSoundId] = useState('mute');
+  // 使用全局音频管理器
+  const {
+    currentBgMusicId: globalCurrentSoundId,
+    isBgMusicPlaying,
+    isMuted: globalIsMuted,
+    playBgMusic,
+    stopBgMusic,
+    resumeBgMusic
+  } = useGlobalAudio();
+  
+  // 优先使用传入的props，否则使用全局状态
+  const [localCurrentSoundId, setLocalCurrentSoundId] = useState('mute');
+  const isMuted = propIsMuted ?? globalIsMuted;
+  
+  // 优先使用传入的props，否则使用本地状态，最后使用全局状态
+  const effectiveCurrentSoundId = propCurrentSoundId ?? localCurrentSoundId ?? globalCurrentSoundId ?? 'mute';
   const [originalSoundId, setOriginalSoundId] = useState('forest'); // 默认播放的音乐
   const [isSoundMenuOpen, setIsSoundMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState(''); // 搜索关键词状态
@@ -135,7 +160,7 @@ const TomatoTimer: React.FC<TomatoTimerProps> = ({
     ? 'bg-zinc-900 border-zinc-800'
     : 'bg-white border-slate-200';
 
-  const currentSound = sounds.find(s => s.id === currentSoundId) || sounds[0];
+  const currentSound = sounds.find(s => s.id === effectiveCurrentSoundId) || sounds[0];
 
   // 快速切换上一个音乐
   const handlePrevSound = () => {
@@ -143,13 +168,13 @@ const TomatoTimer: React.FC<TomatoTimerProps> = ({
     const filteredSounds = sounds.filter(s => s.name.toLowerCase().includes(searchQuery.toLowerCase()));
     if (filteredSounds.length <= 1) return;
     
-    const currentIndex = filteredSounds.findIndex(s => s.id === currentSoundId);
+    const currentIndex = filteredSounds.findIndex(s => s.id === effectiveCurrentSoundId);
     if (currentIndex === -1) {
-      setCurrentSoundId(filteredSounds[filteredSounds.length - 1].id);
+      setLocalCurrentSoundId(filteredSounds[filteredSounds.length - 1].id);
       return;
     }
     const prevIndex = (currentIndex - 1 + filteredSounds.length) % filteredSounds.length;
-    setCurrentSoundId(filteredSounds[prevIndex].id);
+    setLocalCurrentSoundId(filteredSounds[prevIndex].id);
   };
 
   // 快速切换下一个音乐
@@ -158,13 +183,13 @@ const TomatoTimer: React.FC<TomatoTimerProps> = ({
     const filteredSounds = sounds.filter(s => s.name.toLowerCase().includes(searchQuery.toLowerCase()));
     if (filteredSounds.length <= 1) return;
     
-    const currentIndex = filteredSounds.findIndex(s => s.id === currentSoundId);
+    const currentIndex = filteredSounds.findIndex(s => s.id === effectiveCurrentSoundId);
     if (currentIndex === -1) {
-      setCurrentSoundId(filteredSounds[0].id);
+      setLocalCurrentSoundId(filteredSounds[0].id);
       return;
     }
     const nextIndex = (currentIndex + 1) % filteredSounds.length;
-    setCurrentSoundId(filteredSounds[nextIndex].id);
+    setLocalCurrentSoundId(filteredSounds[nextIndex].id);
   };
 
   // 加载音频文件的函数，提取到组件顶层以便在onClick中调用
@@ -266,83 +291,23 @@ const TomatoTimer: React.FC<TomatoTimerProps> = ({
   }, [isActive, timeLeft, duration, onUpdateTimeLeft, onUpdateIsActive, onImmersiveModeChange]);
 
   // Audio management - Optimized for low latency playback
+  // 使用全局音频管理器处理音频播放
   useEffect(() => {
-    let audioSrc = '';
-    let shouldPlay = false;
-    let targetSoundId = currentSoundId;
-    
-    // 当番茄钟启动时，使用用户选择的音乐
-    if (isActive) {
-      // 如果用户选择了静音，则不播放音乐
-      if (targetSoundId !== 'mute') {
-        const targetSound = sounds.find(s => s.id === targetSoundId) || sounds[1];
-        audioSrc = targetSound.url;
-        shouldPlay = true;
-        
-        // 记录音频播放统计
-        if (targetSound.id && targetSound.id !== 'mute') {
-          audioStatistics.recordPlay(targetSound.id);
-        }
+    if (isActive && effectiveCurrentSoundId !== 'mute' && !isMuted) {
+      // 使用全局音频管理器播放选定的音乐
+      const sound = sounds.find(s => s.id === effectiveCurrentSoundId);
+      if (sound && sound.url) {
+        playBgMusic(sound.id).catch(error => {
+          console.error('Failed to play background music:', error);
+        });
+      }
+    } else {
+      // 如果番茄钟未激活或已静音，则停止播放
+      if (effectiveCurrentSoundId !== 'mute') {
+        stopBgMusic();
       }
     }
-    
-    // If no audio source, don't create audio object
-    if (!audioSrc) {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current.currentTime = 0;
-        audioRef.current = null;
-      }
-      return;
-    }
-
-    // 使用预加载的音频对象，减少播放延迟
-    const handlePlayAudio = async () => {
-      try {
-        // 检查是否有预加载的音频
-        const preloadedAudio = await audioManager.preloadAudio(audioSrc);
-        
-        // Create or update audio object
-        let newAudio = audioRef.current;
-        if (!newAudio || newAudio.src !== audioSrc) {
-          if (newAudio) {
-            newAudio.pause();
-            newAudio.src = '';
-          }
-          
-          // 优先使用克隆的预加载音频，减少延迟
-          newAudio = preloadedAudio.cloneNode() as HTMLAudioElement;
-          newAudio.loop = true;
-          newAudio.volume = 0.3;
-          newAudio.preload = 'auto';
-          
-          // 设置crossOrigin以允许克隆
-          newAudio.crossOrigin = 'anonymous';
-          
-          audioRef.current = newAudio;
-        }
-        
-        // Play or pause audio based on timer state
-        if (shouldPlay) {
-          await newAudio.play();
-        } else {
-          newAudio.pause();
-          newAudio.currentTime = 0;
-        }
-      } catch (error) {
-        console.log('Audio play failed:', error);
-      }
-    };
-    
-    handlePlayAudio();
-    
-    return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current.currentTime = 0;
-      }
-    };
-  }, [isActive, currentSoundId]);
+  }, [isActive, effectiveCurrentSoundId, isMuted, sounds, playBgMusic, stopBgMusic]);
 
   // 移除本地沉浸式状态管理，完全由父组件控制
 
@@ -399,7 +364,7 @@ const TomatoTimer: React.FC<TomatoTimerProps> = ({
       {isSoundMenuOpen && (
         <div 
           ref={soundMenuRef}
-          className={`absolute top-0 right-0 mt-16 mr-2 w-64 sm:w-72 md:w-80 rounded-xl p-4 backdrop-blur-sm z-50 ${isNeomorphic ? (isDark ? 'bg-[#1e1e2e] border border-zinc-700 shadow-[8px_8px_16px_rgba(0,0,0,0.3),-8px_-8px_16px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] border border-slate-300 shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]') : isDark ? 'bg-zinc-900/95 border border-zinc-800' : 'bg-white/95 border border-slate-200 shadow-[10px_10px_20px_rgba(163,177,198,0.4),-10px_-10px_20px_rgba(255,255,255,0.6)]'}`}
+          className={`absolute top-0 right-0 mt-16 mr-2 w-56 sm:w-64 md:w-72 rounded-xl p-4 backdrop-blur-sm z-50 ${isNeomorphic ? (isDark ? 'bg-[#1e1e2e] border border-zinc-700 shadow-[8px_8px_16px_rgba(0,0,0,0.3),-8px_-8px_16px_rgba(40,43,52,0.8)]' : 'bg-[#e0e5ec] border border-slate-300 shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]') : isDark ? 'bg-zinc-900/95 border border-zinc-800' : 'bg-white/95 border border-slate-200 shadow-[10px_10px_20px_rgba(163,177,198,0.4),-10px_-10px_20px_rgba(255,255,255,0.6)]'}`}
         >
           {/* 搜索框与切换按钮 */}
           <div className="mb-3">
@@ -453,7 +418,11 @@ const TomatoTimer: React.FC<TomatoTimerProps> = ({
                   <button 
                     key={sound.id}
                     onClick={() => {
-                      setCurrentSoundId(sound.id);
+                      setLocalCurrentSoundId(sound.id);
+                      // 如果有外部音频变更处理器，使用它
+                      if (onSoundChange) {
+                        onSoundChange(sound.id);
+                      }
                       // 选择音乐时不关闭面板
                       // setIsSoundMenuOpen(false);
                       // 记录播放次数，但不重新加载音频文件以避免列表跳动
@@ -461,7 +430,7 @@ const TomatoTimer: React.FC<TomatoTimerProps> = ({
                         audioStatistics.recordPlay(sound.id);
                       }
                     }}
-                    className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all cursor-pointer ${currentSoundId === sound.id ? (isNeomorphic ? `${isDark ? 'bg-[#3a3f4e] text-blue-300 shadow-[inset_6px_6px_12px_rgba(0,0,0,0.3),inset_-6px_-6px_12px_rgba(58,63,78,0.8)]' : 'bg-[#d0d5dc] text-blue-600 shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(208,213,220,1)]'}` : isDark ? 'bg-zinc-800 text-white' : 'bg-blue-50 text-blue-600') : (isNeomorphic ? `${isDark ? 'bg-[#1e1e2e] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)] hover:shadow-[12px_12px_24px_rgba(0,0,0,0.4),-12px_-12px_24px_rgba(40,43,52,1)] active:shadow-[inset_8px_8px_16px_rgba(0,0,0,0.4),inset_-8px_-8px_16px_rgba(40,43,52,0.9)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] active:shadow-[inset_8px_8px_16px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]'} active:scale-[0.98]` : isDark ? 'hover:bg-zinc-700 text-zinc-300' : 'hover:bg-slate-100 text-slate-700')}`}
+                    className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all cursor-pointer ${effectiveCurrentSoundId === sound.id ? (isNeomorphic ? `${isDark ? 'bg-[#3a3f4e] text-blue-300 shadow-[inset_6px_6px_12px_rgba(0,0,0,0.3),inset_-6px_-6px_12px_rgba(58,63,78,0.8)]' : 'bg-[#d0d5dc] text-blue-600 shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(208,213,220,1)]'}` : isDark ? 'bg-zinc-800 text-white' : 'bg-blue-50 text-blue-600') : (isNeomorphic ? `${isDark ? 'bg-[#1e1e2e] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)] hover:shadow-[12px_12px_24px_rgba(0,0,0,0.4),-12px_-12px_24px_rgba(40,43,52,1)] active:shadow-[inset_8px_8px_16px_rgba(0,0,0,0.4),inset_-8px_-8px_16px_rgba(40,43,52,0.9)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] active:shadow-[inset_8px_8px_16px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]'} active:scale-[0.98]` : isDark ? 'hover:bg-zinc-700 text-zinc-300' : 'hover:bg-slate-100 text-slate-700')}`}
                   >
                     <span className={`text-[9px] ${isDark ? 'text-zinc-400' : 'text-zinc-500'} w-4`}>{sounds.findIndex(s => s.id === sound.id) + 1}.</span>
                     <IconComponent size={16} className={isDark ? (sound.id === 'mute' ? 'text-zinc-400' : 'text-zinc-300') : sound.color} />
@@ -571,7 +540,7 @@ const TomatoTimer: React.FC<TomatoTimerProps> = ({
                 : `${isDark ? 'text-zinc-300 hover:text-blue-400 hover:bg-zinc-800/50' : 'text-zinc-500 hover:text-blue-400 hover:bg-white/10'}`}`}
               title="选择背景音乐"
             >
-              {currentSoundId === 'mute' 
+              {effectiveCurrentSoundId === 'mute' 
                 ? <VolumeX size={18} className={isDark ? 'text-zinc-300' : 'text-zinc-600'} /> 
                 : <Waves size={18} className={isDark ? 'text-zinc-300' : 'text-zinc-600'} />
               }

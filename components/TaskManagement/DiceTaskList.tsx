@@ -47,7 +47,7 @@ const DiceTaskList: React.FC<DiceTaskListProps> = memo(({
         {isPending ? (
           <button 
             onClick={() => onCompleteTask(taskRecord.id)} 
-            className={`w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all shrink-0 ${isDark ? 'border-zinc-600 hover:border-emerald-500 text-transparent' : 'border-slate-300 hover:border-emerald-500 bg-white'}`}
+            className={`w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all shrink-0 ${isDark ? 'border-zinc-600 hover:border-emerald-500 text-transparent' : 'border-slate-300 hover:border-emerald-500 bg-white'} active:scale-95`}
           >
             <Check size={16} strokeWidth={4} className="text-transparent hover:text-white transition-colors" />
           </button>
@@ -77,7 +77,7 @@ const DiceTaskList: React.FC<DiceTaskListProps> = memo(({
                 e.stopPropagation();
                 onAbandonTask(taskRecord.id);
               }} 
-              className="text-zinc-600 hover:text-red-500 p-2 rounded hover:bg-red-900/10 transition-colors" 
+              className="text-zinc-600 hover:text-red-500 p-2 rounded hover:bg-red-900/10 transition-colors active:scale-95" 
               title="放弃任务"
             >
               <X size={16} />

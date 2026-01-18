@@ -105,7 +105,7 @@ const BadgeManagementModal: React.FC<BadgeManagementModalProps> = ({
   return (
     <>
       <div className="fixed inset-0 z-[10001] bg-black/80 backdrop-blur-sm flex items-center justify-end p-4 animate-in fade-in">
-        <div className={`w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-xl ${isDark ? (isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[8px_8px_16px_rgba(0,0,0,0.4),-8px_-8px_16px_rgba(30,30,46,0.8)]' : 'bg-zinc-900') : isNeomorphic ? 'bg-[#e0e5ec] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)]' : 'bg-white'} p-6 border ${isNeomorphicDark ? 'border-[#1e1e2e]' : 'border-transparent'}`}>
+        <div className={`w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-xl ${isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[8px_8px_16px_rgba(0,0,0,0.4),-8px_-8px_16px_rgba(30,30,46,0.8)]' : isDark ? 'bg-zinc-900' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)]' : 'bg-white'} p-6 border ${isNeomorphicDark ? 'border-zinc-700' : isDark ? 'border-zinc-800' : isNeomorphic ? 'border-slate-300' : 'border-transparent'}`}>
           <div className="flex justify-between items-center mb-4">
             <div className="flex items-center gap-2">
               <h2 className={`text-xl font-bold ${textMain}`}>
@@ -120,7 +120,7 @@ const BadgeManagementModal: React.FC<BadgeManagementModalProps> = ({
                 />
               )}
             </div>
-            <button onClick={onClose} className={`p-2 rounded-full hover:bg-zinc-800 transition-colors ${isDark ? 'hover:bg-zinc-800' : 'hover:bg-slate-100'}`}>
+            <button onClick={onClose} className={`p-2 rounded-full transition-colors ${isDark ? (isNeomorphicDark ? 'hover:bg-zinc-800' : 'hover:bg-zinc-800') : (isNeomorphic ? (isNeomorphicDark ? 'hover:bg-[#1e1e2e]' : 'hover:bg-[#e0e5ec]') : 'hover:bg-slate-100')}`}>
               <XCircle size={20} className={textSub} />
             </button>
           </div>
@@ -167,7 +167,7 @@ const BadgeManagementModal: React.FC<BadgeManagementModalProps> = ({
                 {id:'TASK', l:'任务勋章', i:List}
               ].filter(group => selectedCategory === 'ALL' || group.id === selectedCategory)
                .map(group => (
-                <div key={group.id} className={`p-4 rounded-lg transition-all duration-300 hover:scale-[1.02] ${isDark ? 'bg-zinc-800 hover:bg-zinc-700' : (isNeomorphic ? (isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)]') : 'bg-slate-50 hover:bg-slate-100')}`}>
+                <div key={group.id} className={`p-4 rounded-lg transition-all duration-300 hover:scale-[1.02] ${isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[10px_10px_20px_rgba(0,0,0,0.3),-10px_-10px_20px_rgba(30,30,46,0.8)] hover:shadow-[12px_12px_24px_rgba(0,0,0,0.4),-12px_-12px_24px_rgba(30,30,46,0.9)]' : isDark ? 'bg-zinc-800 hover:bg-zinc-700' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)] hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)]' : 'bg-slate-50 hover:bg-slate-100'}`}>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <group.i size={16} className="text-yellow-500" />
@@ -181,9 +181,9 @@ const BadgeManagementModal: React.FC<BadgeManagementModalProps> = ({
                   
                   <div className="mt-3 space-y-2">
                     {allBadges.filter(badge => badge.category === group.id).map(badge => (
-                      <div key={badge.id} className={`p-3 rounded-lg flex items-center justify-between transition-all duration-300 hover:scale-[1.02] group ${isDark ? 'bg-zinc-900/50 hover:bg-zinc-800/70' : (isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.5),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[6px_6px_12px_rgba(163,177,198,0.4),-6px_-6px_12px_rgba(255,255,255,1)]' : 'bg-slate-50 hover:bg-slate-100')}`}>
+                      <div key={badge.id} className={`p-3 rounded-lg flex items-center justify-between transition-all duration-300 hover:scale-[1.02] group ${isNeomorphicDark ? 'bg-[#1e1e2e]/80 shadow-[8px_8px_16px_rgba(0,0,0,0.3),-8px_-8px_16px_rgba(30,30,46,0.8)] hover:shadow-[10px_10px_20px_rgba(0,0,0,0.4),-10px_-10px_20px_rgba(30,30,46,0.9)]' : isDark ? 'bg-zinc-900/50 hover:bg-zinc-800/70' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.5),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)]' : 'bg-slate-50 hover:bg-slate-100'}`}>
                         <div className="flex items-center gap-3">
-                          <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-[1.1] ${badge.isUnlocked ? (isNeomorphic ? (isNeomorphicDark ? `bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-4px_-4px_8px_rgba(30,30,46,0.8)]` : `bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]`) : badge.bgColor) : 'bg-zinc-900/30'}`}>
+                          <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-[1.1] ${badge.isUnlocked ? (isNeomorphic ? (isNeomorphicDark ? `bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-4px_-4px_8px_rgba(30,30,46,0.8)]` : `bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]`) : badge.bgColor) : (isNeomorphicDark ? 'bg-[#1e1e2e]/30' : isDark ? 'bg-zinc-900/30' : 'bg-slate-900/30')}`}>
                             <badge.icon size={20} className={`${badge.color} ${!badge.isUnlocked ? 'opacity-70' : ''}`} strokeWidth={2} />
                           </div>
                           <div className="flex-1">

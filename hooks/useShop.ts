@@ -233,6 +233,16 @@ export const useShop = ({
         setIsAddingGroup(false);
     }, []);
 
+    // 处理分组编辑
+    const handleEditGroup = useCallback((groupName: string) => {
+        // 这个函数将由组件内部处理，不需要在这里实现
+    }, []);
+
+    // 处理分组删除
+    const handleDeleteGroup = useCallback((groupName: string) => {
+        // 这个函数将由组件内部处理，不需要在这里实现
+    }, []);
+
     const handleShopDragStart = useCallback((index: number) => {
         if (!isManageShopMode) return;
         setDraggedShopIndex(index);
@@ -272,6 +282,8 @@ export const useShop = ({
         handleAddNewItem,
         handleAddNewGroup,
         handleCancelAddGroup,
+        handleEditGroup,
+        handleDeleteGroup,
         isAddingGroup,
         setIsAddingGroup,
         newGroupName,

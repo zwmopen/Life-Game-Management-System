@@ -5,6 +5,7 @@ import { AttributeTypeValue, AttributeType, SubTask } from '../../types';
 interface TaskEditorModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onOpen?: () => void;
   editingTaskId: string | null;
   newTaskTitle: string;
   setNewTaskTitle: (title: string) => void;
@@ -41,6 +42,7 @@ interface TaskEditorModalProps {
 const TaskEditorModal: React.FC<TaskEditorModalProps> = ({
   isOpen,
   onClose,
+  onOpen,
   editingTaskId,
   newTaskTitle,
   setNewTaskTitle,
@@ -74,7 +76,13 @@ const TaskEditorModal: React.FC<TaskEditorModalProps> = ({
   textMain
 }) => {
   if (!isOpen) return null;
-
+  
+  React.useEffect(() => {
+    if (onOpen) {
+      onOpen();
+    }
+  }, [onOpen]);
+  
   return (
     <div className="fixed inset-0 z-[100] bg-black/80 flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in">
       <div className={`w-full max-w-md p-6 rounded-2xl border ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[10px_10px_20px_rgba(0,0,0,0.4),-10px_-10px_20px_rgba(30,30,46,0.8)] border-none' : 'bg-[#e0e5ec] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)] border-none') : (isDark ? 'bg-zinc-900 shadow-xl' : 'bg-white shadow-xl')}`}>

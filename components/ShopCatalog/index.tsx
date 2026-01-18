@@ -5,7 +5,7 @@
  * 性能优化：使用React.memo包裹组件，仅在props变化时重新渲染
  */
 
-import React, { useMemo, memo } from 'react';
+import React, { useMemo, memo, useState } from 'react';
 import { 
   ShoppingBag, Wallet, Hammer, CheckCircle, Plus, 
   Edit2, Trash2
@@ -49,6 +49,10 @@ const ShopCatalog: React.FC<ShopCatalogProps> = memo(({
 }) => {
   // 添加搜索状态
   const [searchTerm, setSearchTerm] = React.useState('');
+  
+  // 分组管理状态
+  const [editingGroup, setEditingGroup] = useState<string | null>(null);
+  const [newGroupNameValue, setNewGroupNameValue] = useState('');
   
   // 生成按钮样式的辅助函数
   const getButtonStyle = (isActive: boolean, isSpecial?: boolean) => {
@@ -111,7 +115,8 @@ const ShopCatalog: React.FC<ShopCatalogProps> = memo(({
       ...groups.map(group => ({
         id: group,
         label: group,
-        count: inventory.filter(i => i.category === group).length
+        count: inventory.filter(i => i.category === group).length,
+        isCustom: true  // 标记为自定义分组
       }))
     ];
     
@@ -131,6 +136,52 @@ const ShopCatalog: React.FC<ShopCatalogProps> = memo(({
     return baseCategories;
   }, [inventory, groups, isManageShopMode, isAddingGroup]);
 
+  // 处理分组编辑
+  const handleEditGroup = (groupName: string) => {
+    setEditingGroup(groupName);
+    setNewGroupNameValue(groupName);
+  };
+
+  // 保存分组修改
+  const saveGroupEdit = () => {
+    if (editingGroup && newGroupNameValue.trim() && newGroupNameValue !== editingGroup) {
+      // 更新分组名称
+      setGroups && setGroups((prev: string[]) => 
+        prev.map(g => g === editingGroup ? newGroupNameValue.trim() : g)
+      );
+      
+      // 更新商品的分类
+      setInventory(prev => 
+        prev.map(item => 
+          item.category === editingGroup ? { ...item, category: newGroupNameValue.trim() } : item
+        )
+      );
+      
+      cancelGroupEdit();
+    }
+  };
+
+  // 取消分组编辑
+  const cancelGroupEdit = () => {
+    setEditingGroup(null);
+    setNewGroupNameValue('');
+  };
+
+  // 删除分组
+  const handleDeleteGroup = (groupName: string) => {
+    if (window.confirm(`确定要删除分类 "${groupName}" 吗？该分类下的所有商品将被移动到“其他”分类。`)) {
+      // 从分组列表中移除
+      setGroups && setGroups((prev: string[]) => prev.filter(g => g !== groupName));
+      
+      // 将该分类下的商品移动到“其他”分类
+      setInventory(prev => 
+        prev.map(item => 
+          item.category === groupName ? { ...item, category: '其他' } : item
+        )
+      );
+    }
+  };
+
   return (
     <div className="max-w-5xl mx-auto space-y-6">
       {/* 商品分组和管理商品组合模块 */}
@@ -144,13 +195,65 @@ const ShopCatalog: React.FC<ShopCatalogProps> = memo(({
         {/* 分类过滤按钮 */}
         <div className="flex flex-wrap gap-2 mb-4">
           {categories.map(f => (
-            <button 
-              key={f.id} 
-              onClick={() => setShopFilter(f.id as any)} 
-              className={`px-2 py-1.5 rounded-[24px] text-xs font-bold border transition-all duration-200 whitespace-nowrap ${getButtonStyle(shopFilter === f.id)}`}
-            >
-              {f.label} <span className="text-[9px] opacity-80">({f.count})</span>
-            </button>
+            <div key={f.id} className="relative group">
+              {editingGroup === f.label ? (
+                // 编辑模式
+                <div className="flex items-center gap-1">
+                  <input
+                    type="text"
+                    value={newGroupNameValue}
+                    onChange={(e) => setNewGroupNameValue(e.target.value)}
+                    onBlur={saveGroupEdit}
+                    onKeyDown={(e) => e.key === 'Enter' && saveGroupEdit()}
+                    className={`px-2 py-1.5 rounded-[24px] text-xs font-bold border transition-all duration-200 ${getButtonStyle(true)}`}
+                    autoFocus
+                  />
+                  <button
+                    onClick={saveGroupEdit}
+                    className="text-xs px-1.5 py-1 rounded-[24px] bg-green-500 text-white"
+                  >
+                    ✓
+                  </button>
+                  <button
+                    onClick={cancelGroupEdit}
+                    className="text-xs px-1.5 py-1 rounded-[24px] bg-gray-500 text-white"
+                  >
+                    ✕
+                  </button>
+                </div>
+              ) : (
+                // 正常显示模式
+                <button 
+                  key={f.id} 
+                  onClick={() => setShopFilter(f.id as any)} 
+                  className={`px-2 py-1.5 rounded-[24px] text-xs font-bold border transition-all duration-200 whitespace-nowrap ${getButtonStyle(shopFilter === f.id)}`}
+                >
+                  {f.label} <span className="text-[9px] opacity-80">({f.count})</span>
+                  {f.isCustom && isManageShopMode && (
+                    <div className="ml-1 inline-flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <button 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleEditGroup(f.label);
+                        }}
+                        className="text-xs p-0.5 rounded-full bg-blue-500 text-white hover:bg-blue-600"
+                      >
+                        <Edit2 size={10} />
+                      </button>
+                      <button 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDeleteGroup(f.label);
+                        }}
+                        className="text-xs p-0.5 rounded-full bg-red-500 text-white hover:bg-red-600"
+                      >
+                        <Trash2 size={10} />
+                      </button>
+                    </div>
+                  )}
+                </button>
+              )}
+            </div>
           ))}
         </div>
 

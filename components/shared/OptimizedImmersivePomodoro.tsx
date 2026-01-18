@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
+import { Play, Pause, RotateCcw, VolumeX, Volume2, Maximize2, Sun, Moon, Coffee, Dumbbell, BookOpen, Activity, Waves, CloudRain, Trees, BrainCircuit, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Theme } from '../../types';
 import soundManager from '../../utils/soundManager';
 import { useGlobalAudio } from '../../components/GlobalAudioManagerOptimized';
@@ -40,7 +41,6 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isAudioMenuOpen, setIsAudioMenuOpen] = useState(false);
   const [currentSeed, setCurrentSeed] = useState('pine');
   const [isFocusing, setIsFocusing] = useState(isActive);
   const [isPaused, setIsPaused] = useState(false);
@@ -61,8 +61,10 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
     return savedToday ? parseInt(savedToday) : (initialTodayPlants || 0);
   });
   const [localCurrentSoundId, setLocalCurrentSoundId] = useState(currentSoundId); // 本地音效ID状态
+  
   const totalPlantsRef = useRef<HTMLDivElement>(null);
   const todayPlantsRef = useRef<HTMLDivElement>(null);
+  const soundMenuRef = useRef<HTMLDivElement>(null);
   
   // 物种数据 - 使用useMemo优化
   const SPECIES = useMemo(() => ({
@@ -99,6 +101,24 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
   const [isSoundListLoaded, setIsSoundListLoaded] = useState(false);
   const [initialSoundsLoaded, setInitialSoundsLoaded] = useState(false);
   const [searchQuery, setSearchQuery] = useState(''); // 搜索关键词状态
+  const [isSoundMenuOpen, setIsSoundMenuOpen] = useState(false);
+  
+  // 点击外部关闭背景音乐面板
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (soundMenuRef.current && !soundMenuRef.current.contains(event.target as Node)) {
+        setIsSoundMenuOpen(false);
+      }
+    };
+
+    if (isSoundMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isSoundMenuOpen]);
 
   // 图标映射函数 - 使用useCallback优化
   const getIconComponentByName = useCallback((name: string) => {
@@ -216,7 +236,7 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
   
   // 音频管理 - 独立于番茄钟状态的背景音乐控制
   useEffect(() => {
-    let targetSoundId = localCurrentSoundId;
+    let targetSoundId = currentSoundId;
     
     // 如果用户选择了静音，则停止当前背景音乐
     if (targetSoundId === 'mute') {
@@ -234,7 +254,7 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
         }
       }
     }
-  }, [localCurrentSoundId, allSounds, audioStatistics, playBgMusic, stopBgMusic]);
+  }, [currentSoundId, allSounds, audioStatistics, playBgMusic, stopBgMusic]);
 
   // 计时器效果 - 使用useCallback优化
   useEffect(() => {
@@ -242,13 +262,17 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
     
     // 只有在专注且未暂停且时间大于0时才运行计时器
     if (isFocusing && !isPaused && secondsRemaining > 0) {
+      console.log('Starting timer interval');
       interval = window.setInterval(() => {
         setSecondsRemaining(prev => {
           const newTime = prev - 1;
+          console.log('Updating time:', newTime);
           onUpdateTimeLeft(newTime);
           if (newTime <= 0) {
             // 清除定时器
-            clearInterval(interval);
+            if (interval) {
+              clearInterval(interval);
+            }
             
             // 番茄钟结束，更新总数
             const newTotal = totalPlants + 1;
@@ -278,15 +302,22 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
           return newTime;
         });
       }, 1000);
+    } else {
+      // 如果不在专注状态，确保定时器被清除
+      if (interval) {
+        console.log('Clearing timer interval');
+        clearInterval(interval);
+      }
     }
     
     // 清理函数，确保在任何情况下都清除定时器
     return () => {
       if (interval) {
+        console.log('Cleaning up timer interval');
         clearInterval(interval);
       }
     };
-  }, [isFocusing, isPaused, secondsRemaining, onUpdateTimeLeft, totalPlants, onUpdateTotalPlants, todayPlants, onUpdateTodayPlants, currentDuration]);
+  }, [isFocusing, isPaused, secondsRemaining, currentDuration]);
 
   // 格式化时间
   const formatTime = useCallback((seconds: number) => {
@@ -317,18 +348,18 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
   // 切换到下一个音效
   const handleNextSound = useCallback(() => {
     if (allSounds.length === 0) return;
-    const currentIndex = allSounds.findIndex(s => s.id === localCurrentSoundId);
+    const currentIndex = allSounds.findIndex(s => s.id === currentSoundId);
     const nextIndex = (currentIndex + 1) % allSounds.length;
     setSound(allSounds[nextIndex].id);
-  }, [allSounds, localCurrentSoundId, setSound]);
+  }, [allSounds, currentSoundId, setSound]);
 
   // 切换到上一个音效
   const handlePrevSound = useCallback(() => {
     if (allSounds.length === 0) return;
-    const currentIndex = allSounds.findIndex(s => s.id === localCurrentSoundId);
+    const currentIndex = allSounds.findIndex(s => s.id === currentSoundId);
     const prevIndex = (currentIndex - 1 + allSounds.length) % allSounds.length;
     setSound(allSounds[prevIndex].id);
-  }, [allSounds, localCurrentSoundId, setSound]);
+  }, [allSounds, currentSoundId, setSound]);
 
   // 选择种子
   const selectSeed = useCallback((type: string) => {
@@ -554,7 +585,7 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
         {/* UI容器 */}
         <div className="ui-container">
           {/* 顶部数据栏 - 合并的统计面板 - 修改条件，在专注模式下完全隐藏 */}
-          <div className={`stats-bar ${isFocusing ? 'hidden' : ''}`}>
+          <div className={`stats-bar ${isFocusing && !isPaused ? 'hidden' : ''}`}>
             <div 
               ref={totalPlantsRef}
               className={`${isNeomorphicDark ? 'neu-out neomorphic-dark-mode' : isDark ? 'neu-out dark-mode' : 'neu-out'} stats-panel`} 
@@ -614,7 +645,7 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
           {/* 底部控制 */}
           <div className="controls">
             {/* 预设时间 + 音乐 - 修改条件，在专注模式下完全隐藏 */}
-            <div className={`controls-row ${isFocusing ? 'hidden' : ''}`} id="controlsRow">
+            <div className={`controls-row ${isFocusing && !isPaused ? 'hidden' : ''}`} id="controlsRow">
               <div id="presetGroup" className="flex gap-2">
                 {/* 预设时间选项 */}
                 {[1, 5, 10, 25, 30, 45, 60].map(m => (
@@ -633,79 +664,96 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
                       
               <div className="audio-dropdown">
                 <button 
-                  className="audio-btn" 
-                  id="audioToggle"
-                  onClick={() => setIsAudioMenuOpen(!isAudioMenuOpen)}
+                  className={`p-2.5 rounded-full transition-all duration-300 hover:scale-105 active:scale-95 ${isNeomorphic 
+                    ? `${isDark 
+                        ? 'bg-[#1e1e2e] border border-zinc-700 shadow-[3px_3px_6px_rgba(0,0,0,0.3),-3px_-3px_6px_rgba(40,43,52,0.8)] hover:shadow-[5px_5px_10px_rgba(0,0,0,0.4),-5px_-5px_10px_rgba(40,43,52,1)] active:shadow-[inset_4px_4px_8px_rgba(0,0,0,0.3),inset_-4px_-4px_8px_rgba(40,43,52,0.8)] text-zinc-300' 
+                        : 'bg-[#e0e5ec] border border-slate-300 shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] hover:shadow-[5px_5px_10px_rgba(163,177,198,0.7),-5px_-5px_10px_rgba(255,255,255,1)] active:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] text-zinc-600' 
+                      }`
+                    : `${isDark ? 'text-zinc-300 hover:text-blue-400 hover:bg-zinc-800/50' : 'text-zinc-500 hover:text-blue-400 hover:bg-white/10'}`}`}
+                  onClick={() => setIsSoundMenuOpen(!isSoundMenuOpen)}
+                  title="选择背景音乐"
                 >
-                  {localCurrentSoundId === 'mute' ? '🔇' : '🎵'}
+                  {localCurrentSoundId === 'mute' 
+                    ? <VolumeX size={18} className={isDark ? 'text-zinc-300' : 'text-zinc-600'} /> 
+                    : <Waves size={18} className={isDark ? 'text-zinc-300' : 'text-zinc-600'} />
+                  }
                 </button>
-                <div 
-                  className={`${isNeomorphicDark ? 'bg-[#1e1e2e] border border-zinc-700 shadow-[8px_8px_16px_rgba(0,0,0,0.3),-8px_-8px_16px_rgba(40,43,52,0.8)]' : isDark ? 'bg-zinc-900/95 border border-zinc-800' : (isNeomorphic ? 'bg-[#e0e5ec] border border-slate-300 shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]' : 'bg-white/95 border border-slate-200 shadow-[10px_10px_20px_rgba(163,177,198,0.4),-10px_-10px_20px_rgba(255,255,255,0.6)]')} absolute top-0 right-0 mt-16 mr-2 rounded-xl p-4 backdrop-blur-sm z-50 audio-menu ${isAudioMenuOpen ? 'show' : ''}`}
-                >
-                  {/* 搜索框与切换按钮 */}
-                  <div className="mb-3">
-                    <div className="flex items-center gap-2">
-                      <button 
-                        onClick={handlePrevSound}
-                        className={`p-1.5 rounded-lg border ${isNeomorphic ? (isDark ? 'bg-[#1e1e2e] shadow-[4px_4px_8px_rgba(0,0,0,0.2),-4px_-4px_8px_rgba(40,43,52,0.8)] border-[#3a3f4e]' : 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)] border-[#caced5]') : (isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-200')} transition-all active:scale-95`}
-                        title="上一个背景音乐"
-                      >
-                        <span className={isDark ? 'text-zinc-400' : 'text-zinc-600'}>←</span>
-                      </button>
-                      
-                      <div className={`relative flex-1 ${isNeomorphic ? (isDark ? 'bg-[#1e1e2e]' : 'bg-[#e0e5ec]') : (isDark ? 'bg-zinc-800' : 'bg-white')}`}>
-                        <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-zinc-500 dark:text-zinc-400">🔍</span>
-                        <input
-                          type="text"
-                          placeholder="搜索..."
-                          value={searchQuery}
-                          onChange={(e) => setSearchQuery(e.target.value)}
-                          className={`w-full pl-9 pr-3 py-1.5 rounded-lg border ${isNeomorphic ? (isDark ? 'bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.2),inset_-4px_-4px_8px_rgba(40,43,52,0.8)] border-[#3a3f4e]' : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] border-[#caced5]') : (isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-200')} text-sm ${isDark ? 'text-zinc-200' : 'text-zinc-700'}`}
-                        />
+                {isSoundMenuOpen && (
+                  <div 
+                    ref={soundMenuRef}
+                    className={`absolute top-0 right-0 mt-16 mr-2 w-64 sm:w-72 md:w-80 rounded-xl p-4 backdrop-blur-sm z-50 ${isNeomorphic ? (isDark ? 'bg-[#1e1e2e] border border-zinc-700 shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]' : 'bg-[#e0e5ec] border border-slate-300 shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]') : isDark ? 'bg-zinc-900/95 border border-zinc-800' : 'bg-white/95 border border-slate-200 shadow-[10px_10px_20px_rgba(163,177,198,0.4),-10px_-10px_20px_rgba(255,255,255,0.6)]'}`}
+                  >
+                    {/* 搜索框与切换按钮 */}
+                    <div className="mb-3">
+                      <div className="relative flex items-center">
+                        {/* 搜索框 */}
+                        <div className="flex-1 mr-2">
+                          <input
+                            type="text"
+                            placeholder="搜索背景音乐..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className={`w-full px-4 py-1.5 rounded-[24px] text-sm border transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500/50 ${isNeomorphic ? (isDark ? 'bg-[#1e1e2e] border-[#1e1e2e] text-white placeholder-white/50 shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] hover:shadow-[inset_3px_3px_6px_rgba(0,0,0,0.5),inset_-3px_-3px_6px_rgba(30,30,46,1)]' : 'bg-[#e0e5ec] border-[#e0e5ec] text-black placeholder-black/50 shadow-[inset_2px_2px_4px_rgba(163,177,198,0.3),inset_-2px_-2px_4px_rgba(255,255,255,0.8)] hover:shadow-[inset_3px_3px_6px_rgba(163,177,198,0.4),inset_-3px_-3px_6px_rgba(255,255,255,0.9)]') : (isDark ? 'bg-zinc-900 border-zinc-800 text-white placeholder-zinc-500' : 'bg-white border-slate-300 text-black placeholder-gray-500')}`}
+                          />
+                        </div>
+                        
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={handlePrevSound}
+                            className={`p-2 rounded-full transition-all duration-300 flex-shrink-0 ${
+                              isNeomorphic 
+                                ? (isDark ? 'bg-[#1e1e2e] shadow-[4px_4px_8px_rgba(0,0,0,0.4),-4px_-4px_8px_rgba(30,30,46,0.8)] hover:shadow-[6px_6px_12px_rgba(0,0,0,0.5),-6px_-6px_12px_rgba(30,30,46,1)] active:shadow-[inset_4px_4px_8px_rgba(0,0,0,0.5)]' : 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.4),-4px_-4px_8px_rgba(255,255,255,0.8)] hover:shadow-[6px_6px_12px_rgba(163,177,198,0.5),-6px_-6px_12px_rgba(255,255,255,1)] active:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.5)]')
+                                : (isDark ? 'bg-zinc-800 hover:bg-zinc-700 text-white shadow-sm' : 'bg-white hover:bg-slate-100 shadow-sm')
+                            } ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}
+                            title="上一个音乐"
+                          >
+                            <ChevronLeft size={20} />
+                          </button>
+                          
+                          <button
+                            onClick={handleNextSound}
+                            className={`p-2 rounded-full transition-all duration-300 flex-shrink-0 ${
+                              isNeomorphic 
+                                ? (isDark ? 'bg-[#1e1e2e] shadow-[4px_4px_8px_rgba(0,0,0,0.4),-4px_-4px_8px_rgba(30,30,46,0.8)] hover:shadow-[6px_6px_12px_rgba(0,0,0,0.5),-6px_-6px_12px_rgba(30,30,46,1)] active:shadow-[inset_4px_4px_8px_rgba(0,0,0,0.5)]' : 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.4),-4px_-4px_8px_rgba(255,255,255,0.8)] hover:shadow-[6px_6px_12px_rgba(163,177,198,0.5),-6px_-6px_12px_rgba(255,255,255,1)] active:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.5)]')
+                                : (isDark ? 'bg-zinc-800 hover:bg-zinc-700 text-white shadow-sm' : 'bg-white hover:bg-slate-100 shadow-sm')
+                            } ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}
+                            title="下一个音乐"
+                          >
+                            <ChevronRight size={20} />
+                          </button>
+                        </div>
                       </div>
-
-                      <button 
-                        onClick={handleNextSound}
-                        className={`p-1.5 rounded-lg border ${isNeomorphic ? (isDark ? 'bg-[#1e1e2e] shadow-[4px_4px_8px_rgba(0,0,0,0.2),-4px_-4px_8px_rgba(40,43,52,0.8)] border-[#3a3f4e]' : 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)] border-[#caced5]') : (isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-200')} transition-all active:scale-95`}
-                        title="下一个背景音乐"
-                      >
-                        <span className={isDark ? 'text-zinc-400' : 'text-zinc-600'}>→</span>
-                      </button>
+                    </div>
+                    
+                    <div className="flex flex-col gap-2 max-h-60 overflow-y-auto">
+                      {/* 过滤后的音效列表 */}
+                      {allSounds
+                        .filter(sound => sound.name.toLowerCase().includes(searchQuery.toLowerCase()))
+                        .map(sound => {
+                          const IconComponent = getIconComponentByName(sound.name);
+                          return (
+                            <button 
+                              key={sound.id}
+                              onClick={() => {
+                                setLocalCurrentSoundId(sound.id);
+                                // 选择音乐时不关闭面板
+                                // setIsSoundMenuOpen(false);
+                                // 记录播放次数，但不重新加载音频文件以避免列表跳动
+                                if (sound.id && sound.id !== 'mute') {
+                                  audioStatistics.recordPlay(sound.id);
+                                }
+                              }}
+                              className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all cursor-pointer ${localCurrentSoundId === sound.id ? (isNeomorphic ? `${isDark ? 'bg-[#3a3f4e] text-blue-300 shadow-[inset_6px_6px_12px_rgba(0,0,0,0.3),inset_-6px_-6px_12px_rgba(58,63,78,0.8)]' : 'bg-[#d0d5dc] text-blue-600 shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(208,213,220,1)]'}` : isDark ? 'bg-zinc-800 text-white' : 'bg-blue-50 text-blue-600') : (isNeomorphic ? `${isDark ? 'bg-[#1e1e2e] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)] hover:shadow-[12px_12px_24px_rgba(0,0,0,0.4),-12px_-12px_24px_rgba(40,43,52,1)] active:shadow-[inset_8px_8px_16px_rgba(0,0,0,0.4),inset_-8px_-8px_16px_rgba(40,43,52,0.9)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] active:shadow-[inset_8px_8px_16px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]'} active:scale-[0.98]` : isDark ? 'hover:bg-zinc-700 text-zinc-300' : 'hover:bg-slate-100 text-slate-700')}`}
+                            >
+                              <span className={`text-[9px] ${isDark ? 'text-zinc-400' : 'text-zinc-500'} w-4`}>{allSounds.findIndex(s => s.id === sound.id) + 1}.</span>
+                              <IconComponent size={16} className={isDark ? (sound.id === 'mute' ? 'text-zinc-400' : 'text-zinc-300') : 'text-blue-500'} />
+                              <span className={`text-xs font-medium ${isDark ? 'text-zinc-300' : isNeomorphic ? 'text-zinc-700' : 'text-slate-700'}`}>{sound.name}</span>
+                            </button>
+                          );
+                        })}
                     </div>
                   </div>
-                  
-                  <div className="flex flex-col gap-2 max-h-60 overflow-y-auto">
-                    {/* 优化后的音频菜单样式：添加圆角设计，调整按钮宽度 */}
-                    {/* 静音选项 */}
-                    <button 
-                      className="flex items-center gap-2 px-3 py-2 rounded-2xl transition-all cursor-pointer active:scale-[0.98] hover:bg-gray-100 dark:hover:bg-zinc-700 w-full"
-                      onClick={() => setSound('mute')}
-                    >
-                      <span className="text-[9px] text-zinc-500 dark:text-zinc-400 w-4">1.</span>
-                      <span className="text-16 text-zinc-500 dark:text-zinc-400">🔇</span>
-                      <span className="text-xs font-medium">静音</span>
-                    </button>
-                    
-                    {/* 音频列表 */}
-                    {isSoundListLoaded ? (
-                      allSounds
-                        .filter(sound => sound.id !== 'mute' && sound.name.toLowerCase().includes(searchQuery.toLowerCase()))
-                        .map((sound, index) => (
-                          <button 
-                            key={sound.id}
-                            className="flex items-center gap-2 px-3 py-2 rounded-2xl transition-all cursor-pointer active:scale-[0.98] hover:bg-gray-100 dark:hover:bg-zinc-700 w-full"
-                            onClick={() => setSound(sound.id)}
-                          >
-                            <span className="text-[9px] text-zinc-500 dark:text-zinc-400 w-4">{index + 2}.</span>
-                            <span className="text-16 text-blue-500 dark:text-zinc-300">{sound.icon || '🎵'}</span>
-                            <span className="text-xs font-medium flex-1">{sound.name}</span>
-                          </button>
-                        ))
-                    ) : (
-                      <div className="audio-item loading">加载中...</div>
-                    )}
-                  </div>
-                </div>
+                )}
               </div>
             </div>
             
@@ -750,7 +798,7 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
           </div>
 
           {/* 侧边种子选择 - 修改条件，在专注模式下完全隐藏 */}
-          <div className={`${isNeomorphicDark ? 'neu-out neomorphic-dark-mode' : isDark ? 'neu-out dark-mode' : 'neu-out'} seed-selector ${isFocusing ? 'hidden' : ''}`} id="seedSelector">
+          <div className={`${isNeomorphicDark ? 'neu-out neomorphic-dark-mode' : isDark ? 'neu-out dark-mode' : 'neu-out'} seed-selector ${isFocusing && !isPaused ? 'hidden' : ''}`} id="seedSelector">
             <div className="selector-title">🌿 植物类</div>
             {SPECIES.plants.map(plant => (
               <div 
@@ -1074,7 +1122,7 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
         .seed-selector {
           pointer-events: auto;
           position: absolute;
-          top: 100px; max-height: calc(100vh - 140px); right: 30px; width: 160px;
+          top: 100px; max-height: calc((100vh - 140px) / 2); right: 30px; width: 160px;
           padding: 15px;
           display: flex;
           flex-direction: column;
@@ -1473,14 +1521,15 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
         }
         .neomorphic-dark .audio-btn:hover { color: var(--primary-green); }
 
-        .audio-menu {
+        /* 旧的音频菜单样式已被替换为新的Tailwind实现，保留此注释以防止样式冲突 */
+        /* .audio-menu {
           display: none; position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%);
           width: 140px; padding: 15px; z-index: 100; flex-direction: column; gap: 10px;
           margin-bottom: 0;
         }
         .audio-menu.show {
           display: flex;
-        }
+        } */
         
         .audio-item {
           pointer-events: auto;

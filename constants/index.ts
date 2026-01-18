@@ -74,7 +74,7 @@ export const INITIAL_PROJECTS: Project[] = [
     ]
   },
   {
-    id: 'p4', name: '小红书虚拟资料项目推进', startDate: '2025-12-23', description: '运营虚拟资料店铺，销售虚拟资料产品', status: 'active' as const, logs: [], dailyFocus: {}, todayFocusMinutes: 0, fears: [], attr: AttributeType.WEALTH,
+    id: 'p4', name: '小红书虚拟店铺运营', startDate: '2025-12-23', description: '运营虚拟资料店铺，销售虚拟资料产品', status: 'active' as const, logs: [], dailyFocus: {}, todayFocusMinutes: 0, fears: [], attr: AttributeType.WEALTH,
     subTasks: [
       { id: 't4_1', title: '找同行选品二创上架', duration: 5, completed: false, frequency: 'daily' as const },
       { id: 't4_2', title: '多平台搜索爆款笔记二创上架', duration: 5, completed: false, frequency: 'daily' as const },

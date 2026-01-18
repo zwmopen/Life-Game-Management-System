@@ -110,6 +110,8 @@ interface LifeGameProps {
   onUpdateDiceState?: (updates: Partial<DiceState>) => void;
   // 角色等级变化回调
   onLevelChange: (newLevel: number, type: 'level' | 'focus' | 'wealth') => void;
+  // 模态框状态管理
+  setModalState?: (isOpen: boolean) => void;
 }
 
 const XP_PER_LEVEL = 200;
@@ -133,7 +135,9 @@ const LifeGame: React.FC<LifeGameProps> = ({
     onUpdateDiceTask,
     onUpdateDiceConfig,
     onUpdateDiceState,
-    onLevelChange
+    onLevelChange,
+    // 模态框状态管理
+    setModalState
 }) => {
   const { theme } = useTheme();
   const isDark = theme === 'dark' || theme === 'neomorphic-dark';
@@ -182,6 +186,8 @@ const LifeGame: React.FC<LifeGameProps> = ({
     handleAddNewItem,
     handleAddNewGroup,
     handleCancelAddGroup,
+    handleEditGroup,
+    handleDeleteGroup,
     isAddingGroup,
     setIsAddingGroup,
     newGroupName,
@@ -560,6 +566,19 @@ const LifeGame: React.FC<LifeGameProps> = ({
       if (newTaskType === 'daily') {
           onAddHabit(newTaskTitle, parseInt(newTaskReward) || 15);
       } else if (newTaskType === 'main') {
+          // 如果没有手动设置提醒，则为主任务设置默认的每日14点提醒
+          const projectReminderData = reminderEnabled ? {
+              enabled: true,
+              date: reminderDate,
+              time: reminderTime,
+              repeat: reminderRepeat,
+              repeatInterval: parseInt(reminderInterval) || 1
+          } : {
+              enabled: true,
+              time: '14:00',
+              repeat: 'daily'
+          };
+          
           onAddProject({
               id: Date.now().toString(), 
               name: newTaskTitle, 
@@ -572,7 +591,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
               fears: [], 
               todayFocusMinutes: 0, 
               attr: newTaskAttr,
-              reminder: reminderData as any
+              reminder: projectReminderData as any
           });
       } else if (newTaskType === 'random') {
           const newTask = {
@@ -639,9 +658,18 @@ const LifeGame: React.FC<LifeGameProps> = ({
                 <FateGiftModal
                     task={diceState.currentResult as any}
                     isSpinning={diceState.isSpinning}
-                    onComplete={() => onDiceResult && onDiceResult('completed')}
-                    onLater={() => onDiceResult && onDiceResult('later')}
-                    onSkip={() => onDiceResult && onDiceResult('skipped')}
+                    onComplete={() => {
+                        onDiceResult && onDiceResult('completed');
+                        setModalState && setModalState(false);
+                    }}
+                    onLater={() => {
+                        onDiceResult && onDiceResult('later');
+                        setModalState && setModalState(false);
+                    }}
+                    onSkip={() => {
+                        onDiceResult && onDiceResult('skipped');
+                        setModalState && setModalState(false);
+                    }}
                     onStartTimer={(duration) => {
                         onChangeDuration(duration);
                         onToggleTimer();
@@ -649,6 +677,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                         setIsImmersive(true);
                     }}
                     theme={theme}
+                    onModalOpen={() => setModalState && setModalState(true)}
                 />
             )}
 
@@ -1071,7 +1100,10 @@ const LifeGame: React.FC<LifeGameProps> = ({
                         onShowHelp={setActiveHelp}
                         todayStr={todayStr}
                         setIsImmersive={setIsImmersive}
-                        onAddTask={() => setIsManageTasksOpen(true)}
+                        onAddTask={() => {
+                            setIsManageTasksOpen(true);
+                            setModalState && setModalState(true);
+                        }}
                     />
                 </div>
             )}
@@ -1111,6 +1143,8 @@ const LifeGame: React.FC<LifeGameProps> = ({
                     setNewGroupName={setNewGroupName}
                     handleAddNewGroup={handleAddNewGroup}
                     handleCancelAddGroup={handleCancelAddGroup}
+                    handleEditGroup={handleEditGroup}
+                    handleDeleteGroup={handleDeleteGroup}
                 />
             )}
             {mainTab === 'armory' && (
@@ -1136,15 +1170,18 @@ const LifeGame: React.FC<LifeGameProps> = ({
                 <div className={`w-full max-w-lg rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[80vh] ${cardBg}`}>
                     <div className={`p-4 border-b flex justify-between items-center shrink-0 ${isDark ? 'border-zinc-800' : 'border-slate-200'}`}>
                         <h3 className={`font-bold ${textMain}`}>任务管理系统</h3>
-                        <button onClick={() => setIsManageTasksOpen(false)} className="text-zinc-500 hover:text-red-500"><X size={20}/></button>
+                        <button onClick={() => {
+                            setIsManageTasksOpen(false);
+                            setModalState && setModalState(false);
+                        }} className="text-zinc-500 hover:text-red-500"><X size={20}/></button>
                     </div>
-                    
+                            
                     <div className={`flex p-2 border-b ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] border-[#1e1e2e] shadow-[inset_3px_3px_6px_rgba(0,0,0,0.3),inset_-3px_-3px_6px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] border-[#e0e5ec] shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,1)]') : (isDark ? 'border-zinc-800 bg-zinc-900/50' : 'border-slate-200 bg-slate-50')}`}>
                         <button onClick={() => setManageTaskTab('random')} className={`flex-1 text-xs py-2 rounded font-bold flex items-center justify-center gap-1 transition-all duration-200 ${getButtonStyleLocal(manageTaskTab === 'random')}`}><Dice5 size={12} /> 命运骰子</button>
                         <button onClick={() => setManageTaskTab('main')} className={`flex-1 text-xs py-2 rounded font-bold transition-all duration-200 ${getButtonStyleLocal(manageTaskTab === 'main')}`}>主线任务</button>
                         <button onClick={() => setManageTaskTab('daily')} className={`flex-1 text-xs py-2 rounded font-bold transition-all duration-200 ${getButtonStyleLocal(manageTaskTab === 'daily')}`}>日常任务</button>
                     </div>
-                    
+                            
                     <div className={`p-4 overflow-y-auto space-y-2 flex-1 ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[inset_5px_5px_10px_rgba(0,0,0,0.4),inset_-5px_-5px_10px_rgba(30,30,46,0.8)] border-none rounded-xl' : 'bg-[#e0e5ec] shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)] border-none rounded-xl') : (isDark ? 'bg-zinc-900' : 'bg-slate-100')}`}>
                         {/* 任务部署中心 - 统一入口 */}
                         <div className="flex flex-col items-center justify-center p-8 text-center animate-in fade-in slide-in-from-bottom-4 duration-300">
@@ -1165,7 +1202,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                 <Rocket size={18} /> 部署新任务
                             </button>
                         </div>
-                                            
+                                                     
                         {/* 现有任务列表 */}
                         <div className="space-y-2">
                             {manageTaskTab === 'daily' && habits.map((h) => (
@@ -1191,7 +1228,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                     {/* 分类任务列表 */}
                                     {Object.entries(diceState.taskPool as Record<string, any[]>).map(([categoryKey, tasks]) => {
                                         if ((tasks as any[]).length === 0) return null;
-                                        
+                                                
                                         // 获取分类标签和颜色
                                         const categoryInfo = {
                                             health: { label: '健康微行动', color: 'emerald' },
@@ -1250,7 +1287,11 @@ const LifeGame: React.FC<LifeGameProps> = ({
         {/* Edit Task Modal */}
         <TaskEditorModal
             isOpen={isAddTaskOpen}
-            onClose={() => setIsAddTaskOpen(false)}
+            onClose={() => {
+                setIsAddTaskOpen(false);
+                setModalState && setModalState(false);
+            }}
+            onOpen={() => setModalState && setModalState(true)}
             editingTaskId={editingTaskId}
             newTaskTitle={newTaskTitle}
             setNewTaskTitle={setNewTaskTitle}
@@ -1285,13 +1326,19 @@ const LifeGame: React.FC<LifeGameProps> = ({
         />
 
         {/* Edit Item Modal */}
-        {isEditItemOpen && (
+        {isEditItemOpen && (() => {
+            // 在模态框打开时更新状态
+            setModalState && setModalState(true);
+            return (
             <div className="fixed inset-0 z-[100] bg-black/80 flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in">
                 <div className={`w-full max-w-2xl p-4 sm:p-6 rounded-2xl sm:rounded-[48px] border bg-[#e0e5ec] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)] overflow-y-auto max-h-[90vh] transition-all duration-300 relative ${isNeomorphicDark ? '!bg-[#1e1e2e] !shadow-[10px_10px_20px_rgba(0,0,0,0.4),-10px_-10px_20px_rgba(30,30,46,0.8)]' : ''}`}>
                     <div className="flex justify-between items-center mb-4 sm:mb-6">
                         <h3 className={`font-bold ${isNeomorphicDark ? 'text-white' : 'text-zinc-800'}`}>{editingItem.id ? '编辑商品' : '添加新商品'}</h3>
                         <button 
-                            onClick={() => setIsEditItemOpen(false)}
+                            onClick={() => {
+                                setIsEditItemOpen(false);
+                                setModalState && setModalState(false);
+                            }}
                             className={`p-2 rounded-full transition-all ${isNeomorphic ? (isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[5px_5px_10px_rgba(0,0,0,0.6),-5px_-5px_10px_rgba(30,30,46,0.8)] hover:shadow-[3px_3px_6px_rgba(0,0,0,0.5),-3px_-3px_6px_rgba(30,30,46,1)] active:shadow-[inset_5px_5px_10px_rgba(0,0,0,0.6),inset_-5px_-5px_10px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[3px_3px_6px_rgba(163,177,198,0.5),-3px_-3px_6px_rgba(255,255,255,1)] active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]') : 'hover:bg-slate-100'}`}
                         >
                             <X size={16} className={`${isNeomorphicDark ? 'text-white' : 'text-zinc-800'}`} />
@@ -1339,7 +1386,10 @@ const LifeGame: React.FC<LifeGameProps> = ({
                         </div>
                         <div className="flex justify-end gap-2 mt-6">
                             <button 
-                                onClick={() => setIsEditItemOpen(false)} 
+                                onClick={() => {
+                                    setIsEditItemOpen(false);
+                                    setModalState && setModalState(false);
+                                }} 
                                 className={`px-4 py-2 rounded-xl sm:rounded-[24px] transition-all font-medium ${isNeomorphic ? (isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[5px_5px_10px_rgba(0,0,0,0.6),-5px_-5px_10px_rgba(30,30,46,0.8)] hover:shadow-[3px_3px_6px_rgba(0,0,0,0.5),-3px_-3px_6px_rgba(30,30,46,1)] active:shadow-[inset_5px_5px_10px_rgba(0,0,0,0.6),inset_-5px_-5px_10px_rgba(30,30,46,0.8)] text-zinc-300' : 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[3px_3px_6px_rgba(163,177,198,0.5),-3px_-3px_6px_rgba(255,255,255,1)] active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)] text-zinc-800') : 'text-zinc-500 hover:text-white'}`}
                             >
                                 取消
@@ -1354,7 +1404,8 @@ const LifeGame: React.FC<LifeGameProps> = ({
                     </div>
                 </div>
             </div>
-        )}
+            );
+        })()}
         
     </div>
   );

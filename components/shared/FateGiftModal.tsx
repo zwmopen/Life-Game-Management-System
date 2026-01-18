@@ -10,6 +10,7 @@ interface FateGiftModalProps {
   onSkip: () => void;
   onStartTimer: (duration: number) => void;
   theme?: 'dark' | 'light' | 'neomorphic';
+  onModalOpen?: () => void;
 }
 
 const FateGiftModal: React.FC<FateGiftModalProps> = ({
@@ -19,13 +20,21 @@ const FateGiftModal: React.FC<FateGiftModalProps> = ({
   onLater,
   onSkip,
   onStartTimer,
-  theme = 'dark'
+  theme = 'dark',
+  onModalOpen
 }) => {
   const isDark = theme === 'dark' || theme === 'neomorphic-dark';
   const isNeomorphic = theme.startsWith('neomorphic');
+  
+  // 在组件挂载时触发onModalOpen回调
+  React.useEffect(() => {
+    if (onModalOpen) {
+      onModalOpen();
+    }
+  }, [onModalOpen]);
   const isNeomorphicDark = theme === 'neomorphic-dark';
   const cardBg = isNeomorphic 
-    ? (isDark ? 'bg-[#2a2a3a]' : 'bg-[#e0e5ec]') 
+    ? (isDark ? 'bg-[#1e1e2e]' : 'bg-[#e0e5ec]') 
     : (isDark ? 'bg-zinc-900/90' : 'bg-white/90');
   const textMain = isDark || isNeomorphic ? 'text-white' : 'text-zinc-900';
   const textSub = isDark || isNeomorphic ? 'text-zinc-400' : 'text-zinc-500';
@@ -108,7 +117,7 @@ const FateGiftModal: React.FC<FateGiftModalProps> = ({
               {getTaskCategoryLabel(task.category)}
             </h4>
             
-            <p className={`text-lg ${isNeomorphic && !isDark ? 'text-zinc-800' : textMain} p-5 rounded-xl backdrop-blur-sm transition-all duration-300 hover:shadow-lg`}
+            <p className={`text-lg ${isNeomorphic && !isDark ? 'text-zinc-900 font-medium' : textMain} p-5 rounded-xl backdrop-blur-sm transition-all duration-300 hover:shadow-lg`}
                style={{
                  backgroundColor: isNeomorphic 
                    ? (isNeomorphicDark ? 'rgba(40, 40, 50, 0.8)' : 'rgba(224, 229, 236, 0.8)')

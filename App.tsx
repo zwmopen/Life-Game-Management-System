@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import Navigation from './components/Navigation';
 import MissionControl from './components/MissionControl'; 
@@ -17,6 +17,9 @@ import confetti from 'canvas-confetti';
 
 // 导入坚果云配置迁移函数
 import { migrateOldWebDAVConfig } from './utils/secureStorage';
+
+// 导入日志工具
+import { logger, logInfo, logError, logWarn } from './utils/logger';
 
 // 导入常量
 import {
@@ -72,7 +75,7 @@ const createLogger = () => {
   };
 };
 
-const logger = createLogger();
+const appLogger = createLogger();
 
 
 
@@ -96,6 +99,16 @@ const App: React.FC = () => {
   // Immersive Mode State (Global)
   const [isImmersive, setIsImmersive] = useState(false);
   const [useInternalImmersive, setUseInternalImmersive] = useState(false); // 新状态：控制使用哪种沉浸式模式
+  const [isModalOpen, setIsModalOpen] = useState(false); // 新状态：跟踪是否有模态框打开
+  
+  // 函数来管理模态框状态
+  const setModalState = useCallback((isOpen: boolean) => {
+    setIsModalOpen(isOpen);
+    if (isOpen) {
+      // 当模态框打开时，暂时禁用沉浸模式以避免冲突
+      setIsImmersive(false);
+    }
+  }, []);
 
   // 使用模块化 hooks
   const { pomodoroState, toggleTimer, resetTimer, changeDuration, updateTimeLeft, updateIsActive } = usePomodoro();
@@ -210,6 +223,8 @@ const App: React.FC = () => {
 
   // --- Persistence Engine ---
   useEffect(() => {
+    logInfo('Initializing app data loading');
+    
     // 初始化备份管理器
     backupManager.initialize();
     
@@ -220,6 +235,13 @@ const App: React.FC = () => {
     const savedLifeGame = localStorage.getItem('life-game-stats-v2');
     const streakStr = localStorage.getItem('aes-checkin-streak');
     const savedDiceState = localStorage.getItem('aes-dice-state');
+    
+    logInfo('Retrieved data from localStorage', {
+      hasSavedGlobal: !!savedGlobal,
+      hasSavedLifeGame: !!savedLifeGame,
+      hasStreak: !!streakStr,
+      hasDiceState: !!savedDiceState
+    });
 
     if(streakStr) setCheckInStreak(parseInt(streakStr));
 
@@ -274,7 +296,7 @@ const App: React.FC = () => {
         setDay(diff);
 
       } catch (e) { 
-          logger.error("Global save corrupted", e); 
+          logError("Global save corrupted", { error: e, stack: (e as Error).stack }); 
           // 数据损坏时，使用默认数据
           setHabits(INITIAL_HABITS);
           setProjects(INITIAL_PROJECTS);
@@ -319,7 +341,7 @@ const App: React.FC = () => {
         });
       }
     } catch (e) {
-      logger.error("Dice save corrupted", e);
+      logError("Dice save corrupted", { error: e, stack: (e as Error).stack });
       setDiceState(INITIAL_DICE_STATE);
     }
   } else {
@@ -332,7 +354,7 @@ const App: React.FC = () => {
             const lgData = JSON.parse(savedLifeGame);
             if (lgData.xp) setXp(lgData.xp);
         } catch (e) { 
-            logger.error("LifeGame save corrupted", e); 
+            logError("LifeGame save corrupted", { error: e, stack: (e as Error).stack }); 
             // 数据损坏时，使用默认数据
             setXp(0);
         }
@@ -600,37 +622,43 @@ const App: React.FC = () => {
 
   // Audio Handler - 保留以兼容旧代码，但优先使用全局音频管理器
   const playSound = (url: string, type: SoundType = SoundType.SOUND_EFFECT) => {
-      if ((type === SoundType.SOUND_EFFECT && !settings.enableSoundEffects) || (type === SoundType.BACKGROUND_MUSIC && !settings.enableBgMusic)) {
-          return;
-      }
-      
-      const volume = isMuted ? 0 : (type === SoundType.SOUND_EFFECT ? settings.soundEffectVolume : settings.bgMusicVolume);
-      
-      if (type === SoundType.BACKGROUND_MUSIC) {
-          // 使用全局音频管理器播放背景音乐
-          soundManager.playBackgroundMusic(url);
-      } else {
-          // For sound effects, create new Audio objects
-          const audio = new Audio(url);
-          audio.volume = volume;
-          audio.play().catch((e) => {
-              logger.error('Failed to play sound effect:', e);
-              
-              // 如果音效播放失败，尝试其他方法
-              try {
-                  // 创建一个新的音频元素并播放
-                  const fallbackAudio = new Audio(url);
-                  fallbackAudio.volume = volume;
-                  // 延迟播放以绕过某些浏览器限制
-                  setTimeout(() => {
-                      fallbackAudio.play().catch(fallbackError => {
-                          logger.error('Fallback sound play failed:', fallbackError);
-                      });
-                  }, 100);
-              } catch (fallbackError) {
-                  logger.error('Fallback sound creation failed:', fallbackError);
-              }
-          });
+      try {
+          if ((type === SoundType.SOUND_EFFECT && !settings.enableSoundEffects) || (type === SoundType.BACKGROUND_MUSIC && !settings.enableBgMusic)) {
+              return;
+          }
+          
+          const volume = isMuted ? 0 : (type === SoundType.SOUND_EFFECT ? settings.soundEffectVolume : settings.bgMusicVolume);
+          
+          if (type === SoundType.BACKGROUND_MUSIC) {
+              // 使用全局音频管理器播放背景音乐
+              soundManager.playBackgroundMusic(url);
+              logInfo('Playing background music', { url, volume });
+          } else {
+              // For sound effects, create new Audio objects
+              const audio = new Audio(url);
+              audio.volume = volume;
+              audio.play().catch((e) => {
+                  logger.error('Failed to play sound effect:', e);
+                  
+                  // 如果音效播放失败，尝试其他方法
+                  try {
+                      // 创建一个新的音频元素并播放
+                      const fallbackAudio = new Audio(url);
+                      fallbackAudio.volume = volume;
+                      // 延迟播放以绕过某些浏览器限制
+                      setTimeout(() => {
+                          fallbackAudio.play().catch(fallbackError => {
+                              logger.error('Fallback sound play failed:', fallbackError);
+                          });
+                      }, 100);
+                  } catch (fallbackError) {
+                      logger.error('Fallback sound creation failed:', fallbackError);
+                  }
+              });
+          }
+      } catch (error) {
+          logger.error('Critical error in playSound function:', error);
+          // 确保即使音频出错也不会影响应用运行
       }
   };
 
@@ -919,6 +947,47 @@ const App: React.FC = () => {
   };
 
   // --- 命运骰子核心逻辑 --- //
+
+  // 添加全局错误处理，确保在出现问题时能输出日志
+  useEffect(() => {
+    const handleError = (e: ErrorEvent) => {
+      logger.error('Global JavaScript Error', {
+        message: e.message,
+        filename: e.filename,
+        lineno: e.lineno,
+        colno: e.colno,
+        error: e.error
+      });
+    };
+
+    const handleUnhandledRejection = (e: PromiseRejectionEvent) => {
+      logger.error('Unhandled Promise Rejection', {
+        reason: e.reason,
+        promise: e.promise
+      });
+    };
+
+    window.addEventListener('error', handleError);
+    window.addEventListener('unhandledrejection', handleUnhandledRejection);
+
+    return () => {
+      window.removeEventListener('error', handleError);
+      window.removeEventListener('unhandledrejection', handleUnhandledRejection);
+    };
+  }, []);
+
+  // 添加性能监控日志
+  useEffect(() => {
+    logInfo('App initialized successfully');
+    
+    // 记录页面加载完成
+    window.addEventListener('load', () => {
+      logInfo('Page loaded', {
+        timestamp: Date.now(),
+        userAgent: navigator.userAgent
+      });
+    });
+  }, []);
 
   // 检查今日是否还有次数
   const checkDiceAvailability = () => {
@@ -1222,6 +1291,8 @@ const App: React.FC = () => {
                   onUpdateDiceState={updateDiceState}
                   // 角色等级变化回调
                   onLevelChange={handleLevelChange}
+                  // 模态框状态管理
+                  setModalState={setModalState}
                />;
       case View.BLACK_MARKET:
         return <LifeGame 
@@ -1326,6 +1397,11 @@ const App: React.FC = () => {
                   onChangeDuration={changeDuration}
                   onUpdateTimeLeft={updateTimeLeft}
                   onUpdateIsActive={updateIsActive}
+                  // Audio Management - 使用全局音频管理器
+                  isMuted={isMuted}
+                  currentSoundId={currentSoundId}
+                  onToggleMute={handleMuteToggle}
+                  onSoundChange={handleSoundChange}
                   // 帮助卡片系统
                   onHelpClick={setActiveHelp}
                />;
@@ -1334,6 +1410,11 @@ const App: React.FC = () => {
                   theme={theme} 
                   projects={projects}
                   habits={habits}
+                  // Audio Management - 使用全局音频管理器
+                  isMuted={isMuted}
+                  currentSoundId={currentSoundId}
+                  onToggleMute={handleMuteToggle}
+                  onSoundChange={handleSoundChange}
                   onHelpClick={setActiveHelp}
                />;
 
@@ -1349,10 +1430,20 @@ const App: React.FC = () => {
                   checkInStreak={checkInStreak}
                   transactions={transactions}
                   reviews={reviews}
+                  // Audio Management - 使用全局音频管理器
+                  isMuted={isMuted}
+                  currentSoundId={currentSoundId}
+                  onToggleMute={handleMuteToggle}
+                  onSoundChange={handleSoundChange}
                 />;
       case View.THINKING_CENTER:
         return <ThinkingCenter 
                   theme={theme} 
+                  // Audio Management - 使用全局音频管理器
+                  isMuted={isMuted}
+                  currentSoundId={currentSoundId}
+                  onToggleMute={handleMuteToggle}
+                  onSoundChange={handleSoundChange}
                   onHelpClick={setActiveHelp}
                 />;
       default: 
@@ -1435,6 +1526,8 @@ const App: React.FC = () => {
                   onUpdateDiceState={updateDiceState}
                   // 角色等级变化回调
                   onLevelChange={handleLevelChange}
+                  // 模态框状态管理
+                  setModalState={setModalState}
                />;
     }
   };
@@ -1460,8 +1553,8 @@ const App: React.FC = () => {
       <GlobalAudioProvider>
         <GlobalBackgroundMusicManager />
         <div className={`flex h-screen w-full overflow-hidden font-sans relative transition-colors duration-500 ${bgClass}`}>
-        {/* Conditionally render Navigation based on immersive mode */}
-        {!isImmersive && (
+        {/* Conditionally render Navigation based on immersive mode and modal state */}
+        {!isImmersive && !isModalOpen && (
           <Navigation 
             currentView={currentView} 
             setView={setCurrentView} 
@@ -1477,7 +1570,7 @@ const App: React.FC = () => {
         )}
         
         {/* GLOBAL REWARD POPUP */}
-        {activeAchievement && <RewardModal badge={activeAchievement} onClose={handleClaimReward} />}
+        {activeAchievement && <RewardModal badge={activeAchievement} onClose={(id, xp, gold) => { setIsModalOpen(false); handleClaimReward(id, xp, gold); }} />}
 
         {/* 统一背景，消除侧边栏和主体的颜色割裂 */}
         <main className={`flex-1 h-full overflow-y-auto relative scroll-smooth flex flex-col transition-all duration-200 ${bgClass}`}>
@@ -1514,7 +1607,7 @@ const App: React.FC = () => {
         <GlobalGuideCard
           activeHelp={activeHelp}
           helpContent={helpContent}
-          onClose={() => setActiveHelp(null)}
+          onClose={() => { setIsModalOpen(false); setActiveHelp(null); }}
           cardBg={theme === 'dark' ? 'bg-zinc-900 shadow-lg' : theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[8px_8px_16px_rgba(0,0,0,0.4),-8px_-8px_16px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)]'}
           textMain={theme === 'dark' ? 'text-zinc-200' : 'text-zinc-800'}
           textSub={theme === 'dark' ? 'text-zinc-500' : 'text-zinc-600'}

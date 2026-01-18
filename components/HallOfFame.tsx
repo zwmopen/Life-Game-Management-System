@@ -255,13 +255,13 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                 <div className="p-6">
                     {/* 成就收集率模块 - 优化布局顺序 */}
                     <div className={`mb-4 p-3 rounded-[48px] ${
-                        isDark ? 'bg-zinc-900' : isNeomorphic ? (isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[4px_4px_8px_rgba(0,0,0,0.2),-4px_-4px_8px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]') : 'bg-white shadow-sm'
+                        isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[4px_4px_8px_rgba(0,0,0,0.2),-4px_-4px_8px_rgba(30,30,46,0.8)]' : isDark ? 'bg-zinc-900' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)]' : 'bg-white shadow-sm'
                     } transition-all duration-300 hover:shadow-md`}>
                         <div className="flex items-center gap-4">
                             {/* 左侧：图标和文字 */}
                             <div className="flex items-center gap-1">
-                                <Activity size={12} className="text-yellow-500"/>
-                                <h4 className="text-xs font-bold uppercase text-zinc-500 text-shadow-sm">成就收集率</h4>
+                                <Activity size={12} className={isDark ? 'text-yellow-400' : 'text-yellow-500'} />
+                                <h4 className={`text-xs font-bold uppercase ${isDark ? 'text-zinc-400' : 'text-zinc-500'} text-shadow-sm`}>成就收集率</h4>
                                 <GlobalHelpButton helpId="achievements" onHelpClick={onHelpClick} size={14} variant="ghost" />
                             </div>
                             
@@ -282,11 +282,11 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                     </div>
                     
                     {/* 2. 最新战勋模块 - 显示最近获得的6个勋章 */}
-                    <div className={`mb-6 p-3 rounded-xl ${isDark ? 'bg-zinc-900' : (isNeomorphic ? (isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[6px_6px_12px_rgba(0,0,0,0.3),-6px_-6px_12px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[6px_6px_12px_rgba(163,177,198,0.6),-6px_-6px_12px_rgba(255,255,255,1)]') : 'bg-white shadow-md')} transition-all duration-300 hover:shadow-lg`}>
+                    <div className={`mb-6 p-3 rounded-xl ${(isNeomorphic && isNeomorphicDark) ? 'bg-[#1e1e2e] shadow-[6px_6px_12px_rgba(0,0,0,0.3),-6px_-6px_12px_rgba(30,30,46,0.8)]' : isDark ? 'bg-zinc-900' : (isNeomorphic ? 'bg-[#e0e5ec] shadow-[6px_6px_12px_rgba(163,177,198,0.6),-6px_-6px_12px_rgba(255,255,255,1)]' : 'bg-white shadow-md')} transition-all duration-300 hover:shadow-lg`}>
                         {/* 左上角小图标和文字 */}
                         <div className="flex items-center gap-2 mb-2">
-                            <Sparkles size={12} className="text-yellow-500"/>
-                            <h4 className="text-xs font-bold uppercase text-zinc-500">最新战勋</h4>
+                            <Sparkles size={12} className={isDark ? 'text-yellow-400' : 'text-yellow-500'}/>
+                            <h4 className={`text-xs font-bold uppercase ${isDark ? 'text-zinc-400' : 'text-zinc-500'}`}>最新战勋</h4>
                         </div>
                         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 pb-2">
                             {latestBadges.map((badge: any) => {
@@ -320,11 +320,11 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                                         key={`latest-${badge.id}`} 
                                         className={`shrink-0 w-28 p-3 rounded-full flex flex-col items-center gap-2 shadow-lg transition-all duration-300 hover:scale-[1.05] ${getBadgeClass()}`}
                                     >
-                                        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${badge.isUnlocked ? (isNeomorphic ? (isNeomorphicDark ? `bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-4px_-4px_8px_rgba(30,30,46,0.8)]` : `bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]`) : badge.bgColor) : 'bg-zinc-900/30'}`}>
+                                        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${badge.isUnlocked ? (isNeomorphic ? (isNeomorphicDark ? `bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-4px_-4px_8px_rgba(30,30,46,0.8)]` : `bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]`) : badge.bgColor) : (isNeomorphicDark ? 'bg-[#1e1e2e]/30' : isDark ? 'bg-zinc-900/30' : 'bg-slate-900/30')}`}>
                                             <badge.icon size={20} className={`${badge.color} ${!badge.isUnlocked ? 'opacity-70' : ''}`} strokeWidth={2}/>
                                         </div>
-                                        <div className={`text-[10px] font-bold text-center truncate w-full ${badge.isUnlocked ? textMain : 'text-zinc-500'}`}>{badge.title}</div>
-                                        <div className={`text-[8px] font-mono ${badge.isUnlocked ? textSub : 'text-zinc-600'}`}>{badge.subTitle}</div>
+                                        <div className={`text-[10px] font-bold text-center truncate w-full ${badge.isUnlocked ? textMain : (isDark ? 'text-zinc-500' : 'text-zinc-500')}`}>{badge.title}</div>
+                                        <div className={`text-[8px] font-mono ${badge.isUnlocked ? textSub : (isDark ? 'text-zinc-600' : 'text-zinc-600')}`}>{badge.subTitle}</div>
                                     </div>
                                 );
                             })}
@@ -332,12 +332,12 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                     </div>
                     
                     {/* 3. 勋章分组模块 - 单独的模块 */}
-                    <div className={`mb-6 p-3 rounded-xl ${isDark ? 'bg-zinc-900' : (isNeomorphic ? (isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[6px_6px_12px_rgba(0,0,0,0.3),-6px_-6px_12px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[6px_6px_12px_rgba(163,177,198,0.6),-6px_-6px_12px_rgba(255,255,255,1)]') : 'bg-white shadow-md')} transition-all duration-300 hover:shadow-lg`}>
+                    <div className={`mb-6 p-3 rounded-xl ${isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[6px_6px_12px_rgba(0,0,0,0.3),-6px_-6px_12px_rgba(30,30,46,0.8)]' : isDark ? 'bg-zinc-900' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[6px_6px_12px_rgba(163,177,198,0.6),-6px_-6px_12px_rgba(255,255,255,1)]' : 'bg-white shadow-md'} transition-all duration-300 hover:shadow-lg`}>
                         {/* 左上角分组图标和文字 */}
                         <div className="flex items-center justify-between mb-2">
                             <div className="flex items-center gap-2">
-                                <Layout size={12} className="text-yellow-500"/>
-                                <h4 className="text-xs font-bold uppercase text-zinc-500">勋章分组</h4>
+                                <Layout size={12} className={isDark ? 'text-yellow-400' : 'text-yellow-500'}/>
+                                <h4 className={`text-xs font-bold uppercase ${isDark ? 'text-zinc-400' : 'text-zinc-500'}`}>勋章分组</h4>
                             </div>
                             {/* 帮助卡片按钮 */}
                             <GlobalHelpButton helpId="achievements" onHelpClick={onHelpClick} size={14} variant="ghost" />
@@ -377,11 +377,11 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                     </div>
                     
                     {/* 4. 勋章列表模块 - 合并所有勋章列表为一个模块 */}
-                    <div className={`p-3 rounded-xl ${isDark ? 'bg-zinc-900' : (isNeomorphic ? (isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[6px_6px_12px_rgba(0,0,0,0.3),-6px_-6px_12px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[6px_6px_12px_rgba(163,177,198,0.6),-6px_-6px_12px_rgba(255,255,255,1)]') : 'bg-white shadow-md')} transition-all duration-300 hover:shadow-lg`}>
+                    <div className={`p-3 rounded-xl ${isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[6px_6px_12px_rgba(0,0,0,0.3),-6px_-6px_12px_rgba(30,30,46,0.8)]' : isDark ? 'bg-zinc-900' : isNeomorphic ? 'bg-[#e0e5ec] shadow-[6px_6px_12px_rgba(163,177,198,0.6),-6px_-6px_12px_rgba(255,255,255,1)]' : 'bg-white shadow-md'} transition-all duration-300 hover:shadow-lg`}>
                         {/* 左上角小图标和文字 */}
                         <div className="flex items-center gap-2 mb-2">
-                            <Trophy size={12} className="text-yellow-500"/>
-                            <h4 className="text-xs font-bold uppercase text-zinc-500">勋章列表</h4>
+                            <Trophy size={12} className={isDark ? 'text-yellow-400' : 'text-yellow-500'}/>
+                            <h4 className={`text-xs font-bold uppercase ${isDark ? 'text-zinc-400' : 'text-zinc-500'}`}>勋章列表</h4>
                         </div>
                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 pb-20">
                             {filteredBadges.map(badge => {
@@ -412,11 +412,11 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                                 
                                 return (
                                     <div key={badge.id} className={`shrink-0 w-28 p-3 rounded-full flex flex-col items-center gap-2 shadow-lg transition-all duration-300 hover:scale-[1.05] ${getBadgeClass()}`}>
-                                        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${badge.isUnlocked ? (isNeomorphic ? (isNeomorphicDark ? `bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-4px_-4px_8px_rgba(30,30,46,0.8)]` : `bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]`) : badge.bgColor) : 'bg-zinc-900/30'}`}>
+                                        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${badge.isUnlocked ? (isNeomorphic ? (isNeomorphicDark ? `bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-4px_-4px_8px_rgba(30,30,46,0.8)]` : `bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]`) : badge.bgColor) : (isNeomorphicDark ? 'bg-[#1e1e2e]/30' : isDark ? 'bg-zinc-900/30' : 'bg-slate-900/30')}`}>
                                             <badge.icon size={20} className={`${badge.color} ${!badge.isUnlocked ? 'opacity-70' : ''}`} strokeWidth={2}/>
                                         </div>
-                                        <div className={`text-[10px] font-bold text-center truncate w-full ${badge.isUnlocked ? textMain : 'text-zinc-500'}`}>{badge.title}</div>
-                                        <div className={`text-[8px] font-mono ${badge.isUnlocked ? textSub : 'text-zinc-600'}`}>{badge.subTitle}</div>
+                                        <div className={`text-[10px] font-bold text-center truncate w-full ${badge.isUnlocked ? textMain : (isDark ? 'text-zinc-500' : 'text-zinc-500')}`}>{badge.title}</div>
+                                        <div className={`text-[8px] font-mono ${badge.isUnlocked ? textSub : (isDark ? 'text-zinc-600' : 'text-zinc-600')}`}>{badge.subTitle}</div>
                                     </div>
                                 );
                             })}

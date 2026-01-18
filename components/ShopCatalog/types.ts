@@ -76,4 +76,7 @@ export interface ShopCatalogProps {
   setNewGroupName?: (name: string) => void;
   handleAddNewGroup?: () => void;
   handleCancelAddGroup?: () => void;
+  // 分组管理
+  handleEditGroup?: (groupName: string) => void;
+  handleDeleteGroup?: (groupName: string) => void;
 }
