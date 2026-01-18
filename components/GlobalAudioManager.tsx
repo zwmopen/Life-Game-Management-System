@@ -149,24 +149,37 @@ export const GlobalAudioProvider: React.FC<GlobalAudioProviderProps> = ({ childr
     setVolume(volume);
   };
 
-  // 当全局静音状态变化时更新本地状态
+  // 监听全局静音状态变化
   useEffect(() => {
-    const newMutedState = soundManager.getIsMuted();
-    setIsMuted(newMutedState);
-    
-    // 如果静音状态改变，并且之前正在播放音乐，则更新播放状态
-    if (currentBgMusicId && lastPlayedMusicInfoRef.current.isPlaying) {
-      if (newMutedState) {
-        // 如果变为静音，停止播放但保留状态信息
-        soundManager.pauseBackgroundMusic();
-        setIsBgMusicPlaying(false);
-      } else {
-        // 如果取消静音，恢复播放
-        soundManager.resumeBackgroundMusic();
-        setIsBgMusicPlaying(true);
+    const handleMuteChange = () => {
+      const newMutedState = soundManager.getIsMuted();
+      // 只在状态真正改变时才更新，避免不必要的重渲染
+      if (newMutedState !== isMuted) {
+        setIsMuted(newMutedState);
+        
+        // 如果静音状态改变，并且之前正在播放音乐，则更新播放状态
+        if (currentBgMusicId && lastPlayedMusicInfoRef.current.isPlaying) {
+          if (newMutedState) {
+            // 如果变为静音，停止播放但保留状态信息
+            soundManager.pauseBackgroundMusic();
+            setIsBgMusicPlaying(false);
+          } else {
+            // 如果取消静音，恢复播放
+            soundManager.resumeBackgroundMusic();
+            setIsBgMusicPlaying(true);
+          }
+        }
       }
-    }
-  }, [soundManager.getIsMuted()]);
+    };
+
+    // 初始化时同步状态
+    setIsMuted(soundManager.getIsMuted());
+    
+    // 每秒检查一次静音状态，减少不必要的轮询
+    const interval = setInterval(handleMuteChange, 1000);
+    
+    return () => clearInterval(interval);
+  }, [currentBgMusicId, isMuted]);
 
   const contextValue: GlobalAudioContextType = {
     currentBgMusicId,

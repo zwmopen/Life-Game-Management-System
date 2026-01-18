@@ -49,6 +49,9 @@ import backupManager from './utils/BackupManager';
 // 导入全局音频管理器
 import { GlobalAudioProvider, GlobalBackgroundMusicManager } from './components/GlobalAudioManagerOptimized';
 
+// 导入错误边界
+import ErrorBoundary, { DefaultErrorFallback } from './components/ErrorBoundary';
+
 // 导入主题管理
 import { ThemeProvider, useTheme } from './contexts/ThemeContext';
 
@@ -422,6 +425,30 @@ const App: React.FC = () => {
     return () => clearTimeout(debounceTimer);
 
   }, [habits, projects, habitOrder, projectOrder, balance, day, transactions, reviews, statsHistory, todayStats, challengePool, todaysChallenges, achievements, completedRandomTasks, isDataLoaded, xp, claimedBadges, weeklyGoal, todayGoal, givenUpTasks]);
+  
+  // 优化：使用单独的effect来处理pomodoro状态的变化，避免不必要的全局状态更新
+  const pomodoroDataRef = useRef({ pomodoroState });
+  useEffect(() => {
+    // 仅在pomodoro状态实际变化时才处理
+    if (JSON.stringify(pomodoroDataRef.current.pomodoroState) !== JSON.stringify(pomodoroState)) {
+      pomodoroDataRef.current.pomodoroState = pomodoroState;
+      
+      // 防抖处理pomodoro状态更新
+      const timer = setTimeout(() => {
+        // 可以在这里处理番茄钟相关的持久化，如果需要的话
+        // 例如，更新今日专注时间统计
+        if (pomodoroState.timeLeft === 0 && pomodoroState.duration > 0 && pomodoroState.isActive) {
+          // 番茄钟完成，更新统计数据
+          setTodayStats(prev => ({
+            ...prev,
+            focusMinutes: prev.focusMinutes + pomodoroState.duration
+          }));
+        }
+      }, 300);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [pomodoroState]);
 
   // 每日自动刷新任务功能
   useEffect(() => {
@@ -1508,9 +1535,9 @@ const App: React.FC = () => {
   return (
       <GlobalAudioProvider>
         <GlobalBackgroundMusicManager />
-        <div className={`flex h-screen w-full overflow-hidden font-sans relative transition-colors duration-500 ${bgClass}`}>
-        {/* Conditionally render Navigation based on immersive mode */}
-        {!isImmersive && (
+        <div className={`flex h-screen w-full ${(isImmersive && !useInternalImmersive) ? 'overflow-hidden' : 'overflow-y-auto'} font-sans relative transition-colors duration-500 ${bgClass}`}>
+        {/* Conditionally render Navigation based on immersive mode - don't hide when internal immersive is active */}
+        {!(isImmersive && !useInternalImmersive) && (
           <Navigation 
             currentView={currentView} 
             setView={setCurrentView} 

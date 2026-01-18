@@ -11,6 +11,9 @@ import { DEFAULT_MANTRAS } from '../constants/mantras';
 
 import MantraManagementModal from './shared/MantraManagementModal';
 
+// 导入错误边界
+import ErrorBoundary, { DefaultErrorFallback } from '../components/ErrorBoundary';
+
 interface CharacterProfileProps {
   theme: Theme;
   xp: number;
@@ -379,8 +382,10 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
                             onUpdateIsActive={onUpdateIsActive}
                             onImmersiveModeChange={(isImmersive) => setIsImmersive(isImmersive)}
                             onInternalImmersiveModeChange={(isInternalImmersive) => {
-                                setIsImmersive(true);
-                                setUseInternalImmersive(true);
+                                if (isInternalImmersive) {
+                                    setIsImmersive(true);
+                                    setUseInternalImmersive(true);
+                                }
                             }}
                             onHelpClick={onHelpClick}
                         />
@@ -425,38 +430,40 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
             </div>
         </div>
 
-        {/* FULLSCREEN IMMERSIVE OVERLAY */}
+        {/* FULLSCREEN IMMERSIVE OVERLAY WITH ERROR BOUNDARY */}
         {isImmersive && (
-            <OptimizedImmersivePomodoro
-                theme={theme}
-                timeLeft={timeLeft}
-                isActive={isActive}
-                duration={duration}
-                onToggleTimer={onToggleTimer}
-                onResetTimer={onResetTimer}
-                onUpdateTimeLeft={onUpdateTimeLeft}
-                onUpdateIsActive={onUpdateIsActive}
-                onExitImmersive={() => {
-                    setIsImmersive(false);
-                    setUseInternalImmersive(false);
-                }}
-                totalPlants={totalKills || 20}
-                todayPlants={0}
-                isMuted={isMuted}
-                currentSoundId={currentSoundId}
-                onUpdateTotalPlants={(count) => {
-                    if (onUpdateTodayStats) {
-                        // 直接更新totalKills值
-                        onUpdateTodayStats(prev => ({
-                            ...prev,
-                            totalKills: count
-                        }));
-                    }
-                }}
-                onUpdateTodayPlants={() => {
-                    // 暂时不处理今日数量的更新
-                }}
-            />
+            <ErrorBoundary fallback={DefaultErrorFallback}>
+                <OptimizedImmersivePomodoro
+                    theme={theme}
+                    timeLeft={timeLeft}
+                    isActive={isActive}
+                    duration={duration}
+                    onToggleTimer={onToggleTimer}
+                    onResetTimer={onResetTimer}
+                    onUpdateTimeLeft={onUpdateTimeLeft}
+                    onUpdateIsActive={onUpdateIsActive}
+                    onExitImmersive={() => {
+                        setIsImmersive(false);
+                        setUseInternalImmersive(false);
+                    }}
+                    totalPlants={totalKills || 20}
+                    todayPlants={0}
+                    isMuted={isMuted}
+                    currentSoundId={currentSoundId}
+                    onUpdateTotalPlants={(count) => {
+                        if (onUpdateTodayStats) {
+                            // 直接更新totalKills值
+                            onUpdateTodayStats(prev => ({
+                                ...prev,
+                                totalKills: count
+                            }));
+                        }
+                    }}
+                    onUpdateTodayPlants={() => {
+                        // 暂时不处理今日数量的更新
+                    }}
+                />
+            </ErrorBoundary>
         )}
 
         <MantraManagementModal

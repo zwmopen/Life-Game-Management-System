@@ -370,7 +370,54 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
         controls.maxPolarAngle = Math.PI / 2 - 0.05;
         controls.autoRotate = true;
         controls.autoRotateSpeed = 0.3;
-
+        
+        // 防止orbit controls的鼠标事件冒泡影响页面滚动
+        const domElement = renderer.domElement;
+        
+        // 禁用 OrbitControls 的默认事件监听，防止其干扰全局滚动
+        controls.enableZoom = true;
+        controls.enablePan = false;  // 禁用平移，避免影响页面滚动
+        controls.enableRotate = true;
+        
+        // 阻止滚轮事件冒泡，但仅在3D画布获得焦点时
+        const preventWheelPropagation = (e: WheelEvent) => {
+          // 只有当鼠标实际位于3D画布上时才阻止事件传播
+          const rect = domElement.getBoundingClientRect();
+          const mouseX = e.clientX;
+          const mouseY = e.clientY;
+          
+          if (mouseX >= rect.left && mouseX <= rect.right && 
+              mouseY >= rect.top && mouseY <= rect.bottom) {
+            e.stopPropagation();
+          }
+          // 允许在画布外部滚动页面
+        };
+        
+        // 阻止指针事件冒泡
+        const preventPointerPropagation = (e: PointerEvent) => {
+          // 只有当鼠标实际位于3D画布上时才阻止事件传播
+          const rect = domElement.getBoundingClientRect();
+          const mouseX = e.clientX;
+          const mouseY = e.clientY;
+          
+          if (mouseX >= rect.left && mouseX <= rect.right && 
+              mouseY >= rect.top && mouseY <= rect.bottom) {
+            e.stopPropagation();
+          }
+          // 允许在画布外部进行页面交互
+        };
+        
+        // 保存事件处理函数以便稍后清理
+        if (canvasContainerRef.current) {
+          (canvasContainerRef.current as any)._preventWheelPropagation = preventWheelPropagation;
+          (canvasContainerRef.current as any)._preventPointerPropagation = preventPointerPropagation;
+        }
+        
+        domElement.addEventListener('wheel', preventWheelPropagation, { passive: false });
+        domElement.addEventListener('pointerdown', preventPointerPropagation);
+        domElement.addEventListener('pointermove', preventPointerPropagation);
+        domElement.addEventListener('pointerup', preventPointerPropagation);
+        
           window.addEventListener('resize', onWindowResize);
           
           // 保存全局引用
@@ -2662,9 +2709,34 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
         // 返回清理函数
         cleanup = () => {
           window.removeEventListener('resize', onWindowResize);
+          
+          // 移除之前添加的事件监听器
           if (renderer && canvasContainerRef.current) {
+            const domElement = renderer.domElement;
+            
+            // 使用存储的事件处理函数进行清理
+            const preventWheelPropagation = (canvasContainerRef.current as any)._preventWheelPropagation;
+            const preventPointerPropagation = (canvasContainerRef.current as any)._preventPointerPropagation;
+            
+            if (preventWheelPropagation) {
+              domElement.removeEventListener('wheel', preventWheelPropagation, { passive: false });
+            }
+            if (preventPointerPropagation) {
+              domElement.removeEventListener('pointerdown', preventPointerPropagation);
+              domElement.removeEventListener('pointermove', preventPointerPropagation);
+              domElement.removeEventListener('pointerup', preventPointerPropagation);
+            }
+            
             canvasContainerRef.current.removeChild(renderer.domElement);
             renderer.dispose();
+          }
+          
+          // 恢复页面滚动
+          document.body.style.overflow = '';
+          
+          // 销毁 OrbitControls 以防止其持续监听事件
+          if (controls) {
+            controls.dispose();
           }
         };
       } catch (error) {
@@ -2730,7 +2802,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
     } else {
       // 如果用户选择了音乐，直接播放对应的背景音乐，不需要依赖番茄钟的聚焦状态
       const targetSound = allSounds.find(s => s.id === targetSoundId);
-      if (targetSound) {
+      if (targetSound && targetSoundId !== 'mute') {
         // 使用全局音频管理器播放背景音乐
         playBgMusic(targetSoundId);
         
@@ -2882,6 +2954,34 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
       }
     }
   };
+
+  // 点击外部区域关闭音频菜单
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      // 只在番茄钟组件范围内处理点击外部区域的逻辑
+      const componentRoot = containerRef.current;
+      const audioMenu = document.querySelector('.audio-menu');
+      const audioToggle = document.getElementById('audioToggle');
+      
+      // 检查点击是否在番茄钟组件范围内，如果不是，则不处理
+      if (componentRoot && !componentRoot.contains(event.target as Node)) {
+        return; // 点击不在番茄钟组件范围内，不处理此事件
+      }
+      
+      if (isAudioMenuOpen && 
+          audioMenu && 
+          !audioMenu.contains(event.target as Node) && 
+          audioToggle && 
+          !audioToggle.contains(event.target as Node)) {
+        setIsAudioMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isAudioMenuOpen]);
 
   // 当选择的种子变化或组件状态改变时，更新预览模型
   useEffect(() => {
@@ -3355,7 +3455,8 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
                   {localCurrentSoundId === 'mute' ? '🔇' : '🎵'}
                 </button>
                 <div 
-                  className={`${isNeomorphicDark ? 'bg-[#1e1e2e] border border-zinc-700 shadow-[8px_8px_16px_rgba(0,0,0,0.3),-8px_-8px_16px_rgba(40,43,52,0.8)]' : isDark ? 'bg-zinc-900/95 border border-zinc-800' : (isNeomorphic ? 'bg-[#e0e5ec] border border-slate-300 shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]' : 'bg-white/95 border border-slate-200 shadow-[10px_10px_20px_rgba(163,177,198,0.4),-10px_-10px_20px_rgba(255,255,255,0.6)]')} absolute top-0 right-0 mt-16 mr-2 rounded-xl p-4 backdrop-blur-sm z-50 audio-menu ${isAudioMenuOpen ? 'show' : ''}`}
+                  className={`${isNeomorphicDark ? 'bg-[#1e1e2e] border border-zinc-700 shadow-[8px_8px_16px_rgba(0,0,0,0.3),-8px_-8px_16px_rgba(40,43,52,0.8)]' : isDark ? 'bg-zinc-900/95 border border-zinc-800' : (isNeomorphic ? 'bg-[#e0e5ec] border border-slate-300 shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]' : 'bg-white/95 border border-slate-200 shadow-[10px_10px_20px_rgba(163,177,198,0.4),-10px_-10px_20px_rgba(255,255,255,0.6)]')} absolute top-0 right-0 mt-16 mr-2 rounded-xl p-4 backdrop-blur-sm z-[1000] audio-menu ${isAudioMenuOpen ? 'show' : ''}`}
+                  onClick={(e) => e.stopPropagation()}
                 >
                   {/* 搜索框 */}
                   <div className="mb-3">

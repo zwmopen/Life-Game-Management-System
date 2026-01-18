@@ -90,6 +90,7 @@ const TomatoTimer: React.FC<TomatoTimerProps> = ({
   // 点击外部关闭背景音乐面板
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
+      // 只在点击确实发生在声音菜单外部时才关闭菜单
       if (soundMenuRef.current && !soundMenuRef.current.contains(event.target as Node)) {
         setIsSoundMenuOpen(false);
       }
