@@ -11,6 +11,9 @@ import { DEFAULT_MANTRAS } from '../constants/mantras';
 
 import MantraManagementModal from './shared/MantraManagementModal';
 
+// 导入错误边界
+import ErrorBoundary, { DefaultErrorFallback } from '../components/ErrorBoundary';
+
 interface CharacterProfileProps {
   theme: Theme;
   xp: number;
@@ -281,9 +284,10 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
 
     // 移除重复的定时器逻辑，使用usePomodoro钩子中的定时器
     // 当番茄钟结束时，退出沉浸式模式，但不要在暂停时退出
+    const prevTimeLeft = useRef(timeLeft);
     useEffect(() => {
-        // 只在计时器结束时退出沉浸式模式，而不是在暂停时
-        if (timeLeft === 0 && isActive) {
+        // 检测番茄钟是否自然结束（从非零变为零）
+        if (prevTimeLeft.current > 0 && timeLeft === 0 && isActive) {
             // 使用soundManager播放成功音效
             import('../utils/soundManager').then(({ default: soundManager }) => {
               soundManager.play('taskComplete');
@@ -295,6 +299,8 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
                 }
             }
         }
+        // 更新上一次的时间
+        prevTimeLeft.current = timeLeft;
     }, [timeLeft, isActive, isImmersive, onImmersiveModeChange]);
 
     const toggleTimer = () => onToggleTimer();
@@ -376,8 +382,10 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
                             onUpdateIsActive={onUpdateIsActive}
                             onImmersiveModeChange={(isImmersive) => setIsImmersive(isImmersive)}
                             onInternalImmersiveModeChange={(isInternalImmersive) => {
-                                setIsImmersive(true);
-                                setUseInternalImmersive(true);
+                                if (isInternalImmersive) {
+                                    setIsImmersive(true);
+                                    setUseInternalImmersive(true);
+                                }
                             }}
                             onHelpClick={onHelpClick}
                         />
@@ -422,38 +430,40 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
             </div>
         </div>
 
-        {/* FULLSCREEN IMMERSIVE OVERLAY */}
+        {/* FULLSCREEN IMMERSIVE OVERLAY WITH ERROR BOUNDARY */}
         {isImmersive && (
-            <OptimizedImmersivePomodoro
-                theme={theme}
-                timeLeft={timeLeft}
-                isActive={isActive}
-                duration={duration}
-                onToggleTimer={onToggleTimer}
-                onResetTimer={onResetTimer}
-                onUpdateTimeLeft={onUpdateTimeLeft}
-                onUpdateIsActive={onUpdateIsActive}
-                onExitImmersive={() => {
-                    setIsImmersive(false);
-                    setUseInternalImmersive(false);
-                }}
-                totalPlants={totalKills || 20}
-                todayPlants={0}
-                isMuted={isMuted}
-                currentSoundId={currentSoundId}
-                onUpdateTotalPlants={(count) => {
-                    if (onUpdateTodayStats) {
-                        // 直接更新totalKills值
-                        onUpdateTodayStats(prev => ({
-                            ...prev,
-                            totalKills: count
-                        }));
-                    }
-                }}
-                onUpdateTodayPlants={() => {
-                    // 暂时不处理今日数量的更新
-                }}
-            />
+            <ErrorBoundary fallback={DefaultErrorFallback}>
+                <OptimizedImmersivePomodoro
+                    theme={theme}
+                    timeLeft={timeLeft}
+                    isActive={isActive}
+                    duration={duration}
+                    onToggleTimer={onToggleTimer}
+                    onResetTimer={onResetTimer}
+                    onUpdateTimeLeft={onUpdateTimeLeft}
+                    onUpdateIsActive={onUpdateIsActive}
+                    onExitImmersive={() => {
+                        setIsImmersive(false);
+                        setUseInternalImmersive(false);
+                    }}
+                    totalPlants={totalKills || 20}
+                    todayPlants={0}
+                    isMuted={isMuted}
+                    currentSoundId={currentSoundId}
+                    onUpdateTotalPlants={(count) => {
+                        if (onUpdateTodayStats) {
+                            // 直接更新totalKills值
+                            onUpdateTodayStats(prev => ({
+                                ...prev,
+                                totalKills: count
+                            }));
+                        }
+                    }}
+                    onUpdateTodayPlants={() => {
+                        // 暂时不处理今日数量的更新
+                    }}
+                />
+            </ErrorBoundary>
         )}
 
         <MantraManagementModal

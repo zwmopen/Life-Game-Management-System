@@ -81,7 +81,7 @@ const DailyCheckIn: React.FC<DailyCheckInProps> = ({ theme, onClaim }) => {
   const textMain = isDark ? 'text-white' : 'text-slate-900';
 
   return (
-    <div className="fixed inset-0 z-[9999] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-300">
+    <div className="fixed inset-0 z-[100000] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-300">
         <div className={`w-full max-w-lg p-8 rounded-3xl border shadow-2xl relative overflow-hidden flex flex-col items-center text-center ${cardBg}`}>
             
             {/* Close Button */}

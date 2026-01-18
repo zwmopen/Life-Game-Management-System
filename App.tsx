@@ -1397,11 +1397,6 @@ const App: React.FC = () => {
                   onChangeDuration={changeDuration}
                   onUpdateTimeLeft={updateTimeLeft}
                   onUpdateIsActive={updateIsActive}
-                  // Audio Management - 使用全局音频管理器
-                  isMuted={isMuted}
-                  currentSoundId={currentSoundId}
-                  onToggleMute={handleMuteToggle}
-                  onSoundChange={handleSoundChange}
                   // 帮助卡片系统
                   onHelpClick={setActiveHelp}
                />;
@@ -1410,11 +1405,6 @@ const App: React.FC = () => {
                   theme={theme} 
                   projects={projects}
                   habits={habits}
-                  // Audio Management - 使用全局音频管理器
-                  isMuted={isMuted}
-                  currentSoundId={currentSoundId}
-                  onToggleMute={handleMuteToggle}
-                  onSoundChange={handleSoundChange}
                   onHelpClick={setActiveHelp}
                />;
 
@@ -1430,20 +1420,10 @@ const App: React.FC = () => {
                   checkInStreak={checkInStreak}
                   transactions={transactions}
                   reviews={reviews}
-                  // Audio Management - 使用全局音频管理器
-                  isMuted={isMuted}
-                  currentSoundId={currentSoundId}
-                  onToggleMute={handleMuteToggle}
-                  onSoundChange={handleSoundChange}
                 />;
       case View.THINKING_CENTER:
         return <ThinkingCenter 
                   theme={theme} 
-                  // Audio Management - 使用全局音频管理器
-                  isMuted={isMuted}
-                  currentSoundId={currentSoundId}
-                  onToggleMute={handleMuteToggle}
-                  onSoundChange={handleSoundChange}
                   onHelpClick={setActiveHelp}
                 />;
       default: 

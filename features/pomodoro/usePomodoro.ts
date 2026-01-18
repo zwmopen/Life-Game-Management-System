@@ -58,7 +58,13 @@ export const usePomodoro = (initialDuration: number = 25) => {
         timeLeft: prev.duration * 60
       }));
     }
-    return () => clearInterval(interval);
+    
+    // 只有在interval存在时才清理它，避免清理不存在的interval
+    return () => {
+      if (interval) {
+        clearInterval(interval);
+      }
+    };
   }, [state.isActive, state.timeLeft, state.duration]);
 
   return {

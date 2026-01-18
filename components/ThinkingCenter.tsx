@@ -122,7 +122,7 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme, onHelpClick }) =
     : (isNeomorphic ? 'bg-[#e0e5ec]' : 'bg-slate-50');
   
   const cardBg = getCardBgStyle(isNeomorphic, theme, isDark);
-  
+
   // 将字体颜色统一设置为黑色或白色，确保可读性
   const textMain = getTextStyle(isDark, isNeomorphic, 'main');
   const textSub = getTextStyle(isDark, isNeomorphic, 'sub');
@@ -326,8 +326,8 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme, onHelpClick }) =
             </div>
             
             {/* Model Switching Buttons - Vertical Scroll with 2 rows */}
-            <div className="relative h-32 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-700 scrollbar-track-transparent">
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
+            <div className={`relative h-32 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-700 scrollbar-track-transparent rounded-xl ${isNeomorphic ? (isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.6),inset_-4px_-4px_8px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]') : (isDark ? 'bg-zinc-900 shadow-[inset_2px_2px_4px_rgba(0,0,0,0.5)]' : 'bg-slate-100 shadow-[inset_2px_2px_4px_rgba(163,177,198,0.3)]')}`}>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 pl-2 pr-2">
                 {filteredModels.map((model, index) => (
                   <ModelButton
                     key={model.id}

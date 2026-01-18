@@ -433,7 +433,7 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
         <div className="space-y-3 px-2 md:px-4 lg:px-6 max-w-5xl mx-auto">
 
           {/* Sound Effects */}
-          <div className={`${cardBg} border p-4 rounded-2xl transition-all duration-300 mt-4`}>
+          <div className={`${cardBg} border p-4 rounded-xl transition-all duration-300 mt-4`}>
               <div className="flex items-center justify-between mb-1">
               <div className="flex items-center gap-2">
                 <Headphones size={18} className="text-purple-500" />
@@ -662,7 +662,7 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
           </div>
 
           {/* Data Management Module */}
-          <div className={[cardBg, 'border p-4 rounded-2xl transition-all duration-300 mt-4'].join(' ')}>
+          <div className={[cardBg, 'border p-4 rounded-xl transition-all duration-300 mt-4'].join(' ')}>
             <div className="flex items-center justify-between mb-1">
               <div className="flex items-center gap-2">
                 <Database size={18} className="text-green-500" />
@@ -671,7 +671,7 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
                   <p className={['text-[9px]', textSub].join(' ')}>备份与恢复您的数据</p>
                 </div>
               </div>
-              <GlobalHelpButton helpId="backup" onHelpClick={setActiveHelp} size={14} variant="ghost" />
+              <GlobalHelpButton helpId="data" onHelpClick={setActiveHelp} size={14} variant="ghost" />
             </div>
 
             {/* Backup Tabs */}
@@ -827,7 +827,7 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
           </div>
 
           {/* About Module */}
-          <div className={`${cardBg} border p-4 rounded-2xl transition-all duration-300 mt-4`}>
+          <div className={`${cardBg} border p-4 rounded-xl transition-all duration-300 mt-4`}>
             <div className="flex items-center justify-between mb-1">
               <div className="flex items-center gap-2">
                 <Info size={18} className="text-blue-500" />
@@ -836,34 +836,24 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
                   <p className={`text-[9px] ${textSub}`}>版本信息与联系方式</p>
                 </div>
               </div>
-              <GlobalHelpButton helpId="about" onHelpClick={setActiveHelp} size={14} variant="ghost" />
             </div>
             
-            <div className={[
-              'rounded-lg p-4 w-full mt-2',
-              isNeomorphic
-                ? isNeomorphicDark
-                  ? 'bg-[#252536] shadow-[4px_4px_8px_rgba(0,0,0,0.3),-4px_-4px_8px_rgba(40,40,60,0.6)]'
-                  : 'bg-[#d1d9e6] shadow-[4px_4px_8px_rgba(163,177,198,0.4),-4px_-4px_8px_rgba(255,255,255,0.8)]'
-                : isDark
-                ? 'bg-zinc-800/70 border border-zinc-700/50'
-                : 'bg-white/80 border border-slate-200/50'
-            ].join(' ')}>
-              <div className="text-xs space-y-3">
-                <div className="grid grid-cols-[max-content_1fr] gap-x-3 gap-y-2 items-start">
-                  <span className="font-bold text-zinc-700 dark:text-zinc-300 whitespace-nowrap min-w-[60px]">版本：</span>
-                  <span className="text-zinc-600 dark:text-zinc-400 break-words">v{APP_VERSION}</span>
-                  
-                  <span className="font-bold text-zinc-700 dark:text-zinc-300 whitespace-nowrap min-w-[60px]">作者：</span>
-                  <span className="text-zinc-600 dark:text-zinc-400 break-words">大胆走夜路</span>
-                  
-                  <span className="font-bold text-zinc-700 dark:text-zinc-300 whitespace-nowrap min-w-[60px]">联系微信：</span>
-                  <span className="text-zinc-600 dark:text-zinc-400 break-words">zwmrpg</span>
-                </div>
+            <div className="text-xs space-y-3 pt-2">
+              <div className="grid grid-cols-[max-content_auto] gap-x-1 gap-y-1 items-start">
+                <span className={`font-bold whitespace-nowrap min-w-[50px] ${textMain}`}>版本：</span>
+                <span className={`${textSub} break-words`}>v{APP_VERSION}</span>
                 
-                <div className="pt-1">
-                  <span className="font-bold text-zinc-700 dark:text-zinc-300 block mb-2 text-sm border-b border-zinc-300/50 dark:border-zinc-700/50 pb-1">项目介绍</span>
-                  <span className="text-zinc-600 dark:text-zinc-400 leading-relaxed text-sm">
+                <span className={`font-bold whitespace-nowrap min-w-[50px] ${textMain}`}>作者：</span>
+                <span className={`${textSub} break-words`}>大胆走夜路</span>
+                
+                <span className={`font-bold whitespace-nowrap min-w-[50px] ${textMain}`}>联系微信：</span>
+                <span className={`${textSub} break-words`}>zwmrpg</span>
+              </div>
+              
+              <div className="pt-1">
+                <div className="flex items-start gap-1">
+                  <span className={`font-bold text-sm ${textMain}`}>项目介绍：</span>
+                  <span className={`${textSub} leading-relaxed text-sm flex-1`}>
                     人生游戏管理系统是一个综合性的个人成长管理工具，集成了任务管理、习惯养成、专注计时、成就系统等功能，旨在帮助用户更好地规划和追踪个人发展。
                   </span>
                 </div>

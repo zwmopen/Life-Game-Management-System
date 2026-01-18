@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生命游戏管理系统 - 简单测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .status {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: #e8f4fd;
+            border-radius: 5px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 15px;
+            margin: 5px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .success { color: green; }
+        .error { color: red; }
+        .info { color: blue; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>生命游戏管理系统 - 简单测试</h1>
+        
+        <div class="status">
+            <h2>系统状态检查</h2>
+            <p id="statusMessage" class="info">正在检查系统...</p>
+        </div>
+        
+        <div class="test-section">
+            <h3>基本功能测试</h3>
+            <button onclick="testBasicFunction()">测试基本功能</button>
+            <button onclick="testLocalStorage()">测试本地存储</button>
+            <button onclick="testTimer()">测试定时器</button>
+            <button onclick="testAudio()">测试音频API</button>
+            <button onclick="testCanvas()">测试Canvas</button>
+        </div>
+        
+        <div class="test-section">
+            <h3>测试结果</h3>
+            <div id="results"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>说明</h3>
+            <p>如果主应用出现白屏，这通常意味着：</p>
+            <ol>
+                <li>JavaScript错误阻止了页面渲染</li>
+                <li>复杂组件（如3D渲染）初始化失败</li>
+                <li>依赖库加载失败</li>
+                <li>模块解析错误</li>
+            </ol>
+            <p>点击上方按钮进行基本功能测试。</p>
+        </div>
+    </div>
+
+    <script>
+        // 系统状态检查
+        function checkSystemStatus() {
+            const statusEl = document.getElementById('statusMessage');
+            
+            // 检查基本API支持
+            const checks = [
+                { name: 'JavaScript', passed: Boolean(window) },
+                { name: 'localStorage', passed: Boolean(window.localStorage) },
+                { name: 'Canvas', passed: Boolean(document.createElement('canvas').getContext) },
+                { name: 'Audio', passed: Boolean(window.Audio) },
+                { name: 'Fetch API', passed: Boolean(window.fetch) },
+                { name: 'Promise', passed: Boolean(window.Promise) }
+            ];
+            
+            const failedChecks = checks.filter(check => !check.passed);
+            
+            if (failedChecks.length === 0) {
+                statusEl.textContent = '系统状态良好 - 所有基本API均受支持';
+                statusEl.className = 'success';
+            } else {
+                statusEl.innerHTML = `系统存在问题 - 以下API不受支持: ${failedChecks.map(c => c.name).join(', ')}`;
+                statusEl.className = 'error';
+            }
+            
+            // 显示详细检查结果
+            const resultsEl = document.getElementById('results');
+            resultsEl.innerHTML = '<h4>API检查详情:</h4>';
+            checks.forEach(check => {
+                const result = document.createElement('p');
+                result.textContent = `${check.name}: ${check.passed ? '✅ 支持' : '❌ 不支持'}`;
+                result.style.color = check.passed ? 'green' : 'red';
+                resultsEl.appendChild(result);
+            });
+        }
+        
+        // 测试基本功能
+        function testBasicFunction() {
+            try {
+                const result = confirm('基本功能测试: 点击确定表示功能正常');
+                if (result) {
+                    alert('基本功能测试通过!');
+                }
+            } catch (error) {
+                alert('基本功能测试失败: ' + error.message);
+            }
+        }
+        
+        // 测试本地存储
+        function testLocalStorage() {
+            try {
+                const testValue = 'test_' + Date.now();
+                localStorage.setItem('test', testValue);
+                const retrievedValue = localStorage.getItem('test');
+                
+                if (retrievedValue === testValue) {
+                    alert('本地存储测试通过!');
+                } else {
+                    alert('本地存储读取失败');
+                }
+                
+                localStorage.removeItem('test');
+            } catch (error) {
+                alert('本地存储测试失败: ' + error.message);
+            }
+        }
+        
+        // 测试定时器
+        function testTimer() {
+            try {
+                const startTime = Date.now();
+                setTimeout(() => {
+                    const endTime = Date.now();
+                    const elapsed = endTime - startTime;
+                    alert(`定时器测试完成! 延迟约${elapsed}ms`);
+                }, 1000);
+            } catch (error) {
+                alert('定时器测试失败: ' + error.message);
+            }
+        }
+        
+        // 测试音频API
+        function testAudio() {
+            try {
+                const audio = new Audio();
+                const hasAudio = Boolean(audio);
+                if (hasAudio) {
+                    alert('音频API测试通过!');
+                } else {
+                    alert('音频API不可用');
+                }
+            } catch (error) {
+                alert('音频API测试失败: ' + error.message);
+            }
+        }
+        
+        // 测试Canvas
+        function testCanvas() {
+            try {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                if (ctx) {
+                    ctx.fillStyle = '#FF0000';
+                    ctx.fillRect(0, 0, 10, 10);
+                    alert('Canvas测试通过!');
+                } else {
+                    alert('Canvas上下文获取失败');
+                }
+            } catch (error) {
+                alert('Canvas测试失败: ' + error.message);
+            }
+        }
+        
+        // 页面加载完成后执行检查
+        window.onload = function() {
+            checkSystemStatus();
+        };
+    </script>
+</body>
+</html>

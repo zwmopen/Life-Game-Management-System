@@ -286,8 +286,10 @@ const FateDice: React.FC<FateDiceProps> = memo(({ theme, diceState, onSpinDice, 
   };
   
   // 动画循环
+  const animationFrameRef = useRef<number>(0);
+  
   const animate = () => {
-    requestAnimationFrame(animate);
+    animationFrameRef.current = requestAnimationFrame(animate);
     
     if (rendererRef.current && sceneRef.current && cameraRef.current && diceMeshRef.current) {
       if (!isRolling) {
@@ -295,6 +297,13 @@ const FateDice: React.FC<FateDiceProps> = memo(({ theme, diceState, onSpinDice, 
         diceMeshRef.current.position.y = Math.sin(time) * 0.12; 
         diceMeshRef.current.rotation.x += 0.001;
         diceMeshRef.current.rotation.y += 0.002;
+      }
+      
+      // 在动画期间禁用Three.js渲染器的指针事件
+      if (isRolling) {
+        rendererRef.current.domElement.style.pointerEvents = 'none';
+      } else {
+        rendererRef.current.domElement.style.pointerEvents = 'auto';
       }
       
       rendererRef.current.render(sceneRef.current, cameraRef.current);
@@ -386,12 +395,20 @@ const FateDice: React.FC<FateDiceProps> = memo(({ theme, diceState, onSpinDice, 
   
   // 掷骰子
   const rollDice = () => {
-    if (isRolling || !diceMeshRef.current || !onSpinDice) return;
+    if (isRolling || !diceMeshRef.current || !onSpinDice || (diceState?.isSpinning || (remainingCount <= 0))) return;
     
     // 播放滚动音效 - 优先使用本地音频文件
     soundManager.play('dice');
     
     setIsRolling(true);
+    
+    // 设置超时保护，如果动画长时间未完成则强制重置
+    setTimeout(() => {
+      if (isRolling) {
+        console.warn('FateDice: Roll animation timed out, resetting isRolling state');
+        setIsRolling(false);
+      }
+    }, 3000); // 3秒后强制重置
     
     // 生成随机结果用于3D动画显示
     const rollResult = Math.floor(Math.random() * 6) + 1;
@@ -460,7 +477,15 @@ const FateDice: React.FC<FateDiceProps> = memo(({ theme, diceState, onSpinDice, 
             onAddFloatingReward(result.message, 'text-red-500');
           }
           
+          // 确保重置滚动状态
           setIsRolling(false);
+          
+          // 确保在动画完成后允许交互
+          setTimeout(() => {
+            if (rendererRef.current && rendererRef.current.domElement) {
+              rendererRef.current.domElement.style.pointerEvents = 'auto';
+            }
+          }, 100);
         }
     };
     
@@ -568,6 +593,76 @@ const FateDice: React.FC<FateDiceProps> = memo(({ theme, diceState, onSpinDice, 
     }
   };
   
+  // 防止在动画过程中触发不必要的滚动
+  useEffect(() => {
+    const preventScroll = (e: Event) => {
+      if (isRolling) {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+      }
+    };
+    
+    const diceContainer = containerRef.current;
+    if (diceContainer) {
+      // 防止鼠标滚轮滚动
+      diceContainer.addEventListener('wheel', preventScroll, { passive: false });
+      // 防止触摸滚动
+      diceContainer.addEventListener('touchmove', preventScroll, { passive: false });
+      // 防止键盘滚动
+      diceContainer.addEventListener('keydown', preventScroll, { passive: false });
+    }
+    
+    // 全局滚动监听，防止页面滚动 - 仅在动画期间临时添加
+    const preventGlobalScroll = (e: Event) => {
+      if (isRolling) {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+      }
+    };
+    
+    // 只有在骰子容器存在且当前组件可见时才添加全局监听器
+    if (isRolling && diceContainer) {
+      document.body.addEventListener('wheel', preventGlobalScroll, { passive: false });
+      document.body.addEventListener('touchmove', preventGlobalScroll, { passive: false });
+    }
+    
+    return () => {
+      if (diceContainer) {
+        diceContainer.removeEventListener('wheel', preventScroll);
+        diceContainer.removeEventListener('touchmove', preventScroll);
+        diceContainer.removeEventListener('keydown', preventScroll);
+      }
+      // 确保清理全局事件监听器
+      document.body.removeEventListener('wheel', preventGlobalScroll);
+      document.body.removeEventListener('touchmove', preventGlobalScroll);
+    };
+  }, []); // 移除isRolling依赖，只在组件挂载和卸载时执行
+  
+  // 管理全局滚动禁用，根据isRolling状态动态添加/移除
+  useEffect(() => {
+    const preventGlobalScroll = (e: Event) => {
+      if (isRolling) {
+        e.preventDefault();
+        // 注意：不调用stopPropagation，以避免影响其他组件
+        return false;
+      }
+    };
+    
+    if (isRolling) {
+      // 当开始滚动时添加全局监听器
+      document.body.addEventListener('wheel', preventGlobalScroll, { passive: false });
+      document.body.addEventListener('touchmove', preventGlobalScroll, { passive: false });
+    }
+    
+    // 清理函数 - 无论isRolling状态如何都要清理
+    return () => {
+      document.body.removeEventListener('wheel', preventGlobalScroll);
+      document.body.removeEventListener('touchmove', preventGlobalScroll);
+    };
+  }, [isRolling]); // 依赖isRolling状态
+  
   // 初始化和清理
   useEffect(() => {
     // 主题变化触发useEffect...
@@ -596,13 +691,27 @@ const FateDice: React.FC<FateDiceProps> = memo(({ theme, diceState, onSpinDice, 
       handleResize();
     }, 100);
     
+    // 添加安全超时，确保isRolling状态不会卡住
+    const rollingTimeout = setInterval(() => {
+      if (isRolling) {
+        console.warn('FateDice: Animation timeout detected, resetting isRolling state');
+        setIsRolling(false);
+      }
+    }, 5000); // 5秒检查一次
+    
     return () => {
+      clearInterval(rollingTimeout);
       window.removeEventListener('resize', handleResize);
       
       // 清理ResizeObserver
       if (resizeObserver) {
         resizeObserver.disconnect();
         resizeObserver = null;
+      }
+      
+      // 清理动画帧
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
       }
       
       // 清理Three.js资源
@@ -615,24 +724,64 @@ const FateDice: React.FC<FateDiceProps> = memo(({ theme, diceState, onSpinDice, 
         // 清理场景中的所有对象
         sceneRef.current.traverse((object) => {
           if (object instanceof THREE.Mesh) {
-            object.geometry.dispose();
-            if (Array.isArray(object.material)) {
-              object.material.forEach(material => material.dispose());
-            } else {
-              object.material.dispose();
+            if (object.geometry) {
+              object.geometry.dispose();
+            }
+            if (object.material) {
+              if (Array.isArray(object.material)) {
+                object.material.forEach(material => {
+                  if (material.map) material.map.dispose();
+                  if (material.lightMap) material.lightMap.dispose();
+                  if (material.bumpMap) material.bumpMap.dispose();
+                  if (material.normalMap) material.normalMap.dispose();
+                  if (material.specularMap) material.specularMap.dispose();
+                  if (material.alphaMap) material.alphaMap.dispose();
+                  if (material.aoMap) material.aoMap.dispose();
+                  if (material.displacementMap) material.displacementMap.dispose();
+                  if (material.emissiveMap) material.emissiveMap.dispose();
+                  if (material.environmentMap) material.environmentMap.dispose();
+                  material.dispose();
+                });
+              } else {
+                const material = object.material;
+                if (material.map) material.map.dispose();
+                if (material.lightMap) material.lightMap.dispose();
+                if (material.bumpMap) material.bumpMap.dispose();
+                if (material.normalMap) material.normalMap.dispose();
+                if (material.specularMap) material.specularMap.dispose();
+                if (material.alphaMap) material.alphaMap.dispose();
+                if (material.aoMap) material.aoMap.dispose();
+                if (material.displacementMap) material.displacementMap.dispose();
+                if (material.emissiveMap) material.emissiveMap.dispose();
+                if (material.environmentMap) material.environmentMap.dispose();
+                material.dispose();
+              }
             }
           }
         });
         sceneRef.current = null;
       }
       
-      cameraRef.current = null;
-      diceMeshRef.current = null;
+      if (cameraRef.current) {
+        cameraRef.current = null;
+      }
+      
+      if (diceMeshRef.current) {
+        diceMeshRef.current = null;
+      }
       
       // 清理音频资源
       if (diceSoundRef.current) {
         diceSoundRef.current.pause();
         diceSoundRef.current = null;
+      }
+      
+      // 清理音频上下文
+      if (audioContextRef.current) {
+        if (audioContextRef.current.state !== 'closed') {
+          audioContextRef.current.close();
+        }
+        audioContextRef.current = null;
       }
     };
   }, [theme, bgColor, shadowDark, shadowLight, textColor]);
@@ -724,7 +873,7 @@ const FateDice: React.FC<FateDiceProps> = memo(({ theme, diceState, onSpinDice, 
       {/* 掷骰子按钮 */}
       <div className="text-center px-1 xs:px-2">
         <button
-          onClick={rollDice}
+          onClick={isRolling || diceState?.isSpinning || remainingCount <= 0 ? undefined : rollDice}
           disabled={isRolling || (diceState?.isSpinning || (remainingCount <= 0))}
           className={`w-full py-1.5 xs:py-2 px-3 xs:px-4 text-sm xs:text-base sm:text-lg font-bold rounded-md transition-all duration-300 ${
             isNeomorphic ? (isNeomorphicDark ? 'bg-[#1e1e2e] text-blue-400 hover:text-blue-300' : 'bg-[#e0e5ec] text-blue-600 hover:text-blue-700') : (isDark ? 'bg-zinc-800 hover:bg-zinc-700 text-white' : 'bg-slate-100 hover:bg-slate-200 text-slate-800')
@@ -734,7 +883,8 @@ const FateDice: React.FC<FateDiceProps> = memo(({ theme, diceState, onSpinDice, 
             isRolling || (diceState?.isSpinning || (remainingCount <= 0)) ? 'opacity-60 cursor-not-allowed' : ''
           }`}
           style={{
-            boxShadow: isNeomorphic ? `9px 9px 16px ${shadowDark}, -9px -9px 16px ${shadowLight}` : ''
+            boxShadow: isNeomorphic ? `9px 9px 16px ${shadowDark}, -9px -9px 16px ${shadowLight}` : '',
+            pointerEvents: isRolling || diceState?.isSpinning || remainingCount <= 0 ? 'none' : 'auto'
           }}
         >
           {isRolling || diceState?.isSpinning ? '投掷中...' : '开始投掷'}

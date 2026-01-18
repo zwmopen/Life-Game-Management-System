@@ -45,7 +45,7 @@ export const SHOP_CATALOG: ShopItem[] = [
   { id: 'p_gear_5', name: '智能台灯', description: '护眼照明，专注模式', cost: 350, type: 'physical', owned: false, icon: <Sun size={24} className="text-yellow-500"/>, category: '数码', image: 'https://images.unsplash.com/photo-1534073828943-f801091bb18c?w=400&h=400&fit=crop' },
   
   // 饮食
-  { id: 's_food_1', name: '辣条一包', description: '廉价多巴胺 (慎用)', cost: 1, type: 'leisure', owned: false, icon: <Utensils size={24} className="text-red-500"/>, category: '吃喝', image: 'https://images.unsplash.com/photo-1600180758890-6b94519a8ba6?w=400&h=400&fit=crop' },
+  { id: 's_food_1', name: '辣条一包', description: '廉价多巴胺 (慎用)', cost: 1, type: 'leisure', owned: false, icon: <Utensils size={24} className="text-red-500"/>, category: '吃喝', image: 'https://images.unsplash.com/photo-1562967916-ef262167ce5c?w=400&h=400&fit=crop' },
   { id: 's_food_2', name: '快乐水', description: '瞬间恢复心情', cost: 5, type: 'leisure', owned: false, icon: <Coffee size={24} className="text-amber-700"/>, category: '饮食', image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400&h=400&fit=crop' },
   { id: 's_food_3', name: '疯狂星期四', description: '高热量补给', cost: 68, type: 'leisure', owned: false, icon: <Gift size={24} className="text-yellow-500"/>, category: '饮食', image: 'https://images.unsplash.com/photo-1513639776629-7b61b0ac49cb?w=400&h=400&fit=crop' },
   { id: 's_food_6', name: '买一瓶饮料', description: '解渴又提神', cost: 5, type: 'leisure', owned: false, icon: <Coffee size={24} className="text-blue-500"/>, category: '饮食', image: 'https://images.unsplash.com/photo-1527960669566-f882ba85a4c6?w=400&h=400&fit=crop' },
@@ -53,7 +53,7 @@ export const SHOP_CATALOG: ShopItem[] = [
   { id: 's_food_8', name: '烧烤', description: '街头美食', cost: 60, type: 'leisure', owned: false, icon: <Utensils size={24} className="text-orange-500"/>, category: '饮食', image: 'https://images.unsplash.com/photo-1529193591184-b1d58b3fffc9?w=400&h=400&fit=crop' },
   { id: 's_food_9', name: '烤鱼', description: '美味烤鱼', cost: 100, type: 'leisure', owned: false, icon: <Fish size={24} className="text-blue-500"/>, category: '饮食', image: 'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=400&h=400&fit=crop' },
   { id: 's_food_10', name: '烤鸭', description: '传统美食', cost: 30, type: 'leisure', owned: false, icon: <Utensils size={24} className="text-yellow-500"/>, category: '饮食', image: 'https://images.unsplash.com/photo-1518492104633-130d0cc84637?w=400&h=400&fit=crop' },
-  { id: 's_food_11', name: '奶茶', description: '休闲饮品', cost: 10, type: 'leisure', owned: false, icon: <Coffee size={24} className="text-pink-500"/>, category: '饮食', image: 'https://images.unsplash.com/photo-1544787210-2283dc61ba0c?w=400&h=400&fit=crop' },
+  { id: 's_food_11', name: '奶茶', description: '休闲饮品', cost: 10, type: 'leisure', owned: false, icon: <Coffee size={24} className="text-pink-500"/>, category: '饮食', image: 'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400&h=400&fit=crop' },
   { id: 's_food_12', name: '正新鸡排', description: '快餐美食', cost: 13, type: 'leisure', owned: false, icon: <Utensils size={24} className="text-red-500"/>, category: '饮食', image: 'https://images.unsplash.com/photo-1562967914-608f82629710?w=400&h=400&fit=crop' },
   { id: 's_food_13', name: '香辣大鸡腿', description: '香辣可口', cost: 1.99, type: 'leisure', owned: false, icon: <Utensils size={24} className="text-red-500"/>, category: '饮食', image: 'https://images.unsplash.com/photo-1567620832903-9fc6debc209f?w=400&h=400&fit=crop' },
   

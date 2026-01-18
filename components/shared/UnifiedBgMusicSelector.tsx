@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { VolumeX, Waves, ChevronLeft, ChevronRight, Search } from 'lucide-react';
 import { Theme } from '../../types';
-import type { FC, JSXElementConstructor } from 'react';
 
 interface Sound {
   id: string;
   name: string;
   url: string;
-  icon: JSXElementConstructor<any>;
+  icon: React.ElementType;
   color: string;
   hex: string;
 }
@@ -59,7 +58,7 @@ const getIconComponentByName = (name: string) => {
   }
 };
 
-const UnifiedBgMusicSelector: FC<UnifiedBgMusicSelectorProps> = ({
+const UnifiedBgMusicSelector: React.FC<UnifiedBgMusicSelectorProps> = ({
   theme,
   currentSoundId,
   onSoundChange,
