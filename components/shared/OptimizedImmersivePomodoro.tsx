@@ -739,19 +739,7 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
                           return (
                             <button 
                               key={sound.id}
-                              onClick={async () => {
-                                setLocalCurrentSoundId(sound.id);
-                                // 立即切换背景音乐
-                                if (sound.id === 'mute') {
-                                  await stopBgMusic();
-                                } else {
-                                  await playBgMusic(sound.id);
-                                }
-                                // 记录播放次数
-                                if (sound.id && sound.id !== 'mute' && audioStatistics) {
-                                  audioStatistics.recordPlay(sound.id);
-                                }
-                              }}
+                              onClick={() => setSound(sound.id)}
                               className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all cursor-pointer ${localCurrentSoundId === sound.id ? (isNeomorphic ? `${isDark ? 'bg-[#3a3f4e] text-blue-300 shadow-[inset_6px_6px_12px_rgba(0,0,0,0.3),inset_-6px_-6px_12px_rgba(58,63,78,0.8)]' : 'bg-[#d0d5dc] text-blue-600 shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(208,213,220,1)]'}` : isDark ? 'bg-zinc-800 text-white' : 'bg-blue-50 text-blue-600') : (isNeomorphic ? `${isDark ? 'bg-[#1e1e2e] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)] hover:shadow-[12px_12px_24px_rgba(0,0,0,0.4),-12px_-12px_24px_rgba(40,43,52,1)] active:shadow-[inset_8px_8px_16px_rgba(0,0,0,0.4),inset_-8px_-8px_16px_rgba(40,43,52,0.9)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] active:shadow-[inset_8px_8px_16px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]'} active:scale-[0.98]` : isDark ? 'hover:bg-zinc-700 text-zinc-300' : 'hover:bg-slate-100 text-slate-700')}`}
                             >
                               <span className={`text-[9px] ${isDark ? 'text-zinc-400' : 'text-zinc-500'} w-4`}>{allSounds.findIndex(s => s.id === sound.id) + 1}.</span>
@@ -1486,6 +1474,7 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
           border: 1px solid rgba(255,255,255,0.2);
           transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
           transform: translateY(0); opacity: 1;
+          z-index: 30;
         }
         
         .controls-row.hidden {
