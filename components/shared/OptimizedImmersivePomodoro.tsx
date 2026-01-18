@@ -511,9 +511,9 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
       };
 
   return (
-    <div className={`fixed inset-0 z-50 flex flex-col ${isNeomorphicDark ? 'bg-[#1e1e2e] text-white' : theme === 'dark' ? 'bg-[#1a1a2e] text-white dark' : 'bg-[#e0e5ec] text-gray-800'}`}>
+    <div className={`fixed inset-0 z-50 flex flex-col bg-transparent`}>
       {/* 主容器 */}
-      <div ref={containerRef} className="relative inset-0">
+      <div ref={containerRef} className="absolute inset-0 w-full h-full">
         {/* 优化的3D场景组件 */}
         <OptimizedImmersivePomodoro3D
           theme={theme}
@@ -681,7 +681,7 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
                 {isSoundMenuOpen && (
                   <div 
                     ref={soundMenuRef}
-                    className={`absolute top-0 right-0 -mt-96 mr-2 w-64 sm:w-72 md:w-80 rounded-xl p-4 backdrop-blur-sm z-100 ${isNeomorphic ? (isDark ? 'bg-[#1e1e2e] border border-zinc-700 shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]' : 'bg-[#e0e5ec] border border-slate-300 shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]') : isDark ? 'bg-zinc-900/95 border border-zinc-800' : 'bg-white/95 border border-slate-200 shadow-[10px_10px_20px_rgba(163,177,198,0.4),-10px_-10px_20px_rgba(255,255,255,0.6)]'}`}
+                    className={`absolute top-full right-0 mt-2 mr-2 w-64 sm:w-72 md:w-80 rounded-xl p-4 backdrop-blur-sm z-100 ${isNeomorphic ? (isDark ? 'bg-[#1e1e2e] border border-zinc-700 shadow-[8px_8px_16px_rgba(0,0,0,0.3),-8px_-8px_16px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] border border-slate-300 shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]') : isDark ? 'bg-zinc-900/95 border border-zinc-800' : 'bg-white/95 border border-slate-200 shadow-[10px_10px_20px_rgba(163,177,198,0.4),-10px_-10px_20px_rgba(255,255,255,0.6)]'}`}
                   >
                     {/* 搜索框与切换按钮 */}
                     <div className="mb-3">
@@ -734,12 +734,16 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
                           return (
                             <button 
                               key={sound.id}
-                              onClick={() => {
+                              onClick={async () => {
                                 setLocalCurrentSoundId(sound.id);
-                                // 选择音乐时不关闭面板
-                                // setIsSoundMenuOpen(false);
-                                // 记录播放次数，但不重新加载音频文件以避免列表跳动
-                                if (sound.id && sound.id !== 'mute') {
+                                // 立即切换背景音乐
+                                if (sound.id === 'mute') {
+                                  await stopBgMusic();
+                                } else {
+                                  await playBgMusic(sound.id);
+                                }
+                                // 记录播放次数
+                                if (sound.id && sound.id !== 'mute' && audioStatistics) {
                                   audioStatistics.recordPlay(sound.id);
                                 }
                               }}
@@ -1252,6 +1256,7 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
           left: 50%;
           transform: translateX(-50%);
           z-index: 20;
+          background: transparent;
         }
         
         @media (max-width: 768px) {
