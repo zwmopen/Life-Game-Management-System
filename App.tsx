@@ -46,7 +46,7 @@ import { useStats } from './features/stats';
 import { useTaskReducer } from './hooks/useTaskReducer';
 
 // 导入音效管理库
-import soundManager from './utils/soundManager';
+import soundManagerOptimized from './utils/soundManagerOptimized';
 import backupManager from './utils/BackupManager';
 
 // 导入全局音频管理器
@@ -573,11 +573,11 @@ const App: React.FC = () => {
       if (amount > 0) {
           setTodayStats(s => ({ ...s, earnings: s.earnings + amount }));
           // Play Coin Sound
-          playSound("https://assets.mixkit.co/active_storage/sfx/2003/2003-preview.mp3");
+          soundManagerOptimized.playCustomAudio("https://assets.mixkit.co/active_storage/sfx/2003/2003-preview.mp3");
       } else {
           setTodayStats(s => ({ ...s, spending: s.spending - amount }));
           // Play Spend Sound
-          playSound("https://assets.mixkit.co/active_storage/sfx/2004/2004-preview.mp3");
+          soundManagerOptimized.playCustomAudio("https://assets.mixkit.co/active_storage/sfx/2004/2004-preview.mp3");
       }
     }
   };
@@ -594,7 +594,7 @@ const App: React.FC = () => {
           addFloatingText(`+${safeXp} 经验`, 'text-blue-500', window.innerWidth / 2);
       }
       setActiveAchievement(null); // Close modal
-      playSound("https://assets.mixkit.co/active_storage/sfx/2019/2019-preview.mp3");
+      soundManagerOptimized.playCustomAudio("https://assets.mixkit.co/active_storage/sfx/2019/2019-preview.mp3");
   };
 
   const handleGiveUpTask = (taskId: string) => {
@@ -616,79 +616,8 @@ const App: React.FC = () => {
   // 全局音频管理已通过 GlobalAudioProvider 在组件树顶层处理
   // 此处不再需要局部的音频管理逻辑
 
-  // 保留全局音频管理器的状态引用
-  const [currentSoundId, setCurrentSoundId] = useState<string>('');
-  const [isMuted, setIsMuted] = useState<boolean>(false);
-
-  // Audio Handler - 保留以兼容旧代码，但优先使用全局音频管理器
-  const playSound = (url: string, type: SoundType = SoundType.SOUND_EFFECT) => {
-      try {
-          if ((type === SoundType.SOUND_EFFECT && !settings.enableSoundEffects) || (type === SoundType.BACKGROUND_MUSIC && !settings.enableBgMusic)) {
-              return;
-          }
-          
-          const volume = isMuted ? 0 : (type === SoundType.SOUND_EFFECT ? settings.soundEffectVolume : settings.bgMusicVolume);
-          
-          if (type === SoundType.BACKGROUND_MUSIC) {
-              // 使用全局音频管理器播放背景音乐
-              soundManager.playBackgroundMusic(url);
-              logInfo('Playing background music', { url, volume });
-          } else {
-              // For sound effects, create new Audio objects
-              const audio = new Audio(url);
-              audio.volume = volume;
-              audio.play().catch((e) => {
-                  logger.error('Failed to play sound effect:', e);
-                  
-                  // 如果音效播放失败，尝试其他方法
-                  try {
-                      // 创建一个新的音频元素并播放
-                      const fallbackAudio = new Audio(url);
-                      fallbackAudio.volume = volume;
-                      // 延迟播放以绕过某些浏览器限制
-                      setTimeout(() => {
-                          fallbackAudio.play().catch(fallbackError => {
-                              logger.error('Fallback sound play failed:', fallbackError);
-                          });
-                      }, 100);
-                  } catch (fallbackError) {
-                      logger.error('Fallback sound creation failed:', fallbackError);
-                  }
-              });
-          }
-      } catch (error) {
-          logger.error('Critical error in playSound function:', error);
-          // 确保即使音频出错也不会影响应用运行
-      }
-  };
-
-  // Handle Sound Change
-  const handleSoundChange = (soundId: string) => {
-      setCurrentSoundId(soundId);
-      // Get sound URL from sound library or default
-      const SOUNDS = [
-          { id: 'forest', name: '迷雾森林', url: "https://assets.mixkit.co/active_storage/sfx/2441/2441-preview.mp3" },
-          { id: 'alpha', name: '阿尔法波', url: "https://assets.mixkit.co/active_storage/sfx/243/243-preview.mp3" },
-          { id: 'theta', name: '希塔波', url: "https://assets.mixkit.co/active_storage/sfx/244/244-preview.mp3" },
-          { id: 'beta', name: '贝塔波', url: "https://assets.mixkit.co/active_storage/sfx/1126/1126-preview.mp3" },
-          { id: 'ocean', name: '海浪声', url: "https://assets.mixkit.co/active_storage/sfx/2441/2441-preview.mp3" },
-          { id: 'rain', name: '雨声', url: "https://assets.mixkit.co/active_storage/sfx/2442/2442-preview.mp3" },
-          { id: 'night', name: '夏夜虫鸣', url: "https://assets.mixkit.co/active_storage/sfx/2443/2443-preview.mp3" },
-          { id: 'white-noise', name: '白噪音', url: "https://assets.mixkit.co/active_storage/sfx/2444/2444-preview.mp3" },
-          { id: 'pink-noise', name: '粉红噪音', url: "https://assets.mixkit.co/active_storage/sfx/2445/2445-preview.mp3" },
-          { id: 'brown-noise', name: '布朗噪音', url: "https://assets.mixkit.co/active_storage/sfx/2446/2446-preview.mp3" },
-          { id: 'cafe', name: '咖啡馆环境', url: "https://assets.mixkit.co/active_storage/sfx/2447/2447-preview.mp3" },
-          { id: 'fireplace', name: '壁炉声', url: "https://assets.mixkit.co/active_storage/sfx/2448/2448-preview.mp3" },
-      ];
-      const sound = SOUNDS.find(s => s.id === soundId) || SOUNDS[0];
-      playSound(sound.url, SoundType.BACKGROUND_MUSIC);
-  };
-
-  // Handle Mute Toggle
-  const handleMuteToggle = () => {
-      const newMutedState = soundManager.toggleMute();
-      setIsMuted(newMutedState);
-  };
+  // 音频管理已由GlobalAudioManagerOptimized统一处理，不再需要局部状态
+  // 已移除旧的音频处理函数和状态，由GlobalAudioManagerOptimized统一管理
 
   const handleToggleRandomChallenge = (taskTitle: string) => {
       const todayStr = new Date().toLocaleDateString();
@@ -738,7 +667,7 @@ const App: React.FC = () => {
               addFloatingText(`+10 专注时间`, 'text-green-500', window.innerWidth / 2 + 80);
           }, 600);
           
-          playSound("https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3");
+          soundManagerOptimized.playCustomAudio("https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3");
       }
       setCompletedRandomTasks(newCompleted);
   };
@@ -1025,7 +954,7 @@ const App: React.FC = () => {
     }));
     
     // 播放骰子旋转音效 - 使用统一的音效管理
-    playSound("https://assets.mixkit.co/sfx/preview/mixkit-dice-roll-6125.mp3", SoundType.SOUND_EFFECT);
+    soundManagerOptimized.playCustomAudio("https://assets.mixkit.co/sfx/preview/mixkit-dice-roll-6125.mp3");
     
     // 根据权重选择分类
     const categories = Object.entries(diceState.config.categoryDistribution);
@@ -1062,7 +991,7 @@ const App: React.FC = () => {
     // 模拟旋转动画结束之后等待 - 调整为0秒
     setTimeout(() => {
       // 播放惊喜音效
-      playSound("https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3", SoundType.SOUND_EFFECT);
+      soundManagerOptimized.playCustomAudio("https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3");
       
       setDiceState(prev => ({
         ...prev,
@@ -1273,11 +1202,7 @@ const App: React.FC = () => {
                     setIsImmersive(true);
                     setUseInternalImmersive(true);
                   }}
-                  // Audio Management - 使用全局音频管理器
-                  isMuted={isMuted}
-                  currentSoundId={currentSoundId}
-                  onToggleMute={handleMuteToggle}
-                  onSoundChange={handleSoundChange}
+                  // Audio Management - 已由GlobalAudioManagerOptimized统一处理
                   // Settings
                   settings={settings}
                   // 命运骰子相关
@@ -1353,11 +1278,7 @@ const App: React.FC = () => {
                     setIsImmersive(true);
                     setUseInternalImmersive(true);
                   }}
-                  // Audio Management
-                  isMuted={isMuted}
-                  currentSoundId={currentSoundId}
-                  onToggleMute={handleMuteToggle}
-                  onSoundChange={handleSoundChange}
+                  // Audio Management - 已由GlobalAudioManagerOptimized统一处理
                   // Settings
                   settings={settings}
                   // 命运骰子相关

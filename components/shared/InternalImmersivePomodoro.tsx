@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { getNeomorphicStyles } from '../../utils/styleHelpers';
 import { Theme } from '../../types';
-import soundManager from '../../utils/soundManager';
+import soundManager from '../../utils/soundManagerOptimized';
 import { useGlobalAudio } from '../../components/GlobalAudioManagerOptimized';
 
 interface InternalImmersivePomodoroProps {
@@ -3465,11 +3465,11 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
                     </div>
                   </div>
                             
-                  <div className="flex flex-col gap-2 max-h-60 overflow-y-auto">
+                  <div className="flex flex-col gap-2 max-h-60 overflow-y-auto px-3">
                     {/* 优化后的音频菜单样式：添加圆角设计，调整按钮宽度 */}
                     {/* 静音选项 */}
                     <button 
-                      className="flex items-center gap-2 px-3 py-2 rounded-2xl transition-all cursor-pointer active:scale-[0.98] hover:bg-gray-100 dark:hover:bg-zinc-700 w-full"
+                      className="flex items-center gap-2 px-4 py-2.5 rounded-full transition-all cursor-pointer active:scale-[0.98] hover:bg-gray-100 dark:hover:bg-zinc-700 w-full"
                       onClick={() => setSound('mute')}
                     >
                       <span className="text-[9px] text-zinc-500 dark:text-zinc-400 w-4">1.</span>

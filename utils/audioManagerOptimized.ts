@@ -138,33 +138,19 @@ class AudioManager {
     switch (folderPath) {
       case '/audio/bgm':
         return [
-          { id: 'forest_bgm', name: '迷雾森林', url: '/audio/bgm/forest.mp3', type, icon: '🌲' },
-          { id: 'alpha_bgm', name: '阿尔法波', url: '/audio/bgm/alpha.mp3', type, icon: '🧠' },
-          { id: 'theta_bgm', name: '希塔波', url: '/audio/bgm/theta.mp3', type, icon: '🧘' },
-          { id: 'beta_bgm', name: '贝塔波', url: '/audio/bgm/beta.mp3', type, icon: '⚡' },
-          { id: 'ocean_bgm', name: '海浪声', url: '/audio/bgm/ocean.mp3', type, icon: '🌊' },
-          { id: 'rain_bgm', name: '雨声', url: '/audio/bgm/rain.mp3', type, icon: '🌧️' },
-          { id: 'night_bgm', name: '夏夜虫鸣', url: '/audio/bgm/night.mp3', type, icon: '🦗' },
-          { id: 'white_noise_bgm', name: '白噪音', url: '/audio/bgm/white-noise.mp3', type, icon: '🌬️' },
-          { id: 'pink_noise_bgm', name: '粉红噪音', url: '/audio/bgm/pink-noise.mp3', type, icon: '🎨' },
-          { id: 'brown_noise_bgm', name: '布朗噪音', url: '/audio/bgm/brown-noise.mp3', type, icon: '🌰' },
-          { id: 'cafe_bgm', name: '咖啡馆环境', url: '/audio/bgm/cafe.mp3', type, icon: '☕' },
-          { id: 'fireplace_bgm', name: '壁炉声', url: '/audio/bgm/fireplace.mp3', type, icon: '🔥' }
+          { id: 'forest_bgm', name: '森林', url: '/audio/pomodoro/bgm/森林.mp3', type, icon: '🌲' },
+          { id: 'rain_bgm', name: '雨天', url: '/audio/pomodoro/bgm/雨天.mp3', type, icon: '🌧️' },
+          { id: 'ocean_bgm', name: '海洋', url: '/audio/pomodoro/bgm/海洋.mp3', type, icon: '🌊' },
+          { id: 'cafe_bgm', name: '咖啡馆', url: '/audio/pomodoro/bgm/咖啡馆.mp3', type, icon: '☕' },
+          { id: 'white_noise_bgm', name: '风扇', url: '/audio/pomodoro/bgm/风扇.mp3', type, icon: '🌬️' }
         ];
       case '/audio/pomodoro/bgm':
         return [
-          { id: 'pomodoro_forest_bgm', name: '番茄钟森林', url: '/audio/pomodoro/bgm/forest.mp3', type, icon: '🌲' },
-          { id: 'pomodoro_alpha_bgm', name: '番茄钟阿尔法波', url: '/audio/pomodoro/bgm/alpha.mp3', type, icon: '🧠' },
-          { id: 'pomodoro_theta_bgm', name: '番茄钟希塔波', url: '/audio/pomodoro/bgm/theta.mp3', type, icon: '🧘' },
-          { id: 'pomodoro_beta_bgm', name: '番茄钟贝塔波', url: '/audio/pomodoro/bgm/beta.mp3', type, icon: '⚡' },
-          { id: 'pomodoro_ocean_bgm', name: '番茄钟海浪声', url: '/audio/pomodoro/bgm/ocean.mp3', type, icon: '🌊' },
-          { id: 'pomodoro_rain_bgm', name: '番茄钟雨声', url: '/audio/pomodoro/bgm/rain.mp3', type, icon: '🌧️' },
-          { id: 'pomodoro_night_bgm', name: '番茄钟夏夜虫鸣', url: '/audio/pomodoro/bgm/night.mp3', type, icon: '🦗' },
-          { id: 'pomodoro_white_noise_bgm', name: '番茄钟白噪音', url: '/audio/pomodoro/bgm/white-noise.mp3', type, icon: '🌬️' },
-          { id: 'pomodoro_pink_noise_bgm', name: '番茄钟粉红噪音', url: '/audio/pomodoro/bgm/pink-noise.mp3', type, icon: '🎨' },
-          { id: 'pomodoro_brown_noise_bgm', name: '番茄钟布朗噪音', url: '/audio/pomodoro/bgm/brown-noise.mp3', type, icon: '栗' },
-          { id: 'pomodoro_cafe_bgm', name: '番茄钟咖啡馆环境', url: '/audio/pomodoro/bgm/cafe.mp3', type, icon: '☕' },
-          { id: 'pomodoro_fireplace_bgm', name: '番茄钟壁炉声', url: '/audio/pomodoro/bgm/fireplace.mp3', type, icon: '🔥' }
+          { id: 'pomodoro_forest_bgm', name: '番茄钟森林', url: '/audio/pomodoro/bgm/森林.mp3', type, icon: '🌲' },
+          { id: 'pomodoro_rain_bgm', name: '番茄钟雨天', url: '/audio/pomodoro/bgm/雨天.mp3', type, icon: '🌧️' },
+          { id: 'pomodoro_ocean_bgm', name: '番茄钟海洋', url: '/audio/pomodoro/bgm/海洋.mp3', type, icon: '🌊' },
+          { id: 'pomodoro_cafe_bgm', name: '番茄钟咖啡馆', url: '/audio/pomodoro/bgm/咖啡馆.mp3', type, icon: '☕' },
+          { id: 'pomodoro_white_noise_bgm', name: '番茄钟风扇', url: '/audio/pomodoro/bgm/风扇.mp3', type, icon: '🌬️' }
         ];
       case '/audio/battle':
         return [

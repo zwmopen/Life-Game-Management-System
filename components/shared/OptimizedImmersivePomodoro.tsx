@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
-import { Play, Pause, RotateCcw, VolumeX, Volume2, Maximize2, Sun, Moon, Coffee, Dumbbell, BookOpen, Activity, Waves, CloudRain, Trees, BrainCircuit, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Play, Pause, RotateCcw, VolumeX, Volume2, Maximize2, Sun, Moon, Coffee, Dumbbell, BookOpen, Activity, Music, CloudRain, Trees, BrainCircuit, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Theme } from '../../types';
 import soundManager from '../../utils/soundManager';
 import { useGlobalAudio } from '../../components/GlobalAudioManagerOptimized';
@@ -680,7 +680,7 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
                 >
                   {localCurrentSoundId === 'mute' 
                     ? <VolumeX size={18} className={isDark ? 'text-zinc-300' : 'text-zinc-600'} /> 
-                    : <Waves size={18} className={isDark ? 'text-zinc-300' : 'text-zinc-600'} />
+                    : <Music size={18} className={isDark ? 'text-zinc-300' : 'text-zinc-600'} />
                   }
                 </button>
                 {isSoundMenuOpen && (
@@ -730,7 +730,7 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
                       </div>
                     </div>
                     
-                    <div className="flex flex-col gap-2 max-h-60 overflow-y-auto">
+                    <div className="flex flex-col gap-2 max-h-60 overflow-y-auto px-3">
                       {/* 过滤后的音效列表 */}
                       {allSounds
                         .filter(sound => sound.name.toLowerCase().includes(searchQuery.toLowerCase()))
@@ -740,7 +740,7 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
                             <button 
                               key={sound.id}
                               onClick={() => setSound(sound.id)}
-                              className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all cursor-pointer ${localCurrentSoundId === sound.id ? (isNeomorphic ? `${isDark ? 'bg-[#3a3f4e] text-blue-300 shadow-[inset_6px_6px_12px_rgba(0,0,0,0.3),inset_-6px_-6px_12px_rgba(58,63,78,0.8)]' : 'bg-[#d0d5dc] text-blue-600 shadow-[inset_6px_6px_12px_rgba(163,177,198,0.6),inset_-6px_-6px_12px_rgba(208,213,220,1)]'}` : isDark ? 'bg-zinc-800 text-white' : 'bg-blue-50 text-blue-600') : (isNeomorphic ? `${isDark ? 'bg-[#1e1e2e] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(40,43,52,0.8)] hover:shadow-[12px_12px_24px_rgba(0,0,0,0.4),-12px_-12px_24px_rgba(40,43,52,1)] active:shadow-[inset_8px_8px_16px_rgba(0,0,0,0.4),inset_-8px_-8px_16px_rgba(40,43,52,0.9)]' : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] active:shadow-[inset_8px_8px_16px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]'} active:scale-[0.98]` : isDark ? 'hover:bg-zinc-700 text-zinc-300' : 'hover:bg-slate-100 text-slate-700')}`}
+                              className={`flex items-center gap-2 px-4 py-2.5 rounded-full transition-all cursor-pointer ${localCurrentSoundId === sound.id ? (isNeomorphic ? `${isDark ? 'bg-[#3a3f4e] text-blue-300 shadow-[inset_3px_3px_6px_rgba(0,0,0,0.4),inset_-3px_-3px_6px_rgba(58,63,78,0.6)]' : 'bg-[#d0d5dc] text-blue-600 shadow-[inset_3px_3px_6px_rgba(163,177,198,0.4),inset_-3px_-3px_6px_rgba(208,213,220,0.8)]'}` : isDark ? 'bg-zinc-800 text-white' : 'bg-blue-50 text-blue-600') : (isNeomorphic ? `${isDark ? 'bg-[#1e1e2e] shadow-[4px_4px_8px_rgba(0,0,0,0.3),-4px_-4px_8px_rgba(30,30,46,0.6)] hover:shadow-[6px_6px_12px_rgba(0,0,0,0.4),-6px_-6px_12px_rgba(30,30,46,0.8)] active:shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-4px_-4px_8px_rgba(30,30,46,0.6)]' : 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.4),-4px_-4px_8px_rgba(255,255,255,0.8)] hover:shadow-[6px_6px_12px_rgba(163,177,198,0.5),-6px_-6px_12px_rgba(255,255,255,1)] active:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.4),inset_-4px_-4px_8px_rgba(255,255,255,0.8)]'} active:scale-[0.98]` : isDark ? 'hover:bg-zinc-700 text-zinc-300' : 'hover:bg-slate-100 text-slate-700')} w-full`}
                             >
                               <span className={`text-[9px] ${isDark ? 'text-zinc-400' : 'text-zinc-500'} w-4`}>{allSounds.findIndex(s => s.id === sound.id) + 1}.</span>
                               <span className={`text-[16px] ${isDark ? (sound.id === 'mute' ? 'text-zinc-400' : 'text-zinc-300') : 'text-blue-500'}`}>{icon}</span>

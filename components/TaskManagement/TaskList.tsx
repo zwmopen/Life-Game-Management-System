@@ -78,7 +78,7 @@ const TaskList: React.FC<TaskListProps> = memo(({
         </div>
         <div className="flex items-center gap-1 sm:gap-2">
           {!task.completed && !task.isGivenUp && (
-            <button onClick={(e) => onGiveUpTask(task.id, e)} className="text-zinc-600 hover:text-red-500 p-2 rounded hover:bg-red-900/10 transition-colors" title="放弃任务 (无奖励)">
+            <button onClick={(e) => onGiveUpTask(task.id, e)} className="text-zinc-600 hover:text-red-500 p-2 rounded-full hover:bg-red-900/10 transition-colors" title="放弃任务 (无奖励)">
               <X size={16} />
             </button>
           )}
@@ -173,7 +173,7 @@ const TaskList: React.FC<TaskListProps> = memo(({
                   <span className="text-blue-500">{st.duration}m</span>
                 </div>
                 <div className="flex items-center gap-1 sm:gap-0.5">
-                  <button onClick={(e) => { e.stopPropagation(); onGiveUpSubTask(task.id, st.id); }} className="text-zinc-700 hover:text-red-500 p-2 opacity-0 group-hover/sub:opacity-100 transition-opacity" title="放弃子任务">
+                  <button onClick={(e) => { e.stopPropagation(); onGiveUpSubTask(task.id, st.id); }} className="text-zinc-700 hover:text-red-500 p-2 rounded-full opacity-0 group-hover/sub:opacity-100 transition-opacity" title="放弃子任务">
                     <X size={16}/>
                   </button>
                   <button onClick={(e) => { 

@@ -10,6 +10,7 @@ import MantraModule from './shared/MantraModule';
 import { DEFAULT_MANTRAS } from '../constants/mantras';
 
 import MantraManagementModal from './shared/MantraManagementModal';
+import { useGlobalAudio } from '../components/GlobalAudioManagerOptimized';
 
 // 导入错误边界
 import ErrorBoundary, { DefaultErrorFallback } from '../components/ErrorBoundary';
@@ -35,10 +36,7 @@ interface CharacterProfileProps {
   onImmersiveModeChange?: (isImmersive: boolean) => void;
   onInternalImmersiveModeChange?: (isInternalImmersive: boolean) => void;
   // Global Audio Management
-  isMuted: boolean;
-  currentSoundId: string;
-  onToggleMute: (muted: boolean) => void;
-  onSoundChange: (soundId: string) => void;
+  // 音频管理已由GlobalAudioManagerOptimized统一处理，不再需要props传递
   // Help System
   onHelpClick?: (helpId: string) => void;
   // Character Level Change
@@ -112,10 +110,7 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
         onImmersiveModeChange = undefined, 
         onInternalImmersiveModeChange = undefined, 
         // Global Audio Management
-        isMuted, 
-        currentSoundId, 
-        onToggleMute, 
-        onSoundChange, 
+        // 音频管理已由GlobalAudioManagerOptimized统一处理，不再需要props传递 
         // Help System
         onHelpClick = undefined, 
         // Character Level Change
@@ -145,6 +140,9 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
         ? 'bg-zinc-900 border-zinc-800' 
         : 'bg-white border-slate-200';
     const textMain = isDark ? 'text-zinc-100' : isNeomorphic ? 'text-zinc-700' : 'text-slate-800';
+    
+    // 使用全局音频上下文
+    const { isMuted, toggleMute: onToggleMute, currentBgMusicId: currentSoundId, playBgMusic: onSoundChange } = useGlobalAudio();
     
     // --- MANTRA SYSTEM LOGIC ---
     const [mantras, setMantras] = useState<string[]>(DEFAULT_MANTRAS);
@@ -288,9 +286,9 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
     useEffect(() => {
         // 检测番茄钟是否自然结束（从非零变为零）
         if (prevTimeLeft.current > 0 && timeLeft === 0 && isActive) {
-            // 使用soundManager播放成功音效
-            import('../utils/soundManager').then(({ default: soundManager }) => {
-              soundManager.play('taskComplete');
+            // 使用soundManagerOptimized播放成功音效
+            import('../utils/soundManagerOptimized').then(({ default: soundManager }) => {
+              soundManager.playSoundEffect('taskComplete');
             });
             if (isImmersive) {
                 setIsImmersive(false);
@@ -388,6 +386,9 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
                                 }
                             }}
                             onHelpClick={onHelpClick}
+                            // Audio Management
+                            currentSoundId={currentSoundId}
+                            onSoundChange={onSoundChange}
                         />
                     </div>
                 )}

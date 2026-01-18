@@ -26,19 +26,52 @@ interface GlobalAudioProviderProps {
   children: React.ReactNode;
 }
 
+// 本地存储键名
+const STORAGE_KEYS = {
+  LAST_BG_MUSIC_ID: 'last-bg-music-id',
+  IS_BG_MUSIC_PLAYING: 'is-bg-music-playing'
+};
+
 export const GlobalAudioProvider: React.FC<GlobalAudioProviderProps> = ({ children }) => {
-  const [currentBgMusicId, setCurrentBgMusicId] = useState<string | null>(null);
+  // 从本地存储加载上次选择的背景音乐
+  const loadLastBgMusicFromStorage = useCallback((): string | null => {
+    try {
+      const storedId = localStorage.getItem(STORAGE_KEYS.LAST_BG_MUSIC_ID);
+      return storedId || null;
+    } catch (error) {
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Failed to load last background music from storage:', error);
+      }
+      return null;
+    }
+  }, []);
+  
+  // 保存背景音乐选择到本地存储
+  const saveBgMusicToStorage = useCallback((id: string | null, isPlaying: boolean) => {
+    try {
+      if (id) {
+        localStorage.setItem(STORAGE_KEYS.LAST_BG_MUSIC_ID, id);
+        localStorage.setItem(STORAGE_KEYS.IS_BG_MUSIC_PLAYING, JSON.stringify(isPlaying));
+      }
+    } catch (error) {
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Failed to save background music to storage:', error);
+      }
+    }
+  }, []);
+  
+  const [currentBgMusicId, setCurrentBgMusicId] = useState<string | null>(loadLastBgMusicFromStorage());
   const [isBgMusicPlaying, setIsBgMusicPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(soundManager.getIsMuted());
   const [volume, setVolume] = useState(soundManager.getBackgroundMusicVolume());
   
   // 用于跟踪当前播放的音乐ID
-  const currentMusicIdRef = useRef<string | null>(null);
-  const lastPlayedMusicIdRef = useRef<string | null>(null);
+  const currentMusicIdRef = useRef<string | null>(currentBgMusicId);
+  const lastPlayedMusicIdRef = useRef<string | null>(currentBgMusicId);
   
   // 保存最后播放的音乐信息，以便在组件重新挂载时恢复
   const lastPlayedMusicInfoRef = useRef({
-    id: null as string | null,
+    id: currentBgMusicId,
     isPlaying: false
   });
 
@@ -52,6 +85,7 @@ export const GlobalAudioProvider: React.FC<GlobalAudioProviderProps> = ({ childr
       setIsBgMusicPlaying(false);
       // 更新最后播放信息
       lastPlayedMusicInfoRef.current = { id: null, isPlaying: false };
+      saveBgMusicToStorage(null, false);
       return;
     }
 
@@ -64,12 +98,13 @@ export const GlobalAudioProvider: React.FC<GlobalAudioProviderProps> = ({ childr
       setIsBgMusicPlaying(true);
       // 更新最后播放信息
       lastPlayedMusicInfoRef.current = { id, isPlaying: true };
+      saveBgMusicToStorage(id, true);
     } catch (error) {
       if (process.env.NODE_ENV === 'development') {
         console.error('Failed to play background music:', error);
       }
     }
-  }, []);
+  }, [saveBgMusicToStorage]);
 
   const stopBgMusic = useCallback(() => {
     soundManager.stopBackgroundMusic();
@@ -78,13 +113,24 @@ export const GlobalAudioProvider: React.FC<GlobalAudioProviderProps> = ({ childr
     setIsBgMusicPlaying(false);
     // 更新最后播放信息
     lastPlayedMusicInfoRef.current = { id: null, isPlaying: false };
-  }, []);
+    saveBgMusicToStorage(null, false);
+  }, [saveBgMusicToStorage]);
 
   const resumeBgMusic = useCallback(() => {
     if (lastPlayedMusicIdRef.current && !isMuted) {
       playBgMusic(lastPlayedMusicIdRef.current);
     }
-  }, [isMuted, playBgMusic]);
+  }, [isMuted, playBgMusic, saveBgMusicToStorage]);
+
+  // 组件挂载时，如果有上次选择的背景音乐且未静音，自动播放
+  useEffect(() => {
+    if (currentBgMusicId && !isMuted) {
+      const timer = setTimeout(() => {
+        playBgMusic(currentBgMusicId);
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [currentBgMusicId, isMuted, playBgMusic]);
 
   const toggleMute = useCallback(() => {
     soundManager.toggleMute();

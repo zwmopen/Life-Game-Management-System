@@ -679,7 +679,7 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
               <button
                 onClick={() => setActiveBackupTab('local')}
                 className={[
-                  'flex-1 px-3 py-1.5 rounded-lg text-xs font-bold transition-all',
+                  'flex-1 px-3 py-1.5 rounded-full text-xs font-bold transition-all',
                   activeBackupTab === 'local'
                     ? 'bg-blue-500 text-white'
                     : getButtonStyle(false)
@@ -690,7 +690,7 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
               <button
                 onClick={() => setActiveBackupTab('cloud')}
                 className={[
-                  'flex-1 px-3 py-1.5 rounded-lg text-xs font-bold transition-all',
+                  'flex-1 px-3 py-1.5 rounded-full text-xs font-bold transition-all',
                   activeBackupTab === 'cloud'
                     ? 'bg-blue-500 text-white'
                     : getButtonStyle(false)
@@ -705,7 +705,7 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
               <div className="space-y-2">
                 <button
                   onClick={createLocalBackup}
-                  className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-lg text-xs font-bold transition-all'].join(' ')}
+                  className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-full text-xs font-bold transition-all'].join(' ')}
                 >
                   <Download size={14} className="inline-block mr-1" />
                   创建本地备份
@@ -720,7 +720,7 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
                 />
                 <label
                   htmlFor="backup-file-input"
-                  className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer block text-center'].join(' ')}
+                  className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer block text-center'].join(' ')}
                 >
                   <Upload size={14} className="inline-block mr-1" />
                   从本地恢复
@@ -795,7 +795,7 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
 
                 <button
                   onClick={updateWebdavConfig}
-                  className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-lg text-xs font-bold transition-all'].join(' ')}
+                  className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-full text-xs font-bold transition-all'].join(' ')}
                 >
                   <Save size={14} className="inline-block mr-1" />
                   保存WebDAV配置
@@ -804,7 +804,7 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
                 <button
                   onClick={backupToWebDAV}
                   disabled={isBackingUp}
-                  className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-lg text-xs font-bold transition-all'].join(' ')}
+                  className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-full text-xs font-bold transition-all'].join(' ')}
                 >
                   <Cloud size={14} className="inline-block mr-1" />
                   {isBackingUp ? '备份中...' : '备份到云端'}
@@ -813,7 +813,7 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
                 <button
                   onClick={restoreFromWebDAV}
                   disabled={isRestoring}
-                  className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-lg text-xs font-bold transition-all'].join(' ')}
+                  className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-full text-xs font-bold transition-all'].join(' ')}
                 >
                   <Download size={14} className="inline-block mr-1" />
                   {isRestoring ? '恢复中...' : '从云端恢复'}

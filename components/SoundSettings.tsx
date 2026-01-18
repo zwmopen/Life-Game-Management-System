@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import soundManager from '../utils/soundManager';
+import soundManager from '../utils/soundManagerOptimized';
 
 interface SoundSettingsProps {
   theme: string;
@@ -29,7 +29,7 @@ const SoundSettings: React.FC<SoundSettingsProps> = ({ theme, settings, onUpdate
       return;
     }
     
-    soundManager.play(soundId);
+    soundManager.playSoundEffect(soundId);
   };
 
   const isDark = theme === 'dark' || theme === 'neomorphic-dark';

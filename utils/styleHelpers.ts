@@ -41,17 +41,17 @@ export function getButtonStyle(
   isDark: boolean
 ): string {
   if (isActive) {
-    return isSpecial ? 'bg-red-500 text-white border-red-500' : 'bg-blue-500 text-white border-blue-500';
+    return isSpecial ? 'bg-red-500 text-white border-red-500 rounded-full' : 'bg-blue-500 text-white border-blue-500 rounded-full';
   }
   
   if (isNeomorphic) {
     const neomorphicStyles = getNeomorphicStyles(theme === 'neomorphic-dark');
-    return `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow} ${neomorphicStyles.hoverShadow} ${neomorphicStyles.activeShadow} ${neomorphicStyles.transition}`;
+    return `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow} ${neomorphicStyles.hoverShadow} ${neomorphicStyles.activeShadow} ${neomorphicStyles.transition} rounded-full`;
   }
   
   return isDark 
-    ? 'bg-zinc-900 border-zinc-800 text-zinc-500 hover:border-zinc-700' 
-    : 'bg-white border-slate-300 text-slate-600 hover:border-slate-200';
+    ? 'bg-zinc-900 border-zinc-800 text-zinc-500 hover:border-zinc-700 rounded-full' 
+    : 'bg-white border-slate-300 text-slate-600 hover:border-slate-200 rounded-full';
 }
 
 /**

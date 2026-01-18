@@ -56,7 +56,7 @@ const BatchOperationsBar: React.FC<BatchOperationsBarProps> = memo(({
 
   // 获取按钮样式
   const getButtonStyles = (color: 'blue' | 'red' | 'yellow' | 'gray') => {
-    const baseStyles = 'flex items-center gap-2 px-3 py-2 rounded-lg transition-all text-sm font-medium';
+    const baseStyles = 'flex items-center gap-2 px-3 py-2 rounded-full transition-all text-sm font-medium';
     
     if (isNeomorphic) {
       const neomorphicStyles = getNeomorphicStyles(theme === 'neomorphic-dark');

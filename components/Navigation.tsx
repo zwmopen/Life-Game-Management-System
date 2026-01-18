@@ -67,18 +67,18 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
   const activeClass = isNeomorphic 
       ? `${theme === 'neomorphic-dark' 
         ? 'bg-[#1e1e2e] text-zinc-300 border-transparent shadow-[inset_8px_8px_16px_rgba(0,0,0,0.4),inset_-8px_-8px_16px_rgba(30,30,46,0.8)]' 
-        : 'bg-[#e0e5ec] text-zinc-700 border-transparent shadow-[inset_8px_8px_16px_rgba(163,177,198,0.6),inset_-8px_-8px_16px_rgba(255,255,255,1)]'} transform scale-98 transition-all duration-150 rounded-lg` 
+        : 'bg-[#e0e5ec] text-zinc-700 border-transparent shadow-[inset_8px_8px_16px_rgba(163,177,198,0.6),inset_-8px_-8px_16px_rgba(255,255,255,1)]'} transform scale-98 transition-all duration-150 rounded-full` 
       : isDark 
-      ? 'bg-emerald-900/20 text-emerald-400 border-transparent rounded-lg' 
-      : 'bg-blue-50 text-blue-600 border-transparent rounded-lg';
+      ? 'bg-emerald-900/20 text-emerald-400 border-transparent rounded-full' 
+      : 'bg-blue-50 text-blue-600 border-transparent rounded-full';
   
   const hoverClass = isNeomorphic 
       ? `${theme === 'neomorphic-dark' 
         ? 'hover:text-zinc-300 hover:bg-[#1e1e2e] hover:shadow-[12px_12px_24px_rgba(0,0,0,0.5),-12px_-12px_24px_rgba(30,30,46,1)]' 
-        : 'hover:text-zinc-800 hover:bg-[#e0e5ec] hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)]'} transition-all duration-200 transform scale-102 rounded-lg` 
+        : 'hover:text-zinc-800 hover:bg-[#e0e5ec] hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)]'} transition-all duration-200 transform scale-102 rounded-full` 
       : isDark 
-      ? 'hover:text-zinc-100 hover:bg-zinc-900 rounded-lg' 
-      : 'hover:text-slate-900 hover:bg-slate-50 rounded-lg';
+      ? 'hover:text-zinc-100 hover:bg-zinc-900 rounded-full' 
+      : 'hover:text-slate-900 hover:bg-slate-50 rounded-full';
 
   // Entropy Color Logic
   const getEntropyColor = () => {
@@ -109,7 +109,7 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
               }
             }}
             className={`
-              fixed left-0 top-1/2 transform -translate-y-1/2 p-2 rounded-r-lg transition-all duration-300 flex items-center justify-center z-50
+              fixed left-0 top-1/2 transform -translate-y-1/2 p-2 rounded-r-full transition-all duration-300 flex items-center justify-center z-50
               md:absolute md:left-0 md:right-auto md:transform-none md:translate-y-0
               ${isNeomorphic 
                 ? 'bg-transparent text-zinc-700 hover:bg-transparent hover:shadow-none' 
@@ -153,7 +153,7 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
                   <button
                   onClick={() => handleNavClick(item.id)}
                   className={`
-                      flex items-center rounded-lg transition-all duration-200 border border-transparent
+                      flex items-center rounded-full transition-all duration-200 border border-transparent
                       ${isNavCollapsed 
                         ? `w-10 h-10 justify-center mx-auto my-1` 
                         : `w-full space-x-3 px-4 py-3 pl-8`
