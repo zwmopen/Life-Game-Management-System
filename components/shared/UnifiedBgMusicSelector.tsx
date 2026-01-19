@@ -33,11 +33,15 @@ const UnifiedBgMusicSelector: React.FC<UnifiedBgMusicSelectorProps> = ({
   position = 'absolute',
   className = ''
 }) => {
-  const { currentBgMusicId, playBgMusic, stopBgMusic, toggleSelectedMusic, getSelectedMusicIds } = useGlobalAudio();
+  const { currentBgMusicId, playBgMusic, stopBgMusic, toggleSelectedMusic, getSelectedMusicIds, getLockedMusicIds } = useGlobalAudio();
   const [searchQuery, setSearchQuery] = useState('');
   const [allSounds, setAllSounds] = useState<Sound[]>([]);
   const [isSoundListLoaded, setIsSoundListLoaded] = useState(false);
   const [initialSoundsLoaded, setInitialSoundsLoaded] = useState(false);
+  
+  // 快速双击检测
+  const clickTimesRef = useRef<Map<string, number>>(new Map());
+  const DOUBLE_CLICK_THRESHOLD = 300; // 快速双击阈值：300毫秒
   
   // 引用用于点击外部关闭
   const soundMenuRef = useRef<HTMLDivElement>(null);
@@ -276,23 +280,33 @@ const UnifiedBgMusicSelector: React.FC<UnifiedBgMusicSelectorProps> = ({
           .map((sound, index) => {
             // 检查该音乐是否被选中（正在播放）
             const selectedMusicIds = getSelectedMusicIds();
+            const lockedMusicIds = getLockedMusicIds();
             const isPlaying = selectedMusicIds.has(sound.id);
+            const isLocked = lockedMusicIds.has(sound.id);
             
-            // 单击播放，替换当前播放列表
-            const handleSingleClick = () => {
-              handleSoundChange(sound.id);
-            };
-            
-            // 双击添加/移除歌曲到播放列表
-            const handleDoubleClick = () => {
-              toggleSelectedMusic(sound.id);
+            // 自定义快速双击检测
+            const handleClick = () => {
+              const now = Date.now();
+              const lastClickTime = clickTimesRef.current.get(sound.id) || 0;
+              const timeDiff = now - lastClickTime;
+              
+              if (timeDiff < DOUBLE_CLICK_THRESHOLD) {
+                // 快速双击：锁定/解锁歌曲
+                toggleSelectedMusic(sound.id);
+                // 清除点击记录，避免连续多次点击被误判
+                clickTimesRef.current.delete(sound.id);
+              } else {
+                // 单击：播放，替换当前播放列表
+                handleSoundChange(sound.id);
+                // 记录当前点击时间
+                clickTimesRef.current.set(sound.id, now);
+              }
             };
             
             return (
               <Button 
                   key={sound.id}
-                  onClick={handleSingleClick}
-                  onDoubleClick={handleDoubleClick}
+                  onClick={handleClick}
                   variant={isPlaying ? 'primary' : 'primary'}
                   size="small"
                   isNeomorphic={isNeomorphic}
@@ -301,7 +315,13 @@ const UnifiedBgMusicSelector: React.FC<UnifiedBgMusicSelectorProps> = ({
                   >
                 <span className="text-base">{sound.icon}</span>
                 <span className={`text-xs font-medium ${getTextMain(isNeomorphic, theme)}`}>{sound.name}</span>
-                {isPlaying && (
+                {isLocked && (
+                  <span className="ml-auto text-xs text-yellow-400 flex items-center gap-1">
+                    <span>🔒</span>
+                    <span>锁定</span>
+                  </span>
+                )}
+                {isPlaying && !isLocked && (
                   <span className="ml-auto text-xs text-blue-400">播放中</span>
                 )}
               </Button>

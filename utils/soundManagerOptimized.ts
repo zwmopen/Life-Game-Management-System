@@ -16,6 +16,7 @@ class SoundManager {
   private masterVolume: number = 0.5;
   private bgmVolume: number = 0.3;
   private selectedMusicIds: Set<string> = new Set(); // 选中的音乐ID集合，用于循环播放
+  private lockedMusicIds: Set<string> = new Set(); // 锁定的音乐ID集合，不会被其他音乐停止
   private currentPlayRequestId: string | null = null; // 当前正在处理的播放请求ID，用于防止竞态条件
   
   // 添加页面可见性变化监听，确保音乐在后台运行
@@ -180,15 +181,22 @@ class SoundManager {
     return new Set(this.selectedMusicIds);
   }
 
-  // 切换音乐的选中状态（用于双击添加/移除歌曲）
+  // 获取锁定的音乐ID列表
+  getLockedMusicIds(): Set<string> {
+    return new Set(this.lockedMusicIds);
+  }
+
+  // 切换音乐锁定状态（用于双击锁定/解锁歌曲）
   toggleSelectedMusic(musicId: string): boolean {
-    if (this.selectedMusicIds.has(musicId)) {
-      // 如果已经选中，停止播放并移除
+    if (this.lockedMusicIds.has(musicId)) {
+      // 如果已经锁定，解锁并停止播放
       this.stopSpecificMusic(musicId);
+      this.lockedMusicIds.delete(musicId);
       this.selectedMusicIds.delete(musicId);
       return false;
     } else {
-      // 如果未选中，添加到选中列表
+      // 如果未锁定，锁定并添加到选中列表
+      this.lockedMusicIds.add(musicId);
       this.selectedMusicIds.add(musicId);
       return true;
     }
@@ -196,8 +204,14 @@ class SoundManager {
 
   // 清除所有选中的音乐
   clearSelectedMusic(): void {
-    this.selectedMusicIds.clear();
-    this.stopBackgroundMusic();
+    // 只清除普通选中的音乐，不清除锁定的音乐
+    this.selectedMusicIds.forEach(musicId => {
+      if (!this.lockedMusicIds.has(musicId)) {
+        this.stopSpecificMusic(musicId);
+      }
+    });
+    // 重新设置选中列表，只保留锁定的音乐
+    this.selectedMusicIds = new Set(this.lockedMusicIds);
   }
 
   // 停止特定音乐
@@ -209,72 +223,45 @@ class SoundManager {
     }
   }
 
-  // 播放背景音乐
+  // 播放背景音乐（单击播放）
   async playBackgroundMusic(musicId: string): Promise<void> {
     if (this.isMuted) {
       return;
     }
 
     try {
-      if (this.selectedMusicIds.size === 0) {
-        // 如果没有选中的音乐，直接播放这首音乐并将其设为当前选中
-        this.currentBackgroundMusicId = musicId;
-        this.selectedMusicIds.clear();
-        this.selectedMusicIds.add(musicId);
-        
-        // 停止当前播放的背景音乐
-        this.stopBackgroundMusic();
-        
-        // 记录当前请求的音乐ID，用于防止竞态条件
-        this.currentPlayRequestId = musicId;
-        
-        // 尝试从预设列表播放
-        if (this.backgroundMusic[musicId]) {
-          try {
-            await this.backgroundMusic[musicId].play();
-          } catch (e) {
-            if (process.env.NODE_ENV === 'development') {
-              console.error('Error playing background music:', e);
-            }
-            // 如果播放失败，尝试从audioManager获取
-            await this.playBackgroundMusicFromManager(musicId);
+      // 停止所有非锁定的背景音乐
+      this.selectedMusicIds.forEach(id => {
+        if (!this.lockedMusicIds.has(id) && id !== musicId) {
+          this.stopSpecificMusic(id);
+        }
+      });
+
+      // 更新选中的音乐列表：移除所有非锁定的音乐，添加当前音乐
+      const newSelectedMusicIds = new Set(this.lockedMusicIds);
+      newSelectedMusicIds.add(musicId);
+      this.selectedMusicIds = newSelectedMusicIds;
+
+      // 更新当前播放的音乐ID
+      this.currentBackgroundMusicId = musicId;
+      
+      // 记录当前请求的音乐ID，用于防止竞态条件
+      this.currentPlayRequestId = musicId;
+      
+      // 尝试从预设列表播放
+      if (this.backgroundMusic[musicId]) {
+        try {
+          await this.backgroundMusic[musicId].play();
+        } catch (e) {
+          if (process.env.NODE_ENV === 'development') {
+            console.error('Error playing background music:', e);
           }
-        } else {
-          // 从audioManager获取音乐文件并播放
+          // 如果播放失败，尝试从audioManager获取
           await this.playBackgroundMusicFromManager(musicId);
         }
       } else {
-        // 如果已经有选中的音乐，根据情况处理
-        if (this.selectedMusicIds.has(musicId)) {
-          // 如果已经选中，停止播放并移除
-          this.stopSpecificMusic(musicId);
-          this.selectedMusicIds.delete(musicId);
-          if (this.selectedMusicIds.size === 0) {
-            this.currentBackgroundMusicId = null;
-          }
-        } else {
-          // 如果未选中，添加到选中列表并播放
-          this.selectedMusicIds.add(musicId);
-          
-          // 记录当前请求的音乐ID，用于防止竞态条件
-          this.currentPlayRequestId = musicId;
-          
-          // 尝试从预设列表播放
-          if (this.backgroundMusic[musicId]) {
-            try {
-              await this.backgroundMusic[musicId].play();
-            } catch (e) {
-              if (process.env.NODE_ENV === 'development') {
-                console.error('Error playing background music:', e);
-              }
-              // 如果播放失败，尝试从audioManager获取
-              await this.playBackgroundMusicFromManager(musicId);
-            }
-          } else {
-            // 从audioManager获取音乐文件并播放
-            await this.playBackgroundMusicFromManager(musicId);
-          }
-        }
+        // 从audioManager获取音乐文件并播放
+        await this.playBackgroundMusicFromManager(musicId);
       }
     } catch (e) {
       if (process.env.NODE_ENV === 'development') {
@@ -339,11 +326,11 @@ class SoundManager {
     }
   }
 
-  // 停止背景音乐
+  // 停止背景音乐（只停止非锁定的音乐）
   stopBackgroundMusic(): void {
-    // 停止所有正在播放的背景音乐，而不仅仅是当前记录的那一个
-    Object.values(this.backgroundMusic).forEach(audio => {
-      if (audio) {
+    // 停止所有非锁定的背景音乐
+    Object.entries(this.backgroundMusic).forEach(([id, audio]) => {
+      if (audio && !this.lockedMusicIds.has(id)) {
         try {
           // 标准的停止和重置音频
           audio.pause();
@@ -357,7 +344,9 @@ class SoundManager {
     });
     this.currentBackgroundMusicId = null;
     this.currentPlayRequestId = null; // 重置当前播放请求ID
-    // 不清除selectedMusicIds，允许用户再次播放选中的音乐
+    
+    // 更新选中的音乐列表，只保留锁定的音乐
+    this.selectedMusicIds = new Set(this.lockedMusicIds);
   }
 
   // 切换静音状态
@@ -366,7 +355,8 @@ class SoundManager {
     
     if (this.isMuted) {
       this.stopAllSounds();
-      this.clearSelectedMusic(); // 静音时清除所有选中的音乐
+      this.clearSelectedMusic();
+      this.lockedMusicIds.clear(); // 静音时清除所有锁定的音乐
     } else {
       // 如果取消静音，恢复播放所有选中的音乐
       if (this.selectedMusicIds.size > 0) {

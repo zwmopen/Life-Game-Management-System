@@ -8,6 +8,7 @@ interface GlobalAudioContextType {
   playBgMusic: (id: string) => Promise<void>;
   toggleSelectedMusic: (id: string) => boolean;
   getSelectedMusicIds: () => Set<string>;
+  getLockedMusicIds: () => Set<string>;
   stopBgMusic: () => void;
   toggleMute: () => void;
   setVolume: (volume: number) => void;
@@ -185,6 +186,11 @@ export const GlobalAudioProvider: React.FC<GlobalAudioProviderProps> = ({ childr
     return soundManager.getSelectedMusicIds();
   }, []);
 
+  // 获取锁定的音乐ID列表
+  const getLockedMusicIds = useCallback(() => {
+    return soundManager.getLockedMusicIds();
+  }, []);
+
   // 播放音效
   const playSoundEffect = useCallback(async (effectName: string) => {
     try {
@@ -256,6 +262,7 @@ export const GlobalAudioProvider: React.FC<GlobalAudioProviderProps> = ({ childr
     playBgMusic,
     toggleSelectedMusic,
     getSelectedMusicIds,
+    getLockedMusicIds,
     stopBgMusic,
     toggleMute,
     setVolume: setVolumeHandler,
@@ -268,6 +275,7 @@ export const GlobalAudioProvider: React.FC<GlobalAudioProviderProps> = ({ childr
     playBgMusic,
     toggleSelectedMusic,
     getSelectedMusicIds,
+    getLockedMusicIds,
     stopBgMusic,
     toggleMute,
     setVolumeHandler,
