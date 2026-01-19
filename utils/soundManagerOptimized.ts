@@ -214,7 +214,21 @@ class SoundManager {
     try {
       // 从audioManager获取音乐文件
       const bgmFiles = audioManager.getBackgroundMusic();
-      const musicFile = bgmFiles.find(bgm => bgm.id === musicId || bgm.name.toLowerCase().includes(musicId.toLowerCase()));
+      
+      // 更精确地查找音乐文件，优先匹配ID，然后尝试匹配名称
+      let musicFile = bgmFiles.find(bgm => bgm.id === musicId);
+      
+      // 如果没有找到，尝试通过ID的最后部分匹配文件名
+      if (!musicFile) {
+        const idParts = musicId.split('_');
+        const fileNamePart = idParts[idParts.length - 1];
+        musicFile = bgmFiles.find(bgm => bgm.name.toLowerCase().includes(fileNamePart.toLowerCase()));
+      }
+      
+      // 如果仍然没有找到，尝试通过完整名称匹配
+      if (!musicFile) {
+        musicFile = bgmFiles.find(bgm => bgm.name.toLowerCase() === musicId.toLowerCase());
+      }
       
       if (musicFile) {
         // 创建临时音频元素播放背景音乐
@@ -223,6 +237,11 @@ class SoundManager {
         tempAudio.volume = this.bgmVolume;
         
         try {
+          // 确保停止当前正在播放的音乐
+          if (this.currentBackgroundMusicId) {
+            this.stopBackgroundMusic();
+          }
+          
           await tempAudio.play();
           
           // 停止之前的临时音频（如果有）
@@ -232,6 +251,10 @@ class SoundManager {
           
           this.backgroundMusic[musicId] = tempAudio;
           this.currentBackgroundMusicId = musicId;
+          
+          if (process.env.NODE_ENV === 'development') {
+            console.log(`Successfully playing background music: ${musicId} from URL: ${musicFile.url}`);
+          }
         } catch (e) {
           if (process.env.NODE_ENV === 'development') {
             console.error('Error playing background music from manager:', e);
@@ -242,6 +265,7 @@ class SoundManager {
         // 如果没有找到对应ID的音乐，尝试播放默认音乐
         if (process.env.NODE_ENV === 'development') {
           console.warn(`Background music ${musicId} not found, trying default music`);
+          console.log('Available BGM files:', bgmFiles.map(f => f.id));
         }
         // 尝试直接播放第一个可用的背景音乐，而不是递归调用
         const firstAvailableMusic = Object.keys(this.backgroundMusic)[0];

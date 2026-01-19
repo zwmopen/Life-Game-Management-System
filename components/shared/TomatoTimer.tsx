@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Play, Pause, Maximize2, Coffee, Music } from 'lucide-react';
 import Button from './Button';
-import UnifiedBgMusicSelector from './UnifiedBgMusicSelector';
 import { GlobalHelpButton } from '../HelpSystem';
 import { Theme } from '../../types';
 import { useGlobalAudio } from '../GlobalAudioManagerOptimized';
+import UnifiedBgMusicSelector from './UnifiedBgMusicSelector';
 
 interface TomatoTimerProps {
   theme: Theme;
@@ -36,12 +36,17 @@ const TomatoTimer: React.FC<TomatoTimerProps> = ({
   onHelpClick
 }) => {
   // 使用全局音频上下文
-  const { currentBgMusicId } = useGlobalAudio();
+  const { playSoundEffect } = useGlobalAudio();
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
-  const [showMusicSelector, setShowMusicSelector] = useState(false);
+  const [isSoundMenuOpen, setIsSoundMenuOpen] = useState(false);
+  
+  // 引用用于点击外部关闭
+  const musicButtonRef = useRef<HTMLButtonElement>(null);
 
   const isDark = theme.includes('dark');
   const isNeomorphic = theme.startsWith('neomorphic');
+
+  
   const cardBg = isNeomorphic
     ? (theme === 'neomorphic-dark'
       ? 'bg-[#1e1e2e] border-[#1e1e2e] rounded-lg shadow-[10px_10px_20px_rgba(0,0,0,0.4),-10px_-10px_20px_rgba(30,30,46,0.8)] transition-all duration-300'
@@ -65,10 +70,8 @@ const TomatoTimer: React.FC<TomatoTimerProps> = ({
       interval = window.setInterval(() => onUpdateTimeLeft(timeLeft - 1), 1000);
     } else if (timeLeft === 0 && isActive) {
       onUpdateIsActive(false);
-      // 使用soundManagerOptimized播放成功音效
-      import('../../utils/soundManagerOptimized').then(({ default: soundManager }) => {
-        soundManager.playSoundEffect('taskComplete');
-      });
+      // 使用全局音频上下文播放成功音效
+      playSoundEffect('taskComplete');
       onUpdateTimeLeft(duration * 60);
       // 当计时器结束时，通知父组件退出沉浸式模式
       if (onImmersiveModeChange) {
@@ -116,7 +119,7 @@ const TomatoTimer: React.FC<TomatoTimerProps> = ({
   };
 
   return (
-    <div className="flex flex-col gap-2 w-full">
+        <div className="flex flex-col gap-2 w-full relative">
       {/* 番茄钟系统标题 */}
       <div className="flex items-center justify-between">
         <div className={`text-xs uppercase font-bold flex items-center gap-1 ${theme === 'neomorphic-dark' ? 'text-zinc-400' : isNeomorphic ? 'text-zinc-600' : isDark ? 'text-zinc-500' : 'text-slate-500'}`}>
@@ -132,11 +135,13 @@ const TomatoTimer: React.FC<TomatoTimerProps> = ({
         )}
       </div>
       
-      {/* 统一背景音乐选择器 */}
+      {/* 统一的背景音乐选择器 */}
       <UnifiedBgMusicSelector 
         theme={theme} 
-        isVisible={showMusicSelector} 
-        onClose={() => setShowMusicSelector(false)} 
+        isVisible={isSoundMenuOpen} 
+        onClose={() => setIsSoundMenuOpen(false)} 
+        position="absolute" 
+        className="absolute top-full right-0 mt-2 mr-2" 
       />
       
       {/* 主内容区域：日期时间→计时器→按钮的水平布局 */}
@@ -228,15 +233,16 @@ const TomatoTimer: React.FC<TomatoTimerProps> = ({
             
             {/* 选择背景音乐按钮 */}
             <Button 
+              ref={musicButtonRef}
               onClick={(e) => {
                 e.stopPropagation(); // 阻止事件冒泡，防止触发点击外部关闭菜单的逻辑
-                setShowMusicSelector(!showMusicSelector);
+                setIsSoundMenuOpen(!isSoundMenuOpen);
               }} 
               variant="primary"
               size="medium"
               isNeomorphic={isNeomorphic}
               theme={theme}
-              className={`p-2.5 transition-all duration-300 hover:scale-105 active:scale-95`}
+              className={`p-2.5 transition-all duration-300 hover:scale-105 active:scale-95 ${isDark ? 'bg-zinc-800/50 hover:bg-zinc-700/50 text-zinc-300' : 'bg-white/10 hover:bg-white/20 text-zinc-300'}`}
               title="选择背景音乐"
             >
               <Music size={18} className={isDark ? 'text-zinc-300' : 'text-zinc-600'} />

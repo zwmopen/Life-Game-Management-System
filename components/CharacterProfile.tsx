@@ -142,7 +142,7 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
     const textMain = isDark ? 'text-zinc-100' : isNeomorphic ? 'text-zinc-700' : 'text-slate-800';
     
     // 使用全局音频上下文
-    const { isMuted, toggleMute: onToggleMute, currentBgMusicId: currentSoundId, playBgMusic: onSoundChange } = useGlobalAudio();
+    const { isMuted, toggleMute: onToggleMute, currentBgMusicId: currentSoundId, playBgMusic: onSoundChange, playSoundEffect } = useGlobalAudio();
     
     // --- MANTRA SYSTEM LOGIC ---
     const [mantras, setMantras] = useState<string[]>(DEFAULT_MANTRAS);
@@ -286,10 +286,8 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
     useEffect(() => {
         // 检测番茄钟是否自然结束（从非零变为零）
         if (prevTimeLeft.current > 0 && timeLeft === 0 && isActive) {
-            // 使用soundManagerOptimized播放成功音效
-            import('../utils/soundManagerOptimized').then(({ default: soundManager }) => {
-              soundManager.playSoundEffect('taskComplete');
-            });
+            // 使用全局音频上下文播放成功音效
+            playSoundEffect('taskComplete');
             if (isImmersive) {
                 setIsImmersive(false);
                 if (onImmersiveModeChange) {

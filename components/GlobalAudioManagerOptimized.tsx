@@ -10,6 +10,7 @@ interface GlobalAudioContextType {
   toggleMute: () => void;
   setVolume: (volume: number) => void;
   resumeBgMusic: () => void;
+  playSoundEffect: (effectName: string) => Promise<void>;
 }
 
 const GlobalAudioContext = createContext<GlobalAudioContextType | undefined>(undefined);
@@ -110,6 +111,7 @@ export const GlobalAudioProvider: React.FC<GlobalAudioProviderProps> = ({ childr
     soundManager.stopBackgroundMusic();
     setCurrentBgMusicId(null);
     currentMusicIdRef.current = null;
+    lastPlayedMusicIdRef.current = null;
     setIsBgMusicPlaying(false);
     // 更新最后播放信息
     lastPlayedMusicInfoRef.current = { id: null, isPlaying: false };
@@ -164,6 +166,17 @@ export const GlobalAudioProvider: React.FC<GlobalAudioProviderProps> = ({ childr
   const setVolumeHandler = useCallback((volume: number) => {
     soundManager.setBackgroundMusicVolume(volume);
     setVolume(volume);
+  }, []);
+
+  // 播放音效
+  const playSoundEffect = useCallback(async (effectName: string) => {
+    try {
+      await soundManager.playSoundEffect(effectName);
+    } catch (error) {
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Failed to play sound effect:', error);
+      }
+    }
   }, []);
 
   // 监听全局静音状态变化
@@ -227,7 +240,8 @@ export const GlobalAudioProvider: React.FC<GlobalAudioProviderProps> = ({ childr
     stopBgMusic,
     toggleMute,
     setVolume: setVolumeHandler,
-    resumeBgMusic
+    resumeBgMusic,
+    playSoundEffect
   }), [
     currentBgMusicId,
     isBgMusicPlaying,
@@ -236,7 +250,8 @@ export const GlobalAudioProvider: React.FC<GlobalAudioProviderProps> = ({ childr
     stopBgMusic,
     toggleMute,
     setVolumeHandler,
-    resumeBgMusic
+    resumeBgMusic,
+    playSoundEffect
   ]);
 
   return (

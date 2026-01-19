@@ -3,6 +3,7 @@ import { getNeomorphicStyles } from '../../utils/styleHelpers';
 import { Theme } from '../../types';
 import soundManager from '../../utils/soundManagerOptimized';
 import { useGlobalAudio } from '../../components/GlobalAudioManagerOptimized';
+import '../../styles/immersive-pomodoro.css';
 
 interface InternalImmersivePomodoroProps {
   theme: Theme;
@@ -51,7 +52,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
   const [isEditingPreset, setIsEditingPreset] = useState(false);
   const [editingValue, setEditingValue] = useState('');
   const [editingPresetId, setEditingPresetId] = useState<number | null>(null);
-  // 从本地存储加载总数和今日数量
+  // 从本地存储加载总数和今日数�?
   const [totalPlants, setTotalPlants] = useState(() => {
     const savedTotal = localStorage.getItem('immersionPomodoro_totalPlants');
     return savedTotal ? parseInt(savedTotal) : (initialTotalPlants || 20);
@@ -60,7 +61,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
     const savedToday = localStorage.getItem('immersionPomodoro_todayPlants');
     return savedToday ? parseInt(savedToday) : (initialTodayPlants || 0);
   });
-  const [localCurrentSoundId, setLocalCurrentSoundId] = useState(currentSoundId); // 本地音效ID状态
+  const [localCurrentSoundId, setLocalCurrentSoundId] = useState(currentSoundId); // 本地音效ID状�?
   const totalPlantsRef = useRef<HTMLDivElement>(null);
   const todayPlantsRef = useRef<HTMLDivElement>(null);
   
@@ -73,9 +74,9 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
       { id: 'willow', name: '垂柳', icon: '🌿' },
       { id: 'bamboo', name: '竹子', icon: '🎋' },
       { id: 'palm', name: '椰树', icon: '🌴' },
-      { id: 'cactus', name: '仙人掌', icon: '🌵' },
+      { id: 'cactus', name: '仙人�?, icon: '🌵' },
       { id: 'mushroom', name: '巨菇', icon: '🍄' },
-      { id: 'sunflower', name: '向日葵', icon: '🌻' },
+      { id: 'sunflower', name: '向日�?, icon: '🌻' },
       { id: 'birch', name: '白桦', icon: '🪵' }
     ],
     animals: [
@@ -98,7 +99,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
   const [allSounds, setAllSounds] = useState<any[]>([]);
   const [isSoundListLoaded, setIsSoundListLoaded] = useState(false);
   const [initialSoundsLoaded, setInitialSoundsLoaded] = useState(false);
-  const [searchQuery, setSearchQuery] = useState(''); // 搜索关键词状态
+  const [searchQuery, setSearchQuery] = useState(''); // 搜索关键词状�?
 
   // 图标映射函数
   const getIconComponentByName = (name: string) => {
@@ -107,17 +108,17 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
     if (lowerName.includes('forest') || lowerName.includes('woods') || lowerName.includes('trees')) {
       return '🌲';
     } else if (lowerName.includes('rain') || lowerName.includes('storm') || lowerName.includes('drizzle')) {
-      return '🌧️';
+      return '🌧�?;
     } else if (lowerName.includes('ocean') || lowerName.includes('sea') || lowerName.includes('waves')) {
       return '🌊';
     } else if (lowerName.includes('night') || lowerName.includes('cricket') || lowerName.includes('insects')) {
       return '🌙';
     } else if (lowerName.includes('cafe') || lowerName.includes('coffee')) {
-      return '☕';
+      return '�?;
     } else if (lowerName.includes('fire') || lowerName.includes('fireplace')) {
       return '🔥';
     } else if (lowerName.includes('white') && lowerName.includes('noise')) {
-      return '🌬️';
+      return '🌬�?;
     } else if (lowerName.includes('pink') && lowerName.includes('noise')) {
       return '🎨';
     } else if (lowerName.includes('brown') && lowerName.includes('noise')) {
@@ -125,7 +126,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
     } else if (lowerName.includes('alpha')) {
       return '🧠';
     } else if (lowerName.includes('beta')) {
-      return '⚡';
+      return '�?;
     } else if (lowerName.includes('theta')) {
       return '🧘';
     } else if (lowerName.includes('meditation') || lowerName.includes('zen')) {
@@ -140,7 +141,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
     }
   };
 
-  // 加载所有背景音乐
+  // 加载所有背景音�?
   useEffect(() => {
     const loadAllSounds = async () => {
       try {
@@ -154,7 +155,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
         
         // 获取所有背景音乐文件，包括番茄钟专用的背景音乐，并去重
         const allBgMusic = [...audioManagerModule.default.getBackgroundMusic(), ...audioManagerModule.default.getCategoryById('pomodoro-bgm')?.files || []];
-        // 使用Map去重，确保每个音频文件只出现一次
+        // 使用Map去重，确保每个音频文件只出现一�?
         const uniqueBgmFilesMap = new Map();
         allBgMusic.forEach(file => {
           if (!uniqueBgmFilesMap.has(file.id)) {
@@ -170,7 +171,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           setInitialSoundsLoaded(true);
         }
         
-        // 转换为组件所需的格式
+        // 转换为组件所需的格�?
         const soundList = [
           { id: 'mute', name: '静音', icon: '🔇' },
           ...sortedBgmFiles.filter(file => file && file.id && file.url).map(file => ({
@@ -187,21 +188,21 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
         setIsSoundListLoaded(true);
       } catch (error) {
         console.error('Failed to load sound list:', error);
-        // 加载失败时使用默认音效列表
+        // 加载失败时使用默认音效列�?
         setAllSounds([
           { id: 'mute', name: '静音', icon: '🔇' },
           { id: 'forest', name: '迷雾森林', icon: '🌲' },
           { id: 'alpha', name: '阿尔法波', icon: '🧠' },
-          { id: 'theta', name: '希塔波', icon: '🧘' },
-          { id: 'beta', name: '贝塔波', icon: '⚡' },
-          { id: 'ocean', name: '海浪声', icon: '🌊' },
-          { id: 'rain', name: '雨声', icon: '🌧️' },
+          { id: 'theta', name: '希塔�?, icon: '🧘' },
+          { id: 'beta', name: '贝塔�?, icon: '�? },
+          { id: 'ocean', name: '海浪�?, icon: '🌊' },
+          { id: 'rain', name: '雨声', icon: '🌧�? },
           { id: 'night', name: '夏夜虫鸣', icon: '🦗' },
-          { id: 'white-noise', name: '白噪音', icon: '🌬️' },
+          { id: 'white-noise', name: '白噪�?, icon: '🌬�? },
           { id: 'pink-noise', name: '粉红噪音', icon: '🎨' },
           { id: 'brown-noise', name: '布朗噪音', icon: '🌰' },
-          { id: 'cafe', name: '咖啡馆环境', icon: '☕' },
-          { id: 'fireplace', name: '壁炉声', icon: '🔥' }
+          { id: 'cafe', name: '咖啡馆环�?, icon: '�? },
+          { id: 'fireplace', name: '壁炉�?, icon: '🔥' }
         ]);
         setIsSoundListLoaded(true);
       }
@@ -224,10 +225,10 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
         const OrbitControls = (await import('three/examples/jsm/controls/OrbitControls.js')).OrbitControls;
         // 不使用TWEEN库，直接移除依赖
 
-        // --- 配置区 ---
+        // --- 配置�?---
         const GROUND_SIZE = 180;
         const NEU_BG_COLOR = 0xe0e5ec;
-        const FULL_DASH_ARRAY = 716; // r=114 -> C = 2 * PI * 114 ≈ 716
+        const FULL_DASH_ARRAY = 716; // r=114 -> C = 2 * PI * 114 �?716
 
         // --- 全局变量 ---
         let scene, camera, renderer, controls;
@@ -255,8 +256,8 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
         const getThemeColors = () => {
           if (theme.includes('dark')) {
             return {
-              bgColor: 0x1e1e2e,  // 深灰蓝底色
-              groundColor: 0x33334d,  // 深棕色地面
+              bgColor: 0x1e1e2e,  // 深灰蓝底�?
+              groundColor: 0x33334d,  // 深棕色地�?
               grassColor: 0x2d3748,  // 深绿草色
               neuBgColor: 0x2d3748  // 拟态背景色
             };
@@ -303,7 +304,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           }
         };
         
-        // 初始化场景
+        // 初始化场�?
         const init = () => {
           // 1. 场景
           scene = new THREE.Scene();
@@ -326,7 +327,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           renderer.toneMappingExposure = 1.1;
           canvasContainerRef.current?.appendChild(renderer.domElement);
           
-          // 确保canvas容器样式正确设置为全屏
+          // 确保canvas容器样式正确设置为全�?
           const canvas = renderer.domElement;
           canvas.style.width = '100vw';
           canvas.style.height = '100vh';
@@ -353,9 +354,9 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           createGround();
           // 创建番茄
           createTomato();
-          // 初始化随机生态系统
+          // 初始化随机生态系�?
           initRandomEcosystem(totalPlants);
-          // 初始化预览模型
+          // 初始化预览模�?
           updatePreview('pine');
 
           controls = new OrbitControls(camera, renderer.domElement);
@@ -364,17 +365,17 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
         controls.autoRotate = true;
         controls.autoRotateSpeed = 0.3;
         
-        // 防止orbit controls的鼠标事件冒泡影响页面滚动
+        // 防止orbit controls的鼠标事件冒泡影响页面滚�?
         const domElement = renderer.domElement;
         
         // 禁用 OrbitControls 的默认事件监听，防止其干扰全局滚动
         controls.enableZoom = true;
-        controls.enablePan = false;  // 禁用平移，避免影响页面滚动
+        controls.enablePan = false;  // 禁用平移，避免影响页面滚�?
         controls.enableRotate = true;
         
-        // 阻止滚轮事件冒泡，但仅在3D画布获得焦点时
+        // 阻止滚轮事件冒泡，但仅在3D画布获得焦点�?
         const preventWheelPropagation = (e: WheelEvent) => {
-          // 只有当鼠标实际位于3D画布上时才阻止事件传播
+          // 只有当鼠标实际位�?D画布上时才阻止事件传�?
           const rect = domElement.getBoundingClientRect();
           const mouseX = e.clientX;
           const mouseY = e.clientY;
@@ -383,12 +384,12 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
               mouseY >= rect.top && mouseY <= rect.bottom) {
             e.stopPropagation();
           }
-          // 允许在画布外部滚动页面
+          // 允许在画布外部滚动页�?
         };
         
         // 阻止指针事件冒泡
         const preventPointerPropagation = (e: PointerEvent) => {
-          // 只有当鼠标实际位于3D画布上时才阻止事件传播
+          // 只有当鼠标实际位�?D画布上时才阻止事件传�?
           const rect = domElement.getBoundingClientRect();
           const mouseX = e.clientX;
           const mouseY = e.clientY;
@@ -397,7 +398,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
               mouseY >= rect.top && mouseY <= rect.bottom) {
             e.stopPropagation();
           }
-          // 允许在画布外部进行页面交互
+          // 允许在画布外部进行页面交�?
         };
         
         // 保存事件处理函数以便稍后清理
@@ -429,7 +430,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           
           const colors = getThemeColors();
           
-          // 使用更自然的地面材质，根据主题变化
+          // 使用更自然的地面材质，根据主题变�?
           const groundMaterial = new THREE.MeshStandardMaterial({
             color: colors.groundColor,
             roughness: 0.9,
@@ -438,14 +439,14 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           });
           
           ground = new THREE.Mesh(groundGeometry, groundMaterial);
-          ground.position.set(0, 0, 0); // 放在原点，地面顶部在y=2.5处
+          ground.position.set(0, 0, 0); // 放在原点，地面顶部在y=2.5�?
           ground.receiveShadow = true;
           scene.add(ground);
           
           // 在地面上添加一层草地，使用稍微高一点的位置避免Z-fighting
           const grassGeometry = new THREE.CircleGeometry(GROUND_SIZE / 2 - 0.5, 64);
           
-          // 创建更自然的草地材质，添加一些纹理变化
+          // 创建更自然的草地材质，添加一些纹理变�?
           const grassMaterial = new THREE.MeshStandardMaterial({
             color: colors.grassColor,
             roughness: 0.8,
@@ -459,7 +460,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           grass.receiveShadow = true;
           ground.add(grass);
           
-          // 添加一些随机分布的细节（小石头、小花等）
+          // 添加一些随机分布的细节（小石头、小花等�?
           const detailCount = 50;
           for (let i = 0; i < detailCount; i++) {
             // 随机生成位置
@@ -470,7 +471,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             
             // 随机选择细节类型
             if (Math.random() > 0.5) {
-              // 创建小石头
+              // 创建小石�?
               const stoneGeometry = new THREE.DodecahedronGeometry(0.2 + Math.random() * 0.2, 0);
               const stoneMaterial = new THREE.MeshStandardMaterial({ 
                 color: 0x8B7355,
@@ -530,7 +531,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
 
         // 检查位置是否与现有实体重叠
         const checkPositionValidity = (x: number, z: number, entitySize: number = 2): boolean => {
-          // 检查是否在大陆范围内
+          // 检查是否在大陆范围�?
           const distanceFromCenter = Math.sqrt(x * x + z * z);
           if (distanceFromCenter > GROUND_SIZE / 2 - entitySize) {
             return false;
@@ -550,14 +551,14 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           return true;
         };
         
-        // 生成有效的随机位置
+        // 生成有效的随机位�?
         const generateValidPosition = (entitySize: number = 2): { x: number; z: number } => {
           const maxAttempts = 100;
           let attempts = 0;
           
           while (attempts < maxAttempts) {
             attempts++;
-            // 避免大陆中心区域（中心半径20范围内）
+            // 避免大陆中心区域（中心半�?0范围内）
             const centerAvoidanceRadius = 20;
             const angle = Math.random() * Math.PI * 2;
             const radius = centerAvoidanceRadius + Math.random() * (GROUND_SIZE * 0.5 - centerAvoidanceRadius);
@@ -569,7 +570,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             }
           }
           
-          // 如果多次尝试失败，返回一个默认位置
+          // 如果多次尝试失败，返回一个默认位�?
           const defaultAngle = Math.random() * Math.PI * 2;
           const centerAvoidanceRadius = 20; // 重新声明变量以确保作用域正确
           const defaultRadius = centerAvoidanceRadius + Math.random() * (GROUND_SIZE * 0.5 - centerAvoidanceRadius);
@@ -579,12 +580,12 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           };
         };
         
-        // 初始化生态系统：根据count参数创建指定数量的模型
+        // 初始化生态系统：根据count参数创建指定数量的模�?
         const initRandomEcosystem = (count: number) => {
           // 重置实体数组
           entities = [];
           
-          // 清除场景中所有非基础对象（只保留地面、番茄和预览模型）
+          // 清除场景中所有非基础对象（只保留地面、番茄和预览模型�?
           scene.children.forEach(child => {
             if (child !== ground && child !== tomatoMesh && child.name !== 'previewMesh') {
               scene.remove(child);
@@ -594,38 +595,38 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           // 重置预览模型引用
           previewMesh = null;
           
-          // 获取所有可用物种
+          // 获取所有可用物�?
           const allSpecies = [...SPECIES.plants, ...SPECIES.animals];
           
           // 确保count为非负数
           const validCount = Math.max(0, count);
           
-          // 无论数量多少，都随机选择物种并创建实体
+          // 无论数量多少，都随机选择物种并创建实�?
           for (let i = 0; i < validCount; i++) {
-            // 随机选择一个物种
+            // 随机选择一个物�?
             const randomSpecies = allSpecies[Math.floor(Math.random() * allSpecies.length)];
             
             // 生成有效的随机位置，避免重叠
-            const entitySize = 2; // 实体大小，用于碰撞检测
+            const entitySize = 2; // 实体大小，用于碰撞检�?
             const { x, z } = generateValidPosition(entitySize);
             
             const entity = createEntity(randomSpecies.id, x, z);
             
-            // 添加动物动画属性
+            // 添加动物动画属�?
             if (entity instanceof THREE.Group) {
               const isAnimal = SPECIES.animals.some(animal => animal.id === randomSpecies.id);
               if (isAnimal) {
                 entity.userData.isAnimal = true;
                 entity.userData.originalPosition = { x: entity.position.x, y: entity.position.y, z: entity.position.z };
-                // 直接设置物种ID，避免动画循环中动态推断
+                // 直接设置物种ID，避免动画循环中动态推�?
                 entity.userData.speciesId = randomSpecies.id;
                 
-                // 根据动物类型设置不同的运动参数
+                // 根据动物类型设置不同的运动参�?
                 let speed, movementRadius, jumpHeight;
                 switch(randomSpecies.id) {
                   case 'rabbit': // 兔子 - 慢速，小范围跳跃，更自然的运动
                     speed = 0.008 + Math.random() * 0.01; // 更慢的速度
-                    movementRadius = 2 + Math.random() * 2; // 更小的移动范围
+                    movementRadius = 2 + Math.random() * 2; // 更小的移动范�?
                     jumpHeight = 0.15; // 更自然的跳跃高度
                     break;
                   case 'fox': // 狐狸 - 中速，中等范围移动
@@ -633,7 +634,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
                     movementRadius = 4 + Math.random() * 3;
                     jumpHeight = 0.15;
                     break;
-                  case 'panda': // 熊猫 - 慢速，小范围移动
+                  case 'panda': // 熊猫 - 慢速，小范围移�?
                     speed = 0.008 + Math.random() * 0.01;
                     movementRadius = 2 + Math.random() * 2;
                     jumpHeight = 0.1;
@@ -643,12 +644,12 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
                     movementRadius = 3 + Math.random() * 3;
                     jumpHeight = 0.1;
                     break;
-                  case 'chick': // 小鸡 - 快速，小范围跳跃
+                  case 'chick': // 小鸡 - 快速，小范围跳�?
                     speed = 0.02 + Math.random() * 0.02;
                     movementRadius = 2 + Math.random() * 2;
                     jumpHeight = 0.15;
                     break;
-                  case 'penguin': // 企鹅 - 中速，小范围移动
+                  case 'penguin': // 企鹅 - 中速，小范围移�?
                     speed = 0.012 + Math.random() * 0.01;
                     movementRadius = 3 + Math.random() * 2;
                     jumpHeight = 0.05;
@@ -663,12 +664,12 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
                     movementRadius = 3 + Math.random() * 3;
                     jumpHeight = 0.1;
                     break;
-                  case 'bear': // 棕熊 - 慢速，小范围移动
+                  case 'bear': // 棕熊 - 慢速，小范围移�?
                     speed = 0.007 + Math.random() * 0.01;
                     movementRadius = 2 + Math.random() * 2;
                     jumpHeight = 0.08;
                     break;
-                  case 'bee': // 蜜蜂 - 快速，大范围移动
+                  case 'bee': // 蜜蜂 - 快速，大范围移�?
                     speed = 0.03 + Math.random() * 0.03;
                     movementRadius = 6 + Math.random() * 4;
                     jumpHeight = 0.5;
@@ -685,7 +686,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
                 entity.userData.movementRadius = movementRadius;
                 entity.userData.jumpHeight = jumpHeight;
                 
-                // 为兔子初始化方向变化相关属性
+                // 为兔子初始化方向变化相关属�?
                 if (randomSpecies.id === 'rabbit') {
                   entity.userData.directionChangeTimer = 0;
                   entity.userData.targetAngle = entity.userData.angle;
@@ -699,11 +700,11 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
         function createPlant(type: string) {
           const group = new THREE.Group();
           
-          // 只根据type创建对应的模型，不累积所有模型
+          // 只根据type创建对应的模型，不累积所有模�?
           if (type === 'pine') {
-            // 松树：使用更自然的树干材质
+            // 松树：使用更自然的树干材�?
             const trunkMaterial = new THREE.MeshStandardMaterial({
-              color: 0x5c4033, // 深棕色
+              color: 0x5c4033, // 深棕�?
               roughness: 0.9,
               metalness: 0.1
             });
@@ -719,20 +720,20 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
               metalness: 0.1
             });
             
-            // 分层的树冠，每层使用不同的锥体大小
+            // 分层的树冠，每层使用不同的锥体大�?
             for(let i = 0; i < 4; i++) {
               const size = 1.5 - i * 0.3;
               const height = 1.8 + i * 0.8;
               
-              // 使用圆锥体模拟松树层次
+              // 使用圆锥体模拟松树层�?
               const cone = new THREE.Mesh(new THREE.ConeGeometry(size, 1.8, 8), needleMaterial);
               cone.position.y = height;
               cone.castShadow = true;
               cone.receiveShadow = true;
               group.add(cone);
               
-              // 添加细节：树枝纹理
-              if (i > 0) { // 第一层不需要额外细节
+              // 添加细节：树枝纹�?
+              if (i > 0) { // 第一层不需要额外细�?
                 for (let j = 0; j < 6; j++) {
                   const branchAngle = (j / 6) * Math.PI * 2;
                   const branchLength = size * 0.6;
@@ -779,7 +780,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
               metalness: 0.2
             });
             
-            // 使用球体模拟茂密的树冠
+            // 使用球体模拟茂密的树�?
             const crown = new THREE.Mesh(new THREE.SphereGeometry(1.8, 16, 16), leafMaterial);
             crown.position.y = 2.5;
             crown.castShadow = true;
@@ -822,7 +823,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
               metalness: 0.2
             });
             
-            // 使用球体模拟茂密的树冠
+            // 使用球体模拟茂密的树�?
             const crown = new THREE.Mesh(new THREE.SphereGeometry(1.8, 16, 16), leafMaterial);
             crown.position.y = 2.5;
             crown.castShadow = true;
@@ -871,7 +872,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             crown.receiveShadow = true;
             group.add(crown);
             
-            // 添加垂柳特有的细长叶子
+            // 添加垂柳特有的细长叶�?
             for(let i = 0; i < 20; i++) {
               const angle = (i / 20) * Math.PI * 2;
               const radius = 1.2 + Math.random() * 0.3;
@@ -966,7 +967,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
               metalness: 0.1
             });
             
-            // 椰子树干，添加纹理
+            // 椰子树干，添加纹�?
             const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.25, 3.5, 12), trunkMaterial);
             trunk.position.y = 1.75;
             trunk.rotation.z = 0.1;
@@ -1005,7 +1006,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
               leaf.rotation.y = angle;
               leaf.rotation.x = 0.3;
               
-              // 让叶子向外弯曲
+              // 让叶子向外弯�?
               leaf.rotation.x += Math.sin(angle) * 0.2;
               
               leaf.castShadow = true;
@@ -1038,7 +1039,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
               metalness: 0.2
             });
             
-            // 仙人掌主体
+            // 仙人掌主�?
             const body = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.45, 2, 16), cactusMaterial);
             body.position.y = 1;
             body.castShadow = true;
@@ -1105,7 +1106,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
               }
             }
           } else if (type === 'mushroom') {
-            // 蘑菇茎
+            // 蘑菇�?
             const stem = new THREE.Mesh(
               new THREE.CylinderGeometry(0.25, 0.3, 1.2, 12),
               new THREE.MeshStandardMaterial({ color: 0xffedd5 })
@@ -1115,7 +1116,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             stem.receiveShadow = true;
             group.add(stem);
             
-            // 蘑菇帽
+            // 蘑菇�?
             const cap = new THREE.Mesh(
               new THREE.ConeGeometry(1.3, 1.2, 16),
               new THREE.MeshStandardMaterial({ color: 0xff4757 })
@@ -1126,7 +1127,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             cap.receiveShadow = true;
             group.add(cap);
             
-            // 添加蘑菇帽上的斑点
+            // 添加蘑菇帽上的斑�?
             for(let i = 0; i < 8; i++) {
               const angle = (i / 8) * Math.PI * 2;
               const radius = 0.8 + Math.random() * 0.2;
@@ -1147,7 +1148,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
               group.add(spot);
             }
             
-            // 添加蘑菇的纹理
+            // 添加蘑菇的纹�?
             const gillGeometry = new THREE.RingGeometry(0.3, 1.25, 16);
             const gillMaterial = new THREE.MeshStandardMaterial({
               color: 0xff6b6b,
@@ -1296,7 +1297,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             crown.receiveShadow = true;
             group.add(crown);
             
-            // 添加小枝条
+            // 添加小枝�?
             for (let i = 0; i < 12; i++) {
               const angle = (i / 12) * Math.PI * 2;
               const height = 2.5 + Math.random() * 0.5;
@@ -1321,7 +1322,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           } else {
             // 默认创建松树
             const trunkMaterial = new THREE.MeshStandardMaterial({
-              color: 0x5c4033, // 深棕色
+              color: 0x5c4033, // 深棕�?
               roughness: 0.9,
               metalness: 0.1
             });
@@ -1337,12 +1338,12 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
               metalness: 0.1
             });
             
-            // 分层的树冠，每层使用不同的锥体大小
+            // 分层的树冠，每层使用不同的锥体大�?
             for(let i = 0; i < 4; i++) {
               const size = 1.5 - i * 0.3;
               const height = 1.8 + i * 0.8;
               
-              // 使用圆锥体模拟松树层次
+              // 使用圆锥体模拟松树层�?
               const cone = new THREE.Mesh(new THREE.ConeGeometry(size, 1.8, 8), needleMaterial);
               cone.position.y = height;
               cone.castShadow = true;
@@ -1364,9 +1365,9 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           const group = new THREE.Group();
           
           if (type === 'fox') {
-            // 赤狐 - 使用更自然的颜色和细节
+            // 赤狐 - 使用更自然的颜色和细�?
             const bodyMaterial = new THREE.MeshStandardMaterial({
-              color: 0xf97316, // 橙红色
+              color: 0xf97316, // 橙红�?
               roughness: 0.7,
               metalness: 0.2
             });
@@ -1413,7 +1414,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             
             // 眼睛
             const eyeMaterial = new THREE.MeshStandardMaterial({
-              color: 0x1e3a8a, // 深蓝色
+              color: 0x1e3a8a, // 深蓝�?
               roughness: 0.3,
               metalness: 0.7,
               emissive: 0x1e3a8a,
@@ -1770,7 +1771,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           } else if (type === 'penguin') {
             // 企鹅 - 黑白分明，可爱造型
             const blackMaterial = new THREE.MeshStandardMaterial({
-              color: 0x1f2937, // 深灰色近黑
+              color: 0x1f2937, // 深灰色近�?
               roughness: 0.8,
               metalness: 0.1
             });
@@ -1811,7 +1812,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             head.receiveShadow = true;
             group.add(head);
             
-            // 嘴巴/喙
+            // 嘴巴/�?
             const beak = new THREE.Mesh(
               new THREE.ConeGeometry(0.05, 0.2, 8),
               new THREE.MeshStandardMaterial({ color: 0xfacc15 }) // 橙色
@@ -1880,7 +1881,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             leg2.receiveShadow = true;
             group.add(leg2);
             
-            // 脚
+            // �?
             const footGeometry = new THREE.BoxGeometry(0.1, 0.05, 0.08);
             const foot1 = new THREE.Mesh(footGeometry, legMaterial);
             foot1.position.set(0.1, 0.08, 0);
@@ -1893,7 +1894,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           } else if (type === 'frog') {
             // 青蛙 - 生动形象
             const greenMaterial = new THREE.MeshStandardMaterial({
-              color: 0x4ade80, // 亮绿色
+              color: 0x4ade80, // 亮绿�?
               roughness: 0.7,
               metalness: 0.2
             });
@@ -1918,7 +1919,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             head.receiveShadow = true;
             group.add(head);
             
-            // 大眼睛
+            // 大眼�?
             const eyeMaterial = new THREE.MeshStandardMaterial({
               color: 0xffffff,
               roughness: 0.2,
@@ -2116,7 +2117,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             group.add(hindWing2);
             
           } else if (type === 'sheep') {
-            // 绵羊 - 毛茸茸效果
+            // 绵羊 - 毛茸茸效�?
             const sheepBody = new THREE.MeshStandardMaterial({
               color: 0xffffff,
               roughness: 0.9,
@@ -2193,7 +2194,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
                 sheepBody
               );
               
-              // 随机分布在身体周围
+              // 随机分布在身体周�?
               const u = Math.random();
               const v = Math.random();
               const theta = u * Math.PI * 2;
@@ -2231,7 +2232,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             }
             
           } else if (type === 'bear') {
-            // 棕熊 - 厚重可爱的形态
+            // 棕熊 - 厚重可爱的形�?
             const bearMaterial = new THREE.MeshStandardMaterial({
               color: 0x78350f, // 棕色
               roughness: 0.8,
@@ -2328,7 +2329,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             }
             
           } else {
-            // 小鸡 - 黄色毛茸茸
+            // 小鸡 - 黄色毛茸�?
             const chickMaterial = new THREE.MeshStandardMaterial({
               color: 0xfacc15, // 黄色
               roughness: 0.7,
@@ -2402,7 +2403,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
               group.add(leg);
             }
             
-            // 脚
+            // �?
             const footGeometry = new THREE.BoxGeometry(0.08, 0.02, 0.05);
             const foot1 = new THREE.Mesh(footGeometry, legMaterial);
             foot1.position.set(0.1, 0.06, 0);
@@ -2429,9 +2430,9 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
               { id: 'willow', name: '垂柳', icon: '🌿' },
               { id: 'bamboo', name: '竹子', icon: '🎋' },
               { id: 'palm', name: '椰树', icon: '🌴' },
-              { id: 'cactus', name: '仙人掌', icon: '🌵' },
+              { id: 'cactus', name: '仙人�?, icon: '🌵' },
               { id: 'mushroom', name: '巨菇', icon: '🍄' },
-              { id: 'sunflower', name: '向日葵', icon: '🌻' },
+              { id: 'sunflower', name: '向日�?, icon: '🌻' },
               { id: 'birch', name: '白桦', icon: '🪵' }
             ],
             animals: [
@@ -2448,7 +2449,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             ]
           };
           
-          // 根据类型创建不同的实体
+          // 根据类型创建不同的实�?
           if (localSpecies.plants.some(p => p.id === type)) {
             mesh = createPlant(type);
           } else if (localSpecies.animals.some(a => a.id === type)) {
@@ -2460,10 +2461,10 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
 
           // 设置位置，确保所有模型底部与地面贴合（地面顶部在y=2.5处）
           if (mesh instanceof THREE.Group) {
-            // 对于组合模型，设置位置使底部与地面贴合
+            // 对于组合模型，设置位置使底部与地面贴�?
             mesh.position.set(x, 2.5, z);
           } else if (mesh.geometry) {
-            // 对于单个几何体，根据几何体高度设置位置，确保底部与地面贴合
+            // 对于单个几何体，根据几何体高度设置位置，确保底部与地面贴�?
             const height = (mesh.geometry as any).parameters?.height || 0;
             mesh.position.set(x, 2.5 + height / 2, z);
           } else {
@@ -2487,7 +2488,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           }
           
           try {
-            // 移除场景中所有名为'previewMesh'的对象，确保彻底清理
+            // 移除场景中所有名�?previewMesh'的对象，确保彻底清理
             scene.traverse((object) => {
               if (object.name === 'previewMesh') {
                 if (object.parent) {
@@ -2500,7 +2501,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             return;
           }
           
-          // 获取番茄模型，检查是否处于专注模式
+          // 获取番茄模型，检查是否处于专注模�?
           const tomatoMesh = scene.getObjectByName('tomatoMesh');
           const isFocusMode = tomatoMesh && typeof tomatoMesh.visible !== 'undefined' && tomatoMesh.visible;
           
@@ -2539,7 +2540,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             } else {
               // 非专注模式：直接显示在大陆中心，增加动画效果，确保底部与地面贴合
               newPreviewMesh.position.set(0, 2.5, 0);
-              newPreviewMesh.scale.set(0, 0, 0); // 初始缩放为0
+              newPreviewMesh.scale.set(0, 0, 0); // 初始缩放�?
               newPreviewMesh.castShadow = true;
               newPreviewMesh.receiveShadow = true;
               newPreviewMesh.renderOrder = 1000;
@@ -2553,7 +2554,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
                   newPreviewMesh.scale.set(scale, scale, scale);
                   requestAnimationFrame(animateScale);
                 } else {
-                  // 最终保持在合适大小
+                  // 最终保持在合适大�?
                   newPreviewMesh.scale.set(2.5, 2.5, 2.5);
                 }
               };
@@ -2615,12 +2616,12 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
                 // 更新角度
                 animal.userData.angle += speed;
                 
-                // 计算新位置 - 围绕原始位置移动，使用动物特定的移动范围
-                const movementRadius = animal.userData.movementRadius || 5; // 使用动物特定的移动范围
+                // 计算新位�?- 围绕原始位置移动，使用动物特定的移动范围
+                const movementRadius = animal.userData.movementRadius || 5; // 使用动物特定的移动范�?
                 
                 // 兔子采用更自然的随机游走，而不是完美的圆形轨迹
                 if (animal.userData.speciesId === 'rabbit') {
-                  // 为兔子添加随机方向变化
+                  // 为兔子添加随机方向变�?
                   if (!animal.userData.directionChangeTimer) {
                     animal.userData.directionChangeTimer = 0;
                     animal.userData.targetAngle = animal.userData.angle;
@@ -2630,11 +2631,11 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
                   animal.userData.directionChangeTimer += speed;
                   if (animal.userData.directionChangeTimer > 2) {
                     animal.userData.directionChangeTimer = 0;
-                    // 随机改变方向，范围在当前角度的±30度内
+                    // 随机改变方向，范围在当前角度的�?0度内
                     animal.userData.targetAngle = animal.userData.angle + (Math.random() - 0.5) * Math.PI / 3;
                   }
                   
-                  // 平滑过渡到目标角度
+                  // 平滑过渡到目标角�?
                   const angleDiff = animal.userData.targetAngle - animal.userData.angle;
                   animal.userData.angle += angleDiff * 0.05;
                   
@@ -2643,9 +2644,9 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
                   const z = originalPos.z + Math.sin(animal.userData.angle) * movementRadius * Math.sin(time * 0.3);
                   
                   // 垂直移动（跳跃效果），兔子的跳跃更有节奏
-                  const baseY = Math.max(2.5, originalPos.y); // 确保基础位置与地面贴合
-                  const jumpHeight = animal.userData.jumpHeight || 0.2; // 兔子的跳跃高度
-                  // 使用更自然的跳跃曲线，先快后慢
+                  const baseY = Math.max(2.5, originalPos.y); // 确保基础位置与地面贴�?
+                  const jumpHeight = animal.userData.jumpHeight || 0.2; // 兔子的跳跃高�?
+                  // 使用更自然的跳跃曲线，先快后�?
                   const jumpPhase = (time + animal.userData.waveOffset) % (Math.PI * 2);
                   const y = baseY + Math.sin(jumpPhase) * jumpHeight;
                   
@@ -2671,7 +2672,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
                   animal.rotation.y = animal.userData.angle + Math.PI / 2;
                 }
               } else {
-                // 旧的运动逻辑，为了兼容
+                // 旧的运动逻辑，为了兼�?
                 animal.userData.angle += speed;
                 
                 const movementRadius = animal.userData.movementRadius || 5;
@@ -2694,9 +2695,9 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           if (renderer && scene && camera) renderer.render(scene, camera);
         };
 
-        // 初始化场景
+        // 初始化场�?
         init();
-        // 开始动画循环
+        // 开始动画循�?
         animate();
 
         // 返回清理函数
@@ -2707,7 +2708,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           if (renderer && canvasContainerRef.current) {
             const domElement = renderer.domElement;
             
-            // 使用存储的事件处理函数进行清理
+            // 使用存储的事件处理函数进行清�?
             const preventWheelPropagation = (canvasContainerRef.current as any)._preventWheelPropagation;
             const preventPointerPropagation = (canvasContainerRef.current as any)._preventPointerPropagation;
             
@@ -2727,7 +2728,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           // 恢复页面滚动
           document.body.style.overflow = '';
           
-          // 销毁 OrbitControls 以防止其持续监听事件
+          // 销�?OrbitControls 以防止其持续监听事件
           if (controls) {
             controls.dispose();
           }
@@ -2746,9 +2747,9 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
     return () => {
       if (cleanup) cleanup();
     };
-  }, []); // 移除totalPlants依赖，避免场景重新加载
+  }, []); // 移除totalPlants依赖，避免场景重新加�?
 
-  // 当totalPlants变化时，实时更新3D大陆显示的植物/动物数量
+  // 当totalPlants变化时，实时更新3D大陆显示的植�?动物数量
   useEffect(() => {
     if (canvasContainerRef.current && isLoaded) {
       const initRandomEcosystem = (canvasContainerRef.current as any)._initRandomEcosystem;
@@ -2760,8 +2761,8 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
     }
   }, [totalPlants, isLoaded]);
   
-  // 当外部props变化时，同步更新内部状态
-  // 只在组件初始化和duration真正变化时更新currentDuration，避免暂停时被重置
+  // 当外部props变化时，同步更新内部状�?
+  // 只在组件初始化和duration真正变化时更新currentDuration，避免暂停时被重�?
   useEffect(() => {
     setCurrentDuration(duration * 60);
   }, [duration]);
@@ -2772,7 +2773,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
     setSecondsRemaining(timeLeft);
   }, [isActive, timeLeft]);
   
-  // 当主题变化时，更新3D场景和UI元素
+  // 当主题变化时，更�?D场景和UI元素
   useEffect(() => {
     if (canvasContainerRef.current && isLoaded) {
       const updateSceneColors = (canvasContainerRef.current as any)._updateSceneColors;
@@ -2782,21 +2783,21 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
     }
   }, [theme, isLoaded]);
 
-  // 使用全局音频管理器
+  // 使用全局音频管理�?
   const { playBgMusic, stopBgMusic, currentBgMusicId } = useGlobalAudio();
   
   // 音频管理 - 独立于番茄钟状态的背景音乐控制
   useEffect(() => {
     let targetSoundId = localCurrentSoundId;
     
-    // 如果用户选择了静音，则停止当前背景音乐
+    // 如果用户选择了静音，则停止当前背景音�?
     if (targetSoundId === 'mute') {
       stopBgMusic();
     } else {
-      // 如果用户选择了音乐，直接播放对应的背景音乐，不需要依赖番茄钟的聚焦状态
+      // 如果用户选择了音乐，直接播放对应的背景音乐，不需要依赖番茄钟的聚焦状�?
       const targetSound = allSounds.find(s => s.id === targetSoundId);
       if (targetSound && targetSoundId !== 'mute') {
-        // 使用全局音频管理器播放背景音乐
+        // 使用全局音频管理器播放背景音�?
         playBgMusic(targetSoundId);
         
         // 记录音频播放统计
@@ -2807,18 +2808,18 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
     }
   }, [localCurrentSoundId, allSounds, audioStatistics, playBgMusic, stopBgMusic]);
 
-  // 计时器效果
+  // 计时器效�?
   useEffect(() => {
     let interval: number;
     
-    // 只有在专注且未暂停且时间大于0时才运行计时器
+    // 只有在专注且未暂停且时间大于0时才运行计时�?
     if (isFocusing && !isPaused && secondsRemaining > 0) {
       interval = window.setInterval(() => {
         setSecondsRemaining(prev => {
           const newTime = prev - 1;
           onUpdateTimeLeft(newTime);
           if (newTime <= 0) {
-            // 清除定时器
+            // 清除定时�?
             clearInterval(interval);
             
             // 番茄钟结束，创建新的实体
@@ -2870,7 +2871,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
               onUpdateTodayPlants(newToday);
             }
             
-            // 更新3D场景中的生态系统，反映新增的植物/动物
+            // 更新3D场景中的生态系统，反映新增的植�?动物
             if (canvasContainerRef.current && isLoaded) {
               const initRandomEcosystem = (canvasContainerRef.current as any)._initRandomEcosystem;
               if (initRandomEcosystem) {
@@ -2894,7 +2895,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
       }, 1000);
     }
     
-    // 清理函数，确保在任何情况下都清除定时器
+    // 清理函数，确保在任何情况下都清除定时�?
     return () => {
       if (interval) {
         clearInterval(interval);
@@ -2902,7 +2903,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
     };
   }, [isFocusing, isPaused, secondsRemaining, onUpdateTimeLeft, currentSeed, totalPlants, onUpdateTotalPlants, todayPlants, onUpdateTodayPlants, currentDuration]);
 
-  // 格式化时间
+  // 格式化时�?
   const formatTime = (seconds: number) => {
     const m = Math.floor(seconds / 60);
     const s = seconds % 60;
@@ -2911,14 +2912,14 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
 
   // 设置音效
   const setSound = async (type: string) => {
-    // 更新本地音效状态
+    // 更新本地音效状�?
     setLocalCurrentSoundId(type);
     
-    // 如果是静音，则停止当前背景音乐
+    // 如果是静音，则停止当前背景音�?
     if (type === 'mute') {
       stopBgMusic();
     } else {
-      // 播放对应的背景音乐
+      // 播放对应的背景音�?
       await playBgMusic(type);
     }
     
@@ -2958,7 +2959,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
       
       // 检查点击是否在番茄钟组件范围内，如果不是，则不处理
       if (componentRoot && !componentRoot.contains(event.target as Node)) {
-        return; // 点击不在番茄钟组件范围内，不处理此事件
+        return; // 点击不在番茄钟组件范围内，不处理此事�?
       }
       
       if (isAudioMenuOpen && 
@@ -2976,7 +2977,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
     };
   }, [isAudioMenuOpen]);
 
-  // 当选择的种子变化或组件状态改变时，更新预览模型
+  // 当选择的种子变化或组件状态改变时，更新预览模�?
   useEffect(() => {
     if (canvasContainerRef.current && isLoaded) {
       // 在暂停状态下或者非专注状态下更新预览
@@ -2997,13 +2998,13 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
     }
   }, [isFocusing, isPaused, secondsRemaining, currentDuration, currentSeed, isLoaded]);
 
-  // 开始专注
+  // 开始专�?
   const startFocus = () => {
     setIsFocusing(true);
     setIsPaused(false);
     onUpdateIsActive(true);
     
-    // 动态加载ThreeJS，更新3D场景
+    // 动态加载ThreeJS，更�?D场景
     const updateScene = async () => {
       try {
         const THREE = await import('three');
@@ -3044,7 +3045,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             }
           } else {
             console.warn('Scene not initialized or invalid when starting focus');
-            // 如果场景未初始化，仍然更新状态
+            // 如果场景未初始化，仍然更新状�?
             return;
           }
         }
@@ -3061,30 +3062,30 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
     const newPausedState = !isPaused;
     setIsPaused(newPausedState);
             
-    // 更新父组件状态：只有在从专注状态变为暂停状态时才通知父组件
+    // 更新父组件状态：只有在从专注状态变为暂停状态时才通知父组�?
     // 避免在计时器结束时意外退出沉浸式模式
     if (isFocusing) {
       onUpdateIsActive(!newPausedState);
     }
             
-    // 如果暂停，显示预览模型；如果继续，隐藏预览模型
+    // 如果暂停，显示预览模型；如果继续，隐藏预览模�?
     const updateScene = async () => {
       try {
         const THREE = await import('three');
         if (canvasContainerRef.current) {
-          // 安全检查：确保场景已经初始化
+          // 安全检查：确保场景已经初始�?
           const scene = (canvasContainerRef.current as any)._scene;
-          // 添加额外检查确保scene对象存在且有效
+          // 添加额外检查确保scene对象存在且有�?
           if (scene && typeof scene === 'object' && typeof scene.traverse === 'function') {
             if (newPausedState) {  // 修正逻辑：使用新状态来判断
-              // 暂停，显示预览模型
+              // 暂停，显示预览模�?
               // 调用全局的updatePreview函数
               const updatePreview = (canvasContainerRef.current as any)._updatePreview;
               if (updatePreview) {
                 updatePreview(currentSeed);
               }
             } else {
-              // 继续专注，隐藏预览模型
+              // 继续专注，隐藏预览模�?
               const previewMesh = scene.getObjectByName('previewMesh');
               if (previewMesh) {
                 let scale = 1;
@@ -3102,7 +3103,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             }
           } else {
             console.warn('Scene not initialized or invalid when pausing focus');
-            // 如果场景未初始化，仍然更新状态
+            // 如果场景未初始化，仍然更新状�?
             return;
           }
         }
@@ -3144,7 +3145,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             }
           } else {
             console.warn('Scene not initialized or invalid when resetting focus');
-            // 如果场景未初始化，仍然更新状态
+            // 如果场景未初始化，仍然更新状�?
             return;
           }
         }
@@ -3175,7 +3176,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
     }, 0);
   };
 
-  // 开始编辑今日数量
+  // 开始编辑今日数�?
   const startEditToday = () => {
     setIsEditingToday(true);
     setEditingValue(todayPlants.toString());
@@ -3191,16 +3192,16 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
     const value = parseInt(editingValue);
     if (!isNaN(value) && value >= 0) {
       if (type === 'total') {
-        // 更新本地状态
+        // 更新本地状�?
         setTotalPlants(value);
-        // 保存到本地存储
+        // 保存到本地存�?
         localStorage.setItem('immersionPomodoro_totalPlants', value.toString());
-        // 如果提供了回调函数，调用它更新父组件状态
+        // 如果提供了回调函数，调用它更新父组件状�?
         if (onUpdateTotalPlants) {
           onUpdateTotalPlants(value);
         }
         
-        // 立即更新3D场景，确保数据与显示一致
+        // 立即更新3D场景，确保数据与显示一�?
         if (canvasContainerRef.current && isLoaded) {
           const initRandomEcosystem = (canvasContainerRef.current as any)._initRandomEcosystem;
           if (initRandomEcosystem) {
@@ -3209,11 +3210,11 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           }
         }
       } else {
-        // 更新本地状态
+        // 更新本地状�?
         setTodayPlants(value);
-        // 保存到本地存储
+        // 保存到本地存�?
         localStorage.setItem('immersionPomodoro_todayPlants', value.toString());
-        // 如果提供了回调函数，调用它更新父组件状态
+        // 如果提供了回调函数，调用它更新父组件状�?
         if (onUpdateTodayPlants) {
           onUpdateTodayPlants(value);
         }
@@ -3223,7 +3224,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
     setIsEditingToday(false);
   };
 
-  // 开始编辑预设时间
+  // 开始编辑预设时�?
   const startEditPreset = (preset: number) => {
     setIsEditingPreset(true);
     setEditingPresetId(preset);
@@ -3246,7 +3247,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
     setEditingPresetId(null);
   };
 
-  // 处理输入框按键事件
+  // 处理输入框按键事�?
   const handleInputKeyDown = (e: React.KeyboardEvent, type: 'total' | 'today' | 'preset') => {
     if (e.key === 'Enter' || e.keyCode === 13) {
       if (type === 'preset') {
@@ -3266,20 +3267,20 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
   const isNeomorphic = theme.startsWith('neomorphic');
   const isNeomorphicDark = theme === 'neomorphic-dark';
   
-  // 拟态风格样式变量
+  // 拟态风格样式变�?
   const neomorphicStyles = getNeomorphicStyles(isNeomorphicDark);
   
   return (
     <div className={`fixed inset-0 z-50 flex flex-col ${isNeomorphicDark ? 'bg-[#1e1e2e] text-white' : 'bg-[#e0e5ec] text-gray-800'}`}>
-      {/* 主容器 - 直接显示，无加载状态 */}
+      {/* 主容�?- 直接显示，无加载状�?*/}
       <div ref={containerRef} className="relative inset-0">
         {/* Canvas容器 */}
         <div ref={canvasContainerRef} id="canvas-container" className="absolute inset-0"></div>
         
-        {/* 退出按钮 */}
-        <div className="exit-btn" id="exitBtn" onClick={onExitImmersive}>✕</div>
+        {/* 退出按�?*/}
+        <div className="exit-btn" id="exitBtn" onClick={onExitImmersive}>�?/div>
         
-        {/* 帮助按钮和指南 */}
+        {/* 帮助按钮和指�?*/}
         <div className={`help-btn ${isFocusing && !isPaused ? 'hidden' : ''}`} id="helpBtn" onClick={() => {
           const guideCard = document.getElementById('guideCard');
           if (guideCard) {
@@ -3288,44 +3289,44 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
         }}>?</div>
         <div className={`${isNeomorphicDark ? 'guide-card neu-out neomorphic-dark-mode' : isDark ? 'guide-card neu-out dark-mode' : 'guide-card neu-out'}`} id="guideCard">
           <div className="guide-header">
-            <h3>🌲 3D专注生态指南</h3>
+            <h3>🌲 3D专注生态指�?/h3>
             <button className="guide-close" id="guideClose" onClick={() => {
               const guideCard = document.getElementById('guideCard');
               if (guideCard) {
                 guideCard.classList.remove('show');
               }
-            }}>✕</button>
+            }}>�?/button>
           </div>
           <div className="guide-content">
             <h4>📋 基本规则</h4>
             <ul>
-              <li>设定专注时间，点击开始按钮进入专注状态</li>
-              <li>完成专注后，获得一棵植物或一只动物</li>
-              <li>植物和动物会种植在你的3D森林中</li>
-              <li>累计种植更多生命，打造丰富的生态系统</li>
+              <li>设定专注时间，点击开始按钮进入专注状�?/li>
+              <li>完成专注后，获得一棵植物或一只动�?/li>
+              <li>植物和动物会种植在你�?D森林�?/li>
+              <li>累计种植更多生命，打造丰富的生态系�?/li>
             </ul>
             
             <h4>🎯 操作指南</h4>
             <ul>
-              <li>🖱️ <strong>单击能量环</strong> - 开始/继续专注</li>
-              <li>🖱️ <strong>双击能量环</strong> - 暂停专注</li>
-              <li>🖱️ <strong>双击计时器</strong> - 修改专注时长</li>
-              <li>🖱️ <strong>双击统计数据</strong> - 修改总数和今日成就</li>
-              <li>🖱️ <strong>拖动鼠标</strong> - 旋转视角</li>
-              <li>🖱️ <strong>滚轮缩放</strong> - 放大缩小场景</li>
+              <li>🖱�?<strong>单击能量�?/strong> - 开�?继续专注</li>
+              <li>🖱�?<strong>双击能量�?/strong> - 暂停专注</li>
+              <li>🖱�?<strong>双击计时�?/strong> - 修改专注时长</li>
+              <li>🖱�?<strong>双击统计数据</strong> - 修改总数和今日成�?/li>
+              <li>🖱�?<strong>拖动鼠标</strong> - 旋转视角</li>
+              <li>🖱�?<strong>滚轮缩放</strong> - 放大缩小场景</li>
             </ul>
             
             <h4>🎵 音乐设置</h4>
             <ul>
               <li>点击音乐图标打开音乐菜单</li>
               <li>选择喜欢的背景音乐或静音</li>
-              <li>支持多种音效：森林、阿尔法波、希塔波等</li>
+              <li>支持多种音效：森林、阿尔法波、希塔波�?/li>
             </ul>
             
             <h4>🌿 物种选择</h4>
             <ul>
-              <li>右侧面板选择你喜欢的植物或动物</li>
-              <li>完成专注后将获得所选物种</li>
+              <li>右侧面板选择你喜欢的植物或动�?/li>
+              <li>完成专注后将获得所选物�?/li>
               <li>植物和动物会自动分布在森林中</li>
             </ul>
           </div>
@@ -3333,7 +3334,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
 
         {/* UI容器 */}
         <div className="ui-container">
-          {/* 顶部数据栏 - 合并的统计面板 - 在专注且非暂停时隐藏 */}
+          {/* 顶部数据�?- 合并的统计面�?- 在专注且非暂停时隐藏 */}
           <div className={`stats-bar ${isFocusing && !isPaused ? 'hidden' : ''}`}>
             <div 
               ref={totalPlantsRef}
@@ -3364,9 +3365,9 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
                       <span className="highlight-num text-xs" id="totalCount">{totalPlants}</span>
                     )}
                   </div>
-                  <div className="h-4 w-px bg-gray-300"></div> {/* 分隔线 */}
+                  <div className="h-4 w-px bg-gray-300"></div> {/* 分隔�?*/}
                   <div className="flex items-center gap-1">
-                    <span className="text-xs">☀️ 今日</span>
+                    <span className="text-xs">☀�?今日</span>
                     {isEditingToday ? (
                       <div className="highlight-num edit-mode">
                         <input 
@@ -3451,7 +3452,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
                   className={`${isNeomorphicDark ? 'bg-[#1e1e2e] border border-zinc-700 shadow-[8px_8px_16px_rgba(0,0,0,0.3),-8px_-8px_16px_rgba(40,43,52,0.8)]' : isDark ? 'bg-zinc-900/95 border border-zinc-800' : (isNeomorphic ? 'bg-[#e0e5ec] border border-slate-300 shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]' : 'bg-white/95 border border-slate-200 shadow-[10px_10px_20px_rgba(163,177,198,0.4),-10px_-10px_20px_rgba(255,255,255,0.6)]')} absolute top-0 right-0 mt-16 mr-2 rounded-xl p-4 backdrop-blur-sm z-[1000] audio-menu ${isAudioMenuOpen ? 'show' : ''}`}
                   onClick={(e) => e.stopPropagation()}
                 >
-                  {/* 搜索框 */}
+                  {/* 搜索�?*/}
                   <div className="mb-3">
                     <div className={`relative w-full ${isNeomorphic ? (isDark ? 'bg-[#1e1e2e]' : 'bg-[#e0e5ec]') : (isDark ? 'bg-zinc-800' : 'bg-white')}`}>
                       <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-zinc-500 dark:text-zinc-400">🔍</span>
@@ -3493,7 +3494,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
                           </button>
                         ))
                     ) : (
-                      <div className="audio-item loading">加载中...</div>
+                      <div className="audio-item loading">加载�?..</div>
                     )}
                   </div>
                 </div>
@@ -3510,11 +3511,11 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
                         
               {/* 外部凹槽 */}
               <div className="ring-groove">
-                {/* SVG 进度条 */}
+                {/* SVG 进度�?*/}
                 <svg className="progress-ring" viewBox="0 0 240 240">
                   {/* 背景轨道 */}
                   <circle className="progress-ring__circle-bg" r="114" cx="120" cy="120"/>
-                  {/* 进度条 */}
+                  {/* 进度�?*/}
                   <circle 
                     className="progress-ring__circle" 
                     id="progressCircle" 
@@ -3536,7 +3537,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
               id="timer"
             >{formatTime(secondsRemaining)}</div>
                 <div className="status-text" id="statusText">
-                  {isFocusing ? (isPaused ? '已暂停 (单击继续)' : '专注生长中...') : '点击开始'}
+                  {isFocusing ? (isPaused ? '已暂�?(单击继续)' : '专注生长�?..') : '点击开�?}
                 </div>
               </div>
             </div>
@@ -3544,7 +3545,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
 
           {/* 侧边种子选择 - 在专注且非暂停时隐藏 */}
           <div className={`${isNeomorphicDark ? 'neu-out neomorphic-dark-mode' : isDark ? 'neu-out dark-mode' : 'neu-out'} seed-selector ${isFocusing && !isPaused ? 'hidden' : ''}`} id="seedSelector">
-            <div className="selector-title">🌿 植物类</div>
+            <div className="selector-title">🌿 植物�?/div>
             {SPECIES.plants.map(plant => (
               <div 
                 key={plant.id}
@@ -3556,7 +3557,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
                 <div className="seed-name">{plant.name}</div>
               </div>
             ))}
-            <div className="selector-title mt-4">🐾 动物类</div>
+            <div className="selector-title mt-4">🐾 动物�?/div>
             {SPECIES.animals.map(animal => (
               <div 
                 key={animal.id}
@@ -3572,1020 +3573,11 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
         </div>
       </div>
       
-      {/* 样式 */}
-      <style jsx>{`
-        :root {
-          --bg-color: #e0e5ec;
-          --text-main: #4d5b6d;
-          --text-sub: #a3b1c6;
-          --text-gray: #64748b;
-          --shadow-light: #ffffff;
-          --shadow-dark: #a3b1c6;
-          --primary-green: #22c55e;
-          --primary-blue: #3b82f6;
-          --dark-green: #14532d;
-          --warn-yellow: #f59e0b;
-        }
-        
-        .dark {
-          --bg-color: #1a1a2e;
-          --text-main: #f4f4f5;
-          --text-sub: #a3b1c6;
-          --text-gray: #64748b;
-          --shadow-light: #1e293b;
-          --shadow-dark: #0f172a;
-          --primary-green: #22c55e;
-          --primary-blue: #3b82f6;
-          --dark-green: #14532d;
-          --warn-yellow: #f59e0b;
-        }
-        
-        .neomorphic-dark {
-          --bg-color: #1e1e2e;
-          --text-main: #f4f4f5;
-          --text-sub: #a3b1c6;
-          --text-gray: #64748b;
-          --shadow-light: #2d2d42;
-          --shadow-dark: #0f0f17;
-          --primary-green: #22c55e;
-          --primary-blue: #3b82f6;
-          --dark-green: #14532d;
-          --warn-yellow: #f59e0b;
-        }
-        
-        /* 调整拟态深色模式下的透明渐变覆盖层 */
-        .neomorphic-dark .bg-gradient-to-t.from-black\/10.to-transparent {
-          background: linear-gradient(to top, rgba(0, 0, 0, 0.25), transparent);
-        }
-        
-        /* 深色模式下调整透明渐变覆盖层的样式 */
-        .dark .bg-gradient-to-t.from-black\/10.to-transparent {
-          background: linear-gradient(to top, rgba(0, 0, 0, 0.25), transparent);
-        }
+      
 
-        #canvas-container {
-          width: 100vw;
-          height: 100vh;
-          display: block;
-          position: absolute;
-          top: 0;
-          left: 0;
-          z-index: 0;
-        }
-
-        .ui-container {
-          position: absolute;
-          top: 0; left: 0; width: 100%; height: 100%;
-          pointer-events: none;
-          display: flex;
-          flex-direction: column;
-          justify-content: flex-start;
-          align-items: center;
-          padding: 30px;
-          box-sizing: border-box;
-          z-index: 10;
-        }
-        
-        @media (max-width: 768px) {
-          .ui-container {
-            padding: 20px;
-          }
-        }
-        
-        @media (max-width: 480px) {
-          .ui-container {
-            padding: 15px;
-          }
-        }
-
-        .neu-out {
-          background: var(--bg-color);
-          border-radius: 16px;
-          box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
-          border: 1px solid rgba(255,255,255,0.2);
-          color: var(--text-main);
-        }
-        
-        .neu-out.dark-mode {
-          background: var(--bg-color);
-          box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
-          border: 1px solid rgba(255,255,255,0.1);
-          color: var(--text-main);
-        }
-        
-        .neu-out.neomorphic-dark-mode {
-          background: var(--bg-color);
-          box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
-          border: 1px solid rgba(255,255,255,0.1);
-          color: var(--text-main);
-        }
-        
-        .neomorphic-dark .progress-ring__circle-bg {
-          stroke: rgba(55, 65, 81, 0.3); /* zinc-700 equivalent */
-          filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.3)) drop-shadow(-2px -2px 2px rgba(255, 255, 255, 0.1));
-        }
-        
-        .neomorphic-dark .timer-text {
-          color: #f4f4f5;
-        }
-        
-        .neomorphic-dark .status-text {
-          color: var(--text-sub);
-        }
-        
-        .neomorphic-dark .preset-btn {
-          color: var(--text-sub);
-        }
-        
-        .neomorphic-dark .preset-btn:hover {
-          color: var(--text-main);
-        }
-        
-        .neomorphic-dark .preset-btn.active {
-          color: var(--text-main);
-        }
-        
-        .neomorphic-dark .audio-btn {
-          color: var(--text-sub);
-        }
-        
-        .neomorphic-dark .audio-btn:hover {
-          color: var(--primary-green);
-        }
-        
-        .neomorphic-dark .highlight-num {
-          color: var(--text-main);
-        }
-        
-        .neomorphic-dark .seed-option {
-          color: var(--text-main);
-        }
-        
-        .neomorphic-dark .seed-option:hover {
-          color: var(--primary-green);
-        }
-        
-        .neomorphic-dark .seed-option.active {
-          color: var(--primary-green);
-        }
-        
-        .neomorphic-dark .selector-title {
-          color: var(--text-sub);
-        }
-        
-        .neomorphic-dark .audio-item {
-          color: var(--text-main);
-        }
-        
-        .neomorphic-dark .audio-item:hover {
-          color: var(--primary-green);
-        }
-        
-        .neomorphic-dark .audio-item.selected {
-          color: var(--primary-green);
-        }
-        
-        .neomorphic-dark .exit-btn {
-          color: var(--text-main);
-        }
-        
-        .neomorphic-dark .help-btn {
-          color: var(--text-main);
-        }
-
-        .stats-bar {
-          display: flex;
-          gap: 20px;
-          flex-wrap: wrap;
-          justify-content: flex-start;
-          width: 100%;
-          margin-left: 0px;
-          margin-top: 0px;
-        }
-
-        .stats-panel {
-          pointer-events: auto;
-          padding: 12px 24px;
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          font-weight: 600;
-          font-size: 14px;
-          cursor: pointer;
-          transition: transform 0.2s ease;
-          color: var(--text-main);
-          width: auto;
-          max-width: 100%;
-        }
-        
-        .stats-panel:hover { transform: translateY(-2px); background: var(--bg-color); }
-        .stats-panel:active { transform: scale(0.98); }
-        
-        .neomorphic-dark .stats-panel {
-          color: var(--text-main);
-        }
-
-        .highlight-num {
-          font-size: 18px;
-          font-weight: 800;
-          color: var(--text-main);
-          text-shadow: none;
-        }
-        
-        /* 响应式设计：在较小屏幕上调整stats-panel */
-        @media (max-width: 768px) {
-          .stats-panel {
-            padding: 10px 20px;
-            font-size: 12px;
-            gap: 8px;
-          }
-          
-          .highlight-num {
-            font-size: 16px;
-          }
-          
-          .stats-bar {
-            gap: 10px;
-          }
-        }
-        
-        @media (max-width: 480px) {
-          .stats-panel {
-            padding: 8px 16px;
-            font-size: 11px;
-            gap: 6px;
-          }
-          
-          .highlight-num {
-            font-size: 14px;
-          }
-          
-          .stats-bar {
-            gap: 8px;
-            flex-direction: column;
-            align-items: flex-start;
-          }
-        }
-
-        .stats-combined {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-        }
-
-        .highlight-num.edit-mode {
-          display: flex;
-          align-items: center;
-        }
-
-        .edit-input {
-          font-size: 18px;
-          font-weight: 800;
-          color: var(--text-main);
-          background: transparent;
-          border: none;
-          outline: none;
-          width: 60px;
-          text-align: center;
-          padding: 2px 6px;
-          border-radius: 8px;
-          box-shadow: inset 2px 2px 5px var(--shadow-dark), inset -2px -2px 5px var(--shadow-light);
-        }
-
-        .edit-input:focus {
-          box-shadow: inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light);
-        }
-
-        .preset-input {
-          font-size: 13px;
-          font-weight: 600;
-          color: var(--text-main);
-          background: transparent;
-          border: none;
-          outline: none;
-          width: 60px;
-          text-align: center;
-          padding: 8px 16px;
-          border-radius: 20px;
-          box-shadow: inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light);
-        }
-
-        .preset-input:focus {
-          box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);
-        }
-
-        .seed-selector {
-          pointer-events: auto;
-          position: absolute;
-          top: 100px; max-height: calc(100vh - 140px); right: 30px; width: 160px;
-          padding: 15px;
-          display: flex;
-          flex-direction: column;
-          gap: 10px;
-          overflow-y: auto;
-          transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-          transform: translateX(0); opacity: 1;
-          z-index: 100;
-          min-width: 140px;
-        }
-        
-        .seed-selector.hidden {
-          transform: translateX(150%); opacity: 0; pointer-events: none;
-        }
-        
-        @media (max-width: 768px) {
-          .seed-selector {
-            top: 80px;
-            right: 20px;
-            width: 140px;
-            min-width: 120px;
-            padding: 12px;
-          }
-          
-          .selector-title {
-            font-size: 11px;
-          }
-          
-          .seed-option {
-            gap: 6px;
-            padding: 6px 10px;
-          }
-          
-          .seed-icon { 
-            font-size: 14px; 
-            width: 18px; 
-          }
-          
-          .seed-name { 
-            font-size: 10px; 
-          }
-        }
-        
-        @media (max-width: 480px) {
-          .seed-selector {
-            top: 60px;
-            right: 10px;
-            width: 120px;
-            min-width: 100px;
-            padding: 10px;
-            max-height: calc(100vh - 120px);
-          }
-          
-          .selector-title {
-            font-size: 10px;
-            margin-bottom: 3px;
-          }
-          
-          .seed-option {
-            gap: 5px;
-            padding: 5px 8px;
-            font-size: 10px;
-          }
-          
-          .seed-icon { 
-            font-size: 12px; 
-            width: 16px; 
-          }
-          
-          .seed-name { 
-            font-size: 9px; 
-          }
-          
-          /* 在极小屏幕上，考虑将选择器移到底部或采用可折叠设计 */
-          @media (max-height: 600px) {
-            .seed-selector {
-              position: fixed;
-              top: auto;
-              bottom: 10px;
-              right: 50%;
-              transform: translateX(50%);
-              width: 90%;
-              max-width: 300px;
-            }
-          }
-        }
-        
-        .seed-selector.hidden { transform: translateX(150%); opacity: 0; pointer-events: none; }
-        .seed-selector::-webkit-scrollbar { width: 0px; }
-
-        .selector-title {
-          font-size: 12px; color: var(--text-sub); font-weight: 700; margin-bottom: 5px;
-          text-transform: uppercase; letter-spacing: 1px; text-align: center;
-        }
-
-        .seed-option {
-          display: flex; align-items: center;
-          gap: 8px; padding: 8px 12px;
-          border-radius: 50px; cursor: pointer; transition: all 0.2s ease;
-          background: var(--bg-color);
-          box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
-          color: var(--text-main);
-        }
-        .seed-option:hover { transform: translateY(-2px); }
-        .seed-option:active { transform: scale(0.98); }
-        .seed-option.active {
-          box-shadow: inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light);
-          color: var(--text-main);
-          font-weight: bold;
-          transform: none;
-        }
-        
-        .neomorphic-dark .seed-option {
-          color: var(--text-main);
-        }
-        .neomorphic-dark .seed-option:hover { color: var(--primary-green); }
-        .neomorphic-dark .seed-option.active {
-          color: var(--primary-green);
-        }
-        .seed-icon { font-size: 16px; width: 20px; text-align: center; }
-        .seed-name { font-size: 11px; font-weight: 600; }
-
-        .controls {
-          pointer-events: none; /* 让背景3D场景能够接收鼠标事件 */
-          align-self: center; text-align: center;
-          display: flex; flex-direction: column; align-items: center; gap: 35px;
-          margin-top: auto; /* 移除固定上边距 */
-          margin-bottom: 80px; /* 增加底部边距，使元素更靠底部 */
-          position: fixed;
-          bottom: 0;
-          left: 50%;
-          transform: translateX(-50%);
-          z-index: 20;
-        }
-        
-        @media (max-width: 768px) {
-          .controls {
-            margin-bottom: 60px;
-          }
-        }
-        
-        @media (max-width: 480px) {
-          .controls {
-            margin-bottom: 50px;
-            gap: 25px;
-          }
-        }
-        
-        /* 专门用于控制元素的容器，仅这些元素接收鼠标事件 */
-        .controls .focus-ring-container,
-        .controls .controls-row {
-          pointer-events: auto;
-        }
-
-        .focus-ring-container {
-          position: relative;
-          width: 280px;
-          height: 280px;
-          border-radius: 50%;
-          background: var(--bg-color);
-          box-shadow: 20px 20px 60px var(--shadow-dark), -20px -20px 60px var(--shadow-light);
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          cursor: pointer;
-          transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s;
-          z-index: 20;
-        }
-
-        .focus-ring-container:hover {
-          transform: scale(1.02) translateY(-5px);
-          box-shadow: 25px 25px 70px var(--shadow-dark), -25px -25px 70px var(--shadow-light);
-        }
-        .focus-ring-container:active {
-          transform: scale(0.98);
-        }
-
-        /* 响应式设计：在小屏幕上调整圆环大小 */
-        @media (max-width: 768px) {
-          .focus-ring-container {
-            width: 220px;
-            height: 220px;
-            margin-top: 80px;
-          }
-          
-          .ring-groove {
-            top: 15px;
-            left: 15px;
-            right: 15px;
-            bottom: 15px;
-          }
-          
-          .center-plate {
-            top: 25px;
-            left: 25px;
-            right: 25px;
-            bottom: 25px;
-          }
-          
-          .timer-text {
-            font-size: 50px;
-          }
-          
-          .status-text {
-            font-size: 14px;
-          }
-        }
-        
-        @media (max-width: 480px) {
-          .focus-ring-container {
-            width: 180px;
-            height: 180px;
-            margin-top: 60px;
-          }
-          
-          .ring-groove {
-            top: 10px;
-            left: 10px;
-            right: 10px;
-            bottom: 10px;
-          }
-          
-          .center-plate {
-            top: 20px;
-            left: 20px;
-            right: 20px;
-            bottom: 20px;
-          }
-          
-          .timer-text {
-            font-size: 40px;
-          }
-          
-          .status-text {
-            font-size: 12px;
-          }
-        }
-
-        .ring-groove {
-          position: absolute;
-          top: 20px; left: 20px; right: 20px; bottom: 20px;
-          border-radius: 50%;
-          background: var(--bg-color);
-          box-shadow: inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light);
-          z-index: 1;
-        }
-
-        .progress-ring {
-          position: absolute;
-          top: 0; left: 0;
-          width: 100%; height: 100%;
-          transform: rotate(-90deg);
-          pointer-events: none;
-          z-index: 2;
-        }
-
-        .progress-ring__circle-bg {
-          display: block;
-          fill: none;
-          stroke: rgba(163, 177, 198, 0.2);
-          stroke-width: 6;
-        }
-        
-        .dark .progress-ring__circle-bg {
-          stroke: rgba(55, 65, 81, 0.3); /* zinc-700 equivalent */
-          filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.3)) drop-shadow(-2px -2px 2px rgba(255, 255, 255, 0.1));
-        }
-
-        .progress-ring__circle {
-          fill: none;
-          stroke: var(--primary-green);
-          stroke-width: 6;
-          stroke-linecap: round;
-          stroke-dasharray: 716;
-          stroke-dashoffset: 0;
-          transition: stroke-dashoffset 1s linear;
-          filter: drop-shadow(0 0 2px rgba(34, 197, 94, 0.4));
-          opacity: 1;
-        }
-
-        .center-plate {
-          position: absolute;
-          top: 35px; left: 35px; right: 35px; bottom: 35px;
-          border-radius: 50%;
-          background: var(--bg-color);
-          box-shadow: 6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light);
-          z-index: 3;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-
-        .timer-text {
-          font-size: 68px;
-          font-weight: 700;
-          color: var(--text-main);
-          font-family: 'Segoe UI', Roboto, sans-serif;
-          font-variant-numeric: tabular-nums;
-          margin-bottom: 2px;
-          letter-spacing: -1px;
-          text-shadow: 0 0 4px rgba(0,0,0,0.1);
-        }
-        
-        .dark .timer-text {
-          color: #f4f4f5;
-        }
-        
-        .status-text {
-          font-size: 16px;
-          font-weight: 600;
-          color: var(--text-sub);
-          text-transform: uppercase;
-          letter-spacing: 2px;
-          transition: all 0.3s;
-        }
-
-        .timer-tooltip {
-          position: absolute;
-          bottom: 50px;  /* 调整位置，移到可见区域内并与其他元素保持适当距离 */
-          left: 50%;
-          transform: translateX(-50%) translateY(10px);
-          font-size: 12px;
-          color: var(--text-sub);
-          background: rgba(255,255,255,0.6);
-          padding: 8px 16px;
-          border-radius: 20px;
-          box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-          opacity: 0;
-          transition: opacity 0.4s ease, transform 0.4s ease;
-          pointer-events: none;
-          white-space: nowrap;
-          z-index: 100;
-          backdrop-filter: blur(5px);
-          /* 确保元素不会影响布局 */
-          visibility: hidden;
-        }
-        .focus-ring-container:hover .timer-tooltip {
-          opacity: 1;
-          transform: translateX(-50%) translateY(0);
-          visibility: visible;
-        }
-
-        .focus-ring-container.focusing .timer-text { color: var(--text-gray); }
-        .focus-ring-container.focusing .status-text { color: var(--primary-green); opacity: 1; }
-        
-        .focus-ring-container.paused .timer-text { color: var(--warn-yellow); animation: none; }
-        .focus-ring-container.paused .status-text { color: var(--warn-yellow); }
-        .focus-ring-container.paused .progress-ring__circle { stroke: var(--warn-yellow); }
-
-        .controls-row {
-          display: flex; align-items: center; gap: 15px; padding: 10px 15px;
-          border-radius: 40px; background: var(--bg-color);
-          box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
-          border: 1px solid rgba(255,255,255,0.2);
-          transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-          transform: translateY(0); opacity: 1;
-          z-index: 50;
-        }
-        
-        .controls-row.hidden {
-          opacity: 0; pointer-events: none; transform: translateY(80px) scale(0.9);
-        }
-
-        .preset-btn {
-          border: none; background: var(--bg-color); color: var(--text-sub);
-          padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;
-          cursor: pointer; transition: all 0.3s ease;
-          box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
-        }
-        .preset-btn:hover { color: var(--text-main); transform: translateY(-1px); }
-        .preset-btn:active,
-        .preset-btn.active { 
-          color: var(--text-main); 
-          box-shadow: inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light);
-          font-weight: bold;
-          transform: scale(0.98);
-        }
-        
-        .neomorphic-dark .preset-btn {
-          color: var(--text-sub);
-        }
-        .neomorphic-dark .preset-btn:hover { color: var(--text-main); }
-        .neomorphic-dark .preset-btn:active,
-        .neomorphic-dark .preset-btn.active { 
-          color: var(--text-main);
-        }
-
-        .audio-dropdown { position: relative; }
-        .audio-btn {
-          background: var(--bg-color); border: none; border-radius: 50%;
-          width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
-          cursor: pointer; font-size: 18px; color: var(--text-sub);
-          box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
-          transition: transform 0.3s ease, color 0.3s ease;
-        }
-        .audio-btn:hover { color: var(--primary-green); transform: scale(1.1); }
-        
-        .neomorphic-dark .audio-btn {
-          color: var(--text-sub);
-        }
-        .neomorphic-dark .audio-btn:hover { color: var(--primary-green); }
-
-        .audio-menu {
-          display: none; position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%);
-          width: 140px; padding: 15px; z-index: 100; flex-direction: column; gap: 10px;
-          margin-bottom: 0;
-        }
-        .audio-menu.show {
-          display: flex;
-        }
-        
-        .audio-item {
-          pointer-events: auto;
-        }
-        
-        .audio-item {
-          padding: 10px; font-size: 13px; color: var(--text-main); cursor: pointer;
-          border-radius: 10px; display: flex; align-items: center; gap: 8px;
-          background: var(--bg-color);
-          box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
-        }
-        .audio-item:hover { color: var(--primary-green); }
-        .audio-item.selected { 
-          color: var(--primary-green); font-weight: bold;
-          box-shadow: inset 2px 2px 5px var(--shadow-dark), inset -2px -2px 5px var(--shadow-light);
-        }
-        
-        .neomorphic-dark .audio-item {
-          color: var(--text-main);
-        }
-        .neomorphic-dark .audio-item:hover { color: var(--primary-green); }
-        .neomorphic-dark .audio-item.selected { 
-          color: var(--primary-green);
-        }
-
-        .exit-btn {
-          position: absolute;
-          top: 30px;
-          right: 30px;
-          width: 40px;
-          height: 40px;
-          border-radius: 50%;
-          background: var(--bg-color);
-          box-shadow: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          font-size: 18px;
-          color: var(--text-main);
-          z-index: 1000;
-          transition: all 0.2s ease;
-          pointer-events: auto;
-        }
-
-        .exit-btn:hover {
-          transform: translateY(-2px);
-          box-shadow: 7px 7px 14px var(--shadow-dark), -7px -7px 14px var(--shadow-light);
-        }
-        
-        .neomorphic-dark .exit-btn {
-          color: var(--text-main);
-        }
-        
-        .exit-btn:active {
-          transform: scale(0.95);
-        }
-        
-        .help-btn {
-          position: absolute;
-          top: 30px;
-          right: 80px;
-          width: 40px;
-          height: 40px;
-          border-radius: 50%;
-          background: var(--bg-color);
-          box-shadow: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          font-size: 20px;
-          font-weight: bold;
-          color: var(--text-main);
-          z-index: 1000;
-          transition: transform 0.3s ease, color 0.3s ease;
-          pointer-events: auto;
-        }
-        
-        .help-btn:hover {
-          transform: scale(1.1);
-          color: var(--primary-green);
-          box-shadow: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light);
-        }
-        
-        .neomorphic-dark .help-btn {
-          color: var(--text-main);
-        }
-        .neomorphic-dark .help-btn:hover {
-          color: var(--primary-green);
-        }
-        
-        .help-btn:active {
-          transform: scale(0.95);
-        }
-        
-        .help-btn.hidden {
-          opacity: 0;
-          pointer-events: none;
-          transform: scale(0.9);
-        }
-        
-        /* 预测时间模块样式 */
-        .prediction-module {
-          position: absolute;
-          top: 30px;
-          left: 30px;
-          z-index: 50;
-          pointer-events: auto;
-        }
-        
-        .prediction-panel {
-          padding: 15px;
-          border-radius: 16px;
-          min-width: 200px;
-          box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
-        }
-        
-        .prediction-header {
-          margin-bottom: 12px;
-          padding-bottom: 8px;
-          border-bottom: 1px solid rgba(163, 177, 198, 0.2);
-        }
-        
-        .prediction-header h4 {
-          margin: 0;
-          font-size: 14px;
-          font-weight: 600;
-          color: var(--text-main);
-        }
-        
-        .prediction-content {
-          display: flex;
-          flex-direction: column;
-          gap: 8px;
-        }
-        
-        .prediction-item {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          font-size: 12px;
-        }
-        
-        .prediction-label {
-          color: var(--text-sub);
-          font-weight: 500;
-        }
-        
-        .prediction-value {
-          color: var(--text-main);
-          font-weight: 600;
-          text-align: right;
-          flex: 1;
-          margin-left: 10px;
-        }
-        
-        @media (max-width: 768px) {
-          .prediction-module {
-            top: 20px;
-            left: 20px;
-            right: 20px;
-          }
-          
-          .prediction-panel {
-            min-width: auto;
-            width: 100%;
-          }
-        }
-        
-        .guide-card {
-          position: fixed;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%) scale(0.9);
-          width: 80%;
-          max-width: 600px;
-          max-height: 90vh;
-          padding: 30px;
-          background: var(--bg-color);
-          box-shadow: 20px 20px 60px var(--shadow-dark), -20px -20px 60px var(--shadow-light);
-          border-radius: 20px;
-          z-index: 3000;
-          display: none;
-          flex-direction: column;
-          overflow-y: auto;
-          pointer-events: auto;
-        }
-        
-        .guide-card.show {
-          display: flex;
-          animation: fadeInScale 0.3s ease-out forwards;
-        }
-        
-        @keyframes fadeInScale {
-          from {
-            opacity: 0;
-            transform: translate(-50%, -50%) scale(0.9);
-          }
-          to {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
-          }
-        }
-        
-        .guide-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 20px;
-          padding-bottom: 15px;
-          border-bottom: 2px solid rgba(163, 177, 198, 0.2);
-        }
-        
-        .guide-header h3 {
-          margin: 0;
-          color: var(--text-main);
-          font-size: 24px;
-          font-weight: 700;
-        }
-        
-        .guide-close {
-          background: var(--bg-color);
-          border: none;
-          border-radius: 50%;
-          width: 35px;
-          height: 35px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          font-size: 18px;
-          color: var(--text-sub);
-          box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
-          transition: all 0.2s ease;
-        }
-        
-        .guide-close:hover {
-          color: var(--text-main);
-          transform: translateY(-1px);
-          box-shadow: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light);
-        }
-        
-        .guide-content {
-          flex: 1;
-          overflow-y: auto;
-          padding-right: 10px;
-        }
-        
-        .guide-content::-webkit-scrollbar {
-          width: 6px;
-        }
-        
-        .guide-content::-webkit-scrollbar-track {
-          background: rgba(163, 177, 198, 0.1);
-          border-radius: 3px;
-        }
-        
-        .guide-content::-webkit-scrollbar-thumb {
-          background: rgba(163, 177, 198, 0.5);
-          border-radius: 3px;
-        }
-        
-        .guide-content::-webkit-scrollbar-thumb:hover {
-          background: rgba(163, 177, 198, 0.7);
-        }
-        
-        .guide-content h4 {
-          margin: 20px 0 10px 0;
-          color: var(--text-main);
-          font-size: 16px;
-          font-weight: 700;
-        }
-        
-        .guide-content h4:first-child {
-          margin-top: 0;
-        }
-        
-        .guide-content ul {
-          margin: 0 0 15px 0;
-          padding-left: 25px;
-          color: var(--text-gray);
-          font-size: 14px;
-          line-height: 1.6;
-        }
-        
-        .guide-content li {
-          margin-bottom: 8px;
-        }
-        
-        .guide-content strong {
-          color: var(--text-main);
-          font-weight: 600;
-        }
         
 
-      `}</style>
+
     </div>
   );
 };
