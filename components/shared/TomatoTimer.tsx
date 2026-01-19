@@ -228,7 +228,10 @@ const TomatoTimer: React.FC<TomatoTimerProps> = ({
             
             {/* 选择背景音乐按钮 */}
             <Button 
-              onClick={() => setShowMusicSelector(!showMusicSelector)} 
+              onClick={(e) => {
+                e.stopPropagation(); // 阻止事件冒泡，防止触发点击外部关闭菜单的逻辑
+                setShowMusicSelector(!showMusicSelector);
+              }} 
               variant="primary"
               size="medium"
               isNeomorphic={isNeomorphic}

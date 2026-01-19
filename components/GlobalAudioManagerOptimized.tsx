@@ -122,14 +122,38 @@ export const GlobalAudioProvider: React.FC<GlobalAudioProviderProps> = ({ childr
     }
   }, [isMuted, playBgMusic, saveBgMusicToStorage]);
 
-  // 组件挂载时，如果有上次选择的背景音乐且未静音，自动播放
+  // 组件挂载时，如果有上次选择的背景音乐且未静音，监听用户交互后自动播放
   useEffect(() => {
+    const handleUserInteraction = async () => {
+      if (currentBgMusicId && !isMuted) {
+        try {
+          await playBgMusic(currentBgMusicId);
+        } catch (error) {
+          // 忽略自动播放错误，用户可以手动触发播放
+          if (process.env.NODE_ENV === 'development') {
+            console.warn('Failed to auto-play background music on user interaction:', error);
+          }
+        }
+        // 移除事件监听器，只在第一次交互时尝试播放
+        window.removeEventListener('click', handleUserInteraction);
+        window.removeEventListener('keydown', handleUserInteraction);
+        window.removeEventListener('touchstart', handleUserInteraction);
+      }
+    };
+
     if (currentBgMusicId && !isMuted) {
-      const timer = setTimeout(() => {
-        playBgMusic(currentBgMusicId);
-      }, 500);
-      return () => clearTimeout(timer);
+      // 添加用户交互事件监听器
+      window.addEventListener('click', handleUserInteraction);
+      window.addEventListener('keydown', handleUserInteraction);
+      window.addEventListener('touchstart', handleUserInteraction);
     }
+
+    return () => {
+      // 清理事件监听器
+      window.removeEventListener('click', handleUserInteraction);
+      window.removeEventListener('keydown', handleUserInteraction);
+      window.removeEventListener('touchstart', handleUserInteraction);
+    };
   }, [currentBgMusicId, isMuted, playBgMusic]);
 
   const toggleMute = useCallback(() => {

@@ -155,6 +155,12 @@ export const buttonColorVariants = {
     dark: "bg-blue-600 hover:bg-blue-500",
     light: "bg-blue-600 hover:bg-blue-500"
   },
+  secondary: {
+    neomorphicDark: "text-gray-400",
+    neomorphicLight: "text-gray-600",
+    dark: "bg-gray-700 hover:bg-gray-600",
+    light: "bg-gray-200 hover:bg-gray-300"
+  },
   success: {
     neomorphicDark: "text-emerald-400",
     neomorphicLight: "text-emerald-600",

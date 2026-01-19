@@ -74,7 +74,11 @@ class SoundManager {
         audio.volume = bgm.volume ?? this.bgmVolume;
         this.backgroundMusic[bgm.id] = audio;
         // 预加载音频，确保播放时不会延迟
-        audio.load().catch(e => {
+        // 注意：audio.load() 方法在所有浏览器中都返回 undefined，不是 Promise
+        // 因此不应该调用 catch() 方法
+        audio.load();
+        // 监听音频加载错误，而不是使用 Promise catch
+        audio.addEventListener('error', (e) => {
           if (process.env.NODE_ENV === 'development') {
             console.warn(`Error preloading background music ${bgm.id}:`, e);
           }

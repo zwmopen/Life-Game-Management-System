@@ -2,7 +2,7 @@ import React from 'react';
 import { getButtonStyle, getSmallButtonStyle } from '../../constants/styles';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'success' | 'danger' | 'warning' | 'purple';
+  variant?: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'purple';
   size?: 'small' | 'medium' | 'large';
   isNeomorphic: boolean;
   theme: string;
