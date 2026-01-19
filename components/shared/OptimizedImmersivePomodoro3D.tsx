@@ -231,11 +231,27 @@ const OptimizedImmersivePomodoro3D: React.FC<{
       // 添加控制器
       const controls = new OrbitControls(camera, renderer.domElement);
       controls.enableDamping = true;
+      controls.dampingFactor = 0.05;
       controls.maxPolarAngle = Math.PI / 2 - 0.05;
       controls.autoRotate = true;
       controls.autoRotateSpeed = 0.3;
       controls.enablePan = true;
       controls.enableZoom = true;
+      controls.enableRotate = true;
+      controls.minDistance = 20;
+      controls.maxDistance = 150;
+      
+      // 添加事件监听器，在用户开始拖动时暂停自动旋转
+      controls.addEventListener('start', () => {
+        controls.autoRotate = false;
+      });
+      
+      // 添加事件监听器，在用户停止拖动时恢复自动旋转
+      controls.addEventListener('end', () => {
+        setTimeout(() => {
+          controls.autoRotate = true;
+        }, 3000); // 3秒后恢复自动旋转
+      });
 
       // 保存引用
       sceneRef.current = scene;
@@ -289,7 +305,7 @@ const OptimizedImmersivePomodoro3D: React.FC<{
 
   // 监听主题变化，更新3D场景颜色
   useEffect(() => {
-    if (!sceneRef.current || !groundRef.current) return;
+    if (!sceneRef.current) return;
 
     const colors = getThemeColors();
     
@@ -316,7 +332,7 @@ const OptimizedImmersivePomodoro3D: React.FC<{
         }
       }
     }
-  }, [theme]);
+  }, [theme, getThemeColors]);
 
   // 创建实体
   const createEntity = async (type: string, x: number, z: number) => {
