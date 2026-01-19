@@ -4,6 +4,7 @@ interface AudioPlayRecord {
   id: string;
   playCount: number;
   lastPlayed: Date;
+  isFavorite: boolean;
 }
 
 class AudioStatistics {
@@ -23,7 +24,8 @@ class AudioStatistics {
           this.playRecords.set(record.id, {
             id: record.id,
             playCount: record.playCount,
-            lastPlayed: new Date(record.lastPlayed)
+            lastPlayed: new Date(record.lastPlayed),
+            isFavorite: record.isFavorite || false
           });
         });
       }
@@ -41,6 +43,42 @@ class AudioStatistics {
     }
   }
 
+  // 切换收藏状态
+  toggleFavorite(audioId: string): boolean {
+    const existingRecord = this.playRecords.get(audioId);
+    
+    if (existingRecord) {
+      existingRecord.isFavorite = !existingRecord.isFavorite;
+    } else {
+      this.playRecords.set(audioId, {
+        id: audioId,
+        playCount: 0,
+        lastPlayed: new Date(),
+        isFavorite: true
+      });
+    }
+    
+    this.saveToStorage();
+    return existingRecord ? existingRecord.isFavorite : true;
+  }
+
+  // 检查是否收藏
+  isFavorite(audioId: string): boolean {
+    const record = this.playRecords.get(audioId);
+    return record ? record.isFavorite : false;
+  }
+
+  // 获取收藏的音频ID列表
+  getFavoriteAudioIds(): Set<string> {
+    const favoriteIds = new Set<string>();
+    this.playRecords.forEach(record => {
+      if (record.isFavorite) {
+        favoriteIds.add(record.id);
+      }
+    });
+    return favoriteIds;
+  }
+
   recordPlay(audioId: string): void {
     const now = new Date();
     const existingRecord = this.playRecords.get(audioId);
@@ -52,7 +90,8 @@ class AudioStatistics {
       this.playRecords.set(audioId, {
         id: audioId,
         playCount: 1,
-        lastPlayed: now
+        lastPlayed: now,
+        isFavorite: false
       });
     }
     
@@ -69,15 +108,23 @@ class AudioStatistics {
     const sortedFiles = [...audioFiles];
     
     return sortedFiles.sort((a, b) => {
+      // 1. 收藏的音频优先
+      const aIsFavorite = this.isFavorite(a.id);
+      const bIsFavorite = this.isFavorite(b.id);
+      
+      if (aIsFavorite !== bIsFavorite) {
+        return aIsFavorite ? -1 : 1;
+      }
+      
+      // 2. 按播放次数降序排列
       const aCount = this.getPlayCount(a.id);
       const bCount = this.getPlayCount(b.id);
       
-      // 首先按播放次数降序排列
       if (bCount !== aCount) {
         return bCount - aCount;
       }
       
-      // 如果播放次数相同，则按最后播放时间降序排列
+      // 3. 如果播放次数相同，则按最后播放时间降序排列
       const aLastPlayed = this.getLastPlayed(a.id);
       const bLastPlayed = this.getLastPlayed(b.id);
       
@@ -85,7 +132,7 @@ class AudioStatistics {
         return bLastPlayed.getTime() - aLastPlayed.getTime();
       }
       
-      // 如果最后播放时间相同或不存在，则按名称排序
+      // 4. 如果最后播放时间相同或不存在，则按名称排序
       return a.name.localeCompare(b.name);
     });
   }

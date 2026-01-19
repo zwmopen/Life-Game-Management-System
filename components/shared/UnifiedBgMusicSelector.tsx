@@ -39,9 +39,9 @@ const UnifiedBgMusicSelector: React.FC<UnifiedBgMusicSelectorProps> = ({
   const [isSoundListLoaded, setIsSoundListLoaded] = useState(false);
   const [initialSoundsLoaded, setInitialSoundsLoaded] = useState(false);
   
-  // 快速双击检测
-  const clickTimesRef = useRef<Map<string, number>>(new Map());
-  const DOUBLE_CLICK_THRESHOLD = 300; // 快速双击阈值：300毫秒
+  // 点击次数检测（用于区分单击、双击、三击）
+  const clickCountRef = useRef<Map<string, { count: number; timeout: NodeJS.Timeout | null }>>(new Map());
+  const CLICK_THRESHOLD = 300; // 点击间隔阈值：300毫秒
   
   // 引用用于点击外部关闭
   const soundMenuRef = useRef<HTMLDivElement>(null);
@@ -283,24 +283,47 @@ const UnifiedBgMusicSelector: React.FC<UnifiedBgMusicSelectorProps> = ({
             const lockedMusicIds = getLockedMusicIds();
             const isPlaying = selectedMusicIds.has(sound.id);
             const isLocked = lockedMusicIds.has(sound.id);
+            const isFavorite = audioStatistics.isFavorite(sound.id);
             
-            // 自定义快速双击检测
+            // 自定义点击次数检测（区分单击、双击、三击）
             const handleClick = () => {
-              const now = Date.now();
-              const lastClickTime = clickTimesRef.current.get(sound.id) || 0;
-              const timeDiff = now - lastClickTime;
+              // 获取当前音乐的点击记录
+              let clickRecord = clickCountRef.current.get(sound.id);
               
-              if (timeDiff < DOUBLE_CLICK_THRESHOLD) {
-                // 快速双击：锁定/解锁歌曲
-                toggleSelectedMusic(sound.id);
-                // 清除点击记录，避免连续多次点击被误判
-                clickTimesRef.current.delete(sound.id);
+              if (!clickRecord) {
+                // 第一次点击
+                clickRecord = { count: 1, timeout: null };
+                clickCountRef.current.set(sound.id, clickRecord);
               } else {
-                // 单击：播放，替换当前播放列表
-                handleSoundChange(sound.id);
-                // 记录当前点击时间
-                clickTimesRef.current.set(sound.id, now);
+                // 不是第一次点击，更新点击次数
+                clickRecord.count += 1;
               }
+              
+              // 清除之前的定时器
+              if (clickRecord.timeout) {
+                clearTimeout(clickRecord.timeout);
+              }
+              
+              // 设置新的定时器，在阈值时间后处理点击事件
+              clickRecord.timeout = setTimeout(() => {
+                const count = clickRecord.count;
+                
+                if (count === 1) {
+                  // 单击：播放，替换当前播放列表
+                  handleSoundChange(sound.id);
+                } else if (count === 2) {
+                  // 双击：锁定/解锁歌曲
+                  toggleSelectedMusic(sound.id);
+                } else if (count === 3) {
+                  // 三击：收藏/取消收藏歌曲
+                  audioStatistics.toggleFavorite(sound.id);
+                  // 重新加载音效列表以更新排序
+                  loadAllSounds();
+                }
+                
+                // 重置点击记录
+                clickCountRef.current.delete(sound.id);
+              }, CLICK_THRESHOLD);
             };
             
             return (
@@ -315,6 +338,9 @@ const UnifiedBgMusicSelector: React.FC<UnifiedBgMusicSelectorProps> = ({
                   >
                 <span className="text-base">{sound.icon}</span>
                 <span className={`text-xs font-medium ${getTextMain(isNeomorphic, theme)}`}>{sound.name}</span>
+                {isFavorite && (
+                  <span className="ml-auto text-xs text-red-400 mr-1">❤️</span>
+                )}
                 {isLocked && (
                   <span className="ml-auto text-xs text-yellow-400 flex items-center gap-1">
                     <span>🔒</span>
