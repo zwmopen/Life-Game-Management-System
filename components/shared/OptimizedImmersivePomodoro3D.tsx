@@ -36,6 +36,7 @@ const OptimizedImmersivePomodoro3D: React.FC<{
   const sceneRef = useRef<any>(null);
   const cameraRef = useRef<any>(null);
   const rendererRef = useRef<any>(null);
+  const controlsRef = useRef<any>(null); // 添加控制器引用
   const animationFrameRef = useRef<number>(0);
   const entitiesRef = useRef<any[]>([]);
   const previewMeshRef = useRef<any>(null);
@@ -233,11 +234,14 @@ const OptimizedImmersivePomodoro3D: React.FC<{
       controls.maxPolarAngle = Math.PI / 2 - 0.05;
       controls.autoRotate = true;
       controls.autoRotateSpeed = 0.3;
+      controls.enablePan = true;
+      controls.enableZoom = true;
 
       // 保存引用
       sceneRef.current = scene;
       cameraRef.current = camera;
       rendererRef.current = renderer;
+      controlsRef.current = controls;
 
       // 窗口大小调整 - 添加有效尺寸检查
       const handleResize = () => {
@@ -282,6 +286,37 @@ const OptimizedImmersivePomodoro3D: React.FC<{
     // 如果初始化失败，返回一个空的清理函数
     return () => {};
   };
+
+  // 监听主题变化，更新3D场景颜色
+  useEffect(() => {
+    if (!sceneRef.current || !groundRef.current) return;
+
+    const colors = getThemeColors();
+    
+    // 更新场景背景颜色
+    sceneRef.current.background.set(colors.bgColor);
+    
+    // 更新场景雾颜色
+    if (sceneRef.current.fog) {
+      sceneRef.current.fog.color.set(colors.bgColor);
+    }
+    
+    // 更新地面颜色
+    if (groundRef.current) {
+      const ground = groundRef.current;
+      if (ground.material) {
+        (ground.material as any).color.set(colors.groundColor);
+      }
+      
+      // 更新草地颜色
+      if (ground.children && ground.children.length > 0) {
+        const grass = ground.children[0];
+        if (grass.material) {
+          (grass.material as any).color.set(colors.grassColor);
+        }
+      }
+    }
+  }, [theme]);
 
   // 创建实体
   const createEntity = async (type: string, x: number, z: number) => {
@@ -709,6 +744,11 @@ const OptimizedImmersivePomodoro3D: React.FC<{
         }
       }
     });
+
+    // 更新控制器
+    if (controlsRef.current) {
+      controlsRef.current.update();
+    }
 
     // 渲染场景
     if (rendererRef.current && sceneRef.current && cameraRef.current) {
