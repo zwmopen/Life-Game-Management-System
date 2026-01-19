@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Test</title>
+</head>
+<body>
+    <h1>Audio Test</h1>
+    <button onclick="testAudio()">Test Audio Playback</button>
+    <div id="result"></div>
+
+    <script>
+        function testAudio() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = 'Testing audio...';
+
+            // Try to play a simple audio file
+            const audio = new Audio('/audio/pomodoro/bgm/森林.mp3');
+            audio.volume = 0.5;
+
+            audio.oncanplaythrough = () => {
+                resultDiv.innerHTML = '✓ Audio can be loaded';
+            };
+
+            audio.onplay = () => {
+                resultDiv.innerHTML += '<br>✓ Audio is playing';
+            };
+
+            audio.onerror = (e) => {
+                resultDiv.innerHTML = `✗ Audio error: ${e.target.error.code} - ${e.target.error.message}`;
+            };
+
+            audio.onended = () => {
+                resultDiv.innerHTML += '<br>✓ Audio finished playing';
+            };
+
+            try {
+                audio.play().then(() => {
+                    resultDiv.innerHTML += '<br>✓ Play() promise resolved';
+                }).catch(err => {
+                    resultDiv.innerHTML = `✗ Play() failed: ${err.message}`;
+                });
+            } catch (err) {
+                resultDiv.innerHTML = `✗ Exception: ${err.message}`;
+            }
+        }
+    </script>
+</body>
+</html>

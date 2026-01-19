@@ -96,13 +96,66 @@ class AudioManager {
 
   private async scanAudioFolder(folderPath: string, type: SoundType): Promise<AudioFile[]> {
     try {
-      // 获取目录中的所有音频文件
-      const response = await fetch(`${folderPath}?t=${Date.now()}`);
-      if (!response.ok) {
-        if (process.env.NODE_ENV === 'development') {
-          console.warn(`Failed to scan folder: ${folderPath}`, response.status, response.statusText);
-        }
-        return [];
+      // 处理特殊情况：如果是番茄钟背景音乐目录，使用实际文件列表
+      if (folderPath === '/audio/pomodoro/bgm') {
+        // 直接返回实际目录中的所有音乐文件
+        // 注意：这里使用了预定义的完整文件列表，因为浏览器无法直接读取服务器目录
+        const actualFiles = [
+          "26.5℃.mp3", "七弦.mp3", "乒乓.mp3", "乘车.mp3", "乡间清晨.mp3", "云端.mp3", "人马座A.mp3",
+          "企鹅.mp3", "伞下.mp3", "信号.mp3", "假日.mp3", "光年.mp3", "光蕴.mp3", "八音盒.mp3",
+          "公园.mp3", "公路.mp3", "冥想.mp3", "冰河.mp3", "切菜.mp3", "初雪.mp3", "博物馆.mp3",
+          "古镇清晨.mp3", "咖啡.mp3", "咖啡豆.mp3", "唐人街.mp3", "啄木鸟.mp3", "喜马拉雅.mp3",
+          "图书馆.mp3", "土卫六.mp3", "土星.mp3", "圣诞.mp3", "夏夜.mp3", "夏威夷海滩.mp3", "夏虫.mp3",
+          "夜宵.mp3", "夜影.mp3", "夜海.mp3", "夜航.mp3", "天王星.mp3", "她的城市.mp3", "家宴.mp3",
+          "寺庙.mp3", "屋檐.mp3", "山径.mp3", "山泉.mp3", "山涧.mp3", "山谷.mp3", "岁.mp3",
+          "岛屿.mp3", "岩雨.mp3", "川流.mp3", "布谷.mp3", "年.mp3", "幻境.mp3", "幻海.mp3",
+          "广场.mp3", "序章.mp3", "庭院.mp3", "微光.mp3", "心跳.mp3", "悠长假日.mp3", "手谈.mp3",
+          "打字机.mp3", "斑马.mp3", "斯诺克.mp3", "旅程.mp3", "旅行的家.mp3", "日出.mp3", "时钟.mp3",
+          "旷野.mp3", "星图.mp3", "星际.mp3", "春雨.mp3", "月之暗面.mp3", "月球.mp3", "木卫四.mp3",
+          "木星.mp3", "林风.mp3", "柔软之境.mp3", "栎树.mp3", "森林.mp3", "樱花.mp3", "水星.mp3",
+          "水母.mp3", "水滴.mp3", "池塘.mp3", "汽水.mp3", "沙漠.mp3", "泛舟.mp3", "洗碗机.mp3",
+          "洗衣机.mp3", "洞穴.mp3", "流水.mp3", "浮潜.mp3", "浮空.mp3", "海洋.mp3", "海港.mp3",
+          "海王星.mp3", "海豚.mp3", "涌冻.mp3", "深海.mp3", "深睡小夜曲.mp3", "湖.mp3", "湿地.mp3",
+          "溪流.mp3", "潜往.mp3", "瀑布.mp3", "火山.mp3", "火星.mp3", "火花.mp3", "火车.mp3",
+          "炉火.mp3", "炒茶.mp3", "热带雨林.mp3", "焰火.mp3", "煲汤.mp3", "独白.mp3", "猫的午后.mp3",
+          "白马.mp3", "盈月.mp3", "睡吧睡吧.mp3", "石子路.mp3", "磨砚.mp3", "禧.mp3", "秋风.mp3",
+          "空电视.mp3", "竹林.mp3", "篝火.mp3", "篮球场.mp3", "绘画.mp3", "绵雨.mp3", "网球.mp3",
+          "老风车.mp3", "良夜.mp3", "萤火.mp3", "蒲公英.mp3", "蓝色时间.mp3", "蓝色星球.mp3", "蓝莓之夜.mp3",
+          "蝉鸣.mp3", "街巷.mp3", "西餐厅.mp3", "踏雪.mp3", "轴韵.mp3", "远山.mp3", "迷泉.mp3",
+          "醒狮.mp3", "金星.mp3", "钵.mp3", "铅笔.mp3", "键盘.mp3", "长路.mp3", "阅读.mp3",
+          "除夕.mp3", "雨天.mp3", "雨泊.mp3", "雨窗.mp3", "雪兔.mp3", "雪山.mp3", "雷雨.mp3",
+          "静电.mp3", "须臾.mp3", "风扇.mp3", "风铃.mp3", "飘.mp3", "飞行.mp3", "鲸鱼.mp3",
+          "麦浪.mp3", "她的城市.mp3", "家宴.mp3", "寺庙.mp3", "屋檐.mp3", "山径.mp3", "山泉.mp3",
+          "山涧.mp3", "山谷.mp3", "岁.mp3", "岛屿.mp3", "岩雨.mp3", "川流.mp3", "布谷.mp3",
+          "年.mp3", "幻境.mp3", "幻海.mp3", "广场.mp3", "序章.mp3", "庭院.mp3", "微光.mp3",
+          "心跳.mp3", "悠长假日.mp3", "手谈.mp3", "打字机.mp3", "斑马.mp3", "斯诺克.mp3", "旅程.mp3",
+          "旅行的家.mp3", "日出.mp3", "时钟.mp3", "旷野.mp3", "星图.mp3", "星际.mp3", "春雨.mp3",
+          "月之暗面.mp3", "月球.mp3", "木卫四.mp3", "木星.mp3", "林风.mp3", "柔软之境.mp3", "栎树.mp3",
+          "森林.mp3", "樱花.mp3", "水星.mp3", "水母.mp3", "水滴.mp3", "池塘.mp3", "汽水.mp3",
+          "沙漠.mp3", "泛舟.mp3", "洗碗机.mp3", "洗衣机.mp3", "洞穴.mp3", "流水.mp3", "浮潜.mp3",
+          "浮空.mp3", "海洋.mp3", "海港.mp3", "海王星.mp3", "海豚.mp3", "涌冻.mp3", "深海.mp3",
+          "深睡小夜曲.mp3", "湖.mp3", "湿地.mp3", "溪流.mp3", "潜往.mp3", "瀑布.mp3", "火山.mp3",
+          "火星.mp3", "火花.mp3", "火车.mp3", "炉火.mp3", "炒茶.mp3", "热带雨林.mp3", "焰火.mp3",
+          "煲汤.mp3", "独白.mp3", "猫的午后.mp3", "白马.mp3", "盈月.mp3", "睡吧睡吧.mp3", "石子路.mp3",
+          "磨砚.mp3", "禧.mp3", "秋风.mp3", "空电视.mp3", "竹林.mp3", "篝火.mp3", "篮球场.mp3",
+          "绘画.mp3", "绵雨.mp3", "网球.mp3", "老风车.mp3", "良夜.mp3", "萤火.mp3", "蒲公英.mp3",
+          "蓝色时间.mp3", "蓝色星球.mp3", "蓝莓之夜.mp3", "蝉鸣.mp3", "街巷.mp3", "西餐厅.mp3", "踏雪.mp3",
+          "轴韵.mp3", "远山.mp3", "迷泉.mp3", "醒狮.mp3", "金星.mp3", "钵.mp3", "铅笔.mp3",
+          "键盘.mp3", "长路.mp3", "阅读.mp3", "除夕.mp3", "雨天.mp3", "雨泊.mp3", "雨窗.mp3",
+          "雪兔.mp3", "雪山.mp3", "雷雨.mp3", "静电.mp3", "须臾.mp3", "风扇.mp3", "风铃.mp3",
+          "飘.mp3", "飞行.mp3", "鲸鱼.mp3", "麦浪.mp3", "麻将.mp3"
+        ];
+        
+        // 去重处理
+        const uniqueFiles = [...new Set(actualFiles)];
+        
+        return uniqueFiles.map(fileName => ({
+          id: `${folderPath.replace('/', '_').replace('-', '_')}_${fileName.replace(/\.[^/.]+$/, "")}`,
+          name: fileName.replace(/\.[^/.]+$/, ""), // 移除扩展名作为显示名称
+          url: `${folderPath}/${fileName}`,
+          type,
+          icon: this.getIconForAudio(fileName, type)
+        }));
       }
 
       // 由于直接获取目录列表可能不可行，我们使用预定义的文件列表
@@ -137,21 +190,15 @@ class AudioManager {
     // 根据文件夹路径返回默认的音频文件列表
     switch (folderPath) {
       case '/audio/bgm':
+        // 只保留用户要求的3个音乐，与pomodoro/bgm目录中的音乐合并
         return [
-          { id: 'forest_bgm', name: '森林', url: '/audio/pomodoro/bgm/森林.mp3', type, icon: '🌲' },
-          { id: 'rain_bgm', name: '雨天', url: '/audio/pomodoro/bgm/雨天.mp3', type, icon: '🌧️' },
-          { id: 'ocean_bgm', name: '海洋', url: '/audio/pomodoro/bgm/海洋.mp3', type, icon: '🌊' },
-          { id: 'cafe_bgm', name: '咖啡馆', url: '/audio/pomodoro/bgm/咖啡馆.mp3', type, icon: '☕' },
-          { id: 'white_noise_bgm', name: '风扇', url: '/audio/pomodoro/bgm/风扇.mp3', type, icon: '🌬️' }
+          { id: 'forest', name: '森林', url: '/audio/pomodoro/bgm/森林.mp3', type, icon: '🌲' },
+          { id: 'rain', name: '雨天', url: '/audio/pomodoro/bgm/雨天.mp3', type, icon: '🌧️' },
+          { id: 'ocean', name: '海洋', url: '/audio/pomodoro/bgm/海洋.mp3', type, icon: '🌊' }
         ];
       case '/audio/pomodoro/bgm':
-        return [
-          { id: 'pomodoro_forest_bgm', name: '番茄钟森林', url: '/audio/pomodoro/bgm/森林.mp3', type, icon: '🌲' },
-          { id: 'pomodoro_rain_bgm', name: '番茄钟雨天', url: '/audio/pomodoro/bgm/雨天.mp3', type, icon: '🌧️' },
-          { id: 'pomodoro_ocean_bgm', name: '番茄钟海洋', url: '/audio/pomodoro/bgm/海洋.mp3', type, icon: '🌊' },
-          { id: 'pomodoro_cafe_bgm', name: '番茄钟咖啡馆', url: '/audio/pomodoro/bgm/咖啡馆.mp3', type, icon: '☕' },
-          { id: 'pomodoro_white_noise_bgm', name: '番茄钟风扇', url: '/audio/pomodoro/bgm/风扇.mp3', type, icon: '🌬️' }
-        ];
+        // 这里会返回用户的100多个音乐，与上面的3个合并
+        return [];
       case '/audio/battle':
         return [
           { id: 'sword_strike', name: '剑击声', url: '/audio/battle/sword-strike.mp3', type, icon: '⚔️' },
@@ -281,14 +328,25 @@ class AudioManager {
       return [];
     }
     const bgmCategory = this.audioCategories.find(cat => cat.id === 'bgm');
-    const ambientCategory = this.audioCategories.find(cat => cat.id === 'ambient');
     const pomodoroBgmCategory = this.audioCategories.find(cat => cat.id === 'pomodoro-bgm');
     
-    return [
+    // 只返回bgm和pomodoro-bgm目录的音乐，不包含ambient目录的音乐
+    // 并确保没有重复的音乐文件
+    const allMusic = [
       ...(bgmCategory?.files || []),
-      ...(ambientCategory?.files || []),
       ...(pomodoroBgmCategory?.files || [])
     ];
+    
+    // 去重处理，确保每个音乐文件只出现一次
+    const uniqueMusicMap = new Map();
+    allMusic.forEach(music => {
+      // 使用音乐名称作为去重键，确保相同名称的音乐只保留一个
+      if (!uniqueMusicMap.has(music.name)) {
+        uniqueMusicMap.set(music.name, music);
+      }
+    });
+    
+    return Array.from(uniqueMusicMap.values());
   }
 
   getSoundEffects(): AudioFile[] {

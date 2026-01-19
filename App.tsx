@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
-import { SpeedInsights } from '@vercel/speed-insights/react';
 import Navigation from './components/Navigation';
 import MissionControl from './components/MissionControl'; 
 import LifeGame from './components/LifeGame';
@@ -11,8 +10,6 @@ import { View, Transaction, ReviewLog, Habit, Task, TaskType, DailyStats, Theme,
 import { Wallet, Crown, Clock, Brain, Zap, Target, Crosshair, Skull, Star, Gift, Medal, Sparkles, Swords, Flame, Footprints, Calendar, ShoppingBag, Dumbbell, Shield } from 'lucide-react';
 import { GlobalGuideCard, helpContent } from './components/HelpSystem';
 import CharacterProfile, { getAllLevels, getAllFocusTitles, getAllWealthTitles, getAllMilitaryRanks, XP_PER_LEVEL, CharacterProfileHandle } from './components/CharacterProfile';
-import PerformanceMonitor from './components/PerformanceMonitor';
-import PerformanceStats from './components/PerformanceStats';
 import confetti from 'canvas-confetti';
 
 // 导入坚果云配置迁移函数
@@ -1516,13 +1513,7 @@ const App: React.FC = () => {
           }}
         />
         
-        {/* Vercel Speed Insights for performance monitoring */}
-        <SpeedInsights />
-        
-        {/* Performance Monitors */}
-        <PerformanceMonitor />
-        <PerformanceStats />
-      </div>
+        </div>
     </GlobalAudioProvider>
   );
 };

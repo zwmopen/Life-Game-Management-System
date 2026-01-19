@@ -140,6 +140,7 @@ const TomatoTimer: React.FC<TomatoTimerProps> = ({
         theme={theme} 
         isVisible={isSoundMenuOpen} 
         onClose={() => setIsSoundMenuOpen(false)} 
+        onHelpClick={onHelpClick}
         position="absolute" 
         className="absolute top-full right-0 mt-2 mr-2" 
       />

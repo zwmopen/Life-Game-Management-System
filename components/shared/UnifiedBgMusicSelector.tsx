@@ -5,6 +5,7 @@ import Button from './Button';
 import { useGlobalAudio } from '../GlobalAudioManagerOptimized';
 import audioStatistics from '../../utils/audioStatistics';
 import { cardStyles, inputStyles, buttonStyles, getStyleByTheme, getTextMain, getTextMuted, bgColors } from '../../constants/styles';
+import { GlobalHelpButton } from '../HelpSystem';
 
 interface Sound {
   id: string;
@@ -19,6 +20,7 @@ interface UnifiedBgMusicSelectorProps {
   theme: Theme;
   isVisible: boolean;
   onClose: () => void;
+  onHelpClick?: (helpId: string) => void;
   position?: 'absolute' | 'fixed';
   className?: string;
 }
@@ -27,10 +29,11 @@ const UnifiedBgMusicSelector: React.FC<UnifiedBgMusicSelectorProps> = ({
   theme,
   isVisible,
   onClose,
+  onHelpClick,
   position = 'absolute',
   className = ''
 }) => {
-  const { currentBgMusicId, playBgMusic, stopBgMusic } = useGlobalAudio();
+  const { currentBgMusicId, playBgMusic, stopBgMusic, toggleSelectedMusic, getSelectedMusicIds } = useGlobalAudio();
   const [searchQuery, setSearchQuery] = useState('');
   const [allSounds, setAllSounds] = useState<Sound[]>([]);
   const [isSoundListLoaded, setIsSoundListLoaded] = useState(false);
@@ -99,16 +102,8 @@ const UnifiedBgMusicSelector: React.FC<UnifiedBgMusicSelectorProps> = ({
       const audioManagerModule = await import('../../utils/audioManagerOptimized');
       await audioManagerModule.default.initialize();
       
-      // 获取所有背景音乐文件，包括番茄钟专用的背景音乐，并去重
-      const allBgMusic = [...audioManagerModule.default.getBackgroundMusic(), ...audioManagerModule.default.getCategoryById('pomodoro-bgm')?.files || []];
-      // 使用Map去重，确保每个音频文件只出现一次
-      const uniqueBgmFilesMap = new Map();
-      allBgMusic.forEach(file => {
-        if (!uniqueBgmFilesMap.has(file.id)) {
-          uniqueBgmFilesMap.set(file.id, file);
-        }
-      });
-      const bgmFiles = Array.from(uniqueBgmFilesMap.values());
+      // 直接获取所有背景音乐文件，getBackgroundMusic()方法已经包含了所有类别的背景音乐
+      const bgmFiles = audioManagerModule.default.getBackgroundMusic();
       
       // 第一次加载时按播放次数排序音频文件，后续加载保持当前顺序
       let sortedBgmFiles = bgmFiles;
@@ -134,7 +129,7 @@ const UnifiedBgMusicSelector: React.FC<UnifiedBgMusicSelectorProps> = ({
       setIsSoundListLoaded(true);
       
       if (process.env.NODE_ENV === 'development') {
-        console.log('Loaded sound list:', soundList.map(s => s.id));
+        console.log(`Loaded ${soundList.length - 1} background music files`);
       }
     } catch (error) {
       console.error('Failed to load sound list:', error);
@@ -150,13 +145,20 @@ const UnifiedBgMusicSelector: React.FC<UnifiedBgMusicSelectorProps> = ({
   }, [loadAllSounds]);
   
   // 处理音乐切换
-  const handleSoundChange = useCallback(async (soundId: string) => {
+  const handleSoundChange = useCallback((soundId: string) => {
     if (soundId === 'mute') {
       stopBgMusic();
     } else {
-      await playBgMusic(soundId);
-      // 记录播放统计
-      audioStatistics.recordPlay(soundId);
+      // 使用异步处理，但不阻塞UI
+      playBgMusic(soundId).catch(error => {
+        if (process.env.NODE_ENV === 'development') {
+          console.error('Failed to play background music:', error);
+        }
+      });
+      // 异步记录播放统计，不阻塞UI
+      setTimeout(() => {
+        audioStatistics.recordPlay(soundId);
+      }, 0);
     }
     // 移除自动关闭，让用户可以继续选择音乐
   }, [playBgMusic, stopBgMusic]);
@@ -212,44 +214,58 @@ const UnifiedBgMusicSelector: React.FC<UnifiedBgMusicSelectorProps> = ({
     >
       {/* 搜索框与切换按钮 */}
       <div className="mb-3">
-        <div className="relative flex items-center">
-          {/* 搜索框 */}
-          <div className="flex-1 mr-2">
-            <div className="relative">
-              <Search className={`absolute left-3 top-1/2 transform -translate-y-1/2 ${getTextMuted(isNeomorphic, theme)}`} size={16} />
-              <input
-                type="text"
-                placeholder="搜索背景音乐..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className={`w-full pl-10 pr-4 py-1.5 rounded-full text-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500/50 ${getStyleByTheme(inputStyles, isNeomorphic, theme)} ${getTextMain(isNeomorphic, theme)} placeholder:${getTextMuted(isNeomorphic, theme)}`}
-              />
+        <div className="relative flex items-center justify-between">
+          <div className="relative flex items-center">
+            {/* 搜索框 */}
+            <div className="flex-1 mr-2">
+              <div className="relative">
+                <Search className={`absolute left-3 top-1/2 transform -translate-y-1/2 ${getTextMuted(isNeomorphic, theme)}`} size={16} />
+                <input
+                  type="text"
+                  placeholder="搜索背景音乐..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className={`w-full pl-10 pr-4 py-1.5 rounded-full text-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500/50 ${getStyleByTheme(inputStyles, isNeomorphic, theme)} ${getTextMain(isNeomorphic, theme)} placeholder:${getTextMuted(isNeomorphic, theme)}`}
+                />
+              </div>
+            </div>
+            
+
+            
+            <div className="flex items-center gap-1 px-1">
+              <Button
+                onClick={handlePrevSound}
+                variant="primary"
+                size="small"
+                isNeomorphic={isNeomorphic}
+                theme={theme}
+                className="p-1.5"
+              >
+                <ChevronLeft size={16} />
+              </Button>
+              
+              <Button
+                onClick={handleNextSound}
+                variant="primary"
+                size="small"
+                isNeomorphic={isNeomorphic}
+                theme={theme}
+                className="p-1.5"
+              >
+                <ChevronRight size={16} />
+              </Button>
             </div>
           </div>
           
-          <div className="flex items-center gap-1 px-1">
-            <Button
-              onClick={handlePrevSound}
-              variant="primary"
-              size="small"
-              isNeomorphic={isNeomorphic}
-              theme={theme}
-              className="p-1.5"
-            >
-              <ChevronLeft size={16} />
-            </Button>
-            
-            <Button
-              onClick={handleNextSound}
-              variant="primary"
-              size="small"
-              isNeomorphic={isNeomorphic}
-              theme={theme}
-              className="p-1.5"
-            >
-              <ChevronRight size={16} />
-            </Button>
-          </div>
+          {/* 帮助按钮 */}
+          {onHelpClick && (
+            <GlobalHelpButton 
+              helpId="bg-music" 
+              onHelpClick={onHelpClick} 
+              size={14} 
+              className="hover:scale-[1.1]" 
+            />
+          )}
         </div>
       </div>
       
@@ -258,18 +274,36 @@ const UnifiedBgMusicSelector: React.FC<UnifiedBgMusicSelectorProps> = ({
         {(isSoundListLoaded ? allSounds : defaultSounds)
           .filter(sound => sound.name.toLowerCase().includes(searchQuery.toLowerCase()))
           .map((sound, index) => {
+            // 检查该音乐是否被选中（正在播放）
+            const selectedMusicIds = getSelectedMusicIds();
+            const isPlaying = selectedMusicIds.has(sound.id);
+            
+            // 单击播放，替换当前播放列表
+            const handleSingleClick = () => {
+              handleSoundChange(sound.id);
+            };
+            
+            // 双击添加/移除歌曲到播放列表
+            const handleDoubleClick = () => {
+              toggleSelectedMusic(sound.id);
+            };
+            
             return (
               <Button 
                   key={sound.id}
-                  onClick={() => handleSoundChange(sound.id)}
-                  variant={currentBgMusicId === sound.id ? 'primary' : 'primary'}
+                  onClick={handleSingleClick}
+                  onDoubleClick={handleDoubleClick}
+                  variant={isPlaying ? 'primary' : 'primary'}
                   size="small"
                   isNeomorphic={isNeomorphic}
                   theme={theme}
-                  className={`flex items-center gap-2 px-4 py-1.5 transition-all cursor-pointer justify-start rounded-full mb-1 ${index === 0 ? 'mt-1' : ''} ${currentBgMusicId === sound.id ? (isNeomorphic ? (isDark ? 'bg-blue-900/40 text-blue-400 shadow-[inset_3px_3px_6px_rgba(0,0,0,0.3),inset_-3px_-3px_6px_rgba(30,30,46,0.7)]' : 'bg-blue-500/90 text-white shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,0.8)]') : (isDark ? 'bg-blue-900/40 text-blue-400 border-2 border-blue-700/50' : 'bg-blue-500 text-white border-2 border-blue-600')) : ''}`}
+                  className={`flex items-center gap-2 px-4 py-1.5 transition-all cursor-pointer justify-start rounded-full mb-1 ${index === 0 ? 'mt-1' : ''} ${isPlaying ? (isNeomorphic ? (isDark ? 'bg-blue-900/40 text-blue-400 shadow-[inset_3px_3px_6px_rgba(0,0,0,0.3),inset_-3px_-3px_6px_rgba(30,30,46,0.7)]' : 'bg-blue-500/90 text-white shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,0.8)]') : (isDark ? 'bg-blue-900/40 text-blue-400 border-2 border-blue-700/50' : 'bg-blue-500 text-white border-2 border-blue-600')) : ''}`}
                   >
                 <span className="text-base">{sound.icon}</span>
                 <span className={`text-xs font-medium ${getTextMain(isNeomorphic, theme)}`}>{sound.name}</span>
+                {isPlaying && (
+                  <span className="ml-auto text-xs text-blue-400">播放中</span>
+                )}
               </Button>
             );
           })}

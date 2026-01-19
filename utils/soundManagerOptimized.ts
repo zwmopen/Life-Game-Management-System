@@ -15,6 +15,8 @@ class SoundManager {
   private isMuted: boolean = false;
   private masterVolume: number = 0.5;
   private bgmVolume: number = 0.3;
+  private selectedMusicIds: Set<string> = new Set(); // 选中的音乐ID集合，用于循环播放
+  private currentPlayRequestId: string | null = null; // 当前正在处理的播放请求ID，用于防止竞态条件
   
   // 添加页面可见性变化监听，确保音乐在后台运行
   private visibilityChangeHandler: (() => void) | null = null;
@@ -173,34 +175,106 @@ class SoundManager {
     }
   }
 
+  // 获取选中的音乐ID列表
+  getSelectedMusicIds(): Set<string> {
+    return new Set(this.selectedMusicIds);
+  }
+
+  // 切换音乐的选中状态（用于双击添加/移除歌曲）
+  toggleSelectedMusic(musicId: string): boolean {
+    if (this.selectedMusicIds.has(musicId)) {
+      // 如果已经选中，停止播放并移除
+      this.stopSpecificMusic(musicId);
+      this.selectedMusicIds.delete(musicId);
+      return false;
+    } else {
+      // 如果未选中，添加到选中列表
+      this.selectedMusicIds.add(musicId);
+      return true;
+    }
+  }
+
+  // 清除所有选中的音乐
+  clearSelectedMusic(): void {
+    this.selectedMusicIds.clear();
+    this.stopBackgroundMusic();
+  }
+
+  // 停止特定音乐
+  private stopSpecificMusic(musicId: string): void {
+    const audio = this.backgroundMusic[musicId];
+    if (audio) {
+      audio.pause();
+      audio.currentTime = 0;
+    }
+  }
+
   // 播放背景音乐
   async playBackgroundMusic(musicId: string): Promise<void> {
     if (this.isMuted) {
-      this.currentBackgroundMusicId = musicId;
       return;
     }
 
-    // 停止当前播放的背景音乐
-    if (this.currentBackgroundMusicId) {
-      this.stopBackgroundMusic();
-    }
-
     try {
-      // 尝试从预设列表播放
-      if (this.backgroundMusic[musicId]) {
-        try {
-          await this.backgroundMusic[musicId].play();
-          this.currentBackgroundMusicId = musicId;
-        } catch (e) {
-          if (process.env.NODE_ENV === 'development') {
-            console.error('Error playing background music:', e);
+      if (this.selectedMusicIds.size === 0) {
+        // 如果没有选中的音乐，直接播放这首音乐并将其设为当前选中
+        this.currentBackgroundMusicId = musicId;
+        this.selectedMusicIds.clear();
+        this.selectedMusicIds.add(musicId);
+        
+        // 停止当前播放的背景音乐
+        this.stopBackgroundMusic();
+        
+        // 记录当前请求的音乐ID，用于防止竞态条件
+        this.currentPlayRequestId = musicId;
+        
+        // 尝试从预设列表播放
+        if (this.backgroundMusic[musicId]) {
+          try {
+            await this.backgroundMusic[musicId].play();
+          } catch (e) {
+            if (process.env.NODE_ENV === 'development') {
+              console.error('Error playing background music:', e);
+            }
+            // 如果播放失败，尝试从audioManager获取
+            await this.playBackgroundMusicFromManager(musicId);
           }
-          // 如果播放失败，尝试从audioManager获取
+        } else {
+          // 从audioManager获取音乐文件并播放
           await this.playBackgroundMusicFromManager(musicId);
         }
       } else {
-        // 从audioManager获取音乐文件并播放
-        await this.playBackgroundMusicFromManager(musicId);
+        // 如果已经有选中的音乐，根据情况处理
+        if (this.selectedMusicIds.has(musicId)) {
+          // 如果已经选中，停止播放并移除
+          this.stopSpecificMusic(musicId);
+          this.selectedMusicIds.delete(musicId);
+          if (this.selectedMusicIds.size === 0) {
+            this.currentBackgroundMusicId = null;
+          }
+        } else {
+          // 如果未选中，添加到选中列表并播放
+          this.selectedMusicIds.add(musicId);
+          
+          // 记录当前请求的音乐ID，用于防止竞态条件
+          this.currentPlayRequestId = musicId;
+          
+          // 尝试从预设列表播放
+          if (this.backgroundMusic[musicId]) {
+            try {
+              await this.backgroundMusic[musicId].play();
+            } catch (e) {
+              if (process.env.NODE_ENV === 'development') {
+                console.error('Error playing background music:', e);
+              }
+              // 如果播放失败，尝试从audioManager获取
+              await this.playBackgroundMusicFromManager(musicId);
+            }
+          } else {
+            // 从audioManager获取音乐文件并播放
+            await this.playBackgroundMusicFromManager(musicId);
+          }
+        }
       }
     } catch (e) {
       if (process.env.NODE_ENV === 'development') {
@@ -218,16 +292,21 @@ class SoundManager {
       // 更精确地查找音乐文件，优先匹配ID，然后尝试匹配名称
       let musicFile = bgmFiles.find(bgm => bgm.id === musicId);
       
-      // 如果没有找到，尝试通过ID的最后部分匹配文件名
+      // 如果没有找到，尝试直接匹配音乐名称
+      if (!musicFile) {
+        musicFile = bgmFiles.find(bgm => bgm.name.toLowerCase() === musicId.toLowerCase());
+      }
+      
+      // 如果仍然没有找到，尝试通过ID的最后部分匹配文件名（兼容旧的简单ID格式）
       if (!musicFile) {
         const idParts = musicId.split('_');
         const fileNamePart = idParts[idParts.length - 1];
         musicFile = bgmFiles.find(bgm => bgm.name.toLowerCase().includes(fileNamePart.toLowerCase()));
       }
       
-      // 如果仍然没有找到，尝试通过完整名称匹配
+      // 如果仍然没有找到，尝试通过文件名匹配URL
       if (!musicFile) {
-        musicFile = bgmFiles.find(bgm => bgm.name.toLowerCase() === musicId.toLowerCase());
+        musicFile = bgmFiles.find(bgm => bgm.url.includes(musicId));
       }
       
       if (musicFile) {
@@ -236,21 +315,11 @@ class SoundManager {
         tempAudio.loop = true;
         tempAudio.volume = this.bgmVolume;
         
+        // 添加到backgroundMusic集合 BEFORE playing, 这样如果用户快速点击另一首歌，它会被包含在stopBackgroundMusic()中
+        this.backgroundMusic[musicId] = tempAudio;
+        
         try {
-          // 确保停止当前正在播放的音乐
-          if (this.currentBackgroundMusicId) {
-            this.stopBackgroundMusic();
-          }
-          
           await tempAudio.play();
-          
-          // 停止之前的临时音频（如果有）
-          if (this.backgroundMusic[musicId]) {
-            this.backgroundMusic[musicId].pause();
-          }
-          
-          this.backgroundMusic[musicId] = tempAudio;
-          this.currentBackgroundMusicId = musicId;
           
           if (process.env.NODE_ENV === 'development') {
             console.log(`Successfully playing background music: ${musicId} from URL: ${musicFile.url}`);
@@ -259,25 +328,8 @@ class SoundManager {
           if (process.env.NODE_ENV === 'development') {
             console.error('Error playing background music from manager:', e);
           }
-          // 播放失败时，不再递归调用，避免无限循环
-        }
-      } else {
-        // 如果没有找到对应ID的音乐，尝试播放默认音乐
-        if (process.env.NODE_ENV === 'development') {
-          console.warn(`Background music ${musicId} not found, trying default music`);
-          console.log('Available BGM files:', bgmFiles.map(f => f.id));
-        }
-        // 尝试直接播放第一个可用的背景音乐，而不是递归调用
-        const firstAvailableMusic = Object.keys(this.backgroundMusic)[0];
-        if (firstAvailableMusic && this.backgroundMusic[firstAvailableMusic]) {
-          try {
-            await this.backgroundMusic[firstAvailableMusic].play();
-            this.currentBackgroundMusicId = firstAvailableMusic;
-          } catch (e) {
-            if (process.env.NODE_ENV === 'development') {
-              console.error('Error playing default background music:', e);
-            }
-          }
+          // 播放失败时，从集合中移除
+          delete this.backgroundMusic[musicId];
         }
       }
     } catch (e) {
@@ -289,14 +341,23 @@ class SoundManager {
 
   // 停止背景音乐
   stopBackgroundMusic(): void {
-    if (this.currentBackgroundMusicId) {
-      const audio = this.backgroundMusic[this.currentBackgroundMusicId];
+    // 停止所有正在播放的背景音乐，而不仅仅是当前记录的那一个
+    Object.values(this.backgroundMusic).forEach(audio => {
       if (audio) {
-        audio.pause();
-        audio.currentTime = 0;
+        try {
+          // 标准的停止和重置音频
+          audio.pause();
+          audio.currentTime = 0;
+        } catch (e) {
+          if (process.env.NODE_ENV === 'development') {
+            console.error('Error stopping audio:', e);
+          }
+        }
       }
-      this.currentBackgroundMusicId = null;
-    }
+    });
+    this.currentBackgroundMusicId = null;
+    this.currentPlayRequestId = null; // 重置当前播放请求ID
+    // 不清除selectedMusicIds，允许用户再次播放选中的音乐
   }
 
   // 切换静音状态
@@ -305,9 +366,16 @@ class SoundManager {
     
     if (this.isMuted) {
       this.stopAllSounds();
+      this.clearSelectedMusic(); // 静音时清除所有选中的音乐
     } else {
-      // 如果取消静音，恢复播放当前音乐
-      if (this.currentBackgroundMusicId) {
+      // 如果取消静音，恢复播放所有选中的音乐
+      if (this.selectedMusicIds.size > 0) {
+        // 播放所有选中的音乐
+        this.selectedMusicIds.forEach(musicId => {
+          this.playBackgroundMusic(musicId);
+        });
+      } else if (this.currentBackgroundMusicId) {
+        // 如果没有选中的音乐，但有当前音乐，播放当前音乐
         this.playBackgroundMusic(this.currentBackgroundMusicId);
       }
     }

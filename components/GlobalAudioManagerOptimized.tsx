@@ -6,6 +6,8 @@ interface GlobalAudioContextType {
   isBgMusicPlaying: boolean;
   isMuted: boolean;
   playBgMusic: (id: string) => Promise<void>;
+  toggleSelectedMusic: (id: string) => boolean;
+  getSelectedMusicIds: () => Set<string>;
   stopBgMusic: () => void;
   toggleMute: () => void;
   setVolume: (volume: number) => void;
@@ -64,6 +66,7 @@ export const GlobalAudioProvider: React.FC<GlobalAudioProviderProps> = ({ childr
   const [currentBgMusicId, setCurrentBgMusicId] = useState<string | null>(loadLastBgMusicFromStorage());
   const [isBgMusicPlaying, setIsBgMusicPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(soundManager.getIsMuted());
+
   const [volume, setVolume] = useState(soundManager.getBackgroundMusicVolume());
   
   // 用于跟踪当前播放的音乐ID
@@ -91,8 +94,7 @@ export const GlobalAudioProvider: React.FC<GlobalAudioProviderProps> = ({ childr
     }
 
     try {
-      // 使用 soundManager 播放背景音乐
-      await soundManager.playBackgroundMusic(id);
+      // 立即更新UI状态，不等待音频播放，确保响应迅速
       setCurrentBgMusicId(id);
       currentMusicIdRef.current = id;
       lastPlayedMusicIdRef.current = id; // 记录最后播放的音乐ID
@@ -100,10 +102,15 @@ export const GlobalAudioProvider: React.FC<GlobalAudioProviderProps> = ({ childr
       // 更新最后播放信息
       lastPlayedMusicInfoRef.current = { id, isPlaying: true };
       saveBgMusicToStorage(id, true);
+      
+      // 使用 soundManager 播放背景音乐
+      await soundManager.playBackgroundMusic(id);
     } catch (error) {
       if (process.env.NODE_ENV === 'development') {
         console.error('Failed to play background music:', error);
       }
+      // 如果播放失败，恢复状态
+      setIsBgMusicPlaying(false);
     }
   }, [saveBgMusicToStorage]);
 
@@ -166,6 +173,16 @@ export const GlobalAudioProvider: React.FC<GlobalAudioProviderProps> = ({ childr
   const setVolumeHandler = useCallback((volume: number) => {
     soundManager.setBackgroundMusicVolume(volume);
     setVolume(volume);
+  }, []);
+
+  // 切换音乐选中状态（用于双击添加/移除歌曲）
+  const toggleSelectedMusic = useCallback((id: string) => {
+    return soundManager.toggleSelectedMusic(id);
+  }, []);
+
+  // 获取选中的音乐ID列表
+  const getSelectedMusicIds = useCallback(() => {
+    return soundManager.getSelectedMusicIds();
   }, []);
 
   // 播放音效
@@ -237,6 +254,8 @@ export const GlobalAudioProvider: React.FC<GlobalAudioProviderProps> = ({ childr
     isBgMusicPlaying,
     isMuted,
     playBgMusic,
+    toggleSelectedMusic,
+    getSelectedMusicIds,
     stopBgMusic,
     toggleMute,
     setVolume: setVolumeHandler,
@@ -247,6 +266,8 @@ export const GlobalAudioProvider: React.FC<GlobalAudioProviderProps> = ({ childr
     isBgMusicPlaying,
     isMuted,
     playBgMusic,
+    toggleSelectedMusic,
+    getSelectedMusicIds,
     stopBgMusic,
     toggleMute,
     setVolumeHandler,
