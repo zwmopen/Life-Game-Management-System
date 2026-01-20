@@ -598,38 +598,69 @@ export class SceneManager {
         pinecone.receiveShadow = true;
         group.add(pinecone);
       } else if (type === 'pine2') {
-        // 松树2 - 改良版，使用不同的树冠形状和颜色
-        const trunkMaterial = getBaseMaterial(0x5c4033, 0.9, 0.1);
+        // 松树2 - 优化版，使用多层圆锥体叠加，更具松树特色
+        const trunkMaterial = getBaseMaterial(0x654321, 0.95, 0.05);
         
-        // 树干 - 更粗壮
-        const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.5, 1.5, 12), trunkMaterial);
-        trunk.position.y = 0.75;
+        // 树干 - 更粗壮，带有纹理感
+        const trunk = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.25, 0.45, 2.0, 16), 
+          trunkMaterial
+        );
+        trunk.position.y = 1.0;
         trunk.castShadow = true;
         trunk.receiveShadow = true;
         group.add(trunk);
         
-        // 树冠 - 使用球体形状，颜色更浅
-        const needleMaterial = getBaseMaterial(0x4caf50, 0.8, 0.1);
+        // 树冠 - 使用多层圆锥体叠加，更具松树特征
+        const needleMaterial = getBaseMaterial(0x3a5f0b, 0.85, 0.15);
         
-        // 主树冠 - 球体
-        const mainCrown = new THREE.Mesh(new THREE.SphereGeometry(1.8, 16, 16), needleMaterial);
-        mainCrown.position.y = 3.0;
-        mainCrown.castShadow = true;
-        mainCrown.receiveShadow = true;
-        group.add(mainCrown);
-        
-        // 添加多个小球体作为额外的树冠层
-        for(let i = 0; i < 3; i++) {
-          const crown = new THREE.Mesh(new THREE.SphereGeometry(0.8 - i * 0.2, 12, 12), needleMaterial);
-          crown.position.set(
-            (Math.random() - 0.5) * 2.0,
-            3.0 + (Math.random() - 0.5) * 1.0,
-            (Math.random() - 0.5) * 2.0
+        // 主树冠 - 多层圆锥体叠加
+        const coneCount = 5;
+        for(let i = 0; i < coneCount; i++) {
+          const size = 1.6 - i * 0.25;
+          const height = 1.8;
+          
+          const cone = new THREE.Mesh(
+            new THREE.ConeGeometry(size, height, 12), 
+            needleMaterial
           );
-          crown.castShadow = true;
-          crown.receiveShadow = true;
-          group.add(crown);
+          cone.position.y = 2.0 + i * 0.7;
+          cone.castShadow = true;
+          cone.receiveShadow = true;
+          group.add(cone);
         }
+        
+        // 添加松果 - 多个不同位置的松果
+        const pineconeMaterial = getBaseMaterial(0x8B4513, 0.98, 0.02);
+        const pineconePositions = [
+          { x: 0.5, y: 3.0, z: 0.8 },
+          { x: -0.6, y: 2.5, z: -0.5 },
+          { x: 0.8, y: 2.8, z: -0.3 },
+          { x: -0.4, y: 3.2, z: 0.6 }
+        ];
+        
+        pineconePositions.forEach(pos => {
+          const pinecone = new THREE.Mesh(
+            new THREE.ConeGeometry(0.12, 0.35, 8), 
+            pineconeMaterial
+          );
+          pinecone.position.set(pos.x, pos.y, pos.z);
+          pinecone.rotation.x = Math.PI;
+          pinecone.castShadow = true;
+          pinecone.receiveShadow = true;
+          group.add(pinecone);
+        });
+        
+        // 添加顶部松果
+        const topPinecone = new THREE.Mesh(
+          new THREE.ConeGeometry(0.18, 0.45, 10), 
+          pineconeMaterial
+        );
+        topPinecone.position.set(0, 5.2, 0);
+        topPinecone.rotation.x = Math.PI;
+        topPinecone.castShadow = true;
+        topPinecone.receiveShadow = true;
+        group.add(topPinecone);
       }
     } else if (type === 'cherry') {
       // 樱花1 - 粉色花瓣
