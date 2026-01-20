@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dice5, Calendar, Target, Zap, Clock, Wallet, ShoppingBag, BarChart2, Settings, Layout, User, BookOpen, Crosshair, Activity, Trophy, Hammer, Gift } from 'lucide-react';
+import { Dice5, Calendar, Target, Zap, Clock, Wallet, ShoppingBag, BarChart2, Settings, Layout, User, BookOpen, Crosshair, Activity, Trophy, Hammer, Gift, Music } from 'lucide-react';
 
 export interface HelpContentItem {
   title: string;
@@ -276,12 +276,12 @@ export const helpContent: Record<string, HelpContentItem> = {
   // 背景音乐系统帮助
   'bg-music': {
     title: '【背景音乐系统】行动指南',
-    icon: <Clock size={24} className="text-blue-500" />,
-    productIntro: '背景音乐系统为人生游戏化平台提供沉浸式的听觉体验，通过多种类型的背景音乐，帮助用户在不同场景下保持专注或放松。该系统支持音乐选择、播放模式切换和音量调整功能。',
-    underlyingPrinciple: '基于音频心理学和环境设计理论，不同类型的音乐对人的情绪和专注力有不同的影响。背景音乐系统通过提供多种音乐选择，帮助用户创建适合当前任务的环境氛围，提高工作效率和体验感。',
-    coreRules: '支持多种音乐类型，包括自然音效、白噪音、脑波音乐等；提供两种播放模式：单曲模式和混合模式；单曲模式下每次只能播放一首音乐，混合模式下可以同时播放多首音乐；支持音乐搜索和快速切换功能；背景音乐的播放统计会自动记录，用于优化音乐推荐。',
-    usageMethods: '1. 点击音乐图标打开背景音乐选择器；2. 使用搜索框查找特定音乐；3. 点击音乐名称切换到对应音乐；4. 点击"单曲"/"混合"按钮切换播放模式；5. 在混合模式下可以同时选择多首音乐播放；6. 使用上一首/下一首按钮快速切换音乐；7. 音乐播放统计会自动记录，无需手动操作。',
-    updateTime: '2026-01-19'
+    icon: <Music size={24} className="text-blue-500" />,
+    productIntro: '背景音乐系统为人生游戏化平台提供沉浸式的听觉体验，通过多种类型的背景音乐，帮助用户在不同场景下保持专注或放松。该系统支持音乐选择、快速切换、收藏锁定和播放统计等功能，为用户提供个性化的音频体验。',
+    underlyingPrinciple: '基于音频心理学和环境设计理论，不同类型的音乐对人的情绪和专注力有不同的影响。背景音乐系统通过提供多种音乐选择，帮助用户创建适合当前任务的环境氛围，提高工作效率和体验感。系统还会记录播放统计，优化音乐排序和推荐。',
+    coreRules: '支持多种音乐类型，包括自然音效（森林、海浪、雨声等）、脑波音乐（阿尔法波、贝塔波、希塔波）和环境音效（咖啡馆、壁炉等）；首次加载时按播放次数排序音乐；支持音乐搜索和快速切换功能；支持单曲播放模式；提供歌曲锁定和收藏功能；自动记录播放统计；音乐状态（上次播放、音量等）自动保存。',
+    usageMethods: '1. 点击音乐图标打开背景音乐选择器；2. 使用搜索框查找特定音乐；3. 单击音乐卡片切换播放的音乐；4. 双击音乐卡片锁定/解锁歌曲；5. 三击音乐卡片收藏/取消收藏歌曲；6. 使用上一首/下一首按钮快速切换音乐；7. 音乐播放状态自动保存，下次打开应用时自动恢复；8. 系统会自动记录播放统计，优化音乐排序。',
+    updateTime: '2026-01-20'
   },
 
   // 作战中心帮助卡片

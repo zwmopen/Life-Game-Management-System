@@ -52,7 +52,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
   const [isEditingPreset, setIsEditingPreset] = useState(false);
   const [editingValue, setEditingValue] = useState('');
   const [editingPresetId, setEditingPresetId] = useState<number | null>(null);
-  // 从本地存储加载总数和今日数�?
+  // 从本地存储加载总数和今日数�?
   const [totalPlants, setTotalPlants] = useState(() => {
     const savedTotal = localStorage.getItem('immersionPomodoro_totalPlants');
     return savedTotal ? parseInt(savedTotal) : (initialTotalPlants || 20);
@@ -61,7 +61,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
     const savedToday = localStorage.getItem('immersionPomodoro_todayPlants');
     return savedToday ? parseInt(savedToday) : (initialTodayPlants || 0);
   });
-  const [localCurrentSoundId, setLocalCurrentSoundId] = useState(currentSoundId); // 本地音效ID状�?
+  const [localCurrentSoundId, setLocalCurrentSoundId] = useState(currentSoundId); // 本地音效ID状�?
   const totalPlantsRef = useRef<HTMLDivElement>(null);
   const todayPlantsRef = useRef<HTMLDivElement>(null);
   
@@ -69,27 +69,47 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
   const SPECIES = {
     plants: [
       { id: 'pine', name: '松树', icon: '🌲' },
+      { id: 'pine2', name: '松树2', icon: '🌲' },
       { id: 'oak', name: '橡树', icon: '🌳' },
+      { id: 'oak2', name: '橡树2', icon: '🌳' },
       { id: 'cherry', name: '樱花', icon: '🌸' },
+      { id: 'cherry2', name: '樱花2', icon: '🌸' },
       { id: 'willow', name: '垂柳', icon: '🌿' },
+      { id: 'willow2', name: '垂柳2', icon: '🌿' },
       { id: 'bamboo', name: '竹子', icon: '🎋' },
+      { id: 'bamboo2', name: '竹子2', icon: '🎋' },
       { id: 'palm', name: '椰树', icon: '🌴' },
-      { id: 'cactus', name: '仙人�?, icon: '🌵' },
+      { id: 'palm2', name: '椰树2', icon: '🌴' },
+      { id: 'cactus', name: '仙人掌', icon: '🌵' },
+      { id: 'cactus2', name: '仙人掌2', icon: '🌵' },
       { id: 'mushroom', name: '巨菇', icon: '🍄' },
-      { id: 'sunflower', name: '向日�?, icon: '🌻' },
-      { id: 'birch', name: '白桦', icon: '🪵' }
+      { id: 'mushroom2', name: '巨菇2', icon: '🍄' },
+      { id: 'sunflower', name: '向日葵', icon: '🌻' },
+      { id: 'sunflower2', name: '向日葵2', icon: '🌻' },
+      { id: 'birch', name: '白桦', icon: '🪵' },
+      { id: 'birch2', name: '白桦2', icon: '🪵' }
     ],
     animals: [
       { id: 'rabbit', name: '白兔', icon: '🐰' },
+      { id: 'rabbit2', name: '白兔2', icon: '🐰' },
       { id: 'fox', name: '赤狐', icon: '🦊' },
+      { id: 'fox2', name: '赤狐2', icon: '🦊' },
       { id: 'panda', name: '熊猫', icon: '🐼' },
+      { id: 'panda2', name: '熊猫2', icon: '🐼' },
       { id: 'pig', name: '小猪', icon: '🐷' },
+      { id: 'pig2', name: '小猪2', icon: '🐷' },
       { id: 'chick', name: '小鸡', icon: '🐤' },
+      { id: 'chick2', name: '小鸡2', icon: '🐤' },
       { id: 'penguin', name: '企鹅', icon: '🐧' },
+      { id: 'penguin2', name: '企鹅2', icon: '🐧' },
       { id: 'frog', name: '青蛙', icon: '🐸' },
+      { id: 'frog2', name: '青蛙2', icon: '🐸' },
       { id: 'sheep', name: '绵羊', icon: '🐑' },
+      { id: 'sheep2', name: '绵羊2', icon: '🐑' },
       { id: 'bear', name: '棕熊', icon: '🐻' },
-      { id: 'bee', name: '蜜蜂', icon: '🐝' }
+      { id: 'bear2', name: '棕熊2', icon: '🐻' },
+      { id: 'bee', name: '蜜蜂', icon: '🐝' },
+      { id: 'bee2', name: '蜜蜂2', icon: '🐝' }
     ]
   };
 
@@ -99,7 +119,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
   const [allSounds, setAllSounds] = useState<any[]>([]);
   const [isSoundListLoaded, setIsSoundListLoaded] = useState(false);
   const [initialSoundsLoaded, setInitialSoundsLoaded] = useState(false);
-  const [searchQuery, setSearchQuery] = useState(''); // 搜索关键词状�?
+  const [searchQuery, setSearchQuery] = useState(''); // 搜索关键词状�?
 
   // 图标映射函数
   const getIconComponentByName = (name: string) => {
@@ -108,17 +128,17 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
     if (lowerName.includes('forest') || lowerName.includes('woods') || lowerName.includes('trees')) {
       return '🌲';
     } else if (lowerName.includes('rain') || lowerName.includes('storm') || lowerName.includes('drizzle')) {
-      return '🌧�?;
-    } else if (lowerName.includes('ocean') || lowerName.includes('sea') || lowerName.includes('waves')) {
+        return '🌧️';
+      } else if (lowerName.includes('ocean') || lowerName.includes('sea') || lowerName.includes('waves')) {
       return '🌊';
     } else if (lowerName.includes('night') || lowerName.includes('cricket') || lowerName.includes('insects')) {
       return '🌙';
     } else if (lowerName.includes('cafe') || lowerName.includes('coffee')) {
-      return '�?;
+      return '�?;
     } else if (lowerName.includes('fire') || lowerName.includes('fireplace')) {
       return '🔥';
     } else if (lowerName.includes('white') && lowerName.includes('noise')) {
-      return '🌬�?;
+      return '🌬�?;
     } else if (lowerName.includes('pink') && lowerName.includes('noise')) {
       return '🎨';
     } else if (lowerName.includes('brown') && lowerName.includes('noise')) {
@@ -126,7 +146,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
     } else if (lowerName.includes('alpha')) {
       return '🧠';
     } else if (lowerName.includes('beta')) {
-      return '�?;
+      return '�?;
     } else if (lowerName.includes('theta')) {
       return '🧘';
     } else if (lowerName.includes('meditation') || lowerName.includes('zen')) {
@@ -141,7 +161,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
     }
   };
 
-  // 加载所有背景音�?
+  // 加载所有背景音�?
   useEffect(() => {
     const loadAllSounds = async () => {
       try {
@@ -155,7 +175,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
         
         // 获取所有背景音乐文件，包括番茄钟专用的背景音乐，并去重
         const allBgMusic = [...audioManagerModule.default.getBackgroundMusic(), ...audioManagerModule.default.getCategoryById('pomodoro-bgm')?.files || []];
-        // 使用Map去重，确保每个音频文件只出现一�?
+        // 使用Map去重，确保每个音频文件只出现一�?
         const uniqueBgmFilesMap = new Map();
         allBgMusic.forEach(file => {
           if (!uniqueBgmFilesMap.has(file.id)) {
@@ -171,7 +191,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           setInitialSoundsLoaded(true);
         }
         
-        // 转换为组件所需的格�?
+        // 转换为组件所需的格�?
         const soundList = [
           { id: 'mute', name: '静音', icon: '🔇' },
           ...sortedBgmFiles.filter(file => file && file.id && file.url).map(file => ({
@@ -188,21 +208,21 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
         setIsSoundListLoaded(true);
       } catch (error) {
         console.error('Failed to load sound list:', error);
-        // 加载失败时使用默认音效列�?
+        // 加载失败时使用默认音效列�?
         setAllSounds([
           { id: 'mute', name: '静音', icon: '🔇' },
           { id: 'forest', name: '迷雾森林', icon: '🌲' },
           { id: 'alpha', name: '阿尔法波', icon: '🧠' },
-          { id: 'theta', name: '希塔�?, icon: '🧘' },
-          { id: 'beta', name: '贝塔�?, icon: '�? },
-          { id: 'ocean', name: '海浪�?, icon: '🌊' },
-          { id: 'rain', name: '雨声', icon: '🌧�? },
+          { id: 'theta', name: '希塔�?, icon: '🧘' },
+          { id: 'beta', name: '贝塔�?, icon: '�? },
+          { id: 'ocean', name: '海浪�?, icon: '🌊' },
+          { id: 'rain', name: '雨声', icon: '🌧�? },
           { id: 'night', name: '夏夜虫鸣', icon: '🦗' },
-          { id: 'white-noise', name: '白噪�?, icon: '🌬�? },
+          { id: 'white-noise', name: '白噪�?, icon: '🌬�? },
           { id: 'pink-noise', name: '粉红噪音', icon: '🎨' },
           { id: 'brown-noise', name: '布朗噪音', icon: '🌰' },
-          { id: 'cafe', name: '咖啡馆环�?, icon: '�? },
-          { id: 'fireplace', name: '壁炉�?, icon: '🔥' }
+          { id: 'cafe', name: '咖啡馆环�?, icon: '�? },
+          { id: 'fireplace', name: '壁炉�?, icon: '🔥' }
         ]);
         setIsSoundListLoaded(true);
       }
@@ -225,10 +245,10 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
         const OrbitControls = (await import('three/examples/jsm/controls/OrbitControls.js')).OrbitControls;
         // 不使用TWEEN库，直接移除依赖
 
-        // --- 配置�?---
+        // --- 配置�?---
         const GROUND_SIZE = 180;
         const NEU_BG_COLOR = 0xe0e5ec;
-        const FULL_DASH_ARRAY = 716; // r=114 -> C = 2 * PI * 114 �?716
+        const FULL_DASH_ARRAY = 716; // r=114 -> C = 2 * PI * 114 �?716
 
         // --- 全局变量 ---
         let scene, camera, renderer, controls;
@@ -254,19 +274,21 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
 
         // 根据主题获取颜色
         const getThemeColors = () => {
-          if (theme.includes('dark')) {
+          // 添加默认值处理，确保即使theme未定义也能返回正确的颜色
+          const isDarkMode = theme && theme.includes('dark');
+          if (isDarkMode) {
             return {
-              bgColor: 0x1e1e2e,  // 深灰蓝底�?
-              groundColor: 0x33334d,  // 深棕色地�?
+              bgColor: 0x1e1e2e,  // 深灰蓝底色
+              groundColor: 0x33334d,  // 深棕色地面
               grassColor: 0x2d3748,  // 深绿草色
               neuBgColor: 0x2d3748  // 拟态背景色
             };
           } else {
             return {
-              bgColor: 0xe0e5ec,
-              groundColor: 0x795548,
-              grassColor: 0x8bc34a,
-              neuBgColor: 0xe0e5ec
+              bgColor: 0xe0e5ec,  // 拟态风格主题色背景
+              groundColor: 0x8bc34a,  // 绿色大陆本体
+              grassColor: 0x8bc34a,  // 绿色草地
+              neuBgColor: 0xe0e5ec  // 拟态风格主题色
             };
           }
         };
@@ -275,7 +297,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
         const updateSceneColors = () => {
           const colors = getThemeColors();
           scene.background = new THREE.Color(colors.bgColor);
-          scene.fog = new THREE.Fog(colors.bgColor, 60, 160);
+          scene.fog = null; // 移除雾效，保持背景清晰度
           
           // 更新地面材质
           if (ground) {
@@ -304,37 +326,43 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           }
         };
         
-        // 初始化场�?
+        // 初始化场�?
         const init = () => {
           // 1. 场景
           scene = new THREE.Scene();
           const colors = getThemeColors();
           scene.background = new THREE.Color(colors.bgColor);
-          scene.fog = new THREE.Fog(colors.bgColor, 60, 160);
+          scene.fog = null; // 确保没有雾效，保持背景清晰度
 
           camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-          camera.position.set(0, 50, 80);
+          camera.position.set(0, 60, 100); // 调整相机位置，确保能看到完整的大陆
 
           renderer = new THREE.WebGLRenderer({ 
             antialias: true,
-            alpha: true  // 启用透明度以避免默认黑色背景
+            alpha: false  // 禁用透明度，避免默认黑色背景问题
           });
+          const colors = getThemeColors();
+          renderer.setClearColor(colors.bgColor, 1.0); // 设置渲染器背景色，确保与场景背景一致
           renderer.setSize(window.innerWidth, window.innerHeight);
           renderer.setPixelRatio(window.devicePixelRatio);
           renderer.shadowMap.enabled = true;
           renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-          renderer.toneMapping = THREE.ACESFilmicToneMapping;
-          renderer.toneMappingExposure = 1.1;
+          renderer.toneMapping = THREE.NoToneMapping; // 禁用色调映射，保持原始清晰度
+          renderer.toneMappingExposure = 1.0;
           canvasContainerRef.current?.appendChild(renderer.domElement);
           
-          // 确保canvas容器样式正确设置为全�?
+          // 确保canvas容器样式正确设置为全�?
           const canvas = renderer.domElement;
           canvas.style.width = '100vw';
           canvas.style.height = '100vh';
+          canvas.style.backgroundColor = `#${colors.bgColor.toString(16).padStart(6, '0')}`; // 确保canvas背景色与场景一致
 
-          const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+          // 增强环境光，确保所有区域都能被照亮
+          const ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
           scene.add(ambientLight);
-          const sunLight = new THREE.DirectionalLight(0xffffff, 1.0);
+          
+          // 增强主光源
+          const sunLight = new THREE.DirectionalLight(0xffffff, 1.5);
           sunLight.position.set(40, 80, 40);
           sunLight.castShadow = true;
           sunLight.shadow.mapSize.width = 2048;
@@ -346,36 +374,69 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           sunLight.shadow.bias = -0.0005;
           scene.add(sunLight);
 
-          const fillLight = new THREE.DirectionalLight(0xa3b1c6, 0.5);
+          // 增强填充光
+          const fillLight = new THREE.DirectionalLight(0xa3b1c6, 0.8);
           fillLight.position.set(20, 10, -20);
           scene.add(fillLight);
+          
+          // 底部补光，消除大陆底部的黑色区域
+          const bottomLight = new THREE.DirectionalLight(0xffffff, 0.5);
+          bottomLight.position.set(0, -50, 0);
+          scene.add(bottomLight);
 
           // 创建地面
           createGround();
           // 创建番茄
           createTomato();
-          // 初始化随机生态系�?
+          // 初始化随机生态系�?
           initRandomEcosystem(totalPlants);
-          // 初始化预览模�?
+          // 初始化预览模�?
           updatePreview('pine');
 
           controls = new OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
         controls.maxPolarAngle = Math.PI / 2 - 0.05;
         controls.autoRotate = true;
         controls.autoRotateSpeed = 0.3;
         
-        // 防止orbit controls的鼠标事件冒泡影响页面滚�?
+        // 用于跟踪用户交互状态
+        let isUserInteracting = false;
+        
+        // 当用户开始交互时，停止自动旋转
+        controls.addEventListener('start', () => {
+          isUserInteracting = true;
+          controls.autoRotate = false;
+        });
+        
+        // 当用户停止交互时，可以选择恢复自动旋转
+        // 这里不自动恢复，让用户完全控制
+        controls.addEventListener('end', () => {
+          isUserInteracting = false;
+        });
+        
+        // 添加鼠标滚轮控制旋转速度
+        domElement.addEventListener('wheel', (e) => {
+          if (e.deltaY < 0) {
+            // 向上滚动，增加旋转速度
+            controls.autoRotateSpeed += 0.1;
+          } else {
+            // 向下滚动，减少旋转速度
+            controls.autoRotateSpeed = Math.max(0.1, controls.autoRotateSpeed - 0.1);
+          }
+        });
+        
+        // 防止orbit controls的鼠标事件冒泡影响页面滚�?
         const domElement = renderer.domElement;
         
         // 禁用 OrbitControls 的默认事件监听，防止其干扰全局滚动
         controls.enableZoom = true;
-        controls.enablePan = false;  // 禁用平移，避免影响页面滚�?
+        controls.enablePan = false;  // 禁用平移，避免影响页面滚�?
         controls.enableRotate = true;
         
-        // 阻止滚轮事件冒泡，但仅在3D画布获得焦点�?
+        // 阻止滚轮事件冒泡，但仅在3D画布获得焦点�?
         const preventWheelPropagation = (e: WheelEvent) => {
-          // 只有当鼠标实际位�?D画布上时才阻止事件传�?
+          // 只有当鼠标实际位�?D画布上时才阻止事件传�?
           const rect = domElement.getBoundingClientRect();
           const mouseX = e.clientX;
           const mouseY = e.clientY;
@@ -384,12 +445,12 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
               mouseY >= rect.top && mouseY <= rect.bottom) {
             e.stopPropagation();
           }
-          // 允许在画布外部滚动页�?
+          // 允许在画布外部滚动页�?
         };
         
         // 阻止指针事件冒泡
         const preventPointerPropagation = (e: PointerEvent) => {
-          // 只有当鼠标实际位�?D画布上时才阻止事件传�?
+          // 只有当鼠标实际位�?D画布上时才阻止事件传�?
           const rect = domElement.getBoundingClientRect();
           const mouseX = e.clientX;
           const mouseY = e.clientY;
@@ -398,7 +459,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
               mouseY >= rect.top && mouseY <= rect.bottom) {
             e.stopPropagation();
           }
-          // 允许在画布外部进行页面交�?
+          // 允许在画布外部进行页面交�?
         };
         
         // 保存事件处理函数以便稍后清理
@@ -430,7 +491,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           
           const colors = getThemeColors();
           
-          // 使用更自然的地面材质，根据主题变�?
+          // 使用更自然的地面材质，根据主题变�?
           const groundMaterial = new THREE.MeshStandardMaterial({
             color: colors.groundColor,
             roughness: 0.9,
@@ -439,14 +500,14 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           });
           
           ground = new THREE.Mesh(groundGeometry, groundMaterial);
-          ground.position.set(0, 0, 0); // 放在原点，地面顶部在y=2.5�?
+          ground.position.set(0, 0, 0); // 放在原点，地面顶部在y=2.5�?
           ground.receiveShadow = true;
           scene.add(ground);
           
           // 在地面上添加一层草地，使用稍微高一点的位置避免Z-fighting
           const grassGeometry = new THREE.CircleGeometry(GROUND_SIZE / 2 - 0.5, 64);
           
-          // 创建更自然的草地材质，添加一些纹理变�?
+          // 创建更自然的草地材质，添加一些纹理变�?
           const grassMaterial = new THREE.MeshStandardMaterial({
             color: colors.grassColor,
             roughness: 0.8,
@@ -460,7 +521,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           grass.receiveShadow = true;
           ground.add(grass);
           
-          // 添加一些随机分布的细节（小石头、小花等�?
+          // 添加一些随机分布的细节（小石头、小花等�?
           const detailCount = 50;
           for (let i = 0; i < detailCount; i++) {
             // 随机生成位置
@@ -471,7 +532,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             
             // 随机选择细节类型
             if (Math.random() > 0.5) {
-              // 创建小石�?
+              // 创建小石�?
               const stoneGeometry = new THREE.DodecahedronGeometry(0.2 + Math.random() * 0.2, 0);
               const stoneMaterial = new THREE.MeshStandardMaterial({ 
                 color: 0x8B7355,
@@ -531,7 +592,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
 
         // 检查位置是否与现有实体重叠
         const checkPositionValidity = (x: number, z: number, entitySize: number = 2): boolean => {
-          // 检查是否在大陆范围�?
+          // 检查是否在大陆范围�?
           const distanceFromCenter = Math.sqrt(x * x + z * z);
           if (distanceFromCenter > GROUND_SIZE / 2 - entitySize) {
             return false;
@@ -551,14 +612,14 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           return true;
         };
         
-        // 生成有效的随机位�?
+        // 生成有效的随机位�?
         const generateValidPosition = (entitySize: number = 2): { x: number; z: number } => {
           const maxAttempts = 100;
           let attempts = 0;
           
           while (attempts < maxAttempts) {
             attempts++;
-            // 避免大陆中心区域（中心半�?0范围内）
+            // 避免大陆中心区域（中心半�?0范围内）
             const centerAvoidanceRadius = 20;
             const angle = Math.random() * Math.PI * 2;
             const radius = centerAvoidanceRadius + Math.random() * (GROUND_SIZE * 0.5 - centerAvoidanceRadius);
@@ -570,7 +631,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             }
           }
           
-          // 如果多次尝试失败，返回一个默认位�?
+          // 如果多次尝试失败，返回一个默认位�?
           const defaultAngle = Math.random() * Math.PI * 2;
           const centerAvoidanceRadius = 20; // 重新声明变量以确保作用域正确
           const defaultRadius = centerAvoidanceRadius + Math.random() * (GROUND_SIZE * 0.5 - centerAvoidanceRadius);
@@ -580,12 +641,12 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           };
         };
         
-        // 初始化生态系统：根据count参数创建指定数量的模�?
+        // 初始化生态系统：根据count参数创建指定数量的模�?
         const initRandomEcosystem = (count: number) => {
           // 重置实体数组
           entities = [];
           
-          // 清除场景中所有非基础对象（只保留地面、番茄和预览模型�?
+          // 清除场景中所有非基础对象（只保留地面、番茄和预览模型�?
           scene.children.forEach(child => {
             if (child !== ground && child !== tomatoMesh && child.name !== 'previewMesh') {
               scene.remove(child);
@@ -595,38 +656,38 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           // 重置预览模型引用
           previewMesh = null;
           
-          // 获取所有可用物�?
+          // 获取所有可用物�?
           const allSpecies = [...SPECIES.plants, ...SPECIES.animals];
           
           // 确保count为非负数
           const validCount = Math.max(0, count);
           
-          // 无论数量多少，都随机选择物种并创建实�?
+          // 无论数量多少，都随机选择物种并创建实�?
           for (let i = 0; i < validCount; i++) {
-            // 随机选择一个物�?
+            // 随机选择一个物�?
             const randomSpecies = allSpecies[Math.floor(Math.random() * allSpecies.length)];
             
             // 生成有效的随机位置，避免重叠
-            const entitySize = 2; // 实体大小，用于碰撞检�?
+            const entitySize = 2; // 实体大小，用于碰撞检�?
             const { x, z } = generateValidPosition(entitySize);
             
             const entity = createEntity(randomSpecies.id, x, z);
             
-            // 添加动物动画属�?
+            // 添加动物动画属�?
             if (entity instanceof THREE.Group) {
               const isAnimal = SPECIES.animals.some(animal => animal.id === randomSpecies.id);
               if (isAnimal) {
                 entity.userData.isAnimal = true;
                 entity.userData.originalPosition = { x: entity.position.x, y: entity.position.y, z: entity.position.z };
-                // 直接设置物种ID，避免动画循环中动态推�?
+                // 直接设置物种ID，避免动画循环中动态推�?
                 entity.userData.speciesId = randomSpecies.id;
                 
-                // 根据动物类型设置不同的运动参�?
+                // 根据动物类型设置不同的运动参�?
                 let speed, movementRadius, jumpHeight;
                 switch(randomSpecies.id) {
                   case 'rabbit': // 兔子 - 慢速，小范围跳跃，更自然的运动
                     speed = 0.008 + Math.random() * 0.01; // 更慢的速度
-                    movementRadius = 2 + Math.random() * 2; // 更小的移动范�?
+                    movementRadius = 2 + Math.random() * 2; // 更小的移动范�?
                     jumpHeight = 0.15; // 更自然的跳跃高度
                     break;
                   case 'fox': // 狐狸 - 中速，中等范围移动
@@ -634,7 +695,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
                     movementRadius = 4 + Math.random() * 3;
                     jumpHeight = 0.15;
                     break;
-                  case 'panda': // 熊猫 - 慢速，小范围移�?
+                  case 'panda': // 熊猫 - 慢速，小范围移�?
                     speed = 0.008 + Math.random() * 0.01;
                     movementRadius = 2 + Math.random() * 2;
                     jumpHeight = 0.1;
@@ -644,12 +705,12 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
                     movementRadius = 3 + Math.random() * 3;
                     jumpHeight = 0.1;
                     break;
-                  case 'chick': // 小鸡 - 快速，小范围跳�?
+                  case 'chick': // 小鸡 - 快速，小范围跳�?
                     speed = 0.02 + Math.random() * 0.02;
                     movementRadius = 2 + Math.random() * 2;
                     jumpHeight = 0.15;
                     break;
-                  case 'penguin': // 企鹅 - 中速，小范围移�?
+                  case 'penguin': // 企鹅 - 中速，小范围移�?
                     speed = 0.012 + Math.random() * 0.01;
                     movementRadius = 3 + Math.random() * 2;
                     jumpHeight = 0.05;
@@ -664,12 +725,12 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
                     movementRadius = 3 + Math.random() * 3;
                     jumpHeight = 0.1;
                     break;
-                  case 'bear': // 棕熊 - 慢速，小范围移�?
+                  case 'bear': // 棕熊 - 慢速，小范围移�?
                     speed = 0.007 + Math.random() * 0.01;
                     movementRadius = 2 + Math.random() * 2;
                     jumpHeight = 0.08;
                     break;
-                  case 'bee': // 蜜蜂 - 快速，大范围移�?
+                  case 'bee': // 蜜蜂 - 快速，大范围移�?
                     speed = 0.03 + Math.random() * 0.03;
                     movementRadius = 6 + Math.random() * 4;
                     jumpHeight = 0.5;
@@ -686,7 +747,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
                 entity.userData.movementRadius = movementRadius;
                 entity.userData.jumpHeight = jumpHeight;
                 
-                // 为兔子初始化方向变化相关属�?
+                // 为兔子初始化方向变化相关属�?
                 if (randomSpecies.id === 'rabbit') {
                   entity.userData.directionChangeTimer = 0;
                   entity.userData.targetAngle = entity.userData.angle;
@@ -700,11 +761,14 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
         function createPlant(type: string) {
           const group = new THREE.Group();
           
-          // 只根据type创建对应的模型，不累积所有模�?
-          if (type === 'pine') {
-            // 松树：使用更自然的树干材�?
+          // 处理植物ID，支持"名称+数字"格式
+          const baseType = type.replace(/\d+$/, ''); // 提取基础类型，去除数字后缀
+          
+          // 只根据baseType创建对应的模型，不累积所有模�?
+          if (baseType === 'pine') {
+            // 松树：使用更自然的树干材�?
             const trunkMaterial = new THREE.MeshStandardMaterial({
-              color: 0x5c4033, // 深棕�?
+              color: 0x5c4033, // 深棕�?
               roughness: 0.9,
               metalness: 0.1
             });
@@ -720,20 +784,20 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
               metalness: 0.1
             });
             
-            // 分层的树冠，每层使用不同的锥体大�?
+            // 分层的树冠，每层使用不同的锥体大�?
             for(let i = 0; i < 4; i++) {
               const size = 1.5 - i * 0.3;
               const height = 1.8 + i * 0.8;
               
-              // 使用圆锥体模拟松树层�?
+              // 使用圆锥体模拟松树层�?
               const cone = new THREE.Mesh(new THREE.ConeGeometry(size, 1.8, 8), needleMaterial);
               cone.position.y = height;
               cone.castShadow = true;
               cone.receiveShadow = true;
               group.add(cone);
               
-              // 添加细节：树枝纹�?
-              if (i > 0) { // 第一层不需要额外细�?
+              // 添加细节：树枝纹�?
+              if (i > 0) { // 第一层不需要额外细�?
                 for (let j = 0; j < 6; j++) {
                   const branchAngle = (j / 6) * Math.PI * 2;
                   const branchLength = size * 0.6;
@@ -762,7 +826,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             pinecone.position.set(0, 1.2, 0);
             pinecone.rotation.x = Math.PI;
             group.add(pinecone);
-          } else if (type === 'oak') {
+          } else if (baseType === 'oak') {
             const trunkMaterial = new THREE.MeshStandardMaterial({
               color: 0x5c4033,
               roughness: 0.9,
@@ -780,7 +844,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
               metalness: 0.2
             });
             
-            // 使用球体模拟茂密的树�?
+            // 使用球体模拟茂密的树�?
             const crown = new THREE.Mesh(new THREE.SphereGeometry(1.8, 16, 16), leafMaterial);
             crown.position.y = 2.5;
             crown.castShadow = true;
@@ -805,7 +869,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
               branch.receiveShadow = true;
               group.add(branch);
             }
-          } else if (type === 'cherry') {
+          } else if (baseType === 'cherry') {
             const trunkMaterial = new THREE.MeshStandardMaterial({
               color: 0x5c4033,
               roughness: 0.9,
@@ -823,7 +887,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
               metalness: 0.2
             });
             
-            // 使用球体模拟茂密的树�?
+            // 使用球体模拟茂密的树�?
             const crown = new THREE.Mesh(new THREE.SphereGeometry(1.8, 16, 16), leafMaterial);
             crown.position.y = 2.5;
             crown.castShadow = true;
@@ -848,7 +912,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
               branch.receiveShadow = true;
               group.add(branch);
             }
-          } else if (type === 'willow') {
+          } else if (baseType === 'willow') {
             const trunkMaterial = new THREE.MeshStandardMaterial({
               color: 0x8B4513,
               roughness: 0.9,
@@ -872,7 +936,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             crown.receiveShadow = true;
             group.add(crown);
             
-            // 添加垂柳特有的细长叶�?
+            // 添加垂柳特有的细长叶�?
             for(let i = 0; i < 20; i++) {
               const angle = (i / 20) * Math.PI * 2;
               const radius = 1.2 + Math.random() * 0.3;
@@ -907,7 +971,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
                 leaf.add(smallLeaf);
               }
             }
-          } else if (type === 'bamboo') {
+          } else if (baseType === 'bamboo') {
             const bambooMaterial = new THREE.MeshStandardMaterial({
               color: 0x84cc16,
               roughness: 0.6,
@@ -960,14 +1024,14 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
               leaf.receiveShadow = true;
               group.add(leaf);
             }
-          } else if (type === 'palm') {
+          } else if (baseType === 'palm') {
             const trunkMaterial = new THREE.MeshStandardMaterial({
               color: 0x8B4513,
               roughness: 0.9,
               metalness: 0.1
             });
             
-            // 椰子树干，添加纹�?
+            // 椰子树干，添加纹�?
             const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.25, 3.5, 12), trunkMaterial);
             trunk.position.y = 1.75;
             trunk.rotation.z = 0.1;
@@ -1006,7 +1070,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
               leaf.rotation.y = angle;
               leaf.rotation.x = 0.3;
               
-              // 让叶子向外弯�?
+              // 让叶子向外弯�?
               leaf.rotation.x += Math.sin(angle) * 0.2;
               
               leaf.castShadow = true;
@@ -1032,14 +1096,14 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
               coconut.receiveShadow = true;
               group.add(coconut);
             }
-          } else if (type === 'cactus') {
+          } else if (baseType === 'cactus') {
             const cactusMaterial = new THREE.MeshStandardMaterial({
               color: 0x16a34a,
               roughness: 0.7,
               metalness: 0.2
             });
             
-            // 仙人掌主�?
+            // 仙人掌主�?
             const body = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.45, 2, 16), cactusMaterial);
             body.position.y = 1;
             body.castShadow = true;
@@ -1105,8 +1169,8 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
                 arm.add(armFlower);
               }
             }
-          } else if (type === 'mushroom') {
-            // 蘑菇�?
+          } else if (baseType === 'mushroom') {
+            // 蘑菇�?
             const stem = new THREE.Mesh(
               new THREE.CylinderGeometry(0.25, 0.3, 1.2, 12),
               new THREE.MeshStandardMaterial({ color: 0xffedd5 })
@@ -1116,7 +1180,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             stem.receiveShadow = true;
             group.add(stem);
             
-            // 蘑菇�?
+            // 蘑菇�?
             const cap = new THREE.Mesh(
               new THREE.ConeGeometry(1.3, 1.2, 16),
               new THREE.MeshStandardMaterial({ color: 0xff4757 })
@@ -1127,7 +1191,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             cap.receiveShadow = true;
             group.add(cap);
             
-            // 添加蘑菇帽上的斑�?
+            // 添加蘑菇帽上的斑�?
             for(let i = 0; i < 8; i++) {
               const angle = (i / 8) * Math.PI * 2;
               const radius = 0.8 + Math.random() * 0.2;
@@ -1148,7 +1212,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
               group.add(spot);
             }
             
-            // 添加蘑菇的纹�?
+            // 添加蘑菇的纹�?
             const gillGeometry = new THREE.RingGeometry(0.3, 1.25, 16);
             const gillMaterial = new THREE.MeshStandardMaterial({
               color: 0xff6b6b,
@@ -1159,7 +1223,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             gills.position.y = 1.29;
             gills.rotation.x = Math.PI / 2;
             group.add(gills);
-          } else if (type === 'sunflower') {
+          } else if (baseType === 'sunflower') {
             // 向日葵茎
             const stem = new THREE.Mesh(
               new THREE.CylinderGeometry(0.08, 0.1, 2.8, 8),
@@ -1252,7 +1316,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             leaf.castShadow = true;
             leaf.receiveShadow = true;
             group.add(leaf);
-          } else if (type === 'birch') {
+          } else if (baseType === 'birch') {
             // 白桦树干 - 添加白色斑块效果
             const trunk = new THREE.Mesh(
               new THREE.CylinderGeometry(0.18, 0.25, 3.2, 12),
@@ -1297,7 +1361,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             crown.receiveShadow = true;
             group.add(crown);
             
-            // 添加小枝�?
+            // 添加小枝�?
             for (let i = 0; i < 12; i++) {
               const angle = (i / 12) * Math.PI * 2;
               const height = 2.5 + Math.random() * 0.5;
@@ -1322,7 +1386,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           } else {
             // 默认创建松树
             const trunkMaterial = new THREE.MeshStandardMaterial({
-              color: 0x5c4033, // 深棕�?
+              color: 0x5c4033, // 深棕�?
               roughness: 0.9,
               metalness: 0.1
             });
@@ -1338,12 +1402,12 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
               metalness: 0.1
             });
             
-            // 分层的树冠，每层使用不同的锥体大�?
+            // 分层的树冠，每层使用不同的锥体大�?
             for(let i = 0; i < 4; i++) {
               const size = 1.5 - i * 0.3;
               const height = 1.8 + i * 0.8;
               
-              // 使用圆锥体模拟松树层�?
+              // 使用圆锥体模拟松树层�?
               const cone = new THREE.Mesh(new THREE.ConeGeometry(size, 1.8, 8), needleMaterial);
               cone.position.y = height;
               cone.castShadow = true;
@@ -1364,10 +1428,13 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
         function createAnimal(type: string) {
           const group = new THREE.Group();
           
-          if (type === 'fox') {
-            // 赤狐 - 使用更自然的颜色和细�?
+          // 处理动物ID，支持"名称+数字"格式
+          const baseType = type.replace(/\d+$/, ''); // 提取基础类型，去除数字后缀
+          
+          if (baseType === 'fox') {
+            // 赤狐 - 使用更自然的颜色和细�?
             const bodyMaterial = new THREE.MeshStandardMaterial({
-              color: 0xf97316, // 橙红�?
+              color: 0xf97316, // 橙红�?
               roughness: 0.7,
               metalness: 0.2
             });
@@ -1414,7 +1481,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             
             // 眼睛
             const eyeMaterial = new THREE.MeshStandardMaterial({
-              color: 0x1e3a8a, // 深蓝�?
+              color: 0x1e3a8a, // 深蓝�?
               roughness: 0.3,
               metalness: 0.7,
               emissive: 0x1e3a8a,
@@ -1472,7 +1539,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
               group.add(leg);
             }
             
-          } else if (type === 'rabbit') {
+          } else if (baseType === 'rabbit') {
             // 白兔 - 更精细的模型
             const bodyMaterial = new THREE.MeshStandardMaterial({
               color: 0xffffff, // 白色
@@ -1566,7 +1633,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
               group.add(leg);
             }
             
-          } else if (type === 'panda') {
+          } else if (baseType === 'panda') {
             // 熊猫 - 黑白分明
             const whiteMaterial = new THREE.MeshStandardMaterial({
               color: 0xffffff,
@@ -1676,7 +1743,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
               group.add(leg);
             }
             
-          } else if (type === 'pig') {
+          } else if (baseType === 'pig') {
             // 小猪 - 粉嫩颜色
             const pigMaterial = new THREE.MeshStandardMaterial({
               color: 0xfbcfe8, // 粉色
@@ -1768,10 +1835,10 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
               group.add(leg);
             }
             
-          } else if (type === 'penguin') {
+          } else if (baseType === 'penguin') {
             // 企鹅 - 黑白分明，可爱造型
             const blackMaterial = new THREE.MeshStandardMaterial({
-              color: 0x1f2937, // 深灰色近�?
+              color: 0x1f2937, // 深灰色近�?
               roughness: 0.8,
               metalness: 0.1
             });
@@ -1812,7 +1879,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             head.receiveShadow = true;
             group.add(head);
             
-            // 嘴巴/�?
+            // 嘴巴/�?
             const beak = new THREE.Mesh(
               new THREE.ConeGeometry(0.05, 0.2, 8),
               new THREE.MeshStandardMaterial({ color: 0xfacc15 }) // 橙色
@@ -1881,7 +1948,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             leg2.receiveShadow = true;
             group.add(leg2);
             
-            // �?
+            // �?
             const footGeometry = new THREE.BoxGeometry(0.1, 0.05, 0.08);
             const foot1 = new THREE.Mesh(footGeometry, legMaterial);
             foot1.position.set(0.1, 0.08, 0);
@@ -1891,10 +1958,10 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             foot2.position.set(-0.1, 0.08, 0);
             group.add(foot2);
             
-          } else if (type === 'frog') {
+          } else if (baseType === 'frog') {
             // 青蛙 - 生动形象
             const greenMaterial = new THREE.MeshStandardMaterial({
-              color: 0x4ade80, // 亮绿�?
+              color: 0x4ade80, // 亮绿�?
               roughness: 0.7,
               metalness: 0.2
             });
@@ -1919,7 +1986,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             head.receiveShadow = true;
             group.add(head);
             
-            // 大眼�?
+            // 大眼�?
             const eyeMaterial = new THREE.MeshStandardMaterial({
               color: 0xffffff,
               roughness: 0.2,
@@ -1991,7 +2058,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
               group.add(backLeg);
             }
             
-          } else if (type === 'bee') {
+          } else if (baseType === 'bee') {
             // 蜜蜂 - 黄黑条纹，带翅膀
             const yellowMaterial = new THREE.MeshStandardMaterial({
               color: 0xfacc15, // 黄色
@@ -2116,8 +2183,8 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             hindWing2.scale.set(0.8, 0.8, 0.8);
             group.add(hindWing2);
             
-          } else if (type === 'sheep') {
-            // 绵羊 - 毛茸茸效�?
+          } else if (baseType === 'sheep') {
+            // 绵羊 - 毛茸茸效�?
             const sheepBody = new THREE.MeshStandardMaterial({
               color: 0xffffff,
               roughness: 0.9,
@@ -2194,7 +2261,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
                 sheepBody
               );
               
-              // 随机分布在身体周�?
+              // 随机分布在身体周�?
               const u = Math.random();
               const v = Math.random();
               const theta = u * Math.PI * 2;
@@ -2231,8 +2298,8 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
               group.add(leg);
             }
             
-          } else if (type === 'bear') {
-            // 棕熊 - 厚重可爱的形�?
+          } else if (baseType === 'bear') {
+            // 棕熊 - 厚重可爱的形�?
             const bearMaterial = new THREE.MeshStandardMaterial({
               color: 0x78350f, // 棕色
               roughness: 0.8,
@@ -2329,7 +2396,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             }
             
           } else {
-            // 小鸡 - 黄色毛茸�?
+            // 小鸡 - 黄色毛茸�?
             const chickMaterial = new THREE.MeshStandardMaterial({
               color: 0xfacc15, // 黄色
               roughness: 0.7,
@@ -2403,7 +2470,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
               group.add(leg);
             }
             
-            // �?
+            // �?
             const footGeometry = new THREE.BoxGeometry(0.08, 0.02, 0.05);
             const foot1 = new THREE.Mesh(footGeometry, legMaterial);
             foot1.position.set(0.1, 0.06, 0);
@@ -2422,34 +2489,54 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           let mesh: any;
           
           // 定义本地的物种数据，避免闭包问题
-          const localSpecies = {
-            plants: [
-              { id: 'pine', name: '松树', icon: '🌲' },
-              { id: 'oak', name: '橡树', icon: '🌳' },
-              { id: 'cherry', name: '樱花', icon: '🌸' },
-              { id: 'willow', name: '垂柳', icon: '🌿' },
-              { id: 'bamboo', name: '竹子', icon: '🎋' },
-              { id: 'palm', name: '椰树', icon: '🌴' },
-              { id: 'cactus', name: '仙人�?, icon: '🌵' },
-              { id: 'mushroom', name: '巨菇', icon: '🍄' },
-              { id: 'sunflower', name: '向日�?, icon: '🌻' },
-              { id: 'birch', name: '白桦', icon: '🪵' }
-            ],
-            animals: [
-              { id: 'rabbit', name: '白兔', icon: '🐰' },
-              { id: 'fox', name: '赤狐', icon: '🦊' },
-              { id: 'panda', name: '熊猫', icon: '🐼' },
-              { id: 'pig', name: '小猪', icon: '🐷' },
-              { id: 'chick', name: '小鸡', icon: '🐤' },
-              { id: 'penguin', name: '企鹅', icon: '🐧' },
-              { id: 'frog', name: '青蛙', icon: '🐸' },
-              { id: 'sheep', name: '绵羊', icon: '🐑' },
-              { id: 'bear', name: '棕熊', icon: '🐻' },
-              { id: 'bee', name: '蜜蜂', icon: '🐝' }
-            ]
-          };
+        const localSpecies = {
+          plants: [
+            { id: 'pine', name: '松树', icon: '🌲' },
+            { id: 'pine2', name: '松树2', icon: '🌲' },
+            { id: 'oak', name: '橡树', icon: '🌳' },
+            { id: 'oak2', name: '橡树2', icon: '🌳' },
+            { id: 'cherry', name: '樱花', icon: '🌸' },
+            { id: 'cherry2', name: '樱花2', icon: '🌸' },
+            { id: 'willow', name: '垂柳', icon: '🌿' },
+            { id: 'willow2', name: '垂柳2', icon: '🌿' },
+            { id: 'bamboo', name: '竹子', icon: '🎋' },
+            { id: 'bamboo2', name: '竹子2', icon: '🎋' },
+            { id: 'palm', name: '椰树', icon: '🌴' },
+            { id: 'palm2', name: '椰树2', icon: '🌴' },
+            { id: 'cactus', name: '仙人掌', icon: '🌵' },
+            { id: 'cactus2', name: '仙人掌2', icon: '🌵' },
+            { id: 'mushroom', name: '巨菇', icon: '🍄' },
+            { id: 'mushroom2', name: '巨菇2', icon: '🍄' },
+            { id: 'sunflower', name: '向日葵', icon: '🌻' },
+            { id: 'sunflower2', name: '向日葵2', icon: '🌻' },
+            { id: 'birch', name: '白桦', icon: '🪵' },
+            { id: 'birch2', name: '白桦2', icon: '🪵' }
+          ],
+          animals: [
+            { id: 'rabbit', name: '白兔', icon: '🐰' },
+            { id: 'rabbit2', name: '白兔2', icon: '🐰' },
+            { id: 'fox', name: '赤狐', icon: '🦊' },
+            { id: 'fox2', name: '赤狐2', icon: '🦊' },
+            { id: 'panda', name: '熊猫', icon: '🐼' },
+            { id: 'panda2', name: '熊猫2', icon: '🐼' },
+            { id: 'pig', name: '小猪', icon: '🐷' },
+            { id: 'pig2', name: '小猪2', icon: '🐷' },
+            { id: 'chick', name: '小鸡', icon: '🐤' },
+            { id: 'chick2', name: '小鸡2', icon: '🐤' },
+            { id: 'penguin', name: '企鹅', icon: '🐧' },
+            { id: 'penguin2', name: '企鹅2', icon: '🐧' },
+            { id: 'frog', name: '青蛙', icon: '🐸' },
+            { id: 'frog2', name: '青蛙2', icon: '🐸' },
+            { id: 'sheep', name: '绵羊', icon: '🐑' },
+            { id: 'sheep2', name: '绵羊2', icon: '🐑' },
+            { id: 'bear', name: '棕熊', icon: '🐻' },
+            { id: 'bear2', name: '棕熊2', icon: '🐻' },
+            { id: 'bee', name: '蜜蜂', icon: '🐝' },
+            { id: 'bee2', name: '蜜蜂2', icon: '🐝' }
+          ]
+        };
           
-          // 根据类型创建不同的实�?
+          // 根据类型创建不同的实�?
           if (localSpecies.plants.some(p => p.id === type)) {
             mesh = createPlant(type);
           } else if (localSpecies.animals.some(a => a.id === type)) {
@@ -2461,10 +2548,10 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
 
           // 设置位置，确保所有模型底部与地面贴合（地面顶部在y=2.5处）
           if (mesh instanceof THREE.Group) {
-            // 对于组合模型，设置位置使底部与地面贴�?
+            // 对于组合模型，设置位置使底部与地面贴�?
             mesh.position.set(x, 2.5, z);
           } else if (mesh.geometry) {
-            // 对于单个几何体，根据几何体高度设置位置，确保底部与地面贴�?
+            // 对于单个几何体，根据几何体高度设置位置，确保底部与地面贴�?
             const height = (mesh.geometry as any).parameters?.height || 0;
             mesh.position.set(x, 2.5 + height / 2, z);
           } else {
@@ -2488,7 +2575,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           }
           
           try {
-            // 移除场景中所有名�?previewMesh'的对象，确保彻底清理
+            // 移除场景中所有名�?previewMesh'的对象，确保彻底清理
             scene.traverse((object) => {
               if (object.name === 'previewMesh') {
                 if (object.parent) {
@@ -2501,7 +2588,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             return;
           }
           
-          // 获取番茄模型，检查是否处于专注模�?
+          // 获取番茄模型，检查是否处于专注模�?
           const tomatoMesh = scene.getObjectByName('tomatoMesh');
           const isFocusMode = tomatoMesh && typeof tomatoMesh.visible !== 'undefined' && tomatoMesh.visible;
           
@@ -2540,7 +2627,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             } else {
               // 非专注模式：直接显示在大陆中心，增加动画效果，确保底部与地面贴合
               newPreviewMesh.position.set(0, 2.5, 0);
-              newPreviewMesh.scale.set(0, 0, 0); // 初始缩放�?
+              newPreviewMesh.scale.set(0, 0, 0); // 初始缩放�?
               newPreviewMesh.castShadow = true;
               newPreviewMesh.receiveShadow = true;
               newPreviewMesh.renderOrder = 1000;
@@ -2554,7 +2641,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
                   newPreviewMesh.scale.set(scale, scale, scale);
                   requestAnimationFrame(animateScale);
                 } else {
-                  // 最终保持在合适大�?
+                  // 最终保持在合适大�?
                   newPreviewMesh.scale.set(2.5, 2.5, 2.5);
                 }
               };
@@ -2616,12 +2703,12 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
                 // 更新角度
                 animal.userData.angle += speed;
                 
-                // 计算新位�?- 围绕原始位置移动，使用动物特定的移动范围
-                const movementRadius = animal.userData.movementRadius || 5; // 使用动物特定的移动范�?
+                // 计算新位�?- 围绕原始位置移动，使用动物特定的移动范围
+                const movementRadius = animal.userData.movementRadius || 5; // 使用动物特定的移动范�?
                 
                 // 兔子采用更自然的随机游走，而不是完美的圆形轨迹
                 if (animal.userData.speciesId === 'rabbit') {
-                  // 为兔子添加随机方向变�?
+                  // 为兔子添加随机方向变�?
                   if (!animal.userData.directionChangeTimer) {
                     animal.userData.directionChangeTimer = 0;
                     animal.userData.targetAngle = animal.userData.angle;
@@ -2631,11 +2718,11 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
                   animal.userData.directionChangeTimer += speed;
                   if (animal.userData.directionChangeTimer > 2) {
                     animal.userData.directionChangeTimer = 0;
-                    // 随机改变方向，范围在当前角度的�?0度内
+                    // 随机改变方向，范围在当前角度的�?0度内
                     animal.userData.targetAngle = animal.userData.angle + (Math.random() - 0.5) * Math.PI / 3;
                   }
                   
-                  // 平滑过渡到目标角�?
+                  // 平滑过渡到目标角�?
                   const angleDiff = animal.userData.targetAngle - animal.userData.angle;
                   animal.userData.angle += angleDiff * 0.05;
                   
@@ -2644,9 +2731,9 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
                   const z = originalPos.z + Math.sin(animal.userData.angle) * movementRadius * Math.sin(time * 0.3);
                   
                   // 垂直移动（跳跃效果），兔子的跳跃更有节奏
-                  const baseY = Math.max(2.5, originalPos.y); // 确保基础位置与地面贴�?
-                  const jumpHeight = animal.userData.jumpHeight || 0.2; // 兔子的跳跃高�?
-                  // 使用更自然的跳跃曲线，先快后�?
+                  const baseY = Math.max(2.5, originalPos.y); // 确保基础位置与地面贴�?
+                  const jumpHeight = animal.userData.jumpHeight || 0.2; // 兔子的跳跃高�?
+                  // 使用更自然的跳跃曲线，先快后�?
                   const jumpPhase = (time + animal.userData.waveOffset) % (Math.PI * 2);
                   const y = baseY + Math.sin(jumpPhase) * jumpHeight;
                   
@@ -2672,7 +2759,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
                   animal.rotation.y = animal.userData.angle + Math.PI / 2;
                 }
               } else {
-                // 旧的运动逻辑，为了兼�?
+                // 旧的运动逻辑，为了兼�?
                 animal.userData.angle += speed;
                 
                 const movementRadius = animal.userData.movementRadius || 5;
@@ -2695,9 +2782,9 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           if (renderer && scene && camera) renderer.render(scene, camera);
         };
 
-        // 初始化场�?
+        // 初始化场�?
         init();
-        // 开始动画循�?
+        // 开始动画循�?
         animate();
 
         // 返回清理函数
@@ -2708,7 +2795,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           if (renderer && canvasContainerRef.current) {
             const domElement = renderer.domElement;
             
-            // 使用存储的事件处理函数进行清�?
+            // 使用存储的事件处理函数进行清�?
             const preventWheelPropagation = (canvasContainerRef.current as any)._preventWheelPropagation;
             const preventPointerPropagation = (canvasContainerRef.current as any)._preventPointerPropagation;
             
@@ -2728,7 +2815,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           // 恢复页面滚动
           document.body.style.overflow = '';
           
-          // 销�?OrbitControls 以防止其持续监听事件
+          // 销�?OrbitControls 以防止其持续监听事件
           if (controls) {
             controls.dispose();
           }
@@ -2747,9 +2834,9 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
     return () => {
       if (cleanup) cleanup();
     };
-  }, []); // 移除totalPlants依赖，避免场景重新加�?
+  }, []); // 移除totalPlants依赖，避免场景重新加�?
 
-  // 当totalPlants变化时，实时更新3D大陆显示的植�?动物数量
+  // 当totalPlants变化时，实时更新3D大陆显示的植�?动物数量
   useEffect(() => {
     if (canvasContainerRef.current && isLoaded) {
       const initRandomEcosystem = (canvasContainerRef.current as any)._initRandomEcosystem;
@@ -2761,8 +2848,8 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
     }
   }, [totalPlants, isLoaded]);
   
-  // 当外部props变化时，同步更新内部状�?
-  // 只在组件初始化和duration真正变化时更新currentDuration，避免暂停时被重�?
+  // 当外部props变化时，同步更新内部状�?
+  // 只在组件初始化和duration真正变化时更新currentDuration，避免暂停时被重�?
   useEffect(() => {
     setCurrentDuration(duration * 60);
   }, [duration]);
@@ -2773,7 +2860,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
     setSecondsRemaining(timeLeft);
   }, [isActive, timeLeft]);
   
-  // 当主题变化时，更�?D场景和UI元素
+  // 当主题变化时，更�?D场景和UI元素
   useEffect(() => {
     if (canvasContainerRef.current && isLoaded) {
       const updateSceneColors = (canvasContainerRef.current as any)._updateSceneColors;
@@ -2783,21 +2870,21 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
     }
   }, [theme, isLoaded]);
 
-  // 使用全局音频管理�?
+  // 使用全局音频管理�?
   const { playBgMusic, stopBgMusic, currentBgMusicId } = useGlobalAudio();
   
   // 音频管理 - 独立于番茄钟状态的背景音乐控制
   useEffect(() => {
     let targetSoundId = localCurrentSoundId;
     
-    // 如果用户选择了静音，则停止当前背景音�?
+    // 如果用户选择了静音，则停止当前背景音�?
     if (targetSoundId === 'mute') {
       stopBgMusic();
     } else {
-      // 如果用户选择了音乐，直接播放对应的背景音乐，不需要依赖番茄钟的聚焦状�?
+      // 如果用户选择了音乐，直接播放对应的背景音乐，不需要依赖番茄钟的聚焦状�?
       const targetSound = allSounds.find(s => s.id === targetSoundId);
       if (targetSound && targetSoundId !== 'mute') {
-        // 使用全局音频管理器播放背景音�?
+        // 使用全局音频管理器播放背景音�?
         playBgMusic(targetSoundId);
         
         // 记录音频播放统计
@@ -2808,18 +2895,18 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
     }
   }, [localCurrentSoundId, allSounds, audioStatistics, playBgMusic, stopBgMusic]);
 
-  // 计时器效�?
+  // 计时器效�?
   useEffect(() => {
     let interval: number;
     
-    // 只有在专注且未暂停且时间大于0时才运行计时�?
+    // 只有在专注且未暂停且时间大于0时才运行计时�?
     if (isFocusing && !isPaused && secondsRemaining > 0) {
       interval = window.setInterval(() => {
         setSecondsRemaining(prev => {
           const newTime = prev - 1;
           onUpdateTimeLeft(newTime);
           if (newTime <= 0) {
-            // 清除定时�?
+            // 清除定时�?
             clearInterval(interval);
             
             // 番茄钟结束，创建新的实体
@@ -2871,7 +2958,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
               onUpdateTodayPlants(newToday);
             }
             
-            // 更新3D场景中的生态系统，反映新增的植�?动物
+            // 更新3D场景中的生态系统，反映新增的植�?动物
             if (canvasContainerRef.current && isLoaded) {
               const initRandomEcosystem = (canvasContainerRef.current as any)._initRandomEcosystem;
               if (initRandomEcosystem) {
@@ -2895,7 +2982,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
       }, 1000);
     }
     
-    // 清理函数，确保在任何情况下都清除定时�?
+    // 清理函数，确保在任何情况下都清除定时�?
     return () => {
       if (interval) {
         clearInterval(interval);
@@ -2903,7 +2990,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
     };
   }, [isFocusing, isPaused, secondsRemaining, onUpdateTimeLeft, currentSeed, totalPlants, onUpdateTotalPlants, todayPlants, onUpdateTodayPlants, currentDuration]);
 
-  // 格式化时�?
+  // 格式化时�?
   const formatTime = (seconds: number) => {
     const m = Math.floor(seconds / 60);
     const s = seconds % 60;
@@ -2912,14 +2999,14 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
 
   // 设置音效
   const setSound = async (type: string) => {
-    // 更新本地音效状�?
+    // 更新本地音效状�?
     setLocalCurrentSoundId(type);
     
-    // 如果是静音，则停止当前背景音�?
+    // 如果是静音，则停止当前背景音�?
     if (type === 'mute') {
       stopBgMusic();
     } else {
-      // 播放对应的背景音�?
+      // 播放对应的背景音�?
       await playBgMusic(type);
     }
     
@@ -2959,7 +3046,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
       
       // 检查点击是否在番茄钟组件范围内，如果不是，则不处理
       if (componentRoot && !componentRoot.contains(event.target as Node)) {
-        return; // 点击不在番茄钟组件范围内，不处理此事�?
+        return; // 点击不在番茄钟组件范围内，不处理此事�?
       }
       
       if (isAudioMenuOpen && 
@@ -2977,7 +3064,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
     };
   }, [isAudioMenuOpen]);
 
-  // 当选择的种子变化或组件状态改变时，更新预览模�?
+  // 当选择的种子变化或组件状态改变时，更新预览模�?
   useEffect(() => {
     if (canvasContainerRef.current && isLoaded) {
       // 在暂停状态下或者非专注状态下更新预览
@@ -2998,13 +3085,13 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
     }
   }, [isFocusing, isPaused, secondsRemaining, currentDuration, currentSeed, isLoaded]);
 
-  // 开始专�?
+  // 开始专�?
   const startFocus = () => {
     setIsFocusing(true);
     setIsPaused(false);
     onUpdateIsActive(true);
     
-    // 动态加载ThreeJS，更�?D场景
+    // 动态加载ThreeJS，更�?D场景
     const updateScene = async () => {
       try {
         const THREE = await import('three');
@@ -3045,7 +3132,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             }
           } else {
             console.warn('Scene not initialized or invalid when starting focus');
-            // 如果场景未初始化，仍然更新状�?
+            // 如果场景未初始化，仍然更新状�?
             return;
           }
         }
@@ -3062,30 +3149,30 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
     const newPausedState = !isPaused;
     setIsPaused(newPausedState);
             
-    // 更新父组件状态：只有在从专注状态变为暂停状态时才通知父组�?
+    // 更新父组件状态：只有在从专注状态变为暂停状态时才通知父组�?
     // 避免在计时器结束时意外退出沉浸式模式
     if (isFocusing) {
       onUpdateIsActive(!newPausedState);
     }
             
-    // 如果暂停，显示预览模型；如果继续，隐藏预览模�?
+    // 如果暂停，显示预览模型；如果继续，隐藏预览模�?
     const updateScene = async () => {
       try {
         const THREE = await import('three');
         if (canvasContainerRef.current) {
-          // 安全检查：确保场景已经初始�?
+          // 安全检查：确保场景已经初始�?
           const scene = (canvasContainerRef.current as any)._scene;
-          // 添加额外检查确保scene对象存在且有�?
+          // 添加额外检查确保scene对象存在且有�?
           if (scene && typeof scene === 'object' && typeof scene.traverse === 'function') {
             if (newPausedState) {  // 修正逻辑：使用新状态来判断
-              // 暂停，显示预览模�?
+              // 暂停，显示预览模�?
               // 调用全局的updatePreview函数
               const updatePreview = (canvasContainerRef.current as any)._updatePreview;
               if (updatePreview) {
                 updatePreview(currentSeed);
               }
             } else {
-              // 继续专注，隐藏预览模�?
+              // 继续专注，隐藏预览模�?
               const previewMesh = scene.getObjectByName('previewMesh');
               if (previewMesh) {
                 let scale = 1;
@@ -3103,7 +3190,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             }
           } else {
             console.warn('Scene not initialized or invalid when pausing focus');
-            // 如果场景未初始化，仍然更新状�?
+            // 如果场景未初始化，仍然更新状�?
             return;
           }
         }
@@ -3145,7 +3232,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
             }
           } else {
             console.warn('Scene not initialized or invalid when resetting focus');
-            // 如果场景未初始化，仍然更新状�?
+            // 如果场景未初始化，仍然更新状�?
             return;
           }
         }
@@ -3176,7 +3263,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
     }, 0);
   };
 
-  // 开始编辑今日数�?
+  // 开始编辑今日数�?
   const startEditToday = () => {
     setIsEditingToday(true);
     setEditingValue(todayPlants.toString());
@@ -3192,16 +3279,16 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
     const value = parseInt(editingValue);
     if (!isNaN(value) && value >= 0) {
       if (type === 'total') {
-        // 更新本地状�?
+        // 更新本地状�?
         setTotalPlants(value);
-        // 保存到本地存�?
+        // 保存到本地存�?
         localStorage.setItem('immersionPomodoro_totalPlants', value.toString());
-        // 如果提供了回调函数，调用它更新父组件状�?
+        // 如果提供了回调函数，调用它更新父组件状�?
         if (onUpdateTotalPlants) {
           onUpdateTotalPlants(value);
         }
         
-        // 立即更新3D场景，确保数据与显示一�?
+        // 立即更新3D场景，确保数据与显示一�?
         if (canvasContainerRef.current && isLoaded) {
           const initRandomEcosystem = (canvasContainerRef.current as any)._initRandomEcosystem;
           if (initRandomEcosystem) {
@@ -3210,11 +3297,11 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
           }
         }
       } else {
-        // 更新本地状�?
+        // 更新本地状�?
         setTodayPlants(value);
-        // 保存到本地存�?
+        // 保存到本地存�?
         localStorage.setItem('immersionPomodoro_todayPlants', value.toString());
-        // 如果提供了回调函数，调用它更新父组件状�?
+        // 如果提供了回调函数，调用它更新父组件状�?
         if (onUpdateTodayPlants) {
           onUpdateTodayPlants(value);
         }
@@ -3224,7 +3311,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
     setIsEditingToday(false);
   };
 
-  // 开始编辑预设时�?
+  // 开始编辑预设时�?
   const startEditPreset = (preset: number) => {
     setIsEditingPreset(true);
     setEditingPresetId(preset);
@@ -3247,7 +3334,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
     setEditingPresetId(null);
   };
 
-  // 处理输入框按键事�?
+  // 处理输入框按键事�?
   const handleInputKeyDown = (e: React.KeyboardEvent, type: 'total' | 'today' | 'preset') => {
     if (e.key === 'Enter' || e.keyCode === 13) {
       if (type === 'preset') {
@@ -3267,20 +3354,20 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
   const isNeomorphic = theme.startsWith('neomorphic');
   const isNeomorphicDark = theme === 'neomorphic-dark';
   
-  // 拟态风格样式变�?
+  // 拟态风格样式变�?
   const neomorphicStyles = getNeomorphicStyles(isNeomorphicDark);
   
   return (
     <div className={`fixed inset-0 z-50 flex flex-col ${isNeomorphicDark ? 'bg-[#1e1e2e] text-white' : 'bg-[#e0e5ec] text-gray-800'}`}>
-      {/* 主容�?- 直接显示，无加载状�?*/}
+      {/* 主容�?- 直接显示，无加载状�?*/}
       <div ref={containerRef} className="relative inset-0">
         {/* Canvas容器 */}
         <div ref={canvasContainerRef} id="canvas-container" className="absolute inset-0"></div>
         
-        {/* 退出按�?*/}
-        <div className="exit-btn" id="exitBtn" onClick={onExitImmersive}>�?/div>
+        {/* 退出按�?*/}
+        <div className="exit-btn" id="exitBtn" onClick={onExitImmersive}>�?/div>
         
-        {/* 帮助按钮和指�?*/}
+        {/* 帮助按钮和指�?*/}
         <div className={`help-btn ${isFocusing && !isPaused ? 'hidden' : ''}`} id="helpBtn" onClick={() => {
           const guideCard = document.getElementById('guideCard');
           if (guideCard) {
@@ -3289,44 +3376,44 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
         }}>?</div>
         <div className={`${isNeomorphicDark ? 'guide-card neu-out neomorphic-dark-mode' : isDark ? 'guide-card neu-out dark-mode' : 'guide-card neu-out'}`} id="guideCard">
           <div className="guide-header">
-            <h3>🌲 3D专注生态指�?/h3>
+            <h3>🌲 3D专注生态指�?/h3>
             <button className="guide-close" id="guideClose" onClick={() => {
               const guideCard = document.getElementById('guideCard');
               if (guideCard) {
                 guideCard.classList.remove('show');
               }
-            }}>�?/button>
+            }}>�?/button>
           </div>
           <div className="guide-content">
             <h4>📋 基本规则</h4>
             <ul>
-              <li>设定专注时间，点击开始按钮进入专注状�?/li>
-              <li>完成专注后，获得一棵植物或一只动�?/li>
-              <li>植物和动物会种植在你�?D森林�?/li>
-              <li>累计种植更多生命，打造丰富的生态系�?/li>
+              <li>设定专注时间，点击开始按钮进入专注状�?/li>
+              <li>完成专注后，获得一棵植物或一只动�?/li>
+              <li>植物和动物会种植在你�?D森林�?/li>
+              <li>累计种植更多生命，打造丰富的生态系�?/li>
             </ul>
             
             <h4>🎯 操作指南</h4>
             <ul>
-              <li>🖱�?<strong>单击能量�?/strong> - 开�?继续专注</li>
-              <li>🖱�?<strong>双击能量�?/strong> - 暂停专注</li>
-              <li>🖱�?<strong>双击计时�?/strong> - 修改专注时长</li>
-              <li>🖱�?<strong>双击统计数据</strong> - 修改总数和今日成�?/li>
-              <li>🖱�?<strong>拖动鼠标</strong> - 旋转视角</li>
-              <li>🖱�?<strong>滚轮缩放</strong> - 放大缩小场景</li>
+              <li>🖱�?<strong>单击能量�?/strong> - 开�?继续专注</li>
+              <li>🖱�?<strong>双击能量�?/strong> - 暂停专注</li>
+              <li>🖱�?<strong>双击计时�?/strong> - 修改专注时长</li>
+              <li>🖱�?<strong>双击统计数据</strong> - 修改总数和今日成�?/li>
+              <li>🖱�?<strong>拖动鼠标</strong> - 旋转视角</li>
+              <li>🖱�?<strong>滚轮缩放</strong> - 放大缩小场景</li>
             </ul>
             
             <h4>🎵 音乐设置</h4>
             <ul>
               <li>点击音乐图标打开音乐菜单</li>
               <li>选择喜欢的背景音乐或静音</li>
-              <li>支持多种音效：森林、阿尔法波、希塔波�?/li>
+              <li>支持多种音效：森林、阿尔法波、希塔波�?/li>
             </ul>
             
             <h4>🌿 物种选择</h4>
             <ul>
-              <li>右侧面板选择你喜欢的植物或动�?/li>
-              <li>完成专注后将获得所选物�?/li>
+              <li>右侧面板选择你喜欢的植物或动�?/li>
+              <li>完成专注后将获得所选物�?/li>
               <li>植物和动物会自动分布在森林中</li>
             </ul>
           </div>
@@ -3334,7 +3421,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
 
         {/* UI容器 */}
         <div className="ui-container">
-          {/* 顶部数据�?- 合并的统计面�?- 在专注且非暂停时隐藏 */}
+          {/* 顶部数据�?- 合并的统计面�?- 在专注且非暂停时隐藏 */}
           <div className={`stats-bar ${isFocusing && !isPaused ? 'hidden' : ''}`}>
             <div 
               ref={totalPlantsRef}
@@ -3365,9 +3452,9 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
                       <span className="highlight-num text-xs" id="totalCount">{totalPlants}</span>
                     )}
                   </div>
-                  <div className="h-4 w-px bg-gray-300"></div> {/* 分隔�?*/}
+                  <div className="h-4 w-px bg-gray-300"></div> {/* 分隔�?*/}
                   <div className="flex items-center gap-1">
-                    <span className="text-xs">☀�?今日</span>
+                    <span className="text-xs">☀�?今日</span>
                     {isEditingToday ? (
                       <div className="highlight-num edit-mode">
                         <input 
@@ -3452,7 +3539,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
                   className={`${isNeomorphicDark ? 'bg-[#1e1e2e] border border-zinc-700 shadow-[8px_8px_16px_rgba(0,0,0,0.3),-8px_-8px_16px_rgba(40,43,52,0.8)]' : isDark ? 'bg-zinc-900/95 border border-zinc-800' : (isNeomorphic ? 'bg-[#e0e5ec] border border-slate-300 shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]' : 'bg-white/95 border border-slate-200 shadow-[10px_10px_20px_rgba(163,177,198,0.4),-10px_-10px_20px_rgba(255,255,255,0.6)]')} absolute top-0 right-0 mt-16 mr-2 rounded-xl p-4 backdrop-blur-sm z-[1000] audio-menu ${isAudioMenuOpen ? 'show' : ''}`}
                   onClick={(e) => e.stopPropagation()}
                 >
-                  {/* 搜索�?*/}
+                  {/* 搜索�?*/}
                   <div className="mb-3">
                     <div className={`relative w-full ${isNeomorphic ? (isDark ? 'bg-[#1e1e2e]' : 'bg-[#e0e5ec]') : (isDark ? 'bg-zinc-800' : 'bg-white')}`}>
                       <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-zinc-500 dark:text-zinc-400">🔍</span>
@@ -3494,7 +3581,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
                           </button>
                         ))
                     ) : (
-                      <div className="audio-item loading">加载�?..</div>
+                      <div className="audio-item loading">加载�?..</div>
                     )}
                   </div>
                 </div>
@@ -3511,11 +3598,11 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
                         
               {/* 外部凹槽 */}
               <div className="ring-groove">
-                {/* SVG 进度�?*/}
+                {/* SVG 进度�?*/}
                 <svg className="progress-ring" viewBox="0 0 240 240">
                   {/* 背景轨道 */}
                   <circle className="progress-ring__circle-bg" r="114" cx="120" cy="120"/>
-                  {/* 进度�?*/}
+                  {/* 进度�?*/}
                   <circle 
                     className="progress-ring__circle" 
                     id="progressCircle" 
@@ -3537,7 +3624,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
               id="timer"
             >{formatTime(secondsRemaining)}</div>
                 <div className="status-text" id="statusText">
-                  {isFocusing ? (isPaused ? '已暂�?(单击继续)' : '专注生长�?..') : '点击开�?}
+                  {isFocusing ? (isPaused ? '已暂�?(单击继续)' : '专注生长�?..') : '点击开�?}
                 </div>
               </div>
             </div>
@@ -3545,7 +3632,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
 
           {/* 侧边种子选择 - 在专注且非暂停时隐藏 */}
           <div className={`${isNeomorphicDark ? 'neu-out neomorphic-dark-mode' : isDark ? 'neu-out dark-mode' : 'neu-out'} seed-selector ${isFocusing && !isPaused ? 'hidden' : ''}`} id="seedSelector">
-            <div className="selector-title">🌿 植物�?/div>
+            <div className="selector-title">🌿 植物�?/div>
             {SPECIES.plants.map(plant => (
               <div 
                 key={plant.id}
@@ -3557,7 +3644,7 @@ const InternalImmersivePomodoro: React.FC<InternalImmersivePomodoroProps> = ({
                 <div className="seed-name">{plant.name}</div>
               </div>
             ))}
-            <div className="selector-title mt-4">🐾 动物�?/div>
+            <div className="selector-title mt-4">🐾 动物�?/div>
             {SPECIES.animals.map(animal => (
               <div 
                 key={animal.id}

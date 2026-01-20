@@ -3,7 +3,9 @@ import { AudioFile } from './audioManager';
 interface AudioPlayRecord {
   id: string;
   playCount: number;
+  totalPlayTime: number; // 总播放时长（秒）
   lastPlayed: Date;
+  lastStartedPlaying: Date | null; // 上次开始播放的时间
   isFavorite: boolean;
 }
 
@@ -24,7 +26,9 @@ class AudioStatistics {
           this.playRecords.set(record.id, {
             id: record.id,
             playCount: record.playCount,
+            totalPlayTime: record.totalPlayTime || 0,
             lastPlayed: new Date(record.lastPlayed),
+            lastStartedPlaying: record.lastStartedPlaying ? new Date(record.lastStartedPlaying) : null,
             isFavorite: record.isFavorite || false
           });
         });
@@ -53,7 +57,9 @@ class AudioStatistics {
       this.playRecords.set(audioId, {
         id: audioId,
         playCount: 0,
+        totalPlayTime: 0,
         lastPlayed: new Date(),
+        lastStartedPlaying: null,
         isFavorite: true
       });
     }
@@ -79,6 +85,43 @@ class AudioStatistics {
     return favoriteIds;
   }
 
+  // 开始跟踪播放时长
+  startTrackingPlayTime(audioId: string): void {
+    const now = new Date();
+    const existingRecord = this.playRecords.get(audioId);
+    
+    if (existingRecord) {
+      existingRecord.lastStartedPlaying = now;
+    } else {
+      this.playRecords.set(audioId, {
+        id: audioId,
+        playCount: 0,
+        totalPlayTime: 0,
+        lastPlayed: now,
+        lastStartedPlaying: now,
+        isFavorite: false
+      });
+    }
+    
+    this.saveToStorage();
+  }
+
+  // 停止跟踪播放时长并更新总时长
+  stopTrackingPlayTime(audioId: string): void {
+    const now = new Date();
+    const existingRecord = this.playRecords.get(audioId);
+    
+    if (existingRecord && existingRecord.lastStartedPlaying) {
+      // 计算播放时长（秒）
+      const playDuration = (now.getTime() - existingRecord.lastStartedPlaying.getTime()) / 1000;
+      existingRecord.totalPlayTime += Math.round(playDuration);
+      existingRecord.lastPlayed = now;
+      existingRecord.lastStartedPlaying = null;
+      
+      this.saveToStorage();
+    }
+  }
+
   recordPlay(audioId: string): void {
     const now = new Date();
     const existingRecord = this.playRecords.get(audioId);
@@ -90,7 +133,9 @@ class AudioStatistics {
       this.playRecords.set(audioId, {
         id: audioId,
         playCount: 1,
+        totalPlayTime: 0,
         lastPlayed: now,
+        lastStartedPlaying: null,
         isFavorite: false
       });
     }
@@ -101,6 +146,12 @@ class AudioStatistics {
   getPlayCount(audioId: string): number {
     const record = this.playRecords.get(audioId);
     return record ? record.playCount : 0;
+  }
+
+  // 获取总播放时长（秒）
+  getTotalPlayTime(audioId: string): number {
+    const record = this.playRecords.get(audioId);
+    return record ? record.totalPlayTime : 0;
   }
 
   getSortedAudioFiles(audioFiles: AudioFile[]): AudioFile[] {
@@ -124,7 +175,15 @@ class AudioStatistics {
         return bCount - aCount;
       }
       
-      // 3. 如果播放次数相同，则按最后播放时间降序排列
+      // 3. 如果播放次数相同，则按总播放时长降序排列
+      const aPlayTime = this.getTotalPlayTime(a.id);
+      const bPlayTime = this.getTotalPlayTime(b.id);
+      
+      if (bPlayTime !== aPlayTime) {
+        return bPlayTime - aPlayTime;
+      }
+      
+      // 4. 如果总播放时长相同，则按最后播放时间降序排列
       const aLastPlayed = this.getLastPlayed(a.id);
       const bLastPlayed = this.getLastPlayed(b.id);
       
@@ -132,7 +191,7 @@ class AudioStatistics {
         return bLastPlayed.getTime() - aLastPlayed.getTime();
       }
       
-      // 4. 如果最后播放时间相同或不存在，则按名称排序
+      // 5. 如果最后播放时间相同或不存在，则按名称排序
       return a.name.localeCompare(b.name);
     });
   }
@@ -144,13 +203,58 @@ class AudioStatistics {
 
   getTopPlayedAudio(limit: number = 10): AudioPlayRecord[] {
     return Array.from(this.playRecords.values())
-      .sort((a, b) => b.playCount - a.playCount)
+      .sort((a, b) => {
+        // 先按播放次数降序，再按总播放时长降序
+        if (b.playCount !== a.playCount) {
+          return b.playCount - a.playCount;
+        }
+        return b.totalPlayTime - a.totalPlayTime;
+      })
       .slice(0, limit);
   }
 
   resetStatistics(): void {
     this.playRecords.clear();
     this.saveToStorage();
+  }
+
+  // 获取所有音频统计数据（用于备份）
+  getAllStatistics(): AudioPlayRecord[] {
+    return Array.from(this.playRecords.values());
+  }
+
+  // 从备份恢复统计数据
+  restoreStatistics(statistics: AudioPlayRecord[]): void {
+    this.playRecords.clear();
+    statistics.forEach(record => {
+      this.playRecords.set(record.id, {
+        ...record,
+        lastPlayed: new Date(record.lastPlayed),
+        lastStartedPlaying: record.lastStartedPlaying ? new Date(record.lastStartedPlaying) : null
+      });
+    });
+    this.saveToStorage();
+  }
+
+  // 导出统计数据为JSON字符串
+  exportStatistics(): string {
+    const statistics = this.getAllStatistics();
+    return JSON.stringify(statistics, null, 2);
+  }
+
+  // 导入统计数据从JSON字符串
+  importStatistics(jsonString: string): boolean {
+    try {
+      const statistics = JSON.parse(jsonString);
+      if (Array.isArray(statistics)) {
+        this.restoreStatistics(statistics);
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error('Error importing audio statistics:', error);
+      return false;
+    }
   }
 }
 

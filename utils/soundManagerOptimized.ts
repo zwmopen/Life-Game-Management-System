@@ -1,5 +1,6 @@
 // 统一音效管理库 - 优化版本
 import audioManager from './audioManagerOptimized';
+import audioStatistics from './audioStatistics';
 
 interface SoundEffect {
   id: string;
@@ -198,6 +199,10 @@ class SoundManager {
       // 如果未锁定，锁定并添加到选中列表
       this.lockedMusicIds.add(musicId);
       this.selectedMusicIds.add(musicId);
+      
+      // 立即开始播放该音乐
+      this.playBackgroundMusic(musicId);
+      
       return true;
     }
   }
@@ -220,6 +225,8 @@ class SoundManager {
     if (audio) {
       audio.pause();
       audio.currentTime = 0;
+      // 停止跟踪播放时长
+      audioStatistics.stopTrackingPlayTime(musicId);
     }
   }
 
@@ -234,6 +241,8 @@ class SoundManager {
       this.selectedMusicIds.forEach(id => {
         if (!this.lockedMusicIds.has(id) && id !== musicId) {
           this.stopSpecificMusic(id);
+          // 停止跟踪其他音乐的播放时长
+          audioStatistics.stopTrackingPlayTime(id);
         }
       });
 
@@ -247,6 +256,11 @@ class SoundManager {
       
       // 记录当前请求的音乐ID，用于防止竞态条件
       this.currentPlayRequestId = musicId;
+      
+      // 记录播放次数
+      audioStatistics.recordPlay(musicId);
+      // 开始跟踪播放时长
+      audioStatistics.startTrackingPlayTime(musicId);
       
       // 尝试从预设列表播放
       if (this.backgroundMusic[musicId]) {
@@ -326,11 +340,11 @@ class SoundManager {
     }
   }
 
-  // 停止背景音乐（只停止非锁定的音乐）
+  // 停止背景音乐
   stopBackgroundMusic(): void {
-    // 停止所有非锁定的背景音乐
+    // 停止所有背景音乐，包括锁定的音乐
     Object.entries(this.backgroundMusic).forEach(([id, audio]) => {
-      if (audio && !this.lockedMusicIds.has(id)) {
+      if (audio) {
         try {
           // 标准的停止和重置音频
           audio.pause();
@@ -345,8 +359,8 @@ class SoundManager {
     this.currentBackgroundMusicId = null;
     this.currentPlayRequestId = null; // 重置当前播放请求ID
     
-    // 更新选中的音乐列表，只保留锁定的音乐
-    this.selectedMusicIds = new Set(this.lockedMusicIds);
+    // 清除所有音乐项的播放状态
+    this.selectedMusicIds.clear();
   }
 
   // 切换静音状态
@@ -354,20 +368,21 @@ class SoundManager {
     this.isMuted = !this.isMuted;
     
     if (this.isMuted) {
+      // 静音操作具有最高优先级，不受其他锁定状态的限制
+      // 停止所有正在播放的音乐
       this.stopAllSounds();
-      this.clearSelectedMusic();
-      this.lockedMusicIds.clear(); // 静音时清除所有锁定的音乐
+      
+      // 清除所有音乐项的锁定状态
+      this.lockedMusicIds.clear();
+      
+      // 清除所有音乐项的播放状态
+      this.selectedMusicIds.clear();
+      
+      // 重置当前播放的音乐ID
+      this.currentBackgroundMusicId = null;
+      this.currentPlayRequestId = null;
     } else {
-      // 如果取消静音，恢复播放所有选中的音乐
-      if (this.selectedMusicIds.size > 0) {
-        // 播放所有选中的音乐
-        this.selectedMusicIds.forEach(musicId => {
-          this.playBackgroundMusic(musicId);
-        });
-      } else if (this.currentBackgroundMusicId) {
-        // 如果没有选中的音乐，但有当前音乐，播放当前音乐
-        this.playBackgroundMusic(this.currentBackgroundMusicId);
-      }
+      // 如果取消静音，此时没有选中的音乐，不自动恢复播放
     }
   }
 
@@ -397,6 +412,11 @@ class SoundManager {
     Object.values(this.sounds).forEach(audio => {
       audio.pause();
       audio.currentTime = 0;
+    });
+
+    // 停止所有音乐的播放时长跟踪
+    Object.keys(this.backgroundMusic).forEach(musicId => {
+      audioStatistics.stopTrackingPlayTime(musicId);
     });
 
     // 停止背景音乐

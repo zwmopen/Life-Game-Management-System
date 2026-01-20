@@ -3,8 +3,11 @@ import { Play, Pause, RotateCcw, VolumeX, Volume2, Maximize2, Sun, Moon, Coffee,
 import { Theme } from '../../types';
 import { useGlobalAudio } from '../../components/GlobalAudioManagerOptimized';
 import OptimizedImmersivePomodoro3D from './OptimizedImmersivePomodoro3D';
+import InternalImmersivePomodoro from './InternalImmersivePomodoro';
 import { getNeomorphicStyles } from '../../utils/styleHelpers';
 import UnifiedBgMusicSelector from './UnifiedBgMusicSelector';
+import { GlobalGuideCard, GlobalHelpButton, helpContent } from '../../components/HelpSystem';
+import { SPECIES } from '../../data/speciesData';
 import '../../styles/immersive-pomodoro.css';
 
 interface OptimizedImmersivePomodoroProps {
@@ -62,37 +65,13 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
     return savedToday ? parseInt(savedToday) : (initialTodayPlants || 0);
   });
   const [isSoundMenuOpen, setIsSoundMenuOpen] = useState(false);
+  const [activeHelp, setActiveHelp] = useState<string | null>(null);
   
   const totalPlantsRef = useRef<HTMLDivElement>(null);
   const todayPlantsRef = useRef<HTMLDivElement>(null);
   
-  // 物种数据 - 使用useMemo优化
-  const SPECIES = useMemo(() => ({
-    plants: [
-      { id: 'pine', name: '松树', icon: '🌲' },
-      { id: 'oak', name: '橡树', icon: '🌳' },
-      { id: 'cherry', name: '樱花', icon: '🌸' },
-      { id: 'willow', name: '垂柳', icon: '🌿' },
-      { id: 'bamboo', name: '竹子', icon: '🎋' },
-      { id: 'palm', name: '椰树', icon: '🌴' },
-      { id: 'cactus', name: '仙人掌', icon: '🌵' },
-      { id: 'mushroom', name: '巨菇', icon: '🍄' },
-      { id: 'sunflower', name: '向日葵', icon: '🌻' },
-      { id: 'birch', name: '白桦', icon: '🪵' }
-    ],
-    animals: [
-      { id: 'rabbit', name: '白兔', icon: '🐰' },
-      { id: 'fox', name: '赤狐', icon: '🦊' },
-      { id: 'panda', name: '熊猫', icon: '🐼' },
-      { id: 'pig', name: '小猪', icon: '🐷' },
-      { id: 'chick', name: '小鸡', icon: '🐤' },
-      { id: 'penguin', name: '企鹅', icon: '🐧' },
-      { id: 'frog', name: '青蛙', icon: '🐸' },
-      { id: 'sheep', name: '绵羊', icon: '🐑' },
-      { id: 'bear', name: '棕熊', icon: '🐻' },
-      { id: 'bee', name: '蜜蜂', icon: '🐝' }
-    ]
-  }), []);
+  // 使用共享的物种数据，避免数据冗余
+  // 数据来源于../../data/speciesData.ts
 
   // 使用全局音频管理器
   const { currentBgMusicId } = useGlobalAudio();
@@ -320,7 +299,7 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
     <div className={`fixed inset-0 z-50 flex flex-col bg-transparent`}>
       {/* 主容器 */}
       <div ref={containerRef} className="absolute inset-0 w-full h-full">
-        {/* 优化的3D场景组件 */}
+        {/* 优化后的3D场景组件 */}
         <OptimizedImmersivePomodoro3D
           theme={theme}
           totalPlants={totalPlants}
@@ -335,58 +314,6 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
         
         {/* 退出按钮 */}
         <div className="exit-btn" id="exitBtn" onClick={onExitImmersive}>✕</div>
-        
-        {/* 帮助按钮和指南 */}
-        <div className={`help-btn ${isFocusing && !isPaused ? 'hidden' : ''}`} id="helpBtn" onClick={() => {
-          const guideCard = document.getElementById('guideCard');
-          if (guideCard) {
-            guideCard.classList.toggle('show');
-          }
-        }}>?</div>
-        <div className={`${isNeomorphicDark ? 'guide-card neu-out neomorphic-dark-mode' : isDark ? 'guide-card neu-out dark-mode' : 'guide-card neu-out'}`} id="guideCard">
-          <div className="guide-header">
-            <h3>🌲 3D专注生态指南</h3>
-            <button className="guide-close" id="guideClose" onClick={() => {
-              const guideCard = document.getElementById('guideCard');
-              if (guideCard) {
-                guideCard.classList.remove('show');
-              }
-            }}>✕</button>
-          </div>
-          <div className="guide-content">
-            <h4>📋 基本规则</h4>
-            <ul>
-              <li>设定专注时间，点击开始按钮进入专注状态</li>
-              <li>完成专注后，获得一棵植物或一只动物</li>
-              <li>植物和动物会种植在你的3D森林中</li>
-              <li>累计种植更多生命，打造丰富的生态系统</li>
-            </ul>
-            
-            <h4>🎯 操作指南</h4>
-            <ul>
-              <li>🖱️ <strong>单击能量环</strong> - 开始/继续专注</li>
-              <li>🖱️ <strong>双击能量环</strong> - 暂停专注</li>
-              <li>🖱️ <strong>双击计时器</strong> - 修改专注时长</li>
-              <li>🖱️ <strong>双击统计数据</strong> - 修改总数和今日成就</li>
-              <li>🖱️ <strong>拖动鼠标</strong> - 旋转视角</li>
-              <li>🖱️ <strong>滚轮缩放</strong> - 放大缩小场景</li>
-            </ul>
-            
-            <h4>🎵 音乐设置</h4>
-            <ul>
-              <li>点击音乐图标打开音乐菜单</li>
-              <li>选择喜欢的背景音乐或静音</li>
-              <li>支持多种音效：森林、阿尔法波、希塔波等</li>
-            </ul>
-            
-            <h4>🌿 物种选择</h4>
-            <ul>
-              <li>右侧面板选择你喜欢的植物或动物</li>
-              <li>完成专注后将获得所选物种</li>
-              <li>植物和动物会自动分布在森林中</li>
-            </ul>
-          </div>
-        </div>
 
         {/* UI容器 */}
         <div className="ui-container">
@@ -394,13 +321,13 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
           <div className={`stats-bar ${isFocusing && !isPaused ? 'hidden' : ''}`}>
             <div 
               ref={totalPlantsRef}
-              className={`${isNeomorphicDark ? 'neu-out neomorphic-dark-mode' : isDark ? 'neu-out dark-mode' : 'neu-out'} stats-panel`} 
+              className={`${isNeomorphicDark ? 'neu-out neomorphic-dark-mode' : isDark ? 'neu-out dark-mode' : 'neu-out'} stats-panel relative w-auto min-w-[240px] p-2 px-4`} 
               id="statsTotal"
               onDoubleClick={startEditTotal}
             >
-              <div className="flex flex-col items-center">
-                <div className="flex items-center gap-2">
-                  <div className="flex items-center gap-1">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-2">
                     <span className="text-xs">🌲 总数</span>
                     {isEditingTotal ? (
                       <div className="highlight-num edit-mode">
@@ -422,7 +349,7 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
                     )}
                   </div>
                   <div className="h-4 w-px bg-gray-300"></div> {/* 分隔线 */}
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-2">
                     <span className="text-xs">☀️ 今日</span>
                     {isEditingToday ? (
                       <div className="highlight-num edit-mode">
@@ -444,9 +371,51 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
                     )}
                   </div>
                 </div>
+                <div className="flex items-center gap-2">
+                  {/* 主题切换按钮 - 模拟白天/黑夜效果 */}
+                  <button 
+                    className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                    onClick={() => {
+                      // 触发全局主题切换
+                      const themeToggleBtn = document.querySelector('.theme-toggle') as HTMLElement;
+                      if (themeToggleBtn) {
+                        themeToggleBtn.click();
+                      }
+                    }}
+                    title="切换主题（白天/黑夜）"
+                  >
+                    {isDark ? <Sun size={16} className="text-yellow-400" /> : <Moon size={16} className="text-gray-600" />}
+                  </button>
+                  {/* 统计数据使用指南小问号 */}
+                  <GlobalHelpButton 
+                    helpId="stats" 
+                    onHelpClick={setActiveHelp} 
+                    size={14}
+                    variant="ghost"
+                  />
+                </div>
               </div>
             </div>
           </div>
+          
+          {/* 统一的使用指南卡片 */}
+          <GlobalGuideCard
+            activeHelp={activeHelp}
+            helpContent={helpContent}
+            onClose={() => setActiveHelp(null)}
+            config={{
+              cardBg: isDark ? '#1a202c' : '#ffffff',
+              textMain: isDark ? '#f7fafc' : '#1a202c',
+              textSub: isDark ? '#a0aec0' : '#4a5568',
+              buttonBg: isDark ? '#4a5568' : '#e2e8f0',
+              buttonHoverBg: isDark ? '#718096' : '#cbd5e0',
+              borderRadius: '8px',
+              shadow: isDark ? '0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2)' : '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+              maxWidth: '500px',
+              fontSize: '0.875rem',
+              iconSize: 20
+            }}
+          />
           
           {/* 底部控制 */}
           <div className="controls">
@@ -536,28 +505,17 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
 
           {/* 侧边种子选择 - 修改条件，在专注模式下完全隐藏 */}
           <div className={`${isNeomorphicDark ? 'neu-out neomorphic-dark-mode' : isDark ? 'neu-out dark-mode' : 'neu-out'} seed-selector ${isFocusing && !isPaused ? 'hidden' : ''}`} id="seedSelector">
-            <div className="selector-title">🌿 植物类</div>
-            {SPECIES.plants.map(plant => (
+            {/* 合并植物和动物为一个连续列表，并添加1-40的序号 */}
+            {[...SPECIES.plants, ...SPECIES.animals].map((seed, index) => (
               <div 
-                key={plant.id}
-                id={`opt-${plant.id}`}
-                className={`seed-option ${currentSeed === plant.id ? 'active' : ''}`}
-                onClick={() => selectSeed(plant.id)}
+                key={seed.id}
+                id={`opt-${seed.id}`}
+                className={`seed-option ${currentSeed === seed.id ? 'active' : ''}`}
+                onClick={() => selectSeed(seed.id)}
               >
-                <div className="seed-icon">{plant.icon}</div>
-                <div className="seed-name">{plant.name}</div>
-              </div>
-            ))}
-            <div className="selector-title mt-4">🐾 动物类</div>
-            {SPECIES.animals.map(animal => (
-              <div 
-                key={animal.id}
-                id={`opt-${animal.id}`}
-                className={`seed-option ${currentSeed === animal.id ? 'active' : ''}`}
-                onClick={() => selectSeed(animal.id)}
-              >
-                <div className="seed-icon">{animal.icon}</div>
-                <div className="seed-name">{animal.name}</div>
+                <div className="seed-number">{index + 1}</div>
+                <div className="seed-icon">{seed.icon}</div>
+                <div className="seed-name">{seed.name}</div>
               </div>
             ))}
           </div>
