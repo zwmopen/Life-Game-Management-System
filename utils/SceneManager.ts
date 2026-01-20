@@ -2533,92 +2533,91 @@ export class SceneManager {
     if (!this.scene) return;
     
     try {
-      // 重置实体数组
-      this.entities = [];
-      
-      // 清除场景中所有非基础对象
-      this.scene.children.forEach(child => {
-        if (child !== this.ground && 
-            child !== this.tomatoMesh && 
-            child.name !== 'previewMesh' &&
-            !child.isLight) {
-          this.scene!.remove(child);
-        }
-      });
-      
       // 确保地面和草地颜色正确
       const colors = this.getThemeColors();
       if (this.ground) {
         (this.ground.material as THREE.MeshStandardMaterial).color.set(colors.groundColor);
       }
       
-      // 重置预览模型引用
-      this.previewMesh = null;
-      
       // 获取所有可用物种
       const allSpecies = [...SPECIES.plants, ...SPECIES.animals];
       
       // 确保count为非负数
       const validCount = Math.max(0, count);
+      const currentCount = this.entities.length;
       
-      // 创建实体
-      for (let i = 0; i < validCount; i++) {
-        // 随机选择一个物种
-        const randomSpecies = allSpecies[Math.floor(Math.random() * allSpecies.length)];
-        
-        // 生成有效的随机位置
-        const entitySize = 1.5;
-        const { x, z } = this.generateValidPosition(entitySize);
-        
-        // 创建实体
-        const entity = this.createEntity(randomSpecies.id, x, z);
-        
-        if (entity) {
-          // 确保实体有正确的缩放
-          entity.scale.set(1, 1, 1);
-          
-          // 确保实体可见
-          entity.visible = true;
-          
-          // 添加到场景
-          this.scene.add(entity);
-          this.entities.push(entity);
-          
-          // 添加动物动画属性
-          if (entity instanceof THREE.Group) {
-            const isAnimal = SPECIES.animals.some(animal => animal.id === randomSpecies.id);
-            if (isAnimal) {
-              entity.userData.isAnimal = true;
-              entity.userData.originalPosition = { x: entity.position.x, y: entity.position.y, z: entity.position.z };
-              entity.userData.speciesId = randomSpecies.id;
+      // 只在数量变化时才调整实体
+      if (validCount !== currentCount) {
+        if (validCount > currentCount) {
+          // 需要添加新实体
+          for (let i = currentCount; i < validCount; i++) {
+            // 随机选择一个物种
+            const randomSpecies = allSpecies[Math.floor(Math.random() * allSpecies.length)];
+            
+            // 生成有效的随机位置
+            const entitySize = 1.5;
+            const { x, z } = this.generateValidPosition(entitySize);
+            
+            // 创建实体
+            const entity = this.createEntity(randomSpecies.id, x, z);
+            
+            if (entity) {
+              // 确保实体有正确的缩放
+              entity.scale.set(1, 1, 1);
               
-              // 根据动物类型设置不同的运动参数
-              let speed, movementRadius, jumpHeight;
-              switch(randomSpecies.id) {
-                case 'rabbit':
-                case 'rabbit2':
-                  speed = 0.008 + Math.random() * 0.01;
-                  movementRadius = 2 + Math.random() * 2;
-                  jumpHeight = 0.15;
-                  break;
-                case 'fox':
-                case 'fox2':
-                  speed = 0.015 + Math.random() * 0.02;
-                  movementRadius = 4 + Math.random() * 3;
-                  jumpHeight = 0.15;
-                  break;
-                default:
-                  speed = 0.015 + Math.random() * 0.02;
-                  movementRadius = 4 + Math.random() * 3;
-                  jumpHeight = 0.2;
+              // 确保实体可见
+              entity.visible = true;
+              
+              // 添加到场景
+              this.scene.add(entity);
+              this.entities.push(entity);
+              
+              // 添加动物动画属性
+              if (entity instanceof THREE.Group) {
+                const isAnimal = SPECIES.animals.some(animal => animal.id === randomSpecies.id);
+                if (isAnimal) {
+                  entity.userData.isAnimal = true;
+                  entity.userData.originalPosition = { x: entity.position.x, y: entity.position.y, z: entity.position.z };
+                  entity.userData.speciesId = randomSpecies.id;
+                  
+                  // 根据动物类型设置不同的运动参数
+                  let speed, movementRadius, jumpHeight;
+                  switch(randomSpecies.id) {
+                    case 'rabbit':
+                    case 'rabbit2':
+                      speed = 0.008 + Math.random() * 0.01;
+                      movementRadius = 2 + Math.random() * 2;
+                      jumpHeight = 0.15;
+                      break;
+                    case 'fox':
+                    case 'fox2':
+                      speed = 0.015 + Math.random() * 0.02;
+                      movementRadius = 4 + Math.random() * 3;
+                      jumpHeight = 0.15;
+                      break;
+                    default:
+                      speed = 0.015 + Math.random() * 0.02;
+                      movementRadius = 4 + Math.random() * 3;
+                      jumpHeight = 0.2;
+                  }
+                  
+                  entity.userData.speed = speed;
+                  entity.userData.angle = Math.random() * Math.PI * 2;
+                  entity.userData.waveOffset = Math.random() * Math.PI * 2;
+                  entity.userData.movementRadius = movementRadius;
+                  entity.userData.jumpHeight = jumpHeight;
+                }
               }
-              
-              entity.userData.speed = speed;
-              entity.userData.angle = Math.random() * Math.PI * 2;
-              entity.userData.waveOffset = Math.random() * Math.PI * 2;
-              entity.userData.movementRadius = movementRadius;
-              entity.userData.jumpHeight = jumpHeight;
             }
+          }
+        } else if (validCount < currentCount) {
+          // 需要移除多余的实体
+          for (let i = currentCount - 1; i >= validCount; i--) {
+            const entity = this.entities[i];
+            if (entity && entity.parent === this.scene) {
+              this.scene.remove(entity);
+            }
+            this.entities.splice(i, 1);
           }
         }
       }
