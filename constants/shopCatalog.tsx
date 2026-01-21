@@ -34,7 +34,7 @@ export const SHOP_CATALOG: ShopItem[] = [
   { id: 'p_dig_8', name: 'AirPods', description: '无线耳机', cost: 189, type: 'physical', owned: false, icon: <Headphones size={24} className="text-blue-400"/>, category: '数码', image: 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400&h=400&fit=crop' },
   { id: 'p_dig_9', name: 'MacBook Pro', description: '高端笔记本电脑', cost: 6499, type: 'physical', owned: false, icon: <Laptop size={24} className="text-zinc-400"/>, category: '数码', image: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400&h=400&fit=crop' },
   { id: 'p_dig_10', name: 'iPad', description: '平板电脑', cost: 3299, type: 'physical', owned: false, icon: <Tablet size={24} className="text-purple-400"/>, category: '数码', image: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400&h=400&fit=crop' },
-  { id: 'p_dig_11', name: '扫地机器人', description: '智能清扫，解放双手', cost: 7200, type: 'physical', owned: false, icon: <Layout size={24} className="text-blue-400"/>, category: '数码', image: 'https://images.unsplash.com/photo-1518133835878-5a93cc3f89e5?w=400&h=400&fit=crop' },
+  { id: 'p_dig_11', name: '扫地机器人', description: '智能清扫，解放双手', cost: 7200, type: 'physical', owned: false, icon: <Layout size={24} className="text-blue-400"/>, category: '数码', image: 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=400&h=400&fit=crop' },
   { id: 'p_dig_12', name: '戴森吹风机', description: '高端吹风机', cost: 1999, type: 'physical', owned: false, icon: <Wind size={24} className="text-pink-500"/>, category: '数码', image: 'https://images.unsplash.com/photo-1522338242992-e1a54906a8da?w=400&h=400&fit=crop' },
   
   // 装备
@@ -58,9 +58,9 @@ export const SHOP_CATALOG: ShopItem[] = [
   { id: 's_food_13', name: '香辣大鸡腿', description: '香辣可口', cost: 1.99, type: 'leisure', owned: false, icon: <Utensils size={24} className="text-red-500"/>, category: '饮食', image: 'https://images.unsplash.com/photo-1567620832903-9fc6debc209f?w=400&h=400&fit=crop' },
   
   // 娱乐
-  { id: 's_ent_1', name: '看小说半小时', description: '沉浸式阅读体验', cost: 30, type: 'leisure', owned: false, icon: <BookOpen size={24} className="text-purple-500"/>, category: '休闲娱乐', image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=400&h=400&fit=crop' },
+  { id: 's_ent_1', name: '看小说半小时', description: '沉浸式阅读体验', cost: 30, type: 'leisure', owned: false, icon: <BookOpen size={24} className="text-purple-500"/>, category: '休闲娱乐', image: 'https://images.unsplash.com/photo-1556742044-3c52d6e88c62?w=400&h=400&fit=crop' },
   { id: 's_ent_2', name: '刷短视频半小时', description: '短平快的娱乐方式', cost: 30, type: 'leisure', owned: false, icon: <Video size={24} className="text-red-500"/>, category: '休闲娱乐', image: 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=400&h=400&fit=crop' },
-  { id: 's_ent_3', name: '看小说一小时', description: '长时间沉浸式阅读', cost: 60, type: 'leisure', owned: false, icon: <BookOpen size={24} className="text-purple-600"/>, category: '休闲娱乐', image: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400&h=400&fit=crop' },
+  { id: 's_ent_3', name: '看小说一小时', description: '长时间沉浸式阅读', cost: 60, type: 'leisure', owned: false, icon: <BookOpen size={24} className="text-purple-600"/>, category: '休闲娱乐', image: 'https://images.unsplash.com/photo-1556742044-3c52d6e88c62?w=400&h=400&fit=crop' },
   { id: 's_ent_4', name: '刷短视频一小时', description: '长时间刷短视频', cost: 60, type: 'leisure', owned: false, icon: <Video size={24} className="text-red-600"/>, category: '休闲娱乐', image: 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=400&h=400&fit=crop' },
   
   // 服务
@@ -135,7 +135,7 @@ export const SHOP_CATALOG: ShopItem[] = [
   // 服装类
   { id: 'p_cloth_1', name: '衣服一件', description: '时尚服装', cost: 299, type: 'physical', owned: false, icon: <Shirt size={24} className="text-purple-500"/>, category: '形象设计与穿搭', image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop' },
   { id: 'p_cloth_2', name: '裤子一条', description: '休闲裤子', cost: 199, type: 'physical', owned: false, icon: <Shirt size={24} className="text-blue-500"/>, category: '形象设计与穿搭', image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&h=400&fit=crop' },
-  { id: 'p_cloth_3', name: '家人衣服', description: '给家人买衣服', cost: 399, type: 'physical', owned: false, icon: <Users size={24} className="text-pink-500"/>, category: '形象设计与穿搭', image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop' },
+  { id: 'p_cloth_3', name: '家人衣服', description: '给家人买衣服', cost: 399, type: 'physical', owned: false, icon: <Users size={24} className="text-pink-500"/>, category: '形象设计与穿搭', image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&h=400&fit=crop' },
   { id: 'p_cloth_4', name: '家人裤子', description: '给家人买裤子', cost: 299, type: 'physical', owned: false, icon: <Users size={24} className="text-green-500"/>, category: '形象设计与穿搭', image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&h=400&fit=crop' },
     
   // 礼品类

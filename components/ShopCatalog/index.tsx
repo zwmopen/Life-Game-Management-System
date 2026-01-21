@@ -425,12 +425,18 @@ const ShopCatalog: React.FC<ShopCatalogProps> = memo(({
                       }}
                     />
                     <div className="fallback-bg absolute inset-0 flex items-center justify-center" style={{ display: 'none', backgroundColor: isDark ? '#1a1a2e' : '#e0e5ec' }}>
-                      <div className="text-5xl">{item.icon}</div>
+                      <div className="text-5xl">
+                        {/* 确保icon是有效的React组件，而不是数字0 */}
+                        {typeof item.icon === 'number' ? '📦' : item.icon}
+                      </div>
                     </div>
                   </div>
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center z-0" style={{ backgroundColor: isDark ? '#1a1a2e' : '#e0e5ec' }}>
-                    <div className="text-6xl">{item.icon}</div>
+                    <div className="text-6xl">
+                      {/* 确保icon是有效的React组件，而不是数字0 */}
+                      {typeof item.icon === 'number' ? '📦' : item.icon}
+                    </div>
                   </div>
                 )}
                 
