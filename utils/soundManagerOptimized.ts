@@ -30,6 +30,38 @@ class SoundManager {
     
     // 监听页面可见性变化，确保音乐在后台运行
     this.setupVisibilityListener();
+    
+    // 初始化音频管理器
+    this.initializeAudioManager();
+  }
+  
+  // 初始化音频管理器
+  private async initializeAudioManager(): Promise<void> {
+    try {
+      // 导入音频管理器
+      const audioManager = await import('./audioManagerOptimized').then(module => module.default);
+      // 初始化音频管理器
+      await audioManager.initialize();
+      console.log('音频管理器初始化成功');
+    } catch (error) {
+      if (process.env.NODE_ENV === 'development') {
+        console.error('初始化音频管理器时出错:', error);
+      }
+    }
+  }
+
+  // 获取正确的音频URL，添加GitHub Pages基础路径
+  private getCorrectAudioUrl(url: string): string {
+    // 检查URL是否已经包含完整路径
+    if (url.startsWith('http://') || url.startsWith('https://')) {
+      return url;
+    }
+    
+    // 添加GitHub Pages基础路径
+    const basePath = '/Life-Game-Management-System';
+    // 确保URL格式正确
+    const normalizedUrl = url.startsWith('/') ? url : `/${url}`;
+    return `${basePath}${normalizedUrl}`;
   }
 
   private initSounds(): void {
@@ -49,7 +81,8 @@ class SoundManager {
 
     soundList.forEach(sound => {
       try {
-        const audio = new Audio(sound.url);
+        const correctUrl = this.getCorrectAudioUrl(sound.url);
+        const audio = new Audio(correctUrl);
         audio.volume = sound.volume ?? this.masterVolume;
         this.sounds[sound.id] = audio;
       } catch (e) {
@@ -73,7 +106,8 @@ class SoundManager {
 
     bgmList.forEach(bgm => {
       try {
-        const audio = new Audio(bgm.url);
+        const correctUrl = this.getCorrectAudioUrl(bgm.url);
+        const audio = new Audio(correctUrl);
         audio.loop = true;
         audio.volume = bgm.volume ?? this.bgmVolume;
         this.backgroundMusic[bgm.id] = audio;
@@ -287,8 +321,15 @@ class SoundManager {
   // 从audioManager播放背景音乐
   private async playBackgroundMusicFromManager(musicId: string): Promise<void> {
     try {
+      // 确保音频管理器已初始化
+      await audioManager.initialize();
+      
       // 从audioManager获取音乐文件
       const bgmFiles = audioManager.getBackgroundMusic();
+      
+      if (process.env.NODE_ENV === 'development') {
+        console.log(`获取到的背景音乐文件数量: ${bgmFiles.length}`);
+      }
       
       // 更精确地查找音乐文件，优先匹配ID，然后尝试匹配名称
       let musicFile = bgmFiles.find(bgm => bgm.id === musicId);
@@ -296,6 +337,9 @@ class SoundManager {
       // 如果没有找到，尝试直接匹配音乐名称
       if (!musicFile) {
         musicFile = bgmFiles.find(bgm => bgm.name.toLowerCase() === musicId.toLowerCase());
+        if (process.env.NODE_ENV === 'development') {
+          console.log(`通过名称匹配音乐文件: ${musicId}，结果: ${musicFile ? musicFile.name : '未找到'}`);
+        }
       }
       
       // 如果仍然没有找到，尝试通过ID的最后部分匹配文件名（兼容旧的简单ID格式）
@@ -303,16 +347,51 @@ class SoundManager {
         const idParts = musicId.split('_');
         const fileNamePart = idParts[idParts.length - 1];
         musicFile = bgmFiles.find(bgm => bgm.name.toLowerCase().includes(fileNamePart.toLowerCase()));
+        if (process.env.NODE_ENV === 'development') {
+          console.log(`通过ID部分匹配音乐文件: ${fileNamePart}，结果: ${musicFile ? musicFile.name : '未找到'}`);
+        }
       }
       
       // 如果仍然没有找到，尝试通过文件名匹配URL
       if (!musicFile) {
         musicFile = bgmFiles.find(bgm => bgm.url.includes(musicId));
+        if (process.env.NODE_ENV === 'development') {
+          console.log(`通过URL匹配音乐文件: ${musicId}，结果: ${musicFile ? musicFile.name : '未找到'}`);
+        }
+      }
+      
+      // 如果直接是文件名（如"森林"），尝试直接构造URL
+      if (!musicFile && musicId.indexOf('_') === -1) {
+        const directUrl = `/audio/pomodoro/bgm/${musicId}.mp3`;
+        const correctDirectUrl = this.getCorrectAudioUrl(directUrl);
+        if (process.env.NODE_ENV === 'development') {
+          console.log(`尝试直接构造URL: ${correctDirectUrl}`);
+        }
+        // 验证URL是否存在
+        try {
+          const response = await fetch(correctDirectUrl, { method: 'HEAD' });
+          if (response.ok) {
+            musicFile = {
+              id: musicId,
+              name: musicId,
+              url: directUrl,
+              type: 'backgroundMusic' as SoundType
+            };
+            if (process.env.NODE_ENV === 'development') {
+              console.log(`直接URL验证成功: ${correctDirectUrl}`);
+            }
+          }
+        } catch (fetchError) {
+          if (process.env.NODE_ENV === 'development') {
+            console.warn(`URL验证失败: ${correctDirectUrl}`, fetchError);
+          }
+        }
       }
       
       if (musicFile) {
         // 创建临时音频元素播放背景音乐
-        const tempAudio = new Audio(musicFile.url);
+        const correctUrl = this.getCorrectAudioUrl(musicFile.url);
+        const tempAudio = new Audio(correctUrl);
         tempAudio.loop = true;
         tempAudio.volume = this.bgmVolume;
         
@@ -323,7 +402,7 @@ class SoundManager {
           await tempAudio.play();
           
           if (process.env.NODE_ENV === 'development') {
-            console.log(`Successfully playing background music: ${musicId} from URL: ${musicFile.url}`);
+            console.log(`Successfully playing background music: ${musicId} from URL: ${correctUrl}`);
           }
         } catch (e) {
           if (process.env.NODE_ENV === 'development') {
@@ -331,6 +410,12 @@ class SoundManager {
           }
           // 播放失败时，从集合中移除
           delete this.backgroundMusic[musicId];
+        }
+      } else {
+        if (process.env.NODE_ENV === 'development') {
+          console.error(`未找到音乐文件: ${musicId}`);
+          // 打印可用的音乐文件列表，方便调试
+          console.log('可用的音乐文件:', bgmFiles.map(bgm => bgm.name));
         }
       }
     } catch (e) {
@@ -458,7 +543,8 @@ class SoundManager {
     if (this.isMuted) return null;
 
     try {
-      const audio = new Audio(url);
+      const correctUrl = this.getCorrectAudioUrl(url);
+      const audio = new Audio(correctUrl);
       audio.volume = volume ?? this.masterVolume;
       audio.loop = loop;
       

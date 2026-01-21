@@ -360,6 +360,20 @@ class AudioManager {
       .flatMap(cat => cat.files.filter(file => file.type === SoundType.SOUND_EFFECT));
   }
 
+  // 获取正确的音频URL，添加GitHub Pages基础路径
+  private getCorrectAudioUrl(url: string): string {
+    // 检查URL是否已经包含完整路径
+    if (url.startsWith('http://') || url.startsWith('https://')) {
+      return url;
+    }
+    
+    // 添加GitHub Pages基础路径
+    const basePath = '/Life-Game-Management-System';
+    // 确保URL格式正确
+    const normalizedUrl = url.startsWith('/') ? url : `/${url}`;
+    return `${basePath}${normalizedUrl}`;
+  }
+
   async playAudio(url: string, volume: number = 1.0): Promise<HTMLAudioElement | null> {
     if (!url) {
       if (process.env.NODE_ENV === 'development') {
@@ -369,9 +383,12 @@ class AudioManager {
     }
 
     try {
+      // 获取正确的URL
+      const correctUrl = this.getCorrectAudioUrl(url);
+      
       // 检查是否已有预加载的音频
-      if (this.preloadedAudios.has(url)) {
-        const audio = this.preloadedAudios.get(url)!;
+      if (this.preloadedAudios.has(correctUrl)) {
+        const audio = this.preloadedAudios.get(correctUrl)!;
         audio.currentTime = 0;
         audio.volume = volume;
         await audio.play();
@@ -379,14 +396,14 @@ class AudioManager {
       }
 
       // 创建新的音频元素
-      const audio = new Audio(url);
+      const audio = new Audio(correctUrl);
       audio.volume = volume;
 
       // 尝试播放
       await audio.play();
       
       // 添加到预加载映射中以便重复使用
-      this.preloadedAudios.set(url, audio);
+      this.preloadedAudios.set(correctUrl, audio);
 
       // 当音频播放完毕后，可以选择保留或移除（这里保留以供重复使用）
       audio.onended = () => {
@@ -404,12 +421,14 @@ class AudioManager {
 
   async preloadAudio(url: string): Promise<boolean> {
     try {
-      if (this.preloadedAudios.has(url)) {
+      const correctUrl = this.getCorrectAudioUrl(url);
+      
+      if (this.preloadedAudios.has(correctUrl)) {
         return true;
       }
 
       const audio = new Audio();
-      audio.src = url;
+      audio.src = correctUrl;
       
       // 预加载音频元数据
       await new Promise<void>((resolve, reject) => {
@@ -418,7 +437,7 @@ class AudioManager {
         audio.load();
       });
 
-      this.preloadedAudios.set(url, audio);
+      this.preloadedAudios.set(correctUrl, audio);
       return true;
     } catch (error) {
       if (process.env.NODE_ENV === 'development') {

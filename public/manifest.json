@@ -2,7 +2,7 @@
   "name": "人生游戏管理系统",
   "short_name": "人生游戏系统",
   "description": "一个基于游戏化思维的人生管理系统，通过任务、成就、奖励等机制，帮助用户管理生活、提升自我、实现目标。",
-  "start_url": "/",
+  "start_url": "/Life-Game-Management-System/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#3b82f6",

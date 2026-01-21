@@ -80,11 +80,15 @@ export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, '.', '');
     
     return {
+      // 配置base路径，解决GitHub Pages部署后资源加载404问题
+      base: '/Life-Game-Management-System/',
       server: {
-        port: 3003,
+        port: 3000,
         host: '0.0.0.0',
         // 减少开发服务器日志输出
         logLevel: 'warn',
+        // 启动时自动打开浏览器
+        open: true,
         // WebDAV代理由插件处理
       },
       plugins: [
