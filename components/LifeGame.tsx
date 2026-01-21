@@ -295,6 +295,15 @@ const LifeGame: React.FC<LifeGameProps> = ({
     }
   }, [balance, isEditingSavings]);
 
+  // 处理编辑商品模态框的状态更新
+  useEffect(() => {
+    if (isEditItemOpen) {
+      setModalState && setModalState(true);
+    } else {
+      setModalState && setModalState(false);
+    }
+  }, [isEditItemOpen]);
+
   // 监听initialTab变化，更新mainTab状态 - 修复：使用useRef避免Hook顺序问题
   const initialTabRef = useRef(initialTab);
   useEffect(() => {
@@ -799,7 +808,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                 <div className="h-[70px] w-full mt-1">
                                     <ResponsiveContainer width="100%" height={70}>
                                         <LineChart
-                                            data={useMemo(() => {
+                                            data={(() => {
                                                 const data = [];
                                                 for (let i = 6; i >= 0; i--) {
                                                     const date = new Date();
@@ -828,8 +837,8 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                                     });
                                                 }
                                                 return data;
-                                            }, [statsHistory, todayStats])}
-                                        >
+                                            })()}
+                                            >
                                             <CartesianGrid strokeDasharray="3 3" stroke={isDark ? "#27272a" : "#e2e8f0"} vertical={false} />
                                             <XAxis 
                                                 dataKey="date" 
@@ -1326,10 +1335,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
         />
 
         {/* Edit Item Modal */}
-        {isEditItemOpen && (() => {
-            // 在模态框打开时更新状态
-            setModalState && setModalState(true);
-            return (
+        {isEditItemOpen && (
             <div className="fixed inset-0 z-[100] bg-black/80 flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in">
                 <div className={`w-full max-w-2xl p-4 sm:p-6 rounded-2xl sm:rounded-[48px] border bg-[#e0e5ec] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)] overflow-y-auto max-h-[90vh] transition-all duration-300 relative ${isNeomorphicDark ? '!bg-[#1e1e2e] !shadow-[10px_10px_20px_rgba(0,0,0,0.4),-10px_-10px_20px_rgba(30,30,46,0.8)]' : ''}`}>
                     <div className="flex justify-between items-center mb-4 sm:mb-6">
@@ -1337,7 +1343,6 @@ const LifeGame: React.FC<LifeGameProps> = ({
                         <button 
                             onClick={() => {
                                 setIsEditItemOpen(false);
-                                setModalState && setModalState(false);
                             }}
                             className={`p-2 rounded-full transition-all ${isNeomorphic ? (isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[5px_5px_10px_rgba(0,0,0,0.6),-5px_-5px_10px_rgba(30,30,46,0.8)] hover:shadow-[3px_3px_6px_rgba(0,0,0,0.5),-3px_-3px_6px_rgba(30,30,46,1)] active:shadow-[inset_5px_5px_10px_rgba(0,0,0,0.6),inset_-5px_-5px_10px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[3px_3px_6px_rgba(163,177,198,0.5),-3px_-3px_6px_rgba(255,255,255,1)] active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]') : 'hover:bg-slate-100'}`}
                         >
@@ -1388,7 +1393,6 @@ const LifeGame: React.FC<LifeGameProps> = ({
                             <button 
                                 onClick={() => {
                                     setIsEditItemOpen(false);
-                                    setModalState && setModalState(false);
                                 }} 
                                 className={`px-4 py-2 rounded-xl sm:rounded-[24px] transition-all font-medium ${isNeomorphic ? (isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[5px_5px_10px_rgba(0,0,0,0.6),-5px_-5px_10px_rgba(30,30,46,0.8)] hover:shadow-[3px_3px_6px_rgba(0,0,0,0.5),-3px_-3px_6px_rgba(30,30,46,1)] active:shadow-[inset_5px_5px_10px_rgba(0,0,0,0.6),inset_-5px_-5px_10px_rgba(30,30,46,0.8)] text-zinc-300' : 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[3px_3px_6px_rgba(163,177,198,0.5),-3px_-3px_6px_rgba(255,255,255,1)] active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)] text-zinc-800') : 'text-zinc-500 hover:text-white'}`}
                             >
@@ -1404,8 +1408,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                     </div>
                 </div>
             </div>
-            );
-        })()}
+        )}
         
     </div>
   );

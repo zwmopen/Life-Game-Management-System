@@ -1,0 +1,408 @@
+[
+  {
+    "item": {
+      "id": "p_dig_1",
+      "name": "iPhone 16 Pro",
+      "description": "顶级通讯终端",
+      "cost": 8999,
+      "type": "physical",
+      "owned": false,
+      "icon": "Smartphone size={24} className=\"text-zinc-300\"/",
+      "category": "数码",
+      "image": "https://images.unsplash.com/photo-1702004065139-550bc100703d?w=400&h=400&fit=crop"
+    },
+    "invalidUrl": "https://images.unsplash.com/photo-1702004065139-550bc100703d?w=400&h=400&fit=crop"
+  },
+  {
+    "item": {
+      "id": "p_dig_2",
+      "name": "MacBook Pro M4",
+      "description": "生产力核心武器",
+      "cost": 16000,
+      "type": "physical",
+      "owned": false,
+      "icon": "Laptop size={24} className=\"text-zinc-400\"/",
+      "category": "数码",
+      "image": "https://images.unsplash.com/photo-1700602279933-024d33f207c5?w=400&h=400&fit=crop"
+    },
+    "invalidUrl": "https://images.unsplash.com/photo-1700602279933-024d33f207c5?w=400&h=400&fit=crop"
+  },
+  {
+    "item": {
+      "id": "p_dig_6",
+      "name": "大疆pocket 3",
+      "description": "便携稳定器",
+      "cost": 2590,
+      "type": "physical",
+      "owned": false,
+      "icon": "Camera size={24} className=\"text-yellow-500\"/",
+      "category": "数码",
+      "image": "https://images.unsplash.com/photo-1606649177341-d0010b9b1b26?w=400&h=400&fit=crop"
+    },
+    "invalidUrl": "https://images.unsplash.com/photo-1606649177341-d0010b9b1b26?w=400&h=400&fit=crop"
+  },
+  {
+    "item": {
+      "id": "p_dig_8",
+      "name": "AirPods",
+      "description": "无线耳机",
+      "cost": 189,
+      "type": "physical",
+      "owned": false,
+      "icon": "Headphones size={24} className=\"text-blue-400\"/",
+      "category": "数码",
+      "image": "https://images.unsplash.com/photo-1588423770574-91993ca06f11?w=400&h=400&fit=crop"
+    },
+    "invalidUrl": "https://images.unsplash.com/photo-1588423770574-91993ca06f11?w=400&h=400&fit=crop"
+  },
+  {
+    "item": {
+      "id": "p_dig_9",
+      "name": "MacBook Pro",
+      "description": "高端笔记本电脑",
+      "cost": 6499,
+      "type": "physical",
+      "owned": false,
+      "icon": "Laptop size={24} className=\"text-zinc-400\"/",
+      "category": "数码",
+      "image": "https://images.unsplash.com/photo-1517336712461-701df368a519?w=400&h=400&fit=crop"
+    },
+    "invalidUrl": "https://images.unsplash.com/photo-1517336712461-701df368a519?w=400&h=400&fit=crop"
+  },
+  {
+    "item": {
+      "id": "p_dig_11",
+      "name": "扫地机器人",
+      "description": "智能清扫，解放双手",
+      "cost": 7200,
+      "type": "physical",
+      "owned": false,
+      "icon": "Layout size={24} className=\"text-blue-400\"/",
+      "category": "数码",
+      "image": "https://images.unsplash.com/photo-1580653065392-4f95f6304846?w=400&h=400&fit=crop"
+    },
+    "invalidUrl": "https://images.unsplash.com/photo-1580653065392-4f95f6304846?w=400&h=400&fit=crop"
+  },
+  {
+    "item": {
+      "id": "p_dig_12",
+      "name": "戴森吹风机",
+      "description": "高端吹风机",
+      "cost": 1999,
+      "type": "physical",
+      "owned": false,
+      "icon": "Wind size={24} className=\"text-pink-500\"/",
+      "category": "数码",
+      "image": "https://images.unsplash.com/photo-1587614382338-44b8380007f3?w=400&h=400&fit=crop"
+    },
+    "invalidUrl": "https://images.unsplash.com/photo-1587614382338-44b8380007f3?w=400&h=400&fit=crop"
+  },
+  {
+    "item": {
+      "id": "s_food_1",
+      "name": "辣条一包",
+      "description": "廉价多巴胺 (慎用)",
+      "cost": 1,
+      "type": "leisure",
+      "owned": false,
+      "icon": "Utensils size={24} className=\"text-red-500\"/",
+      "category": "吃喝",
+      "image": "https://images.unsplash.com/photo-1562967916-ef262167ce5c?w=400&h=400&fit=crop"
+    },
+    "invalidUrl": "https://images.unsplash.com/photo-1562967916-ef262167ce5c?w=400&h=400&fit=crop"
+  },
+  {
+    "item": {
+      "id": "s_food_8",
+      "name": "烧烤",
+      "description": "街头美食",
+      "cost": 60,
+      "type": "leisure",
+      "owned": false,
+      "icon": "Utensils size={24} className=\"text-orange-500\"/",
+      "category": "饮食",
+      "image": "https://images.unsplash.com/photo-1529193591184-b1d58b3fffc9?w=400&h=400&fit=crop"
+    },
+    "invalidUrl": "https://images.unsplash.com/photo-1529193591184-b1d58b3fffc9?w=400&h=400&fit=crop"
+  },
+  {
+    "item": {
+      "id": "s_food_10",
+      "name": "烤鸭",
+      "description": "传统美食",
+      "cost": 30,
+      "type": "leisure",
+      "owned": false,
+      "icon": "Utensils size={24} className=\"text-yellow-500\"/",
+      "category": "饮食",
+      "image": "https://images.unsplash.com/photo-1531014441387-06bc39716c2a?w=400&h=400&fit=crop"
+    },
+    "invalidUrl": "https://images.unsplash.com/photo-1531014441387-06bc39716c2a?w=400&h=400&fit=crop"
+  },
+  {
+    "item": {
+      "id": "s_ent_2",
+      "name": "刷短视频半小时",
+      "description": "短平快的娱乐方式",
+      "cost": 30,
+      "type": "leisure",
+      "owned": false,
+      "icon": "Video size={24} className=\"text-red-500\"/",
+      "category": "休闲娱乐",
+      "image": "https://images.unsplash.com/photo-1632183252953-946183d93525?w=400&h=400&fit=crop"
+    },
+    "invalidUrl": "https://images.unsplash.com/photo-1632183252953-946183d93525?w=400&h=400&fit=crop"
+  },
+  {
+    "item": {
+      "id": "s_ent_4",
+      "name": "刷短视频一小时",
+      "description": "长时间刷短视频",
+      "cost": 60,
+      "type": "leisure",
+      "owned": false,
+      "icon": "Video size={24} className=\"text-red-600\"/",
+      "category": "休闲娱乐",
+      "image": "https://images.unsplash.com/photo-1614948155601-25d23010c85e?w=400&h=400&fit=crop"
+    },
+    "invalidUrl": "https://images.unsplash.com/photo-1614948155601-25d23010c85e?w=400&h=400&fit=crop"
+  },
+  {
+    "item": {
+      "id": "s_spa_1",
+      "name": "按摩放松",
+      "description": "缓解疲劳，恢复精力",
+      "cost": 198,
+      "type": "leisure",
+      "owned": false,
+      "icon": "Armchair size={24} className=\"text-blue-400\"/",
+      "category": "休闲娱乐",
+      "image": "https://images.unsplash.com/photo-1544161515-4ae6ce6fe858?w=400&h=400&fit=crop"
+    },
+    "invalidUrl": "https://images.unsplash.com/photo-1544161515-4ae6ce6fe858?w=400&h=400&fit=crop"
+  },
+  {
+    "item": {
+      "id": "r_tick_3",
+      "name": "演唱会门票",
+      "description": "音乐盛宴，情感释放",
+      "cost": 498,
+      "type": "rights",
+      "owned": false,
+      "icon": "Music size={24} className=\"text-purple-600\"/",
+      "category": "休闲娱乐",
+      "image": "https://images.unsplash.com/photo-1459749411177-042180cefa7d?w=400&h=400&fit=crop"
+    },
+    "invalidUrl": "https://images.unsplash.com/photo-1459749411177-042180cefa7d?w=400&h=400&fit=crop"
+  },
+  {
+    "item": {
+      "id": "r_vip_4",
+      "name": "网课论坛会员",
+      "description": "学习资源，交流平台",
+      "cost": 99,
+      "type": "rights",
+      "owned": false,
+      "icon": "BookOpen size={24} className=\"text-purple-500\"/",
+      "category": "会员充值",
+      "image": "https://images.unsplash.com/photo-1452438399664-d32573d1141c?w=400&h=400&fit=crop"
+    },
+    "invalidUrl": "https://images.unsplash.com/photo-1452438399664-d32573d1141c?w=400&h=400&fit=crop"
+  },
+  {
+    "item": {
+      "id": "r_char_3",
+      "name": "云存储空间",
+      "description": "数据安全，便捷访问",
+      "cost": 118,
+      "type": "rights",
+      "owned": false,
+      "icon": "Box size={24} className=\"text-purple-500\"/",
+      "category": "会员充值",
+      "image": "https://images.unsplash.com/photo-1534778107613-1058330d95a8?w=400&h=400&fit=crop"
+    },
+    "invalidUrl": "https://images.unsplash.com/photo-1534778107613-1058330d95a8?w=400&h=400&fit=crop"
+  },
+  {
+    "item": {
+      "id": "r_misc_7",
+      "name": "在线课程",
+      "description": "专业技能提升",
+      "cost": 399,
+      "type": "rights",
+      "owned": false,
+      "icon": "BookOpen size={24} className=\"text-blue-600\"/",
+      "category": "会员充值",
+      "image": "https://images.unsplash.com/photo-1452438399664-d32573d1141c?w=400&h=400&fit=crop"
+    },
+    "invalidUrl": "https://images.unsplash.com/photo-1452438399664-d32573d1141c?w=400&h=400&fit=crop"
+  },
+  {
+    "item": {
+      "id": "r_misc_10",
+      "name": "宠物食品",
+      "description": "优质宠物粮",
+      "cost": 159,
+      "type": "physical",
+      "owned": false,
+      "icon": "Fish size={24} className=\"text-orange-500\"/",
+      "category": "家居",
+      "image": "https://images.unsplash.com/photo-1589924691995-ad0029ecbb68?w=400&h=400&fit=crop"
+    },
+    "invalidUrl": "https://images.unsplash.com/photo-1589924691995-ad0029ecbb68?w=400&h=400&fit=crop"
+  },
+  {
+    "item": {
+      "id": "p_home_1",
+      "name": "室内炉锅桌子",
+      "description": "家居生活必备",
+      "cost": 1299,
+      "type": "physical",
+      "owned": false,
+      "icon": "Utensils size={24} className=\"text-amber-500\"/",
+      "category": "家居",
+      "image": "https://images.unsplash.com/photo-1565011122398-73a62b683c06?w=400&h=400&fit=crop"
+    },
+    "invalidUrl": "https://images.unsplash.com/photo-1565011122398-73a62b683c06?w=400&h=400&fit=crop"
+  },
+  {
+    "item": {
+      "id": "p_home_2",
+      "name": "厨房套装",
+      "description": "全套厨房设备",
+      "cost": 3500,
+      "type": "physical",
+      "owned": false,
+      "icon": "Utensils size={24} className=\"text-blue-500\"/",
+      "category": "家居",
+      "image": "https://images.unsplash.com/photo-1626094309330-3a269f20519b?w=400&h=400&fit=crop"
+    },
+    "invalidUrl": "https://images.unsplash.com/photo-1626094309330-3a269f20519b?w=400&h=400&fit=crop"
+  },
+  {
+    "item": {
+      "id": "p_car_1",
+      "name": "理想汽车",
+      "description": "新能源汽车",
+      "cost": 250000,
+      "type": "physical",
+      "owned": false,
+      "icon": "Car size={24} className=\"text-green-500\"/",
+      "category": "家居",
+      "image": "https://images.unsplash.com/photo-1617052588114-26703e46a537?w=400&h=400&fit=crop"
+    },
+    "invalidUrl": "https://images.unsplash.com/photo-1617052588114-26703e46a537?w=400&h=400&fit=crop"
+  },
+  {
+    "item": {
+      "id": "s_food_15",
+      "name": "烧烤套餐（自制）",
+      "description": "自己动手做烧烤",
+      "cost": 88,
+      "type": "leisure",
+      "owned": false,
+      "icon": "Utensils size={24} className=\"text-orange-500\"/",
+      "category": "吃喝",
+      "image": "https://images.unsplash.com/photo-1529193591184-b1d58b3fffc9?w=400&h=400&fit=crop"
+    },
+    "invalidUrl": "https://images.unsplash.com/photo-1529193591184-b1d58b3fffc9?w=400&h=400&fit=crop"
+  },
+  {
+    "item": {
+      "id": "s_food_16",
+      "name": "烧烤套餐（外买）",
+      "description": "购买现成烧烤",
+      "cost": 158,
+      "type": "leisure",
+      "owned": false,
+      "icon": "Utensils size={24} className=\"text-orange-500\"/",
+      "category": "吃喝",
+      "image": "https://images.unsplash.com/photo-1529193591184-b1d58b3fffc9?w=400&h=400&fit=crop"
+    },
+    "invalidUrl": "https://images.unsplash.com/photo-1529193591184-b1d58b3fffc9?w=400&h=400&fit=crop"
+  },
+  {
+    "item": {
+      "id": "s_food_19",
+      "name": "临沂炒鸡",
+      "description": "正宗临沂炒鸡",
+      "cost": 33,
+      "type": "leisure",
+      "owned": false,
+      "icon": "Utensils size={24} className=\"text-yellow-500\"/",
+      "category": "吃喝",
+      "image": "https://images.unsplash.com/photo-1569713296165-40503349c8e3?w=400&h=400&fit=crop"
+    },
+    "invalidUrl": "https://images.unsplash.com/photo-1569713296165-40503349c8e3?w=400&h=400&fit=crop"
+  },
+  {
+    "item": {
+      "id": "s_sport_2",
+      "name": "跑步",
+      "description": "去跑步30分钟",
+      "cost": 10,
+      "type": "leisure",
+      "owned": false,
+      "icon": "Footprints size={24} className=\"text-blue-500\"/",
+      "category": "休闲娱乐",
+      "image": "https://images.unsplash.com/photo-1506703719243-7c5d65a2c244?w=400&h=400&fit=crop"
+    },
+    "invalidUrl": "https://images.unsplash.com/photo-1506703719243-7c5d65a2c244?w=400&h=400&fit=crop"
+  },
+  {
+    "item": {
+      "id": "r_tick_8",
+      "name": "说走就走的国际旅行",
+      "description": "国际旅行，开阔视野",
+      "cost": 50000,
+      "type": "rights",
+      "owned": false,
+      "icon": "Globe size={24} className=\"text-purple-500\"/",
+      "category": "休闲娱乐",
+      "image": "https://images.unsplash.com/photo-1520540733426-ca963197f6ce?w=400&h=400&fit=crop"
+    },
+    "invalidUrl": "https://images.unsplash.com/photo-1520540733426-ca963197f6ce?w=400&h=400&fit=crop"
+  },
+  {
+    "item": {
+      "id": "s_spa_2",
+      "name": "按摩",
+      "description": "缓解疲劳，放松身心",
+      "cost": 200,
+      "type": "leisure",
+      "owned": false,
+      "icon": "Armchair size={24} className=\"text-blue-400\"/",
+      "category": "休闲娱乐",
+      "image": "https://images.unsplash.com/photo-1544161515-4ae6ce6fe858?w=400&h=400&fit=crop"
+    },
+    "invalidUrl": "https://images.unsplash.com/photo-1544161515-4ae6ce6fe858?w=400&h=400&fit=crop"
+  },
+  {
+    "item": {
+      "id": "p_cloth_5",
+      "name": "素颜霜",
+      "description": "提升气色，自然妆容",
+      "cost": 100,
+      "type": "physical",
+      "owned": false,
+      "icon": "Palette size={24} className=\"text-pink-500\"/",
+      "category": "形象设计与穿搭",
+      "image": "https://images.unsplash.com/photo-1596462502278-27bfac4033c8?w=400&h=400&fit=crop"
+    },
+    "invalidUrl": "https://images.unsplash.com/photo-1596462502278-27bfac4033c8?w=400&h=400&fit=crop"
+  },
+  {
+    "item": {
+      "id": "p_cloth_6",
+      "name": "夹板",
+      "description": "打造百变发型",
+      "cost": 30,
+      "type": "physical",
+      "owned": false,
+      "icon": "Scissors size={24} className=\"text-purple-500\"/",
+      "category": "形象设计与穿搭",
+      "image": "https://images.unsplash.com/photo-1522337360788-8b13df7727c6?w=400&h=400&fit=crop"
+    },
+    "invalidUrl": "https://images.unsplash.com/photo-1522337360788-8b13df7727c6?w=400&h=400&fit=crop"
+  }
+]

@@ -120,7 +120,7 @@ const UnifiedBgMusicSelector: React.FC<UnifiedBgMusicSelectorProps> = ({
       const soundList = [
         { id: 'mute', name: '静音', url: '', icon: '🔇', color: 'text-blue-500', hex: '#3b82f6' },
         ...sortedBgmFiles.filter(file => file && file.id && file.url).map(file => ({
-          id: file.id,
+          id: file.name, // 使用name作为id，这样与soundManager中的预初始化音乐id格式一致
           name: file.name,
           url: file.url,
           icon: getIconComponentByName(file.name),
@@ -336,6 +336,8 @@ const UnifiedBgMusicSelector: React.FC<UnifiedBgMusicSelectorProps> = ({
                   theme={theme}
                   className={`flex items-center gap-2 px-4 py-1.5 transition-all cursor-pointer justify-start rounded-full mb-1 ${index === 0 ? 'mt-1' : ''} ${isPlaying ? (isNeomorphic ? (isDark ? 'bg-blue-900/40 text-blue-400 shadow-[inset_3px_3px_6px_rgba(0,0,0,0.3),inset_-3px_-3px_6px_rgba(30,30,46,0.7)]' : 'bg-blue-500/90 text-white shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,0.8)]') : (isDark ? 'bg-blue-900/40 text-blue-400 border-2 border-blue-700/50' : 'bg-blue-500 text-white border-2 border-blue-600')) : ''}`}
                   >
+                {/* 添加序号 */}
+                <span className={`text-xs ${getTextMuted(isNeomorphic, theme)} min-w-6 text-center`}>{index + 1}</span>
                 <span className="text-base">{sound.icon}</span>
                 <span className={`text-xs font-medium ${getTextMain(isNeomorphic, theme)}`}>{sound.name}</span>
                 {isFavorite && (

@@ -1,0 +1,6 @@
+❌ https://images.unsplash.com/photo-1611088108633-8284d4a30d92?w=400&h=400&fit=crop - 404 (text/html,text/html)
+✅ https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400&h=400&fit=crop - 200 (image/jpeg)
+✅ https://images.unsplash.com/photo-1559209172-0ff8f6d49ff7?w=400&h=400&fit=crop - 200 (image/jpeg)
+❌ https://images.unsplash.com/photo-1594032350836-638010700a5c?w=400&h=400&fit=crop - 404 (text/html,text/html)
+❌ https://images.unsplash.com/photo-1612832795870-f2b91a56347e?w=400&h=400&fit=crop - 404 (text/html,text/html)
+✅ https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=400&h=400&fit=crop - 200 (image/jpeg)

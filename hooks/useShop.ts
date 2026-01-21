@@ -31,11 +31,9 @@ export const useShop = ({
     const [isAddingGroup, setIsAddingGroup] = useState(false); // 控制添加分组弹窗
     const [newGroupName, setNewGroupName] = useState(''); // 新分组名称
 
-    // 检查并修复商品图片 (从 LifeGame.tsx 移入)
+    // 初始化商品库存 (从 LifeGame.tsx 移入)
     useEffect(() => {
-        const checkAndFixImages = async () => {
-            const { checkAndFixProductImages } = await import('../utils/imageChecker');
-            
+        const initializeInventory = async () => {
             const saved = localStorage.getItem('life-game-stats-v2'); 
             let initialInv = SHOP_CATALOG;
             
@@ -64,15 +62,15 @@ export const useShop = ({
                 } catch (e) { /* 静默处理 */ }
             }
             
-            const fixedInventory = await checkAndFixProductImages(initialInv.map(item => ({
+            // 直接使用初始库存，不进行图片检查
+            setInventory(initialInv.map(item => ({
                 ...item,
                 type: item.type as ProductType,
                 category: item.category as ProductCategory
             })));
-            setInventory(fixedInventory);
         };
         
-        checkAndFixImages();
+        initializeInventory();
     }, []);
 
     // 自动保存

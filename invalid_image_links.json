@@ -1,0 +1,110 @@
+[
+  {
+    "productName": "iPhone 16 Pro",
+    "imageUrl": "https://via.placeholder.com/400x400?text=iPhone+16+Pro"
+  },
+  {
+    "productName": "MacBook Pro M4",
+    "imageUrl": "https://via.placeholder.com/400x400?text=MacBook+Pro+M4"
+  },
+  {
+    "productName": "大疆pocket 3",
+    "imageUrl": "https://via.placeholder.com/400x400?text=DJI+Pocket+3"
+  },
+  {
+    "productName": "AirPods",
+    "imageUrl": "https://via.placeholder.com/400x400?text=AirPods"
+  },
+  {
+    "productName": "MacBook Pro",
+    "imageUrl": "https://via.placeholder.com/400x400?text=MacBook+Pro"
+  },
+  {
+    "productName": "扫地机器人",
+    "imageUrl": "https://via.placeholder.com/400x400?text=Robot+Vacuum"
+  },
+  {
+    "productName": "戴森吹风机",
+    "imageUrl": "https://via.placeholder.com/400x400?text=Dyson+Hairdryer"
+  },
+  {
+    "productName": "辣条一包",
+    "imageUrl": "https://via.placeholder.com/400x400?text=Spicy+Snacks"
+  },
+  {
+    "productName": "烧烤",
+    "imageUrl": "https://via.placeholder.com/400x400?text=Barbecue"
+  },
+  {
+    "productName": "按摩放松",
+    "imageUrl": "https://via.placeholder.com/400x400?text=Massage"
+  },
+  {
+    "productName": "网课论坛会员",
+    "imageUrl": "https://via.placeholder.com/400x400?text=Online+Courses"
+  },
+  {
+    "productName": "云存储空间",
+    "imageUrl": "https://via.placeholder.com/400x400?text=Cloud+Storage"
+  },
+  {
+    "productName": "瑜伽垫",
+    "imageUrl": "https://via.placeholder.com/400x400?text=Yoga+Mat"
+  },
+  {
+    "productName": "宠物食品",
+    "imageUrl": "https://via.placeholder.com/400x400?text=Pet+Food"
+  },
+  {
+    "productName": "室内炉锅桌子",
+    "imageUrl": "https://via.placeholder.com/400x400?text=Dining+Table"
+  },
+  {
+    "productName": "厨房套装",
+    "imageUrl": "https://via.placeholder.com/400x400?text=Kitchen+Set"
+  },
+  {
+    "productName": "理想汽车",
+    "imageUrl": "https://via.placeholder.com/400x400?text=Electric+Car"
+  },
+  {
+    "productName": "烧烤套餐（自制）",
+    "imageUrl": "https://via.placeholder.com/400x400?text=DIY+Barbecue"
+  },
+  {
+    "productName": "烧烤套餐（外买）",
+    "imageUrl": "https://via.placeholder.com/400x400?text=Takeout+Barbecue"
+  },
+  {
+    "productName": "临沂炒鸡",
+    "imageUrl": "https://via.placeholder.com/400x400?text=Braised+Chicken"
+  },
+  {
+    "productName": "挪威旅行",
+    "imageUrl": "https://via.placeholder.com/400x400?text=Norway+Travel"
+  },
+  {
+    "productName": "体检套餐",
+    "imageUrl": "https://via.placeholder.com/400x400?text=Medical+Checkup"
+  },
+  {
+    "productName": "健身",
+    "imageUrl": "https://via.placeholder.com/400x400?text=Fitness"
+  },
+  {
+    "productName": "说走就走的国际旅行",
+    "imageUrl": "https://via.placeholder.com/400x400?text=International+Travel"
+  },
+  {
+    "productName": "按摩",
+    "imageUrl": "https://via.placeholder.com/400x400?text=Massage+Service"
+  },
+  {
+    "productName": "素颜霜",
+    "imageUrl": "https://via.placeholder.com/400x400?text=Makeup+Cream"
+  },
+  {
+    "productName": "夹板",
+    "imageUrl": "https://via.placeholder.com/400x400?text=Hair+Straightener"
+  }
+]

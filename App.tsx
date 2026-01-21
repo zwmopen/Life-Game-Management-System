@@ -1454,12 +1454,10 @@ const App: React.FC = () => {
             setView={setCurrentView} 
             isMobileOpen={isMobileOpen}
             setIsMobileOpen={setIsMobileOpen}
-            theme={theme}
-            setTheme={setTheme}
             entropy={entropy} 
             isNavCollapsed={isNavCollapsed}
             setIsNavCollapsed={setIsNavCollapsed}
-            onHelpClick={setActiveHelp}
+            onHelpClick={(helpId) => setActiveHelp(helpId)}
           />
         )}
         

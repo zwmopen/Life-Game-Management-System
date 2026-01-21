@@ -152,7 +152,7 @@ class AudioManager {
         return uniqueFiles.map(fileName => ({
           id: `${folderPath.replace('/', '_').replace('-', '_')}_${fileName.replace(/\.[^/.]+$/, "")}`,
           name: fileName.replace(/\.[^/.]+$/, ""), // 移除扩展名作为显示名称
-          url: `${folderPath}/${fileName}`,
+          url: this.getCorrectAudioUrl(`${folderPath}/${fileName}`),
           type,
           icon: this.getIconForAudio(fileName, type)
         }));
@@ -166,7 +166,7 @@ class AudioManager {
         return fileNames.map(fileName => ({
           id: `${folderPath.replace('/', '_').replace('-', '_')}_${fileName.replace(/\.[^/.]+$/, "")}`,
           name: fileName.replace(/\.[^/.]+$/, ""), // 移除扩展名作为显示名称
-          url: `${folderPath}/${fileName}`,
+          url: this.getCorrectAudioUrl(`${folderPath}/${fileName}`),
           type,
           icon: this.getIconForAudio(fileName, type)
         }));
@@ -192,58 +192,58 @@ class AudioManager {
       case '/audio/bgm':
         // 只保留用户要求的3个音乐，与pomodoro/bgm目录中的音乐合并
         return [
-          { id: 'forest', name: '森林', url: '/audio/pomodoro/bgm/森林.mp3', type, icon: '🌲' },
-          { id: 'rain', name: '雨天', url: '/audio/pomodoro/bgm/雨天.mp3', type, icon: '🌧️' },
-          { id: 'ocean', name: '海洋', url: '/audio/pomodoro/bgm/海洋.mp3', type, icon: '🌊' }
+          { id: 'forest', name: '森林', url: this.getCorrectAudioUrl('/audio/pomodoro/bgm/森林.mp3'), type, icon: '🌲' },
+          { id: 'rain', name: '雨天', url: this.getCorrectAudioUrl('/audio/pomodoro/bgm/雨天.mp3'), type, icon: '🌧️' },
+          { id: 'ocean', name: '海洋', url: this.getCorrectAudioUrl('/audio/pomodoro/bgm/海洋.mp3'), type, icon: '🌊' }
         ];
       case '/audio/pomodoro/bgm':
         // 这里会返回用户的100多个音乐，与上面的3个合并
         return [];
       case '/audio/battle':
         return [
-          { id: 'sword_strike', name: '剑击声', url: '/audio/battle/sword-strike.mp3', type, icon: '⚔️' },
-          { id: 'magic_spell', name: '魔法咒语', url: '/audio/battle/magic-spell.mp3', type, icon: '🔮' },
-          { id: 'arrow_shot', name: '弓箭射击', url: '/audio/battle/arrow-shot.mp3', type, icon: '🏹' },
-          { id: 'shield_block', name: '盾牌格挡', url: '/audio/battle/shield-block.mp3', type, icon: '🛡️' },
-          { id: 'battle_cry', name: '战斗呐喊', url: '/audio/battle/battle-cry.mp3', type, icon: '🦁' }
+          { id: 'sword_strike', name: '剑击声', url: this.getCorrectAudioUrl('/audio/battle/sword-strike.mp3'), type, icon: '⚔️' },
+          { id: 'magic_spell', name: '魔法咒语', url: this.getCorrectAudioUrl('/audio/battle/magic-spell.mp3'), type, icon: '🔮' },
+          { id: 'arrow_shot', name: '弓箭射击', url: this.getCorrectAudioUrl('/audio/battle/arrow-shot.mp3'), type, icon: '🏹' },
+          { id: 'shield_block', name: '盾牌格挡', url: this.getCorrectAudioUrl('/audio/battle/shield-block.mp3'), type, icon: '🛡️' },
+          { id: 'battle_cry', name: '战斗呐喊', url: this.getCorrectAudioUrl('/audio/battle/battle-cry.mp3'), type, icon: '🦁' }
         ];
       case '/audio/dice':
         return [
-          { id: 'dice_roll', name: '骰子滚动', url: '/audio/dice/dice-roll.mp3', type, icon: '🎲' },
-          { id: 'dice_drop', name: '骰子落地', url: '/audio/dice/dice-drop.mp3', type, icon: '🎯' }
+          { id: 'dice_roll', name: '骰子滚动', url: this.getCorrectAudioUrl('/audio/dice/dice-roll.mp3'), type, icon: '🎲' },
+          { id: 'dice_drop', name: '骰子落地', url: this.getCorrectAudioUrl('/audio/dice/dice-drop.mp3'), type, icon: '🎯' }
         ];
       case '/audio/notification':
         return [
-          { id: 'notification_ping', name: '提示音', url: '/audio/notification/ping.mp3', type, icon: '🔔' },
-          { id: 'notification_alert', name: '警报声', url: '/audio/notification/alert.mp3', type, icon: '🚨' }
+          { id: 'notification_ping', name: '提示音', url: this.getCorrectAudioUrl('/audio/notification/ping.mp3'), type, icon: '🔔' },
+          { id: 'notification_alert', name: '警报声', url: this.getCorrectAudioUrl('/audio/notification/alert.mp3'), type, icon: '🚨' }
         ];
       case '/audio/completion':
         return [
-          { id: 'task_complete', name: '任务完成', url: '/audio/completion/task-complete.mp3', type, icon: '✅' },
-          { id: 'achievement_unlock', name: '成就解锁', url: '/audio/completion/achievement-unlock.mp3', type, icon: '🏆' }
+          { id: 'task_complete', name: '任务完成', url: this.getCorrectAudioUrl('/audio/completion/task-complete.mp3'), type, icon: '✅' },
+          { id: 'achievement_unlock', name: '成就解锁', url: this.getCorrectAudioUrl('/audio/completion/achievement-unlock.mp3'), type, icon: '🏆' }
         ];
       case '/audio/focus':
         return [
-          { id: 'focus_start', name: '专注开始', url: '/audio/focus/focus-start.mp3', type, icon: ' concentric-circles' },
-          { id: 'focus_end', name: '专注结束', url: '/audio/focus/focus-end.mp3', type, icon: ' concentric-circles' }
+          { id: 'focus_start', name: '专注开始', url: this.getCorrectAudioUrl('/audio/focus/focus-start.mp3'), type, icon: ' concentric-circles' },
+          { id: 'focus_end', name: '专注结束', url: this.getCorrectAudioUrl('/audio/focus/focus-end.mp3'), type, icon: ' concentric-circles' }
         ];
       case '/audio/break':
         return [
-          { id: 'break_start', name: '休息开始', url: '/audio/break/break-start.mp3', type, icon: '⏸️' },
-          { id: 'break_end', name: '休息结束', url: '/audio/break/break-end.mp3', type, icon: '▶️' }
+          { id: 'break_start', name: '休息开始', url: this.getCorrectAudioUrl('/audio/break/break-start.mp3'), type, icon: '⏸️' },
+          { id: 'break_end', name: '休息结束', url: this.getCorrectAudioUrl('/audio/break/break-end.mp3'), type, icon: '▶️' }
         ];
       case '/audio/ambient':
         return [
-          { id: 'city_ambience', name: '城市氛围', url: '/audio/ambient/city.mp3', type, icon: '🏙️' },
-          { id: 'forest_ambience', name: '森林氛围', url: '/audio/ambient/forest.mp3', type, icon: '🌲' },
-          { id: 'mountain_ambience', name: '山间氛围', url: '/audio/ambient/mountain.mp3', type, icon: '⛰️' },
-          { id: 'river_ambience', name: '溪流氛围', url: '/audio/ambient/river.mp3', type, icon: '💧' }
+          { id: 'city_ambience', name: '城市氛围', url: this.getCorrectAudioUrl('/audio/ambient/city.mp3'), type, icon: '🏙️' },
+          { id: 'forest_ambience', name: '森林氛围', url: this.getCorrectAudioUrl('/audio/ambient/forest.mp3'), type, icon: '🌲' },
+          { id: 'mountain_ambience', name: '山间氛围', url: this.getCorrectAudioUrl('/audio/ambient/mountain.mp3'), type, icon: '⛰️' },
+          { id: 'river_ambience', name: '溪流氛围', url: this.getCorrectAudioUrl('/audio/ambient/river.mp3'), type, icon: '💧' }
         ];
       default:
         // 对于其他路径，返回通用的音效
         return [
-          { id: `${folderPath.replace(/\//g, '_')}_default1`, name: '默认音效1', url: `${folderPath}/default1.mp3`, type, icon: '🎵' },
-          { id: `${folderPath.replace(/\//g, '_')}_default2`, name: '默认音效2', url: `${folderPath}/default2.mp3`, type, icon: '🎶' }
+          { id: `${folderPath.replace(/\//g, '_')}_default1`, name: '默认音效1', url: this.getCorrectAudioUrl(`${folderPath}/default1.mp3`), type, icon: '🎵' },
+          { id: `${folderPath.replace(/\//g, '_')}_default2`, name: '默认音效2', url: this.getCorrectAudioUrl(`${folderPath}/default2.mp3`), type, icon: '🎶' }
         ];
     }
   }

@@ -331,18 +331,21 @@ class SoundManager {
         console.log(`获取到的背景音乐文件数量: ${bgmFiles.length}`);
       }
       
-      // 更精确地查找音乐文件，优先匹配ID，然后尝试匹配名称
-      let musicFile = bgmFiles.find(bgm => bgm.id === musicId);
+      // 1. 首先尝试直接匹配音乐名称（最常用的情况）
+      let musicFile = bgmFiles.find(bgm => bgm.name.toLowerCase() === musicId.toLowerCase());
+      if (!musicFile && process.env.NODE_ENV === 'development') {
+        console.log(`通过名称匹配音乐文件: ${musicId}，结果: 未找到`);
+      }
       
-      // 如果没有找到，尝试直接匹配音乐名称
+      // 2. 如果没有找到，尝试匹配ID
       if (!musicFile) {
-        musicFile = bgmFiles.find(bgm => bgm.name.toLowerCase() === musicId.toLowerCase());
-        if (process.env.NODE_ENV === 'development') {
-          console.log(`通过名称匹配音乐文件: ${musicId}，结果: ${musicFile ? musicFile.name : '未找到'}`);
+        musicFile = bgmFiles.find(bgm => bgm.id === musicId);
+        if (!musicFile && process.env.NODE_ENV === 'development') {
+          console.log(`通过ID匹配音乐文件: ${musicId}，结果: 未找到`);
         }
       }
       
-      // 如果仍然没有找到，尝试通过ID的最后部分匹配文件名（兼容旧的简单ID格式）
+      // 3. 如果仍然没有找到，尝试通过ID的最后部分匹配文件名（兼容旧的简单ID格式）
       if (!musicFile) {
         const idParts = musicId.split('_');
         const fileNamePart = idParts[idParts.length - 1];
@@ -352,46 +355,27 @@ class SoundManager {
         }
       }
       
-      // 如果仍然没有找到，尝试通过文件名匹配URL
+      // 4. 如果仍然没有找到，尝试通过URL匹配
       if (!musicFile) {
-        musicFile = bgmFiles.find(bgm => bgm.url.includes(musicId));
+        musicFile = bgmFiles.find(bgm => bgm.url.toLowerCase().includes(musicId.toLowerCase()));
         if (process.env.NODE_ENV === 'development') {
           console.log(`通过URL匹配音乐文件: ${musicId}，结果: ${musicFile ? musicFile.name : '未找到'}`);
         }
       }
       
-      // 如果直接是文件名（如"森林"），尝试直接构造URL
-      if (!musicFile && musicId.indexOf('_') === -1) {
-        const directUrl = `/audio/pomodoro/bgm/${musicId}.mp3`;
-        const correctDirectUrl = this.getCorrectAudioUrl(directUrl);
-        if (process.env.NODE_ENV === 'development') {
-          console.log(`尝试直接构造URL: ${correctDirectUrl}`);
-        }
-        // 验证URL是否存在
-        try {
-          const response = await fetch(correctDirectUrl, { method: 'HEAD' });
-          if (response.ok) {
-            musicFile = {
-              id: musicId,
-              name: musicId,
-              url: directUrl,
-              type: 'backgroundMusic' as SoundType
-            };
-            if (process.env.NODE_ENV === 'development') {
-              console.log(`直接URL验证成功: ${correctDirectUrl}`);
-            }
-          }
-        } catch (fetchError) {
-          if (process.env.NODE_ENV === 'development') {
-            console.warn(`URL验证失败: ${correctDirectUrl}`, fetchError);
-          }
-        }
-      }
-      
       if (musicFile) {
+        // 确保URL存在
+        if (!musicFile.url) {
+          if (process.env.NODE_ENV === 'development') {
+            console.error(`音乐文件URL为空: ${musicFile.name}`);
+          }
+          return;
+        }
+        
         // 创建临时音频元素播放背景音乐
-        const correctUrl = this.getCorrectAudioUrl(musicFile.url);
-        const tempAudio = new Audio(correctUrl);
+        // 注意：musicFile.url已经是完整URL，不需要再次调用getCorrectAudioUrl
+        const tempAudio = new Audio();
+        tempAudio.src = musicFile.url;
         tempAudio.loop = true;
         tempAudio.volume = this.bgmVolume;
         
@@ -402,7 +386,7 @@ class SoundManager {
           await tempAudio.play();
           
           if (process.env.NODE_ENV === 'development') {
-            console.log(`Successfully playing background music: ${musicId} from URL: ${correctUrl}`);
+            console.log(`Successfully playing background music: ${musicFile.name} from URL: ${musicFile.url}`);
           }
         } catch (e) {
           if (process.env.NODE_ENV === 'development') {
@@ -415,7 +399,7 @@ class SoundManager {
         if (process.env.NODE_ENV === 'development') {
           console.error(`未找到音乐文件: ${musicId}`);
           // 打印可用的音乐文件列表，方便调试
-          console.log('可用的音乐文件:', bgmFiles.map(bgm => bgm.name));
+          console.log('可用的音乐文件:', bgmFiles.map(bgm => bgm.name).slice(0, 10)); // 只显示前10个，避免日志过长
         }
       }
     } catch (e) {
