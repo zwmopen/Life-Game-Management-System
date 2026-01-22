@@ -460,7 +460,7 @@ const ShopCatalog: React.FC<ShopCatalogProps> = memo(({
                   </h4>
                   
                   {/* 购买次数 */}
-                  {item.purchaseCount && item.purchaseCount > 0 && (
+                  {item.purchaseCount !== undefined && item.purchaseCount > 0 && (
                     <span className={`text-sm ${isDark ? 'text-zinc-300' : 'text-zinc-500'} font-bold`}>
                       已购买 x{item.purchaseCount}
                     </span>
