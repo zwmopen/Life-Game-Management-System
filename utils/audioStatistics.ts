@@ -175,15 +175,7 @@ class AudioStatistics {
         return bCount - aCount;
       }
       
-      // 3. 如果播放次数相同，则按总播放时长降序排列
-      const aPlayTime = this.getTotalPlayTime(a.id);
-      const bPlayTime = this.getTotalPlayTime(b.id);
-      
-      if (bPlayTime !== aPlayTime) {
-        return bPlayTime - aPlayTime;
-      }
-      
-      // 4. 如果总播放时长相同，则按最后播放时间降序排列
+      // 3. 如果播放次数相同，则按最后播放时间降序排列
       const aLastPlayed = this.getLastPlayed(a.id);
       const bLastPlayed = this.getLastPlayed(b.id);
       
@@ -191,7 +183,7 @@ class AudioStatistics {
         return bLastPlayed.getTime() - aLastPlayed.getTime();
       }
       
-      // 5. 如果最后播放时间相同或不存在，则按名称排序
+      // 4. 如果最后播放时间相同或不存在，则按名称排序
       return a.name.localeCompare(b.name);
     });
   }

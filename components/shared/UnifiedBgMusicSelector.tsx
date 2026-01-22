@@ -109,12 +109,9 @@ const UnifiedBgMusicSelector: React.FC<UnifiedBgMusicSelectorProps> = ({
       // 直接获取所有背景音乐文件，getBackgroundMusic()方法已经包含了所有类别的背景音乐
       const bgmFiles = audioManagerModule.default.getBackgroundMusic();
       
-      // 第一次加载时按播放次数排序音频文件，后续加载保持当前顺序
-      let sortedBgmFiles = bgmFiles;
-      if (!initialSoundsLoaded) {
-        sortedBgmFiles = audioStatistics.getSortedAudioFiles(bgmFiles);
-        setInitialSoundsLoaded(true);
-      }
+      // 每次加载时都按播放次数和收藏状态排序音频文件
+      const sortedBgmFiles = audioStatistics.getSortedAudioFiles(bgmFiles);
+      setInitialSoundsLoaded(true);
       
       // 转换为组件所需的格式
       const soundList = [
