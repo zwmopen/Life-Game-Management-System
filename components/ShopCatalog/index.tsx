@@ -440,11 +440,11 @@ const ShopCatalog: React.FC<ShopCatalogProps> = memo(({
                   </div>
                 )}
                 
-                {/* 渐变遮罩 - 从标题/价格顶部往下的白色渐变阴影遮罩效果 */}
-                <div className="gradient-overlay absolute left-0 top-0 w-full h-full z-10 pointer-events-none" style={{
+                {/* 渐变遮罩 - 从价格顶部往下的从浅到深渐变效果 */}
+                <div className="gradient-overlay absolute left-0 top-[70px] w-full h-[calc(100%-70px)] z-10 pointer-events-none" style={{
                   background: isDark ? 
-                    'linear-gradient(to bottom, rgba(26,26,46,0.6) 0%, rgba(26,26,46,0.4) 30%, rgba(26,26,46,0.2) 60%, rgba(26,26,46,0) 100%)' : 
-                    'linear-gradient(to bottom, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.4) 30%, rgba(255,255,255,0.2) 60%, rgba(255,255,255,0) 100%)',
+                    'linear-gradient(to bottom, rgba(26,26,46,0) 0%, rgba(26,26,46,0.3) 30%, rgba(26,26,46,0.6) 60%, rgba(26,26,46,0.8) 100%)' : 
+                    'linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 30%, rgba(255,255,255,0.6) 60%, rgba(255,255,255,0.8) 100%)',
                 }}></div>
                 
                 {/* 商品信息 */}
@@ -468,7 +468,7 @@ const ShopCatalog: React.FC<ShopCatalogProps> = memo(({
                     )}
                     
                     {/* 商品描述 */}
-                    <p className={`text-sm ${isDark ? 'text-zinc-300' : 'text-zinc-500'} mt-1 mb-6 line-clamp-2 w-full max-w-[240px] mx-auto text-shadow`} style={{textShadow: isDark ? '0 1px 1px rgba(0,0,0,0.6)' : '0 1px 1px rgba(255,255,255,0.5)'}}>
+                    <p className={`text-sm ${isDark ? 'text-white/90' : 'text-zinc-700'} mt-1 mb-6 line-clamp-2 w-full max-w-[240px] mx-auto text-shadow`} style={{textShadow: isDark ? '0 1px 2px rgba(0,0,0,0.8)' : '0 1px 2px rgba(255,255,255,0.8)'}}>
                       {item.description}
                     </p>
                   </div>
