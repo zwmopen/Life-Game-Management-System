@@ -66,17 +66,26 @@ class SoundManager {
 
   private initSounds(): void {
     const soundList: SoundEffect[] = [
-      // 本地音效
-      { id: 'dice', url: '/audio/sounds/dice.mp3', volume: 0.7 },
-      // 使用可用的在线音效作为主要来源
-      { id: 'taskComplete', url: 'https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3', volume: 0.5 },
-      { id: 'taskGiveUp', url: 'https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3', volume: 0.5 },
-      { id: 'purchase', url: 'https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3', volume: 0.5 },
-      // 回退音效（使用相同的可用链接）
-      { id: 'dice-fallback', url: '/audio/sounds/dice.mp3', volume: 0.7 },
-      { id: 'taskComplete-fallback', url: 'https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3', volume: 0.5 },
-      { id: 'taskGiveUp-fallback', url: 'https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3', volume: 0.5 },
-      { id: 'purchase-fallback', url: 'https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3', volume: 0.5 }
+      // 本地音效 - 统一管理在sfx目录
+      { id: 'dice', url: '/audio/sfx/骰子音效.mp3', volume: 0.7 },
+      { id: 'taskComplete', url: '/audio/sfx/任务完成音效.mp3', volume: 0.5 },
+      { id: 'taskGiveUp', url: '/audio/sfx/任务放弃音效.mp3', volume: 0.5 },
+      { id: 'purchase', url: '/audio/sfx/购买音效.mp3', volume: 0.5 },
+      { id: 'notification', url: '/audio/sfx/任务通知音效.mp3', volume: 0.5 },
+      { id: 'achievement', url: '/audio/sfx/成就解锁音效.mp3', volume: 0.5 },
+      { id: 'timer', url: '/audio/sfx/计时器音效.mp3', volume: 0.5 },
+      { id: 'coin', url: '/audio/sfx/金币收入支出音效.mp3', volume: 0.5 },
+      { id: 'pomodoroComplete', url: '/audio/sfx/番茄钟完成音效ding-36029.mp3', volume: 0.5 },
+      // 回退音效
+      { id: 'dice-fallback', url: '/audio/sfx/骰子音效.mp3', volume: 0.7 },
+      { id: 'taskComplete-fallback', url: '/audio/sfx/任务完成音效.mp3', volume: 0.5 },
+      { id: 'taskGiveUp-fallback', url: '/audio/sfx/任务放弃音效.mp3', volume: 0.5 },
+      { id: 'purchase-fallback', url: '/audio/sfx/购买音效.mp3', volume: 0.5 },
+      { id: 'notification-fallback', url: '/audio/sfx/任务通知音效.mp3', volume: 0.5 },
+      { id: 'achievement-fallback', url: '/audio/sfx/成就解锁音效.mp3', volume: 0.5 },
+      { id: 'timer-fallback', url: '/audio/sfx/计时器音效.mp3', volume: 0.5 },
+      { id: 'coin-fallback', url: '/audio/sfx/金币收入支出音效.mp3', volume: 0.5 },
+      { id: 'pomodoroComplete-fallback', url: '/audio/sfx/番茄钟完成音效ding-36029.mp3', volume: 0.5 }
     ];
 
     soundList.forEach(sound => {
@@ -180,23 +189,35 @@ class SoundManager {
       let fallbackUrl = '';
       switch (soundId) {
         case 'taskComplete':
-          fallbackUrl = 'https://assets.mixkit.co/sfx/preview/mixkit-unlock-game-notification-253.mp3';
+          fallbackUrl = '/audio/sfx/任务完成音效.mp3';
           break;
         case 'taskGiveUp':
-          fallbackUrl = 'https://assets.mixkit.co/sfx/preview/mixkit-game-show-wrong-answer-buzz-950.mp3';
+          fallbackUrl = '/audio/sfx/任务放弃音效.mp3';
           break;
         case 'purchase':
-          fallbackUrl = 'https://assets.mixkit.co/sfx/preview/mixkit-coins-spinning-in-hands-1933.mp3';
+          fallbackUrl = '/audio/sfx/购买音效.mp3';
           break;
         case 'dice':
-          fallbackUrl = 'https://assets.mixkit.co/sfx/preview/mixkit-dice-roll-6125.mp3';
+          fallbackUrl = '/audio/sfx/骰子音效.mp3';
+          break;
+        case 'notification':
+          fallbackUrl = '/audio/sfx/任务通知音效.mp3';
+          break;
+        case 'achievement':
+          fallbackUrl = '/audio/sfx/成就解锁音效.mp3';
+          break;
+        case 'timer':
+          fallbackUrl = '/audio/sfx/计时器音效.mp3';
+          break;
+        case 'coin':
+          fallbackUrl = '/audio/sfx/金币收入支出音效.mp3';
           break;
         default:
-          fallbackUrl = 'https://assets.mixkit.co/sfx/preview/mixkit-unlock-game-notification-253.mp3';
+          fallbackUrl = '/audio/sfx/任务完成音效.mp3';
       }
 
       if (fallbackUrl) {
-        const audio = new Audio(fallbackUrl);
+        const audio = new Audio(this.getCorrectAudioUrl(fallbackUrl));
         audio.volume = this.masterVolume;
         audio.play().catch(e => {
           if (process.env.NODE_ENV === 'development') {
