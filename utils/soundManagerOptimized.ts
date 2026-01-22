@@ -68,15 +68,15 @@ class SoundManager {
     const soundList: SoundEffect[] = [
       // 本地音效
       { id: 'dice', url: '/audio/sounds/dice.mp3', volume: 0.7 },
-      // 使用在线音效作为主要来源，因为本地文件可能缺少
-      { id: 'taskComplete', url: 'https://assets.mixkit.co/sfx/preview/mixkit-unlock-game-notification-253.mp3', volume: 0.5 },
-      { id: 'taskGiveUp', url: 'https://assets.mixkit.co/sfx/preview/mixkit-game-show-wrong-answer-buzz-950.mp3', volume: 0.5 },
-      { id: 'purchase', url: 'https://assets.mixkit.co/sfx/preview/mixkit-coins-spinning-in-hands-1933.mp3', volume: 0.5 },
-      // 回退音效
-      { id: 'dice-fallback', url: 'https://assets.mixkit.co/sfx/preview/mixkit-dice-roll-6125.mp3', volume: 0.7 },
-      { id: 'taskComplete-fallback', url: 'https://assets.mixkit.co/sfx/preview/mixkit-unlock-game-notification-253.mp3', volume: 0.5 },
-      { id: 'taskGiveUp-fallback', url: 'https://assets.mixkit.co/sfx/preview/mixkit-game-show-wrong-answer-buzz-950.mp3', volume: 0.5 },
-      { id: 'purchase-fallback', url: 'https://assets.mixkit.co/sfx/preview/mixkit-coins-spinning-in-hands-1933.mp3', volume: 0.5 }
+      // 使用可用的在线音效作为主要来源
+      { id: 'taskComplete', url: 'https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3', volume: 0.5 },
+      { id: 'taskGiveUp', url: 'https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3', volume: 0.5 },
+      { id: 'purchase', url: 'https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3', volume: 0.5 },
+      // 回退音效（使用相同的可用链接）
+      { id: 'dice-fallback', url: '/audio/sounds/dice.mp3', volume: 0.7 },
+      { id: 'taskComplete-fallback', url: 'https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3', volume: 0.5 },
+      { id: 'taskGiveUp-fallback', url: 'https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3', volume: 0.5 },
+      { id: 'purchase-fallback', url: 'https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3', volume: 0.5 }
     ];
 
     soundList.forEach(sound => {

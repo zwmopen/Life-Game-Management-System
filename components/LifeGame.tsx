@@ -434,7 +434,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
       onUpdateProject(projectId, { subTasks: newSubTasks });
       
       // 播放放弃音效
-      const giveUpSound = new Audio("https://assets.mixkit.co/sfx/preview/mixkit-interface-error-beep-221.mp3");
+      const giveUpSound = new Audio("https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3");
       giveUpSound.volume = 0.5;
       giveUpSound.play().catch(()=>{});
       

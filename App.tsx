@@ -570,11 +570,11 @@ const App: React.FC = () => {
       if (amount > 0) {
           setTodayStats(s => ({ ...s, earnings: s.earnings + amount }));
           // Play Coin Sound
-          soundManagerOptimized.playCustomAudio("https://assets.mixkit.co/active_storage/sfx/2003/2003-preview.mp3");
+          soundManagerOptimized.playCustomAudio("https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3");
       } else {
           setTodayStats(s => ({ ...s, spending: s.spending - amount }));
           // Play Spend Sound
-          soundManagerOptimized.playCustomAudio("https://assets.mixkit.co/active_storage/sfx/2004/2004-preview.mp3");
+          soundManagerOptimized.playCustomAudio("https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3");
       }
     }
   };
@@ -591,7 +591,7 @@ const App: React.FC = () => {
           addFloatingText(`+${safeXp} 经验`, 'text-blue-500', window.innerWidth / 2);
       }
       setActiveAchievement(null); // Close modal
-      soundManagerOptimized.playCustomAudio("https://assets.mixkit.co/active_storage/sfx/2019/2019-preview.mp3");
+      soundManagerOptimized.playCustomAudio("https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3");
   };
 
   const handleGiveUpTask = (taskId: string) => {
@@ -664,7 +664,7 @@ const App: React.FC = () => {
               addFloatingText(`+10 专注时间`, 'text-green-500', window.innerWidth / 2 + 80);
           }, 600);
           
-          soundManagerOptimized.playCustomAudio("https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3");
+          soundManagerOptimized.playCustomAudio("https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3");
       }
       setCompletedRandomTasks(newCompleted);
   };
@@ -735,7 +735,7 @@ const App: React.FC = () => {
                       addFloatingText(`+10 专注时间`, 'text-green-500', window.innerWidth / 2 + 80);
                   }, 600);
 
-                  playSound("https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3");
+                  playSound("https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3");
 
                   return { ...h, history: newHistory, streak: h.streak + 1 };
               }
