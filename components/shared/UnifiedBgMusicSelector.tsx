@@ -144,6 +144,13 @@ const UnifiedBgMusicSelector: React.FC<UnifiedBgMusicSelectorProps> = ({
   useEffect(() => {
     loadAllSounds();
   }, [loadAllSounds]);
+
+  // 每次打开音乐列表时重新加载和排序
+  useEffect(() => {
+    if (isVisible) {
+      loadAllSounds();
+    }
+  }, [isVisible, loadAllSounds]);
   
   // 处理音乐切换
   const handleSoundChange = useCallback((soundId: string) => {
