@@ -175,6 +175,27 @@ const BattleTab: React.FC<BattleTabProps> = memo(({
     onUpdateProjectOrder
   });
   
+  // 使用任务处理 Hook
+  const {
+    completeTask,
+    giveUpTask
+  } = useTaskOperations({
+    onUpdateHabit,
+    onUpdateProject,
+    onAddHabit,
+    onAddProject,
+    onDeleteHabit,
+    onDeleteProject,
+    onUpdateBalance,
+    onAddFloatingReward,
+    onSpinDice,
+    setChallengePool,
+    projects,
+    habits,
+    todayStr: new Date().toLocaleDateString(),
+    givenUpTasks
+  });
+  
   const [isEditingTodayGoal, setIsEditingTodayGoal] = useState(false);
 
   const [showProtocol, setShowProtocol] = useState(false);
@@ -197,11 +218,14 @@ const BattleTab: React.FC<BattleTabProps> = memo(({
     }
   }, [balance, isEditingSavings]);
 
+  // 生成todayStr，与LifeGame组件保持一致
+  const todayStr = new Date().toLocaleDateString();
+  
   // 按照habitOrder排序习惯任务
   const sortedHabits = habitOrder.map(id => habits.find(h => h.id === id)).filter(h => h !== undefined) as Habit[];
   const habitTasks = sortedHabits.map(h => ({
       id: h.id, text: h.name, attr: h.attr || 'DIS', xp: h.xp || Math.ceil(h.reward * 1.5), gold: h.reward, duration: h.duration || 0,
-      type: TaskType.DAILY, completed: !!h.history[new Date().toLocaleDateString()], frequency: 'daily' as const, originalData: h,
+      type: TaskType.DAILY, completed: !!h.history[todayStr], frequency: 'daily' as const, originalData: h,
       isGivenUp: givenUpTasks.includes(h.id)
   })).sort((a, b) => {
       if (a.isGivenUp && !b.isGivenUp) return 1;
@@ -500,8 +524,8 @@ const BattleTab: React.FC<BattleTabProps> = memo(({
           {/* 任务管理系统 */}
           <TaskManagement 
             taskCategory={taskCategory}
-            habits={habits}
-            projects={projects}
+            habitTasks={habitTasks}
+            projectTasks={projectTasks}
             habitOrder={habitOrder}
             projectOrder={projectOrder}
             onToggleHabit={onToggleHabit}
@@ -519,7 +543,8 @@ const BattleTab: React.FC<BattleTabProps> = memo(({
             onToggleRandomChallenge={onToggleRandomChallenge}
             onStartAutoTask={onStartAutoTask}
             givenUpTasks={givenUpTasks}
-            onGiveUpTask={onGiveUpTask}
+            onCompleteTask={completeTask}
+            onGiveUpTask={giveUpTask}
             onLevelChange={onLevelChange}
             theme={theme}
             isDark={isDark}
@@ -536,6 +561,11 @@ const BattleTab: React.FC<BattleTabProps> = memo(({
             openEditRandomTask={openEditRandomTask}
             onHelpClick={setActiveHelp}
             settings={settings}
+            onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
+            onDragOver={handleDragOver}
+            draggedTask={draggedTask}
+            todayStr={todayStr}
           />
         </div>
       </div>

@@ -72,8 +72,8 @@ class SoundManager {
       { id: 'taskGiveUp', url: '/audio/sfx/任务放弃音效.mp3', volume: 0.5 },
       { id: 'purchase', url: '/audio/sfx/购买音效.mp3', volume: 0.5 },
       { id: 'notification', url: '/audio/sfx/任务通知音效.mp3', volume: 0.5 },
-      { id: 'achievement', url: '/audio/sfx/成就解锁音效.mp3', volume: 0.5 },
-      { id: 'timer', url: '/audio/sfx/计时器音效.mp3', volume: 0.5 },
+      { id: 'achievement', url: '/audio/sfx/成就解锁音频.mp3', volume: 0.5 },
+      { id: 'timer', url: '/audio/sfx/任务完成音效.mp3', volume: 0.5 },
       { id: 'coin', url: '/audio/sfx/金币收入支出音效.mp3', volume: 0.5 },
       { id: 'pomodoroComplete', url: '/audio/sfx/番茄钟完成音效ding-36029.mp3', volume: 0.5 },
       // 回退音效
@@ -82,8 +82,8 @@ class SoundManager {
       { id: 'taskGiveUp-fallback', url: '/audio/sfx/任务放弃音效.mp3', volume: 0.5 },
       { id: 'purchase-fallback', url: '/audio/sfx/购买音效.mp3', volume: 0.5 },
       { id: 'notification-fallback', url: '/audio/sfx/任务通知音效.mp3', volume: 0.5 },
-      { id: 'achievement-fallback', url: '/audio/sfx/成就解锁音效.mp3', volume: 0.5 },
-      { id: 'timer-fallback', url: '/audio/sfx/计时器音效.mp3', volume: 0.5 },
+      { id: 'achievement-fallback', url: '/audio/sfx/成就解锁音频.mp3', volume: 0.5 },
+      { id: 'timer-fallback', url: '/audio/sfx/任务完成音效.mp3', volume: 0.5 },
       { id: 'coin-fallback', url: '/audio/sfx/金币收入支出音效.mp3', volume: 0.5 },
       { id: 'pomodoroComplete-fallback', url: '/audio/sfx/番茄钟完成音效ding-36029.mp3', volume: 0.5 }
     ];

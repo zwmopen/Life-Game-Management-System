@@ -55,7 +55,7 @@ const TaskSearchBar: React.FC<TaskSearchBarProps> = memo(({
 
   return (
     <div className="w-full mb-4 flex gap-2">
-      <div className={`relative flex-1 flex items-center gap-2 px-3 py-2 rounded-lg border transition-all ${getInputStyles()}`}>
+      <div className={`relative flex-1 flex items-center gap-2 px-3 py-2 rounded-full border transition-all ${getInputStyles()}`}>
         {/* 搜索图标 */}
         <Search size={18} className={textSub} />
         
@@ -72,7 +72,7 @@ const TaskSearchBar: React.FC<TaskSearchBarProps> = memo(({
         {searchTerm && (
           <button
             onClick={handleClear}
-            className={`p-1 rounded transition-all ${getClearButtonStyles()}`}
+            className={`p-1 rounded-full transition-all ${getClearButtonStyles()}`}
             aria-label="清除搜索"
           >
             <X size={16} className={textSub} />
@@ -84,7 +84,7 @@ const TaskSearchBar: React.FC<TaskSearchBarProps> = memo(({
       {onAddTask && (
         <button
           onClick={onAddTask}
-          className={`flex items-center gap-1.5 px-4 py-2 rounded-lg transition-all font-semibold text-sm whitespace-nowrap ${
+          className={`flex items-center gap-1.5 px-4 py-2 rounded-full transition-all font-semibold text-sm whitespace-nowrap ${
             isNeomorphic 
               ? (theme === 'neomorphic-dark' 
                 ? 'bg-[#1e1e2e] text-blue-400 shadow-[4px_4px_8px_rgba(0,0,0,0.4),-4px_-4px_8px_rgba(30,30,46,0.8)] hover:shadow-[2px_2px_4px_rgba(0,0,0,0.4),-2px_-2px_4px_rgba(30,30,46,0.8)] active:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)]' 

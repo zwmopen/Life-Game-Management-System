@@ -38,7 +38,7 @@ export const useTaskOperations = ({
     const completeTask = useCallback((task: any, e: React.MouseEvent | null) => {
         if (task.isGivenUp) return;
         
-        const completeSound = new Audio("https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3");
+        const completeSound = new Audio("/audio/sfx/任务完成音效.mp3");
         completeSound.volume = 0.5;
         completeSound.play().catch(() => {});
 
@@ -53,7 +53,7 @@ export const useTaskOperations = ({
 
         if (task.type === TaskType.DAILY) {
             onUpdateHabit(task.id, {
-                history: { ...task.originalData.history, [todayStr]: true }
+                history: { ...task.history, [todayStr]: true }
             });
             onUpdateBalance(task.gold, `完成习惯: ${task.text}`);
             onAddFloatingReward(`+${task.gold} Gold`, "text-yellow-500", e?.clientX, e?.clientY);
@@ -67,7 +67,7 @@ export const useTaskOperations = ({
     const giveUpTask = useCallback((task: any) => {
         if (task.completed || task.isGivenUp) return;
 
-        const giveUpSound = new Audio("https://assets.mixkit.co/sfx/preview/mixkit-interface-error-beep-221.mp3");
+        const giveUpSound = new Audio("/audio/sfx/任务放弃音效.mp3");
         giveUpSound.volume = 0.5;
         giveUpSound.play().catch(() => {});
 

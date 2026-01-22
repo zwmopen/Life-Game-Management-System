@@ -221,6 +221,8 @@ const TomatoTimer: React.FC<TomatoTimerProps> = ({
                   // 兼容处理，如果没有内部沉浸式模式，则使用外部模式
                   onImmersiveModeChange(true);
                 }
+                // 立即播放开始音效
+                playSoundEffect('taskComplete');
               }}
               variant="primary"
               size="medium"

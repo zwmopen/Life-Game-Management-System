@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Habit, Project } from '../types';
+import soundManager from '../utils/soundManagerOptimized';
 
 interface ReminderInfo {
   title: string;
@@ -26,6 +27,9 @@ export const useReminders = (
       const minutesSinceLast = lastTriggeredDate ? (now.getTime() - lastTriggeredDate.getTime()) / (1000 * 60) : 9999;
       
       if (minutesSinceLast > 1) {
+        // 播放任务提醒音效
+        soundManager.playSoundEffect('notification');
+        
         setActiveReminder({ title, id, type });
         
         const newReminder = {

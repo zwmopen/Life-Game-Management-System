@@ -228,11 +228,11 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
   return (
     <div className="space-y-4">
       {/* 任务分类导航 */}
-      <div className={`${cardBg} border p-2 sm:p-3 rounded-xl flex flex-wrap items-center justify-between gap-2`}>
+      <div className={`${cardBg} border p-2 sm:p-3 rounded-2xl flex flex-wrap items-center justify-between gap-2`}>
         <div className="flex items-center gap-1 sm:gap-2 flex-wrap">
           <button 
             onClick={() => setTaskCategory('daily')} 
-            className={`flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg transition-all font-semibold text-xs sm:text-sm ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full transition-all font-semibold text-xs sm:text-sm ${
               taskCategory === 'daily' 
                 ? (isNeomorphic 
                   ? (theme === 'neomorphic-dark' 
@@ -254,7 +254,7 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
           </button>
           <button 
             onClick={() => setTaskCategory('main')} 
-            className={`flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg transition-all font-semibold text-xs sm:text-sm ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full transition-all font-semibold text-xs sm:text-sm ${
               taskCategory === 'main' 
                 ? (isNeomorphic 
                   ? (theme === 'neomorphic-dark' 
@@ -276,7 +276,7 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
           </button>
           <button 
             onClick={() => setTaskCategory('random')} 
-            className={`flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg transition-all font-semibold text-xs sm:text-sm ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full transition-all font-semibold text-xs sm:text-sm ${
               taskCategory === 'random' 
                 ? (isNeomorphic 
                   ? (theme === 'neomorphic-dark' 
