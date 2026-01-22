@@ -448,28 +448,30 @@ const ShopCatalog: React.FC<ShopCatalogProps> = memo(({
                 }}></div>
                 
                 {/* 商品信息 */}
-                <div className="product-info relative z-20 p-5 text-center" style={{ marginTop: '65px' }}>
-                  {/* 价格 */}
-                  <div className={`bg-opacity-95 px-4 py-1.5 text-sm font-bold rounded-full mx-auto my-2 inline-block ${isDark ? 'bg-yellow-600/30 text-yellow-400 border border-yellow-600/50' : 'bg-[#fff3cd] text-[#fd7e14]'}`}>
-                    ¥{item.cost}
+                <div className="product-info relative z-20 p-5 text-center flex flex-col justify-between" style={{ marginTop: '65px', height: 'calc(100% - 65px)' }}>
+                  <div>
+                    {/* 价格 */}
+                    <div className={`bg-opacity-95 px-4 py-1.5 text-sm font-bold rounded-full mx-auto my-2 inline-block ${isDark ? 'bg-yellow-600/30 text-yellow-400 border border-yellow-600/50' : 'bg-[#fff3cd] text-[#fd7e14]'}`}>
+                      ¥{item.cost}
+                    </div>
+                    
+                    {/* 商品名称 */}
+                    <h4 className={`font-bold text-xl text-white mt-2 mb-1 text-shadow w-full break-words`} style={{textShadow: '0 1px 2px rgba(0,0,0,0.8)'}}>
+                      {item.name}
+                    </h4>
+                    
+                    {/* 购买次数 */}
+                    {item.purchaseCount !== undefined && item.purchaseCount > 0 && (
+                      <span className={`text-sm ${isDark ? 'text-zinc-300' : 'text-zinc-500'} font-bold`}>
+                        已购买 x{item.purchaseCount}
+                      </span>
+                    )}
+                    
+                    {/* 商品描述 */}
+                    <p className={`text-sm ${isDark ? 'text-zinc-300' : 'text-zinc-500'} mt-1 mb-6 line-clamp-2 w-full max-w-[240px] mx-auto text-shadow`} style={{textShadow: isDark ? '0 1px 1px rgba(0,0,0,0.6)' : '0 1px 1px rgba(255,255,255,0.5)'}}>
+                      {item.description}
+                    </p>
                   </div>
-                  
-                  {/* 商品名称 */}
-                  <h4 className={`font-bold text-xl text-white mt-2 mb-1 text-shadow w-full break-words`} style={{textShadow: '0 1px 2px rgba(0,0,0,0.8)'}}>
-                    {item.name}
-                  </h4>
-                  
-                  {/* 购买次数 */}
-                  {item.purchaseCount !== undefined && item.purchaseCount > 0 && (
-                    <span className={`text-sm ${isDark ? 'text-zinc-300' : 'text-zinc-500'} font-bold`}>
-                      已购买 x{item.purchaseCount}
-                    </span>
-                  )}
-                  
-                  {/* 商品描述 */}
-                  <p className={`text-sm ${isDark ? 'text-zinc-300' : 'text-zinc-500'} mt-1 mb-6 line-clamp-2 w-full max-w-[240px] mx-auto text-shadow`} style={{textShadow: isDark ? '0 1px 1px rgba(0,0,0,0.6)' : '0 1px 1px rgba(255,255,255,0.5)'}}>
-                    {item.description}
-                  </p>
                   
                   {/* 购买按钮 */}
                   <button 
