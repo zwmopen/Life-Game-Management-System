@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import { TaskType, DiceCategory, DiceTask, Project, Habit, SubTask, AttributeTypeValue } from '../types';
+import soundManagerOptimized from '../utils/soundManagerOptimized';
 
 interface UseTaskOperationsProps {
     onUpdateHabit: (id: string, updates: Partial<Habit>) => void;
@@ -38,9 +39,12 @@ export const useTaskOperations = ({
     const completeTask = useCallback((task: any, e: React.MouseEvent | null) => {
         if (task.isGivenUp) return;
         
-        const completeSound = new Audio("/audio/sfx/任务完成音效.mp3");
-        completeSound.volume = 0.5;
-        completeSound.play().catch(() => {});
+        // 使用统一的音效管理库播放任务完成音效
+        if (task.type === TaskType.DAILY) {
+            soundManagerOptimized.playSoundEffect("taskComplete"); // 日常任务完成音效
+        } else if (task.type === TaskType.MAIN) {
+            soundManagerOptimized.playSoundEffect("mainTaskComplete"); // 主线任务完成音效
+        }
 
         if (e) {
             const { confetti } = require('canvas-confetti');
@@ -67,9 +71,8 @@ export const useTaskOperations = ({
     const giveUpTask = useCallback((task: any) => {
         if (task.completed || task.isGivenUp) return;
 
-        const giveUpSound = new Audio("/audio/sfx/任务放弃音效.mp3");
-        giveUpSound.volume = 0.5;
-        giveUpSound.play().catch(() => {});
+        // 使用统一的音效管理库播放任务放弃音效
+        soundManagerOptimized.playSoundEffect("taskGiveUp");
 
         if (onSpinDice) {
             setTimeout(() => {

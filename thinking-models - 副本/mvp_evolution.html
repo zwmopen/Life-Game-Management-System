@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>MV计划 进化逻辑</title></head>
+<body >
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(100, 325)">
+        <!-- 错误路径 (零件堆砌) -->
+        <g opacity="0.1">
+          <circle cx="0" cy="-100" r="40" fill="#1e293b" />
+          <rect x="150" y="-120" width="100" height="40" fill="#1e293b" />
+          <text x="0" y="-160" text-anchor="middle" style="font-size: 14px;">不是这样：先造轮子</text>
+        </g>
+        
+        <!-- 正确路径 (功能演进) -->
+        <g>
+          <!-- 阶段 1: 滑板 -->
+          <g transform="translate(0, 50)">
+            <rect x="-40" y="30" width="80" height="10" rx="5" fill="#94a3b8" />
+            <circle cx="-30" cy="45" r="10" fill="#1e293b" />
+            <circle cx="30" cy="45" r="10" fill="#1e293b" />
+            <text y="80" text-anchor="middle" fill="#94a3b8" style="font-size: 12px; font-weight: 900;">1. 滑板 (MV计划)</text>
+          </g>
+
+          <!-- 阶段 2: 自行车 -->
+          <g transform="translate(250, 50)">
+            <path d="M-40,40 L40,40 L0,-40 Z" fill="none" stroke="#ef4444" stroke-width="4" />
+            <circle cx="-40" cy="40" r="25" fill="none" stroke="#ef4444" stroke-width="4" />
+            <circle cx="40" cy="40" r="25" fill="none" stroke="#ef4444" stroke-width="4" />
+            <text y="100" text-anchor="middle" fill="#ef4444" style="font-size: 12px; font-weight: 900;">2. 自行车 (迭代)</text>
+          </g>
+
+          <!-- 阶段 3: 汽车 -->
+          <g transform="translate(600, 50)">
+            <rect x="-120" y="-40" width="240" height="80" rx="20" fill="#ef4444" />
+            <circle cx="-80" cy="50" r="30" fill="#1e293b" />
+            <circle cx="80" cy="50" r="30" fill="#1e293b" />
+            <circle r="40" fill="none" stroke="white" stroke-width="2" class="animate-ping" />
+            <text y="120" text-anchor="middle" fill="#ef4444" style="font-size: 24px; font-weight: 900;">3. 汽车 (终极愿景)</text>
+          </g>
+
+          <!-- 连接箭头 -->
+          <g stroke="#ef4444" stroke-width="2" fill="none" opacity="0.3">
+            <path d="M80,80 L180,80" marker-end="url(#bluearrow)" />
+            <path d="M330,80 L480,80" marker-end="url(#bluearrow)" />
+          </g>
+        </g>
+      </g>
+      <defs>
+        <marker id="bluearrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#ef4444"/></marker>
+      </defs>
+      <text x="500" y="80" text-anchor="middle" fill="#ef4444" style="font-size: 32px; font-weight: 900; letter-spacing: 0.1em;">保持每一代都能“跑起来”</text>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>MV计划 进化逻辑 (Minimum Viable 计划roduct)</h1>
+    <p>解决完美主义的核武器。不要试图在实验室里闭门造出法拉利（那需要极长的零反馈期），要先造一块滑板。滑板虽然简陋，但它能完成“移动”的核心功能，并为你换回第一手的使用反馈。</p>
+    <div class="grid">
+      <div>
+        <h3>核心谬误</h3>
+        <ul>
+          <li><strong>零件堆砌：</strong>先做轮子，再做底盘。在项目完成前，任何零件都无法产生价值。这会导致你死在“半成品”的深渊里。</li>
+          <li><strong>功能傲慢：</strong>认为用户需要全套服务。实际上，用户往往只需要解决那个最痛的 1%。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>D指南</h3>
+        <ul>
+          <li><strong>烂开始准则：</strong>如果你的第一版产品不让你感到羞愧，说明你上线太晚了。</li>
+          <li><strong>反馈即燃料：</strong>滑板能换回用户对“路面”的反馈。拿着这些反馈去造自行车，你的进化路径才是建立在真实之上的。</li>
+        </ul>
+      </div>
+    </div>
+  </div></body>
+</html>

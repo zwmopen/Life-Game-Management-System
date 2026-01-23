@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>锁定效应</title></head>
+<body >
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 磁场源 (平台生态) -->
+        <circle r="300" fill="none" stroke="#ef4444" stroke-width="1" opacity="0.05" />
+        <path d="M-100,-100 Q0,-150 100,-100 L100,100 Q0,150 -100,100 Z" fill="#ef4444" />
+        <text text-anchor="middle" y="5" fill="white" style="font-size: 24px; font-weight: 900;">核心生态</text>
+        
+        <!-- 被锁定的用户 -->
+        <g fill="#ef4444" opacity="0.8">
+           <circle cx="-150" cy="-80" r="10"><animate attributeName="opacity" values="1;0.2;1" dur="2s" repeatCount="indefinite" /></circle>
+           <circle cx="180" cy="120" r="12" />
+           <circle cx="-50" cy="200" r="8" />
+        </g>
+
+        <!-- 迁出阻力 (红色屏障) -->
+        <circle r="220" fill="none" stroke="#ef4444" stroke-width="8" stroke-dasharray="10 20" opacity="0.3">
+           <animate attributeName="stroke-dashoffset" from="0" to="100" dur="1s" repeatCount="indefinite" />
+        </circle>
+        
+        <text y="280" text-anchor="middle" fill="#ef4444" style="font-size: 32px; font-weight: 900; letter-spacing: 0.1em;">迁出成本 > 迁移收益</text>
+      </g>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>锁定效应 (Lock-in Effect)</h1>
+    <p>由于巨大的转移成本（学习时间、数据迁移、社交关系），用户即便对现状不满，也会被强行留在现有的系统中。习惯是最高级的垄断。</p>
+    <div class="grid">
+      <div>
+        <h3>隐形枷锁</h3>
+        <ul>
+          <li><strong>技术资产：</strong>你学会了复杂的软件快捷键，换个软件意味着职业技能的短期归零。</li>
+          <li><strong>生态关联：</strong>你的照片在云端，好友在社交网。离开不仅是离开工具，而是离开自己的数字记忆。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>商业博弈</h3>
+        <ul>
+          <li><strong>免费的陷阱：</strong>初期以极低成本诱导进入，本质是在购买未来的锁定溢价。</li>
+          <li><strong>破局之道：</strong>作为挑战者，你的产品不仅要比对手好，还必须好到足以覆盖用户高昂的迁出成本。</li>
+        </ul>
+      </div>
+    </div>
+  </div></body>
+</html>

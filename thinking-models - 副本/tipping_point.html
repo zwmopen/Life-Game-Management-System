@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>引爆点</title></head>
+<body >
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 支撑座 -->
+        <path d="M-20,200 L20,200 L0,150 Z" fill="#1e293b" opacity="0.1" />
+        
+        <!-- 杠杆平衡 -->
+        <g>
+          <animateTransform attributeName="transform" type="rotate" values="-15,0,150; 15,0,150; 15,0,150" dur="4s" repeatCount="indefinite" />
+          <rect x="-400" y="145" width="800" height="10" rx="5" fill="#1e293b" />
+          
+          <!-- 堆积的微小液滴 (量变) -->
+          <g transform="translate(-300, 100)">
+            <circle r="10" fill="#ef4444" opacity="0.6">
+               <animate attributeName="cy" from="-200" to="30" dur="1s" repeatCount="indefinite" />
+            </circle>
+          </g>
+
+          <!-- 突然坠落的重物 (突破临界) -->
+          <g transform="translate(300, 100)">
+            <rect x="-40" y="-40" width="80" height="80" rx="10" fill="#ef4444" />
+            <text y="80" text-anchor="middle" fill="#ef4444" style="font-size: 24px; font-weight: 900;">临界质量</text>
+          </g>
+        </g>
+
+        <!-- 质变核心 -->
+        <g transform="translate(0, 150)">
+          <circle r="60" fill="none" stroke="#ef4444" stroke-width="2" class="animate-ping" />
+          <text y="-250" text-anchor="middle" fill="#ef4444" style="font-size: 72px; font-weight: 900;">临界点</text>
+        </g>
+      </g>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>引爆点 (The Tipping 计划oint)</h1>
+    <p>流行、观点或行为跨越某个阈值后，像野火蔓延一样瞬间爆发的过程。在引爆点之前，努力看起来是徒劳的；一旦越过，增长将不再受控。</p>
+    <div class="grid">
+      <div>
+        <h3>三大法则</h3>
+        <ul>
+          <li><strong>个别人物法则：</strong>连接者、内行、推销员。少数关键节点主宰了信息的扩散路径。</li>
+          <li><strong>附着力因素：</strong>信息本身是否具有让人“过目不忘”并产生A欲望的物理黏性。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>系统干预</h3>
+        <ul>
+          <li><strong>环境威力：</strong>微小的外部背景改变（如清理破窗），可能成为引爆整体行为转向的最后一根稻草。</li>
+          <li><strong>耐心与潜伏：</strong>大部分成功都经历了漫长的“零增长潜伏期”。引爆点的到来往往就在你最绝望的前一秒。</li>
+        </ul>
+      </div>
+    </div>
+  </div></body>
+</html>

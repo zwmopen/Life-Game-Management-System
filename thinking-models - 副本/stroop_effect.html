@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>斯特鲁普效应</title></head>
+<body >
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 600">
+      <defs>
+        <filter id="textGlow"><feGaussianBlur stddeviation="4" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+      <!-- 一致性案例 -->
+      <g transform="translate(300, 300)">
+        <text text-anchor="middle" fill="#10b981" style="font-size: 150px; font-weight: 900;">绿色</text>
+        <text y="120" text-anchor="middle" fill="#64748b" opacity="0.4" style="font-size: 20px; font-weight: 900; letter-spacing: 0.3em;">一阶：直觉同步 (快)</text>
+      </g>
+      <!-- 冲突性案例 -->
+      <g transform="translate(700, 300)">
+        <text text-anchor="middle" fill="#3b82f6" style="font-size: 150px; font-weight: 900;">红色</text>
+        <text y="120" text-anchor="middle" fill="#ef4444" style="font-size: 20px; font-weight: 900; letter-spacing: 0.3em;" filter="url(#textGlow)">二阶：认知干预 (慢)</text>
+        <path d="M-80,150 L80,150" stroke="#ef4444" stroke-width="6" stroke-linecap="round" />
+      </g>
+      <path d="M480,300 L520,300" stroke="#1e293b" stroke-width="1" stroke-dasharray="5 5" opacity="0.2" />
+    </svg>
+  </div>
+
+  <div class="text-content">
+    <h1>斯特鲁普效应</h1>
+    <p>当大脑面临“自动化的文字阅读”与“手动的颜色识别”产生冲突时，处理器的时钟周期会发生剧烈波动，导致反应延迟。</p>
+    <div class="grid">
+      <div>
+        <h3>认知原理</h3>
+        <ul>
+          <li><strong>自动化竞争：</strong>阅读是肌肉记忆，而识别颜色需要意识介入，两者在同一信道内发生碰撞。</li>
+          <li><strong>抑制失败：</strong>大脑必须花费额外能量去抑制那个“想读出来”的冲动，导致系统响应变慢。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>实战启示</h3>
+        <ul>
+          <li><strong>U我 防呆设计：</strong>红色的“确定”按钮或蓝色的“警告”标志都是在利用此效应制造麻烦。</li>
+          <li><strong>注意力测试：</strong>通过测量冲突环境下的反应时差，可以精准评估个体的认知控制力。</li>
+        </ul>
+      </div>
+    </div>
+  </div></body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>死亡谷生存期</title></head>
+<body >
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(100, 550)">
+        <!-- 死亡谷曲线 -->
+        <path d="M0,-100 L300,-100 Q450,-100 600,-450" fill="none" stroke="#ef4444" stroke-width="8" stroke-dasharray="15 10" opacity="0.3" />
+        
+        <!-- 真实的扎根路径 -->
+        <path d="M0,0 L400,0" stroke="#ef4444" stroke-width="12" stroke-linecap="round" />
+        <g transform="translate(400, 0)">
+           <path d="M0,0 Q150,0 300,-500" fill="none" stroke="#10b981" stroke-width="15" stroke-linecap="round">
+              <animate attributeName="stroke-dasharray" from="0,1000" to="1000,0" dur="4s" fill="freeze" />
+           </path>
+           <circle r="40" cx="300" cy="-500" fill="#10b981" class="animate-ping" />
+        </g>
+
+        <!-- 扎根期的地下根系 -->
+        <g opacity="0.2" stroke="#ef4444" stroke-width="2">
+           <path d="M100,0 L80,100" /><path d="M200,0 L230,120" /><path d="M300,0 L280,150" />
+        </g>
+
+        <text x="200" y="50" text-anchor="middle" fill="#ef4444" style="font-size: 28px; font-weight: 900;">死亡谷 (零反馈期)</text>
+        <text x="750" y="-450" text-anchor="middle" fill="#10b981" style="font-size: 32px; font-weight: 900;">非线性爆发</text>
+      </g>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>死亡谷生存期 (The Death Valley)</h1>
+    <p>所有伟大的项目在初期都是潜伏的。在这个阶段，你付出了 100% 的努力，但外部反馈（粉丝、出单）几乎是 0。这被称为“死亡谷”。如果你不理解这个物理阶段，你会在爆发前夕因为绝望而退出。</p>
+    <div class="grid">
+      <div>
+        <h3>扎根逻辑</h3>
+        <ul>
+          <li><strong>内部复利：</strong>表面上没出单，但你的剪辑速度提升了 50%，对同行的拆解能力提升了 80%。这些是储存在地下的“势能”。</li>
+          <li><strong>100条准则：</strong>在发够 100 条内容前，禁止看数据，禁止自我怀疑。前 100 条是给系统交的“生存税”。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>心理防御</h3>
+        <ul>
+          <li><strong>接受无反馈：</strong>把“没反应”作为系统的默认项，把“1个赞”作为意外的奖励。</li>
+          <li><strong>过程化目标：</strong>将目标从“赚一万块”改为“雷打不动发满 30 天”。只有可控的过程，才能带你走出不可控的低谷。</li>
+        </ul>
+      </div>
+    </div>
+  </div></body>
+</html>

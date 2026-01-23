@@ -287,13 +287,29 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme, onHelpClick }) =
             <div className="mb-3">
               <div className="relative flex items-center">
                 {/* 搜索框 */}
-                <div className="flex-1 mr-2">
+                <div className={`flex-1 mr-2 flex items-center gap-2 px-3 py-2 rounded-full border transition-all ${isNeomorphic 
+                  ? (isNeomorphicDark 
+                    ? 'bg-[#1e1e2e] border-[#1e1e2e] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] hover:shadow-[inset_3px_3px_6px_rgba(0,0,0,0.5),inset_-3px_-3px_6px_rgba(30,30,46,1)]' 
+                    : 'bg-[#e0e5ec] border-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.3),inset_-2px_-2px_4px_rgba(255,255,255,0.8)] hover:shadow-[inset_3px_3px_6px_rgba(163,177,198,0.4),inset_-3px_-3px_6px_rgba(255,255,255,0.9)]') 
+                  : (isDark 
+                    ? 'bg-zinc-900 border-zinc-800 shadow-[2px_2px_4px_rgba(0,0,0,0.4),-2px_-2px_4px_rgba(30,30,46,0.8)] hover:shadow-[3px_3px_6px_rgba(0,0,0,0.5),-3px_-3px_6px_rgba(30,30,46,1)]' 
+                    : 'bg-white border-slate-300 shadow-[2px_2px_4px_rgba(163,177,198,0.2),-2px_-2px_4px_rgba(255,255,255,0.8)] hover:shadow-[3px_3px_6px_rgba(163,177,198,0.3),-3px_-3px_6px_rgba(255,255,255,0.9)]')
+                }`}>
+                  {/* 搜索图标 */}
+                  <Search size={18} className={textSub} />
+                  
+                  {/* 搜索输入框 */}
                   <input
                     type="text"
                     placeholder="搜索思维模型..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className={`${getSearchInputClass()}`}
+                    className={`flex-1 bg-transparent outline-none text-sm transition-all duration-300 focus:outline-none ${isNeomorphicDark 
+                      ? 'text-white placeholder-white/50' 
+                      : isDark 
+                        ? 'text-white placeholder-zinc-500' 
+                        : 'text-black placeholder-black/50'
+                    }`}
                   />
                 </div>
                 

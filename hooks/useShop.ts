@@ -51,7 +51,8 @@ export const useShop = ({
                                 owned: savedItem.owned, 
                                 purchaseCount: savedItem.purchaseCount || 0,
                                 lastPurchased: savedItem.lastPurchased || 0,
-                                image: savedItem.image || catItem.image || ''
+                                // 优先使用SHOP_CATALOG中的图片链接，确保使用正确的images.unsplash.com格式
+                                image: catItem.image
                             };
                         }
                         return catItem;
@@ -62,12 +63,32 @@ export const useShop = ({
                 } catch (e) { /* 静默处理 */ }
             }
             
-            // 直接使用初始库存，不进行图片检查
-            setInventory(initialInv.map(item => ({
+            // 清理并验证商品图片链接，确保使用正确的Unsplash格式
+    const cleanedInventory = initialInv.map(item => {
+        // 检查图片链接是否为via.placeholder.com等无效格式
+        if (item.image && (item.image.includes('via.placeholder.com') || item.image.includes('picsum.photos'))) {
+            // 对于无效图片链接，使用SHOP_CATALOG中的对应商品图片（如果存在）
+            const catalogItem = SHOP_CATALOG.find(catItem => catItem.id === item.id);
+            if (catalogItem && catalogItem.image) {
+                return {
+                    ...item,
+                    image: catalogItem.image
+                };
+            }
+            // 如果没有对应商品，使用空字符串
+            return {
                 ...item,
-                type: item.type as ProductType,
-                category: item.category as ProductCategory
-            })));
+                image: ''
+            };
+        }
+        return item;
+    });
+    
+    setInventory(cleanedInventory.map(item => ({
+        ...item,
+        type: item.type as ProductType,
+        category: item.category as ProductCategory
+    })));
         };
         
         initializeInventory();
@@ -88,7 +109,7 @@ export const useShop = ({
         }
         
         // 播放购买音效
-        const purchaseSound = new Audio("https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3");
+        const purchaseSound = new Audio("/audio/sfx/商品购买支出音效.mp3");
         purchaseSound.volume = 0.5;
         purchaseSound.play().catch(()=>{});
         
@@ -152,7 +173,7 @@ export const useShop = ({
         
         onUpdateBalance(-item.cost, `购买: ${item.name}`);
         
-        const purchaseSound = new Audio("https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3");
+        const purchaseSound = new Audio("/audio/sfx/商品购买支出音效.mp3");
         purchaseSound.volume = 0.5;
         purchaseSound.play().catch(()=>{});
         
@@ -188,15 +209,28 @@ export const useShop = ({
 
     const handleEditItemSave = useCallback(() => {
         if (editingItem) {
+            // 验证并清理图片链接，确保使用正确的Unsplash格式
+            let cleanedImage = editingItem.image || '';
+            // 禁止使用via.placeholder.com和picsum.photos
+            if (cleanedImage.includes('via.placeholder.com') || cleanedImage.includes('picsum.photos')) {
+                cleanedImage = '';
+            }
+            // 确保使用images.unsplash.com格式，而不是source.unsplash.com
+            if (cleanedImage.includes('source.unsplash.com')) {
+                cleanedImage = '';
+            }
+            
+            const cleanedItem = { ...editingItem, image: cleanedImage };
+            
             if (inventory.find(i => i.id === editingItem.id)) {
                 setInventory(prev => prev.map(i => {
                     if (i.id === editingItem.id) {
-                        return { ...editingItem, image: editingItem.image || '' };
+                        return cleanedItem;
                     }
                     return i;
                 }));
             } else {
-                setInventory(prev => [...prev, { ...editingItem, image: editingItem.image || '' }]);
+                setInventory(prev => [...prev, cleanedItem]);
             }
         }
         setIsEditItemOpen(false);

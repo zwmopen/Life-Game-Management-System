@@ -41,7 +41,8 @@ const DiceTaskList: React.FC<DiceTaskListProps> = memo(({
   const renderTaskCard = (taskRecord: DiceTaskRecord, isPending: boolean = false) => (
     <div 
       key={taskRecord.id} 
-      className={`relative group rounded-lg border transition-all overflow-hidden ${cardBg} hover:shadow-lg ${isDark ? 'border-zinc-800' : 'border-slate-200'}`}
+      onClick={() => isPending && onCompleteTask(taskRecord.id)} 
+      className={`relative group rounded-lg border transition-all overflow-hidden cursor-pointer ${cardBg} hover:shadow-lg ${isDark ? 'border-zinc-800' : 'border-slate-200'}`}
     >
       <div className="p-2 sm:p-3 flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3">
         {isPending ? (

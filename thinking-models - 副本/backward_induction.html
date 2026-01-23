@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>反向归纳法</title></head>
+<body >
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(100, 325)">
+        <!-- 终点 (Goal) -->
+        <g transform="translate(800, 0)">
+          <circle r="60" fill="#10b981" filter="drop-shadow(0 0 40px #10b981)" />
+          <text text-anchor="middle" y="10" fill="white" style="font-size: 18px; font-weight: 900;">终极愿景</text>
+          <circle r="80" fill="none" stroke="#10b981" stroke-width="2" class="animate-ping" />
+        </g>
+        
+        <!-- 反推箭头序列 -->
+        <g stroke="#ef4444" stroke-width="8" opacity="0.6">
+           <path d="M720,0 L580,0" marker-end="url(#bluearrow)" />
+           <path d="M500,0 L360,0" marker-end="url(#bluearrow)" />
+           <path d="M280,0 L140,0" marker-end="url(#bluearrow)" />
+           <animate attributeName="stroke-dasharray" from="0,200" to="200,0" dur="2s" repeatCount="indefinite" />
+        </g>
+
+        <!-- 当前第一步 -->
+        <g transform="translate(50, 0)">
+          <rect x="-40" y="-40" width="80" height="80" rx="40" fill="#ef4444" />
+          <text text-anchor="middle" y="5" fill="white" style="font-size: 14px; font-weight: 900;">当下</text>
+        </g>
+
+        <text x="400" y="180" text-anchor="middle" fill="#ef4444" style="font-size: 32px; font-weight: 900;">从终点往回算，才是最短路径</text>
+      </g>
+      <defs>
+        <marker id="bluearrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#ef4444"/></marker>
+      </defs>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>反向归纳法</h1>
+    <p>博弈论中的决策利器。先假定你在博弈的最后一回合获胜，然后以此为基准，倒推回到倒数第二步、第三步……直到发现你今天上午九点钟必须要做出的那个唯一正确的动作。</p>
+    <div class="grid">
+      <div>
+        <h3>反直觉逻辑</h3>
+        <ul>
+          <li><strong>排除干扰项：</strong>正向思考会遇到海量的分叉。反向思考则通过设定“必然的结局”，强行剪掉了那些通往失败的多余路径。</li>
+          <li><strong>时间深处的力量：</strong>在投资中，想五年后的退出机制，能瞬间让你看清当下的所谓“热点”是否具有长期资产价值。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>超级个体应用</h3>
+        <ul>
+          <li><strong>内容终局：</strong>在写视频脚本前，先想：用户看完最后一秒会有什么反应？基于这个反应倒推开头的三秒钩子。</li>
+          <li><strong>项目止损：</strong>设定一个终结日期。倒推：如果到了那天还没达成目标，当前的投入是否依然合理？</li>
+        </ul>
+      </div>
+    </div>
+  </div></body>
+</html>

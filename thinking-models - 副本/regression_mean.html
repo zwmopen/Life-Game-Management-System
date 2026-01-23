@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>均值回归 - 极值的宿命</title></head>
+<body >
+  <div class="neu-card">
+    <svg viewBox="0 0 800 600">
+      <!-- 中心均值 -->
+      <circle cx="400" cy="300" r="50" fill="#ef4444" fill-opacity="0.1" />
+      <circle cx="400" cy="300" r="5" fill="#ef4444" />
+      
+      <!-- 极点 A (高峰) 向中心回归 -->
+      <g>
+        <circle cx="150" cy="100" r="10" fill="#ef4444" />
+        <text x="150" y="80" text-anchor="middle" fill="#ef4444" style="font-size: 10px; font-weight: 900;">高点 (极佳状态)</text>
+        <path d="M170,120 L350,270" stroke="#ef4444" stroke-width="2" stroke-dasharray="5 5" marker-end="url(#arrow-red)" />
+      </g>
+
+      <!-- 极点 B (低谷) 向中心回归 -->
+      <g>
+        <circle cx="650" cy="500" r="10" fill="#10b981" />
+        <text x="650" y="530" text-anchor="middle" fill="#10b981" style="font-size: 10px; font-weight: 900;">低点 (极差状态)</text>
+        <path d="M630,480 L450,330" stroke="#10b981" stroke-width="2" stroke-dasharray="5 5" marker-end="url(#arrow-green)" />
+      </g>
+
+      <defs>
+        <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#ef4444"/></marker>
+        <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#10b981"/></marker>
+      </defs>
+
+      <text x="400" y="580" text-anchor="middle" fill="#64748b" opacity="0.3" style="font-size: 10px; font-weight: 900; letter-spacing: 0.5em;">EXTREMES ARE FOLLOWEd BY MEd我OcR我TY</text>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>均值回归</h1>
+    <p>指在随机变量的序列中，如果某一次观测值表现为极端的偏离（极好或极坏），下一次观测值将大概率地向平均值移动。这是自然的物理引力。</p>
+    <div class="grid">
+      <div>
+        <h3>现象解剖</h3>
+        <ul>
+          <li><strong>运气的退场</strong>：极端的成功通常意味着极大的运气成分。当运气消失，表现必然回到真实水平。</li>
+          <li><strong>惩罚无效论</strong>：由于均值回归，极差的表现即便不予惩罚也会变好，人们往往错误地将这种自然回归归功于惩罚。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>认知陷阱</h3>
+        <ul>
+          <li><strong>体育画报诅咒</strong>：登上封面的运动员表现下滑，并非诅咒，而是因为登上封面代表他处于职业生涯均值以上的极值点，下滑是必然。</li>
+          <li><strong>耐心力量</strong>：在低谷期，只要系统基础还在，时间就是你向均值回弹的朋友。</li>
+        </ul>
+      </div>
+    </div>
+  </div></body>
+</html>

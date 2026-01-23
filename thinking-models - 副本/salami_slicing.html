@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>萨拉米战术</title></head>
+<body >
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 完整的领地 (香肠) -->
+        <rect x="-300" y="-80" width="600" height="160" rx="80" fill="#ef4444" fill-opacity="0.1" stroke="#ef4444" stroke-width="2" />
+        
+        <!-- 正在进行的小切片 -->
+        <g>
+          <rect x="250" y="-80" width="10" height="160" rx="5" fill="#ef4444" />
+          <rect x="230" y="-80" width="10" height="160" rx="5" fill="#ef4444" opacity="0.6" />
+          <rect x="210" y="-80" width="10" height="160" rx="5" fill="#ef4444" opacity="0.3" />
+          <animateTransform attributeName="transform" type="translate" values="0,0; -400,0; 0,0" dur="10s" repeatCount="indefinite" />
+        </g>
+
+        <!-- 防御红线 -->
+        <line x1="0" y1="-200" x2="0" y2="200" stroke="#ef4444" stroke-width="4" stroke-dasharray="10 5" opacity="0.3" />
+        <text x="20" y="-220" fill="#ef4444" style="font-size: 24px; font-weight: 900;">防御红线 (阈值)</text>
+        
+        <text y="180" text-anchor="middle" fill="#ef4444" style="font-size: 32px; font-weight: 900;">微调式侵蚀：不触发警报的占领</text>
+      </g>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>萨拉米战术 (Salami Slicing)</h1>
+    <p>与其发动全面战争，不如每次只切下一片极薄的“萨拉米香肠”。每一片的损失都小到不值得为了它进行决死抵抗，但累积起来，对手将在无声中丧失全部版图。</p>
+    <div class="grid">
+      <div>
+        <h3>博弈诡计</h3>
+        <ul>
+          <li><strong>低于阈值的攻击：</strong>战术的核心是让每一次挑衅都处于对方的“容忍度”之内。</li>
+          <li><strong>既定事实的累积：</strong>通过一系列微小的、不可逆的改变，重塑战略地缘。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>心理防御</h3>
+        <ul>
+          <li><strong>滑坡谬误的反向：</strong>如果你不守住第一个微小的阵地，你其实是在向对手发送“我的红线可以被物理性后移”的信号。</li>
+          <li><strong>趋势审计：</strong>不要看对方“这次做了什么”，要看对方“连续 10 次动作的方向性”。方向比单次增量重要万倍。</li>
+        </ul>
+      </div>
+    </div>
+  </div></body>
+</html>

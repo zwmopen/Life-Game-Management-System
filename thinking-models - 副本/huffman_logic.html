@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>霍夫曼编码逻辑</title></head>
+<body >
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 高频信号 (极短) -->
+        <g transform="translate(-300, -100)">
+          <rect x="-40" y="-20" width="80" height="40" rx="10" fill="#10b981" />
+          <text y="60" text-anchor="middle" fill="#10b981" style="font-size: 24px; font-weight: 900;">1 (高频)</text>
+          <circle r="60" fill="none" stroke="#10b981" stroke-width="2" class="animate-ping" />
+        </g>
+        
+        <!-- 低频信号 (极长) -->
+        <g transform="translate(150, 100)">
+          <rect x="-200" y="-20" width="400" height="40" rx="10" fill="#94a3b8" opacity="0.4" />
+          <text y="60" text-anchor="middle" fill="#94a3b8" style="font-size: 16px; font-weight: 900;">0101101 (低频)</text>
+        </g>
+
+        <!-- 压缩天平 -->
+        <path d="M-200,-50 Q0,0 200,50" fill="none" stroke="#ef4444" stroke-width="4" stroke-dasharray="15 10" opacity="0.3" />
+
+        <text y="-220" text-anchor="middle" fill="#ef4444" style="font-size: 42px; font-weight: 900;">认知极致压缩</text>
+        <text y="240" text-anchor="middle" fill="#64748b" opacity="0.5" style="font-size: 14px; font-weight: 900;">高频信息 = 极简 / 低频信息 = 冗长</text>
+      </g>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>霍夫曼编码逻辑 (Compression Logic)</h1>
+    <p>源自信息论。最优的系统会对出现频率最高的消息分配最短的代码，而对罕见的消息分配长的代码。这最小化了系统传输的总代价。</p>
+    <div class="grid">
+      <div>
+        <h3>语言的本能</h3>
+        <ul>
+          <li><strong>Zipf 定律：</strong>常用的词（如“你”、“我”）总是极短的。这是人类文明在数千年演化中自发进行的“霍夫曼压缩”。</li>
+          <li><strong>直觉的捷径：</strong>大脑中的“直觉”（系统 1）就是对高频场景的霍夫曼编码。虽然可能丢失细节，但响应速度极快。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>沟通与设计</h3>
+        <ul>
+          <li><strong>U我 的深度：</strong>80% 的常用功能必须一键直达（短编码）；20% 的罕见设置可以深埋在三级菜单中（长编码）。</li>
+          <li><strong>认知的专业化：</strong>所谓的专家，就是通过大量的练习，将复杂的外部逻辑压缩成了极其简短的“心理组块”。</li>
+        </ul>
+      </div>
+    </div>
+  </div></body>
+</html>

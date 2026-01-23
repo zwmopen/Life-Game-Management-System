@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>幂律分布 - 胜者全得</title></head>
+<body >
+  <div class="neu-card">
+    <svg viewBox="0 0 800 600">
+      <!-- 坐标轴 -->
+      <line x1="100" y1="500" x2="700" y2="500" stroke="#1e293b" stroke-width="2" opacity="0.1" />
+      <line x1="100" y1="500" x2="100" y2="50" stroke="#1e293b" stroke-width="2" opacity="0.1" />
+      
+      <!-- 幂律曲线 (L 型) -->
+      <path d="M110,60 Q120,480 700,490" fill="none" stroke="#f59e0b" stroke-width="6" stroke-linecap="round">
+        <animate attributeName="stroke-dasharray" from="0,1000" to="1000,0" dur="4s" fill="freeze" />
+      </path>
+
+      <!-- 头部节点 (巨大的赢家) -->
+      <g transform="translate(110, 60)">
+        <circle r="20" fill="#f59e0b" class="animate-ping" />
+        <text x="30" y="5" fill="#f59e0b" style="font-size: 14px; font-weight: 900;">头部 (赢家全拿)</text>
+      </g>
+
+      <!-- 尾部 (无尽的长尾) -->
+      <g transform="translate(400, 520)">
+        <text text-anchor="middle" fill="#f59e0b" opacity="0.4" style="font-size: 10px; font-weight: 900;">长尾：海量的微弱连接</text>
+      </g>
+
+      <text x="400" y="580" text-anchor="middle" fill="#64748b" opacity="0.3" style="font-size: 10px; font-weight: 900; letter-spacing: 0.5em;">ScaLaBLE NON-EQU我L我BR我UM SYSTEM</text>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>幂律分布</h1>
+    <p>与正态分布相反，它描述的是一种“不平等”的世界。少数节点占据绝大多数资源（如财富分布、互联网流量、城市人口）。</p>
+    <div class="grid">
+      <div>
+        <h3>系统张力</h3>
+        <ul>
+          <li><strong>正反馈循环</strong>：越强大的越容易获得更多资源，导致差距不断拉大。</li>
+          <li><strong>无标度网络</strong>：系统中没有所谓的“平均值”，谈论“平均身价”在幂律分布下毫无意义。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>竞争策略</h3>
+        <ul>
+          <li><strong>占据头部</strong>：在幂律世界，第一名和第二名的差距可能是 10 倍，而第二名之后几乎都是背景板。</li>
+          <li><strong>长尾生存</strong>：如果你无法成为巨头，那就通过极低成本服务于海量的长尾需求。</li>
+        </ul>
+      </div>
+    </div>
+  </div></body>
+</html>

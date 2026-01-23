@@ -330,6 +330,7 @@ class DataPersistenceManager {
       'life-game-last-date',
       'life-game-projects',
       'life-game-project-order',
+      'aes-settings-v2',
       // 添加更多关键存储键...
     ];
     
@@ -400,6 +401,7 @@ class DataPersistenceManager {
       'life-game-last-date',
       'life-game-projects',
       'life-game-project-order',
+      'aes-settings-v2',
       // 添加更多关键存储键...
     ];
     

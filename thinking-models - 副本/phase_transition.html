@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>相变临界</title></head>
+<body >
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 能量轴 -->
+        <line x1="-400" y1="200" x2="400" y2="200" stroke="#1e293b" stroke-width="2" opacity="0.1" />
+        
+        <!-- 固态 (有序 - 左) -->
+        <g transform="translate(-250, 0)" opacity="0.8">
+           <rect x="-60" y="-60" width="120" height="120" fill="#ef4444" fill-opacity="0.1" stroke="#ef4444" stroke-width="4" />
+           <g fill="#ef4444">
+             <circle cx="-30" cy="-30" r="5" /><circle cx="30" cy="-30" r="5" />
+             <circle cx="-30" cy="30" r="5" /><circle cx="30" cy="30" r="5" />
+           </g>
+           <text y="100" text-anchor="middle" fill="#ef4444" style="font-size: 14px; font-weight: 900;">有序态 (秩序)</text>
+        </g>
+
+        <!-- 气态 (混乱 - 右) -->
+        <g transform="translate(250, 0)" opacity="0.3">
+           <circle r="100" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="2 10" />
+           <g fill="#ef4444">
+             <circle cx="-20" cy="30" r="4"><animate attributeName="cx" values="-20;40;-20" dur="0.2s" repeatCount="indefinite" /></circle>
+             <circle cx="50" cy="-40" r="3"><animate attributeName="cy" values="-40;50;-40" dur="0.3s" repeatCount="indefinite" /></circle>
+           </g>
+           <text y="100" text-anchor="middle" fill="#ef4444" style="font-size: 14px; font-weight: 900;">混乱态 (自由)</text>
+        </g>
+
+        <!-- 临界点 (闪电击穿) -->
+        <g>
+          <circle r="40" fill="#fbbf24" class="animate-ping" />
+          <path d="M0,-150 L0,150" stroke="#fbbf24" stroke-width="8" stroke-dasharray="10 5" />
+          <text y="-180" text-anchor="middle" fill="#fbbf24" style="font-size: 42px; font-weight: 900;">计划HaSE TRaNS我T我ON</text>
+        </g>
+
+        <text y="260" text-anchor="middle" fill="#64748b" opacity="0.6" style="font-size: 18px; font-weight: 900;">微小参数改变 -> 整体结构崩塌</text>
+      </g>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>相变临界 (计划hase Transition)</h1>
+    <p>当外部环境参数（如温度、密度、甚至社会压力）达到一个极窄的阈值时，系统的微观相互作用会突然发生质变，导致宏观特性在瞬间重组。这是从有序到混沌、或从沉寂到爆发的物理红线。</p>
+    <div class="grid">
+      <div>
+        <h3>突变机制</h3>
+        <ul>
+          <li><strong>非线性反馈：</strong>在临界点，系统对微小扰动的敏感度趋于无限大。一粒沙不仅能导致雪崩，更能重塑整座山的形状。</li>
+          <li><strong>对称性破缺：</strong>相变往往伴随着对称性的丧失。原本均匀的市场或组织，由于越过临界点，会迅速分化出复杂的结构和层级。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>实战决策</h3>
+        <ul>
+          <li><strong>识别拐点：</strong>如果你能感知到行业正在向临界态逼近（如大模型能力的突变），原本有效的渐进式优化将毫无意义，你必须为彻底的“系统换血”做准备。</li>
+          <li><strong>压力测试：</strong>通过不断推高系统的压力参数，观察其崩溃前的微观涨落，能精准预判系统的真实承载极限。</li>
+        </ul>
+      </div>
+    </div>
+  </div></body>
+</html>

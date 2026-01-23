@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>二阶思维</title></head>
+<body >
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 600">
+      <!-- 核心涟漪 -->
+      <g transform="translate(500, 300)">
+        <circle r="50" fill="none" stroke="#ef4444" stroke-width="1">
+          <animate attributeName="r" from="50" to="350" dur="4s" repeatCount="indefinite" />
+          <animate attributeName="opacity" from="1" to="0" dur="4s" repeatCount="indefinite" />
+        </circle>
+        <circle r="50" fill="none" stroke="#ef4444" stroke-width="1" opacity="0.6">
+          <animate attributeName="r" from="50" to="350" dur="4s" begin="2s" repeatCount="indefinite" />
+          <animate attributeName="opacity" from="1" to="0" dur="4s" begin="2s" repeatCount="indefinite" />
+        </circle>
+        
+        <!-- 一阶节点 -->
+        <circle r="60" fill="#1e293b" />
+        <text text-anchor="middle" y="5" fill="white" style="font-size: 14px; font-weight: 900;">1. 直接后果</text>
+      </g>
+
+      <!-- 二阶/三阶标注 -->
+      <g transform="translate(750, 450)">
+        <circle r="40" fill="#ef4444" fill-opacity="0.1" stroke="#ef4444" stroke-width="2" stroke-dasharray="5 5" />
+        <text text-anchor="middle" y="5" fill="#ef4444" style="font-size: 12px; font-weight: 900;">2. 深度连锁反应</text>
+      </g>
+
+      <text x="500" y="550" text-anchor="middle" fill="#ef4444" style="font-size: 12px; font-weight: 900; letter-spacing: 0.8em;">THEN WHaT? (在那之后呢？)</text>
+    </svg>
+  </div>
+
+  <div class="text-content">
+    <h1>二阶思维</h1>
+    <p>普通人关注一阶后果（直接的奖励或痛苦），而顶尖思考者关注“后果的后果”，即二阶、三阶的深度连锁反应。</p>
+    <div class="grid">
+      <div>
+        <h3>思考范式</h3>
+        <ul>
+          <li><strong>剥离即时感：</strong>如果一个决策现在看起来很好，问问自己在一年、三年后它会带来什么副作用？</li>
+          <li><strong>复杂系统：</strong>世界是网状而非线性的，每一颗石子落水都会激起远方的波浪。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>实战应用</h3>
+        <ul>
+          <li><strong>避免局部最优：</strong>通过牺牲短期的舒适（如高强度研发），来换取长期的结构性优势。</li>
+          <li><strong>事前验尸：</strong>假设决策已经失败，从未来倒推那个导致崩塌的二阶因果链。</li>
+        </ul>
+      </div>
+    </div>
+  </div></body>
+</html>

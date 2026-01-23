@@ -201,7 +201,13 @@ const TomatoTimer: React.FC<TomatoTimerProps> = ({
           <div className="flex gap-1.5 justify-center sm:justify-end w-full sm:w-auto">
             {/* Play/pause button */}
             <Button
-              onClick={onToggleTimer}
+              onClick={() => {
+                // 播放开始计时音效
+                if (!isActive) {
+                  playSoundEffect('timer');
+                }
+                onToggleTimer();
+              }}
               variant={isActive ? 'danger' : 'warning'}
               size="medium"
               isNeomorphic={isNeomorphic}
@@ -222,7 +228,7 @@ const TomatoTimer: React.FC<TomatoTimerProps> = ({
                   onImmersiveModeChange(true);
                 }
                 // 立即播放开始音效
-                playSoundEffect('taskComplete');
+                playSoundEffect('timer');
               }}
               variant="primary"
               size="medium"
@@ -261,7 +267,7 @@ const TomatoTimer: React.FC<TomatoTimerProps> = ({
                   size="small"
                   isNeomorphic={isNeomorphic}
                   theme={theme}
-                  className={`w-8 h-8 flex items-center justify-center transition-all duration-300 hover:scale-105 ${duration === m ? 'font-bold' : ''}`}
+                  className={`w-8 h-8 flex items-center justify-center rounded-full transition-all duration-300 hover:scale-105 ${duration === m ? 'font-bold' : ''}`}
                 >
                   <span className={isDark ? 'text-zinc-300' : 'text-zinc-600'}>{m}</span>
                 </Button>

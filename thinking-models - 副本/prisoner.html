@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>囚徒困境</title></head>
+<body >
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 600">
+      <g transform="translate(500, 300)">
+        <!-- 博弈方标注 -->
+        <text x="-250" y="-180" text-anchor="middle" fill="#64748b" opacity="0.4" style="font-size: 12px; font-weight: 900;">囚徒 B 的决策 →</text>
+        <text x="-380" y="0" text-anchor="middle" fill="#64748b" opacity="0.4" style="font-size: 12px; font-weight: 900;" transform="rotate(-90 -380 0)">囚徒 A 的决策 ↑</text>
+
+        <!-- 矩阵格子 -->
+        <!-- 合作/合作 (帕累托改进) -->
+        <g transform="translate(-160, -110)">
+          <rect x="-100" y="-80" width="200" height="160" rx="20" fill="#10b981" fill-opacity="0.1" stroke="#10b981" stroke-width="2" />
+          <text text-anchor="middle" y="5" fill="#10b981" style="font-size: 20px; font-weight: 900;">1年 / 1年</text>
+          <text y="30" text-anchor="middle" fill="#10b981" style="font-size: 9px; opacity: 0.6;">集体利益最大化</text>
+        </g>
+
+        <!-- 纳什均衡陷阱 (背叛/背叛) -->
+        <g transform="translate(160, 110)">
+          <rect x="-100" y="-80" width="200" height="160" rx="20" fill="#ef4444" fill-opacity="0.1" stroke="#ef4444" stroke-width="4" stroke-dasharray="10 5" />
+          <text text-anchor="middle" y="5" fill="#ef4444" style="font-size: 20px; font-weight: 900;">5年 / 5年</text>
+          <text y="30" text-anchor="middle" fill="#ef4444" style="font-size: 9px; font-weight: 900;">理性个体的稳定解</text>
+          <circle r="10" cx="80" cy="-60" fill="#ef4444" class="animate-ping" />
+        </g>
+
+        <!-- 惩罚区域 -->
+        <g transform="translate(160, -110)" opacity="0.3">
+           <rect x="-100" y="-80" width="200" height="160" rx="20" fill="#ef4444" fill-opacity="0.1" stroke="#ef4444" stroke-width="1" />
+           <text text-anchor="middle" y="5" fill="#ef4444" style="font-size: 16px;">0年 / 10年</text>
+        </g>
+        <g transform="translate(-160, 110)" opacity="0.3">
+           <rect x="-100" y="-80" width="200" height="160" rx="20" fill="#ef4444" fill-opacity="0.1" stroke="#ef4444" stroke-width="1" />
+           <text text-anchor="middle" y="5" fill="#ef4444" style="font-size: 16px;">10年 / 0年</text>
+        </g>
+      </g>
+    </svg>
+  </div>
+
+  <div class="text-content">
+    <h1>囚徒困境</h1>
+    <p>由于缺乏信任，理性的个人往往会做出对整体不利的决定。揭示了集体协作中最大的逻辑陷阱。</p>
+    <div class="grid">
+      <div>
+        <h3>博弈深度</h3>
+        <ul>
+          <li><strong>理性与非理性的错位：</strong>对个人来说，“背叛”是防范最坏情况的策略；但对集体来说，由于所有人都这么想，系统陷入了“双输”的纳什均衡。</li>
+          <li><strong>外部性：</strong>当个体不考虑他方利益时，产生的成本最终会由整个系统买单。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>破局之道</h3>
+        <ul>
+          <li><strong>重复博弈：</strong>增加见面的频率和次数。当“未来”的利益大于当前的“背叛”所得时，信任才会产生。</li>
+          <li><strong>一报还一报 (Tit for Tat)：</strong>这是博弈论证明的最优解：先选择善意合作，然后精准复制对手上一步的动作，既有威慑力又有原谅力。</li>
+        </ul>
+      </div>
+    </div>
+  </div></body>
+</html>

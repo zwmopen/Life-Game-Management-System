@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>德西效应</title></head>
+<body >
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 600">
+      <!-- 内在动力场 (核心) -->
+      <g transform="translate(500, 300)">
+        <circle r="120" fill="#ef4444" fill-opacity="0.1" class="animate-pulse" />
+        <circle r="60" fill="#ef4444" filter="drop-shadow(0 0 20px #ef4444)" />
+        <text text-anchor="middle" y="8" fill="white" style="font-size: 20px; font-weight: 900;">内在兴趣</text>
+      </g>
+      
+      <!-- 外部奖赏注入 (金币流) -->
+      <g>
+        <circle cx="200" cy="100" r="15" fill="#fbbf24">
+           <animate attributeName="cx" from="200" to="500" dur="2s" repeatCount="indefinite" />
+           <animate attributeName="cy" from="100" to="300" dur="2s" repeatCount="indefinite" />
+           <animate attributeName="opacity" values="1;0" dur="2s" repeatCount="indefinite" />
+        </circle>
+        <text x="200" y="80" text-anchor="middle" fill="#fbbf24" style="font-size: 18px; font-weight: 900;">外部奖励 ($)</text>
+      </g>
+
+      <!-- 产生的侵蚀效果 -->
+      <g transform="translate(500, 300)">
+        <path d="M-80,-80 L80,80 M80,-80 L-80,80" stroke="#ef4444" stroke-width="4" opacity="0.3" stroke-dasharray="10 5" />
+        <text y="160" text-anchor="middle" fill="#ef4444" style="font-size: 20px; font-weight: 900;">动机位移：兴趣 → 任务</text>
+      </g>
+
+      <text x="500" y="550" text-anchor="middle" fill="#64748b" opacity="0.4" style="font-size: 18px; font-weight: 900; letter-spacing: 0.2em;">外部奖赏正在侵蚀内在乐趣</text>
+    </svg>
+  </div>
+
+  <div class="text-content">
+    <h1>德西效应 (Deci Effect)</h1>
+    <p>当一个人正在享受一项活动带来的纯粹乐趣时，如果给予外部物质奖励，反而会削弱其内在动机。一旦奖励停止，原有的兴趣也会随之消失。</p>
+    <div class="grid">
+      <div>
+        <h3>心理异化</h3>
+        <ul>
+          <li><strong>属性切换：</strong>奖励让“为了好玩”变成了“为了钱”。个体从自主的创造者变成了被奖赏操纵的劳动力。</li>
+          <li><strong>多巴胺劫持：</strong>外部刺激接管了大脑的奖励中枢，提高了快乐的阈值，让原本的满足感失效。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>管理哲学</h3>
+        <ul>
+          <li><strong>精神激励优先：</strong>对于需要创造力的工作，承认、自主权和成长空间比单纯的奖金更能持久。</li>
+          <li><strong>非预期奖励：</strong>“出乎意料”的奖励比“预设”的奖励对内在动机的伤害更小。</li>
+        </ul>
+      </div>
+    </div>
+  </div></body>
+</html>

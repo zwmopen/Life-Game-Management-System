@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>蝴蝶效应 - 初始的重量</title></head>
+<body >
+  <div class="neu-card">
+    <svg viewBox="0 0 800 600">
+      <!-- 蝴蝶 (微小波动源) -->
+      <g transform="translate(100, 300)">
+        <path d="M-20,-20 Q0,-40 20,-20 Q40,0 20,20 Q0,40 -20,20 Z" fill="#ef4444" fill-opacity="0.6">
+           <animateTransform attributeName="transform" type="scale" values="1;1.2;1" dur="0.2s" repeatCount="indefinite" />
+        </path>
+        <text y="50" text-anchor="middle" fill="#ef4444" style="font-size: 10px; font-weight: 900;">0.0001% 误差</text>
+      </g>
+      
+      <!-- 能量放大链 -->
+      <path d="M140,300 Q250,280 400,300 T700,100" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="10 5" opacity="0.3" />
+      
+      <!-- 最终风暴 (巨大的旋涡) -->
+      <g transform="translate(600, 300)">
+        <circle r="150" fill="none" stroke="#ef4444" stroke-width="1" class="animate-spin" style="animation-duration: 3s;" />
+        <circle r="100" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="20 10" class="animate-spin" style="animation-duration: 2s;" />
+        <circle r="50" fill="#ef4444" fill-opacity="0.1" />
+        <text y="180" text-anchor="middle" fill="#ef4444" style="font-size: 24px; font-weight: 900;">GLOBAL STORM</text>
+      </g>
+
+      <text x="400" y="550" text-anchor="middle" fill="#64748b" opacity="0.3" style="font-size: 10px; font-weight: 900; letter-spacing: 0.5em;">NON-LINEAR CHAOS SYSTEM</text>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>蝴蝶效应</h1>
+    <p>指在一个动态系统中，初始条件的微小变化，经过系统的不断放大，长期来看可能导致极其巨大的连锁反应。世界是混沌且敏感的。</p>
+    <div class="grid">
+      <div>
+        <h3>系统特征</h3>
+        <ul>
+          <li><strong>初值敏感</strong>：正如气象系统，一只蝴蝶扇动翅膀可能导致数周后的飓风。</li>
+          <li><strong>不可预测性</strong>：由于反馈回路的复杂叠加，人类无法进行超长期的精确预测。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>启示录</h3>
+        <ul>
+          <li><strong>细节决定生死</strong>：在复杂工程或大型品牌中，一个微小的疏忽可能引发万倍级的赔付。</li>
+          <li><strong>容错机制</strong>：既然系统是不可测的，与其追求完美预测，不如建立冗余和动态反馈。</li>
+        </ul>
+      </div>
+    </div>
+  </div></body>
+</html>

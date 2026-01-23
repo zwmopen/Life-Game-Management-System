@@ -5,9 +5,10 @@ import { Star, Zap, Clock, Wallet, ShoppingBag, Target, Flame, Sparkles, X } fro
 interface RewardModalProps {
   badge: any;
   onClose: (id: string, xp: number, gold: number) => void;
+  theme?: string;
 }
 
-const RewardModal: React.FC<RewardModalProps> = ({ badge, onClose }) => {
+const RewardModal: React.FC<RewardModalProps> = ({ badge, onClose, theme = 'neomorphic-light' }) => {
   let threshold = 0;
   if (badge.min) threshold = badge.min;
   else if (badge.val) threshold = badge.val;
@@ -69,7 +70,7 @@ const RewardModal: React.FC<RewardModalProps> = ({ badge, onClose }) => {
   // 添加音效播放
   useEffect(() => {
     // 播放成就解锁音效
-    const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-achievement-unlocked-2065.mp3');
+    const audio = new Audio('/audio/sfx/成就解锁音频.mp3');
     audio.volume = 0.5;
     audio.play().catch(error => {
       if (process.env.NODE_ENV === 'development') {
@@ -79,8 +80,8 @@ const RewardModal: React.FC<RewardModalProps> = ({ badge, onClose }) => {
   }, []);
 
   // 获取拟态样式
-  const isNeomorphic = true; // 使用拟态风格
-  const isDark = true; // 暗色主题
+  const isNeomorphic = theme.startsWith('neomorphic'); // 使用拟态风格
+  const isDark = theme.includes('dark'); // 根据主题判断是否为暗色主题
   const neomorphicBg = isDark ? 'bg-[#1e1e2e]' : 'bg-[#e0e5ec]';
   const neomorphicShadow = isDark 
     ? 'shadow-[10px_10px_20px_rgba(0,0,0,0.4),-10px_-10px_20px_rgba(30,30,46,0.8)]' 

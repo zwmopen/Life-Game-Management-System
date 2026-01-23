@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>进化稳定策略</title></head>
+<body >
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 种群背景 -->
+        <circle r="300" fill="none" stroke="#1e293b" stroke-width="1" opacity="0.05" />
+        
+        <!-- 稳定种群 (蓝色) -->
+        <g fill="#ef4444" opacity="0.2">
+          <circle cx="-150" cy="-100" r="15" /><circle cx="120" cy="180" r="15" />
+          <circle cx="200" cy="-50" r="15" /><circle cx="-80" cy="220" r="15" />
+          <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="20s" repeatCount="indefinite" />
+        </g>
+
+        <!-- 核心稳态 -->
+        <g>
+          <circle r="120" fill="#ef4444" fill-opacity="0.1" stroke="#ef4444" stroke-width="4" stroke-dasharray="10 5" class="animate-spin" style="animation-duration: 8s;" />
+          <text text-anchor="middle" y="5" fill="#ef4444" style="font-size: 32px; font-weight: 900;">ESS 稳态</text>
+        </g>
+        
+        <!-- 突变者 (红色 - 试图入侵但被挤出) -->
+        <g transform="translate(400, 0)">
+           <circle r="20" fill="#ef4444" class="animate-pulse" />
+           <path d="M0,0 L-100,0" stroke="#ef4444" stroke-width="4" stroke-dasharray="5 5" marker-end="url(#redarrow)" />
+           <text y="50" text-anchor="middle" fill="#ef4444" style="font-size: 14px; font-weight: 900;">变异者 (无法入侵)</text>
+        </g>
+
+        <text y="280" text-anchor="middle" fill="#ef4444" style="font-size: 36px; font-weight: 900; letter-spacing: 0.1em;">不可被取代的系统均衡</text>
+      </g>
+      <defs>
+        <marker id="redarrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#ef4444"/></marker>
+      </defs>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>进化稳定策略 (ESS)</h1>
+    <p>由约翰·梅纳德·史密斯提出。在一个群体中，如果绝大多数成员都采取某种策略，而任何少数突变者都无法通过改变策略获得更高收益，那么该策略就是“进化稳定”的。</p>
+    <div class="grid">
+      <div>
+        <h3>系统韧性</h3>
+        <ul>
+          <li><strong>自我修复：</strong>ESS 像一个引力场。即使系统出现了临时的混乱（突变），长期的博弈力学也会将其拉回原始的稳态。</li>
+          <li><strong>自然选择的终点：</strong>在漫长的博弈中，生存下来的不是“最强”的策略，而是那个最能抵抗“入侵”的稳定解。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>实战决策</h3>
+        <ul>
+          <li><strong>寻找默认共识：</strong>在商业生态中，理解现有的“行规”往往就是一种 ESS。试图暴力打破它需要极高的认知成本。</li>
+          <li><strong>防御性创新：</strong>最好的创新不是昙花一现的灵感，而是能自发演化为新的、他人无法轻易入侵的稳态结构。</li>
+        </ul>
+      </div>
+    </div>
+  </div></body>
+</html>

@@ -40,7 +40,7 @@ const DailyCheckIn: React.FC<DailyCheckInProps> = ({ theme, onClaim }) => {
   const handleCheckIn = () => {
       setIsOpening(true);
       // Play Chest Opening Sound
-      new Audio("https://assets.mixkit.co/active_storage/sfx/1435/1435-preview.mp3").play().catch(()=>{});
+      new Audio("/audio/sfx/签到成功音效.mp3").play().catch(()=>{});
       
       // Animation Delay
       setTimeout(() => {
@@ -64,8 +64,8 @@ const DailyCheckIn: React.FC<DailyCheckInProps> = ({ theme, onClaim }) => {
             origin: { y: 0.6 },
             colors: ['#fbbf24', '#f59e0b', '#d97706', '#3b82f6']
           });
-          // Play Coin Sound
-          new Audio("https://assets.mixkit.co/active_storage/sfx/2003/2003-preview.mp3").play().catch(()=>{});
+          // Play Check-in Success Sound
+          new Audio("/audio/sfx/签到成功音效.mp3").play().catch(()=>{});
 
           // Close delay - Total display time: 1s animation + 1s reward = 2s total
           setTimeout(() => {

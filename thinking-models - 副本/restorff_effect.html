@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>雷斯托夫效应</title></head>
+<body >
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 600">
+      <!-- 灰暗的平凡背景 -->
+      <g fill="#1e293b" opacity="0.1">
+        <circle cx="200" cy="200" r="30" /><circle cx="300" cy="200" r="30" />
+        <circle cx="400" cy="200" r="30" /><circle cx="500" cy="200" r="30" />
+        <circle cx="600" cy="200" r="30" /><circle cx="700" cy="200" r="30" />
+        <circle cx="200" cy="400" r="30" /><circle cx="300" cy="400" r="30" />
+        <circle cx="400" cy="400" r="30" /><circle cx="600" cy="400" r="30" />
+        <circle cx="700" cy="400" r="30" /><circle cx="800" cy="400" r="30" />
+      </g>
+      
+      <!-- 异常点 (核心) -->
+      <g transform="translate(500, 400)">
+        <rect x="-60" y="-60" width="120" height="120" rx="15" fill="#ef4444" filter="drop-shadow(0 0 25px #ef4444)">
+           <animate attributeName="fill-opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite" />
+        </rect>
+        <circle r="120" fill="none" stroke="#ef4444" stroke-width="2" class="animate-ping" />
+        <text y="100" text-anchor="middle" fill="#ef4444" style="font-size: 24px; font-weight: 900;">被记住的异常项</text>
+      </g>
+
+      <text x="500" y="100" text-anchor="middle" fill="#64748b" opacity="0.4" style="font-size: 22px; font-weight: 900; letter-spacing: 0.3em;">显著性偏差 (孤立效应)</text>
+    </svg>
+  </div>
+
+  <div class="text-content">
+    <h1>雷斯托夫效应 (von Restorff Effect)</h1>
+    <p>也称“孤立效应”。指在这一组对象中，最独特的那个（颜色、形状、属性不同）最容易被人们记住并优先处理。</p>
+    <div class="grid">
+      <div>
+        <h3>感官机制</h3>
+        <ul>
+          <li><strong>注意力俘获：</strong>大脑对单调重复的信息会产生“习惯化屏蔽”，而突发的独特性会瞬间唤醒认知警报。</li>
+          <li><strong>记忆高亮：</strong>由于独特性占据了更多的认知资源，其存储的深度 and 检索的优先级都远高于平凡项。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>实战应用</h3>
+        <ul>
+          <li><strong>关键路径设计：</strong>在复杂的 U我 中，通过唯一的红色按钮或异常大小，强行引导用户的行为决策。</li>
+          <li><strong>个人品牌：</strong>在同质化的职场中，拥有一个极具辨识度的“标签性技能”，比全面平庸更有竞争力。</li>
+        </ul>
+      </div>
+    </div>
+  </div></body>
+</html>

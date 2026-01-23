@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>谢林隔离模型</title></head>
+<body >
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 初始混乱网格 -->
+        <rect x="-300" y="-200" width="600" height="400" fill="none" stroke="#1e293b" stroke-width="1" opacity="0.1" />
+        
+        <!-- 演化后的隔离板块 -->
+        <g>
+          <!-- 蓝色阵营 -->
+          <rect x="-280" y="-180" width="250" height="360" rx="20" fill="#ef4444" fill-opacity="0.2" stroke="#ef4444" stroke-width="2" />
+          <g fill="#ef4444">
+            <circle cx="-150" cy="-80" r="10" /><circle cx="-200" cy="50" r="10" />
+            <circle cx="-100" cy="120" r="10" />
+          </g>
+          
+          <!-- 红色阵营 -->
+          <rect x="30" y="-180" width="250" height="360" rx="20" fill="#ef4444" fill-opacity="0.2" stroke="#ef4444" stroke-width="2" />
+          <g fill="#ef4444">
+            <circle cx="150" cy="-80" r="10" /><circle cx="200" cy="50" r="10" />
+            <circle cx="100" cy="120" r="10" />
+          </g>
+        </g>
+
+        <!-- 移动的粒子 (寻找同类) -->
+        <circle r="15" fill="#fbbf24" class="animate-pulse">
+          <animateMotion path="M0,0 L-200,0 M0,0 L200,0" dur="4s" repeatCount="indefinite" />
+        </circle>
+
+        <text y="240" text-anchor="middle" fill="#64748b" opacity="0.6" style="font-size: 24px; font-weight: 900;">微小偏好 → 极端隔离</text>
+      </g>
+      <text x="500" y="80" text-anchor="middle" fill="#64748b" opacity="0.1" style="font-size: 32px; font-weight: 900; letter-spacing: 0.5em;">SOc我OLOG我caL EMERGENcE</text>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>谢林隔离模型 (Schelling Model)</h1>
+    <p>由诺奖得主托马斯·谢林提出。即使每个个体只是希望“邻居中不至于全是异类”（如希望 30% 是同类），在长期的互动和移动中，整个系统也会自发演化成 100% 的彻底隔离。中庸的偏好产生了极端的结果。</p>
+    <div class="grid">
+      <div>
+        <h3>涌现逻辑</h3>
+        <ul>
+          <li><strong>阈值连锁：</strong>只要环境稍不符合偏好，个体就会搬家。这种搬家会改变原居住地和新居住地的比例，引发下一轮搬家。</li>
+          <li><strong>非设计结果：</strong>隔离不是因为人们“极度仇外”，而是由于对“归属感”的微弱防御产生了跨尺度的放大。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>管理启示</h3>
+        <ul>
+          <li><strong>干预节点：</strong>想要维持多元化，必须在隔离刚刚萌芽的“舒适期”就进行强制的人为混合，否则系统会加速滑向极化。</li>
+          <li><strong>算法极化：</strong>社交媒体的信息茧房本质上就是数字版的谢林隔离。一旦我们只听一点点想听的，算法就会把我们送入封闭的孤岛。</li>
+        </ul>
+      </div>
+    </div>
+  </div></body>
+</html>

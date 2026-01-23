@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>公地悲剧</title></head>
+<body >
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <!-- 核心公地 (草场) -->
+      <g transform="translate(500, 325)">
+        <circle r="220" fill="#10b981" fill-opacity="0.1" stroke="#10b981" stroke-width="4" stroke-dasharray="10 5" />
+        <rect x="-100" y="-100" width="200" height="200" rx="30" fill="#10b981" opacity="0.2">
+           <animate attributeName="opacity" values="0.2;0.05;0.2" dur="5s" repeatCount="indefinite" />
+           <animate attributeName="fill" values="#10b981;#92400e;#10b981" dur="5s" repeatCount="indefinite" />
+        </rect>
+        <text text-anchor="middle" y="10" fill="#10b981" style="font-size: 32px; font-weight: 900;">共享资源池</text>
+      </g>
+      
+      <!-- 贪婪的提取者 -->
+      <g>
+        <circle cx="200" cy="150" r="40" fill="#ef4444" opacity="0.8">
+           <animate attributeName="cx" from="200" to="400" dur="2s" repeatCount="indefinite" />
+           <animate attributeName="opacity" values="0.8;0;0.8" dur="2s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="800" cy="150" r="40" fill="#ef4444" opacity="0.8">
+           <animate attributeName="cx" from="800" to="600" dur="2.5s" repeatCount="indefinite" />
+           <animate attributeName="opacity" values="0.8;0;0.8" dur="2.5s" repeatCount="indefinite" />
+        </circle>
+        <text x="500" y="80" text-anchor="middle" fill="#ef4444" style="font-size: 28px; font-weight: 900;">过度攫取</text>
+      </g>
+
+      <text x="500" y="580" text-anchor="middle" fill="#92400e" style="font-size: 48px; font-weight: 900; letter-spacing: 0.1em; opacity: 0.8;">集体理性导致的自杀</text>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>公地悲剧 (Tragedy of the Commons)</h1>
+    <p>当资源是免费、共享且有限的（如大气层、深海鱼群、公司共用服务器），每个人基于私利的“最优决定”会导致该资源被迅速耗尽，最终所有人都面临毁灭。</p>
+    <div class="grid">
+      <div>
+        <h3>逻辑黑洞</h3>
+        <ul>
+          <li><strong>收益私有，成本公摊：</strong>多放一只羊的收益全归我，但草场的退化由所有人承担。这是人性中最根深蒂固的计算偏差。</li>
+          <li><strong>不攫取者出局：</strong>如果你选择保护资源而别人不保护，你会在短期竞争中迅速破产，这种逆向淘汰强制所有人加入破坏。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>治理协议</h3>
+        <ul>
+          <li><strong>私有化：</strong>将公地明确界定给个人，利用其“禀赋效应”产生天然的保护欲。</li>
+          <li><strong>公约与重典：</strong>建立具备强制D力的外部法律或组织公约，将隐形的“公摊成本”显性化为昂贵的罚金。</li>
+        </ul>
+      </div>
+    </div>
+  </div></body>
+</html>

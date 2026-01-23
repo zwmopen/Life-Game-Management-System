@@ -218,7 +218,7 @@ const UnifiedBgMusicSelector: React.FC<UnifiedBgMusicSelectorProps> = ({
   return (
     <div 
       ref={soundMenuRef}
-      className={`${position} z-50 mt-2 w-64 sm:w-80 rounded-xl backdrop-blur-sm p-3 animate-in fade-in slide-in-from-top-5 ${getStyleByTheme(cardStyles, isNeomorphic, theme)} ${className}`}
+      className={`${position} z-50 mt-2 w-64 sm:w-80 rounded-xl backdrop-blur-sm p-3 animate-in fade-in slide-in-from-top-5 ${getStyleByTheme(cardStyles, isNeomorphic, theme)} ${className} min-w-[240px]`}
     >
       {/* 搜索框与切换按钮 */}
       <div className="mb-3">
@@ -331,19 +331,22 @@ const UnifiedBgMusicSelector: React.FC<UnifiedBgMusicSelectorProps> = ({
             };
             
             return (
-              <Button 
+              <div 
                   key={sound.id}
                   onClick={handleClick}
-                  variant={isPlaying ? 'primary' : 'primary'}
-                  size="small"
-                  isNeomorphic={isNeomorphic}
-                  theme={theme}
-                  className={`flex items-center gap-2 px-4 py-1.5 transition-all cursor-pointer justify-start rounded-full mb-1 ${index === 0 ? 'mt-1' : ''} ${isPlaying ? (isNeomorphic ? (isDark ? 'bg-blue-900/40 text-blue-400 shadow-[inset_3px_3px_6px_rgba(0,0,0,0.3),inset_-3px_-3px_6px_rgba(30,30,46,0.7)]' : 'bg-blue-500/90 text-white shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,0.8)]') : (isDark ? 'bg-blue-900/40 text-blue-400 border-2 border-blue-700/50' : 'bg-blue-500 text-white border-2 border-blue-600')) : ''}`}
+                  className={`flex items-center gap-2 px-4 py-1.5 transition-all cursor-pointer justify-start rounded-full mb-1 w-full ${index === 0 ? 'mt-1' : ''} ${isPlaying ? 
+                    (isNeomorphic ? 
+                      (isDark ? 'bg-blue-900/40 text-blue-400 shadow-[inset_3px_3px_6px_rgba(0,0,0,0.3),inset_-3px_-3px_6px_rgba(30,30,46,0.7)]' : 'bg-blue-500/90 text-white shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,0.8)]') 
+                      : (isDark ? 'bg-blue-900/40 text-blue-400 border-2 border-blue-700/50' : 'bg-blue-500 text-white border-2 border-blue-600')) 
+                    : 
+                    (isNeomorphic ? 
+                      (isDark ? 'bg-[#1e1e2e] text-blue-400 shadow-[5px_5px_10px_rgba(0,0,0,0.4),-5px_-5px_10px_rgba(30,30,46,0.8)] hover:shadow-[3px_3px_6px_rgba(0,0,0,0.3),-3px_-3px_6px_rgba(30,30,46,0.7)] active:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] text-blue-600 shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)]') 
+                      : (isDark ? 'bg-zinc-800 text-blue-400 hover:bg-zinc-700 shadow-md hover:shadow-lg' : 'bg-white text-blue-600 hover:bg-slate-50 shadow-md hover:shadow-lg'))}`}
                   >
                 {/* 添加序号 */}
                 <span className={`text-xs ${getTextMuted(isNeomorphic, theme)} min-w-6 text-center`}>{index + 1}</span>
                 <span className="text-base">{sound.icon}</span>
-                <span className={`text-xs font-medium ${getTextMain(isNeomorphic, theme)}`}>{sound.name}</span>
+                <span className={`text-xs font-medium ${getTextMain(isNeomorphic, theme)} flex-1 truncate`}>{sound.name}</span>
                 {isFavorite && (
                   <span className="ml-auto text-xs text-red-400 mr-1">❤️</span>
                 )}
@@ -356,7 +359,7 @@ const UnifiedBgMusicSelector: React.FC<UnifiedBgMusicSelectorProps> = ({
                 {isPlaying && !isLocked && (
                   <span className="ml-auto text-xs text-blue-400">播放中</span>
                 )}
-              </Button>
+              </div>
             );
           })}
       </div>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>布利丹之驴</title></head>
+<body >
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 完美的对称性 -->
+        <line x1="0" y1="-250" x2="0" y2="250" stroke="#1e293b" stroke-width="1" stroke-dasharray="10 20" opacity="0.1" />
+        
+        <!-- 选项 A -->
+        <g transform="translate(-300, 0)">
+          <rect x="-80" y="-80" width="160" height="160" rx="20" fill="#ef4444" fill-opacity="0.1" stroke="#ef4444" stroke-width="4" />
+          <text text-anchor="middle" y="5" fill="#ef4444" style="font-size: 24px; font-weight: 900;">干草堆 A</text>
+          <text y="40" text-anchor="middle" fill="#64748b" opacity="0.5" style="font-size: 12px;">(价值 100%)</text>
+        </g>
+        
+        <!-- 选项 B -->
+        <g transform="translate(300, 0)">
+          <rect x="-80" y="-80" width="160" height="160" rx="20" fill="#ef4444" fill-opacity="0.1" stroke="#ef4444" stroke-width="4" />
+          <text text-anchor="middle" y="5" fill="#ef4444" style="font-size: 24px; font-weight: 900;">干草堆 B</text>
+          <text y="40" text-anchor="middle" fill="#64748b" opacity="0.5" style="font-size: 12px;">(价值 100%)</text>
+        </g>
+
+        <!-- 处于中心的饥饿之驴 (纠结的指针) -->
+        <g>
+          <animateTransform attributeName="transform" type="rotate" values="-10;10;-10" dur="0.5s" repeatCount="indefinite" />
+          <circle r="40" fill="#ef4444" />
+          <path d="M0,0 L0,-120" stroke="#ef4444" stroke-width="8" stroke-linecap="round" marker-end="url(#redArrow)" />
+          <text y="80" text-anchor="middle" fill="#ef4444" style="font-size: 32px; font-weight: 900;">决策死锁</text>
+        </g>
+
+        <text y="-220" text-anchor="middle" fill="#ef4444" style="font-size: 42px; font-weight: 900;">完美理性 = 自杀</text>
+      </g>
+      <defs>
+        <marker id="redArrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#ef4444"/></marker>
+      </defs>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>布利丹之驴 (Buridan's Ass)</h1>
+    <p>悖论：一头完全理性的驴，站在两堆完全等质等量的干草中间，由于找不到任何逻辑理由选择其中一堆，最终在纠结中饿死。揭示了在信息对称时，“随机性”对于生存的必要性。</p>
+    <div class="grid">
+      <div>
+        <h3>逻辑黑洞</h3>
+        <ul>
+          <li><strong>分析瘫痪：</strong>当成本和收益极度接近时，继续权衡的时间成本（机会成本）会迅速吞噬掉决策本身的价值。</li>
+          <li><strong>对称性破缺：</strong>在生物和复杂的计算系统中，必须引入微小的随机扰动（熵）来强行打破平衡，启动行动。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>行动智慧</h3>
+        <ul>
+          <li><strong>抛硬币原则：</strong>如果在两分钟内无法通过逻辑选出最优项，说明两个选项的差值已小于你的认知成本。此时随机选一个，就是最高级的理性。</li>
+          <li><strong>先动优势：</strong>在模糊地带，行动本身带来的新信息（反馈）远比坐在原地思考产生的幻觉更有价值。</li>
+        </ul>
+      </div>
+    </div>
+  </div></body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>刻意练习</title></head>
+<body >
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 舒适区 -->
+        <circle r="120" fill="none" stroke="#94a3b8" stroke-width="1" stroke-dasharray="5 5" opacity="0.4" />
+        <text y="0" text-anchor="middle" fill="#94a3b8" style="font-size: 14px; font-weight: 900;">舒适区 (停留在此 = 停滞)</text>
+
+        <!-- 学习区 (核心) -->
+        <circle r="220" fill="#ef4444" fill-opacity="0.03" stroke="#ef4444" stroke-width="4" stroke-dasharray="15 10" />
+        <g transform="translate(0, -180)">
+           <rect x="-80" y="-25" width="160" height="50" rx="25" fill="#ef4444" />
+           <text text-anchor="middle" y="8" fill="white" style="font-size: 20px; font-weight: 900;">学习区</text>
+        </g>
+        
+        <!-- 恐慌区 -->
+        <circle r="320" fill="none" stroke="#ef4444" stroke-width="1" opacity="0.1" />
+        <text y="-290" text-anchor="middle" fill="#ef4444" style="font-size: 14px; font-weight: 900;">恐慌区 (崩溃边缘)</text>
+
+        <!-- 练习轨迹 (螺旋受挫) -->
+        <path d="M120,0 Q180,-150 0,-180 T-150,0 T0,180 T150,0" fill="none" stroke="#ef4444" stroke-width="4">
+           <animate attributeName="stroke-dasharray" from="0,1500" to="1500,0" dur="4s" repeatCount="indefinite" />
+        </path>
+        <circle r="10" cx="150" cy="0" fill="#fbbf24" class="animate-ping" />
+      </g>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>刻意练习 (Deliberate 计划ractice)</h1>
+    <p>天才是练习的产物。真正的成长只发生在“学习区”——那个让你感到不适、需要极度专注且不断收到失败反馈的边缘地带。</p>
+    <div class="grid">
+      <div>
+        <h3>刻意原则</h3>
+        <ul>
+          <li><strong>拒绝自动驾驶：</strong>如果你做一件事觉得很顺手、很轻松，说明你没有在练习，你只是在重复。</li>
+          <li><strong>精准反馈：</strong>练习的目的不是完成，而是纠错。没有即时反馈的练习只是在加固错误的肌肉记忆。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>D指南</h3>
+        <ul>
+          <li><strong>拆解动作：</strong>将大目标拆解为只有通过努力才能完成的“微小增量”。</li>
+          <li><strong>容忍受挫感：</strong>成长的物理感觉就是那种“大脑被拉扯”的轻微痛苦感。习惯这种痛苦是通向大师的唯一途径。</li>
+        </ul>
+      </div>
+    </div>
+  </div></body>
+</html>

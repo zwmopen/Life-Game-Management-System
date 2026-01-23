@@ -1,0 +1,65 @@
+<!DOCTYPE html>﻿<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>鏋楄开鏁堝簲 - 鏃堕棿鐨勮繃婊?/title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+
+
+    body { background: #020617; font-family: -apple-system, sans-serif; color: #f8fafc; }
+    .glass { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); }
+    @keyframes sand-flow { 0% { transform: translateY(-20px); opacity: 0; } 50% { opacity: 0.5; } 100% { transform: translateY(20px); opacity: 0; } }
+    .sand { animation: sand-flow 3s infinite linear; }
+    .curve { stroke-dasharray: 1000; stroke-dashoffset: 1000; animation: draw 4s forwards cubic-bezier(0.165, 0.84, 0.44, 1); }
+    @keyframes draw { to { stroke-dashoffset: 0; } }
+  </style>
+</head>
+<body>data-theme="light" class="p-8 md:p-20 flex items-center justify-center min-h-screen">
+  <div class="max-w-7xl mx-auto w-full grid grid-cols-1 gap-20">
+    <!-- SVG 鍙鍖?-->
+    <div class="relative flex items-center justify-center glass p-12 rounded-[4rem] shadow-2xl">
+      <svg viewBox="0 0 600 600" class="w-full h-auto max-w-[500px]">
+        <!-- 鍧愭爣杞?-->
+        <line x1="50" y1="500" x2="550" y2="500" stroke="rgba(255,255,255,0.1)" stroke-width="2" />
+        <line x1="50" y1="500" x2="50" y2="50" stroke="rgba(255,255,255,0.1)" stroke-width="2" />
+        
+        <!-- 鏋楄开鏇茬嚎 (瀛樻椿瓒婁箙锛屾湭鏉ヨ秺闀? -->
+        <path d="M50,450 Q200,440 350,300 T550,50" fill="none" stroke="#fbbf24" stroke-width="4" class="curve" />
+        
+        <!-- 鏃堕棿涔嬫矙鐐圭紑 -->
+        <circle cx="300" cy="200" r="3" fill="#fbbf24" class="sand" />
+        <circle cx="320" cy="220" r="2" fill="#fbbf24" class="sand" style="animation-delay: 1s" />
+        
+        <!-- 鏂囨湰 -->
+        <text x="540" y="530" text-anchor="end" fill="#fbbf24" class="text-[10px] font-black uppercase tracking-[0.2em]">Age of 我dea (杩囧幓瀵垮懡)</text>
+        <text x="40" y="60" text-anchor="middle" fill="#fbbf24" class="text-[10px] font-black uppercase tracking-[0.2em]" transform="rotate(-90 40 60)">Future Life (鏈潵鏈熸湜)</text>
+      </svg>
+    </div>
+
+    <!-- 鏂囨鍐呭鍖?-->
+    <div class="space-y-12">
+      <h1 class="text-8xl font-black text-white tracking-tighter leading-[0.8]">鏋楄开鏁堝簲<br><span class="text-amber-500 italic">Lindy Effect</span></h1>
+      <p class="text-xl text-slate-400 border-l-4 border-amber-500 pl-6 leading-relaxed italic">
+        鈥滃浜庨潪鏄撳け鎬т簨鐗╋紙濡傛兂娉曘€佷功绫嶃€佹妧鏈級锛屽畠浠凡缁忓瓨鍦ㄧ殑鏃堕棿瓒婇暱锛屾湭鏉ュ彲鑳藉瓨鍦ㄧ殑鏃堕棿灏辫秺闀裤€傗€?
+      </p>
+
+      <div class="glass p-10 rounded-[3rem] space-y-6">
+        <h3 class="text-2xl font-black text-white italic">鏍稿績闅愬柣锛氭椂闂翠箣娌?/h3>
+        <p class="text-sm text-slate-400 leading-relaxed">
+          鏃堕棿鏄敮涓€鐨勫鍒ゅ畼銆傚鏋滀綘鎯崇煡閬撳摢椤规妧鏈垨鍝湰涔﹀湪 100 骞村悗渚濈劧瀛樺湪锛屽幓鐪嬮偅浜涘凡缁忓瓨鍦ㄤ簡 100 骞寸殑涓滆タ銆傛柊浜嬬墿鐢变簬缂轰箯鏃堕棿鐨勬礂绀硷紝澶姌鐨勬鐜囪繙楂樹簬閭ｄ簺鍘嗙粡椋庨湝鐨勨€滃彜鍏告櫤鎱р€濄€?
+        </p>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="bg-amber-600/10 p-5 rounded-3xl border border-amber-500/20">
+             <h4 class="text-amber-400 font-black text-[10px] uppercase mb-1">鐢熷瓨娉曞垯</h4>
+             <p class="text-[11px] text-slate-300">瀛樻椿鏃堕棿姣忓鍔犱竴澶╋紝棰勬湡鐨勬湭鏉ュ鍛藉氨澧炲姞涓€澶┿€?/p>
+          </div>
+          <div class="bg-white/5 p-5 rounded-3xl border border-white/5">
+             <h4 class="text-slate-500 font-black text-[10px] uppercase mb-1">搴旂敤棰嗗煙</h4>
+             <p class="text-[11px] text-slate-300 italic">缁忓吀闃呰銆佸鍙よ蒋浠躲€佷紶缁熷晢涓氭ā寮忋€?/p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div></body>
+</html>

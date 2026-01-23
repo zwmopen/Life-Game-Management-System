@@ -67,25 +67,38 @@ class SoundManager {
   private initSounds(): void {
     const soundList: SoundEffect[] = [
       // 本地音效 - 统一管理在sfx目录
-      { id: 'dice', url: '/audio/sfx/骰子音效.mp3', volume: 0.7 },
-      { id: 'taskComplete', url: '/audio/sfx/任务完成音效.mp3', volume: 0.5 },
-      { id: 'taskGiveUp', url: '/audio/sfx/任务放弃音效.mp3', volume: 0.5 },
-      { id: 'purchase', url: '/audio/sfx/购买音效.mp3', volume: 0.5 },
-      { id: 'notification', url: '/audio/sfx/任务通知音效.mp3', volume: 0.5 },
+      { id: 'dice', url: '/audio/sfx/投骰子音效.mp3', volume: 0.7 },
+      { id: 'taskComplete', url: '/audio/sfx/日常任务完成音效.mp3', volume: 0.5 },
+      { id: 'mainTaskComplete', url: '/audio/sfx/主线任务完成音效超快音效.mp3', volume: 0.5 },
+      { id: 'taskGiveUp', url: '/audio/sfx/任务放弃音效bubblepop-254773.mp3', volume: 0.5 },
+      { id: 'purchase', url: '/audio/sfx/商品购买支出音效.mp3', volume: 0.5 },
+      { id: 'notification', url: '/audio/sfx/任务弹出通知提醒音效level-up-191997.mp3', volume: 0.5 },
       { id: 'achievement', url: '/audio/sfx/成就解锁音频.mp3', volume: 0.5 },
-      { id: 'timer', url: '/audio/sfx/任务完成音效.mp3', volume: 0.5 },
-      { id: 'coin', url: '/audio/sfx/金币收入支出音效.mp3', volume: 0.5 },
-      { id: 'pomodoroComplete', url: '/audio/sfx/番茄钟完成音效ding-36029.mp3', volume: 0.5 },
-      // 回退音效
-      { id: 'dice-fallback', url: '/audio/sfx/骰子音效.mp3', volume: 0.7 },
-      { id: 'taskComplete-fallback', url: '/audio/sfx/任务完成音效.mp3', volume: 0.5 },
-      { id: 'taskGiveUp-fallback', url: '/audio/sfx/任务放弃音效.mp3', volume: 0.5 },
-      { id: 'purchase-fallback', url: '/audio/sfx/购买音效.mp3', volume: 0.5 },
-      { id: 'notification-fallback', url: '/audio/sfx/任务通知音效.mp3', volume: 0.5 },
+      { id: 'timer', url: '/audio/sfx/番茄钟开始和结束计时音效servant-bell-ring-2-211683.mp3', volume: 0.5 },
+      { id: 'checkin', url: '/audio/sfx/签到成功音效.mp3', volume: 0.5 },
+      { id: 'coin', url: '/audio/sfx/商品购买支出音效.mp3', volume: 0.5 },
+      // 备用音效
+      { id: '备用-ding-36029', url: '/audio/sfx/备用-ding-36029.mp3', volume: 0.5 },
+      { id: '备用-ding-sfx-330333', url: '/audio/sfx/备用-ding-sfx-330333.mp3', volume: 0.5 },
+      { id: '备用-ding-small-bell-sfx-233008', url: '/audio/sfx/备用-ding-small-bell-sfx-233008.mp3', volume: 0.5 },
+      { id: '备用-doorbell-329311', url: '/audio/sfx/备用-doorbell-329311.mp3', volume: 0.5 },
+      { id: '备用-hotel-bell-ding-1-174457', url: '/audio/sfx/备用-hotel-bell-ding-1-174457.mp3', volume: 0.5 },
+      { id: '备用3', url: '/audio/sfx/备用3.mp3', volume: 0.5 },
+      { id: '备用音效', url: '/audio/sfx/备用音效.mp3', volume: 0.5 },
+      { id: '备用音效3', url: '/audio/sfx/备用音效3.mp3', volume: 0.5 },
+      { id: '成就解锁音频2', url: '/audio/sfx/成就解锁音频2.mp3', volume: 0.5 },
+      // 回退音效 - 使用相同的音效文件作为主音效，确保一致性
+      { id: 'dice-fallback', url: '/audio/sfx/投骰子音效.mp3', volume: 0.7 },
+      { id: 'taskComplete-fallback', url: '/audio/sfx/日常任务完成音效.mp3', volume: 0.5 },
+      { id: 'mainTaskComplete-fallback', url: '/audio/sfx/主线任务完成音效超快音效.mp3', volume: 0.5 },
+      { id: 'taskGiveUp-fallback', url: '/audio/sfx/任务放弃音效bubblepop-254773.mp3', volume: 0.5 },
+      { id: 'purchase-fallback', url: '/audio/sfx/商品购买支出音效.mp3', volume: 0.5 },
+      { id: 'notification-fallback', url: '/audio/sfx/任务弹出通知提醒音效level-up-191997.mp3', volume: 0.5 },
       { id: 'achievement-fallback', url: '/audio/sfx/成就解锁音频.mp3', volume: 0.5 },
-      { id: 'timer-fallback', url: '/audio/sfx/任务完成音效.mp3', volume: 0.5 },
-      { id: 'coin-fallback', url: '/audio/sfx/金币收入支出音效.mp3', volume: 0.5 },
-      { id: 'pomodoroComplete-fallback', url: '/audio/sfx/番茄钟完成音效ding-36029.mp3', volume: 0.5 }
+      { id: 'timer-fallback', url: '/audio/sfx/番茄钟开始和结束计时音效servant-bell-ring-2-211683.mp3', volume: 0.5 },
+      { id: 'checkin-fallback', url: '/audio/sfx/签到成功音效.mp3', volume: 0.5 },
+      { id: 'coin-fallback', url: '/audio/sfx/商品购买支出音效.mp3', volume: 0.5 },
+      { id: 'pomodoroComplete-fallback', url: '/audio/sfx/番茄钟开始和结束计时音效servant-bell-ring-2-211683.mp3', volume: 0.5 }
     ];
 
     soundList.forEach(sound => {

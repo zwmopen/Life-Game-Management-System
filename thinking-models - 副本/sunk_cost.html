@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>沉没成本</title></head>
+<body >
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 600">
+      <!-- 无底洞漏斗 -->
+      <g transform="translate(500, 300)">
+        <path d="M-250,-200 L250,-200 L50,200 L-50,200 Z" fill="none" stroke="#1e293b" stroke-width="2" opacity="0.1" />
+        
+        <!-- 掉落的筹码 -->
+        <circle r="15" fill="#ef4444" opacity="0.6">
+          <animate attributeName="cy" from="-250" to="250" dur="2s" repeatCount="indefinite" />
+          <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite" />
+          <animate attributeName="r" values="15;5;0" dur="2s" repeatCount="indefinite" />
+        </circle>
+        <circle r="10" fill="#ef4444" opacity="0.4" cx="40">
+          <animate attributeName="cy" from="-250" to="250" dur="3s" begin="0.5s" repeatCount="indefinite" />
+        </circle>
+
+        <!-- 退出指示 -->
+        <g transform="translate(250, 150)">
+          <path d="M0,0 L100,-100" stroke="#10b981" stroke-width="3" stroke-dasharray="5 5" />
+          <text x="110" y="-100" fill="#10b981" style="font-size: 14px; font-weight: 900;">及时止损</text>
+        </g>
+
+        <text y="240" text-anchor="middle" fill="#64748b" opacity="0.3" style="font-size: 12px; font-weight: 900; letter-spacing: 1em;">无底洞</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="text-content">
+    <h1>沉没成本</h1>
+    <p>人类非理性决策的头号杀手。我们倾向于在已经亏损的事情上追加投入，仅仅因为我们“已经投入了这么多”。</p>
+    <div class="grid">
+      <div>
+        <h3>心理陷阱</h3>
+        <ul>
+          <li><strong>情感牵绊：</strong>承认失败意味着自尊心的受损，大脑会自动寻找理由来延续错误。</li>
+          <li><strong>过度辩护：</strong>“票都买了，看完再说吧”，这种逻辑会将你未来的资源也拖入泥潭。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>理性对策</h3>
+        <ul>
+          <li><strong>忽略过去：</strong>在做任何决策时，只问：从这一刻起，哪条路径的未来收益最高？</li>
+          <li><strong>零基决策：</strong>如果我今天还没有开始这项投入，我还会选择现在这个方案吗？</li>
+        </ul>
+      </div>
+    </div>
+  </div></body>
+</html>

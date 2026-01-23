@@ -45,7 +45,7 @@ export const SHOP_CATALOG: ShopItem[] = [
   { id: 'p_gear_5', name: '智能台灯', description: '护眼照明，专注模式', cost: 350, type: 'physical', owned: false, icon: <Sun size={24} className="text-yellow-500"/>, category: '数码', image: 'https://images.unsplash.com/photo-1534073828943-f801091bb18c?w=400&h=400&fit=crop' },
   
   // 饮食
-  { id: 's_food_1', name: '辣条一包', description: '廉价多巴胺 (慎用)', cost: 1, type: 'leisure', owned: false, icon: <Utensils size={24} className="text-red-500"/>, category: '吃喝', image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=400&fit=crop' },
+  { id: 's_food_1', name: '辣条一包', description: '廉价多巴胺 (慎用)', cost: 1, type: 'leisure', owned: false, icon: <Utensils size={24} className="text-red-500"/>, category: '吃喝', image: 'https://images.unsplash.com/photo-1564869521641-a52c75637e91?w=400&h=400&fit=crop' },
   { id: 's_food_2', name: '快乐水', description: '瞬间恢复心情', cost: 5, type: 'leisure', owned: false, icon: <Coffee size={24} className="text-amber-700"/>, category: '饮食', image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400&h=400&fit=crop' },
   { id: 's_food_3', name: '疯狂星期四', description: '高热量补给', cost: 68, type: 'leisure', owned: false, icon: <Gift size={24} className="text-yellow-500"/>, category: '饮食', image: 'https://images.unsplash.com/photo-1513639776629-7b61b0ac49cb?w=400&h=400&fit=crop' },
   { id: 's_food_6', name: '买一瓶饮料', description: '解渴又提神', cost: 5, type: 'leisure', owned: false, icon: <Coffee size={24} className="text-blue-500"/>, category: '饮食', image: 'https://images.unsplash.com/photo-1527960669566-f882ba85a4c6?w=400&h=400&fit=crop' },

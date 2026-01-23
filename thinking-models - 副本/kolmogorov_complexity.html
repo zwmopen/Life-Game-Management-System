@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>科尔莫哥洛夫复杂度</title></head>
+<body >
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 对象 A: 伪复杂 (长序列) -->
+        <g transform="translate(-250, 0)">
+          <rect x="-120" y="-120" width="240" height="240" rx="30" fill="none" stroke="#1e293b" stroke-width="1" opacity="0.2" />
+          <text y="5" text-anchor="middle" fill="#64748b" opacity="0.3" style="font-size: 10px;">01010101010101...</text>
+          <path d="M-80,60 L80,60" stroke="#10b981" stroke-width="8" stroke-linecap="round" />
+          <text y="100" text-anchor="middle" fill="#10b981" style="font-size: 18px; font-weight: 900;">描述：重复 100 次 01</text>
+          <text y="130" text-anchor="middle" fill="#10b981" style="font-size: 12px;">(低复杂度/可压缩)</text>
+        </g>
+        
+        <!-- 对象 B: 深度复杂 (随机/无理) -->
+        <g transform="translate(250, 0)">
+          <rect x="-120" y="-120" width="240" height="240" rx="30" fill="none" stroke="#ef4444" stroke-width="2" />
+          <text y="5" text-anchor="middle" fill="#ef4444" style="font-size: 10px; font-weight: 800;">3.14159265358979...</text>
+          <text y="100" text-anchor="middle" fill="#ef4444" style="font-size: 18px; font-weight: 900;">描述：无法压缩的逻辑</text>
+          <text y="130" text-anchor="middle" fill="#ef4444" style="font-size: 12px;">(高复杂度/深度内容)</text>
+          <circle r="140" fill="none" stroke="#ef4444" stroke-width="1" stroke-dasharray="2 10" class="animate-spin" />
+        </g>
+
+        <text y="-220" text-anchor="middle" fill="#ef4444" style="font-size: 42px; font-weight: 900; letter-spacing: 0.1em;">K(x) = 最短程序长度</text>
+      </g>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>科尔莫哥洛夫复杂度 (Kolmogorov Complexity)</h1>
+    <p>衡量一个事物的逻辑深度：不是看它表面有多少细节，而是看描述它、生成它的最短算法有多长。无法被压缩的信息，才是真正的“硬核”复杂度。</p>
+    <div class="grid">
+      <div>
+        <h3>本质区别</h3>
+        <ul>
+          <li><strong>重复不等于深度：</strong>一个一百万字的垃圾文本，其复杂度可能远低于一条优雅的数学公式。前者充满了冗余。</li>
+          <li><strong>不可约性：</strong>真正的天才想法是“不可约”的。你无法再删减其中任何一个词而不破坏其核心逻辑。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>认知启示</h3>
+        <ul>
+          <li><strong>追求高密度：</strong>在学习和沟通中，剔除所有能被推导出的“重复模式”，只保留那个最核心、最不可压缩的“种子代码”。</li>
+          <li><strong>算法之美：</strong>宇宙的复杂性源于简单的物理常数。理解了那几行“底层代码”，你就理解了万物的运行逻辑。</li>
+        </ul>
+      </div>
+    </div>
+  </div></body>
+</html>

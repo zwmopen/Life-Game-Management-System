@@ -37,31 +37,33 @@ const CONSUMPTION_THRESHOLDS = [{min:100,title:'初次破费'},{min:500,title:'�
 const getAllConsumptionTitles = () => CONSUMPTION_THRESHOLDS;
 
 interface HallOfFameProps {
-  theme: Theme;
-  balance: number;
-  totalHours: number;
-  totalCampaignsWon: number; // Kills
-  achievements: AchievementItem[]; 
-  setAchievements: (achievements: AchievementItem[]) => void;
-  xp: number;
-  checkInStreak: number;
-  onPomodoroComplete: (m: number) => void;
-  totalSpent: number;
-  claimedBadges: string[];
-  onClaimReward: (id: string, rewardXp: number, rewardGold: number) => void;
-  isNavCollapsed: boolean;
-  setIsNavCollapsed: (collapsed: boolean) => void;
-  // Pomodoro Global State
-  timeLeft: number;
-  isActive: boolean;
-  duration: number;
-  onToggleTimer: () => void;
-  onResetTimer: () => void;
-  onChangeDuration: (minutes: number) => void;
-  onUpdateTimeLeft: (seconds: number) => void;
-  onUpdateIsActive: (active: boolean) => void;
-  // 帮助卡片系统
-  onHelpClick: (helpId: string) => void;
+    theme: Theme;
+    balance: number;
+    totalHours: number;
+    totalCampaignsWon: number; // Kills
+    achievements: AchievementItem[]; 
+    setAchievements: (achievements: AchievementItem[]) => void;
+    xp: number;
+    checkInStreak: number;
+    onPomodoroComplete: (m: number) => void;
+    totalSpent: number;
+    claimedBadges: string[];
+    onClaimReward: (id: string, rewardXp: number, rewardGold: number) => void;
+    isNavCollapsed: boolean;
+    setIsNavCollapsed: (collapsed: boolean) => void;
+    // Pomodoro Global State
+    timeLeft: number;
+    isActive: boolean;
+    duration: number;
+    onToggleTimer: () => void;
+    onResetTimer: () => void;
+    onChangeDuration: (minutes: number) => void;
+    onUpdateTimeLeft: (seconds: number) => void;
+    onUpdateIsActive: (active: boolean) => void;
+    // 帮助卡片系统
+    onHelpClick: (helpId: string) => void;
+    // 模态框状态管理
+    setModalState?: (isOpen: boolean) => void;
 }
 
 const HallOfFame: React.FC<HallOfFameProps> = ({
@@ -70,7 +72,9 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
     // Pomodoro Global State
     timeLeft, isActive, duration, onToggleTimer, onResetTimer, onChangeDuration, onUpdateTimeLeft, onUpdateIsActive,
     // Help System
-    onHelpClick
+    onHelpClick,
+    // Modal State Management
+    setModalState
 }) => {
     const isDark = theme.includes('dark');
     const isNeomorphic = theme.startsWith('neomorphic');
@@ -369,7 +373,10 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
                             {/* 管理按钮 - 统一样式，添加数量显示 */}
                             <button 
                                 className={`px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all flex items-center justify-center gap-2 whitespace-nowrap ${getButtonStyleLocal(false)}`}
-                                onClick={() => setShowManageModal(true)}
+                                onClick={() => {
+                                    setShowManageModal(true);
+                                    setModalState?.(true);
+                                }}
                             >
                                 <Edit3 size={12} /> 管理勋章 <span className={`text-xs ${isDark ? 'text-zinc-400' : 'text-slate-500'}`}>({allBadges.length})</span>
                             </button>
@@ -428,7 +435,10 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
             {/* 管理功能模态框 */}
             <BadgeManagementModal
                 isOpen={showManageModal}
-                onClose={() => setShowManageModal(false)}
+                onClose={() => {
+                    setShowManageModal(false);
+                    setModalState?.(false);
+                }}
                 theme={theme}
                 isDark={isDark}
                 isNeomorphic={isNeomorphic}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>RFM 用户价值模型</title></head>
+<body >
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 3D 坐标轴模拟 -->
+        <g stroke="#1e293b" stroke-width="2" opacity="0.2">
+          <line x1="0" y1="0" x2="300" y2="0" /> <!-- Frequency -->
+          <line x1="0" y1="0" x2="0" y2="-250" /> <!-- Monetary -->
+          <line x1="0" y1="0" x2="-200" y2="150" /> <!-- Recency -->
+        </g>
+        
+        <!-- 轴标签 -->
+        <text x="320" y="5" fill="#3b82f6" style="font-size: 16px; font-weight: 900;">频率 (Frequency)</text>
+        <text x="0" y="-270" text-anchor="middle" fill="#10b981" style="font-size: 16px; font-weight: 900;">金额 (Monetary)</text>
+        <text x="-210" y="170" text-anchor="end" fill="#ef4444" style="font-size: 16px; font-weight: 900;">最近消费 (Recency)</text>
+
+        <!-- 核心价值点 (高价值客户) -->
+        <g transform="translate(150, -120)">
+           <circle r="60" fill="#ef4444" fill-opacity="0.1" stroke="#ef4444" stroke-width="2" stroke-dasharray="10 5" />
+           <circle r="25" fill="#ef4444" class="animate-pulse" />
+           <text y="50" text-anchor="middle" fill="#ef4444" style="font-size: 18px; font-weight: 900;">高价值核心群</text>
+        </g>
+
+        <!-- 衰退点 -->
+        <g transform="translate(-80, 50)" opacity="0.3">
+           <circle r="15" fill="#ef4444" />
+           <text y="30" text-anchor="middle" fill="#ef4444" style="font-size: 10px;">即将流失</text>
+        </g>
+      </g>
+      <text x="500" y="60" text-anchor="middle" fill="#64748b" opacity="0.3" style="font-size: 24px; font-weight: 900; letter-spacing: 0.5em;">C我们TOMER VaLUE QUaNT我F我CaT我ON</text>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>RFM 用户价值模型</h1>
+    <p>衡量用户生命周期价值的经典工具。通过 R (最近消费)、F (消费频率)、M (消费金额) 三个物理指标，将用户精准分层并制定策略。</p>
+    <div class="grid">
+      <div>
+        <h3>指标解剖</h3>
+        <ul>
+          <li><strong>R (Recency)：</strong>离现在越近，用户活跃度越高，对新活动的响应概率就越大。</li>
+          <li><strong>F (Frequency)：</strong>代表了忠诚度和习惯。高频用户是系统的基座。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>运营对策</h3>
+        <ul>
+          <li><strong>高价值维护：</strong>R/F/M 全高的用户是企业的生命线，应提供最高级别的特权服务。</li>
+          <li><strong>唤醒策略：</strong>对于 R 值极高（好久没来）但 F/M 曾经很高的用户，应进行针对性的防流失挽回。</li>
+        </ul>
+      </div>
+    </div>
+  </div></body>
+</html>

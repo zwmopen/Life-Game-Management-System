@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>耗散结构</title></head>
+<body >
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 能量流背景 -->
+        <path d="M-500,0 L500,0" stroke="#ef4444" stroke-width="120" opacity="0.05" stroke-linecap="round" />
+        
+        <!-- 耗散旋涡 (秩序的涌现) -->
+        <g>
+          <circle r="150" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="10 30" class="animate-spin" style="animation-duration: 5s;" />
+          <circle r="100" fill="none" stroke="#ef4444" stroke-width="4" stroke-dasharray="5 15" class="animate-spin" style="animation-duration: 3s; animation-direction: reverse;" />
+          <circle r="50" fill="#ef4444" filter="drop-shadow(0 0 30px #ef4444)" />
+          <text text-anchor="middle" y="8" fill="white" style="font-size: 24px; font-weight: 900;">秩序点</text>
+        </g>
+
+        <!-- 排放熵 (红色粒子向外飞散) -->
+        <g fill="#ef4444" opacity="0.3">
+           <circle r="5" cx="80" cy="80"><animate attributeName="cx" from="80" to="400" dur="2s" repeatCount="indefinite" /><animate attributeName="cy" from="80" to="300" dur="2s" repeatCount="indefinite" /></circle>
+           <circle r="5" cx="-80" cy="-80"><animate attributeName="cx" from="-80" to="-400" dur="1.5s" repeatCount="indefinite" /><animate attributeName="cy" from="-80" to="-300" dur="1.5s" repeatCount="indefinite" /></circle>
+        </g>
+
+        <text y="240" text-anchor="middle" fill="#ef4444" style="font-size: 36px; font-weight: 900; letter-spacing: 0.1em;">在能量流动中创造有序</text>
+      </g>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>耗散结构 (Dissipative Structures)</h1>
+    <p>普利高津提出：一个远离平衡态的开放系统，通过不断与外界交换物质和能量，在达到某个临界点时，会自发从混乱变为有序。生命、城市、甚至创新的组织，本质上都是耗散结构。</p>
+    <div class="grid">
+      <div>
+        <h3>热力学反击</h3>
+        <ul>
+          <li><strong>排放熵：</strong>系统想要维持内部的高度有序，必须通过对外做功，将产生的“废热”或“混乱”排放到环境。</li>
+          <li><strong>动态稳定：</strong>这种有序不是静态的，而是建立在持续波动和巨大能量流之上的。一旦流动停止，系统将迅速坍缩回高熵状态。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>组织进化</h3>
+        <ul>
+          <li><strong>引入冲突：</strong>适度的外部竞争和内部不同意见是必要的“能量输入”，它们防止组织陷入死寂的平衡。</li>
+          <li><strong>开放边界：</strong>封闭的团队注定腐烂。持续引入新鲜血液、跨界技术和外部资金，是维持组织活力的唯一手段。</li>
+        </ul>
+      </div>
+    </div>
+  </div></body>
+</html>

@@ -435,6 +435,26 @@ const App: React.FC = () => {
 
   }, [habits, projects, habitOrder, projectOrder, balance, day, transactions, reviews, statsHistory, todayStats, challengePool, todaysChallenges, achievements, completedRandomTasks, isDataLoaded, xp, claimedBadges, weeklyGoal, todayGoal, givenUpTasks]);
 
+  // 持久化settings到localStorage
+  useEffect(() => {
+    if (isDataLoaded) {
+      localStorage.setItem('aes-settings-v2', JSON.stringify(settings));
+    }
+  }, [settings, isDataLoaded]);
+
+  // 加载settings
+  useEffect(() => {
+    const savedSettings = localStorage.getItem('aes-settings-v2');
+    if (savedSettings) {
+      try {
+        const parsedSettings = JSON.parse(savedSettings);
+        setSettings(prev => ({ ...prev, ...parsedSettings }));
+      } catch (e) {
+        console.error('加载设置失败:', e);
+      }
+    }
+  }, []);
+
   // 每日自动刷新任务功能
   useEffect(() => {
     // 计算当前时间到凌晨0:00的毫秒数
@@ -570,11 +590,11 @@ const App: React.FC = () => {
       if (amount > 0) {
           setTodayStats(s => ({ ...s, earnings: s.earnings + amount }));
           // Play Coin Sound
-          soundManagerOptimized.playCustomAudio("https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3");
+          soundManagerOptimized.playSoundEffect("coin");
       } else {
           setTodayStats(s => ({ ...s, spending: s.spending - amount }));
           // Play Spend Sound
-          soundManagerOptimized.playCustomAudio("https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3");
+          soundManagerOptimized.playSoundEffect("coin");
       }
     }
   };
@@ -591,7 +611,7 @@ const App: React.FC = () => {
           addFloatingText(`+${safeXp} 经验`, 'text-blue-500', window.innerWidth / 2);
       }
       setActiveAchievement(null); // Close modal
-      soundManagerOptimized.playCustomAudio("https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3");
+      soundManagerOptimized.playSoundEffect("achievement");
   };
 
   const handleGiveUpTask = (taskId: string) => {
@@ -664,7 +684,7 @@ const App: React.FC = () => {
               addFloatingText(`+10 专注时间`, 'text-green-500', window.innerWidth / 2 + 80);
           }, 600);
           
-          soundManagerOptimized.playCustomAudio("https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3");
+          soundManagerOptimized.playSoundEffect("taskComplete");
       }
       setCompletedRandomTasks(newCompleted);
   };
@@ -735,7 +755,7 @@ const App: React.FC = () => {
                       addFloatingText(`+10 专注时间`, 'text-green-500', window.innerWidth / 2 + 80);
                   }, 600);
 
-                  playSound("https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3");
+                  soundManagerOptimized.playSoundEffect("taskComplete");
 
                   return { ...h, history: newHistory, streak: h.streak + 1 };
               }
@@ -779,7 +799,7 @@ const App: React.FC = () => {
                           }, i * 300 + 600);
                       }
                       
-                      playSound("https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3");
+                      soundManagerOptimized.playSoundEffect("mainTaskComplete");
                   } else if (diff < 0) {
                       // 子任务撤销：回退奖励
                       const undoneCount = Math.abs(diff);
@@ -950,8 +970,8 @@ const App: React.FC = () => {
       isSpinning: true
     }));
     
-    // 播放骰子旋转音效 - 使用统一的音效管理
-    soundManagerOptimized.playCustomAudio("https://assets.mixkit.co/sfx/preview/mixkit-dice-roll-6125.mp3");
+    // 音效已在FateDice组件中播放，此处不再重复播放
+    // soundManagerOptimized.playSoundEffect("dice");
     
     // 根据权重选择分类
     const categories = Object.entries(diceState.config.categoryDistribution);
@@ -987,8 +1007,8 @@ const App: React.FC = () => {
     
     // 模拟旋转动画结束之后等待 - 调整为0秒
     setTimeout(() => {
-      // 播放惊喜音效
-      soundManagerOptimized.playCustomAudio("https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3");
+      // 命运骰子只在扔骰子时播放音效，任务生成完成不再播放任务完成音效
+      // soundManagerOptimized.playSoundEffect("taskComplete");
       
       setDiceState(prev => ({
         ...prev,
@@ -1034,6 +1054,9 @@ const App: React.FC = () => {
           addFloatingText(`+${task.duration} 专注时间`, 'text-green-500', window.innerWidth / 2 + 80);
         }, 600);
       }
+      
+      // 播放命运任务完成音效
+      soundManagerOptimized.playSoundEffect("fateTaskComplete");
     }
     
     // 记录历史
@@ -1303,6 +1326,7 @@ const App: React.FC = () => {
                   onPomodoroComplete={handlePomodoroComplete}
                   totalSpent={totalSpent}
                   claimedBadges={claimedBadges}
+                  setModalState={setModalState}
                   onClaimReward={handleClaimReward}
                   isNavCollapsed={isNavCollapsed}
                   setIsNavCollapsed={setIsNavCollapsed}
@@ -1462,7 +1486,7 @@ const App: React.FC = () => {
         )}
         
         {/* GLOBAL REWARD POPUP */}
-        {activeAchievement && <RewardModal badge={activeAchievement} onClose={(id, xp, gold) => { setIsModalOpen(false); handleClaimReward(id, xp, gold); }} />}
+        {activeAchievement && <RewardModal badge={activeAchievement} onClose={(id, xp, gold) => { setIsModalOpen(false); handleClaimReward(id, xp, gold); }} theme={theme} />}
 
         {/* 统一背景，消除侧边栏和主体的颜色割裂 */}
         <main className={`flex-1 h-full overflow-y-auto relative scroll-smooth flex flex-col transition-all duration-200 ${bgClass}`}>

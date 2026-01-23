@@ -286,8 +286,8 @@ const CharacterProfile = forwardRef(function CharacterProfile(props, ref) {
     useEffect(() => {
         // 检测番茄钟是否自然结束（从非零变为零）
         if (prevTimeLeft.current > 0 && timeLeft === 0 && isActive) {
-            // 使用全局音频上下文播放成功音效
-            playSoundEffect('taskComplete');
+            // 任务完成音效已在TomatoTimer组件中播放，此处不再重复播放
+            // playSoundEffect('taskComplete');
             if (isImmersive) {
                 setIsImmersive(false);
                 if (onImmersiveModeChange) {

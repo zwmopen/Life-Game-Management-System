@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>破窗理论 (强化)</title></head>
+<body >
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 600">
+      <!-- 秩序骨架 -->
+      <g stroke="#1e293b" stroke-width="2" opacity="0.1">
+        <line x1="100" y1="300" x2="900" y2="300" /><line x1="500" y1="100" x2="500" y2="500" />
+      </g>
+      
+      <!-- 裂变核心 -->
+      <g transform="translate(500, 300)">
+        <!-- 初始破窗 -->
+        <circle r="20" fill="#ef4444" class="animate-ping" />
+        <path d="M-10,-10 L10,10 M10,-10 L-10,10" stroke="#ef4444" stroke-width="4" />
+        
+        <!-- 扩散的负面脉冲 -->
+        <circle r="20" fill="none" stroke="#ef4444" stroke-width="2" opacity="0.5">
+           <animate attributeName="r" from="20" to="400" dur="3s" repeatCount="indefinite" />
+           <animate attributeName="opacity" from="0.5" to="0" dur="3s" repeatCount="indefinite" />
+        </circle>
+        
+        <!-- 被传染的失序点 -->
+        <g opacity="0.4">
+          <circle cx="-150" cy="-100" r="8" fill="#ef4444" /><circle cx="180" cy="120" r="10" fill="#ef4444" />
+          <circle cx="200" cy="-150" r="6" fill="#ef4444" /><circle cx="-120" cy="180" r="12" fill="#ef4444" />
+        </g>
+      </g>
+
+      <text x="500" y="520" text-anchor="middle" fill="#ef4444" style="font-size: 24px; font-weight: 900; letter-spacing: 0.2em;">CONTAGIOUS DISORDER</text>
+      <text x="500" y="550" text-anchor="middle" fill="#64748b" opacity="0.3" style="font-size: 10px;">微小的被动，诱发了全系统的崩坏</text>
+    </svg>
+  </div>
+
+  <div class="text-content">
+    <h1>破窗理论 (强化版)</h1>
+    <p>这种现象不仅限于物理环境，更存在于代码、流程与职场道德中。一旦第一个 Bug 或第一次违规被容忍，系统就开始了自发的熵增过程。</p>
+    <div class="grid">
+      <div>
+        <h3>心理联觉</h3>
+        <ul>
+          <li><strong>无主地带暗示：</strong>“破窗”传递出的最致命信号是：这里没有人关心。这会消除参与者的违规负罪感。</li>
+          <li><strong>阈值下调：</strong>随着失序现象的增加，人们对“混乱”的容忍基准线会不断降低。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>极端防御</h3>
+        <ul>
+          <li><strong>零容忍准则：</strong>在高标准的系统（如航空、精密芯片）中，必须建立一种“不仅修补窗户，还要严惩打碎者”的强硬文化。</li>
+          <li><strong>美学治理：</strong>环境越精美、代码越整洁，潜在的破坏者就越不敢落下第一块石头。</li>
+        </ul>
+      </div>
+    </div>
+  </div></body>
+</html>

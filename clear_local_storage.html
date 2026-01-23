@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>清理本地存储</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            color: #666;
+            line-height: 1.6;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>清理人生游戏管理系统本地存储</h1>
+    <p>此页面用于清理本地存储中的商品数据，移除可能包含错误图片链接的旧数据。</p>
+    <p>点击下方按钮清理本地存储，然后刷新人生游戏管理系统页面即可恢复正常的商品图片。</p>
+    
+    <button onclick="clearAllData()">清理所有本地存储数据</button>
+    <button onclick="clearOnlyInventory()">仅清理商品库存数据</button>
+    
+    <div id="result"></div>
+    
+    <script>
+        function showResult(message) {
+            document.getElementById('result').innerHTML = '<p>' + message + '</p>';
+        }
+        
+        function clearAllData() {
+            localStorage.clear();
+            showResult('已成功清理所有本地存储数据！');
+        }
+        
+        function clearOnlyInventory() {
+            try {
+                const savedData = localStorage.getItem('life-game-stats-v2');
+                if (savedData) {
+                    const data = JSON.parse(savedData);
+                    // 移除inventory字段，保留其他数据
+                    delete data.inventory;
+                    localStorage.setItem('life-game-stats-v2', JSON.stringify(data));
+                    showResult('已成功清理商品库存数据！');
+                } else {
+                    showResult('本地存储中没有找到游戏数据！');
+                }
+            } catch (e) {
+                showResult('清理失败：' + e.message);
+            }
+        }
+        
+        // 页面加载时显示当前本地存储状态
+        window.onload = function() {
+            const hasData = localStorage.getItem('life-game-stats-v2') !== null;
+            if (hasData) {
+                showResult('检测到本地存储中存在游戏数据，建议清理以恢复正常的商品图片。');
+            } else {
+                showResult('本地存储中没有游戏数据。');
+            }
+        };
+    </script>
+</body>
+</html>

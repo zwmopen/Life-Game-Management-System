@@ -3,7 +3,6 @@ import { Play, Pause, RotateCcw, VolumeX, Volume2, Maximize2, Sun, Moon, Coffee,
 import { Theme } from '../../types';
 import { useGlobalAudio } from '../../components/GlobalAudioManagerOptimized';
 import OptimizedImmersivePomodoro3D from './OptimizedImmersivePomodoro3D';
-import InternalImmersivePomodoro from './InternalImmersivePomodoro';
 import { getNeomorphicStyles } from '../../utils/styleHelpers';
 import UnifiedBgMusicSelector from './UnifiedBgMusicSelector';
 import { GlobalGuideCard, GlobalHelpButton, helpContent } from '../../components/HelpSystem';

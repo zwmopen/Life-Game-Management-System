@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>鏇奸檧缃楁€濊€冩硶 - 涔濆鏍兼紨鍖?/title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+
+
+    body { background: #020617; font-family: -apple-system, sans-serif; color: #f8fafc; }
+    .glass { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); }
+    .cell { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; }
+    .cell:hover { transform: scale(1.05); filter: brightness(1.2); }
+    @keyframes lotus-breathe { 0%, 100% { stroke-opacity: 0.1; } 50% { stroke-opacity: 0.4; } }
+    .lotus-line { animation: lotus-breathe 4s infinite ease-in-out; }
+  </style>
+</head>
+<body>data-theme="light" class="p-8 md:p-20 flex items-center justify-center min-h-screen">
+  <div class="max-w-7xl mx-auto w-full grid grid-cols-1 gap-20">
+    <!-- SVG 鍙鍖?-->
+    <div class="relative flex items-center justify-center glass p-8 rounded-[4rem] shadow-2xl overflow-hidden">
+      <svg viewBox="0 0 600 600" class="w-full h-auto max-w-[500px]">
+        <!-- 瑁呴グ鑳屾櫙绾?-->
+        <circle cx="300" cy="300" r="280" fill="none" stroke="white" stroke-width="1" class="lotus-line" stroke-dasharray="10 5" />
+        
+        <!-- 3x3 涔濆鏍?-->
+        <!-- Row 1 -->
+        <rect x="50" y="50" width="160" height="160" rx="20" fill="#1e293b" class="cell" />
+        <rect x="220" y="50" width="160" height="160" rx="20" fill="#1e293b" class="cell" />
+        <rect x="390" y="50" width="160" height="160" rx="20" fill="#1e293b" class="cell" />
+        <!-- Row 2 -->
+        <rect x="50" y="220" width="160" height="160" rx="20" fill="#1e293b" class="cell" />
+        <rect x="220" y="220" width="160" height="160" rx="30" fill="#3b82f6" class="cell shadow-lg shadow-blue-500/20" /> <!-- 涓績鏍稿績 -->
+        <rect x="390" y="220" width="160" height="160" rx="20" fill="#1e293b" class="cell" />
+        <!-- Row 3 -->
+        <rect x="50" y="390" width="160" height="160" rx="20" fill="#1e293b" class="cell" />
+        <rect x="220" y="390" width="160" height="160" rx="20" fill="#1e293b" class="cell" />
+        <rect x="390" y="390" width="160" height="160" rx="20" fill="#1e293b" class="cell" />
+
+        <!-- 鏂囨湰鏍囨敞 -->
+        <text x="300" y="305" text-anchor="middle" fill="white" class="font-black text-2xl uppercase tracking-tighter">核心</text>
+        <g fill="#475569" class="text-[8px] font-bold uppercase tracking-widest">
+           <text x="130" y="135" text-anchor="middle">子主题A</text>
+           <text x="300" y="135" text-anchor="middle">子主题B</text>
+           <text x="470" y="135" text-anchor="middle">子主题C</text>
+        </g>
+      </svg>
+      <div class="absolute bottom-8 text-blue-500/50 font-bold text-[8px] uppercase tracking-widest italic">Structural Divergence...</div>
+    </div>
+
+    <!-- 鏂囨鍐呭鍖?-->
+    <div class="space-y-12">
+      <h1 class="text-8xl font-black text-white tracking-tighter leading-[0.8]">鏇奸檧缃楁€濊€?br><span class="text-indigo-500 italic">Mandala Chart</span></h1>
+      <p class="text-xl text-slate-400 border-l-4 border-indigo-600 pl-6 leading-relaxed italic">
+        鈥滃皢娣锋矊鐨勭伒鎰熼攣瀹氬湪鍑犱綍鐨勭З搴忎腑锛屽疄鐜颁粠1鍒?4鐨勬繁搴﹀彂鏁ｃ€傗€?
+      </p>
+
+      <div class="glass p-10 rounded-[3rem] space-y-6">
+        <h3 class="text-2xl font-black text-white italic">鏍稿績闅愬柣锛氬畤瀹欒幉鑺?/h3>
+        <p class="text-sm text-slate-400 leading-relaxed">
+          鏇奸檧缃楁硶閫氳繃 3x3 鐨勪節瀹牸锛屽皢涓績鐩爣浣滀负绉嶅瓙锛屽悜澶栬緪灏勫嚭 8 涓叧閿鍩燂紱鍐嶅皢杩?8 涓鍩熶綔涓哄瓙涓績锛岃繘涓€姝ユ墿鍏呫€傝繖绉嶇粨鏋勫寲鍙戞暎鑳藉己鍒跺ぇ鑴戝～琛ョ┖鐧斤紝閬垮厤鎬濊€冩瑙掋€?
+        </p>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="bg-indigo-600/10 p-5 rounded-3xl border border-indigo-500/20">
+             <h4 class="text-indigo-400 font-black text-[10px] uppercase mb-1">澶ц胺缈斿钩鐢ㄦ硶</h4>
+             <p class="text-[11px] text-slate-300">灏嗕汉鐢熺洰鏍囩粏鍖栦负鍏蜂綋鐨勮缁冨姩浣溿€?/p>
+          </div>
+          <div class="bg-emerald-600/10 p-5 rounded-3xl border border-emerald-500/20">
+             <h4 class="text-emerald-400 font-black text-[10px] uppercase mb-1">瑙ｅ喅缁村害</h4>
+             <p class="text-[11px] text-slate-300">浠?8 涓笉鍚岃瑙掑叏鏂逛綅鍖呭洿闂銆?/p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div></body>
+</html>

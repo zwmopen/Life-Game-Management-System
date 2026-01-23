@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>外部性</title></head>
+<body >
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 决策主体 -->
+        <rect x="-100" y="-100" width="200" height="200" rx="30" fill="#1e293b" />
+        <text text-anchor="middle" y="10" fill="white" style="font-size: 24px; font-weight: 900;">内部决策</text>
+        
+        <!-- 负外部性 (烟雾扩散) -->
+        <g opacity="0.3">
+          <circle r="40" cx="-250" cy="-150" fill="#ef4444"><animate attributeName="r" values="40;150;40" dur="4s" repeatCount="indefinite" /></circle>
+          <text x="-250" y="-50" text-anchor="middle" fill="#ef4444" style="font-size: 18px; font-weight: 900;">负外部性 (代价)</text>
+        </g>
+
+        <!-- 正外部性 (光芒辐射) -->
+        <g opacity="0.3">
+          <circle r="40" cx="250" cy="150" fill="#10b981" class="animate-pulse" />
+          <text x="250" y="50" text-anchor="middle" fill="#10b981" style="font-size: 18px; font-weight: 900;">正外部性 (溢出收益)</text>
+        </g>
+
+        <text y="240" text-anchor="middle" fill="#64748b" opacity="0.5" style="font-size: 16px; font-weight: 900; letter-spacing: 0.5em;">BEYONd THE BOUNdaRY</text>
+      </g>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>外部性 (Externalities)</h1>
+    <p>指一个人的行为对旁观者产生的未补偿的代价（负外部性）或未被索取的收益（正外部性）。系统价值不等于内部产出之和。</p>
+    <div class="grid">
+      <div>
+        <h3>社会赤字</h3>
+        <ul>
+          <li><strong>负外部性：</strong>工厂排污。生产者获得了利润，但社会承担了健康代价。由于代价是“外部”的，生产者缺乏减产动力。</li>
+          <li><strong>系统性风险：</strong>当许多个体追求私利而将风险外包给系统时，会引发系统性崩溃（如 2008 金融危机）。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>外部红利</h3>
+        <ul>
+          <li><strong>正外部性：</strong>教育和研发。一个人的学习提升了整个社区的智商，但他无法收回这部分溢出价值。</li>
+          <li><strong>干预逻辑：</strong>通过税收压制负外部性，通过补贴激励正外部性，是文明系统维持健康运行的必经之路。</li>
+        </ul>
+      </div>
+    </div>
+  </div></body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>哑巴士兵模式</title></head>
+<body >
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 思考大脑 (OFF) -->
+        <g transform="translate(-250, 0)">
+          <path d="M-80,0 Q-80,-120 0,-120 T80,0 T0,120 T-80,0" fill="none" stroke="#ef4444" stroke-width="4" stroke-dasharray="5 5" opacity="0.3" />
+          <text y="5" text-anchor="middle" fill="#ef4444" style="font-size: 24px; font-weight: 900;">逻辑脑 (已禁用)</text>
+          <path d="M-40,40 L40,-40 M-40,-40 L40,40" stroke="#ef4444" stroke-width="12" stroke-linecap="round" />
+        </g>
+        
+        <!-- 士兵身躯 (ON) -->
+        <g transform="translate(200, 0)">
+          <rect x="-100" y="-150" width="200" height="300" rx="20" fill="#1e293b" />
+          <path d="M0,0 L0,250" stroke="#10b981" stroke-width="20" opacity="0.1" />
+          <text text-anchor="middle" y="10" fill="white" style="font-size: 32px; font-weight: 900;">哑巴士兵</text>
+          <text y="50" text-anchor="middle" fill="white" opacity="0.6" style="font-size: 12px;">(只管开火，不问意义)</text>
+          <circle r="120" fill="none" stroke="#10b981" stroke-width="2" class="animate-ping" />
+        </g>
+
+        <!-- 任务清单流 -->
+        <g transform="translate(-50, 0)">
+          <rect x="-40" y="-100" width="80" height="20" rx="5" fill="#10b981" />
+          <rect x="-40" y="-50" width="80" height="20" rx="5" fill="#10b981" />
+          <rect x="-40" y="0" width="80" height="20" rx="5" fill="#10b981" />
+          <animateTransform attributeName="transform" type="translate" values="-50,0; 150,0" dur="1s" repeatCount="indefinite" />
+        </g>
+
+        <text y="-250" text-anchor="middle" fill="#ef4444" style="font-size: 32px; font-weight: 900;">白天不做决策，只管机械移动</text>
+      </g>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>哑巴士兵模式 (Soldier Mode)</h1>
+    <p>高认知者的通病是“想得太多”。在 09:00 - 22:00 之间，强行切断你的智力。你是没有名字、没有情绪、没有“为什么”的D机器。你的所有价值仅体现在清单的勾选速度上。</p>
+    <div class="grid">
+      <div>
+        <h3>禁令协议</h3>
+        <ul>
+          <li><strong>禁止思考意义：</strong>“这视频发了有人看吗？”这种问题是 CEO 考虑的。士兵如果问出这个问题，就是抗命，应立刻对自己进行物理惩罚（如：俯卧撑）。</li>
+          <li><strong>钝感力至上：</strong>面对挫折、Bug、低播放，像机器人一样重启任务。不要投入任何情绪带宽。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>时间防线</h3>
+        <ul>
+          <li><strong>逻辑隔离：</strong>所有的“脑暴”、“战略调整”、“焦虑感”必须在晚上 10 点以后集中排放。白天只准进行体力化的逻辑产出。</li>
+          <li><strong>无脑推进：</strong>如果不知道下一步干嘛，就去干清单上的第一件杂事。动起来的士兵比坐着的将军更有战斗力。</li>
+        </ul>
+      </div>
+    </div>
+  </div></body>
+</html>

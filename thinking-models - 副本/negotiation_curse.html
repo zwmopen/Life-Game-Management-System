@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>赢家诅咒</title></head>
+<body >
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 公允价值 (水平线) -->
+        <line x1="-400" y1="50" x2="400" y2="50" stroke="#1e293b" stroke-width="2" stroke-dasharray="10 5" opacity="0.3" />
+        <text x="-400" y="40" fill="#64748b" opacity="0.5" style="font-size: 14px;">公允市场价值</text>
+
+        <!-- 非理性竞价 (红色阶梯) -->
+        <g stroke="#ef4444" stroke-width="4" fill="none">
+          <path d="M-300,50 L-250,-50 L-150,-100 L-50,-250 L0,-400" />
+          <animate attributeName="stroke-dasharray" from="0,600" to="600,0" dur="2s" fill="freeze" />
+        </g>
+        
+        <!-- 赢家获胜时刻 (却是灾难开始) -->
+        <g transform="translate(0, -400)">
+          <circle r="40" fill="#ef4444" class="animate-ping" />
+          <rect x="-80" y="-30" width="160" height="60" rx="30" fill="#ef4444" />
+          <text text-anchor="middle" y="10" fill="white" style="font-size: 24px; font-weight: 900;">中标!</text>
+        </g>
+
+        <!-- 产生的亏损黑洞 -->
+        <path d="M0,-400 L0,50" stroke="#ef4444" stroke-width="20" opacity="0.1" stroke-linecap="round" />
+        <text x="20" y="-180" fill="#ef4444" style="font-size: 32px; font-weight: 900;">赢家的诅咒</text>
+        <text x="20" y="-140" fill="#ef4444" style="font-size: 14px; font-weight: 900;">(溢价部分 = 亏损净值)</text>
+      </g>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>赢家诅咒 (Winner's Curse)</h1>
+    <p>在信息不对称的竞拍或竞争中，最后获胜的人往往是出价最高的人。由于人们在情绪激动时容易高估标的价值，获胜的代价通常是支付了超过其真实价值的溢价，导致“赢了比赛，赔了本金”。</p>
+    <div class="grid">
+      <div>
+        <h3>博弈陷阱</h3>
+        <ul>
+          <li><strong>情绪劫持：</strong>竞争不再是为了获得标的，而是为了“不输给对手”。</li>
+          <li><strong>乐观偏差：</strong>赢家往往是对该资产最乐观的人。而在所有人都乐观的市场里，最乐观的那个人通常是错的。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>防御协议</h3>
+        <ul>
+          <li><strong>冷酷定价：</strong>在进入竞争前，基于客观数据设定绝对不可逾越的“离场价”。</li>
+          <li><strong>均值回归：</strong>意识到在激烈竞价中，群体的平均出价往往比最高出价更接近真相。</li>
+        </ul>
+      </div>
+    </div>
+  </div></body>
+</html>

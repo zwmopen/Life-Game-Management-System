@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>音频下载页面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        .audio-item {
+            background-color: white;
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .audio-player {
+            margin: 10px 0;
+        }
+        .download-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+        .download-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>音频下载页面</h1>
+    <p>请点击下方的下载按钮获取所需的音频文件，然后将它们保存到 <code>public/audio/sfx/</code> 目录下。</p>
+    
+    <div class="audio-item">
+        <h2>1. 任务完成音效</h2>
+        <p>来源: <a href="https://pixabay.com/zh/sound-effects/film-special-effects-beep-6-96243/" target="_blank">Pixabay - Beep 6</a></p>
+        <div class="audio-player">
+            <audio controls>
+                <source src="https://cdn.pixabay.com/audio/2022/03/24/audio_41fead3bf0.mp3" type="audio/mpeg">
+                您的浏览器不支持音频元素。
+            </audio>
+        </div>
+        <a href="https://cdn.pixabay.com/audio/2022/03/24/audio_41fead3bf0.mp3" download="任务完成音效.mp3" class="download-btn">下载 - 任务完成音效.mp3</a>
+    </div>
+    
+    <div class="audio-item">
+        <h2>2. 其他建议音频源</h2>
+        <ul>
+            <li><a href="https://pixabay.com/zh/sound-effects/search/error%20beep/" target="_blank">Pixabay - Error Beep</a> - 可用于任务放弃音效</li>
+            <li><a href="https://pixabay.com/zh/sound-effects/search/achievement/" target="_blank">Pixabay - Achievement</a> - 可用于成就解锁音效</li>
+            <li><a href="https://pixabay.com/zh/sound-effects/search/coin/" target="_blank">Pixabay - Coin</a> - 可用于金币收入/支出音效</li>
+            <li><a href="https://pixabay.com/zh/sound-effects/search/dice%20roll/" target="_blank">Pixabay - Dice Roll</a> - 可用于骰子音效</li>
+            <li><a href="https://pixabay.com/zh/sound-effects/search/purchase/" target="_blank">Pixabay - Purchase</a> - 可用于购买音效</li>
+        </ul>
+    </div>
+    
+    <div class="audio-item">
+        <h2>3. 下载说明</h2>
+        <ol>
+            <li>点击每个音频的播放按钮，确认是您想要的音效</li>
+            <li>点击对应的下载按钮，将音频文件保存到您的电脑</li>
+            <li>将下载的音频文件移动到项目的 <code>public/audio/sfx/</code> 目录下</li>
+            <li>确保文件名与代码中引用的一致（如：任务完成音效.mp3）</li>
+        </ol>
+    </div>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>青蛙现象 - 渐进的危机</title></head>
+<body >
+  <div class="neu-card">
+    <svg viewBox="0 0 800 600">
+      <!-- 容器 -->
+      <rect x="200" y="100" width="400" height="400" rx="30" fill="none" stroke="#1e293b" stroke-width="2" opacity="0.1" />
+      
+      <!-- 温度计/液位 -->
+      <rect x="200" y="300" width="400" height="200" rx="0 0 30 30" fill="url(#heatGrad)">
+        <animate attributeName="y" values="300;150;300" dur="10s" repeatCount="indefinite" />
+        <animate attributeName="height" values="200;350;200" dur="10s" repeatCount="indefinite" />
+      </rect>
+
+      <!-- 青蛙 (静止点) -->
+      <g transform="translate(400, 350)">
+        <circle r="40" fill="#10b981" />
+        <circle cx="-15" cy="-10" r="5" fill="white" /><circle cx="15" cy="-10" r="5" fill="white" />
+        <text y="70" text-anchor="middle" fill="#10b981" style="font-size: 14px; font-weight: 900;">舒适中</text>
+      </g>
+
+      <!-- 危险线 -->
+      <line x1="200" y1="200" x2="600" y2="200" stroke="#ef4444" stroke-width="2" stroke-dasharray="10 5" />
+      <text x="620" y="205" fill="#ef4444" style="font-size: 10px; font-weight: 900;">致命阈值</text>
+
+      <defs>
+        <linearGradient id="heatGrad" x1="0" y1="1" x2="0" y2="0">
+          <stop offset="0%" stop-color="#3b82f6" /><stop offset="100%" stop-color="#ef4444" />
+        </linearGradient>
+      </defs>
+
+      <text x="400" y="550" text-anchor="middle" fill="#64748b" opacity="0.3" style="font-size: 10px; font-weight: 900; letter-spacing: 0.5em;">对灾难的感官适应</text>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>青蛙现象</h1>
+    <p>如果把青蛙扔进开水里，它会立刻跳出；但如果把它放进冷水并缓慢加热，它会因为逐渐适应环境的微调，直到失去跳出的能力而被煮死。</p>
+    <div class="grid">
+      <div>
+        <h3>现象解剖</h3>
+        <ul>
+          <li><strong>感知钝化</strong>：大脑对剧变极其敏感，但对极低斜率的负向变化（如慢性病、通胀、公司平庸化）极其迟钝。</li>
+          <li><strong>路径依赖</strong>：当意识到危机时，适应性行为已经消耗了所有的求生潜能。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>预警机制</h3>
+        <ul>
+          <li><strong>跳出系统看系统</strong>：定期将现状与 5 年前、10 年前的数据进行强行对比，而非只看同比环比。</li>
+          <li><strong>设定绝对红线</strong>：在环境温水化之前，设定不容妥协的财务或道德基准点。</li>
+        </ul>
+      </div>
+    </div>
+  </div></body>
+</html>

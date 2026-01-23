@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>过度辩护效应</title></head>
+<body >
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 600">
+      <defs>
+        <marker id="arrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#ef4444"/></marker>
+      </defs>
+      <!-- 初始轻盈的内在驱动 -->
+      <g transform="translate(300, 300)">
+        <circle r="80" fill="#ef4444" fill-opacity="0.1" stroke="#ef4444" stroke-width="2" stroke-dasharray="5 5" />
+        <text text-anchor="middle" y="5" fill="#ef4444" style="font-size: 24px; font-weight: 900;">内在动机</text>
+        <text y="35" text-anchor="middle" fill="#ef4444" style="font-size: 12px; font-weight: 800;">(自发、快乐、纯粹)</text>
+      </g>
+      
+      <!-- 沉重的外部奖励注入 -->
+      <g transform="translate(700, 300)">
+        <rect x="-100" y="-100" width="200" height="200" rx="20" fill="#fbbf24" filter="drop-shadow(0 0 30px #fbbf24)" />
+        <text text-anchor="middle" y="5" fill="#451a03" style="font-size: 24px; font-weight: 900;">外部奖赏</text>
+        <text y="40" text-anchor="middle" fill="#451a03" style="font-size: 12px; font-weight: 800;">(金钱、名声、K计划我)</text>
+        <animateTransform attributeName="transform" type="translate" values="700,300; 700,320; 700,300" dur="2s" repeatCount="indefinite" />
+      </g>
+
+      <!-- 产生的压制路径 -->
+      <path d="M600,300 L400,300" stroke="#ef4444" stroke-width="4" stroke-dasharray="10 5" marker-end="url(#arrow)" />
+      <text x="500" y="270" text-anchor="middle" fill="#ef4444" style="font-size: 20px; font-weight: 900;">辩护位移：为了奖赏而做</text>
+    </svg>
+  </div>
+
+  <div class="text-content">
+    <h1>过度辩护效应 (Overjustification Effect)</h1>
+    <p>当人们原本就喜欢做某事时，如果给予过度的外部奖励，他们会将其行为归因为奖励而非兴趣。一旦奖励停止，原有的内在动力将永久受损。</p>
+    <div class="grid">
+      <div>
+        <h3>心理异化</h3>
+        <ul>
+          <li><strong>属性坍塌：</strong>“我做这件事是因为好玩”变成了“我做这件事是为了钱”。认知的锚点发生了致命位移。</li>
+          <li><strong>创造力杀手：</strong>外部评价体系会诱导大脑走捷径，从而扼杀原本深刻的探索欲。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>实战建议</h3>
+        <ul>
+          <li><strong>隐秘激励：</strong>对于创意工作，事后的“惊喜式”奖励比预设的“条件式”奖励更能保护内在动机。</li>
+          <li><strong>非物质化：</strong>强调工作本身的社会价值和个人成长，而非仅仅挂钩财务指标。</li>
+        </ul>
+      </div>
+    </div>
+  </div></body>
+</html>

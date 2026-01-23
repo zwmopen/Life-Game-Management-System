@@ -1,0 +1,69 @@
+<!DOCTYPE html>﻿<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>绯荤粺鍔ㄥ姏瀛?- 瀛橀噺涓庢祦閲?/title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+
+
+    body { background: #020617; font-family: -apple-system, sans-serif; color: #f8fafc; }
+    .glass { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); }
+    @keyframes water-flow { 0% { stroke-dashoffset: 40; } 100% { stroke-dashoffset: 0; } }
+    .flow-line { stroke-dasharray: 8 4; animation: water-flow 2s linear infinite; }
+    @keyframes fill-tank { 0% { height: 20%; } 50% { height: 60%; } 100% { height: 20%; } }
+    .water { animation: fill-tank 10s ease-in-out infinite; }
+  </style>
+</head>
+<body>data-theme="light" class="p-8 md:p-20 flex items-center justify-center min-h-screen">
+  <div class="max-w-7xl mx-auto w-full grid grid-cols-1 gap-20">
+    <!-- SVG 鍙鍖?-->
+    <div class="relative flex items-center justify-center glass p-12 rounded-[4rem] shadow-2xl">
+      <svg viewBox="0 0 600 600" class="w-full h-auto max-w-[500px]">
+        <!-- 鍏ユ祦绠￠亾 -->
+        <rect x="50" y="250" width="150" height="40" fill="#1e293b" rx="5" />
+        <path d="M50,270 L200,270" stroke="#3b82f6" stroke-width="4" class="flow-line" />
+        <text x="125" y="240" text-anchor="middle" fill="#3b82f6" class="text-[10px] font-black uppercase tracking-widest">我nflow (娴侀噺鍏?</text>
+
+        <!-- 瀛橀噺瀹瑰櫒 (娴寸几/姘存Ы) -->
+        <rect x="200" y="200" width="200" height="200" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="4" rx="10" />
+        <rect x="205" y="205" width="190" height="190" fill="#3b82f6" fill-opacity="0.2" class="water" transform-origin="bottom" style="transform: scaleY(0.5); y: 205;" />
+        <text x="300" y="305" text-anchor="middle" fill="white" class="font-black text-xl italic tracking-widest">STOcK (瀛橀噺)</text>
+
+        <!-- 鍑烘祦绠￠亾 -->
+        <rect x="400" y="310" width="150" height="40" fill="#1e293b" rx="5" />
+        <path d="M400,330 L550,330" stroke="#ef4444" stroke-width="4" class="flow-line" />
+        <text x="475" y="380" text-anchor="middle" fill="#ef4444" class="text-[10px] font-black uppercase tracking-widest">Outflow (娴侀噺鍑?</text>
+        
+        <!-- 浜戠闅愬柣 (婧愬ご涓庣粓鐐? -->
+        <circle cx="50" cy="270" r="30" fill="white" fill-opacity="0.05" />
+        <circle cx="550" cy="330" r="30" fill="white" fill-opacity="0.05" />
+      </svg>
+    </div>
+
+    <!-- 鏂囨鍐呭鍖?-->
+    <div class="space-y-12">
+      <h1 class="text-8xl font-black text-white tracking-tighter leading-[0.8]">绯荤粺鍔ㄥ姏瀛?br><span class="text-blue-500 italic">Stock & Flow</span></h1>
+      <p class="text-xl text-slate-400 border-l-4 border-blue-500 pl-6 leading-relaxed italic">
+        鈥滅悊瑙ｄ笘鐣屼笉鏄湅瀹冪殑鐬棿蹇収锛岃€屾槸鐪嬪畠鍙樺寲鐨勯€熺巼涓庣Н绱€傗€?
+      </p>
+
+      <div class="glass p-10 rounded-[3rem] space-y-6">
+        <h3 class="text-2xl font-black text-white italic">鏍稿績闅愬柣锛氬姩鎬佹荡缂?/h3>
+        <p class="text-sm text-slate-400 leading-relaxed">
+          鎯宠薄涓€涓荡缂革細姘撮緳澶存槸<b>娴侀噺(我nflow)</b>锛屾荡缂搁噷鐨勭Н姘存槸<b>瀛橀噺(Stock)</b>锛屼笅姘撮亾鏄?b>鍑烘祦(Outflow)</b>銆傚瓨閲忓喅瀹氫簡绯荤粺鐨勫綋鍓嶇姸鎬侊紝鑰屾祦閲忓喅瀹氫簡鍙樺寲鐨勫揩鎱€傚彧鏈夊叆娴佸ぇ浜庡嚭娴侊紝绯荤粺鐨勪环鍊兼墠浼氭寔缁闀裤€?
+        </p>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="bg-blue-600/10 p-5 rounded-3xl border border-blue-500/20">
+             <h4 class="text-blue-400 font-black text-[10px] uppercase mb-1">瀛橀噺鍙嶉</h4>
+             <p class="text-[11px] text-slate-300">瀛橀噺鍏锋湁鎯€э紝瀹冭绯荤粺浜х敓鈥滃欢杩熲€濄€?/p>
+          </div>
+          <div class="bg-red-600/10 p-5 rounded-3xl border border-red-500/20">
+             <h4 class="text-red-400 font-black text-[10px] uppercase mb-1">璋冭妭閫昏緫</h4>
+             <p class="text-[11px] text-slate-300">澧炲姞瀛橀噺鍙互閫氳繃鈥滃紑婧愨€濇垨鈥滆妭娴佲€濄€?/p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div></body>
+</html>

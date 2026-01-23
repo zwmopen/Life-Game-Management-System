@@ -501,36 +501,84 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
                     <h5 className={`text-[9px] font-mono uppercase mb-2 ${textSub}`}>位置列表</h5>
                     <div className="space-y-2">
                       {[
-                        { id: 'battleCompletion', name: '作战完成', icon: <Volume2 size={14} className="text-emerald-500" /> },
-                        { id: 'supplyCenter', name: '补给中心', icon: <Volume2 size={14} className="text-yellow-500" /> },
-                        { id: 'honorHall', name: '荣耀殿堂', icon: <Volume2 size={14} className="text-purple-500" /> },
-                        { id: 'taskComplete', name: '任务完成', icon: <Volume2 size={14} className="text-green-500" /> },
-                        { id: 'achievementUnlock', name: '成就解锁', icon: <Volume2 size={14} className="text-blue-500" /> },
-                        { id: 'purchase', name: '购买物品', icon: <Volume2 size={14} className="text-red-500" /> },
-                        { id: 'pomodoroStart', name: '番茄开始', icon: <Volume2 size={14} className="text-orange-500" /> },
-                        { id: 'pomodoroComplete', name: '番茄完成', icon: <Volume2 size={14} className="text-cyan-500" /> },
-                        { id: 'taskStart', name: '任务开始', icon: <Volume2 size={14} className="text-pink-500" /> },
-                        { id: 'notification', name: '通知提示', icon: <Volume2 size={14} className="text-indigo-500" /> },
-                        { id: 'success', name: '成功提示', icon: <Volume2 size={14} className="text-lime-500" /> },
-                        { id: 'warning', name: '警告提示', icon: <Volume2 size={14} className="text-amber-500" /> },
-                      ].map((location) => {
-                        // 如果没有设置音效或设置的是默认值，使用 positive-beep 作为默认值
-                        const locationSetting = settings.soundEffectsByLocation?.[location.id] || { enabled: true, sound: 'positive-beep' };
-                        // 如果当前音效是默认值，将其转换为 positive-beep
-                        const currentSound = locationSetting.sound === 'default' ? 'positive-beep' : locationSetting.sound;
+                          { id: 'taskComplete', name: '日常任务完成', icon: <Volume2 size={14} className="text-green-500" /> },
+                          { id: 'mainTaskComplete', name: '主线任务完成', icon: <Volume2 size={14} className="text-blue-500" /> },
+                          { id: 'fateTaskComplete', name: '命运任务完成', icon: <Volume2 size={14} className="text-yellow-500" /> },
+                          { id: 'subTaskComplete', name: '子任务完成', icon: <Volume2 size={14} className="text-purple-500" /> },
+                          { id: 'dice', name: '命运骰子音效', icon: <Volume2 size={14} className="text-emerald-500" /> },
+                          { id: 'taskGiveUp', name: '放弃任务', icon: <Volume2 size={14} className="text-red-500" /> },
+                          { id: 'achievement', name: '成就解锁', icon: <Volume2 size={14} className="text-indigo-500" /> },
+                          { id: 'purchase', name: '商品购买成功', icon: <Volume2 size={14} className="text-orange-500" /> },
+                          { id: 'pomodoroStart', name: '番茄钟开始', icon: <Volume2 size={14} className="text-cyan-500" /> },
+                          { id: 'pomodoroComplete', name: '番茄钟完成', icon: <Volume2 size={14} className="text-pink-500" /> },
+                          { id: 'notification', name: '任务提醒', icon: <Volume2 size={14} className="text-lime-500" /> },
+                          { id: 'checkin', name: '签到成功', icon: <Volume2 size={14} className="text-amber-500" /> },
+                        ].map((location) => {
+                          // 为每个位置设置不同的默认音效
+                          const defaultSoundMap: Record<string, string> = {
+                            'taskComplete': 'taskComplete',
+                            'mainTaskComplete': 'mainTaskComplete',
+                            'fateTaskComplete': 'mainTaskComplete',
+                            'subTaskComplete': 'taskComplete',
+                            'dice': 'dice',
+                            'taskGiveUp': 'taskGiveUp',
+                            'achievement': 'achievement',
+                            'purchase': 'purchase',
+                            'pomodoroStart': 'timer',
+                            'pomodoroComplete': 'timer',
+                            'notification': 'notification',
+                            'checkin': 'checkin'
+                          };
+                          
+                          // 如果没有设置音效或设置的是默认值，使用对应位置的默认音效
+                          const locationSetting = settings.soundEffectsByLocation?.[location.id] || { enabled: true, sound: defaultSoundMap[location.id] || 'taskComplete' };
+                          // 如果当前音效是默认值，将其转换为对应位置的默认音效
+                          const currentSound = locationSetting.sound === 'default' ? defaultSoundMap[location.id] || 'taskComplete' : locationSetting.sound;
                         
-                        // Sound URLs mapping - first option is mute, no default
+                        // 音效映射 - 使用实际的本地音效文件
                         const soundUrls = {
                           'mute': '', // 静音选项
-                          'positive-beep': 'https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3',
-                          'success-chime': 'https://assets.mixkit.co/sfx/preview/mixkit-success-fanfare-trumpets-618.mp3',
-                          'notification': 'https://assets.mixkit.co/sfx/preview/mixkit-software-interface-email-notification-2579.mp3',
-                          'click': 'https://assets.mixkit.co/sfx/preview/mixkit-interface-click-1113.mp3',
-                          'coin': 'https://assets.mixkit.co/sfx/preview/mixkit-arcade-game-coin-216.mp3',
-                          'level-up': 'https://assets.mixkit.co/sfx/preview/mixkit-arcade-game-complete-or-approved-mission-205.mp3',
-                          'error': 'https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-notification-946.mp3',
-                          'complete': 'https://assets.mixkit.co/sfx/preview/mixkit-video-game-complete-level-2059.mp3',
-                          'notification-2': 'https://assets.mixkit.co/sfx/preview/mixkit-software-interface-button-press-2576.mp3',
+                          'taskComplete': '/audio/sfx/日常任务完成音效.mp3',
+                          'mainTaskComplete': '/audio/sfx/主线任务完成音效超快音效.mp3',
+                          'taskGiveUp': '/audio/sfx/任务放弃音效bubblepop-254773.mp3',
+                          'purchase': '/audio/sfx/商品购买支出音效.mp3',
+                          'notification': '/audio/sfx/任务弹出通知提醒音效level-up-191997.mp3',
+                          'achievement': '/audio/sfx/成就解锁音频.mp3',
+                          'timer': '/audio/sfx/番茄钟开始和结束计时音效servant-bell-ring-2-211683.mp3',
+                          'checkin': '/audio/sfx/签到成功音效.mp3',
+                          'dice': '/audio/sfx/投骰子音效.mp3',
+                          '备用-ding-36029': '/audio/sfx/备用-ding-36029.mp3',
+                          '备用-ding-sfx-330333': '/audio/sfx/备用-ding-sfx-330333.mp3',
+                          '备用-ding-small-bell-sfx-233008': '/audio/sfx/备用-ding-small-bell-sfx-233008.mp3',
+                          '备用-doorbell-329311': '/audio/sfx/备用-doorbell-329311.mp3',
+                          '备用-hotel-bell-ding-1-174457': '/audio/sfx/备用-hotel-bell-ding-1-174457.mp3',
+                          '备用3': '/audio/sfx/备用3.mp3',
+                          '备用音效': '/audio/sfx/备用音效.mp3',
+                          '备用音效3': '/audio/sfx/备用音效3.mp3',
+                          '成就解锁音频2': '/audio/sfx/成就解锁音频2.mp3',
+                        };
+                        
+                        // 音效名称映射，用于在下拉菜单中显示友好名称
+                        const soundNames: Record<string, string> = {
+                          'mute': '静音',
+                          'taskComplete': '日常任务完成',
+                          'mainTaskComplete': '主线任务完成',
+                          'taskGiveUp': '任务放弃',
+                          'purchase': '商品购买',
+                          'notification': '任务通知',
+                          'achievement': '成就解锁',
+                          'timer': '番茄钟音效',
+                          'checkin': '签到成功',
+                          'dice': '投骰子',
+                          '备用-ding-36029': '备用-提示音1',
+                          '备用-ding-sfx-330333': '备用-提示音2',
+                          '备用-ding-small-bell-sfx-233008': '备用-提示音3',
+                          '备用-doorbell-329311': '备用-门铃',
+                          '备用-hotel-bell-ding-1-174457': '备用-酒店铃声',
+                          '备用3': '备用3',
+                          '备用音效': '备用音效',
+                          '备用音效3': '备用音效3',
+                          '成就解锁音频2': '成就解锁2',
                         };
                         
                         // Preview sound function
@@ -538,8 +586,11 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
                           // 跳过静音选项
                           if (soundId === 'mute') return;
                           
-                          const validSoundId = soundUrls[soundId as keyof typeof soundUrls] ? soundId : 'positive-beep';
-                          const audio = new Audio(soundUrls[validSoundId as keyof typeof soundUrls]);
+                          const audio = new Audio(soundUrls[soundId as keyof typeof soundUrls]);
+                          // 获取GitHub Pages基础路径
+                          const basePath = '/Life-Game-Management-System';
+                          const correctUrl = audio.src.startsWith('http') ? audio.src : `${basePath}${audio.src}`;
+                          audio.src = correctUrl;
                           audio.volume = settings.soundEffectVolume;
                           audio.play().catch((error) => {
                             // 仅在开发环境输出详细日志
@@ -581,7 +632,7 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
                                     previewSound(e.target.value);
                                   }}
                                   className={[
-                                    'w-20 text-[10px] px-2 py-1 rounded-lg border-none outline-none',
+                                    'w-24 text-[10px] px-2 py-1 rounded-lg border-none outline-none',
                                     isNeomorphic
                                       ? isNeomorphicDark
                                         ? 'bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.2),inset_-4px_-4px_8px_rgba(30,30,46,0.8)]'
@@ -592,15 +643,24 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
                                   ].join(' ')}
                                 >
                                   <option value="mute">静音</option>
-                                  <option value="positive-beep">积极</option>
-                                  <option value="success-chime">成功</option>
-                                  <option value="notification">通知</option>
-                                  <option value="click">点击</option>
-                                  <option value="coin">金币</option>
-                                  <option value="level-up">升级</option>
-                                  <option value="error">错误</option>
-                                  <option value="complete">完成</option>
-                                  <option value="notification-2">通知2</option>
+                                  <option value="taskComplete">{soundNames.taskComplete}</option>
+                                  <option value="mainTaskComplete">{soundNames.mainTaskComplete}</option>
+                                  <option value="taskGiveUp">{soundNames.taskGiveUp}</option>
+                                  <option value="purchase">{soundNames.purchase}</option>
+                                  <option value="notification">{soundNames.notification}</option>
+                                  <option value="achievement">{soundNames.achievement}</option>
+                                  <option value="timer">{soundNames.timer}</option>
+                                  <option value="checkin">{soundNames.checkin}</option>
+                                  <option value="dice">{soundNames.dice}</option>
+                                  <option value="备用-ding-36029">{soundNames['备用-ding-36029']}</option>
+                                  <option value="备用-ding-sfx-330333">{soundNames['备用-ding-sfx-330333']}</option>
+                                  <option value="备用-ding-small-bell-sfx-233008">{soundNames['备用-ding-small-bell-sfx-233008']}</option>
+                                  <option value="备用-doorbell-329311">{soundNames['备用-doorbell-329311']}</option>
+                                  <option value="备用-hotel-bell-ding-1-174457">{soundNames['备用-hotel-bell-ding-1-174457']}</option>
+                                  <option value="备用3">{soundNames.备用3}</option>
+                                  <option value="备用音效">{soundNames.备用音效}</option>
+                                  <option value="备用音效3">{soundNames.备用音效3}</option>
+                                  <option value="成就解锁音频2">{soundNames['成就解锁音频2']}</option>
                                 </select>
                                 <button
                                   onClick={() => previewSound(currentSound)}
@@ -833,30 +893,63 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
                 <Info size={18} className="text-blue-500" />
                 <div>
                   <h3 className={`font-bold text-sm ${textMain}`}>关于</h3>
-                  <p className={`text-[9px] ${textSub}`}>版本信息与联系方式</p>
                 </div>
               </div>
             </div>
             
             <div className="text-xs space-y-3 pt-2">
-              <div className="grid grid-cols-[max-content_auto] gap-x-1 gap-y-1 items-start">
-                <span className={`font-bold whitespace-nowrap min-w-[50px] ${textMain}`}>版本：</span>
-                <span className={`${textSub} break-words`}>v{APP_VERSION}</span>
-                
-                <span className={`font-bold whitespace-nowrap min-w-[50px] ${textMain}`}>作者：</span>
-                <span className={`${textSub} break-words`}>大胆走夜路</span>
-                
-                <span className={`font-bold whitespace-nowrap min-w-[50px] ${textMain}`}>联系微信：</span>
-                <span className={`${textSub} break-words`}>zwmrpg</span>
-              </div>
-              
-              <div className="pt-1">
-                <div className="flex items-start gap-1">
-                  <span className={`font-bold text-sm ${textMain}`}>项目介绍：</span>
-                  <span className={`${textSub} leading-relaxed text-sm flex-1`}>
-                    人生游戏管理系统是一个综合性的个人成长管理工具，集成了任务管理、习惯养成、专注计时、成就系统等功能，旨在帮助用户更好地规划和追踪个人发展。
-                  </span>
+              <div className="grid grid-cols-[max-content_auto] gap-x-2 gap-y-2 items-center">
+                <div className="flex items-center gap-1">
+                  <FileText size={14} className="text-blue-500" />
+                  <span className={`font-bold text-sm ${textMain}`}>最新版本：</span>
                 </div>
+                <span className={`${textSub} break-words text-sm`}>v{APP_VERSION}</span>
+                
+                <div className="flex items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="text-blue-500">
+                    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                  </svg>
+                  <span className={`font-bold text-sm ${textMain}`}>开发者：</span>
+                </div>
+                <span className={`${textSub} break-words text-sm`}>大胆走夜路</span>
+                
+                <div className="flex items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="text-blue-500">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                  </svg>
+                  <span className={`font-bold text-sm ${textMain}`}>联系微信：</span>
+                </div>
+                <span className={`${textSub} break-words text-sm`}>zwmrpg</span>
+                
+                <div className="flex items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="text-blue-500">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
+                  </svg>
+                  <span className={`font-bold text-sm ${textMain}`}>项目介绍：</span>
+                </div>
+                <span className={`${textSub} leading-relaxed text-sm break-words`}>
+                  人生游戏管理系统是一个综合性的个人成长管理工具，集成了任务管理、习惯养成、专注计时、成就系统等功能，旨在帮助用户更好地规划和追踪个人发展。
+                </span>
+                
+                <div className="flex items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="text-blue-500">
+                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                  </svg>
+                  <span className={`font-bold text-sm ${textMain}`}>开源地址：</span>
+                </div>
+                <a 
+                  href="https://github.com/zwmopen/Life-Game-Management-System" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className={`${textSub} leading-relaxed text-sm flex-1 hover:underline hover:text-blue-500 transition-colors`}
+                >
+                  https://github.com/zwmopen/Life-Game-Management-System
+                </a>
               </div>
             </div>
           </div>

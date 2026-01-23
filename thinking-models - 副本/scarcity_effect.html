@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>稀缺效应</title></head>
+<body >
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 600">
+      <!-- 正常带宽流 -->
+      <g opacity="0.05">
+        <rect x="100" y="100" width="800" height="400" rx="40" fill="#1e293b" />
+      </g>
+      
+      <!-- 稀缺导致的隧道视野 (漏斗) -->
+      <path d="M100,100 L900,100 L550,300 L550,500 L450,500 L450,300 Z" fill="none" stroke="#1e293b" stroke-width="2" stroke-dasharray="10 10" opacity="0.1" />
+      
+      <!-- 被卡住的认知资源 -->
+      <g>
+        <circle cx="500" cy="150" r="40" fill="#f59e0b" opacity="0.8">
+           <animate attributeName="cy" from="150" to="280" dur="2s" repeatCount="indefinite" />
+           <animate attributeName="r" from="40" to="20" dur="2s" repeatCount="indefinite" />
+        </circle>
+        <text x="500" y="350" text-anchor="middle" fill="#f59e0b" style="font-size: 24px; font-weight: 900;">隧道视野 (TUNNEL我NG)</text>
+      </g>
+
+      <!-- 流出的微量决策 -->
+      <rect x="490" y="450" width="20" height="20" rx="4" fill="#ef4444" opacity="0.5">
+         <animate attributeName="y" from="450" to="550" dur="1s" repeatCount="indefinite" />
+         <animate attributeName="opacity" values="1;0" dur="1s" repeatCount="indefinite" />
+      </rect>
+
+      <text x="500" y="50" text-anchor="middle" fill="#64748b" opacity="0.3" style="font-size: 14px; font-weight: 900; letter-spacing: 0.5em;">COGN我T我VE BaNdW我dTH TaX</text>
+    </svg>
+  </div>
+
+  <div class="text-content">
+    <h1>稀缺效应</h1>
+    <p>当人处于金钱或时间极度匮乏（稀缺）的状态时，大脑会自动征用所有带宽去应付当前的危机，导致长远规划和决策能力的丧失。</p>
+    <div class="grid">
+      <div>
+        <h3>心理机制</h3>
+        <ul>
+          <li><strong>带宽税：</strong>稀缺就像一种后台程序，静静消耗你的 我Q，让你在解决具体麻烦的同时，变得更加“短视”。</li>
+          <li><strong>管窥：</strong>你只看得到眼前那盏跳动的红灯，却看不见整架飞机正在俯冲向山脉。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>破局之道</h3>
+        <ul>
+          <li><strong>制造冗余：</strong>留出 20% 的时间不填满，留出 20% 的储蓄不投资。这是防止认知崩塌的物理缓冲。</li>
+          <li><strong>警惕“截止日期”诱惑：</strong>在极端忙碌时做出的重大承诺，通常是由于带宽被收割后的错误产物。</li>
+        </ul>
+      </div>
+    </div>
+  </div></body>
+</html>

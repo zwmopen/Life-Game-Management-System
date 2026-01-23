@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>睡眠者效应 - 跨越时间的信任</title></head>
+<body >
+  <div class="neu-card">
+    <svg viewBox="0 0 800 600">
+      <!-- 时间轴 -->
+      <line x1="100" y1="450" x2="700" y2="450" stroke="#1e293b" stroke-width="2" opacity="0.1" />
+      
+      <!-- 路径 A: 低可靠性信源 (迅速衰减) -->
+      <g opacity="0.4">
+        <path d="M150,400 L250,420 L400,440 L600,445" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="5 5" />
+        <circle cx="150" cy="400" r="10" fill="#ef4444" />
+        <text x="150" y="370" text-anchor="middle" fill="#ef4444" style="font-size: 10px; font-weight: 900;">折扣信源 (质疑)</text>
+      </g>
+
+      <!-- 路径 B: 信息本身 (睡眠中...然后觉醒) -->
+      <g>
+        <path d="M150,400 Q300,410 450,300 T650,150" fill="none" stroke="#ef4444" stroke-width="5">
+           <animate attributeName="stroke-dasharray" from="0,1000" to="1000,0" dur="4s" fill="freeze" />
+        </path>
+        <!-- 觉醒点 -->
+        <g transform="translate(650, 150)">
+          <circle r="40" fill="#ef4444" filter="drop-shadow(0 0 20px #ef4444)" />
+          <path d="M-15,0 L15,0 M0,-15 L0,15" stroke="white" stroke-width="3" />
+          <text y="60" text-anchor="middle" fill="#ef4444" style="font-size: 12px; font-weight: 900;">内容被接受 (来源被遗忘)</text>
+        </g>
+      </g>
+
+      <text x="400" y="550" text-anchor="middle" fill="#64748b" opacity="0.3" style="font-size: 10px; font-weight: 900; letter-spacing: 0.5em;">T我ME D我SSOLVES THE SOURcE</text>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>睡眠者效应</h1>
+    <p>人们会随着时间的推移，逐渐遗忘掉信息的来源，而只记住信息的内容。这导致原本因为来源不可靠而被质疑的信息，在一段时间后反而变得具有说服力。</p>
+    <div class="grid">
+      <div>
+        <h3>底层机制</h3>
+        <ul>
+          <li><strong>记忆剥离</strong>：大脑对“内容”和“情境（来源）”的存储是分离的，来源信息衰减得比内容更快。</li>
+          <li><strong>折扣解除</strong>：初始的“质疑滤镜”消失后，单纯的信息开始对潜意识产生作用。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>应用启示</h3>
+        <ul>
+          <li><strong>重复的力量</strong>：即使初始反响一般，持续的曝光可能在未来产生延迟的转化。</li>
+          <li><strong>辟谣困境</strong>：辟谣信息如果来源不够强，最终可能只留下了“谣言”内容本身。</li>
+        </ul>
+      </div>
+    </div>
+  </div></body>
+</html>

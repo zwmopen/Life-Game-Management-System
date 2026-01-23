@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>公地悲剧 (强化)</title></head>
+<body >
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 正在坍缩的核心 -->
+        <circle r="120" fill="#10b981" fill-opacity="0.1">
+          <animate attributeName="r" values="120;20;120" dur="5s" repeatCount="indefinite" />
+          <animate attributeName="fill" values="#10b981;#ef4444;#10b981" dur="5s" repeatCount="indefinite" />
+        </circle>
+        
+        <!-- 四方吸管 -->
+        <g stroke="#ef4444" stroke-width="4" stroke-dasharray="10 5">
+          <line x1="-300" y1="-200" x2="-50" y2="-40" />
+          <line x1="300" y1="-200" x2="50" y2="-40" />
+          <line x1="-300" y1="200" x2="-50" y2="40" />
+          <line x1="300" y1="200" x2="50" y2="40" />
+          <animate attributeName="stroke-dashoffset" from="0" to="100" dur="1s" repeatCount="indefinite" />
+        </g>
+
+        <!-- 攫取者的私利扩张 -->
+        <g fill="#ef4444" opacity="0.8">
+           <circle cx="-320" cy="-220" r="30"><animate attributeName="r" values="30;60;30" dur="5s" repeatCount="indefinite" /></circle>
+           <circle cx="320" cy="-220" r="30"><animate attributeName="r" values="30;60;30" dur="5s" repeatCount="indefinite" /></circle>
+        </g>
+
+        <text y="200" text-anchor="middle" fill="#ef4444" style="font-size: 42px; font-weight: 900;">资源正在枯竭</text>
+        <text y="235" text-anchor="middle" fill="#64748b" opacity="0.4" style="font-size: 14px;">(因为没有人需要为消耗付费)</text>
+      </g>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>公地悲剧 (深挖)</h1>
+    <p>在一个没有外部制约的封闭系统中，个体的短期最优解（多吃一点）会直接推导至集体的长期最差解（毁灭）。这是理性产生的非理性黑洞。</p>
+    <div class="grid">
+      <div>
+        <h3>激励冲突</h3>
+        <ul>
+          <li><strong>免费的陷阱：</strong>只要资源是无主的，大脑就会将其判定为“不取白不取”。</li>
+          <li><strong>延迟的惩罚：</strong>资源耗尽的痛苦在未来，而获得的快感在当下。这种时间上的错位让系统自我调节失效。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>系统干预</h3>
+        <ul>
+          <li><strong>建立反馈墙：</strong>将消耗量与个人成本挂钩。如果你在公司共用服务器上跑垃圾程序，你必须支付额外的“认知税”。</li>
+          <li><strong>元治理结构：</strong>与其惩罚贪婪，不如重塑博弈结构。让第一个保护资源的人获得非对称的奖励。</li>
+        </ul>
+      </div>
+    </div>
+  </div></body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>康威定律</title></head>
+<body >
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 600">
+      <!-- 组织架构 (上) -->
+      <g transform="translate(500, 150)">
+        <rect x="-300" y="-50" width="600" height="100" rx="15" fill="none" stroke="#1e293b" stroke-width="1" opacity="0.1" />
+        <circle cx="-200" cy="0" r="30" fill="#ef4444" />
+        <circle cx="0" cy="0" r="30" fill="#3b82f6" />
+        <circle cx="200" cy="0" r="30" fill="#10b981" />
+        <text y="-70" text-anchor="middle" fill="#1e293b" style="font-size: 14px; font-weight: 900;">组织架构 (TEAM STRUCTURE)</text>
+      </g>
+      
+      <!-- 映射通道 -->
+      <g opacity="0.1" stroke="#1e293b" stroke-width="1" stroke-dasharray="5 10">
+        <line x1="300" y1="200" x2="300" y2="400" /><line x1="500" y1="200" x2="500" y2="400" /><line x1="700" y1="200" x2="700" y2="400" />
+      </g>
+
+      <!-- 系统架构 (下 - 镜像) -->
+      <g transform="translate(500, 450)">
+        <rect x="-300" y="-50" width="600" height="100" rx="15" fill="#ef4444" fill-opacity="0.05" stroke="#ef4444" stroke-width="2" stroke-dasharray="10 5" />
+        <rect x="-230" y="-30" width="60" height="60" rx="10" fill="#ef4444" opacity="0.6" />
+        <rect x="-30" y="-30" width="60" height="60" rx="10" fill="#3b82f6" opacity="0.6" />
+        <rect x="170" y="-30" width="60" height="60" rx="10" fill="#10b981" opacity="0.6" />
+        <text y="80" text-anchor="middle" fill="#ef4444" style="font-size: 14px; font-weight: 900;">系统架构 (SYSTEM DESIGN)</text>
+      </g>
+
+      <text x="500" y="300" text-anchor="middle" fill="#64748b" opacity="0.2" style="font-size: 32px; font-weight: 900; letter-spacing: 0.5em;">COPY OF COMMUNICATION</text>
+    </svg>
+  </div>
+
+  <div class="text-content">
+    <h1>康威定律</h1>
+    <p>“设计系统的组织，其产生的系统等同于组织内部的沟通结构。” 组织与架构是不可分割的物理双生子。</p>
+    <div class="grid">
+      <div>
+        <h3>组织同构</h3>
+        <ul>
+          <li><strong>沟通路径：</strong>如果两个部门从不说话，那么他们开发的两个模块也绝不可能实现无缝集成。</li>
+          <li><strong>效率瓶颈：</strong>软件 Bug 的位置往往就是组织沟通断裂的位置。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>逆向应用</h3>
+        <ul>
+          <li><strong>逆向康威法：</strong>想要实现微服务架构？先将你的团队拆解为独立自治的小组。</li>
+          <li><strong>管理本质：</strong>与其每天开会同步接口细节，不如直接优化团队的地理和权力分布。</li>
+        </ul>
+      </div>
+    </div>
+  </div></body>
+</html>

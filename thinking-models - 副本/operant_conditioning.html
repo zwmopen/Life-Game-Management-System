@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>操作性条件反射</title></head>
+<body >
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <!-- 斯金纳箱 -->
+      <rect x="200" y="100" width="600" height="400" rx="40" fill="none" stroke="#1e293b" stroke-width="4" opacity="0.1" />
+      
+      <!-- 杠杆 -->
+      <g transform="translate(300, 350)">
+        <rect x="-10" y="-60" width="20" height="120" rx="10" fill="#ef4444" />
+        <animateTransform attributeName="transform" type="rotate" values="0,300,350; -20,300,350; 0,300,350" dur="2s" repeatCount="indefinite" />
+        <text x="40" y="10" fill="#ef4444" style="font-size: 24px; font-weight: 900;">主动操作</text>
+      </g>
+
+      <!-- 奖励喷发 -->
+      <g transform="translate(700, 300)">
+        <circle r="15" fill="#10b981" opacity="0.8">
+           <animate attributeName="cy" from="0" to="-200" dur="1s" repeatCount="indefinite" />
+           <animate attributeName="opacity" values="1;0" dur="1s" repeatCount="indefinite" />
+        </circle>
+        <text y="60" text-anchor="middle" fill="#10b981" style="font-size: 42px; font-weight: 900;">奖励 (REWaRd)</text>
+        <text y="100" text-anchor="middle" fill="#64748b" opacity="0.5" style="font-size: 14px;">行为频率 ↑</text>
+      </g>
+
+      <text x="500" y="550" text-anchor="middle" fill="#64748b" opacity="0.3" style="font-size: 20px; font-weight: 900; letter-spacing: 0.5em;">BEHaV我OR 我S SHa计划Ed BY CONSEQUENCES</text>
+    </svg>
+  </div>
+
+  <div class="text-content">
+    <h1>操作性条件反射 (Operant Conditioning)</h1>
+    <p>个体的行为后果（奖励或惩罚）决定了该行为在未来发生的频率。我们是通过不断试错并获得反馈来“塑造”自己的。</p>
+    <div class="grid">
+      <div>
+        <h3>四大规则</h3>
+        <ul>
+          <li><strong>正强化：</strong>给予想要的东西，增加行为。这是最可持续的激励。</li>
+          <li><strong>负强化：</strong>拿走讨厌的东西，增加行为。通过逃避痛苦来建立动力。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>设计建议</h3>
+        <ul>
+          <li><strong>随机奖励：</strong>不确定的奖赏（如抽奖、刷动态）产生的行为黏性，远高于固定周期的奖赏。</li>
+          <li><strong>反馈即时性：</strong>行为与后果的时间差越短，反射的建立就越牢固。</li>
+        </ul>
+      </div>
+    </div>
+  </div></body>
+</html>

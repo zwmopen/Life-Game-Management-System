@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>习惯堆叠</title></head>
+<body >
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 已有习惯 (巨大的动力轮) -->
+        <g transform="translate(-150, 0)">
+          <circle r="120" fill="#ef4444" fill-opacity="0.1" stroke="#ef4444" stroke-width="4" stroke-dasharray="10 10" class="animate-spin" style="animation-duration: 15s" />
+          <circle r="80" fill="#ef4444" />
+          <text text-anchor="middle" y="5" fill="white" style="font-size: 16px; font-weight: 900;">已有强习惯</text>
+          <text y="30" text-anchor="middle" fill="white" style="font-size: 10px;">(如：刷牙、下班)</text>
+        </g>
+        
+        <!-- 新习惯 (被带动的小轮) -->
+        <g transform="translate(140, 0)">
+          <circle r="80" fill="#10b981" fill-opacity="0.1" stroke="#10b981" stroke-width="4" class="animate-spin" style="animation-duration: 5s; animation-direction: reverse;" />
+          <circle r="40" fill="#10b981" />
+          <text text-anchor="middle" y="5" fill="white" style="font-size: 14px; font-weight: 900;">新习惯</text>
+          <animateTransform attributeName="transform" type="translate" values="140,0; 120,0; 140,0" dur="2s" repeatCount="indefinite" />
+        </g>
+
+        <!-- 动力传递链 -->
+        <path d="M-30,0 L60,0" stroke="#fbbf24" stroke-width="8" stroke-dasharray="10 5" opacity="0.4" />
+        
+        <text y="180" text-anchor="middle" fill="#ef4444" style="font-size: 32px; font-weight: 900;">在“...之后”，我将“...”</text>
+      </g>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>习惯堆叠 (Habit Stacking)</h1>
+    <p>借力使力。将你想养成的新习惯，锚定在一个已经非常牢固的旧习惯之后。利用旧习惯产生的惯性动能，带过新习惯最难的起步期。</p>
+    <div class="grid">
+      <div>
+        <h3>驱动逻辑</h3>
+        <ul>
+          <li><strong>降低启动能耗：</strong>新习惯最难的是“想起去做”。旧习惯充当了那个永远不会失灵的生物闹钟。</li>
+          <li><strong>联觉记忆：</strong>大脑会将两个动作连接在一起，形成一个新的、更庞大的自动化回路。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>D模板</h3>
+        <ul>
+          <li><strong>精准公式：</strong>[已有习惯] 之后，我将 [新习惯]。（如：合上电脑之后，我立刻冥想 1 分钟）。</li>
+          <li><strong>微小化原则：</strong>被堆叠的新习惯起初必须极简，以确保“啮合”过程不产生任何心理阻力。</li>
+        </ul>
+      </div>
+    </div>
+  </div></body>
+</html>

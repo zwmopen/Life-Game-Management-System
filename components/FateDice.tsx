@@ -21,7 +21,7 @@ const FateDice: React.FC<FateDiceProps> = memo(({ theme, diceState, onSpinDice, 
   
   // 音效相关
   const audioContextRef = useRef<AudioContext | null>(null);
-  const diceSoundRef = useRef<HTMLAudioElement | null>(null);
+
   
   // 剩余次数编辑功能 - todayCount 表示已使用次数
   const [localTodayCount, setLocalTodayCount] = useState<number>(diceState?.todayCount || 0);
@@ -498,7 +498,7 @@ const FateDice: React.FC<FateDiceProps> = memo(({ theme, diceState, onSpinDice, 
       // 创建音频元素并设置音效文件
       const audio = new Audio();
       // 尝试使用相对路径
-      audio.src = '/audio/sounds/dice.mp3';
+      audio.src = '/audio/sfx/投骰子音效.mp3';
       audio.volume = 0.7;
       audio.preload = 'auto';
       
@@ -562,18 +562,8 @@ const FateDice: React.FC<FateDiceProps> = memo(({ theme, diceState, onSpinDice, 
   
   // 播放骰子音效
   const playDiceSound = () => {
-    // 尝试播放外部音效
-    if (diceSoundRef.current) {
-      diceSoundRef.current.currentTime = 0;
-      diceSoundRef.current.play().catch(error => {
-        console.error('无法播放外部音效，使用生成音效:', error);
-        // 播放回退音效
-        generateFallbackSound();
-      });
-    } else {
-      // 播放回退音效
-      generateFallbackSound();
-    }
+    // 使用统一的音效管理系统播放骰子音效
+    soundManager.playSoundEffect('dice');
   };
   
   // 窗口大小调整
@@ -670,9 +660,6 @@ const FateDice: React.FC<FateDiceProps> = memo(({ theme, diceState, onSpinDice, 
     // 初始化Three.js场景
     initThreeJS();
     
-    // 初始化音频元素
-    initAudioElement();
-    
     // 添加窗口大小调整事件监听
     window.addEventListener('resize', handleResize);
     
@@ -768,12 +755,6 @@ const FateDice: React.FC<FateDiceProps> = memo(({ theme, diceState, onSpinDice, 
       
       if (diceMeshRef.current) {
         diceMeshRef.current = null;
-      }
-      
-      // 清理音频资源
-      if (diceSoundRef.current) {
-        diceSoundRef.current.pause();
-        diceSoundRef.current = null;
       }
       
       // 清理音频上下文

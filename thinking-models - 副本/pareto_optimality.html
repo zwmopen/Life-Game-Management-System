@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>帕累托最优</title></head>
+<body >
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 600">
+      <path d="M200,100 Q850,100 850,550" fill="none" stroke="#1e293b" stroke-width="2" stroke-dasharray="15 15" opacity="0.1" />
+      <g>
+        <circle r="20" fill="#10b981">
+          <animateMotion path="M200,100 Q850,100 850,550" dur="8s" repeatCount="indefinite" />
+        </circle>
+        <circle r="50" fill="#10b981" fill-opacity="0.1" class="animate-ping">
+           <animateMotion path="M200,100 Q850,100 850,550" dur="8s" repeatCount="indefinite" />
+        </circle>
+      </g>
+      <g transform="translate(525, 80)">
+        <text text-anchor="middle" fill="#10b981" style="font-size: 36px; font-weight: 900;">帕累托前沿 (L我M我T)</text>
+        <text y="35" text-anchor="middle" fill="#64748b" opacity="0.4" style="font-size: 14px;">(任何改进都必须伤害他人的地带)</text>
+      </g>
+      <g transform="translate(350, 350)">
+        <circle r="15" fill="#ef4444" />
+        <path d="M0,0 L180,-180" stroke="#ef4444" stroke-width="3" stroke-dasharray="8 4" marker-end="url(#redarrow)" />
+        <text y="45" text-anchor="middle" fill="#ef4444" style="font-size: 20px; font-weight: 900;">低效区 (帕累托改进空间)</text>
+      </g>
+      <defs>
+        <marker id="redarrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#ef4444"/></marker>
+      </defs>
+      <text x="500" y="560" text-anchor="middle" fill="#64748b" opacity="0.3" style="font-size: 18px; font-weight: 900; letter-spacing: 0.5em;">资源分配的极致效率边界</text>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>帕累托最优 (计划areto Optimality)</h1>
+    <p>理想的资源状态：如果你想让一个人的处境变好，就必须让另一个人的处境变坏。这意味着系统内的所有冗余和浪费已被彻底榨干。</p>
+    <div class="grid">
+      <div>
+        <h3>系统边界</h3>
+        <ul>
+          <li><strong>效率巅峰：</strong>当系统处于前沿曲线时，任何简单的“共赢”已不复存在，剩下的全是残酷的零和博弈。</li>
+          <li><strong>改进窗口：</strong>大多数系统处于低效区。抓住那些能让各方都受益的“帕累托改进”是管理者的首要任务。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>博弈实质</h3>
+        <ul>
+          <li><strong>效率 vs 公平：</strong>帕累托最优只衡量效率。哪怕一个人拥有所有财富也可能是最优状态，因此我们需要在效率之外引入公平维度。</li>
+          <li><strong>动态平衡：</strong>最优不是永恒的，环境变化会产生新的低效区，促使系统向新的前沿跃迁。</li>
+        </ul>
+      </div>
+    </div>
+  </div></body>
+</html>

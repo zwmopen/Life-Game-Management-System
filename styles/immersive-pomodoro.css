@@ -590,10 +590,12 @@
   margin-bottom: 8px;
 }
 
-/* 预设时间按钮 */
+/* 预设时间按钮 - 圆形设计 */
 .preset-btn {
-  padding: 8px 16px;
-  border-radius: 20px;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 50%;
   background: var(--bg-color);
   box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
   border: none;
@@ -602,6 +604,9 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .preset-btn:hover {
@@ -617,7 +622,26 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: 10px;
+}
+
+/* 音频按钮样式 - 圆形设计 */
+.audio-dropdown button {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 50%;
+  background: var(--bg-color);
+  box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
+  border: none;
+  color: var(--text-main);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* 音频下拉菜单 */

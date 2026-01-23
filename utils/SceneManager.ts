@@ -151,42 +151,49 @@ export class SceneManager {
     // 环境光 - 使用柔和的白色，避免色彩偏差
     const ambientLight = new THREE.AmbientLight(
       0xffffff, 
-      0.5       // 适中的环境光强度，平衡阴影
+      0.7       // 增加环境光强度，减少黑影
     );
     this.scene.add(ambientLight);
     
-    // 主光源（太阳） - 降低强度，避免炫光
+    // 主光源（太阳） - 调整强度，平衡光照
     const sunLight = new THREE.DirectionalLight(
       0xffffff, 
-      0.8       // 降低强度，减少炫光
+      1.0       // 增加主光源强度，减少黑影
     );
-    sunLight.position.set(50, 80, 50); // 调整光源位置，避免极端角度
+    sunLight.position.set(50, 100, 50); // 调整光源位置，提高光照角度
     sunLight.castShadow = true;
     
     // 优化阴影贴图分辨率和相机参数
-    sunLight.shadow.mapSize.width = 2048; // 增加阴影贴图分辨率，提高阴影质量
-    sunLight.shadow.mapSize.height = 2048;
+    sunLight.shadow.mapSize.width = 4096; // 增加阴影贴图分辨率，提高阴影质量
+    sunLight.shadow.mapSize.height = 4096;
     
     // 调整阴影相机视锥体，确保在不同缩放级别下阴影都能正确渲染
     const shadowCamera = sunLight.shadow.camera as THREE.OrthographicCamera;
-    shadowCamera.left = -150;
-    shadowCamera.right = 150;
-    shadowCamera.top = 150;
-    shadowCamera.bottom = -150;
-    shadowCamera.near = 0.5;
-    shadowCamera.far = 200;
+    shadowCamera.left = -300;  // 大幅增加视锥体范围
+    shadowCamera.right = 300;
+    shadowCamera.top = 300;
+    shadowCamera.bottom = -300;
+    shadowCamera.near = 0.1;
+    shadowCamera.far = 400;    // 增加远平面，确保远距离物体也能接收阴影
     
     // 调整阴影偏移和模糊半径，优化阴影质量
-    sunLight.shadow.bias = -0.0005; // 增加阴影偏移，减少阴影失真和黑色像素块
-    sunLight.shadow.radius = 1; // 减小阴影半径，提高阴影清晰度
+    sunLight.shadow.bias = -0.0001; // 调整阴影偏移，减少阴影失真
+    sunLight.shadow.radius = 2;     // 适当增加阴影模糊，提高视觉效果
     
     // 启用阴影贴图的自动更新
     sunLight.shadow.autoUpdate = true;
     
     this.scene.add(sunLight);
     
-    // 简化光照系统，移除可能导致渲染问题的额外光源
-    // 只保留环境光和主光源，避免光源过多导致的渲染冲突
+    // 添加辅助填充光，减少深色区域
+    const fillLight = new THREE.DirectionalLight(
+      0xffffff, 
+      0.3       // 柔和的填充光，减少黑影
+    );
+    fillLight.position.set(-50, 50, -50); // 与主光源相反方向
+    this.scene.add(fillLight);
+    
+    // 简化光照系统，只保留必要光源
   }
 
   /**
@@ -2255,71 +2262,365 @@ export class SceneManager {
         }
       }
     } else if (type === 'bee' || type === 'bee2') {
-      // 蜜蜂
-      const bodyMaterial = new THREE.MeshStandardMaterial({
-        color: 0xfacc15,
-        roughness: 0.65,
-        metalness: 0.15
-      });
-      
-      const stripeMaterial = new THREE.MeshStandardMaterial({
-        color: 0x000000,
-        roughness: 0.8,
-        metalness: 0.05
-      });
-      
-      // 身体
-      const body = new THREE.Mesh(new THREE.CapsuleGeometry(0.15, 0.3, 4, 8), bodyMaterial);
-      body.position.set(0, 0.3, 0);
-      body.rotation.z = 0.3;
-      body.castShadow = true;
-      body.receiveShadow = true;
-      group.add(body);
-      
-      // 条纹
-      for(let i = 0; i < 3; i++) {
-        const stripe = new THREE.Mesh(
-          new THREE.RingGeometry(0.15, 0.18, 16),
-          stripeMaterial
-        );
-        stripe.position.set(0, 0.3, 0);
-        stripe.rotation.x = Math.PI / 2;
-        stripe.rotation.z = i * 0.3;
-        stripe.castShadow = true;
-        stripe.receiveShadow = true;
-        group.add(stripe);
-      }
-      
-      if (type === 'bee2') {
-        // 蜜蜂2 - 带有翅膀，更细致的条纹
-        // 翅膀
-        const wingMaterial = new THREE.MeshStandardMaterial({
-          color: 0xffffff,
-          roughness: 0.3,
-          metalness: 0.1,
-          transparent: true,
-          opacity: 0.7
+      // 蜜蜂 - 根据类型创建不同的蜜蜂模型
+      if (type === 'bee') {
+        // 蜜蜂1 - 普通工蜂：典型黄黑条纹，透明翅膀，细长体型
+        const yellowMaterial = new THREE.MeshStandardMaterial({
+          color: 0xfacc15, // 明亮黄色
+          roughness: 0.6,
+          metalness: 0.3
         });
         
-        const leftWing = new THREE.Mesh(
-          new THREE.BoxGeometry(0.4, 0.2, 0.01),
-          wingMaterial
-        );
-        leftWing.position.set(-0.2, 0.35, 0.1);
-        leftWing.rotation.z = 0.2;
-        leftWing.castShadow = true;
-        leftWing.receiveShadow = true;
-        group.add(leftWing);
+        const blackMaterial = new THREE.MeshStandardMaterial({
+          color: 0x000000,
+          roughness: 0.8,
+          metalness: 0.1
+        });
         
-        const rightWing = new THREE.Mesh(
-          new THREE.BoxGeometry(0.4, 0.2, 0.01),
-          wingMaterial
+        // 身体 - 椭圆形腹部，横向放置
+        const body = new THREE.Mesh(
+          new THREE.CapsuleGeometry(0.12, 0.5, 8, 16),
+          yellowMaterial
         );
-        rightWing.position.set(0.2, 0.35, 0.1);
-        rightWing.rotation.z = -0.2;
-        rightWing.castShadow = true;
-        rightWing.receiveShadow = true;
-        group.add(rightWing);
+        body.position.set(0, 0.5, 0);
+        body.rotation.x = Math.PI / 2; // 旋转90度，使身体横向
+        body.castShadow = true;
+        body.receiveShadow = true;
+        group.add(body);
+        
+        // 黑色条纹 - 3条明显的条纹
+        for (let i = 0; i < 3; i++) {
+          const stripe = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.14, 0.14, 0.12, 16),
+            blackMaterial
+          );
+          stripe.position.set(0, 0.5, -0.2 + i * 0.2); // 横向排列条纹
+          stripe.rotation.x = Math.PI / 2; // 旋转90度
+          stripe.castShadow = true;
+          stripe.receiveShadow = true;
+          group.add(stripe);
+        }
+        
+        // 头部
+        const head = new THREE.Mesh(
+          new THREE.SphereGeometry(0.1, 16, 16),
+          yellowMaterial
+        );
+        head.position.set(0, 0.5, 0.35); // 头部在身体前方
+        head.castShadow = true;
+        head.receiveShadow = true;
+        group.add(head);
+        
+        // 眼睛 - 深蓝色，带有光泽
+        const eyeMaterial = new THREE.MeshStandardMaterial({
+          color: 0x1e40af,
+          roughness: 0.2,
+          metalness: 0.8,
+          emissive: 0x1e40af,
+          emissiveIntensity: 0.3
+        });
+        
+        const eyeGeometry = new THREE.SphereGeometry(0.035, 16, 16);
+        const eye1 = new THREE.Mesh(eyeGeometry, eyeMaterial);
+        eye1.position.set(0.07, 0.55, 0.35); // 眼睛在头部两侧
+        group.add(eye1);
+        
+        const eye2 = new THREE.Mesh(eyeGeometry, eyeMaterial);
+        eye2.position.set(-0.07, 0.55, 0.35);
+        group.add(eye2);
+        
+        // 触角 - 细长，末端有小球
+        for (let i = 0; i < 2; i++) {
+          const antenna = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.008, 0.008, 0.18, 6),
+            yellowMaterial
+          );
+          
+          const x = i === 0 ? 0.04 : -0.04;
+          antenna.position.set(x, 0.62, 0.32);
+          antenna.rotation.x = -Math.PI / 4;
+          group.add(antenna);
+          
+          // 触角末梢
+          const antennaTip = new THREE.Mesh(
+            new THREE.SphereGeometry(0.02, 8, 8),
+            blackMaterial
+          );
+          antennaTip.position.set(0, -0.18, 0);
+          antenna.add(antennaTip);
+        }
+        
+        // 口器 - 吸管状
+        const proboscis = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.01, 0.01, 0.1, 6),
+          blackMaterial
+        );
+        proboscis.position.set(0, 0.45, 0.45); // 口器在头部前方
+        proboscis.rotation.x = Math.PI / 6;
+        group.add(proboscis);
+        
+        // 翅膀 - 半透明，带有光泽，长在身体两侧
+        const wingMaterial = new THREE.MeshStandardMaterial({
+          color: 0xffffff,
+          opacity: 0.8,
+          transparent: true,
+          roughness: 0.3,
+          metalness: 0.7,
+          emissive: 0x4b5563,
+          emissiveIntensity: 0.2
+        });
+        
+        // 主翅膀
+        const wingGeometry = new THREE.PlaneGeometry(0.4, 0.35);
+        
+        const wing1 = new THREE.Mesh(wingGeometry, wingMaterial);
+        wing1.position.set(0.2, 0.55, 0); // 右侧翅膀
+        wing1.rotation.z = Math.PI / 10;
+        wing1.castShadow = true;
+        wing1.receiveShadow = true;
+        group.add(wing1);
+        
+        const wing2 = new THREE.Mesh(wingGeometry, wingMaterial);
+        wing2.position.set(-0.2, 0.55, 0); // 左侧翅膀
+        wing2.rotation.z = -Math.PI / 10;
+        wing2.castShadow = true;
+        wing2.receiveShadow = true;
+        group.add(wing2);
+        
+        // 后翅
+        const hindWingGeometry = new THREE.PlaneGeometry(0.25, 0.2);
+        
+        const hindWing1 = new THREE.Mesh(hindWingGeometry, wingMaterial);
+        hindWing1.position.set(0.18, 0.5, -0.1); // 右侧后翅
+        hindWing1.rotation.z = Math.PI / 6;
+        hindWing1.castShadow = true;
+        hindWing1.receiveShadow = true;
+        group.add(hindWing1);
+        
+        const hindWing2 = new THREE.Mesh(hindWingGeometry, wingMaterial);
+        hindWing2.position.set(-0.18, 0.5, -0.1); // 左侧后翅
+        hindWing2.rotation.z = -Math.PI / 6;
+        hindWing2.castShadow = true;
+        hindWing2.receiveShadow = true;
+        group.add(hindWing2);
+        
+        // 腿部 - 6条腿，细长，长在身体下方
+        const legMaterial = new THREE.MeshStandardMaterial({
+          color: 0x000000,
+          roughness: 0.7,
+          metalness: 0.2
+        });
+        
+        const legGeometry = new THREE.CylinderGeometry(0.015, 0.015, 0.25, 6);
+        
+        // 前腿
+        for (let i = 0; i < 2; i++) {
+          const leg = new THREE.Mesh(legGeometry, legMaterial);
+          const x = i === 0 ? 0.12 : -0.12;
+          leg.position.set(x, 0.4, 0.25); // 前腿在身体前方
+          leg.rotation.z = i === 0 ? Math.PI / 6 : -Math.PI / 6;
+          group.add(leg);
+        }
+        
+        // 中腿
+        for (let i = 0; i < 2; i++) {
+          const leg = new THREE.Mesh(legGeometry, legMaterial);
+          const x = i === 0 ? 0.13 : -0.13;
+          leg.position.set(x, 0.4, 0); // 中腿在身体中间
+          group.add(leg);
+        }
+        
+        // 后腿
+        for (let i = 0; i < 2; i++) {
+          const leg = new THREE.Mesh(legGeometry, legMaterial);
+          const x = i === 0 ? 0.12 : -0.12;
+          leg.position.set(x, 0.4, -0.25); // 后腿在身体后方
+          leg.rotation.z = i === 0 ? -Math.PI / 6 : Math.PI / 6;
+          group.add(leg);
+        }
+      } else if (type === 'bee2') {
+        // 蜜蜂2 - 熊蜂：体型较大，毛茸茸，深黄色条纹
+        const darkYellowMaterial = new THREE.MeshStandardMaterial({
+          color: 0xf59e0b, // 深黄色
+          roughness: 0.8,
+          metalness: 0.1
+        });
+        
+        const blackMaterial = new THREE.MeshStandardMaterial({
+          color: 0x000000,
+          roughness: 0.9,
+          metalness: 0.05
+        });
+        
+        // 身体 - 圆形，毛茸茸，横向放置
+        const body = new THREE.Mesh(
+          new THREE.CapsuleGeometry(0.18, 0.45, 8, 16),
+          darkYellowMaterial
+        );
+        body.position.set(0, 0.5, 0);
+        body.rotation.x = Math.PI / 2; // 旋转90度，使身体横向
+        body.castShadow = true;
+        body.receiveShadow = true;
+        group.add(body);
+        
+        // 黑色条纹 - 2条宽条纹
+        for (let i = 0; i < 2; i++) {
+          const stripe = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.2, 0.2, 0.18, 16),
+            blackMaterial
+          );
+          stripe.position.set(0, 0.5, -0.15 + i * 0.3); // 横向排列条纹
+          stripe.rotation.x = Math.PI / 2; // 旋转90度
+          stripe.castShadow = true;
+          stripe.receiveShadow = true;
+          group.add(stripe);
+        }
+        
+        // 胸部 - 毛茸茸的外观
+        const thorax = new THREE.Mesh(
+          new THREE.SphereGeometry(0.16, 16, 16),
+          blackMaterial
+        );
+        thorax.position.set(0, 0.55, 0.2); // 胸部在身体前方
+        thorax.castShadow = true;
+        thorax.receiveShadow = true;
+        group.add(thorax);
+        
+        // 头部 - 较大，圆形
+        const head = new THREE.Mesh(
+          new THREE.SphereGeometry(0.14, 16, 16),
+          darkYellowMaterial
+        );
+        head.position.set(0, 0.55, 0.4); // 头部在胸部前方
+        head.castShadow = true;
+        head.receiveShadow = true;
+        group.add(head);
+        
+        // 眼睛 - 深棕色，较大
+        const eyeMaterial = new THREE.MeshStandardMaterial({
+          color: 0x78350f,
+          roughness: 0.4,
+          metalness: 0.3
+        });
+        
+        const eyeGeometry = new THREE.SphereGeometry(0.05, 16, 16);
+        const eye1 = new THREE.Mesh(eyeGeometry, eyeMaterial);
+        eye1.position.set(0.1, 0.6, 0.4); // 眼睛在头部两侧
+        group.add(eye1);
+        
+        const eye2 = new THREE.Mesh(eyeGeometry, eyeMaterial);
+        eye2.position.set(-0.1, 0.6, 0.4);
+        group.add(eye2);
+        
+        // 触角 - 短粗
+        for (let i = 0; i < 2; i++) {
+          const antenna = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.015, 0.015, 0.12, 6),
+            blackMaterial
+          );
+          
+          const x = i === 0 ? 0.08 : -0.08;
+          antenna.position.set(x, 0.7, 0.38);
+          antenna.rotation.x = -Math.PI / 4;
+          group.add(antenna);
+          
+          // 触角末梢 - 较大
+          const antennaTip = new THREE.Mesh(
+            new THREE.SphereGeometry(0.03, 8, 8),
+            darkYellowMaterial
+          );
+          antennaTip.position.set(0, -0.12, 0);
+          antenna.add(antennaTip);
+        }
+        
+        // 口器 - 短粗
+        const proboscis = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.015, 0.015, 0.08, 6),
+          blackMaterial
+        );
+        proboscis.position.set(0, 0.5, 0.5); // 口器在头部前方
+        proboscis.rotation.x = Math.PI / 6;
+        group.add(proboscis);
+        
+        // 翅膀 - 半透明，带有光泽，长在身体两侧
+        const wingMaterial = new THREE.MeshStandardMaterial({
+          color: 0xffffff,
+          opacity: 0.8,
+          transparent: true,
+          roughness: 0.3,
+          metalness: 0.7,
+          emissive: 0x4b5563,
+          emissiveIntensity: 0.2
+        });
+        
+        // 主翅膀
+        const wingGeometry = new THREE.PlaneGeometry(0.5, 0.45);
+        
+        const wing1 = new THREE.Mesh(wingGeometry, wingMaterial);
+        wing1.position.set(0.25, 0.6, 0); // 右侧翅膀
+        wing1.rotation.z = Math.PI / 8;
+        wing1.castShadow = true;
+        wing1.receiveShadow = true;
+        group.add(wing1);
+        
+        const wing2 = new THREE.Mesh(wingGeometry, wingMaterial);
+        wing2.position.set(-0.25, 0.6, 0); // 左侧翅膀
+        wing2.rotation.z = -Math.PI / 8;
+        wing2.castShadow = true;
+        wing2.receiveShadow = true;
+        group.add(wing2);
+        
+        // 后翅
+        const hindWingGeometry = new THREE.PlaneGeometry(0.3, 0.25);
+        
+        const hindWing1 = new THREE.Mesh(hindWingGeometry, wingMaterial);
+        hindWing1.position.set(0.22, 0.55, -0.15); // 右侧后翅
+        hindWing1.rotation.z = Math.PI / 5;
+        hindWing1.castShadow = true;
+        hindWing1.receiveShadow = true;
+        group.add(hindWing1);
+        
+        const hindWing2 = new THREE.Mesh(hindWingGeometry, wingMaterial);
+        hindWing2.position.set(-0.22, 0.55, -0.15); // 左侧后翅
+        hindWing2.rotation.z = -Math.PI / 5;
+        hindWing2.castShadow = true;
+        hindWing2.receiveShadow = true;
+        group.add(hindWing2);
+        
+        // 腿部 - 粗壮，覆盖绒毛，长在身体下方
+        const legMaterial = new THREE.MeshStandardMaterial({
+          color: 0x000000,
+          roughness: 0.9,
+          metalness: 0.05
+        });
+        
+        const legGeometry = new THREE.CylinderGeometry(0.025, 0.025, 0.25, 8);
+        
+        // 前腿
+        for (let i = 0; i < 2; i++) {
+          const leg = new THREE.Mesh(legGeometry, legMaterial);
+          const x = i === 0 ? 0.2 : -0.2;
+          leg.position.set(x, 0.4, 0.2); // 前腿在身体前方
+          leg.rotation.z = i === 0 ? Math.PI / 5 : -Math.PI / 5;
+          group.add(leg);
+        }
+        
+        // 中腿
+        for (let i = 0; i < 2; i++) {
+          const leg = new THREE.Mesh(legGeometry, legMaterial);
+          const x = i === 0 ? 0.22 : -0.22;
+          leg.position.set(x, 0.4, 0); // 中腿在身体中间
+          group.add(leg);
+        }
+        
+        // 后腿
+        for (let i = 0; i < 2; i++) {
+          const leg = new THREE.Mesh(legGeometry, legMaterial);
+          const x = i === 0 ? 0.2 : -0.2;
+          leg.position.set(x, 0.4, -0.2); // 后腿在身体后方
+          leg.rotation.z = i === 0 ? -Math.PI / 5 : Math.PI / 5;
+          group.add(leg);
+        }
       }
     } else if (type === 'sheep' || type === 'sheep2') {
       // 绵羊
@@ -2381,57 +2682,303 @@ export class SceneManager {
         group.add(bell);
       }
     } else if (type === 'bear' || type === 'bear2') {
-      // 棕熊
+      const isPolarBear = type === 'bear2';
+      
+      // 基础材质设置
       const bodyMaterial = new THREE.MeshStandardMaterial({
-        color: 0x78350f,
-        roughness: 0.7,
-        metalness: 0.1
+        color: isPolarBear ? 0xf0f0f0 : 0x78350f, // 北极熊白色，棕熊深棕色
+        roughness: 0.9,
+        metalness: 0.05,
+        flatShading: false
       });
       
-      // 身体
-      const body = new THREE.Mesh(new THREE.CapsuleGeometry(0.35, 0.5, 4, 8), bodyMaterial);
-      body.position.set(0, 0.5, 0);
-      body.rotation.z = 0.2;
+      const detailMaterial = new THREE.MeshStandardMaterial({
+        color: isPolarBear ? 0xe0e0e0 : 0x92400e, // 细节色
+        roughness: 0.95,
+        metalness: 0.0
+      });
+      
+      const blackMaterial = new THREE.MeshStandardMaterial({
+        color: isPolarBear ? 0x111827 : 0x1f2937, // 黑色细节
+        roughness: 0.9,
+        metalness: 0.0
+      });
+      
+      // 爪子材质
+      const clawMaterial = new THREE.MeshStandardMaterial({
+        color: isPolarBear ? 0xd1d5db : 0x9ca3af, // 爪子颜色
+        roughness: 0.7,
+        metalness: 0.2
+      });
+      
+      // 1. 身体：站立的熊类体型，使用胶囊几何体，只缩小Z轴高度到原来的四分之一
+      const body = new THREE.Mesh(
+        new THREE.CapsuleGeometry(
+          isPolarBear ? 0.45 : 0.4, // 保持原半径不变
+          isPolarBear ? 0.25 : 0.275,  // 高度，缩小到原来的四分之一（原高度1.0/1.1）
+          8, 16
+        ),
+        bodyMaterial
+      );
+      body.position.set(0, 1.0, 0); // 调整高度，避免身体插入地下
+      body.rotation.z = 0; // 直立站立，不再前倾
       body.castShadow = true;
       body.receiveShadow = true;
       group.add(body);
       
-      // 头部
-      const head = new THREE.Mesh(
-        new THREE.BoxGeometry(0.5, 0.4, 0.4),
+      // 2. 颈部：连接头部和身体，恢复原始尺寸
+      const neck = new THREE.Mesh(
+        new THREE.CapsuleGeometry(0.22, 0.3, 8, 8), // 恢复原始颈部尺寸
         bodyMaterial
       );
-      head.position.set(0, 0.9, 0.4);
+      neck.position.set(0, 0.5, 0); // 相对于身体定位，连接身体顶部，调整位置以适应缩小的身体
+      neck.rotation.z = 0;
+      neck.castShadow = true;
+      neck.receiveShadow = true;
+      body.add(neck);
+      
+      // 3. 头部：熊头形状，位于颈部上方，恢复原始尺寸
+      const head = new THREE.Mesh(
+        new THREE.SphereGeometry(
+          isPolarBear ? 0.35 : 0.32, // 恢复原始头部大小
+          16, 16
+        ),
+        bodyMaterial
+      );
+      head.position.set(0, 0.3, 0); // 相对于颈部定位，位于颈部顶部，恢复原始位置
       head.castShadow = true;
       head.receiveShadow = true;
-      group.add(head);
+      neck.add(head);
       
-      if (type === 'bear2') {
-        // 棕熊2 - 更健壮的体型，带有爪子
-        body.scale.set(1.1, 1.1, 1.1);
-        
-        // 爪子
-        const clawMaterial = new THREE.MeshStandardMaterial({
-          color: 0x92400e,
-          roughness: 0.75,
-          metalness: 0.05
-        });
-        
-        for(let i = 0; i < 4; i++) {
+      // 4. 耳朵：熊耳，位于头部顶部两侧，恢复原始尺寸
+      const earGeometry = new THREE.SphereGeometry(0.12, 8, 8); // 恢复原始耳朵尺寸
+      
+      const leftEar = new THREE.Mesh(earGeometry, bodyMaterial);
+      leftEar.position.set(-0.25, 0.25, 0); // 相对于头部定位，头部左侧，恢复原始位置
+      leftEar.scale.set(1, 0.8, 1); // 耳朵更扁平
+      leftEar.castShadow = true;
+      leftEar.receiveShadow = true;
+      head.add(leftEar);
+      
+      const rightEar = new THREE.Mesh(earGeometry, bodyMaterial);
+      rightEar.position.set(0.25, 0.25, 0); // 相对于头部定位，头部右侧，恢复原始位置
+      rightEar.scale.set(1, 0.8, 1);
+      rightEar.castShadow = true;
+      rightEar.receiveShadow = true;
+      head.add(rightEar);
+      
+      // 5. 面部特征：位于头部前方，恢复原始尺寸
+      // 眼睛
+      const eyeGeometry = new THREE.SphereGeometry(0.05, 8, 8); // 恢复原始眼睛尺寸
+      
+      const leftEye = new THREE.Mesh(eyeGeometry, blackMaterial);
+      leftEye.position.set(-0.15, 0.1, 0.3); // 相对于头部定位，头部前方左侧，恢复原始位置
+      leftEye.castShadow = true;
+      leftEye.receiveShadow = true;
+      head.add(leftEye);
+      
+      const rightEye = new THREE.Mesh(eyeGeometry, blackMaterial);
+      rightEye.position.set(0.15, 0.1, 0.3); // 相对于头部定位，头部前方右侧，恢复原始位置
+      rightEye.castShadow = true;
+      rightEye.receiveShadow = true;
+      head.add(rightEye);
+      
+      // 鼻子：熊鼻子，位于头部正前方，恢复原始尺寸
+      const nose = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.1, 0.08, 0.06, 8), // 恢复原始鼻子尺寸
+        blackMaterial
+      );
+      nose.position.set(0, -0.05, 0.33); // 相对于头部定位，头部正前方，恢复原始位置
+      nose.rotation.x = Math.PI / 2;
+      nose.castShadow = true;
+      nose.receiveShadow = true;
+      head.add(nose);
+      
+      // 嘴部：嘴部轮廓，位于鼻子下方，恢复原始尺寸
+      const mouth = new THREE.Mesh(
+        new THREE.BoxGeometry(0.18, 0.03, 0.05), // 恢复原始嘴部尺寸
+        blackMaterial
+      );
+      mouth.position.set(0, -0.12, 0.31); // 相对于头部定位，鼻子下方，恢复原始位置
+      mouth.castShadow = true;
+      mouth.receiveShadow = true;
+      head.add(mouth);
+      
+      // 6. 前肢（手臂）：位于身体两侧，靠近肩部，与肩部有机连接，恢复原始尺寸
+      // 前肢几何体，恢复原始尺寸
+      const frontLegGeometry = new THREE.CapsuleGeometry(
+        0.15, // 半径，恢复原始尺寸
+        0.8,  // 长度，恢复原始尺寸
+        8, 8
+      );
+      
+      // 左前肢（左臂）：位于身体左侧，与肩部连接
+      const leftFrontLeg = new THREE.Mesh(frontLegGeometry, bodyMaterial);
+      leftFrontLeg.position.set(-0.5, 0.3, 0.2); // 更靠近肩部，与肩部有机连接，恢复原始位置
+      leftFrontLeg.rotation.z = Math.PI / 2; // 旋转90度，手臂水平
+      leftFrontLeg.rotation.x = 0.1; // 轻微弯曲，自然下垂，恢复原始角度
+      leftFrontLeg.castShadow = true;
+      leftFrontLeg.receiveShadow = true;
+      body.add(leftFrontLeg);
+      
+      // 右前肢（右臂）：位于身体右侧，与肩部连接
+      const rightFrontLeg = new THREE.Mesh(frontLegGeometry, bodyMaterial);
+      rightFrontLeg.position.set(0.5, 0.3, 0.2); // 更靠近肩部，与肩部有机连接，恢复原始位置
+      rightFrontLeg.rotation.z = -Math.PI / 2; // 旋转-90度，手臂水平
+      rightFrontLeg.rotation.x = -0.1; // 轻微弯曲，自然下垂，恢复原始角度
+      rightFrontLeg.castShadow = true;
+      rightFrontLeg.receiveShadow = true;
+      body.add(rightFrontLeg);
+      
+      // 7. 后肢（腿）：位于身体下方，支撑身体重量，恢复原始尺寸
+      // 后肢几何体，更粗壮，适合站立，恢复原始尺寸
+      const backLegGeometry = new THREE.CapsuleGeometry(
+        0.18, // 半径，更粗壮，恢复原始尺寸
+        0.9,  // 长度，恢复原始尺寸
+        8, 8
+      );
+      
+      // 左后肢（左腿）：位于身体左后方
+      const leftBackLeg = new THREE.Mesh(backLegGeometry, bodyMaterial);
+      leftBackLeg.position.set(-0.3, -0.5, -0.3); // 相对于身体定位，身体左下方，恢复原始位置
+      leftBackLeg.rotation.z = 0; // 直立
+      leftBackLeg.rotation.x = 0.1; // 轻微弯曲，自然支撑身体，恢复原始角度
+      leftBackLeg.castShadow = true;
+      leftBackLeg.receiveShadow = true;
+      body.add(leftBackLeg);
+      
+      // 右后肢（右腿）：位于身体右后方
+      const rightBackLeg = new THREE.Mesh(backLegGeometry, bodyMaterial);
+      rightBackLeg.position.set(0.3, -0.5, -0.3); // 相对于身体定位，身体右下方，恢复原始位置
+      rightBackLeg.rotation.z = 0; // 直立
+      rightBackLeg.rotation.x = -0.1; // 轻微弯曲，自然支撑身体，恢复原始角度
+      rightBackLeg.castShadow = true;
+      rightBackLeg.receiveShadow = true;
+      body.add(rightBackLeg);
+      
+      // 8. 肩部和臀部肌肉：增强立体感，与四肢有机连接，恢复原始尺寸
+      const shoulderGeometry = new THREE.SphereGeometry(0.2, 8, 8); // 恢复原始尺寸
+      
+      // 左肩部：集成到左前肢连接点
+      const leftShoulder = new THREE.Mesh(shoulderGeometry, detailMaterial);
+      leftShoulder.position.set(-0.4, 0.4, 0.3); // 与左前肢连接点重合，恢复原始位置
+      leftShoulder.castShadow = true;
+      leftShoulder.receiveShadow = true;
+      body.add(leftShoulder);
+      
+      // 右肩部：集成到右前肢连接点
+      const rightShoulder = new THREE.Mesh(shoulderGeometry, detailMaterial);
+      rightShoulder.position.set(0.4, 0.4, 0.3); // 与右前肢连接点重合，恢复原始位置
+      rightShoulder.castShadow = true;
+      rightShoulder.receiveShadow = true;
+      body.add(rightShoulder);
+      
+      const hipGeometry = new THREE.SphereGeometry(0.22, 8, 8); // 恢复原始尺寸
+      
+      // 左髋部：集成到左后肢连接点，更靠近身体
+      const leftHip = new THREE.Mesh(hipGeometry, detailMaterial);
+      leftHip.position.set(-0.3, -0.3, -0.3); // 与左后肢连接点重合，恢复原始位置
+      leftHip.castShadow = true;
+      leftHip.receiveShadow = true;
+      body.add(leftHip);
+      
+      // 右髋部：集成到右后肢连接点，更靠近身体
+      const rightHip = new THREE.Mesh(hipGeometry, detailMaterial);
+      rightHip.position.set(0.3, -0.3, -0.3); // 与右后肢连接点重合，恢复原始位置
+      rightHip.castShadow = true;
+      rightHip.receiveShadow = true;
+      body.add(rightHip);
+      
+      // 9. 尾巴：短尾巴，位于身体后方，恢复原始尺寸
+      const tail = new THREE.Mesh(
+        new THREE.SphereGeometry(0.08, 8, 8), // 恢复原始尺寸
+        bodyMaterial
+      );
+      tail.position.set(0, -0.1, -0.5); // 相对于身体定位，身体后方，恢复原始位置
+      tail.castShadow = true;
+      tail.receiveShadow = true;
+      body.add(tail);
+      
+      // 10. 爪子：正确连接到四肢末端，恢复原始尺寸
+      // 为前肢添加爪子
+      const addFrontClaws = (leg: THREE.Mesh, isLeft: boolean) => {
+        for (let i = 0; i < 5; i++) {
           const claw = new THREE.Mesh(
-            new THREE.CylinderGeometry(0.04, 0.03, 0.15, 4),
+            new THREE.CylinderGeometry(0.03, 0.015, 0.1, 4), // 恢复原始爪子尺寸
             clawMaterial
           );
+          
+          const offset = (i - 2) * 0.08;
           claw.position.set(
-            (i % 2 === 0 ? -1 : 1) * 0.2,
-            0.3,
-            0.1 + Math.floor(i / 2) * 0.2
+            0,
+            -0.4, // 调整爪子位置到前肢末端，恢复原始位置
+            isLeft ? -0.1 + offset : 0.1 - offset
           );
-          claw.rotation.z = (i % 2 === 0 ? 1 : -1) * 0.2;
+          
+          claw.rotation.z = isLeft ? -0.1 : 0.1; // 调整爪子角度，恢复原始角度
+          claw.rotation.y = isLeft ? -Math.PI / 2 : Math.PI / 2;
+          
           claw.castShadow = true;
           claw.receiveShadow = true;
-          group.add(claw);
+          leg.add(claw);
         }
+      };
+      
+      // 为后肢添加爪子
+      const addBackClaws = (leg: THREE.Mesh, isLeft: boolean) => {
+        for (let i = 0; i < 5; i++) {
+          const claw = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.03, 0.02, 0.12, 4), // 恢复原始爪子尺寸
+            clawMaterial
+          );
+          
+          const offset = (i - 2) * 0.1;
+          claw.position.set(
+            isLeft ? -0.05 + offset : 0.05 - offset,
+            -0.45, // 调整爪子位置到后肢末端，恢复原始位置
+            0
+          );
+          
+          claw.rotation.z = isLeft ? 0.1 : -0.1; // 调整爪子角度，恢复原始角度
+          claw.rotation.x = Math.PI / 2;
+          
+          claw.castShadow = true;
+          claw.receiveShadow = true;
+          leg.add(claw);
+        }
+      };
+      
+      // 为前肢和后肢添加爪子
+      addFrontClaws(leftFrontLeg, true);  // 左前肢爪子
+      addFrontClaws(rightFrontLeg, false); // 右前肢爪子
+      addBackClaws(leftBackLeg, true);    // 左后肢爪子
+      addBackClaws(rightBackLeg, false);   // 右后肢爪子
+      
+      // 11. 熊的特征细节，恢复原始尺寸
+      // 棕熊添加面部棕色斑纹，恢复原始尺寸
+      if (!isPolarBear) {
+        const faceMarking = new THREE.Mesh(
+          new THREE.SphereGeometry(0.22, 16, 16, 0, Math.PI * 2, 0, Math.PI / 3), // 恢复原始尺寸
+          detailMaterial
+        );
+        faceMarking.position.set(0, 0, 0.2); // 相对于头部定位，面部前方，恢复原始位置
+        faceMarking.scale.set(1, 0.7, 0.8);
+        faceMarking.castShadow = true;
+        faceMarking.receiveShadow = true;
+        head.add(faceMarking);
+      }
+      
+      // 北极熊添加颈部一圈深色毛发，恢复原始尺寸
+      if (isPolarBear) {
+        const neckRuff = new THREE.Mesh(
+          new THREE.TorusGeometry(0.3, 0.12, 8, 16), // 恢复原始尺寸
+          detailMaterial
+        );
+        neckRuff.position.set(0, 0.6, 0); // 相对于身体定位，颈部位置，恢复原始位置
+        neckRuff.rotation.x = Math.PI / 2;
+        neckRuff.castShadow = true;
+        neckRuff.receiveShadow = true;
+        body.add(neckRuff);
       }
     } else {
       // 默认创建兔子

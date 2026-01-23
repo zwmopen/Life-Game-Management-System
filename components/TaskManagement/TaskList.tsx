@@ -54,7 +54,8 @@ const TaskList: React.FC<TaskListProps> = memo(({
       onDragEnd={onDragEnd} 
       onDragOver={(e) => onDragOver(e, index)} 
       onDoubleClick={() => onOpenEditTask(task)} 
-      className={`relative group rounded-lg border transition-all overflow-hidden ${task.completed ? 'opacity-50 grayscale ' + (isDark ? 'bg-zinc-950/50' : 'bg-slate-100') : task.isGivenUp ? 'opacity-70 ' + (isDark ? 'bg-red-950/10 border-red-900/30' : 'bg-red-50 border-red-200') : ''} ${cardBg} ${!task.completed && !task.isGivenUp ? 'hover:shadow-lg' : (isDark ? 'border-zinc-800' : 'border-slate-200')} ${draggedTask && draggedTask.id === task.id ? 'opacity-50 scale-95' : ''}`}
+      onClick={(e) => { e.stopPropagation(); onCompleteTask(task, e); }} 
+      className={`relative group rounded-lg border transition-all overflow-hidden cursor-pointer ${task.completed ? 'opacity-50 grayscale ' + (isDark ? 'bg-zinc-950/50' : 'bg-slate-100') : task.isGivenUp ? 'opacity-70 ' + (isDark ? 'bg-red-950/10 border-red-900/30' : 'bg-red-50 border-red-200') : ''} ${cardBg} ${!task.completed && !task.isGivenUp ? 'hover:shadow-lg' : (isDark ? 'border-zinc-800' : 'border-slate-200')} ${draggedTask && draggedTask.id === task.id ? 'opacity-50 scale-95' : ''}`}
     >
       <div className="p-2 sm:p-3 flex items-center gap-2 sm:gap-3">
         <div className="text-zinc-600 cursor-grab active:cursor-grabbing hidden sm:flex"><GripVertical size={14}/></div>
@@ -99,7 +100,8 @@ const TaskList: React.FC<TaskListProps> = memo(({
       onDragEnd={onDragEnd} 
       onDragOver={(e) => onDragOver(e, index)} 
       onDoubleClick={() => onOpenEditTask(task)} 
-      className={`relative group rounded-lg border transition-all overflow-hidden ${task.completed ? 'opacity-50 grayscale ' + (isDark ? 'bg-zinc-950/50' : 'bg-slate-100') : ''} ${cardBg} ${!task.completed ? 'hover:shadow-lg' : (isDark ? 'border-zinc-800' : 'border-slate-200')} ${draggedTask && draggedTask.id === task.id ? 'opacity-50 scale-95' : ''}`}
+      onClick={(e) => { e.stopPropagation(); onCompleteTask(task, e); }} 
+      className={`relative group rounded-lg border transition-all overflow-hidden cursor-pointer ${task.completed ? 'opacity-50 grayscale ' + (isDark ? 'bg-zinc-950/50' : 'bg-slate-100') : ''} ${cardBg} ${!task.completed ? 'hover:shadow-lg' : (isDark ? 'border-zinc-800' : 'border-slate-200')} ${draggedTask && draggedTask.id === task.id ? 'opacity-50 scale-95' : ''}`}
     >
       <div className="p-3 flex flex-col gap-2">
         <div className="flex items-center gap-2">

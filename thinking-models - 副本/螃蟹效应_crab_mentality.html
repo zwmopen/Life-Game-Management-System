@@ -1,0 +1,68 @@
+<!DOCTYPE html>﻿<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>铻冭煿鏁堝簲 - 鍐呰€楀崥寮?/title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+
+
+    body { background: #020617; font-family: -apple-system, sans-serif; color: #f8fafc; }
+    .glass { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); }
+    @keyframes pull-down { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
+    .crab { animation: pull-down 3s infinite ease-in-out; }
+  </style>
+</head>
+<body>data-theme="light" class="p-8 md:p-20 flex items-center justify-center min-h-screen">
+  <div class="max-w-7xl mx-auto w-full grid grid-cols-1 gap-20">
+    <!-- SVG 鍙鍖?-->
+    <div class="relative flex items-center justify-center glass p-12 rounded-[4rem] shadow-2xl">
+      <svg viewBox="0 0 600 600" class="w-full h-auto max-w-[500px]">
+        <!-- 绡撳瓙杈圭紭 -->
+        <rect x="150" y="100" width="300" height="400" rx="30" fill="none" stroke="white" stroke-opacity="0.1" stroke-width="4" stroke-dasharray="10 5" />
+        
+        <!-- 涓婃柟铻冭煿 (璇曞浘閫冪) -->
+        <g class="crab" transform="translate(300, 150)">
+          <circle r="40" fill="#ef4444" />
+          <path d="M-50,0 L-30,-20 M50,0 L30,-20" stroke="#ef4444" stroke-width="10" stroke-linecap="round" />
+          <text text-anchor="middle" y="5" fill="white" class="font-black text-xs">鍏堥┍鑰?/text>
+        </g>
+
+        <!-- 涓嬫柟铻冭煿 (鎷栨嫿鑰? -->
+        <g class="crab" transform="translate(300, 300)" style="animation-delay: 1s">
+          <circle r="40" fill="#dc2626" />
+          <text text-anchor="middle" y="5" fill="white" class="font-black text-xs">骞冲焊鑰?/text>
+          <!-- 鎷栨嫿绾?-->
+          <line x1="0" y1="-40" x2="0" y2="-110" stroke="#ef4444" stroke-width="4" stroke-dasharray="5 5" />
+        </g>
+
+        <text x="300" y="550" text-anchor="middle" fill="#475569" class="text-[8px] font-black uppercase tracking-[0.5em]">The Crab Bucket Trap</text>
+      </svg>
+    </div>
+
+    <!-- 鏂囨鍐呭鍖?-->
+    <div class="space-y-12">
+      <h1 class="text-8xl font-black text-white tracking-tighter leading-[0.8]">铻冭煿鏁堝簲<br><span class="text-red-500 italic">Crab Mentality</span></h1>
+      <p class="text-xl text-slate-400 border-l-4 border-red-500 pl-6 leading-relaxed italic">
+        鈥滃鏋滄垜鐖笉涓婂幓锛屾垜涔熺粷涓嶅厑璁镐綘鐖笂鍘汇€傗€?
+      </p>
+
+      <div class="glass p-10 rounded-[3rem] space-y-6">
+        <h3 class="text-2xl font-black text-white italic">鏍稿績闅愬柣锛氫簰鎷戒箣绡?/h3>
+        <p class="text-sm text-slate-400 leading-relaxed">
+          绔圭瘬閲屽鏋滃彧鏈変竴鍙瀮锜癸紝瀹冭兘杞绘槗鐖嚭鏉ャ€備絾濡傛灉鏈夊緢澶氬彧锛屾瘡褰撴湁涓€鍙瘯鍥惧悜涓婄埇锛屽叾瀹冪殑铻冭煿灏变細鐢ㄨ灟鎶婂畠鎷戒笅鏉ャ€傚湪缁勭粐涓紝杩欑瀚夊鍜屽唴鑰椾細瀵艰嚧鏁翠釜闆嗕綋闄峰叆鈥滀綆姘村钩绋虫€佲€濄€?
+        </p>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="bg-red-600/10 p-5 rounded-3xl border border-red-500/20">
+             <h4 class="text-red-400 font-black text-[10px] uppercase mb-1">璐熼潰鏍规簮</h4>
+             <p class="text-[11px] text-slate-300 italic">鐢变簬鍒╃泭鍒嗛厤涓嶅潎鎴栭浂鍜屽崥寮堜骇鐢熺殑瀚夊蹇冦€?/p>
+          </div>
+          <div class="bg-white/5 p-5 rounded-3xl border border-white/5">
+             <h4 class="text-slate-500 font-black text-[10px] uppercase mb-1">鐮村眬绛栫暐</h4>
+             <p class="text-[11px] text-slate-400">寤虹珛澧為噺鍗氬紙鐨勬満鍒讹紝璁┾€滃甫澶翠汉鈥濆甫澶у鑾风泭銆?/p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div></body>
+</html>

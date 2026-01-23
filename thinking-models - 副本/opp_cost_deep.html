@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>机会成本 (深度版)</title></head>
+<body >
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 决策分叉 -->
+        <path d="M0,0 L-350,-250" stroke="#1e293b" stroke-width="2" stroke-dasharray="10 5" opacity="0.2" />
+        <path d="M0,0 L350,-250" stroke="#1e293b" stroke-width="2" stroke-dasharray="10 5" opacity="0.2" />
+        
+        <!-- 选择 A (已选) -->
+        <g transform="translate(-350, -250)">
+          <circle r="40" fill="#ef4444" />
+          <text y="60" text-anchor="middle" fill="#ef4444" style="font-size: 14px; font-weight: 900;">选择 A: 平庸但安全</text>
+        </g>
+        
+        <!-- 真正的机会成本 B (失去的复利爆发) -->
+        <g transform="translate(350, -250)">
+          <circle r="40" fill="none" stroke="#ef4444" stroke-width="4" stroke-dasharray="5 5" class="animate-spin" />
+          <path d="M0,0 Q100,-150 250,-350" fill="none" stroke="#ef4444" stroke-width="8" opacity="0.3" />
+          <text y="60" text-anchor="middle" fill="#ef4444" style="font-size: 32px; font-weight: 900;">机会成本 B</text>
+          <text y="90" text-anchor="middle" fill="#ef4444" style="font-size: 14px; font-weight: 900;">(在那之后所丧失的 1000% 收益)</text>
+        </g>
+
+        <!-- 当前的时间成本 (漏出的沙) -->
+        <g transform="translate(0, 100)">
+           <path d="M-20,-50 L20,-50 L10,50 L-10,50 Z" fill="#fbbf24" opacity="0.5" />
+           <circle r="3" fill="#fbbf24"><animate attributeName="cy" from="-20" to="50" dur="0.5s" repeatCount="indefinite" /></circle>
+           <text y="100" text-anchor="middle" fill="#fbbf24" style="font-size: 14px; font-weight: 900;">每一秒犹豫，都在支付成本</text>
+        </g>
+
+        <text y="-250" text-anchor="middle" fill="#ef4444" style="font-size: 28px; font-weight: 900; letter-spacing: 0.1em;">不做的代价，远比做错要贵</text>
+      </g>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>机会成本 (深度版)</h1>
+    <p>对于个体，最昂贵的成本不是钱，而是“如果我没把时间花在 A 上，我就能把 A 的产出叠加到 B 上的那个复利差值”。这不仅是简单的替代，而是整个人生轨迹的非线性偏移。</p>
+    <div class="grid">
+      <div>
+        <h3>认知纠偏</h3>
+        <ul>
+          <li><strong>不作为的破坏性：</strong>在一个快速迭代的市场（如 A我），如果你选择观察一个月而不学习，你损失的不仅是这一个月，而是由于失去“先发优势”而在未来十年内累积的数百万连接机会。</li>
+          <li><strong>专注的真谛：</strong>做任何“还不错”的事情，本质上都在谋杀你做“极好”事情的机会。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>操作模型</h3>
+        <ul>
+          <li><strong>第二优选审计：</strong>每当你开启新项目，强制写下被你放弃的那个最强备选。盯着那个备选的潜在高度，你才能感知到当下的沉重代价。</li>
+          <li><strong>生命有限性：</strong>意识到你一生只能做成 3-5 件大事。每一次对平庸机会的说“是”，都是在对你的毕生成就说“不”。</li>
+        </ul>
+      </div>
+    </div>
+  </div></body>
+</html>

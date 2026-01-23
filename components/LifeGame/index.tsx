@@ -357,7 +357,7 @@ const LifeGame: React.FC<LifeGameProps> = memo(({
     
     if (newStatus) {
         // 播放完成音效
-        const completeSound = new Audio("/audio/sfx/任务完成音效.mp3");
+        const completeSound = new Audio("/audio/sfx/日常任务完成音效.mp3");
         completeSound.volume = 0.5;
         completeSound.play().catch(()=>{});
         
@@ -383,7 +383,7 @@ const LifeGame: React.FC<LifeGameProps> = memo(({
       onUpdateProject(projectId, { subTasks: newSubTasks });
       
       // 播放放弃音效
-      const giveUpSound = new Audio("/audio/sfx/任务放弃音效.mp3");
+      const giveUpSound = new Audio("/audio/sfx/任务放弃音效bubblepop-254773.mp3");
       giveUpSound.volume = 0.5;
       giveUpSound.play().catch(()=>{});
       
@@ -452,28 +452,32 @@ const LifeGame: React.FC<LifeGameProps> = memo(({
 
     {/* PURCHASE ANIMATION - Improved with centered popup */}
     {justPurchasedItem && (
-        <>
-            {/* Center Flash Effect */}
-            <div className="fixed inset-0 z-[1001] flex items-center justify-center animate-in fade-in-zoom duration-500">
-                <div className="text-8xl animate-[spin_0.5s_ease-in-out_infinite] drop-shadow-[0_0_30px_rgba(234,179,8,0.8)] opacity-100">
-                    {justPurchasedItem.icon}
+        <div className="fixed inset-0 z-[1000] flex items-center justify-center animate-in fade-in duration-300">
+            {/* Centered Popup with product image background */}
+            <div className="relative p-6 flex flex-col items-center gap-4 rounded-2xl shadow-2xl max-w-sm w-full mx-4 transition-all duration-300 overflow-hidden">
+                {/* Product Image Background */}
+                {justPurchasedItem.image && (
+                    <div className="absolute inset-0 z-0">
+                        <img 
+                            src={justPurchasedItem.image} 
+                            alt={justPurchasedItem.name}
+                            className="w-full h-full object-cover"
+                        />
+                    </div>
+                )}
+                
+                {/* Background Overlay */}
+                <div className="absolute inset-0 z-10 bg-gradient-to-b from-transparent via-black/50 to-black/80"></div>
+                
+                {/* Content */}
+                <div className="relative z-20 flex flex-col gap-2 flex-1 text-center">
+                    <h3 className="text-lg font-bold text-white">购买成功</h3>
+                    <div className="font-bold text-yellow-400">获得 {justPurchasedItem.name}</div>
+                    <div className="font-mono text-sm text-red-300">金币 - {justPurchasedItem.cost}G</div>
+                    <div className="font-mono text-sm text-green-300">当前剩余 {balance}G</div>
                 </div>
             </div>
-            {/* Centered Popup with neomorphic effect */}
-            <div className="fixed inset-0 z-[1000] flex items-center justify-center animate-in fade-in duration-300">
-                <div className={`p-6 flex flex-col items-center gap-4 rounded-2xl backdrop-blur-lg shadow-2xl max-w-sm w-full mx-4 transition-all duration-300 ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] border-[#1e1e2e] shadow-[10px_10px_20px_rgba(0,0,0,0.4),-10px_-10px_20px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] border-[#e0e5ec] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)]') : isDark ? 'bg-zinc-900/95 border border-yellow-500/30 shadow-yellow-500/10' : 'bg-white/95 border border-slate-200 shadow-lg'}`}>
-                    <div className={`text-4xl animate-[spin_1s_ease-in-out_infinite] ${isNeomorphic ? 'drop-shadow-[0_0_10px_rgba(234,179,8,0.5)]' : 'drop-shadow-[0_0_10px_rgba(234,179,8,0.5)]'}`}>
-                        {justPurchasedItem.icon}
-                    </div>
-                    <div className="flex flex-col gap-2 flex-1 text-center">
-                        <h3 className={`text-lg font-bold ${isDark ? 'text-white' : isNeomorphic ? 'text-zinc-700' : 'text-slate-800'}`}>购买成功</h3>
-                        <div className={`font-bold ${isDark ? 'text-yellow-400' : isNeomorphic ? 'text-yellow-600' : 'text-yellow-500'}`}>获得 {justPurchasedItem.name}</div>
-                        <div className={`font-mono text-sm ${isDark ? 'text-red-500' : isNeomorphic ? 'text-red-600' : 'text-red-500'}`}>金币 - {justPurchasedItem.cost}G</div>
-                        <div className={`font-mono text-sm ${isDark ? 'text-green-500' : isNeomorphic ? 'text-green-600' : 'text-green-500'}`}>当前剩余 {balance}G</div>
-                    </div>
-                </div>
-            </div>
-        </>
+        </div>
     )}
 
     {/* Morning Protocol Modal */}

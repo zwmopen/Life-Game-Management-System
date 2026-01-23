@@ -31,6 +31,13 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
   ]);
 
   const [draggedItem, setDraggedItem] = useState<number | null>(null);
+  
+  // 手机端手势滑动相关状态
+  const [touchStart, setTouchStart] = useState<number>(0);
+  const [touchEnd, setTouchEnd] = useState<number>(0);
+  
+  // 最小滑动距离（像素）
+  const minSwipeDistance = 50;
 
   const handleNavClick = (view: View) => {
     setView(view);
@@ -50,6 +57,44 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
       
       setNavItems(newItems);
       setDraggedItem(index);
+  };
+  
+  // 手机端手势滑动处理函数
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+  
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+  
+  const handleTouchEnd = () => {
+    // 计算滑动距离
+    const swipeDistance = touchEnd - touchStart;
+    
+    // 判断滑动方向和距离
+    if (Math.abs(swipeDistance) >= minSwipeDistance) {
+      if (swipeDistance > 0) {
+        // 向右滑动 - 展开侧边栏
+        if (isNavHidden) {
+          setIsNavHidden(false);
+          setIsNavCollapsed(false);
+        } else if (isNavCollapsed) {
+          setIsNavCollapsed(false);
+        }
+      } else {
+        // 向左滑动 - 折叠侧边栏
+        if (!isNavCollapsed) {
+          setIsNavCollapsed(true);
+        } else if (!isNavHidden) {
+          setIsNavHidden(true);
+        }
+      }
+    }
+    
+    // 重置触摸状态
+    setTouchStart(0);
+    setTouchEnd(0);
   };
 
   const isDark = theme.includes('dark');
@@ -123,13 +168,19 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
           </button>
 
       {/* 导航栏容器 */}
-      <div className={`
-        inset-y-0 left-0 translate-x-0 
-        md:translate-x-0 transition duration-200 ease-in-out
-        w-${isNavCollapsed ? '12' : '56'} border-r flex flex-col z-40 ${sidebarClass}
-        fixed md:relative
-        ${isNavHidden ? 'hidden' : ''}
-      `}>
+      <div 
+        className={`
+          inset-y-0 left-0 translate-x-0 
+          md:translate-x-0 transition duration-200 ease-in-out
+          w-${isNavCollapsed ? '12' : '56'} border-r flex flex-col z-40 ${sidebarClass}
+          fixed md:relative
+          ${isNavHidden ? 'hidden' : ''}
+        `}
+        // 手机端手势滑动事件监听器
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
           <div className={`px-4 py-6 ${isNeomorphic ? (theme === 'neomorphic-dark' ? `bg-[#1e1e2e]` : `bg-[#e0e5ec]`) : ''} flex items-center justify-between ${isNavCollapsed ? 'hidden' : 'md:flex'}`}>
             <h1 className={`text-xl font-bold tracking-tighter ${isDark ? 'text-emerald-500' : 'text-blue-600'}`}>
               人生游戏系统

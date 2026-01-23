@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>马尔科夫链</title></head>
+<body >
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 650">
+      <g transform="translate(500, 325)">
+        <!-- 状态 A -->
+        <g transform="translate(-250, 0)">
+          <circle r="80" fill="#ef4444" fill-opacity="0.1" stroke="#ef4444" stroke-width="4" />
+          <text text-anchor="middle" y="5" fill="#ef4444" style="font-size: 24px; font-weight: 900;">状态 A</text>
+          <!-- 自循环 -->
+          <path d="M-60,-50 A50,50 0 1,1 60,-50" fill="none" stroke="#ef4444" stroke-width="2" opacity="0.3" marker-end="url(#blueArrow)" />
+        </g>
+        
+        <!-- 状态 B -->
+        <g transform="translate(250, 0)">
+          <circle r="80" fill="#10b981" fill-opacity="0.1" stroke="#10b981" stroke-width="4" />
+          <text text-anchor="middle" y="5" fill="#10b981" style="font-size: 24px; font-weight: 900;">状态 B</text>
+        </g>
+
+        <!-- 转移路径 -->
+        <path d="M-150,20 Q0,80 150,20" fill="none" stroke="#ef4444" stroke-width="4" stroke-dasharray="10 5" marker-end="url(#blueArrow)">
+          <animate attributeName="stroke-dashoffset" from="0" to="100" dur="2s" repeatCount="indefinite" />
+        </path>
+        <path d="M150,-20 Q0,-80 -150,-20" fill="none" stroke="#10b981" stroke-width="4" stroke-dasharray="10 5" marker-end="url(#greenArrow)">
+          <animate attributeName="stroke-dashoffset" from="100" to="0" dur="2s" repeatCount="indefinite" />
+        </path>
+
+        <text y="180" text-anchor="middle" fill="#64748b" opacity="0.5" style="font-size: 16px; font-weight: 900; letter-spacing: 0.3em;">MEMOR我ES DON'T MATTER</text>
+      </g>
+      <defs>
+        <marker id="blueArrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#ef4444"/></marker>
+        <marker id="greenArrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto" rotate="180"><path d="M0,0 L10,5 L0,10 Z" fill="#10b981"/></marker>
+      </defs>
+    </svg>
+  </div>
+  <div class="text-content">
+    <h1>马尔科夫链 (Markov Chain)</h1>
+    <p>描述一个系统在不同状态间转移的过程。核心特性是“无记忆性”：下一时刻的状态仅由当前状态决定，与过去如何到达该状态无关。</p>
+    <div class="grid">
+      <div>
+        <h3>系统哲学</h3>
+        <ul>
+          <li><strong>当下即全部：</strong>无论系统过去经历了什么，决定未来的只有此刻的配置与概率分布。</li>
+          <li><strong>稳态分布：</strong>在漫长的转移后，系统会趋向一个稳定的比例（如：用户流失与留存的长期平衡点）。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>实战决策</h3>
+        <ul>
+          <li><strong>模型预测：</strong>从股市波动到语言模型（如 G计划T），本质上都是在计算下一个状态的“条件概率”。</li>
+          <li><strong>打破循环：</strong>如果你处于一个糟糕的马尔科夫链中（坏习惯循环），改变当下这一步的概率比后悔过去更有效。</li>
+        </ul>
+      </div>
+    </div>
+  </div></body>
+</html>

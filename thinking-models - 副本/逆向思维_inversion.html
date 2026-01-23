@@ -1,0 +1,75 @@
+<!DOCTYPE html>﻿<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>閫嗗悜鎬濈淮 - 闀滃儚鍥捐〃</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+
+
+    body { background: #020617; font-family: -apple-system, sans-serif; color: #f8fafc; }
+    .glass { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.05); }
+    @keyframes mirror-pulse { 0%, 100% { opacity: 0.8; transform: scale(1); } 50% { opacity: 1; transform: scale(1.02); } }
+    .mirror-effect { animation: mirror-pulse 5s infinite ease-in-out; }
+  </style>
+</head>
+<body>data-theme="light" class="p-8 md:p-16 flex items-center justify-center min-h-screen">
+  <div class="max-w-7xl mx-auto w-full grid grid-cols-1 gap-20">
+    <!-- SVG 鍙鍖?-->
+    <div class="relative flex flex-col items-center glass p-12 rounded-[4rem] shadow-2xl">
+      <svg viewBox="0 0 600 600" class="w-full h-auto max-w-[500px] mirror-effect">
+        <!-- 鍒嗛殧绾?-->
+        <line x1="50" y1="300" x2="550" y2="300" stroke="rgba(255,255,255,0.1)" stroke-width="1" stroke-dasharray="10 10" />
+        
+        <!-- 涓婇儴锛氭鍚戞€濊€?(杩烽浘) -->
+        <g opacity="0.4">
+          <circle cx="300" cy="150" r="80" fill="none" stroke="#94a3b8" stroke-width="2" />
+          <text x="300" y="155" text-anchor="middle" fill="#94a3b8" class="font-bold text-xs uppercase tracking-widest">濡備綍鑾峰緱鎴愬姛?</text>
+        </g>
+
+        <!-- 涓嬮儴锛氶€嗗悜鎬濊€?(閫忓交) -->
+        <g>
+          <circle cx="300" cy="450" r="100" fill="none" stroke="#10b981" stroke-width="4" />
+          <text x="300" y="455" text-anchor="middle" fill="#10b981" class="font-black text-xl italic uppercase tracking-widest">濡備綍閬垮厤澶辫触?</text>
+          <path d="M250,480 Q300,520 350,480" fill="none" stroke="#10b981" stroke-width="2" opacity="0.3" />
+        </g>
+
+        <!-- 杞崲绠ご -->
+        <path d="M300,240 L300,360" stroke="#10b981" stroke-width="2" marker-end="url(#arrow)" />
+        <defs>
+          <marker id="arrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+            <path d="M0,0 L10,5 L0,10 Z" fill="#10b981" />
+          </marker>
+        </defs>
+      </svg>
+    </div>
+
+    <!-- 鏂囨鍐呭 -->
+    <div class="space-y-12">
+      <h1 class="text-8xl font-black text-white tracking-tighter leading-[0.8]">閫嗗悜鎬濈淮<br><span class="text-emerald-500 italic">我nversion</span></h1>
+      <p class="text-xl text-slate-400 border-l-4 border-emerald-500 pl-6 leading-relaxed">
+        鈥滃弽杩囨潵鎯筹紝鎬绘槸鍙嶈繃鏉ユ兂銆傗€?鈥斺€?鏌ョ悊路鑺掓牸
+      </p>
+
+      <div class="space-y-6">
+        <div class="glass p-10 rounded-[3rem]">
+          <h3 class="text-emerald-400 font-black text-xs uppercase tracking-widest mb-4">鏍稿績锛氶伩鍧戝嵆鎴愬姛</h3>
+          <p class="text-sm text-slate-400 leading-relaxed mb-6">
+            涓庡叾鎬濊€冣€滄垜濡備綍鎵嶈兘璁╅」鐩垚鍔熲€濓紝涓嶅鎬濊€冣€滃摢浜涜涓轰細瀵艰嚧椤圭洰褰诲簳澶辫触鈥濄€傚彧瑕佷綘鑳界郴缁熸€у湴瑙勯伩鎵€鏈夊繀璐ヨ矾寰勶紝鍓╀笅鐨勫氨鏄€氬線鎴愬姛鐨勫彲鑳姐€?
+          </p>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="p-4 bg-emerald-500/10 rounded-2xl border border-emerald-500/20 text-[11px] text-emerald-400">
+              <span class="block font-black mb-1">浜嬪墠楠屽案 (计划re-mortem)</span>
+              鍋囪宸茬粡澶辫触锛屽弽鎺ㄥ師鍥犮€?
+            </div>
+            <div class="p-4 bg-white/5 rounded-2xl border border-white/5 text-[11px] text-slate-500">
+              <span class="block font-black mb-1">姝㈡崯鎰忚瘑</span>
+              鏄庣‘涓嶅仛浠€涔堛€?
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div></body>
+</html>
