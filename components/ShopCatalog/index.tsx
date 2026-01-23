@@ -6,13 +6,14 @@
  */
 
 import React, { useMemo, memo, useState } from 'react';
-import { 
-  ShoppingBag, Wallet, Hammer, CheckCircle, Plus, 
+import {
+  ShoppingBag, Wallet, Hammer, CheckCircle, Plus,
   Edit2, Trash2
 } from 'lucide-react';
 import { GlobalHelpButton } from '../HelpSystem';
 import { BLIND_BOX_PRICES } from '../../constants/blindBox';
 import { ShopCatalogProps } from './types';
+import AddGroupModal from './AddGroupModal';
 
 const ShopCatalog: React.FC<ShopCatalogProps> = memo(({
   inventory,
@@ -53,6 +54,8 @@ const ShopCatalog: React.FC<ShopCatalogProps> = memo(({
   // 分组管理状态
   const [editingGroup, setEditingGroup] = useState<string | null>(null);
   const [newGroupNameValue, setNewGroupNameValue] = useState('');
+  // 控制添加分组弹窗的显示/隐藏
+  const [showAddGroupModal, setShowAddGroupModal] = useState(false);
   
   // 生成按钮样式的辅助函数
   const getButtonStyle = (isActive: boolean, isSpecial?: boolean) => {
@@ -230,13 +233,13 @@ const ShopCatalog: React.FC<ShopCatalogProps> = memo(({
                 >
                   {f.label} <span className="text-[9px] opacity-80">({f.count})</span>
                   {f.isCustom && isManageShopMode && (
-                    <div className="ml-1 inline-flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="ml-1 inline-flex gap-1">
                       <button 
                         onClick={(e) => {
                           e.stopPropagation();
                           handleEditGroup(f.label);
                         }}
-                        className="text-xs p-0.5 rounded-full bg-blue-500 text-white hover:bg-blue-600"
+                        className={`w-5 h-5 rounded-full transition-all duration-200 flex items-center justify-center ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] text-blue-400 shadow-[3px_3px_6px_rgba(0,0,0,0.4),-3px_-3px_6px_rgba(30,30,46,0.8)] hover:shadow-[4px_4px_8px_rgba(0,0,0,0.5),-4px_-4px_8px_rgba(30,30,46,0.9)] active:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] text-blue-600 shadow-[3px_3px_6px_rgba(163,177,198,0.4),-3px_-3px_6px_rgba(255,255,255,0.8)] hover:shadow-[4px_4px_8px_rgba(163,177,198,0.5),-4px_-4px_8px_rgba(255,255,255,0.9)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.4),inset_-2px_-2px_4px_rgba(255,255,255,0.8)]') : 'bg-blue-500 text-white hover:bg-blue-600'}`}
                       >
                         <Edit2 size={10} />
                       </button>
@@ -245,7 +248,7 @@ const ShopCatalog: React.FC<ShopCatalogProps> = memo(({
                           e.stopPropagation();
                           handleDeleteGroup(f.label);
                         }}
-                        className="text-xs p-0.5 rounded-full bg-red-500 text-white hover:bg-red-600"
+                        className={`w-5 h-5 rounded-full transition-all duration-200 flex items-center justify-center ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] text-red-400 shadow-[3px_3px_6px_rgba(0,0,0,0.4),-3px_-3px_6px_rgba(30,30,46,0.8)] hover:shadow-[4px_4px_8px_rgba(0,0,0,0.5),-4px_-4px_8px_rgba(30,30,46,0.9)] active:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] text-red-600 shadow-[3px_3px_6px_rgba(163,177,198,0.4),-3px_-3px_6px_rgba(255,255,255,0.8)] hover:shadow-[4px_4px_8px_rgba(163,177,198,0.5),-4px_-4px_8px_rgba(255,255,255,0.9)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.4),inset_-2px_-2px_4px_rgba(255,255,255,0.8)]') : 'bg-red-500 text-white hover:bg-red-600'}`}
                       >
                         <Trash2 size={10} />
                       </button>
@@ -278,7 +281,7 @@ const ShopCatalog: React.FC<ShopCatalogProps> = memo(({
                 </button>
                 <button 
                   onClick={() => {
-                    setIsAddingGroup && setIsAddingGroup(true);
+                    setShowAddGroupModal(true);
                   }}
                   className={`text-xs px-3 py-1.5 rounded-[24px] border font-bold flex items-center gap-1 transition-all ${getButtonStyle(false, true)}`}
                 >
@@ -311,39 +314,21 @@ const ShopCatalog: React.FC<ShopCatalogProps> = memo(({
         </div>
 
         {/* 添加新分组弹窗 */}
-        {isAddingGroup && (
-          <div className="mt-4 p-4 rounded-xl border transition-all duration-300 bg-opacity-50 backdrop-blur-sm" style={{
-            background: isNeomorphic ? (theme === 'neomorphic-dark' ? 'rgba(30, 30, 46, 0.5)' : 'rgba(224, 229, 236, 0.5)') : isDark ? 'rgba(24, 24, 28, 0.5)' : 'rgba(255, 255, 255, 0.5)',
-            border: isNeomorphic ? (theme === 'neomorphic-dark' ? '1px solid #1e1e2e' : '1px solid #e0e5ec') : isDark ? '1px solid #374151' : '1px solid #d1d5db',
-            boxShadow: isNeomorphic ? (theme === 'neomorphic-dark' ? '8px 8px 16px rgba(0,0,0,0.4), -8px -8px 16px rgba(30,30,46,0.8)' : '8px 8px 16px rgba(163,177,198,0.4), -8px -8px 16px rgba(255,255,255,0.8)') : 'none'
-          }}>
-            <div className="flex items-center gap-3 mb-3">
-              <h3 className={`font-bold ${isDark ? 'text-white' : 'text-gray-800'}`}>添加新分组</h3>
-            </div>
-            <div className="flex gap-2">
-              <input
-                type="text"
-                value={newGroupName || ''}
-                onChange={(e) => setNewGroupName && setNewGroupName(e.target.value)}
-                placeholder="输入分组名称（最多50字符）"
-                maxLength={50}
-                className={`flex-1 px-3 py-2 rounded-lg border text-sm ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] border-[#1e1e2e] text-white' : 'bg-[#e0e5ec] border-[#e0e5ec] text-gray-800') : isDark ? 'bg-zinc-800 border-zinc-700 text-white' : 'bg-white border-gray-300 text-gray-800'}`}
-              />
-              <button
-                onClick={() => handleAddNewGroup && handleAddNewGroup()}
-                className={`px-4 py-2 rounded-lg text-sm font-medium ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-blue-500 text-white hover:bg-blue-600') : isDark ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-blue-500 text-white hover:bg-blue-600'}`}
-              >
-                确认
-              </button>
-              <button
-                onClick={() => handleCancelAddGroup && handleCancelAddGroup()}
-                className={`px-4 py-2 rounded-lg text-sm font-medium ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-gray-600 text-white hover:bg-gray-700' : 'bg-gray-400 text-white hover:bg-gray-500') : isDark ? 'bg-gray-600 text-white hover:bg-gray-700' : 'bg-gray-400 text-white hover:bg-gray-500'}`}
-              >
-                取消
-              </button>
-            </div>
-          </div>
-        )}
+        <AddGroupModal
+          isOpen={showAddGroupModal}
+          onSave={(groupName) => {
+            setNewGroupName && setNewGroupName(groupName);
+            handleAddNewGroup && handleAddNewGroup();
+            setShowAddGroupModal(false);
+          }}
+          onCancel={() => {
+            setShowAddGroupModal(false);
+          }}
+          theme={theme}
+          isDark={isDark}
+          isNeomorphic={isNeomorphic}
+          neomorphicStyles={neomorphicStyles}
+        />
       </div>
 
 
@@ -401,7 +386,8 @@ const ShopCatalog: React.FC<ShopCatalogProps> = memo(({
                 )}
                 
                 {/* 商品图片 */}
-                {item.image ? (
+                {/* 只显示有效的images.unsplash.com链接，不使用占位符服务 */}
+                {item.image && item.image.includes('images.unsplash.com') ? (
                   <div className="product-image absolute top-0 left-0 w-full h-full z-0">
                     <img 
                       src={item.image} 
@@ -432,6 +418,7 @@ const ShopCatalog: React.FC<ShopCatalogProps> = memo(({
                     </div>
                   </div>
                 ) : (
+                  /* 没有有效图片链接时，显示默认图标 */
                   <div className="absolute inset-0 flex items-center justify-center z-0" style={{ backgroundColor: isDark ? '#1a1a2e' : '#e0e5ec' }}>
                     <div className="text-6xl">
                       {/* 确保icon是有效的React组件，而不是数字0 */}
