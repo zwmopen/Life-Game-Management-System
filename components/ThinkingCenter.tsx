@@ -1,4 +1,4 @@
-import React, { useState, useMemo, Suspense, lazy } from 'react';
+import React, { useState, useMemo, Suspense, lazy, useEffect } from 'react';
 import { Theme } from '../types';
 import { Search, BookOpen, Settings, ChevronLeft, ChevronRight } from 'lucide-react';
 import thinkingModels from './thinkingModels.json';
@@ -54,7 +54,7 @@ const ModelErrorBoundary = ({ children, fallback }: {
 };
 
 // Button component without drag and drop functionality
-const ModelButton = ({ children, onClick, isActive, theme }: { children: React.ReactNode; onClick: () => void; isActive: boolean; theme: 'light' | 'dark' | 'neomorphic-light' | 'neomorphic-dark' } & React.HTMLAttributes<HTMLButtonElement>) => {
+const ModelButton = ({ children, onClick, isActive, theme, isFavorite }: { children: React.ReactNode; onClick: () => void; isActive: boolean; theme: 'light' | 'dark' | 'neomorphic-light' | 'neomorphic-dark'; isFavorite: boolean } & React.HTMLAttributes<HTMLButtonElement>) => {
   const isDark = theme.includes('dark');
   const isNeomorphic = theme.startsWith('neomorphic');
   const isNeomorphicDark = theme === 'neomorphic-dark';
@@ -65,7 +65,7 @@ const ModelButton = ({ children, onClick, isActive, theme }: { children: React.R
     if (isNeomorphic) {
       if (isNeomorphicDark) {
         // 拟态暗色主题
-        const baseClass = 'px-3 py-1.5 rounded-[18px] text-xs font-bold transition-all duration-200 ease-in-out flex items-center justify-center border border-transparent';
+        const baseClass = 'px-3 py-1.5 rounded-[18px] text-xs font-bold transition-all duration-200 ease-in-out flex items-center justify-between border border-transparent';
         if (isActive) {
           // 选中状态 - 内凹效果
           return `${baseClass} bg-[#1e1e2e] text-white shadow-[inset_4px_4px_8px_rgba(0,0,0,0.6),inset_-4px_-4px_8px_rgba(30,30,46,0.8)] transform scale-95`;
@@ -75,7 +75,7 @@ const ModelButton = ({ children, onClick, isActive, theme }: { children: React.R
         }
       } else {
         // 拟态亮色主题
-        const baseClass = 'px-3 py-1.5 rounded-[18px] text-xs font-bold transition-all duration-200 ease-in-out flex items-center justify-center border border-transparent';
+        const baseClass = 'px-3 py-1.5 rounded-[18px] text-xs font-bold transition-all duration-200 ease-in-out flex items-center justify-between border border-transparent';
         if (isActive) {
           // 选中状态 - 内凹效果
           return `${baseClass} bg-[#e0e5ec] text-zinc-700 shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] transform scale-95`;
@@ -86,7 +86,7 @@ const ModelButton = ({ children, onClick, isActive, theme }: { children: React.R
       }
     } else {
       // 普通主题
-      const baseClass = 'px-3 py-1.5 rounded-[18px] text-xs font-bold border transition-all duration-200 ease-in-out';
+      const baseClass = 'px-3 py-1.5 rounded-[18px] text-xs font-bold border transition-all duration-200 ease-in-out flex items-center justify-between';
       if (isActive) {
         return `${baseClass} bg-blue-500 text-white border-blue-500`;
       } else {
@@ -99,12 +99,33 @@ const ModelButton = ({ children, onClick, isActive, theme }: { children: React.R
     }
   };
   
+  // 收藏图标组件
+  const HeartIcon = () => {
+    return (
+      <svg 
+        xmlns="http://www.w3.org/2000/svg" 
+        width="12" 
+        height="12" 
+        viewBox="0 0 24 24" 
+        fill="none" 
+        stroke="currentColor" 
+        strokeWidth="2" 
+        strokeLinecap="round" 
+        strokeLinejoin="round"
+        className={isFavorite ? 'text-red-500 fill-red-500' : 'text-zinc-500'}
+      >
+        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+      </svg>
+    );
+  };
+  
   return (
     <button
       onClick={onClick}
       className={getButtonClass()}
     >
-      {children}
+      <span className="flex items-center">{children}</span>
+      <HeartIcon />
     </button>
   );
 };
@@ -161,22 +182,103 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme, onHelpClick }) =
     return initialCounts;
   });
   
+  // 收藏状态管理
+  const [favorites, setFavorites] = useState<Set<string>>(() => {
+    // 从本地存储加载收藏状态
+    const saved = localStorage.getItem('aes-thinking-favorites');
+    if (saved) {
+      try {
+        return new Set(JSON.parse(saved));
+      } catch (e) {
+        console.error('Failed to load favorites from localStorage:', e);
+      }
+    }
+    return new Set<string>();
+  });
+  
   // 用于存储上一次点击的模型ID，实现延迟更新查看次数
   const [previousModel, setPreviousModel] = useState<string | null>(null);
   
-  // Handle model click event
+  // 用于实现三击收藏功能的状态
+  const [clickCount, setClickCount] = useState<Record<string, number>>({});
+  const [clickTimeout, setClickTimeout] = useState<Record<string, NodeJS.Timeout>>({});
+  
+  // 保存收藏状态到本地存储
+  useEffect(() => {
+    localStorage.setItem('aes-thinking-favorites', JSON.stringify(Array.from(favorites)));
+  }, [favorites]);
+  
+  // Handle model click event with triple-click favorite functionality
   const handleModelClick = (modelId: string) => {
+    // 更新当前激活的模型
+    setActiveModel(modelId);
+    
     // 如果不是第一次点击，并且点击的是不同的模型，则更新上一次模型的查看次数
     if (previousModel && previousModel !== modelId) {
       setViewCounts(prevCounts => ({
         ...prevCounts,
         [previousModel]: (prevCounts[previousModel] || 0) + 1
       }));
+      setPreviousModel(modelId);
+    } else if (!previousModel) {
+      setPreviousModel(modelId);
     }
     
-    // 更新当前激活的模型和上一次点击的模型
-    setActiveModel(modelId);
-    setPreviousModel(modelId);
+    // 实现三击收藏功能
+    const currentCount = (clickCount[modelId] || 0) + 1;
+    setClickCount(prev => ({ ...prev, [modelId]: currentCount }));
+    
+    // 清除之前的定时器
+    if (clickTimeout[modelId]) {
+      clearTimeout(clickTimeout[modelId]);
+    }
+    
+    // 设置新的定时器
+    const timer = setTimeout(() => {
+      // 重置点击计数
+      setClickCount(prev => {
+        const newCounts = { ...prev };
+        delete newCounts[modelId];
+        return newCounts;
+      });
+      
+      // 清除定时器引用
+      setClickTimeout(prev => {
+        const newTimeouts = { ...prev };
+        delete newTimeouts[modelId];
+        return newTimeouts;
+      });
+    }, 500); // 500ms内点击3次才会触发收藏
+    
+    // 保存定时器引用
+    setClickTimeout(prev => ({ ...prev, [modelId]: timer }));
+    
+    // 如果点击了3次，切换收藏状态
+    if (currentCount === 3) {
+      setFavorites(prev => {
+        const newFavorites = new Set(prev);
+        if (newFavorites.has(modelId)) {
+          newFavorites.delete(modelId);
+        } else {
+          newFavorites.add(modelId);
+        }
+        return newFavorites;
+      });
+      
+      // 重置点击计数
+      setClickCount(prev => {
+        const newCounts = { ...prev };
+        delete newCounts[modelId];
+        return newCounts;
+      });
+      
+      // 清除定时器引用
+      setClickTimeout(prev => {
+        const newTimeouts = { ...prev };
+        delete newTimeouts[modelId];
+        return newTimeouts;
+      });
+    }
   };
 
   // 快速切换到上一个模型
@@ -205,7 +307,7 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme, onHelpClick }) =
     handleModelClick(filteredModels[nextIndex].id);
   };
   
-  // Filter and sort models based on search term and view counts
+  // Filter and sort models based on search term, favorites, and view counts
   const filteredModels = useMemo(() => {
     // Filter models first
     let models = thinkingModels;
@@ -218,13 +320,24 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme, onHelpClick }) =
       );
     }
     
-    // Sort models: all models sorted by view count in descending order
+    // Sort models:
+    // 1. First: all favorites in the order of their view counts (descending)
+    // 2. Then: all non-favorites sorted by view count in descending order
     return [...models].sort((a, b) => {
+      // 检查是否是收藏模型
+      const isAFavorite = favorites.has(a.id);
+      const isBFavorite = favorites.has(b.id);
+      
+      // 如果一个是收藏，一个不是，收藏的排在前面
+      if (isAFavorite && !isBFavorite) return -1;
+      if (!isAFavorite && isBFavorite) return 1;
+      
+      // 如果都是收藏或都不是收藏，按查看次数排序
       const countA = viewCounts[a.id] || 0;
       const countB = viewCounts[b.id] || 0;
       return countB - countA;
     });
-  }, [searchTerm, viewCounts]);
+  }, [searchTerm, viewCounts, favorites]);
   
   // Get the current active model data with error handling
   const currentModel = useMemo(() => {
@@ -266,23 +379,20 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme, onHelpClick }) =
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col gap-6">
-          {/* Header with Help Button */}
-          <div className="flex items-center justify-between">
-            <h1 className={`text-2xl font-bold flex items-center gap-2 ${textMain}`}>
-              <BookOpen className="text-blue-500" /> 思维中心
-            </h1>
-            {onHelpClick && (
-              <GlobalHelpButton 
-                helpId="thinkingCenter" 
-                onHelpClick={onHelpClick} 
-                size={18} 
-                variant="ghost" 
-              />
-            )}
-          </div>
-
           {/* Search and Model Switcher */}
           <div className={`${cardBg} p-5 rounded-3xl border w-full`}>
+            {/* Header with Help Button - 移到这里并放到最右侧 */}
+            <div className="flex justify-end mb-3">
+              {onHelpClick && (
+                <GlobalHelpButton 
+                  helpId="thinkingCenter" 
+                  onHelpClick={onHelpClick} 
+                  size={18} 
+                  variant="ghost" 
+                />
+              )}
+            </div>
+            
             {/* Search Bar with Arrows - 两个按钮都放在搜索框右边并且紧挨着 */}
             <div className="mb-3">
               <div className="relative flex items-center">
@@ -350,6 +460,7 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme, onHelpClick }) =
                     onClick={() => handleModelClick(model.id)}
                     isActive={activeModel === model.id}
                     theme={theme}
+                    isFavorite={favorites.has(model.id)}
                   >
                     <span className={`inline-flex items-center justify-center w-4 h-4 rounded-full text-[8px] mr-1.5 ${isDark ? 'bg-zinc-800 text-zinc-400' : 'bg-slate-100 text-slate-500'}`}>{index + 1}</span>
                     {model.label}

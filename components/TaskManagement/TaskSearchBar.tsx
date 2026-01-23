@@ -54,48 +54,49 @@ const TaskSearchBar: React.FC<TaskSearchBarProps> = memo(({
   };
 
   return (
-    <div className="w-full mb-4 flex gap-2">
-      <div className={`relative flex-1 flex items-center gap-2 px-3 py-2 rounded-full border transition-all ${getInputStyles()}`}>
-        {/* 搜索图标 */}
-        <Search size={18} className={textSub} />
-        
-        {/* 搜索输入框 */}
-        <input
-          type="text"
-          value={searchTerm}
-          onChange={(e) => onSearchChange(e.target.value)}
-          placeholder="搜索任务..."
-          className={`flex-1 bg-transparent outline-none text-sm ${textMain} placeholder:${textSub}`}
-        />
-        
-        {/* 清除按钮 */}
-        {searchTerm && (
+    <div className="w-full mb-4">
+      {/* 搜索框和按钮容器 - 在移动端垂直排列 */}
+      <div className="flex flex-col sm:flex-row gap-2">
+        <div className={`relative flex-1 flex items-center gap-2 px-3 py-2 rounded-full border transition-all ${getInputStyles()}`}>
+          {/* 搜索图标 */}
+          <Search size={18} className={textSub} />
+          
+          {/* 搜索输入框 */}
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => onSearchChange(e.target.value)}
+            placeholder="搜索任务..."
+            className={`flex-1 bg-transparent outline-none text-sm ${textMain} placeholder:${textSub}`}
+          />
+          
+          {/* 清除按钮 */}
+          {searchTerm && (
+            <button
+              onClick={handleClear}
+              className={`p-1 rounded-full transition-all ${getClearButtonStyles()}`}
+              aria-label="清除搜索"
+            >
+              <X size={16} className={textSub} />
+            </button>
+          )}
+        </div>
+
+        {/* 添加任务按钮 - 在移动端占满宽度，桌面端显示为圆形 */}
+        {onAddTask && (
           <button
-            onClick={handleClear}
-            className={`p-1 rounded-full transition-all ${getClearButtonStyles()}`}
-            aria-label="清除搜索"
+            onClick={onAddTask}
+            className={`flex items-center justify-center gap-1.5 rounded-full transition-all font-semibold text-sm ${isNeomorphic 
+              ? (theme === 'neomorphic-dark' 
+                ? 'w-10 h-10 bg-[#1e1e2e] text-blue-400 shadow-[4px_4px_8px_rgba(0,0,0,0.4),-4px_-4px_8px_rgba(30,30,46,0.8)] hover:shadow-[2px_2px_4px_rgba(0,0,0,0.4),-2px_-2px_4px_rgba(30,30,46,0.8)] active:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)]' 
+                : 'w-10 h-10 bg-[#e0e5ec] text-blue-600 shadow-[4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)] hover:shadow-[2px_2px_4px_rgba(163,177,198,0.6),-2px_-2px_4px_rgba(255,255,255,1)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)]')
+              : (isDark ? 'w-10 h-10 bg-blue-600 text-white hover:bg-blue-500' : 'w-10 h-10 bg-blue-500 text-white hover:bg-blue-400')
+            } sm:w-10 sm:h-10 w-full py-2`}
           >
-            <X size={16} className={textSub} />
+            <Plus size={18} />
           </button>
         )}
       </div>
-
-      {/* 添加任务按钮 */}
-      {onAddTask && (
-        <button
-          onClick={onAddTask}
-          className={`flex items-center gap-1.5 px-4 py-2 rounded-full transition-all font-semibold text-sm whitespace-nowrap ${
-            isNeomorphic 
-              ? (theme === 'neomorphic-dark' 
-                ? 'bg-[#1e1e2e] text-blue-400 shadow-[4px_4px_8px_rgba(0,0,0,0.4),-4px_-4px_8px_rgba(30,30,46,0.8)] hover:shadow-[2px_2px_4px_rgba(0,0,0,0.4),-2px_-2px_4px_rgba(30,30,46,0.8)] active:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)]' 
-                : 'bg-[#e0e5ec] text-blue-600 shadow-[4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)] hover:shadow-[2px_2px_4px_rgba(163,177,198,0.6),-2px_-2px_4px_rgba(255,255,255,1)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)]')
-              : (isDark ? 'bg-blue-600 text-white hover:bg-blue-500' : 'bg-blue-500 text-white hover:bg-blue-400')
-          }`}
-        >
-          <Plus size={18} />
-          任务管理
-        </button>
-      )}
       
       {/* 搜索结果提示 */}
       {searchTerm && (

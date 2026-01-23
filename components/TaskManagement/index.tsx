@@ -228,7 +228,7 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
   return (
     <div className="space-y-4">
       {/* 任务分类导航 */}
-      <div className={`${cardBg} border p-2 sm:p-3 rounded-2xl flex flex-wrap items-center justify-between gap-2`}>
+      <div className={`${cardBg} border p-2 sm:p-3 rounded-xl flex flex-wrap items-center justify-between gap-2`}>
         <div className="flex items-center gap-1 sm:gap-2 flex-wrap">
           <button 
             onClick={() => setTaskCategory('daily')} 

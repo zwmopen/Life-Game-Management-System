@@ -25,8 +25,8 @@ const Button: React.FC<ButtonProps> = ({
 
   // 根据尺寸添加额外样式
   const sizeStyle = {
-    small: 'px-2 py-1 text-xs',
-    medium: 'px-3 py-2 text-sm',
+    small: 'w-8 h-8 flex items-center justify-center text-xs',
+    medium: 'w-10 h-10 flex items-center justify-center text-sm',
     large: 'px-4 py-2.5 text-base'
   }[size];
 

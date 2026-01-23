@@ -86,7 +86,7 @@ const MilitaryModule: React.FC<MilitaryModuleProps> = ({
             className={`text-xs font-mono font-bold ${isDark ? 'text-yellow-400' : 'text-yellow-600'} cursor-pointer`}
             onDoubleClick={() => setIsEditingBalance(true)}
           >
-            {balance}
+            {Math.floor(balance)}
           </span>
         )}
       </div>

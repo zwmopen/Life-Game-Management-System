@@ -266,7 +266,7 @@ const ShopCatalog: React.FC<ShopCatalogProps> = memo(({
             <GlobalHelpButton helpId="shop" onHelpClick={onShowHelp} size={16} className="text-zinc-500 hover:text-white transition-colors" />
             {!isManageShopMode && (
               <div className={`text-xs ${textSub} flex items-center gap-1`}>
-              <Wallet size={12} className="text-yellow-500"/> 储备金: {balance}
+              <Wallet size={12} className="text-yellow-500"/> 储备金: {Math.floor(balance)}
             </div>
             )}
           </div>
