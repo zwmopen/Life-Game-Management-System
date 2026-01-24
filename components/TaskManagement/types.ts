@@ -118,6 +118,9 @@ export interface TaskManagementProps {
   // 任务管理
   onAddTask?: () => void;
   
+  // 导航控制
+  setIsNavCollapsed?: (collapsed: boolean) => void;
+  
   // 其他
   todayStr: string;
   setIsImmersive?: (value: boolean) => void;

@@ -450,35 +450,23 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme, onHelpClick }) =
               </div>
             </div>
             
-            {/* Model Switching Buttons - Simple Tailwind Grid */}
+            {/* Model Switching Buttons - Using ModelButton component for consistent styling */}
             <div className={`relative h-32 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-700 scrollbar-track-transparent rounded-xl ${isNeomorphic ? (isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.6),inset_-4px_-4px_8px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]') : (isDark ? 'bg-zinc-900 shadow-[inset_2px_2px_4px_rgba(0,0,0,0.5)]' : 'bg-slate-100 shadow-[inset_2px_2px_4px_rgba(163,177,198,0.3)]')}`}>
-              {/* 使用Tailwind的grid布局，确保每行5个按钮，添加响应式支持 */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-0.5 p-1 w-full">
+              {/* 优化的网格布局：更紧凑的间距，确保每行5个按钮，响应式设计 */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-0.5 p-1 w-full">
                 {filteredModels.map((model, index) => (
-                  <button
+                  <ModelButton
                     key={model.id}
                     onClick={() => handleModelClick(model.id)}
-                    className={`w-full px-2 py-1 h-10 rounded-lg text-xs font-bold transition-all duration-200 ease-in-out flex items-center justify-between border border-transparent gap-0.5 overflow-hidden whitespace-nowrap truncate ${activeModel === model.id ? 'bg-blue-500 text-white' : (isNeomorphicDark ? 'bg-[#1e1e2e] text-zinc-300 shadow-[2px_2px_4px_rgba(0,0,0,0.4),-2px_-2px_4px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] text-zinc-700 shadow-[2px_2px_4px_rgba(163,177,198,0.3),-2px_-2px_4px_rgba(255,255,255,0.8)]')}`}
+                    isActive={activeModel === model.id}
+                    theme={theme}
+                    isFavorite={favorites.has(model.id)}
                   >
                     <div className="flex items-center gap-0.5">
                       <span className={`inline-flex items-center justify-center w-4 h-4 rounded-full text-[8px] mr-0.5 ${isDark ? 'bg-zinc-800 text-zinc-400' : 'bg-slate-100 text-slate-500'} flex-shrink-0`}>{index + 1}</span>
                       <span className="truncate flex-shrink-1 text-nowrap">{model.label}</span>
                     </div>
-                    <svg 
-                      xmlns="http://www.w3.org/2000/svg" 
-                      width="12" 
-                      height="12" 
-                      viewBox="0 0 24 24" 
-                      fill="none" 
-                      stroke="currentColor" 
-                      strokeWidth="2" 
-                      strokeLinecap="round" 
-                      strokeLinejoin="round"
-                      className={`${favorites.has(model.id) ? 'text-red-500 fill-red-500' : 'text-zinc-500'} flex-shrink-0`}
-                    >
-                      <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
-                    </svg>
-                  </button>
+                  </ModelButton>
                 ))}
               </div>
             </div>

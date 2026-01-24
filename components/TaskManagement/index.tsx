@@ -48,8 +48,15 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
   onShowHelp,
   todayStr,
   setIsImmersive,
-  onAddTask
+  onAddTask,
+  setIsNavCollapsed
 }) => {
+  // 当任务管理系统加载时，隐藏侧边栏
+  React.useEffect(() => {
+    if (setIsNavCollapsed) {
+      setIsNavCollapsed(true);
+    }
+  }, [setIsNavCollapsed]);
   // 搜索状态
   const [searchTerm, setSearchTerm] = useState('');
 

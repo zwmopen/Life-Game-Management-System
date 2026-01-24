@@ -430,7 +430,7 @@ const ShopCatalog: React.FC<ShopCatalogProps> = memo(({
                 {/* 渐变遮罩 - 从价格顶部往下的从浅到深渐变效果 */}
                 <div className="gradient-overlay absolute left-0 top-[70px] w-full h-[calc(100%-70px)] z-10 pointer-events-none" style={{
                   background: isDark ? 
-                    'linear-gradient(to bottom, rgba(26,26,46,0) 0%, rgba(26,26,46,0.3) 30%, rgba(26,26,46,0.6) 60%, rgba(26,26,46,0.8) 100%)' : 
+                    'linear-gradient(to bottom, rgba(30,30,46,0) 0%, rgba(30,30,46,0.5) 20%, rgba(30,30,46,0.8) 50%, rgba(30,30,46,0.95) 100%)' : 
                     'linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 30%, rgba(255,255,255,0.6) 60%, rgba(255,255,255,0.8) 100%)',
                 }}></div>
                 

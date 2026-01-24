@@ -128,12 +128,27 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
     };
     
     window.addEventListener('resize', handleResize);
-    // 初始化时调用一次
-    handleResize();
+    
+    // 延迟初始化，确保window.innerWidth已正确获取
+    const timer = setTimeout(() => {
+      handleResize();
+    }, 100);
     
     return () => {
       window.removeEventListener('resize', handleResize);
+      clearTimeout(timer);
     };
+  }, []);
+  
+  // 初始状态修复：确保桌面端初始状态正确
+  useEffect(() => {
+    // 直接设置初始状态，避免依赖window.innerWidth的异步问题
+    if (typeof window !== 'undefined') {
+      if (window.innerWidth >= 768) {
+        setSidebarWidth(224);
+        setIsNavCollapsed(false);
+      }
+    }
   }, []);
 
   const isDark = theme.includes('dark');

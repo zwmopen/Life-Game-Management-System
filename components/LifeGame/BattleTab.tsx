@@ -555,6 +555,7 @@ const BattleTab: React.FC<BattleTabProps> = memo(({
             draggedTask={draggedTask}
             todayStr={todayStr}
             onStartTimer={handleStartTimer}
+            setIsNavCollapsed={setIsNavCollapsed}
           />
         </div>
       </div>

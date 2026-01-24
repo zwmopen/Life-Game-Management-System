@@ -1124,6 +1124,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                             setIsManageTasksOpen(true);
                             setModalState && setModalState(true);
                         }}
+                        setIsNavCollapsed={setIsNavCollapsed}
                     />
                 </div>
             )}
