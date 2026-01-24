@@ -898,31 +898,31 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
             </div>
             
             <div className="text-xs space-y-3 pt-2">
-              <div className="grid grid-cols-[max-content_auto] gap-x-2 gap-y-2 items-center">
-                <div className="flex items-center gap-1">
+              <div className="grid grid-cols-[max-content_1fr] gap-x-2 gap-y-2 items-start">
+                <div className="flex items-center gap-1 pt-0.5">
                   <FileText size={14} className="text-blue-500" />
-                  <span className={`font-bold text-sm ${textMain}`}>最新版本：</span>
+                  <span className={`font-bold text-sm ${textMain} whitespace-nowrap`}>最新版本：</span>
                 </div>
                 <span className={`${textSub} break-words text-sm`}>v{APP_VERSION}</span>
                 
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1 pt-0.5">
                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="text-blue-500">
                     <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
                     <circle cx="12" cy="7" r="4"></circle>
                   </svg>
-                  <span className={`font-bold text-sm ${textMain}`}>开发者：</span>
+                  <span className={`font-bold text-sm ${textMain} whitespace-nowrap`}>开发者：</span>
                 </div>
                 <span className={`${textSub} break-words text-sm`}>大胆走夜路</span>
                 
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1 pt-0.5">
                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="text-blue-500">
                     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
                   </svg>
-                  <span className={`font-bold text-sm ${textMain}`}>联系微信：</span>
+                  <span className={`font-bold text-sm ${textMain} whitespace-nowrap`}>联系微信：</span>
                 </div>
                 <span className={`${textSub} break-words text-sm`}>zwmrpg</span>
                 
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1 pt-0.5">
                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="text-blue-500">
                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                     <polyline points="14 2 14 8 20 8"></polyline>
@@ -930,23 +930,23 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
                     <line x1="16" y1="17" x2="8" y2="17"></line>
                     <polyline points="10 9 9 9 8 9"></polyline>
                   </svg>
-                  <span className={`font-bold text-sm ${textMain}`}>项目介绍：</span>
+                  <span className={`font-bold text-sm ${textMain} whitespace-nowrap`}>项目介绍：</span>
                 </div>
-                <span className={`${textSub} leading-relaxed text-sm break-words`}>
+                <span className={`${textSub} leading-relaxed text-sm break-words w-full`}>
                   人生游戏管理系统是一个综合性的个人成长管理工具，集成了任务管理、习惯养成、专注计时、成就系统等功能，旨在帮助用户更好地规划和追踪个人发展。
                 </span>
                 
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1 pt-0.5">
                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="text-blue-500">
                     <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
                   </svg>
-                  <span className={`font-bold text-sm ${textMain}`}>开源地址：</span>
+                  <span className={`font-bold text-sm ${textMain} whitespace-nowrap`}>开源地址：</span>
                 </div>
                 <a 
                   href="https://github.com/zwmopen/Life-Game-Management-System" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className={`${textSub} leading-relaxed text-sm flex-1 hover:underline hover:text-blue-500 transition-colors`}
+                  className={`${textSub} leading-relaxed text-sm w-full break-all hover:underline hover:text-blue-500 transition-colors`}
                 >
                   https://github.com/zwmopen/Life-Game-Management-System
                 </a>

@@ -202,7 +202,9 @@ const BattleTab: React.FC<BattleTabProps> = memo(({
   const todayStr = new Date().toLocaleDateString();
   
   // 按照habitOrder排序习惯任务
-  const sortedHabits = habitOrder.map(id => habits.find(h => h.id === id)).filter(h => h !== undefined) as Habit[];
+  const sortedHabits = useMemo(() => {
+    return habitOrder.map(id => habits.find(h => h.id === id)).filter(h => h !== undefined) as Habit[];
+  }, [habitOrder, habits]);
   // 使用useMemo确保当habits、todayStr或givenUpTasks变化时，habitTasks会重新生成
   const habitTasks = useMemo(() => {
     return sortedHabits.map(h => ({
@@ -214,7 +216,7 @@ const BattleTab: React.FC<BattleTabProps> = memo(({
         if (!a.isGivenUp && b.isGivenUp) return -1;
         return Number(a.completed) - Number(b.completed);
     });
-  }, [sortedHabits, todayStr, givenUpTasks]);
+  }, [sortedHabits, todayStr, givenUpTasks, habits, habitOrder]);
 
   // 按照projectOrder排序项目任务
   const sortedProjects = projectOrder.map(id => projects.find(p => p.id === id)).filter(p => p !== undefined) as Project[];

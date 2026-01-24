@@ -341,7 +341,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
         if (!a.isGivenUp && b.isGivenUp) return -1;
         return Number(a.completed) - Number(b.completed);
     });
-  }, [sortedHabits, todayStr, givenUpTasks, habits]);
+  }, [sortedHabits, todayStr, givenUpTasks, habits, habitOrder]);
 
   // 按照projectOrder排序项目任务
   const sortedProjects = projectOrder.map(id => projects.find(p => p.id === id)).filter(p => p !== undefined) as Project[];

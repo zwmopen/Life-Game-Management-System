@@ -49,25 +49,28 @@ export const useTaskOperations = ({
         }
 
         if (e) {
-            const { confetti } = require('canvas-confetti');
-            confetti({
-                particleCount: 100,
-                spread: 70,
-                origin: { x: e.clientX / window.innerWidth, y: e.clientY / window.innerHeight }
+            // 动态导入canvas-confetti以避免浏览器环境中require错误
+            import('canvas-confetti').then(({ default: confetti }) => {
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { x: e.clientX / window.innerWidth, y: e.clientY / window.innerHeight }
+                });
+            }).catch(error => {
+                console.error('Failed to load confetti:', error);
             });
         }
 
         if (task.type === TaskType.DAILY) {
-            // 获取最新的habit数据，确保history属性是最新的
-            const currentHabit = habits.find(h => h.id === task.id);
-            // 确保history对象存在且为最新
-            const updatedHistory = { ...currentHabit?.history, [todayStr]: !task.completed };
-            onUpdateHabit(task.id, {
-                history: updatedHistory
-            });
+            // 直接使用task对象的completed属性来获取当前状态，确保是最新的
+            const isCurrentlyCompleted = !!task.completed;
+            // 计算新的完成状态（取反）
+            const newCompletedState = !isCurrentlyCompleted;
+            // 直接更新habit的history
+            onUpdateHabit(task.id, { history: { ...task.originalData.history, [todayStr]: newCompletedState } });
             // 根据任务当前状态更新奖励（完成/取消完成）
-            const amount = task.completed ? -task.gold : task.gold;
-            const reason = task.completed ? `取消完成习惯: ${task.text}` : `完成习惯: ${task.text}`;
+            const amount = isCurrentlyCompleted ? -task.gold : task.gold;
+            const reason = isCurrentlyCompleted ? `取消完成习惯: ${task.text}` : `完成习惯: ${task.text}`;
             onUpdateBalance(amount, reason);
             onAddFloatingReward(`${amount > 0 ? '+' : ''}${amount} Gold`, amount > 0 ? "text-yellow-500" : "text-red-500", e?.clientX, e?.clientY);
         } else if (task.type === TaskType.MAIN) {
@@ -75,7 +78,7 @@ export const useTaskOperations = ({
             onUpdateBalance(task.gold, `完成主线: ${task.text}`);
             onAddFloatingReward(`+${task.gold} Gold`, "text-yellow-500", e?.clientX, e?.clientY);
         }
-    }, [onUpdateHabit, onUpdateProject, onUpdateBalance, onAddFloatingReward, todayStr, habits]);
+    }, [onUpdateHabit, onUpdateProject, onUpdateBalance, onAddFloatingReward, todayStr]);
 
     const giveUpTask = useCallback((taskId: string, e: React.MouseEvent) => {
         e.stopPropagation();

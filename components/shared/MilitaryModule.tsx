@@ -48,20 +48,11 @@ const MilitaryModule: React.FC<MilitaryModuleProps> = ({
 
   return (
     <div className="flex flex-row items-center justify-between gap-2 w-full">
-      {/* 战略统计标题和帮助按钮 */}
+      {/* 战略统计标题 */}
       <div className="flex items-center gap-1 flex-shrink-0">
         <span className="text-xs text-zinc-500 uppercase font-bold flex items-center gap-1">
           <Crosshair size={12}/> 战略统计
         </span>
-        {/* 帮助按钮 */}
-        {onHelpClick && (
-          <GlobalHelpButton 
-            helpId="military" 
-            onHelpClick={onHelpClick} 
-            size={14} 
-            className="hover:scale-[1.1]" 
-          />
-        )}
       </div>
       
       {/* 右侧空白区域 */}
@@ -91,7 +82,7 @@ const MilitaryModule: React.FC<MilitaryModuleProps> = ({
         )}
       </div>
       
-      {/* 歼敌数信息 */}
+      {/* 歼敌数信息和帮助按钮 */}
       <div className="flex items-center gap-1 flex-shrink-0">
         <Target size={12} className="text-red-500"/>
         <span className="text-zinc-500">歼敌数</span>
@@ -112,6 +103,15 @@ const MilitaryModule: React.FC<MilitaryModuleProps> = ({
           >
             {totalKills}
           </span>
+        )}
+        {/* 帮助按钮移动到歼敌数的最右面 */}
+        {onHelpClick && (
+          <GlobalHelpButton 
+            helpId="military" 
+            onHelpClick={onHelpClick} 
+            size={14} 
+            className="hover:scale-[1.1] ml-1" 
+          />
         )}
       </div>
     </div>

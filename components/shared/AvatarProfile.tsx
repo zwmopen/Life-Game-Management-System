@@ -147,14 +147,14 @@ const AvatarProfile: React.FC<AvatarProfileProps> = ({
 
     return (
       <div 
-        className={`flex flex-col gap-0.5 truncate ${textMain} max-w-[120px] cursor-pointer hover:opacity-80 transition-opacity`}
+        className={`flex items-center gap-1 truncate ${textMain} max-w-[120px] cursor-pointer hover:opacity-80 transition-opacity`}
         onDoubleClick={() => handleDoubleClick(type, level)}
         onClick={handleClick}
         title="单击跳转到荣誉勋章对应分类，双击编辑等级"
       >
-        {/* 优先显示称号，并且称号在上方 */}
-        <span className={`text-xs font-bold truncate ${color} ${theme === 'neomorphic-dark' ? 'text-zinc-300' : isNeomorphic ? 'text-zinc-600' : isDark ? 'text-zinc-400' : 'text-slate-600'}`}>{title}</span>
+        {/* 先显示等级，再显示称号，同一行排列 */}
         <span className={`text-[10px] font-mono truncate ${textMain}`}>LV.{level}</span>
+        <span className={`text-xs font-bold truncate ${color} ${theme === 'neomorphic-dark' ? 'text-zinc-300' : isNeomorphic ? 'text-zinc-600' : isDark ? 'text-zinc-400' : 'text-slate-600'}`}>{title}</span>
       </div>
     );
   };

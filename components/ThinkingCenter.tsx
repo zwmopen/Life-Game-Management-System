@@ -458,23 +458,23 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme, onHelpClick }) =
                   <button
                     key={model.id}
                     onClick={() => handleModelClick(model.id)}
-                    className={`w-full px-1 py-1 h-8 rounded-lg text-[9px] font-bold transition-all duration-200 ease-in-out flex items-center justify-between border border-transparent gap-0.5 overflow-hidden whitespace-nowrap truncate ${activeModel === model.id ? 'bg-blue-500 text-white' : (isNeomorphicDark ? 'bg-[#1e1e2e] text-zinc-300 shadow-[2px_2px_4px_rgba(0,0,0,0.4),-2px_-2px_4px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] text-zinc-700 shadow-[2px_2px_4px_rgba(163,177,198,0.3),-2px_-2px_4px_rgba(255,255,255,0.8)]')}`}
+                    className={`w-full px-2 py-1 h-10 rounded-lg text-xs font-bold transition-all duration-200 ease-in-out flex items-center justify-between border border-transparent gap-0.5 overflow-hidden whitespace-nowrap truncate ${activeModel === model.id ? 'bg-blue-500 text-white' : (isNeomorphicDark ? 'bg-[#1e1e2e] text-zinc-300 shadow-[2px_2px_4px_rgba(0,0,0,0.4),-2px_-2px_4px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] text-zinc-700 shadow-[2px_2px_4px_rgba(163,177,198,0.3),-2px_-2px_4px_rgba(255,255,255,0.8)]')}`}
                   >
                     <div className="flex items-center gap-0.5">
-                      <span className={`inline-flex items-center justify-center w-3 h-3 rounded-full text-[6px] mr-0.5 ${isDark ? 'bg-zinc-800 text-zinc-400' : 'bg-slate-100 text-slate-500'} flex-shrink-0`}>{index + 1}</span>
+                      <span className={`inline-flex items-center justify-center w-4 h-4 rounded-full text-[8px] mr-0.5 ${isDark ? 'bg-zinc-800 text-zinc-400' : 'bg-slate-100 text-slate-500'} flex-shrink-0`}>{index + 1}</span>
                       <span className="truncate flex-shrink-1 text-nowrap">{model.label}</span>
                     </div>
                     <svg 
                       xmlns="http://www.w3.org/2000/svg" 
-                      width="10" 
-                      height="10" 
+                      width="12" 
+                      height="12" 
                       viewBox="0 0 24 24" 
                       fill="none" 
                       stroke="currentColor" 
                       strokeWidth="2" 
                       strokeLinecap="round" 
                       strokeLinejoin="round"
-                      className="text-red-500 fill-red-500 flex-shrink-0"
+                      className={`${favorites.has(model.id) ? 'text-red-500 fill-red-500' : 'text-zinc-500'} flex-shrink-0`}
                     >
                       <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
                     </svg>
@@ -514,6 +514,58 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme, onHelpClick }) =
                 </div>
               )}
             </div>
+            
+            {/* Deep Analysis */}
+            {currentModel.deepAnalysis && (
+              <div className={`rounded-xl p-4 border transition-all duration-200 ${isDark ? (isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow}` : 'bg-zinc-900 border-zinc-800') : (isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow}` : 'bg-white border-slate-200')}`}>
+                <h3 className={`text-lg font-bold mb-2 ${textMain}`}>深度解析</h3>
+                <p className={`text-sm ${textSub} whitespace-pre-line`}>{currentModel.deepAnalysis}</p>
+              </div>
+            )}
+            
+            {/* Core Principles */}
+            {currentModel.principle && (
+              <div className={`rounded-xl p-4 border transition-all duration-200 ${isDark ? (isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow}` : 'bg-zinc-900 border-zinc-800') : (isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow}` : 'bg-white border-slate-200')}`}>
+                <h3 className={`text-lg font-bold mb-2 ${textMain}`}>核心原则</h3>
+                <div className={`text-sm ${textSub} whitespace-pre-line`}>
+                  {currentModel.principle.split(/;\s*;/).map((item, index) => (
+                    <p key={index} className="mb-1">{item.trim()}</p>
+                  ))}
+                </div>
+              </div>
+            )}
+            
+            {/* Application Scope */}
+            {currentModel.scope && (
+              <div className={`rounded-xl p-4 border transition-all duration-200 ${isDark ? (isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow}` : 'bg-zinc-900 border-zinc-800') : (isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow}` : 'bg-white border-slate-200')}`}>
+                <h3 className={`text-lg font-bold mb-2 ${textMain}`}>应用范围</h3>
+                <ul className={`list-disc list-inside text-sm ${textSub} whitespace-pre-line`}>
+                  {currentModel.scope.split(/,\s*\n\s*/).map((item, index) => (
+                    <li key={index}>{item.trim()}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            
+            {/* Practical Tips */}
+            {currentModel.tips && (
+              <div className={`rounded-xl p-4 border transition-all duration-200 ${isDark ? (isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow}` : 'bg-zinc-900 border-zinc-800') : (isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow}` : 'bg-white border-slate-200')}`}>
+                <h3 className={`text-lg font-bold mb-2 ${textMain}`}>实用技巧</h3>
+                <div className={`text-sm ${textSub} whitespace-pre-line`}>
+                  {currentModel.tips.split('; ').map((item, index) => (
+                    <p key={index} className="mb-1">{item.trim()}</p>
+                  ))}
+                </div>
+              </div>
+            )}
+            
+            {/* Practice Guidance */}
+            {currentModel.practice && (
+              <div className={`rounded-xl p-4 border transition-all duration-200 ${isDark ? (isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow}` : 'bg-zinc-900 border-zinc-800') : (isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow}` : 'bg-white border-slate-200')}`}>
+                <h3 className={`text-lg font-bold mb-2 ${textMain}`}>实践指南</h3>
+                <p className={`text-sm ${textSub} whitespace-pre-line`}>{currentModel.practice}</p>
+              </div>
+            )}
           </div>
         </div>
       </div>

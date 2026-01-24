@@ -114,16 +114,19 @@ const UnifiedBgMusicSelector: React.FC<UnifiedBgMusicSelectorProps> = ({
       setInitialSoundsLoaded(true);
       
       // 转换为组件所需的格式
+      const nonMuteSounds = sortedBgmFiles.filter(file => file && file.id && file.url).map(file => ({
+        id: file.name, // 使用name作为id，这样与soundManager中的预初始化音乐id格式一致
+        name: file.name,
+        url: file.url,
+        icon: getIconComponentByName(file.name),
+        color: 'text-blue-500',
+        hex: '#3b82f6'
+      }));
+      
+      // 确保静音选项永远排在最上面
       const soundList = [
         { id: 'mute', name: '静音', url: '', icon: '🔇', color: 'text-blue-500', hex: '#3b82f6' },
-        ...sortedBgmFiles.filter(file => file && file.id && file.url).map(file => ({
-          id: file.name, // 使用name作为id，这样与soundManager中的预初始化音乐id格式一致
-          name: file.name,
-          url: file.url,
-          icon: getIconComponentByName(file.name),
-          color: 'text-blue-500',
-          hex: '#3b82f6'
-        }))
+        ...nonMuteSounds
       ];
       
       setAllSounds(soundList);
@@ -134,8 +137,12 @@ const UnifiedBgMusicSelector: React.FC<UnifiedBgMusicSelectorProps> = ({
       }
     } catch (error) {
       console.error('Failed to load sound list:', error);
-      // 加载失败时使用默认音效列表
-      setAllSounds(defaultSounds);
+      // 加载失败时使用默认音效列表，确保静音在最后
+      const defaultSoundsWithMuteAtEnd = [
+        ...defaultSounds.filter(sound => sound.id !== 'mute'),
+        defaultSounds.find(sound => sound.id === 'mute')!
+      ];
+      setAllSounds(defaultSoundsWithMuteAtEnd);
       setIsSoundListLoaded(true);
     }
   }, [initialSoundsLoaded, getIconComponentByName]);

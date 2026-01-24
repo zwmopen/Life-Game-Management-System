@@ -1,6 +1,7 @@
 import React from 'react';
 import { Sparkles, Coins, Star, Clock, Dice5 } from 'lucide-react';
 import { DiceCategory, DiceTask } from '../../types';
+import { useGlobalAudio } from '../GlobalAudioManagerOptimized';
 
 interface FateGiftModalProps {
   task: DiceTask & { _generatedGold?: number; _generatedXp?: number };
@@ -23,6 +24,8 @@ const FateGiftModal: React.FC<FateGiftModalProps> = ({
   theme = 'dark',
   onModalOpen
 }) => {
+  const { playSoundEffect } = useGlobalAudio();
+  
   const isNeomorphic = theme.startsWith('neomorphic');
   const isDark = theme === 'neomorphic-dark';
   
@@ -211,7 +214,10 @@ const FateGiftModal: React.FC<FateGiftModalProps> = ({
             )}
             
             <button 
-              onClick={onComplete}
+              onClick={() => {
+                playSoundEffect('task-completed');
+                onComplete();
+              }}
               className={`py-3.5 rounded-xl font-bold transition-all duration-300 hover:scale-105 active:scale-95 relative overflow-hidden`}
               style={{
                 backgroundColor: isNeomorphic 

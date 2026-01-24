@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Menu, X, Sun, Moon, GripVertical, Gamepad2, BarChart2, ShoppingBag, ShieldAlert, Activity, Medal, Book, Settings, ChevronRight, ChevronLeft } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Menu, X, Sun, Moon, GripVertical, Gamepad2, BarChart2, ShoppingBag, ShieldAlert, Activity, Medal, Book, Settings, ChevronRight, ChevronLeft, GripHorizontal } from 'lucide-react';
 import { View, Theme } from '../types';
 import { APP_VERSION } from '../constants/app';
 import { GlobalHelpButton } from './HelpSystem';
@@ -32,12 +32,23 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
 
   const [draggedItem, setDraggedItem] = useState<number | null>(null);
   
+  // 侧边栏宽度状态
+  const [sidebarWidth, setSidebarWidth] = useState<number>(180); // 调整为较小的默认宽度
+  
   // 手机端手势滑动相关状态
   const [touchStart, setTouchStart] = useState<number>(0);
   const [touchEnd, setTouchEnd] = useState<number>(0);
   
   // 最小滑动距离（像素）
-  const minSwipeDistance = 50;
+  const minSwipeDistance = 30;
+  
+  // 侧边栏宽度限制
+  const MIN_SIDEBAR_WIDTH = 48; // 12 * 4
+  const MAX_SIDEBAR_WIDTH = 280;
+  
+  // 侧边栏容器引用
+  const sidebarRef = useRef<HTMLDivElement>(null);
+  const resizerRef = useRef<HTMLDivElement>(null);
 
   const handleNavClick = (view: View) => {
     setView(view);
@@ -61,31 +72,36 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
   
   // 手机端手势滑动处理函数
   const handleTouchStart = (e: React.TouchEvent) => {
-    setTouchStart(e.targetTouches[0].clientX);
+    const clientX = e.targetTouches[0].clientX;
+    setTouchStart(clientX);
   };
   
   const handleTouchMove = (e: React.TouchEvent) => {
-    setTouchEnd(e.targetTouches[0].clientX);
+    const clientX = e.targetTouches[0].clientX;
+    setTouchEnd(clientX);
   };
   
   const handleTouchEnd = () => {
     // 计算滑动距离
     const swipeDistance = touchEnd - touchStart;
     
-    // 判断滑动方向和距离
     if (Math.abs(swipeDistance) >= minSwipeDistance) {
+      // 判断滑动方向和距离
       if (swipeDistance > 0) {
         // 向右滑动 - 展开侧边栏
         if (isNavHidden) {
           setIsNavHidden(false);
           setIsNavCollapsed(false);
+          setSidebarWidth(180);
         } else if (isNavCollapsed) {
           setIsNavCollapsed(false);
+          setSidebarWidth(180);
         }
       } else {
         // 向左滑动 - 折叠侧边栏
         if (!isNavCollapsed) {
           setIsNavCollapsed(true);
+          setSidebarWidth(MIN_SIDEBAR_WIDTH);
         } else if (!isNavHidden) {
           setIsNavHidden(true);
         }
@@ -96,6 +112,29 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
     setTouchStart(0);
     setTouchEnd(0);
   };
+  
+  // 监听窗口大小变化，在移动端自动调整
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        // 在移动端默认使用最小宽度
+        setSidebarWidth(MIN_SIDEBAR_WIDTH);
+        setIsNavCollapsed(true);
+      } else {
+        // 在桌面端恢复默认宽度
+        setSidebarWidth(224);
+        setIsNavCollapsed(false);
+      }
+    };
+    
+    window.addEventListener('resize', handleResize);
+    // 初始化时调用一次
+    handleResize();
+    
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   const isDark = theme.includes('dark');
   const isNeomorphic = theme.startsWith('neomorphic');
@@ -135,8 +174,6 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
 
   return (
     <>
-
-
           {/* 折叠/展开按钮 - 放在导航栏左边外框边上 */}
           {/* 三级折叠逻辑：默认展开全部 -> 点击1次：折叠显示图标 -> 点击2次：隐藏全部 -> 点击3次：展开全部 */}
           <button 
@@ -145,12 +182,14 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
                 // 从完全隐藏状态恢复到展开全部
                 setIsNavHidden(false);
                 setIsNavCollapsed(false);
+                setSidebarWidth(224);
               } else if (isNavCollapsed) {
                 // 从只显示图标状态隐藏全部导航栏
                 setIsNavHidden(true);
               } else {
                 // 从展开状态折叠到只显示图标
                 setIsNavCollapsed(true);
+                setSidebarWidth(MIN_SIDEBAR_WIDTH);
               }
             }}
             className={`
@@ -167,15 +206,20 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
             {isNavHidden ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
           </button>
 
-      {/* 导航栏容器 */}
+      {/* 侧边栏容器 - 使用覆盖式设计 */}
       <div 
+        ref={sidebarRef}
         className={`
-          inset-y-0 left-0 translate-x-0 
-          md:translate-x-0 transition duration-200 ease-in-out
-          w-${isNavCollapsed ? '12' : '56'} border-r flex flex-col z-40 ${sidebarClass}
+          inset-y-0 left-0 transform transition-all duration-300 ease-in-out
+          flex flex-col z-40 ${sidebarClass}
           fixed md:relative
           ${isNavHidden ? 'hidden' : ''}
+          shadow-2xl
         `}
+        style={{
+          width: `${sidebarWidth}px`,
+          transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+        }}
         // 手机端手势滑动事件监听器
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
