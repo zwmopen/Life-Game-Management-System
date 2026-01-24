@@ -1,349 +1,102 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>反常识思维</title>
-  <style>
-    /* CSS 变量定义 - 浅色主题 */
-    :root {
-      --bg: #f8fafc;
-      --card-bg: #ffffff;
-      --primary-color: #ef4444;
-      --secondary-color: #3b82f6;
-      --text-primary: #1e293b;
-      --text-secondary: #64748b;
-      --border-color: #e2e8f0;
-      --border-radius: 16px;
-      --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
+  <title>逆向思维</title><style>
+/* 拟态设计 - 白色主题（默认） */
+:root {
+  --bg: #e0e5ec;
+  --primary-color: #3b82f6;
+  --primary-hover: #2563eb;
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --shadow-light: rgba(255, 255, 255, 0.8);
+  --shadow-dark: rgba(174, 174, 192, 0.4);
+  --card-bg: #e0e5ec;
+  --button-bg: #e0e5ec;
+  --button-text: #3b82f6;
+  --input-bg: #e0e5ec;
+  --input-text: #1e293b;
+  --file-item-bg: #e0e5ec;
+  --file-item-hover: #d1d9e6;
+  --file-item-active: #3b82f6;
+  --file-item-active-text: #ffffff;
+  --border-radius: 16px;
+}
 
-    /* CSS 变量定义 - 深色主题 */
-    [data-theme="dark"] {
-      --bg: #1a1b1e;
-      --card-bg: #2d3748;
-      --primary-color: #f87171;
-      --secondary-color: #60a5fa;
-      --text-primary: #f8fafc;
-      --text-secondary: #94a3b8;
-      --border-color: #334155;
-      --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
-      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
-    }
-
-    /* 全局样式 */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: var(--font-sans);
-      background-color: var(--bg);
-      color: var(--text-primary);
-      line-height: 1.6;
-      transition: var(--transition);
-      padding: 20px;
-    }
-
-    .container {
-      max-width: 800px;
-      width: 100%;
-      margin: 0 auto;
-      text-align: center;
-    }
-
-    /* 卡片样式 */
-    .neu-card {
-      background: var(--card-bg);
-      border-radius: var(--border-radius);
-      padding: 30px;
-      box-shadow: var(--shadow);
-      transition: var(--transition);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-
-    .neu-card:hover {
-      transform: translateY(-5px);
-      box-shadow: var(--shadow-lg);
-    }
-
-    /* SVG 样式 */
-    svg {
-      max-width: 100%;
-      height: auto;
-    }
-
-    /* 文本内容样式 */
-    .text-content {
-      background: var(--card-bg);
-      border-radius: var(--border-radius);
-      padding: 40px;
-      box-shadow: var(--shadow);
-      transition: var(--transition);
-      text-align: left;
-    }
-
-    .text-content:hover {
-      transform: translateY(-5px);
-      box-shadow: var(--shadow-lg);
-    }
-
-    /* 标题样式 */
-    h1 {
-      font-size: clamp(2rem, 5vw, 3.5rem);
-      font-weight: 800;
-      color: var(--primary-color);
-      margin-bottom: 20px;
-      line-height: 1.2;
-    }
-
-    h2 {
-      font-size: clamp(1.5rem, 4vw, 2.5rem);
-      font-weight: 700;
-      color: var(--text-primary);
-      margin: 30px 0 20px;
-    }
-
-    h3 {
-      font-size: clamp(1.2rem, 3vw, 1.8rem);
-      font-weight: 600;
-      color: var(--text-primary);
-      margin: 25px 0 15px;
-    }
-
-    /* 段落样式 */
-    p {
-      font-size: clamp(1rem, 2vw, 1.2rem);
-      color: var(--text-secondary);
-      margin-bottom: 25px;
-      line-height: 1.7;
-    }
-
-    /* 列表样式 */
-    ul {
-      margin-bottom: 25px;
-      padding-left: 25px;
-    }
-
-    li {
-      font-size: clamp(1rem, 2vw, 1.1rem);
-      color: var(--text-secondary);
-      margin-bottom: 12px;
-      line-height: 1.6;
-    }
-
-    /* 强调文本 */
-    strong {
-      color: var(--text-primary);
-      font-weight: 600;
-    }
-
-    /* 网格布局 */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 30px;
-      margin: 30px 0;
-    }
-
-    /* 信息卡片 */
-    .info-card {
-      background-color: rgba(239, 68, 68, 0.05);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 25px;
-      transition: var(--transition);
-    }
-
-    .info-card:hover {
-      transform: translateY(-5px);
-      box-shadow: var(--shadow-lg);
-    }
-
-    /* 响应式设计 */
-    @media (max-width: 768px) {
-      body {
-        padding: 15px;
-      }
-
-      .content {
-        padding: 25px;
-      }
-
-      .svg-container {
-        height: 400px;
-      }
-
-      .grid {
-        gap: 20px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .content {
-        padding: 20px;
-      }
-
-      .svg-container {
-        height: 300px;
-      }
-    }
-
-    /* 动画效果 */
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .content {
-      animation: fadeIn 0.8s ease-out forwards;
-    }
-
-    .info-card {
-      animation: fadeIn 0.8s ease-out forwards;
-    }
-
-    .info-card:nth-child(1) {
-      animation-delay: 0.2s;
-    }
-
-    .info-card:nth-child(2) {
-      animation-delay: 0.4s;
-    }
-
-    .info-card:nth-child(3) {
-      animation-delay: 0.6s;
-    }
-
-    .info-card:nth-child(4) {
-      animation-delay: 0.8s;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <div class="neu-card">
-      <svg viewBox="0 0 1000 650">
-        <g transform="translate(500, 325)">
-          <!-- 大众潮流 (灰色的小球流) -->
-          <g fill="var(--text-secondary)" opacity="0.2">
-            <circle r="10"><animateMotion path="M-500,50 L500,50" dur="3s" repeatCount="indefinite" /></circle>
-            <circle r="10" style="animation-delay: 0.5s"><animateMotion path="M-500,100 L500,100" dur="2.5s" repeatCount="indefinite" /></circle>
-            <circle r="10" style="animation-delay: 1s"><animateMotion path="M-500,0 L500,0" dur="4s" repeatCount="indefinite" /></circle>
-            <text x="0" y="150" text-anchor="middle" style="font-size: 24px; font-weight: 900; fill: var(--text-primary);">共识流 (Crowd Logic)</text>
-          </g>
-          
-          <!-- 独立的异类 (红色箭头 - 逆流而上) -->
-          <g transform="translate(0, 0)">
-            <path d="M400,-100 L-300,-100" stroke="var(--primary-color)" stroke-width="12" stroke-linecap="round" marker-end="url(#redarrow)">
-               <animate attributeName="stroke-dasharray" from="0,700" to="700,0" dur="2s" repeatCount="indefinite" />
-            </path>
-            <circle cx="-300" cy="-100" r="40" fill="var(--primary-color)" filter="drop-shadow(0 0 30px var(--primary-color))" />
-            <text x="-300" y="-160" text-anchor="middle" fill="var(--primary-color)" style="font-size: 28px; font-weight: 900;">非共识正确</text>
-          </g>
-
-          <!-- 价值区间 -->
-          <rect x="-400" y="-180" width="300" height="150" fill="var(--primary-color)" fill-opacity="0.05" stroke="var(--primary-color)" stroke-width="1" stroke-dasharray="10 5" />
-          <text x="-250" y="-100" text-anchor="middle" fill="var(--primary-color)" style="font-size: 14px; font-weight: 800;">此处即超额收益</text>
-
-          <text y="280" text-anchor="middle" fill="var(--primary-color)" style="font-size: 32px; font-weight: 900;">你要的是正确 且 非共识</text>
-        </g>
-        <defs>
-          <marker id="redarrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="var(--primary-color)"/></marker>
-        </defs>
-      </svg>
-    </div>
-
-    <div class="text-content">
-      <h1>反常识思维 (Contrarian Thinking)</h1>
-      <p>投资大师霍华德·马克斯提出：想要获得超额表现，你必须在判断上是正确的，且必须是“非共识”的。如果你和大家一样正确，你的收益已被市场均值抹平。只有当你看到了大众视而不见的真相，你才拥有了套利世界的资本。</p>
+/* 拟态设计 - 深色主题 */
+[data-theme="dark"] {
+  --bg: #1a1b1e;
+  --primary-color: #3b82f6;
+  --primary-hover: #2563eb;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --shadow-light: rgba(255, 255, 255, 0.05);
+  --shadow-dark: rgba(0, 0, 0, 0.5);
+  --card-bg: #1a1b1e;
+  --button-bg: #1a1b1e;
+  --button-text: #3b82f6;
+  --input-bg: #1a1b1e;
+  --input-text: #f8fafc;
+  --file-item-bg: #1a1b1e;
+  --file-item-hover: #2d3748;
+  --file-item-active: #3b82f6;
+  --file-item-active-text: #ffffff;
+  --border-radius: 16px;
+}
+</style></head>
+<body >
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 600">
+      <!-- 镜像分割线 -->
+      <line x1="100" y1="300" x2="900" y2="300" stroke="#1e293b" stroke-width="1" stroke-dasharray="10 20" opacity="0.1" />
       
-      <div class="grid">
-        <div class="info-card">
-          <h3>认知的非对称</h3>
-          <ul>
-            <li><strong>共识的平庸：</strong>“众所周知的秘密”毫无价值。一旦某个投资机会或内容方向成为全网共识，它就已经进入了衰退期。</li>
-            <li><strong>真理的孤独性：</strong>伟大的发现初期往往听起来像个笑话或歪理。这种“不适感”正是非共识正确发出的独特频率。</li>
-            <li><strong>信息茧房突破：</strong>主动寻找与自己观点相反的信息，打破思维定式，培养多角度思考能力。</li>
-          </ul>
-        </div>
-        
-        <div class="info-card">
-          <h3>操作指南</h3>
-          <ul>
-            <li><strong>独立校准：</strong>每当全网都在狂热地讨论某个机会，立刻退后半步。问：他们都错过了什么？为什么大家都认为这是对的？</li>
-            <li><strong>小步快跑验证：</strong>非共识意味着高风险。在全仓买入你的“奇思妙想”前，先进行可选性极强的低成本测试。</li>
-            <li><strong>风险控制：</strong>即使你坚信自己的判断，也要为可能的错误预留足够的安全边际，避免单次失败导致全局崩溃。</li>
-          </ul>
-        </div>
-      </div>
+      <!-- 正向思考 (上) -->
+      <g transform="translate(500, 150)">
+        <path d="M-150,50 Q0,-100 150,50" fill="none" stroke="#1e293b" stroke-width="2" opacity="0.2" />
+        <circle r="40" fill="#1e293b" opacity="0.1" />
+        <text text-anchor="middle" y="5" fill="#64748b" style="font-size: 14px; font-weight: 800;">如何成功?</text>
+      </g>
 
-      <div class="model-description">
-        <h3>模型描述</h3>
-        <p>反常识思维是一种独立思考的方法论，指的是与主流观点和共识保持距离，通过深入分析和独立判断，发现被大众忽视的机会和风险。投资大师霍华德·马克斯提出，想要获得超额表现，必须在判断上是正确的，且必须是“非共识”的。</p>
-        
-        <h3>核心原则</h3>
+      <!-- 逆向思维 (下) -->
+      <g transform="translate(500, 450)">
+        <animateTransform attributeName="transform" type="translate" values="500,450; 500,440; 500,450" dur="3s" repeatCount="indefinite" />
+        <path d="M-150,-50 Q0,100 150,-50" fill="none" stroke="#ef4444" stroke-width="6" stroke-linecap="round" />
+        <circle r="60" fill="#ef4444" />
+        <text text-anchor="middle" y="5" fill="white" style="font-size: 18px; font-weight: 900;">如何避免失败?</text>
+        <circle r="100" fill="none" stroke="#ef4444" stroke-width="1" class="animate-ping" />
+      </g>
+      
+      <text x="500" y="305" text-anchor="middle" fill="#ef4444" style="font-size: 12px; font-weight: 900; letter-spacing: 1em; opacity: 0.4;">我NVERT, ALWAYS 我NVERT</text>
+    </svg>
+  </div>
+
+  <div class="text-content">
+    <h1>逆向思维</h1>
+    <p>与其寻找通往成功的道路，不如系统性地规避所有通往失败的坑洞。反过来想，总是反过来想。</p>
+    <div class="grid">
+      <div>
+        <h3>避坑哲学</h3>
         <ul>
-          <li><strong>非共识正确：</strong>真正的机会存在于大多数人忽视或否定的领域，且这些领域最终被证明是正确的。</li>
-          <li><strong>独立判断：</strong>不被群体情绪和主流观点所左右，基于自己的分析和研究做出判断。</li>
-          <li><strong>逆向思考：</strong>当所有人都看好时保持谨慎，当所有人都悲观时寻找机会。</li>
-          <li><strong>风险控制：</strong>非共识意味着高风险，必须通过仓位管理和止损策略控制风险。</li>
-          <li><strong>长期视角：</strong>非共识的价值往往需要时间来体现，需要有足够的耐心和长期视角。</li>
+          <li><strong>非对称收益：</strong>避开一个巨大的愚蠢，其价值往往超过寻找十个天才的创意。</li>
+          <li><strong>事前验尸：</strong>在开始前假定项目已彻底失败，倒推所有可能的原因并提前封堵。</li>
         </ul>
-        
-        <h3>应用范围</h3>
+      </div>
+      <div>
+        <h3>心理优势</h3>
         <ul>
-          <li><strong>投资决策：</strong>发现被低估的资产，避免市场泡沫，获得超额收益。</li>
-          <li><strong>创业创新：</strong>发现未被满足的市场需求，开发颠覆性的产品和服务。</li>
-          <li><strong>内容创作：</strong>在信息过载的时代，提供独特视角和深度内容，脱颖而出。</li>
-          <li><strong>职场发展：</strong>发现组织中的盲点和机会，提出创新解决方案。</li>
-          <li><strong>个人成长：</strong>突破思维定式，培养独立思考能力，做出更明智的人生选择。</li>
+          <li><strong>消除焦虑：</strong>当我们明确了“不该做什么”，剩下的道路会变得异常清晰。</li>
+          <li><strong>查理·芒格：</strong>“我只想知道我会死在哪里，这样我永远也不会去那个地方。”</li>
         </ul>
-        
-        <h3>使用技巧</h3>
-        <ul>
-          <li><strong>共识检测：</strong>定期评估自己的观点与主流共识的差异，避免无意识地随大流。</li>
-          <li><strong>逆向提问：</strong>当面对一个普遍接受的观点时，问自己：“如果相反的情况是正确的，会怎么样？”</li>
-          <li><strong>信息多样化：</strong>主动接触不同来源和立场的信息，特别是与自己观点相反的信息。</li>
-          <li><strong>小范围验证：</strong>在采取大规模行动前，通过小规模测试验证自己的非共识观点。</li>
-          <li><strong>历史研究：</strong>研究历史上的非共识成功案例，学习其思维方式和决策过程。</li>
-        </ul>
-        
-        <h3>实践建议</h3>
-        <p>将反常识思维应用到实践中，首先需要培养独立思考的习惯。在做出重要决策前，花时间收集和分析信息，而不是仅仅依赖主流观点。其次，要学会控制自己的情绪，避免被群体情绪所影响。当市场极度乐观或悲观时，保持冷静和理性的分析能力。</p>
-        <p>在投资领域，反常识思维意味着在市场恐慌时寻找被低估的机会，在市场狂热时保持谨慎。在创业和创新领域，反常识思维意味着关注未被满足的小众需求，开发具有独特价值的产品和服务。</p>
-        <p>记住，反常识思维不是为了标新立异而反对一切，而是为了发现被忽视的真相。它需要勇气、耐心和深度思考能力，但只有这样，才能在竞争激烈的世界中获得真正的优势。正如霍华德·马克斯所说：“最重要的不是你是对还是错，而是当你正确时能赚多少，当你错误时会亏多少。”</p>
       </div>
     </div>
   </div>
-  <script>
-    // 从localStorage中读取主题设置并应用
-    document.addEventListener('DOMContentLoaded', function() {
-      const savedTheme = localStorage.getItem('theme') || 'light';
-      document.body.setAttribute('data-theme', savedTheme);
-    });
-
-    // 监听主题切换事件
-    window.addEventListener('themeChange', function(event) {
-      const newTheme = event.detail.theme;
-      document.body.setAttribute('data-theme', newTheme);
-    });
-  </script>
-</body>
+<script>
+  // 从localStorage中读取主题设置并应用
+  document.addEventListener('DOMContentLoaded', function() {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.body.setAttribute('data-theme', savedTheme);
+  });
+</script></body>
 </html>

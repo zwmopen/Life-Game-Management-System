@@ -11,7 +11,7 @@ const files = fs.readdirSync(modelsDir).filter(file => file.endsWith('.html'));
 
 // 转换函数
 const convertHTMLtoJSON = (filePath, fileName) => {
-  // 读取HTML文件内容
+  // 读取HTML文件内容，确保使用utf8编码
   const htmlContent = fs.readFileSync(filePath, 'utf8');
   
   // 移除文件扩展名
@@ -23,25 +23,10 @@ const convertHTMLtoJSON = (filePath, fileName) => {
   // 检查文件名是否包含下划线
   const lastUnderscoreIndex = baseName.lastIndexOf('_');
   
-  if (lastUnderscoreIndex > 0 && lastUnderscoreIndex < baseName.length - 1) {
-    // 文件名包含下划线，且下划线不是在开头或结尾
-    
-    // 提取英文部分（下划线后面的内容）
-    const englishPart = baseName.substring(lastUnderscoreIndex + 1);
-    
-    // 提取中文部分（下划线前面的内容）
-    const chinesePart = baseName.substring(0, lastUnderscoreIndex);
-    
-    label = chinesePart;
-    name = englishPart;
-    // 使用完整的baseName生成唯一id，确保不重复
-    id = baseName.toLowerCase().replace(/[^a-z0-9_]/g, '');
-  } else {
-    // 文件名不包含下划线或下划线在开头/结尾，直接使用
-    label = baseName;
-    name = baseName;
-    id = baseName.toLowerCase().replace(/[^a-z0-9_]/g, '');
-  }
+  // 直接使用中文文件名作为标签
+  label = baseName;
+  name = baseName;
+  id = baseName.toLowerCase().replace(/[^a-z0-9_\u4e00-\u9fa5]/g, '');
   
   // 提取完整的HTML内容，包括样式和所有内容
   let visualDesign = '';

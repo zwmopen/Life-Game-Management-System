@@ -40,16 +40,16 @@ const sanitizeHtml = (html: string): string => {
 };
 
 // Error boundary component to handle model parsing errors
-// Simplified error boundary implementation
+// Simple error handling wrapper for dangerouslySetInnerHTML
 const ModelErrorBoundary = ({ children, fallback }: {
   children: React.ReactNode;
   fallback: React.ReactNode;
 }) => {
   try {
-    return children;
+    return <>{children}</>;
   } catch (error) {
     console.error('Model rendering error:', error);
-    return fallback;
+    return <>{fallback}</>;
   }
 };
 
@@ -59,11 +59,11 @@ const ModelButton = ({ children, onClick, isActive, theme, isFavorite }: { child
   const isNeomorphic = theme.startsWith('neomorphic');
   const isNeomorphicDark = theme === 'neomorphic-dark';
   
-  // 拟态风格按钮样式 - 优化版
+  // 拟态风格按钮样式 - 统一宽度圆角版
   const getButtonClass = () => {
-    // 统一基础样式：优化大小、排版和布局
-    // 固定高度和统一的内边距，确保所有按钮排列整齐
-    const baseClass = 'px-1 py-0.75 h-8 rounded-lg text-[9px] font-bold transition-all duration-200 ease-in-out flex items-center justify-start border border-transparent gap-0.5 overflow-hidden w-full max-w-full';
+    // 统一基础样式：固定高度，统一内边距，圆角拉满
+    // 确保按钮宽度一致，内容居中显示
+    const baseClass = 'px-1 py-0.5 h-8 rounded-full text-xs font-medium transition-all duration-200 ease-in-out flex items-center justify-center border border-transparent gap-0.25 overflow-hidden whitespace-nowrap';
     
     // 根据主题和状态确定具体样式
     if (isNeomorphic) {
@@ -131,11 +131,14 @@ const ModelButton = ({ children, onClick, isActive, theme, isFavorite }: { child
   );
 };
 
-const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme, onHelpClick }) => {
-  const isDark = theme.includes('dark');
-  const isNeomorphic = theme.startsWith('neomorphic');
+const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme = 'neomorphic-light', onHelpClick }) => {
+  // 确保主题始终有效
+  const validTheme = ['neomorphic-light', 'neomorphic-dark'].includes(theme) ? theme : 'neomorphic-light';
   
-  const isNeomorphicDark = theme === 'neomorphic-dark';
+  const isDark = validTheme.includes('dark');
+  const isNeomorphic = validTheme.startsWith('neomorphic');
+  
+  const isNeomorphicDark = validTheme === 'neomorphic-dark';
   const neomorphicStyles = getNeomorphicStyles(isNeomorphicDark);
   
   // Theme-specific styles
@@ -143,18 +146,20 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme, onHelpClick }) =
     ? (isNeomorphic ? 'bg-[#1e1e2e]' : 'bg-zinc-950') 
     : (isNeomorphic ? 'bg-[#e0e5ec]' : 'bg-slate-50');
   
-  const cardBg = getCardBgStyle(isNeomorphic, theme, isDark);
+  const cardBg = getCardBgStyle(isNeomorphic, validTheme, isDark);
 
   // 将字体颜色统一设置为黑色或白色，确保可读性
   const textMain = getTextStyle(isDark, isNeomorphic, 'main');
   const textSub = getTextStyle(isDark, isNeomorphic, 'sub');
+  
+  // 简化布局：移除复杂的宽度计算，使用更稳定的flex布局
 
   // 生成搜索框样式类
   const getSearchInputClass = () => {
     const baseClass = 'w-full px-4 py-2 pr-10 rounded-[24px] text-sm border transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500/50';
     
     if (isNeomorphic) {
-      if (theme === 'neomorphic-dark') {
+      if (validTheme === 'neomorphic-dark') {
         // 暗色拟态主题
         return `${baseClass} bg-[#1e1e2e] border-[#1e1e2e] text-white placeholder-white/50 shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] hover:shadow-[inset_3px_3px_6px_rgba(0,0,0,0.5),inset_-3px_-3px_6px_rgba(30,30,46,1)]`;
       } else {
@@ -170,6 +175,32 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme, onHelpClick }) =
       }
     }
   };
+
+  // 修复文本编码问题的工具函数
+  const fixEncoding = React.useCallback((text: string): string => {
+    if (!text) return text;
+    try {
+      // 处理URL编码问题
+      return decodeURIComponent(encodeURIComponent(text));
+    } catch (error) {
+      console.error('Error fixing encoding:', error);
+      return text;
+    }
+  }, []);
+
+  // 修复模型数据编码的函数
+  const fixModelEncoding = React.useCallback((model: typeof thinkingModels[0]) => {
+    return {
+      ...model,
+      label: fixEncoding(model.label),
+      description: fixEncoding(model.description),
+      deepAnalysis: fixEncoding(model.deepAnalysis),
+      principle: fixEncoding(model.principle),
+      scope: fixEncoding(model.scope),
+      tips: fixEncoding(model.tips),
+      practice: fixEncoding(model.practice)
+    };
+  }, [fixEncoding]);
 
   // State management
   const [activeModel, setActiveModel] = useState<string>(thinkingModels[0]?.id || '');
@@ -308,23 +339,24 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme, onHelpClick }) =
     handleModelClick(filteredModels[nextIndex].id);
   };
   
-  // Filter and sort models based on search term, favorites, and view counts
+  // Filter and sort models based on search term and favorites, but not real-time view counts
   const filteredModels = useMemo(() => {
     // Filter models first
     let models = thinkingModels;
     if (searchTerm.trim()) {
       const searchLower = searchTerm.toLowerCase();
       models = thinkingModels.filter(model => 
-        model.label.toLowerCase().includes(searchLower) ||
-        model.description.toLowerCase().includes(searchLower) ||
-        model.deepAnalysis.toLowerCase().includes(searchLower)
+        fixEncoding(model.label).toLowerCase().includes(searchLower) ||
+        fixEncoding(model.description).toLowerCase().includes(searchLower) ||
+        fixEncoding(model.deepAnalysis).toLowerCase().includes(searchLower)
       );
     }
     
-    // Sort models:
-    // 1. First: all favorites in the order of their view counts (descending)
-    // 2. Then: all non-favorites sorted by view count in descending order
-    return [...models].sort((a, b) => {
+    // Sort models by favorites status first, but not real-time view counts
+    // 1. First: all favorites
+    // 2. Then: all non-favorites
+    // Note: View counts are still recorded but not used for real-time sorting to avoid button jumping
+    const sortedModels = [...models].sort((a, b) => {
       // 检查是否是收藏模型
       const isAFavorite = favorites.has(a.id);
       const isBFavorite = favorites.has(b.id);
@@ -333,17 +365,19 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme, onHelpClick }) =
       if (isAFavorite && !isBFavorite) return -1;
       if (!isAFavorite && isBFavorite) return 1;
       
-      // 如果都是收藏或都不是收藏，按查看次数排序
-      const countA = viewCounts[a.id] || 0;
-      const countB = viewCounts[b.id] || 0;
-      return countB - countA;
+      // 如果都是收藏或都不是收藏，保持原始顺序
+      // 不按实时查看次数排序，避免按钮跳动
+      return 0;
     });
-  }, [searchTerm, viewCounts, favorites]);
-  
+    
+    // 修复所有模型的编码问题
+    return sortedModels.map(fixModelEncoding);
+  }, [searchTerm, favorites, fixEncoding, fixModelEncoding]);
+
   // Get the current active model data with error handling
   const currentModel = useMemo(() => {
     try {
-      return thinkingModels.find(model => model.id === activeModel) || thinkingModels[0] || {
+      const model = thinkingModels.find(model => model.id === activeModel) || thinkingModels[0] || {
         id: 'default',
         name: 'default',
         label: '默认模型',
@@ -356,10 +390,11 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme, onHelpClick }) =
         practice: '使用默认模型处理错误情况',
         visualDesign: '<div style="text-align: center; padding: 20px;">默认可视化设计</div>'
       };
+      return fixModelEncoding(model);
     } catch (error) {
       console.error('Error finding active model:', error);
       // 返回一个安全的默认模型
-      return {
+      return fixModelEncoding({
         id: 'default',
         name: 'default',
         label: '默认模型',
@@ -371,9 +406,9 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme, onHelpClick }) =
         tips: '1. 这是一个默认模型',
         practice: '使用默认模型处理错误情况',
         visualDesign: '<div style="text-align: center; padding: 20px;">默认可视化设计</div>'
-      };
+      });
     }
-  }, [activeModel]);
+  }, [activeModel, fixModelEncoding]);
 
   return (
     <div className={`${bgClass} min-h-screen transition-colors duration-200`}>
@@ -451,20 +486,20 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme, onHelpClick }) =
             </div>
             
             {/* Model Switching Buttons - Using ModelButton component for consistent styling */}
-            <div className={`relative h-32 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-700 scrollbar-track-transparent rounded-xl ${isNeomorphic ? (isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.6),inset_-4px_-4px_8px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]') : (isDark ? 'bg-zinc-900 shadow-[inset_2px_2px_4px_rgba(0,0,0,0.5)]' : 'bg-slate-100 shadow-[inset_2px_2px_4px_rgba(163,177,198,0.3)]')}`}>
-              {/* 优化的网格布局：更紧凑的间距，确保每行5个按钮，响应式设计 */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-0.5 p-1 w-full">
+            <div className={`relative h-auto max-h-40 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-700 scrollbar-track-transparent rounded-xl ${isNeomorphic ? (isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.6),inset_-4px_-4px_8px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]') : (isDark ? 'bg-zinc-900 shadow-[inset_2px_2px_4px_rgba(0,0,0,0.5)]' : 'bg-slate-100 shadow-[inset_2px_2px_4px_rgba(163,177,198,0.3)]')}`}>
+              {/* 优化的流式布局：增大间距，更宽松美观 */}
+              <div className="flex flex-wrap gap-2 p-2">
                 {filteredModels.map((model, index) => (
                   <ModelButton
                     key={model.id}
                     onClick={() => handleModelClick(model.id)}
                     isActive={activeModel === model.id}
-                    theme={theme}
+                    theme={validTheme as Theme}
                     isFavorite={favorites.has(model.id)}
                   >
-                    <div className="flex items-center gap-0.5">
-                      <span className={`inline-flex items-center justify-center w-4 h-4 rounded-full text-[8px] mr-0.5 ${isDark ? 'bg-zinc-800 text-zinc-400' : 'bg-slate-100 text-slate-500'} flex-shrink-0`}>{index + 1}</span>
-                      <span className="truncate flex-shrink-1 text-nowrap">{model.label}</span>
+                    <div className="flex items-center gap-1 justify-start">
+                      <span className={`inline-flex items-center justify-center w-4 h-4 rounded-full text-[8px] mr-1 ${isDark ? 'bg-zinc-800 text-zinc-400' : 'bg-slate-100 text-slate-500'} flex-shrink-0`}>{index + 1}</span>
+                      <span className="truncate text-nowrap">{fixEncoding(model.label)}</span>
                     </div>
                   </ModelButton>
                 ))}
@@ -489,9 +524,10 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme, onHelpClick }) =
                     </div>
                   }
                 >
+                  {/* Safe rendering with additional checks */}
                   <div 
                     dangerouslySetInnerHTML={{ 
-                      __html: sanitizeHtml(currentModel.visualDesign)
+                      __html: sanitizeHtml(currentModel.visualDesign || '')
                     }}
                     className="w-full"
                   />
@@ -502,58 +538,6 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme, onHelpClick }) =
                 </div>
               )}
             </div>
-            
-            {/* Deep Analysis */}
-            {currentModel.deepAnalysis && (
-              <div className={`rounded-xl p-4 border transition-all duration-200 ${isDark ? (isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow}` : 'bg-zinc-900 border-zinc-800') : (isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow}` : 'bg-white border-slate-200')}`}>
-                <h3 className={`text-lg font-bold mb-2 ${textMain}`}>深度解析</h3>
-                <p className={`text-sm ${textSub} whitespace-pre-line`}>{currentModel.deepAnalysis}</p>
-              </div>
-            )}
-            
-            {/* Core Principles */}
-            {currentModel.principle && (
-              <div className={`rounded-xl p-4 border transition-all duration-200 ${isDark ? (isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow}` : 'bg-zinc-900 border-zinc-800') : (isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow}` : 'bg-white border-slate-200')}`}>
-                <h3 className={`text-lg font-bold mb-2 ${textMain}`}>核心原则</h3>
-                <div className={`text-sm ${textSub} whitespace-pre-line`}>
-                  {currentModel.principle.split(/;\s*;/).map((item, index) => (
-                    <p key={index} className="mb-1">{item.trim()}</p>
-                  ))}
-                </div>
-              </div>
-            )}
-            
-            {/* Application Scope */}
-            {currentModel.scope && (
-              <div className={`rounded-xl p-4 border transition-all duration-200 ${isDark ? (isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow}` : 'bg-zinc-900 border-zinc-800') : (isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow}` : 'bg-white border-slate-200')}`}>
-                <h3 className={`text-lg font-bold mb-2 ${textMain}`}>应用范围</h3>
-                <ul className={`list-disc list-inside text-sm ${textSub} whitespace-pre-line`}>
-                  {currentModel.scope.split(/,\s*\n\s*/).map((item, index) => (
-                    <li key={index}>{item.trim()}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            
-            {/* Practical Tips */}
-            {currentModel.tips && (
-              <div className={`rounded-xl p-4 border transition-all duration-200 ${isDark ? (isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow}` : 'bg-zinc-900 border-zinc-800') : (isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow}` : 'bg-white border-slate-200')}`}>
-                <h3 className={`text-lg font-bold mb-2 ${textMain}`}>实用技巧</h3>
-                <div className={`text-sm ${textSub} whitespace-pre-line`}>
-                  {currentModel.tips.split('; ').map((item, index) => (
-                    <p key={index} className="mb-1">{item.trim()}</p>
-                  ))}
-                </div>
-              </div>
-            )}
-            
-            {/* Practice Guidance */}
-            {currentModel.practice && (
-              <div className={`rounded-xl p-4 border transition-all duration-200 ${isDark ? (isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow}` : 'bg-zinc-900 border-zinc-800') : (isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow}` : 'bg-white border-slate-200')}`}>
-                <h3 className={`text-lg font-bold mb-2 ${textMain}`}>实践指南</h3>
-                <p className={`text-sm ${textSub} whitespace-pre-line`}>{currentModel.practice}</p>
-              </div>
-            )}
           </div>
         </div>
       </div>

@@ -37,11 +37,11 @@ const MantraModule: React.FC<MantraModuleProps> = ({
         <button 
           onClick={() => setIsMantraModalOpen(true)} 
           className="flex items-center gap-1 flex-shrink-0 transition-colors hover:text-blue-400"
-          title="管理锦囊库"
+          title="管理锦囊"
         >
           <span className="text-xs text-zinc-500 uppercase font-bold flex items-center gap-1">
             <List size={12} className="text-purple-500"/>
-            锦囊库管理
+            锦囊
           </span>
         </button>
         <div 
