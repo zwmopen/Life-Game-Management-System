@@ -554,6 +554,7 @@ const BattleTab: React.FC<BattleTabProps> = memo(({
             onDragOver={handleDragOver}
             draggedTask={draggedTask}
             todayStr={todayStr}
+            onStartTimer={handleStartTimer}
           />
         </div>
       </div>

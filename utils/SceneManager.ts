@@ -1557,10 +1557,146 @@ export class SceneManager {
         knot.receiveShadow = true;
         group.add(knot);
       }
+    } else if (baseType === 'oak' || type === 'oak' || type === 'oak1' || type === 'oak2') {
+      if (type === 'oak' || type === 'oak1') {
+        // 橡树1 - 标准橡树设计
+        const trunkMaterial = getBaseMaterial(0x5c4033, 0.9, 0.1);
+        
+        // 树干 - 更粗壮，符合设计文档要求
+        const trunk = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.3, 0.5, 1.5, 12),
+          trunkMaterial
+        );
+        trunk.position.y = 0.75;
+        trunk.castShadow = true;
+        trunk.receiveShadow = true;
+        group.add(trunk);
+        
+        // 树冠 - 二十面体，符合设计文档要求
+        const crownMaterial = getBaseMaterial(0x4ade80, 0.7, 0.1);
+        const crown = new THREE.Mesh(
+          new THREE.IcosahedronGeometry(1.6, 2),
+          crownMaterial
+        );
+        crown.position.y = 2.2;
+        crown.castShadow = true;
+        crown.receiveShadow = true;
+        group.add(crown);
+        
+        // 添加一些橡果
+        const acornMaterial = getBaseMaterial(0x8B4513, 0.95, 0.05);
+        for(let i = 0; i < 5; i++) {
+          const acorn = new THREE.Mesh(
+            new THREE.ConeGeometry(0.15, 0.3, 8),
+            acornMaterial
+          );
+          
+          const angle = (i / 5) * Math.PI * 2;
+          const radius = 1.2 + Math.random() * 0.3;
+          
+          acorn.position.set(
+            Math.cos(angle) * radius,
+            2.0,
+            Math.sin(angle) * radius
+          );
+          acorn.rotation.x = Math.PI;
+          acorn.castShadow = true;
+          acorn.receiveShadow = true;
+          group.add(acorn);
+        }
+      } else if (type === 'oak2') {
+        // 橡树2 - 改良版，具有更复杂的树冠结构
+        const trunkMaterial = getBaseMaterial(0x6B4E36, 0.9, 0.1);
+        
+        // 树干 - 更弯曲，更自然
+        const trunk = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.35, 0.55, 1.8, 12),
+          trunkMaterial
+        );
+        trunk.position.y = 0.9;
+        trunk.rotation.z = -0.1; // 轻微弯曲
+        trunk.castShadow = true;
+        trunk.receiveShadow = true;
+        group.add(trunk);
+        
+        // 主树冠 - 二十面体
+        const crownMaterial = getBaseMaterial(0x36B37E, 0.7, 0.1);
+        const mainCrown = new THREE.Mesh(
+          new THREE.IcosahedronGeometry(1.8, 2),
+          crownMaterial
+        );
+        mainCrown.position.y = 2.5;
+        mainCrown.castShadow = true;
+        mainCrown.receiveShadow = true;
+        group.add(mainCrown);
+        
+        // 添加多个次级树冠，创造更丰满的效果
+        for(let i = 0; i < 4; i++) {
+          const subCrown = new THREE.Mesh(
+            new THREE.IcosahedronGeometry(0.8, 1),
+            crownMaterial
+          );
+          
+          const angle = (i / 4) * Math.PI * 2;
+          const radius = 1.4 + Math.random() * 0.3;
+          
+          subCrown.position.set(
+            Math.cos(angle) * radius,
+            2.2 + Math.random() * 0.8,
+            Math.sin(angle) * radius
+          );
+          subCrown.castShadow = true;
+          subCrown.receiveShadow = true;
+          group.add(subCrown);
+        }
+        
+        // 添加更多橡果
+        const acornMaterial = getBaseMaterial(0x795548, 0.95, 0.05);
+        for(let i = 0; i < 8; i++) {
+          const acorn = new THREE.Mesh(
+            new THREE.ConeGeometry(0.18, 0.35, 8),
+            acornMaterial
+          );
+          
+          const angle = (i / 8) * Math.PI * 2;
+          const radius = 1.4 + Math.random() * 0.4;
+          
+          acorn.position.set(
+            Math.cos(angle) * radius,
+            2.2 + Math.random() * 0.5,
+            Math.sin(angle) * radius
+          );
+          acorn.rotation.x = Math.PI + Math.random() * 0.5;
+          acorn.castShadow = true;
+          acorn.receiveShadow = true;
+          group.add(acorn);
+        }
+        
+        // 添加一些树枝细节
+        const branchMaterial = getBaseMaterial(0x5c4033, 0.9, 0.1);
+        for(let i = 0; i < 6; i++) {
+          const branch = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.08, 0.12, 0.8, 8),
+            branchMaterial
+          );
+          
+          const angle = (i / 6) * Math.PI * 2;
+          
+          branch.position.set(
+            Math.cos(angle) * 0.4,
+            1.5 + Math.random() * 0.5,
+            Math.sin(angle) * 0.4
+          );
+          branch.rotation.y = angle;
+          branch.rotation.z = Math.PI / 4 + Math.random() * Math.PI / 4;
+          branch.castShadow = true;
+          branch.receiveShadow = true;
+          group.add(branch);
+        }
+      }
     } else {
       // 默认创建松树
       const trunkMaterial = getBaseMaterial(0x5c4033, 0.9, 0.1);
-      
       const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.4, 1.2, 12), trunkMaterial);
       trunk.position.y = 0.6;
       trunk.castShadow = true;
@@ -1572,7 +1708,6 @@ export class SceneManager {
       for(let i = 0; i < 4; i++) {
         const size = 1.5 - i * 0.3;
         const height = 1.8 + i * 0.8;
-        
         const cone = new THREE.Mesh(new THREE.ConeGeometry(size, 1.8, 8), needleMaterial);
         cone.position.y = height;
         cone.castShadow = true;

@@ -202,6 +202,11 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
       pendingTasks: updatedPendingTasks,
       completedTasks: updatedCompletedTasks
     });
+    
+    // 播放任务完成音效
+    const completeSound = new Audio("/audio/sfx/日常任务完成音效.mp3");
+    completeSound.volume = 0.5;
+    completeSound.play().catch(() => {});
   }, [onUpdateDiceState, diceState]);
 
   // 使用useCallback缓存事件处理器
