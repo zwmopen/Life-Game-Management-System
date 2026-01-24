@@ -382,23 +382,11 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme, onHelpClick }) =
         <div className="flex flex-col gap-6">
           {/* Search and Model Switcher */}
           <div className={`${cardBg} p-5 rounded-3xl border w-full`}>
-            {/* Header with Help Button - 移到这里并放到最右侧 */}
-            <div className="flex justify-end mb-3">
-              {onHelpClick && (
-                <GlobalHelpButton 
-                  helpId="thinkingCenter" 
-                  onHelpClick={onHelpClick} 
-                  size={18} 
-                  variant="ghost" 
-                />
-              )}
-            </div>
-            
-            {/* Search Bar with Arrows - 两个按钮都放在搜索框右边并且紧挨着 */}
+            {/* Search Bar with Arrows and Help Button - 所有控制元素都放在同一行，自适应布局 */}
             <div className="mb-3">
-              <div className="relative flex items-center">
-                {/* 搜索框 */}
-                <div className={`flex-1 mr-2 flex items-center gap-2 px-3 py-2 rounded-full border transition-all ${isNeomorphic 
+              <div className="relative flex items-center justify-between w-full">
+                {/* 左侧为搜索框，自适应宽度 */}
+                <div className={`flex-1 flex items-center gap-2 px-3 py-2 rounded-full border transition-all ${isNeomorphic 
                   ? (isNeomorphicDark 
                     ? 'bg-[#1e1e2e] border-[#1e1e2e] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] hover:shadow-[inset_3px_3px_6px_rgba(0,0,0,0.5),inset_-3px_-3px_6px_rgba(30,30,46,1)]' 
                     : 'bg-[#e0e5ec] border-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.3),inset_-2px_-2px_4px_rgba(255,255,255,0.8)] hover:shadow-[inset_3px_3px_6px_rgba(163,177,198,0.4),inset_-3px_-3px_6px_rgba(255,255,255,0.9)]') 
@@ -409,13 +397,13 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme, onHelpClick }) =
                   {/* 搜索图标 */}
                   <Search size={18} className={textSub} />
                   
-                  {/* 搜索输入框 */}
+                  {/* 搜索输入框，添加最小宽度限制，确保在小屏幕上不会被挤得太窄 */}
                   <input
                     type="text"
                     placeholder="搜索思维模型..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className={`flex-1 bg-transparent outline-none text-sm transition-all duration-300 focus:outline-none ${isNeomorphicDark 
+                    className={`flex-1 min-w-[80px] bg-transparent outline-none text-sm transition-all duration-300 focus:outline-none ${isNeomorphicDark 
                       ? 'text-white placeholder-white/50' 
                       : isDark 
                         ? 'text-white placeholder-zinc-500' 
@@ -424,7 +412,8 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme, onHelpClick }) =
                   />
                 </div>
                 
-                <div className="flex items-center gap-2">
+                {/* 右侧为控制按钮组：上一个模型、下一个模型、帮助按钮，按顺序排列 */}
+                <div className="flex items-center gap-2 ml-2 whitespace-nowrap">
                   <button
                     onClick={handlePrevModel}
                     className={`p-2 rounded-full transition-all duration-300 flex-shrink-0 ${isNeomorphic 
@@ -446,6 +435,17 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme, onHelpClick }) =
                   >
                     <ChevronRight size={20} />
                   </button>
+                  
+                  {/* 帮助按钮放在最右侧 */}
+                  {onHelpClick && (
+                    <GlobalHelpButton 
+                      helpId="thinkingCenter" 
+                      onHelpClick={onHelpClick} 
+                      size={18} 
+                      variant="ghost" 
+                      className="ml-1" 
+                    />
+                  )}
                 </div>
               </div>
             </div>

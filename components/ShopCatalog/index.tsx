@@ -261,21 +261,29 @@ const ShopCatalog: React.FC<ShopCatalogProps> = memo(({
         </div>
 
         {/* 右下角：帮助和管理按钮 */}
-        <div className="flex justify-between items-center mt-3">
-          <div className="flex gap-2 items-center">
-            <GlobalHelpButton helpId="shop" onHelpClick={onShowHelp} size={16} className="text-zinc-500 hover:text-white transition-colors" />
-            {!isManageShopMode && (
-              <div className={`text-xs ${textSub} flex items-center gap-1`}>
-              <Wallet size={12} className="text-yellow-500"/> 储备金: {Math.floor(balance)}
-            </div>
-            )}
+        <div className="flex justify-between items-center mt-3 flex-wrap gap-2">
+          <div className={`text-xs ${textSub} flex items-center gap-1`}>
+            <Wallet size={12} className="text-yellow-500"/> 储备金: {Math.floor(balance)}
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-center">
+            {/* 搜索框 - 在管理模式下隐藏 */}
+            {!isManageShopMode && (
+              <div className="relative flex-1 min-w-[80px] max-w-[200px]">
+                <input
+                  type="text"
+                  placeholder="搜索商品..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className={`w-full px-4 py-1.5 rounded-[24px] text-xs border transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500/50 ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] border-[#1e1e2e] text-white placeholder:text-zinc-500 shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] hover:shadow-[inset_3px_3px_6px_rgba(0,0,0,0.5),inset_-3px_-3px_6px_rgba(30,30,46,1)]' : 'bg-[#e0e5ec] border-[#e0e5ec] text-black placeholder:text-gray-500 shadow-[inset_2px_2px_4px_rgba(163,177,198,0.3),inset_-2px_-2px_4px_rgba(255,255,255,0.8)] hover:shadow-[inset_3px_3px_6px_rgba(163,177,198,0.4),inset_-3px_-3px_6px_rgba(255,255,255,0.9)]') : (isDark ? 'bg-zinc-900 border-zinc-800 text-white placeholder:text-zinc-500' : 'bg-white border-slate-300 text-black placeholder:text-gray-500')}`}
+                />
+                <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-xs">🔍</span>
+              </div>
+            )}
             {isManageShopMode && (
               <>
                 <button 
                   onClick={onAddNewItem} 
-                  className={`text-xs px-3 py-1.5 rounded-[24px] border font-bold flex items-center gap-1 transition-all ${getButtonStyle(false, true)}`}
+                  className={`text-xs px-3 py-1.5 rounded-[24px] border font-bold flex items-center gap-1 transition-all ${getButtonStyle(false, true)} whitespace-nowrap`}
                 >
                   <Plus size={12}/> 上架新商品
                 </button>
@@ -283,33 +291,20 @@ const ShopCatalog: React.FC<ShopCatalogProps> = memo(({
                   onClick={() => {
                     setShowAddGroupModal(true);
                   }}
-                  className={`text-xs px-3 py-1.5 rounded-[24px] border font-bold flex items-center gap-1 transition-all ${getButtonStyle(false, true)}`}
+                  className={`text-xs px-3 py-1.5 rounded-[24px] border font-bold flex items-center gap-1 transition-all ${getButtonStyle(false, true)} whitespace-nowrap`}
                 >
                   <Plus size={12}/> 添加分组
                 </button>
               </>
             )}
-            {/* 搜索框 - 在管理模式下隐藏 */}
-            {!isManageShopMode && (
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="搜索商品..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className={`px-4 py-1.5 rounded-[24px] text-xs border transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500/50 ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] border-[#1e1e2e] text-white placeholder:text-zinc-500 shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] hover:shadow-[inset_3px_3px_6px_rgba(0,0,0,0.5),inset_-3px_-3px_6px_rgba(30,30,46,1)]' : 'bg-[#e0e5ec] border-[#e0e5ec] text-black placeholder:text-gray-500 shadow-[inset_2px_2px_4px_rgba(163,177,198,0.3),inset_-2px_-2px_4px_rgba(255,255,255,0.8)] hover:shadow-[inset_3px_3px_6px_rgba(163,177,198,0.4),inset_-3px_-3px_6px_rgba(255,255,255,0.9)]') : (isDark ? 'bg-zinc-900 border-zinc-800 text-white placeholder:text-zinc-500' : 'bg-white border-slate-300 text-black placeholder:text-gray-500')}`}
-                  style={{ minWidth: '100px', maxWidth: '150px' }}
-                />
-                <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-xs">🔍</span>
-              </div>
-            )}
             <button 
               onClick={() => setIsManageShopMode(!isManageShopMode)} 
-              className={`text-xs px-3 py-1.5 rounded-[24px] border font-bold flex items-center gap-1 transition-all ${getButtonStyle(isManageShopMode, true)}`}
+              className={`text-xs px-3 py-1.5 rounded-[24px] border font-bold flex items-center gap-1 transition-all ${getButtonStyle(isManageShopMode, true)} whitespace-nowrap`}
             >
               {isManageShopMode ? <CheckCircle size={12}/> : <Hammer size={12}/>} 
               {isManageShopMode ? '完成管理' : '管理商品'}
             </button>
+            <GlobalHelpButton helpId="shop" onHelpClick={onShowHelp} size={16} className="text-zinc-500 hover:text-white transition-colors" />
           </div>
         </div>
 

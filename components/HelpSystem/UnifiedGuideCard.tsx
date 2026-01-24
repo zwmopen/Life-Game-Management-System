@@ -103,7 +103,7 @@ const UnifiedGuideCard: React.FC<UnifiedGuideCardProps> = ({
           </button>
         </div>
         <div className="guide-content">
-          <h4>📋 产品介绍</h4>
+          <h4 className="flex items-center gap-1">📋 模块介绍</h4>
           <p>{content.productIntro}</p>
           
           {/* 底层原理 - 根据配置决定是否显示 */}

@@ -29,7 +29,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     return savedTheme || 'neomorphic-light';
   });
 
-  // 初始化主题
+  // 初始化主题并监听系统主题变化
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme') as Theme | null;
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -46,6 +46,24 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     } else {
       setThemeState(prefersDark ? 'neomorphic-dark' : 'neomorphic-light');
     }
+
+    // 监听系统主题变化
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleThemeChange = (e: MediaQueryListEvent) => {
+      const savedTheme = localStorage.getItem('theme') as Theme | null;
+      // 只有当用户没有明确设置主题时，才跟随系统变化
+      if (!savedTheme) {
+        setThemeState(e.matches ? 'neomorphic-dark' : 'neomorphic-light');
+      }
+    };
+
+    // 添加监听器
+    mediaQuery.addEventListener('change', handleThemeChange);
+
+    // 清理监听器
+    return () => {
+      mediaQuery.removeEventListener('change', handleThemeChange);
+    };
   }, []);
 
   // 应用主题到DOM

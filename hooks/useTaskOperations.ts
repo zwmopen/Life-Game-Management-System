@@ -60,11 +60,16 @@ export const useTaskOperations = ({
         if (task.type === TaskType.DAILY) {
             // 获取最新的habit数据，确保history属性是最新的
             const currentHabit = habits.find(h => h.id === task.id);
+            // 确保history对象存在且为最新
+            const updatedHistory = { ...currentHabit?.history, [todayStr]: !task.completed };
             onUpdateHabit(task.id, {
-                history: { ...currentHabit?.history, [todayStr]: true }
+                history: updatedHistory
             });
-            onUpdateBalance(task.gold, `完成习惯: ${task.text}`);
-            onAddFloatingReward(`+${task.gold} Gold`, "text-yellow-500", e?.clientX, e?.clientY);
+            // 根据任务当前状态更新奖励（完成/取消完成）
+            const amount = task.completed ? -task.gold : task.gold;
+            const reason = task.completed ? `取消完成习惯: ${task.text}` : `完成习惯: ${task.text}`;
+            onUpdateBalance(amount, reason);
+            onAddFloatingReward(`${amount > 0 ? '+' : ''}${amount} Gold`, amount > 0 ? "text-yellow-500" : "text-red-500", e?.clientX, e?.clientY);
         } else if (task.type === TaskType.MAIN) {
             onUpdateProject(task.id, { status: 'completed' });
             onUpdateBalance(task.gold, `完成主线: ${task.text}`);

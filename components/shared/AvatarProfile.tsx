@@ -147,13 +147,14 @@ const AvatarProfile: React.FC<AvatarProfileProps> = ({
 
     return (
       <div 
-        className={`flex items-center gap-1 truncate ${textMain} max-w-[100px] cursor-pointer hover:opacity-80 transition-opacity`}
+        className={`flex flex-col gap-0.5 truncate ${textMain} max-w-[120px] cursor-pointer hover:opacity-80 transition-opacity`}
         onDoubleClick={() => handleDoubleClick(type, level)}
         onClick={handleClick}
         title="单击跳转到荣誉勋章对应分类，双击编辑等级"
       >
-        <span className={`font-mono ${color} font-bold`}>LV.{level}</span>
-        <span className={`text-xs truncate ${theme === 'neomorphic-dark' ? 'text-zinc-300' : isNeomorphic ? 'text-zinc-600' : isDark ? 'text-zinc-400' : 'text-slate-600'}`}>{title}</span>
+        {/* 优先显示称号，并且称号在上方 */}
+        <span className={`text-xs font-bold truncate ${color} ${theme === 'neomorphic-dark' ? 'text-zinc-300' : isNeomorphic ? 'text-zinc-600' : isDark ? 'text-zinc-400' : 'text-slate-600'}`}>{title}</span>
+        <span className={`text-[10px] font-mono truncate ${textMain}`}>LV.{level}</span>
       </div>
     );
   };
@@ -186,24 +187,24 @@ const AvatarProfile: React.FC<AvatarProfileProps> = ({
         </div>
 
         {/* Stats */}
-        <div className="flex-1 grid grid-cols-1 gap-1.5">
-          <div className="flex items-center gap-1.5 text-xs">
+        <div className="flex-1 grid grid-cols-1 gap-1.5 min-w-0">
+          <div className="flex items-center gap-1.5 text-xs min-w-0">
                 <div className="w-8 font-bold text-right text-blue-500 shrink-0">经验</div>
-                <div className={`w-24 h-2 rounded-full overflow-hidden ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-800 shadow-[inset_2px_2px_4px_rgba(0,0,0,0.5),inset_-2px_-2px_4px_rgba(255,255,255,0.1)]' : 'bg-slate-200 shadow-[inset_2px_2px_4px_rgba(163,177,198,0.3),inset_-2px_-2px_4px_rgba(255,255,255,0.8)]'}`}>
+                <div className={`flex-1 min-w-[20px] h-2 rounded-full overflow-hidden ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-800 shadow-[inset_2px_2px_4px_rgba(0,0,0,0.5),inset_-2px_-2px_4px_rgba(255,255,255,0.1)]' : 'bg-slate-200 shadow-[inset_2px_2px_4px_rgba(163,177,198,0.3),inset_-2px_-2px_4px_rgba(255,255,255,0.8)]'}`}>
                   <div className="h-full bg-blue-500 transition-all duration-500 ease-out rounded-full" style={{ width: `${levelInfo.progress}%` }}></div>
                 </div>
                 {renderLevel('level', levelInfo.level, levelInfo.title, 'text-blue-500')}
               </div>
-          <div className="flex items-center gap-1.5 text-xs">
+          <div className="flex items-center gap-1.5 text-xs min-w-0">
             <div className="w-8 font-bold text-right text-emerald-500 shrink-0">专注</div>
-            <div className={`w-24 h-2 rounded-full overflow-hidden ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-800 shadow-[inset_2px_2px_4px_rgba(0,0,0,0.5),inset_-2px_-2px_4px_rgba(255,255,255,0.1)]' : 'bg-slate-200 shadow-[inset_2px_2px_4px_rgba(163,177,198,0.3),inset_-2px_-2px_4px_rgba(255,255,255,0.8)]'}`}>
+            <div className={`flex-1 min-w-[20px] h-2 rounded-full overflow-hidden ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-800 shadow-[inset_2px_2px_4px_rgba(0,0,0,0.5),inset_-2px_-2px_4px_rgba(255,255,255,0.1)]' : 'bg-slate-200 shadow-[inset_2px_2px_4px_rgba(163,177,198,0.3),inset_-2px_-2px_4px_rgba(255,255,255,0.8)]'}`}>
               <div className="h-full bg-emerald-500 transition-all duration-500 ease-out rounded-full" style={{ width: `${focusInfo.progress}%` }}></div>
             </div>
             {renderLevel('focus', focusInfo.level, focusInfo.title, 'text-emerald-400')}
           </div>
-          <div className="flex items-center gap-1.5 text-xs">
+          <div className="flex items-center gap-1.5 text-xs min-w-0">
             <div className="w-8 font-bold text-right text-yellow-500 shrink-0">财富</div>
-            <div className={`w-24 h-2 rounded-full overflow-hidden ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-800 shadow-[inset_2px_2px_4px_rgba(0,0,0,0.5),inset_-2px_-2px_4px_rgba(255,255,255,0.1)]' : 'bg-slate-200 shadow-[inset_2px_2px_4px_rgba(163,177,198,0.3),inset_-2px_-2px_4px_rgba(255,255,255,0.8)]'}`}>
+            <div className={`flex-1 min-w-[20px] h-2 rounded-full overflow-hidden ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-800 shadow-[inset_2px_2px_4px_rgba(0,0,0,0.5),inset_-2px_-2px_4px_rgba(255,255,255,0.1)]' : 'bg-slate-200 shadow-[inset_2px_2px_4px_rgba(163,177,198,0.3),inset_-2px_-2px_4px_rgba(255,255,255,0.8)]'}`}>
               <div className="h-full bg-yellow-500 transition-all duration-500 ease-out rounded-full" style={{ width: `${wealthInfo.progress}%` }}></div>
             </div>
             {renderLevel('wealth', wealthInfo.level, wealthInfo.title, 'text-yellow-400')}

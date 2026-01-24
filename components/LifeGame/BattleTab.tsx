@@ -657,17 +657,18 @@ const BattleTab: React.FC<BattleTabProps> = memo(({
             
             {/* 签到按钮 - 圆形勋章样式，带跳动动画 */}
             <div className="flex justify-center mb-1">
-              <button 
-                onClick={() => {
-                  // 获取签到数据
-                  const todayDate = new Date().toLocaleDateString();
-                  const checkInData = JSON.parse(localStorage.getItem('life-game-weekly-checkin') || '{}');
-                  
+              {/* 使用useMemo确保签到状态变化时按钮重新渲染 */}
+              {(() => {
+                const todayDate = new Date().toLocaleDateString();
+                const checkInData = JSON.parse(localStorage.getItem('life-game-weekly-checkin') || '{}');
+                const isCheckedIn = !!checkInData[todayDate];
+                
+                const handleCheckIn = () => {
                   // 检查是否已签到
-                  if (!checkInData[todayDate]) {
+                  if (!isCheckedIn) {
                     // 更新签到数据
-                    checkInData[todayDate] = true;
-                    localStorage.setItem('life-game-weekly-checkin', JSON.stringify(checkInData));
+                    const updatedCheckInData = { ...checkInData, [todayDate]: true };
+                    localStorage.setItem('life-game-weekly-checkin', JSON.stringify(updatedCheckInData));
                     
                     // 计算连续签到天数
                     const now = new Date();
@@ -680,7 +681,7 @@ const BattleTab: React.FC<BattleTabProps> = memo(({
                         date.setDate(monday.getDate() + i);
                         weekDates.push(date.toLocaleDateString());
                     }
-                    const consecutiveDays = weekDates.filter(date => checkInData[date]).length;
+                    const consecutiveDays = weekDates.filter(date => updatedCheckInData[date]).length;
                     const goldReward = 10 + (consecutiveDays * 5);
                     const xpReward = 15 + (consecutiveDays * 3);
                     
@@ -713,41 +714,32 @@ const BattleTab: React.FC<BattleTabProps> = memo(({
                     const streak = checkInStreak + 1;
                     localStorage.setItem('aes-checkin-streak', streak.toString());
                     
-                    // 使用React状态更新，确保组件重新渲染
+                    // 强制组件重新渲染，确保签到状态立即更新
                     setTimeout(() => {
-                        // 更新状态触发重新渲染
-                        // setCheckInUpdated(prev => prev + 1); // This would cause circular dependency, removed
-                    }, 100);
+                        // 通过刷新页面实现组件重新渲染
+                        window.location.reload();
+                    }, 500);
                   }
-                }}
-                disabled={(() => {
-                    const todayDate = new Date().toLocaleDateString();
-                    const checkInData = JSON.parse(localStorage.getItem('life-game-weekly-checkin') || '{}');
-                    return !!checkInData[todayDate];
-                })()}
-                className={`w-11 h-11 rounded-full text-sm font-bold transition-all duration-300 flex flex-col items-center justify-center gap-0 ${(() => {
-                    const todayDate = new Date().toLocaleDateString();
-                    const checkInData = JSON.parse(localStorage.getItem('life-game-weekly-checkin') || '{}');
-                    
-                    if (checkInData[todayDate]) {
-                        return isNeomorphic 
-                            ? (theme === 'neomorphic-dark' 
-                                ? 'bg-[#1e1e2e] text-emerald-500 border-2 border-emerald-500/30 cursor-not-allowed shadow-[inset_3px_3px_6px_rgba(0,0,0,0.4),inset_-3px_-3px_6px_rgba(30,30,46,0.8)]' 
-                                : 'bg-[#e0e5ec] text-emerald-500 border-2 border-emerald-500/30 cursor-not-allowed shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,1)]') 
-                            : 'bg-emerald-500/20 text-emerald-500 border-2 border-emerald-500/30 cursor-not-allowed';
-                    } else {
-                        return isNeomorphic 
-                            ? (theme === 'neomorphic-dark' 
-                                ? 'bg-[#1e1e2e] text-blue-500 border-2 border-blue-500/30 hover:shadow-[3px_3px_6px_rgba(0,0,0,0.4),-3px_-3px_6px_rgba(30,30,46,0.8)] active:shadow-[inset_3px_3px_6px_rgba(0,0,0,0.4),inset_-3px_-3px_6px_rgba(30,30,46,0.8)] animate-pulse' 
-                                : 'bg-[#e0e5ec] text-blue-500 border-2 border-blue-500/30 hover:shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] active:shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,1)] animate-pulse') 
-                            : 'bg-blue-600 text-white border-2 border-blue-700 hover:bg-blue-700 shadow-lg shadow-blue-900/30 transform hover:scale-105 animate-pulse';
-                    }
-                })()}`}
-              >
-                {(() => {
-                    const todayDate = new Date().toLocaleDateString();
-                    const checkInData = JSON.parse(localStorage.getItem('life-game-weekly-checkin') || '{}');
-                    return checkInData[todayDate] ? (
+                };
+                
+                return (
+                  <button 
+                    onClick={handleCheckIn}
+                    disabled={isCheckedIn}
+                    className={`w-11 h-11 rounded-full text-sm font-bold transition-all duration-300 flex flex-col items-center justify-center gap-0 ${isCheckedIn 
+                      ? isNeomorphic 
+                          ? (theme === 'neomorphic-dark' 
+                              ? 'bg-[#1e1e2e] text-emerald-500 border-2 border-emerald-500/30 cursor-not-allowed shadow-[inset_3px_3px_6px_rgba(0,0,0,0.4),inset_-3px_-3px_6px_rgba(30,30,46,0.8)]' 
+                              : 'bg-[#e0e5ec] text-emerald-500 border-2 border-emerald-500/30 cursor-not-allowed shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,1)]') 
+                          : 'bg-emerald-500/20 text-emerald-500 border-2 border-emerald-500/30 cursor-not-allowed' 
+                      : isNeomorphic 
+                          ? (theme === 'neomorphic-dark' 
+                              ? 'bg-[#1e1e2e] text-blue-500 border-2 border-blue-500/30 hover:shadow-[3px_3px_6px_rgba(0,0,0,0.4),-3px_-3px_6px_rgba(30,30,46,0.8)] active:shadow-[inset_3px_3px_6px_rgba(0,0,0,0.4),inset_-3px_-3px_6px_rgba(30,30,46,0.8)] animate-pulse' 
+                              : 'bg-[#e0e5ec] text-blue-500 border-2 border-blue-500/30 hover:shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] active:shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,1)] animate-pulse') 
+                          : 'bg-blue-600 text-white border-2 border-blue-700 hover:bg-blue-700 shadow-lg shadow-blue-900/30 transform hover:scale-105 animate-pulse' 
+                    }`}
+                  >
+                    {isCheckedIn ? (
                         <>
                           <Check size={20} strokeWidth={3}/>
                           <span className="text-[9px]">已签</span>
@@ -757,9 +749,10 @@ const BattleTab: React.FC<BattleTabProps> = memo(({
                           <Package size={20} strokeWidth={2}/>
                           <span className="text-[9px]">签到</span>
                         </>
-                    );
-                })()}
-              </button>
+                    )}
+                  </button>
+                );
+              })()}
             </div>
             
             {/* 7天签到状态 - 更小的尺寸 */}
