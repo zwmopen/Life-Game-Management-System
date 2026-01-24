@@ -242,6 +242,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
     onUpdateBalance,
     onAddFloatingReward,
     onSpinDice,
+    onGiveUpTask,
     setChallengePool,
     projects,
     habits,
@@ -329,41 +330,47 @@ const LifeGame: React.FC<LifeGameProps> = ({
 
   // 按照habitOrder排序习惯任务
   const sortedHabits = habitOrder.map(id => habits.find(h => h.id === id)).filter(h => h !== undefined) as Habit[];
-  const habitTasks = sortedHabits.map(h => ({
-      id: h.id, text: h.name, attr: h.attr || 'DIS', xp: h.xp || Math.ceil(h.reward * 1.5), gold: h.reward, duration: h.duration || 0,
-      type: TaskType.DAILY, completed: !!h.history[todayStr], frequency: 'daily' as const, originalData: h,
-      isGivenUp: givenUpTasks.includes(h.id)
-  })).sort((a, b) => {
-      if (a.isGivenUp && !b.isGivenUp) return 1;
-      if (!a.isGivenUp && b.isGivenUp) return -1;
-      return Number(a.completed) - Number(b.completed);
-  });
+  // 使用useMemo确保当habits、todayStr或givenUpTasks变化时，habitTasks会重新生成
+  const habitTasks = useMemo(() => {
+    return sortedHabits.map(h => ({
+        id: h.id, text: h.name, attr: h.attr || 'DIS', xp: h.xp || Math.ceil(h.reward * 1.5), gold: h.reward, duration: h.duration || 0,
+        type: TaskType.DAILY, completed: !!h.history[todayStr], frequency: 'daily' as const, originalData: h,
+        isGivenUp: givenUpTasks.includes(h.id)
+    })).sort((a, b) => {
+        if (a.isGivenUp && !b.isGivenUp) return 1;
+        if (!a.isGivenUp && b.isGivenUp) return -1;
+        return Number(a.completed) - Number(b.completed);
+    });
+  }, [sortedHabits, todayStr, givenUpTasks, habits]);
 
   // 按照projectOrder排序项目任务
   const sortedProjects = projectOrder.map(id => projects.find(p => p.id === id)).filter(p => p !== undefined) as Project[];
-  const projectTasks = sortedProjects.map(p => {
-      // 主线任务奖励机制：与日常任务保持一致
-      const baseRewardGold = 60; // 基础金币奖励
-      const baseRewardXP = Math.ceil(baseRewardGold * 1.5); // 经验奖励与日常任务相同：金币*1.5
-      const totalDuration = p.subTasks.reduce((sum, st) => sum + st.duration, 60);
-      
-      // 计算每个子任务的平均奖励
-      const subTaskCount = Math.max(p.subTasks.length, 1);
-      const avgXP = Math.ceil(baseRewardXP / subTaskCount);
-      const avgGold = Math.ceil(baseRewardGold / subTaskCount);
-      
-      return {
-          id: p.id, text: p.name, attr: p.attr || 'WEA', xp: baseRewardXP, gold: baseRewardGold, type: TaskType.MAIN,
-          completed: p.status === 'completed', frequency: 'once' as const, isExpanded: true,
-          originalData: p,
-          subTasks: p.subTasks.map(st => ({
-              id: st.id, text: st.title, completed: st.completed, 
-              xp: avgXP, // 均分主线任务的经验奖励
-              gold: avgGold, // 均分主线任务的金币奖励
-              duration: st.duration || 30 // 子任务自己的时长，默认30分钟
-          }))
-      };
-  }).sort((a, b) => Number(a.completed) - Number(b.completed));
+  // 使用useMemo确保当projects变化时，projectTasks会重新生成
+  const projectTasks = useMemo(() => {
+    return sortedProjects.map(p => {
+        // 主线任务奖励机制：与日常任务保持一致
+        const baseRewardGold = 60; // 基础金币奖励
+        const baseRewardXP = Math.ceil(baseRewardGold * 1.5); // 经验奖励与日常任务相同：金币*1.5
+        const totalDuration = p.subTasks.reduce((sum, st) => sum + st.duration, 60);
+        
+        // 计算每个子任务的平均奖励
+        const subTaskCount = Math.max(p.subTasks.length, 1);
+        const avgXP = Math.ceil(baseRewardXP / subTaskCount);
+        const avgGold = Math.ceil(baseRewardGold / subTaskCount);
+        
+        return {
+            id: p.id, text: p.name, attr: p.attr || 'WEA', xp: baseRewardXP, gold: baseRewardGold, type: TaskType.MAIN,
+            completed: p.status === 'completed', frequency: 'once' as const, isExpanded: true,
+            originalData: p,
+            subTasks: p.subTasks.map(st => ({
+                id: st.id, text: st.title, completed: st.completed, 
+                xp: avgXP, // 均分主线任务的经验奖励
+                gold: avgGold, // 均分主线任务的金币奖励
+                duration: st.duration || 30 // 子任务自己的时长，默认30分钟
+            }))
+        };
+    }).sort((a, b) => Number(a.completed) - Number(b.completed));
+  }, [sortedProjects]);
 
   // 检查并修复商品图片
   useEffect(() => {

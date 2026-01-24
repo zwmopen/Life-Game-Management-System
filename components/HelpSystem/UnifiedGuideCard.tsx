@@ -173,17 +173,22 @@ const UnifiedGuideCard: React.FC<UnifiedGuideCardProps> = ({
         .guide-close {
           background: var(--bg-color);
           border: none;
-          border-radius: 50%;
-          width: 35px;
-          height: 35px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          font-size: 18px;
+          border-radius: 50% !important;
+          width: 35px !important;
+          height: 35px !important;
+          min-width: 35px !important;
+          min-height: 35px !important;
+          max-width: 35px !important;
+          max-height: 35px !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          cursor: pointer !important;
+          font-size: 18px !important;
           color: var(--text-sub);
           box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
           transition: all 0.2s ease;
+          flex-shrink: 0 !important;
         }
         
         .guide-close:hover {

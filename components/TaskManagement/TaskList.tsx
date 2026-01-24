@@ -54,7 +54,6 @@ const TaskList: React.FC<TaskListProps> = memo(({
       onDragEnd={onDragEnd} 
       onDragOver={(e) => onDragOver(e, index)} 
       onDoubleClick={() => onOpenEditTask(task)} 
-      onClick={(e) => { e.stopPropagation(); onCompleteTask(task, e); }} 
       className={`relative group rounded-lg border transition-all overflow-hidden cursor-pointer ${task.completed ? 'opacity-50 grayscale ' + (isDark ? 'bg-zinc-950/50' : 'bg-slate-100') : task.isGivenUp ? 'opacity-70 ' + (isDark ? 'bg-red-950/10 border-red-900/30' : 'bg-red-50 border-red-200') : ''} ${cardBg} ${!task.completed && !task.isGivenUp ? 'hover:shadow-lg' : (isDark ? 'border-zinc-800' : 'border-slate-200')} ${draggedTask && draggedTask.id === task.id ? 'opacity-50 scale-95' : ''}`}
     >
       <div className="p-2 sm:p-3 flex items-center gap-2 sm:gap-3">
@@ -100,12 +99,11 @@ const TaskList: React.FC<TaskListProps> = memo(({
       onDragEnd={onDragEnd} 
       onDragOver={(e) => onDragOver(e, index)} 
       onDoubleClick={() => onOpenEditTask(task)} 
-      onClick={(e) => { e.stopPropagation(); onCompleteTask(task, e); }} 
       className={`relative group rounded-lg border transition-all overflow-hidden cursor-pointer ${task.completed ? 'opacity-50 grayscale ' + (isDark ? 'bg-zinc-950/50' : 'bg-slate-100') : ''} ${cardBg} ${!task.completed ? 'hover:shadow-lg' : (isDark ? 'border-zinc-800' : 'border-slate-200')} ${draggedTask && draggedTask.id === task.id ? 'opacity-50 scale-95' : ''}`}
     >
       <div className="p-3 flex flex-col gap-2">
         <div className="flex items-center gap-2">
-          <button className={`w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all shrink-0 ${task.completed ? 'bg-emerald-500 border-emerald-500 text-white' : (isDark ? 'border-zinc-600 cursor-default' : 'border-slate-300 bg-white')}`}>
+          <button onClick={(e) => { e.stopPropagation(); onCompleteTask(task, e); }} className={`w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all shrink-0 ${task.completed ? 'bg-emerald-500 border-emerald-500 text-white' : (isDark ? 'border-zinc-600 hover:border-emerald-500 cursor-pointer' : 'border-slate-300 hover:border-emerald-500 bg-white cursor-pointer')}`}>
             {task.completed && <Check size={16} strokeWidth={4} />}
           </button>
           <div className="flex-1">

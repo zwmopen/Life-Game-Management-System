@@ -55,19 +55,19 @@ const TaskSearchBar: React.FC<TaskSearchBarProps> = memo(({
 
   return (
     <div className="w-full mb-4">
-      {/* 搜索框和按钮容器 - 在移动端垂直排列 */}
-      <div className="flex flex-col sm:flex-row gap-2">
-        <div className={`relative flex-1 flex items-center gap-2 px-3 py-2 rounded-full border transition-all ${getInputStyles()}`}>
+      {/* 搜索框和按钮容器 - 始终在同一行，搜索框自适应宽度 */}
+      <div className="flex flex-row gap-2 items-center">
+        <div className={`relative flex-1 min-w-0 flex items-center gap-2 px-3 py-2 rounded-full border transition-all ${getInputStyles()}`}>
           {/* 搜索图标 */}
           <Search size={18} className={textSub} />
           
-          {/* 搜索输入框 */}
+          {/* 搜索输入框 - 在手机上更紧凑 */}
           <input
             type="text"
             value={searchTerm}
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder="搜索任务..."
-            className={`flex-1 bg-transparent outline-none text-sm ${textMain} placeholder:${textSub}`}
+            className={`flex-1 bg-transparent outline-none text-sm min-w-[100px] ${textMain} placeholder:${textSub}`}
           />
           
           {/* 清除按钮 */}
@@ -82,7 +82,7 @@ const TaskSearchBar: React.FC<TaskSearchBarProps> = memo(({
           )}
         </div>
 
-        {/* 添加任务按钮 - 在移动端占满宽度，桌面端显示为圆形 */}
+        {/* 添加任务按钮 - 始终显示为圆形，不会变形 */}
         {onAddTask && (
           <button
             onClick={onAddTask}
@@ -91,7 +91,7 @@ const TaskSearchBar: React.FC<TaskSearchBarProps> = memo(({
                 ? 'w-10 h-10 bg-[#1e1e2e] text-blue-400 shadow-[4px_4px_8px_rgba(0,0,0,0.4),-4px_-4px_8px_rgba(30,30,46,0.8)] hover:shadow-[2px_2px_4px_rgba(0,0,0,0.4),-2px_-2px_4px_rgba(30,30,46,0.8)] active:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)]' 
                 : 'w-10 h-10 bg-[#e0e5ec] text-blue-600 shadow-[4px_4px_8px_rgba(163,177,198,0.6),-4px_-4px_8px_rgba(255,255,255,1)] hover:shadow-[2px_2px_4px_rgba(163,177,198,0.6),-2px_-2px_4px_rgba(255,255,255,1)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)]')
               : (isDark ? 'w-10 h-10 bg-blue-600 text-white hover:bg-blue-500' : 'w-10 h-10 bg-blue-500 text-white hover:bg-blue-400')
-            } sm:w-10 sm:h-10 w-full py-2`}
+            } w-10 h-10 min-w-10 min-h-10`}
           >
             <Plus size={18} />
           </button>

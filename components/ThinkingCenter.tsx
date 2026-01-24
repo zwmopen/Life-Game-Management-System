@@ -17,14 +17,14 @@ const sanitizeHtml = (html: string): string => {
   // Remove script tags completely
   let sanitized = html.replace(/<script[^>]*>.*?<\/script>/gi, '');
   
-  // Remove style tags completely  
-  sanitized = sanitized.replace(/<style[^>]*>.*?<\/style>/gi, '');
+  // Remove only external script tags, keep internal style tags
+  // sanitized = sanitized.replace(/<style[^>]*>.*?<\/style>/gi, '');
   
   // Remove all event handlers
   sanitized = sanitized.replace(/\s+(on\w+)\s*=\s*["']?[^"'>\s]+["']?/gi, '');
   
-  // Allow only safe HTML tags
-  const allowedTags = ['div', 'span', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'strong', 'em', 'b', 'i', 'a', 'img', 'svg', 'g', 'path', 'circle', 'rect', 'line', 'text', 'animate', 'animateMotion', 'animateTransform', 'defs', 'marker'];
+  // Allow only safe HTML tags including style tag
+  const allowedTags = ['div', 'span', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'strong', 'em', 'b', 'i', 'a', 'img', 'svg', 'g', 'path', 'circle', 'rect', 'line', 'text', 'animate', 'animateMotion', 'animateTransform', 'defs', 'marker', 'style'];
   const tagRegex = new RegExp(`<\/?(?!(${allowedTags.join('|')}))\w+[^>]*>`, 'gi');
   sanitized = sanitized.replace(tagRegex, '');
   
@@ -59,47 +59,48 @@ const ModelButton = ({ children, onClick, isActive, theme, isFavorite }: { child
   const isNeomorphic = theme.startsWith('neomorphic');
   const isNeomorphicDark = theme === 'neomorphic-dark';
   
-  // 拟态风格按钮样式
+  // 拟态风格按钮样式 - 优化版
   const getButtonClass = () => {
-    // 根据主题确定基本样式
+    // 统一基础样式：优化大小、排版和布局
+    // 固定高度和统一的内边距，确保所有按钮排列整齐
+    const baseClass = 'px-1 py-0.75 h-8 rounded-lg text-[9px] font-bold transition-all duration-200 ease-in-out flex items-center justify-start border border-transparent gap-0.5 overflow-hidden w-full max-w-full';
+    
+    // 根据主题和状态确定具体样式
     if (isNeomorphic) {
       if (isNeomorphicDark) {
         // 拟态暗色主题
-        const baseClass = 'px-3 py-1.5 rounded-[18px] text-xs font-bold transition-all duration-200 ease-in-out flex items-center justify-between border border-transparent';
         if (isActive) {
           // 选中状态 - 内凹效果
-          return `${baseClass} bg-[#1e1e2e] text-white shadow-[inset_4px_4px_8px_rgba(0,0,0,0.6),inset_-4px_-4px_8px_rgba(30,30,46,0.8)] transform scale-95`;
+          return `${baseClass} bg-[#1e1e2e] text-white shadow-[inset_2px_2px_4px_rgba(0,0,0,0.6),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] transform scale-95`;
         } else {
           // 默认状态 - 外凸效果
-          return `${baseClass} bg-[#1e1e2e] text-zinc-300 shadow-[4px_4px_8px_rgba(0,0,0,0.4),-4px_-4px_8px_rgba(30,30,46,0.8)] hover:shadow-[6px_6px_12px_rgba(0,0,0,0.5),-6px_-6px_12px_rgba(30,30,46,1)] active:shadow-[inset_4px_4px_8px_rgba(0,0,0,0.6),inset_-4px_-4px_8px_rgba(30,30,46,0.8)] active:transform active:scale-95`;
+          return `${baseClass} bg-[#1e1e2e] text-zinc-300 shadow-[2px_2px_4px_rgba(0,0,0,0.4),-2px_-2px_4px_rgba(30,30,46,0.8)] hover:shadow-[3px_3px_6px_rgba(0,0,0,0.5),-3px_-3px_6px_rgba(30,30,46,1)] active:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.6),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] active:transform active:scale-95`;
         }
       } else {
         // 拟态亮色主题
-        const baseClass = 'px-3 py-1.5 rounded-[18px] text-xs font-bold transition-all duration-200 ease-in-out flex items-center justify-between border border-transparent';
         if (isActive) {
           // 选中状态 - 内凹效果
-          return `${baseClass} bg-[#e0e5ec] text-zinc-700 shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] transform scale-95`;
+          return `${baseClass} bg-[#e0e5ec] text-zinc-800 shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] transform scale-95`;
         } else {
           // 默认状态 - 外凸效果
-          return `${baseClass} bg-[#e0e5ec] text-zinc-700 shadow-[4px_4px_8px_rgba(163,177,198,0.3),-4px_-4px_8px_rgba(255,255,255,0.8)] hover:shadow-[6px_6px_12px_rgba(163,177,198,0.4),-6px_-6px_12px_rgba(255,255,255,0.9)] active:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] active:transform active:scale-95`;
+          return `${baseClass} bg-[#e0e5ec] text-zinc-700 shadow-[2px_2px_4px_rgba(163,177,198,0.3),-2px_-2px_4px_rgba(255,255,255,0.8)] hover:shadow-[3px_3px_6px_rgba(163,177,198,0.4),-3px_-3px_6px_rgba(255,255,255,0.9)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] active:transform active:scale-95`;
         }
       }
     } else {
       // 普通主题
-      const baseClass = 'px-3 py-1.5 rounded-[18px] text-xs font-bold border transition-all duration-200 ease-in-out flex items-center justify-between';
       if (isActive) {
-        return `${baseClass} bg-blue-500 text-white border-blue-500`;
+        return `${baseClass} bg-blue-500 text-white border-blue-500 hover:bg-blue-600`;
       } else {
         if (isDark) {
           return `${baseClass} bg-zinc-800 text-zinc-200 border-zinc-700 hover:bg-zinc-700`;
         } else {
-          return `${baseClass} bg-white text-black border-slate-300 hover:bg-slate-100`;
+          return `${baseClass} bg-white text-gray-800 border-slate-300 hover:bg-slate-100`;
         }
       }
     }
   };
   
-  // 收藏图标组件
+  // 收藏图标组件 - 优化尺寸
   const HeartIcon = () => {
     return (
       <svg 
@@ -112,7 +113,7 @@ const ModelButton = ({ children, onClick, isActive, theme, isFavorite }: { child
         strokeWidth="2" 
         strokeLinecap="round" 
         strokeLinejoin="round"
-        className={isFavorite ? 'text-red-500 fill-red-500' : 'text-zinc-500'}
+        className={isFavorite ? 'text-red-500 fill-red-500' : 'text-zinc-500 flex-shrink-0'}
       >
         <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
       </svg>
@@ -426,10 +427,9 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme, onHelpClick }) =
                 <div className="flex items-center gap-2">
                   <button
                     onClick={handlePrevModel}
-                    className={`p-2 rounded-full transition-all duration-300 flex-shrink-0 ${
-                      isNeomorphic 
-                        ? (isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[4px_4px_8px_rgba(0,0,0,0.4),-4px_-4px_8px_rgba(30,30,46,0.8)] hover:shadow-[6px_6px_12px_rgba(0,0,0,0.5),-6px_-6px_12px_rgba(30,30,46,1)] active:shadow-[inset_4px_4px_8px_rgba(0,0,0,0.5)]' : 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.4),-4px_-4px_8px_rgba(255,255,255,0.8)] hover:shadow-[6px_6px_12px_rgba(163,177,198,0.5),-6px_-6px_12px_rgba(255,255,255,1)] active:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.5)]')
-                        : (isDark ? 'bg-zinc-800 hover:bg-zinc-700 text-white shadow-sm' : 'bg-white hover:bg-slate-100 shadow-sm')
+                    className={`p-2 rounded-full transition-all duration-300 flex-shrink-0 ${isNeomorphic 
+                      ? (isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[4px_4px_8px_rgba(0,0,0,0.4),-4px_-4px_8px_rgba(30,30,46,0.8)] hover:shadow-[6px_6px_12px_rgba(0,0,0,0.5),-6px_-6px_12px_rgba(30,30,46,1)] active:shadow-[inset_4px_4px_8px_rgba(0,0,0,0.5)]' : 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.4),-4px_-4px_8px_rgba(255,255,255,0.8)] hover:shadow-[6px_6px_12px_rgba(163,177,198,0.5),-6px_-6px_12px_rgba(255,255,255,1)] active:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.5)]')
+                      : (isDark ? 'bg-zinc-800 hover:bg-zinc-700 text-white shadow-sm' : 'bg-white hover:bg-slate-100 shadow-sm')
                     } ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}
                     title="上一个模型"
                   >
@@ -438,10 +438,9 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme, onHelpClick }) =
                   
                   <button
                     onClick={handleNextModel}
-                    className={`p-2 rounded-full transition-all duration-300 flex-shrink-0 ${
-                      isNeomorphic 
-                        ? (isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[4px_4px_8px_rgba(0,0,0,0.4),-4px_-4px_8px_rgba(30,30,46,0.8)] hover:shadow-[6px_6px_12px_rgba(0,0,0,0.5),-6px_-6px_12px_rgba(30,30,46,1)] active:shadow-[inset_4px_4px_8px_rgba(0,0,0,0.5)]' : 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.4),-4px_-4px_8px_rgba(255,255,255,0.8)] hover:shadow-[6px_6px_12px_rgba(163,177,198,0.5),-6px_-6px_12px_rgba(255,255,255,1)] active:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.5)]')
-                        : (isDark ? 'bg-zinc-800 hover:bg-zinc-700 text-white shadow-sm' : 'bg-white hover:bg-slate-100 shadow-sm')
+                    className={`p-2 rounded-full transition-all duration-300 flex-shrink-0 ${isNeomorphic 
+                      ? (isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[4px_4px_8px_rgba(0,0,0,0.4),-4px_-4px_8px_rgba(30,30,46,0.8)] hover:shadow-[6px_6px_12px_rgba(0,0,0,0.5),-6px_-6px_12px_rgba(30,30,46,1)] active:shadow-[inset_4px_4px_8px_rgba(0,0,0,0.5)]' : 'bg-[#e0e5ec] shadow-[4px_4px_8px_rgba(163,177,198,0.4),-4px_-4px_8px_rgba(255,255,255,0.8)] hover:shadow-[6px_6px_12px_rgba(163,177,198,0.5),-6px_-6px_12px_rgba(255,255,255,1)] active:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.5)]')
+                      : (isDark ? 'bg-zinc-800 hover:bg-zinc-700 text-white shadow-sm' : 'bg-white hover:bg-slate-100 shadow-sm')
                     } ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}
                     title="下一个模型"
                   >
@@ -451,101 +450,69 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme, onHelpClick }) =
               </div>
             </div>
             
-            {/* Model Switching Buttons - Vertical Scroll with 2 rows */}
+            {/* Model Switching Buttons - Simple Tailwind Grid */}
             <div className={`relative h-32 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-700 scrollbar-track-transparent rounded-xl ${isNeomorphic ? (isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.6),inset_-4px_-4px_8px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]') : (isDark ? 'bg-zinc-900 shadow-[inset_2px_2px_4px_rgba(0,0,0,0.5)]' : 'bg-slate-100 shadow-[inset_2px_2px_4px_rgba(163,177,198,0.3)]')}`}>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 pl-2 pr-2">
+              {/* 使用Tailwind的grid布局，确保每行5个按钮，添加响应式支持 */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-0.5 p-1 w-full">
                 {filteredModels.map((model, index) => (
-                  <ModelButton
+                  <button
                     key={model.id}
                     onClick={() => handleModelClick(model.id)}
-                    isActive={activeModel === model.id}
-                    theme={theme}
-                    isFavorite={favorites.has(model.id)}
+                    className={`w-full px-1 py-1 h-8 rounded-lg text-[9px] font-bold transition-all duration-200 ease-in-out flex items-center justify-between border border-transparent gap-0.5 overflow-hidden whitespace-nowrap truncate ${activeModel === model.id ? 'bg-blue-500 text-white' : (isNeomorphicDark ? 'bg-[#1e1e2e] text-zinc-300 shadow-[2px_2px_4px_rgba(0,0,0,0.4),-2px_-2px_4px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] text-zinc-700 shadow-[2px_2px_4px_rgba(163,177,198,0.3),-2px_-2px_4px_rgba(255,255,255,0.8)]')}`}
                   >
-                    <span className={`inline-flex items-center justify-center w-4 h-4 rounded-full text-[8px] mr-1.5 ${isDark ? 'bg-zinc-800 text-zinc-400' : 'bg-slate-100 text-slate-500'}`}>{index + 1}</span>
-                    {model.label}
-                  </ModelButton>
+                    <div className="flex items-center gap-0.5">
+                      <span className={`inline-flex items-center justify-center w-3 h-3 rounded-full text-[6px] mr-0.5 ${isDark ? 'bg-zinc-800 text-zinc-400' : 'bg-slate-100 text-slate-500'} flex-shrink-0`}>{index + 1}</span>
+                      <span className="truncate flex-shrink-1 text-nowrap">{model.label}</span>
+                    </div>
+                    <svg 
+                      xmlns="http://www.w3.org/2000/svg" 
+                      width="10" 
+                      height="10" 
+                      viewBox="0 0 24 24" 
+                      fill="none" 
+                      stroke="currentColor" 
+                      strokeWidth="2" 
+                      strokeLinecap="round" 
+                      strokeLinejoin="round"
+                      className="text-red-500 fill-red-500 flex-shrink-0"
+                    >
+                      <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                    </svg>
+                  </button>
                 ))}
               </div>
             </div>
           </div>
           
           {/* Model Display with lazy loading and error handling */}
-          <div className={`${cardBg} p-6 rounded-3xl border w-full transition-all duration-300`}>
-            {/* Model Content */}
-            <div className="space-y-4 animate-fadeIn">
-              {/* Model Description */}
-              <p className={`text-sm ${textSub} mt-0`}>{currentModel.description}</p>
-              
-              {/* Visual Design - Lazy loaded with error handling */}
-              <div className={`rounded-xl p-4 border transition-all duration-200 ${isDark ? (isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow}` : 'bg-zinc-900 border-zinc-800') : (isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow}` : 'bg-white border-slate-200')}`}>
-                {currentModel && currentModel.visualDesign ? (
-                  <ModelErrorBoundary
-                    fallback={
-                      <div className={`flex flex-col items-center justify-center h-40 text-sm ${textSub} p-4`}>
-                        <p className="mb-2">模型可视化渲染出错</p>
-                        <p className="text-xs opacity-70">请尝试刷新页面或选择其他模型</p>
-                      </div>
-                    }
-                  >
-                    <div 
-                      dangerouslySetInnerHTML={{ 
-                        __html: sanitizeHtml(currentModel.visualDesign)
-                      }}
-                      className="w-full"
-                    />
-                  </ModelErrorBoundary>
-                ) : (
-                  <div className={`flex items-center justify-center h-40 text-sm ${textSub}`}>
-                    暂无可视化设计
-                  </div>
-                )}
-              </div>
-              
-              {/* Model Details - Lazy loaded below the chart */}
-              <Suspense
-                fallback={
-                  <div className={`flex items-center justify-center h-32 text-sm ${textSub}`}>
-                    正在加载模型详情...
-                  </div>
-                }
-              >
-                <div className="space-y-4">
-                  {/* Description */}
-                  <div className="space-y-1">
-                    <h3 className={`text-sm font-semibold ${textMain}`}>模型描述</h3>
-                    <p className={`text-sm ${textSub}`}>{currentModel.deepAnalysis}</p>
-                  </div>
-                  
-                  {/* Principle */}
-                  <div className="space-y-1">
-                    <h3 className={`text-sm font-semibold ${textMain}`}>核心原则</h3>
-                    <p className={`text-sm ${textSub}`}>{currentModel.principle}</p>
-                  </div>
-                  
-                  {/* Scope */}
-                  <div className="space-y-1">
-                    <h3 className={`text-sm font-semibold ${textMain}`}>应用范围</h3>
-                    <p className={`text-sm ${textSub}`}>{currentModel.scope}</p>
-                  </div>
-                  
-                  {/* Tips */}
-                  <div className="space-y-1">
-                    <h3 className={`text-sm font-semibold ${textMain}`}>使用技巧</h3>
-                    <ul className={`text-sm ${textSub} space-y-1 list-disc list-inside`}>
-                      {currentModel.tips.split('\n').map((tip, index) => (
-                        <li key={index}>{tip}</li>
-                      ))}
-                    </ul>
-                  </div>
-                  
-                  {/* Practice */}
-                  <div className="space-y-1">
-                    <h3 className={`text-sm font-semibold ${textMain}`}>实践建议</h3>
-                    <p className={`text-sm ${textSub}`}>{currentModel.practice}</p>
-                  </div>
+          {/* Model Content */}
+          <div className="space-y-4 animate-fadeIn">
+            {/* Model Description */}
+            <p className={`text-sm ${textSub} mt-0`}>{currentModel.description}</p>
+            
+            {/* Visual Design - Lazy loaded with error handling */}
+            <div className={`rounded-xl p-4 border transition-all duration-200 ${isDark ? (isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow}` : 'bg-zinc-900 border-zinc-800') : (isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow}` : 'bg-white border-slate-200')}`}>
+              {currentModel && currentModel.visualDesign ? (
+                <ModelErrorBoundary
+                  fallback={
+                    <div className={`flex flex-col items-center justify-center h-40 text-sm ${textSub} p-4`}>
+                      <p className="mb-2">模型可视化渲染出错</p>
+                      <p className="text-xs opacity-70">请尝试刷新页面或选择其他模型</p>
+                    </div>
+                  }
+                >
+                  <div 
+                    dangerouslySetInnerHTML={{ 
+                      __html: sanitizeHtml(currentModel.visualDesign)
+                    }}
+                    className="w-full"
+                  />
+                </ModelErrorBoundary>
+              ) : (
+                <div className={`flex items-center justify-center h-40 text-sm ${textSub}`}>
+                  暂无可视化设计
                 </div>
-              </Suspense>
+              )}
             </div>
           </div>
         </div>

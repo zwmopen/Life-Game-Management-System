@@ -616,8 +616,6 @@ const App: React.FC = () => {
 
   const handleGiveUpTask = (taskId: string) => {
       setGivenUpTasks(prev => [...prev, taskId]);
-      // 放弃任务时触发命运骰子
-      spinDice();
   };
 
   // Settings Handlers
