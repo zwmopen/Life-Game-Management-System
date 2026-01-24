@@ -14,11 +14,35 @@ interface ThinkingCenterProps {
 const sanitizeHtml = (html: string): string => {
   if (!html) return '';
   
-  // Remove script tags completely
-  let sanitized = html.replace(/<script[^>]*>.*?<\/script>/gi, '');
+  let sanitized = html;
   
-  // Remove only external script tags, keep internal style tags
-  // sanitized = sanitized.replace(/<style[^>]*>.*?<\/style>/gi, '');
+  // Remove script tags completely, including theme-related scripts
+  sanitized = sanitized.replace(/<script[^>]*>.*?<\/script>/gi, '');
+  
+  // Process style tags to remove theme-related CSS variables and ensure compatibility
+  sanitized = sanitized.replace(/<style[^>]*>([\s\S]*?)<\/style>/gi, (match, styleContent) => {
+    // Remove theme-related CSS variables and rules
+    let processedStyle = styleContent;
+    
+    // Remove CSS variables for theme colors
+    processedStyle = processedStyle.replace(/:root\s*\{[\s\S]*?\}/gi, '');
+    processedStyle = processedStyle.replace(/\[data-theme="dark"\]\s*\{[\s\S]*?\}/gi, '');
+    processedStyle = processedStyle.replace(/\[data-theme="light"\]\s*\{[\s\S]*?\}/gi, '');
+    
+    // Remove any references to CSS variables
+    processedStyle = processedStyle.replace(/var\(--[^)]+\)/g, 'inherit');
+    
+    // Remove background-color and color properties that might conflict with the theme
+    processedStyle = processedStyle.replace(/background-color\s*:\s*[^;]+;/gi, '');
+    processedStyle = processedStyle.replace(/color\s*:\s*[^;]+;/gi, '');
+    processedStyle = processedStyle.replace(/background\s*:\s*[^;]+;/gi, '');
+    
+    // Remove any remaining empty style blocks
+    if (processedStyle.trim()) {
+      return `<style>${processedStyle}</style>`;
+    }
+    return '';
+  });
   
   // Remove all event handlers
   sanitized = sanitized.replace(/\s+(on\w+)\s*=\s*["']?[^"'>\s]+["']?/gi, '');
@@ -373,6 +397,15 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme = 'neomorphic-lig
     // 修复所有模型的编码问题
     return sortedModels.map(fixModelEncoding);
   }, [searchTerm, favorites, fixEncoding, fixModelEncoding]);
+  
+  // Auto-select first model when search results change
+  useEffect(() => {
+    if (filteredModels.length > 0 && (!activeModel || !filteredModels.some(model => model.id === activeModel))) {
+      setActiveModel(filteredModels[0].id);
+      // 更新上一个模型，确保查看次数正确记录
+      setPreviousModel(filteredModels[0].id);
+    }
+  }, [filteredModels, activeModel]);
 
   // Get the current active model data with error handling
   const currentModel = useMemo(() => {
@@ -524,12 +557,18 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme = 'neomorphic-lig
                     </div>
                   }
                 >
-                  {/* Safe rendering with additional checks */}
+                  {/* Safe rendering with additional checks and theme adaptation */}
                   <div 
                     dangerouslySetInnerHTML={{ 
                       __html: sanitizeHtml(currentModel.visualDesign || '')
                     }}
-                    className="w-full"
+                    className={`w-full ${bgClass} ${textMain} overflow-hidden`}
+                    style={{
+                      backgroundColor: isDark ? (isNeomorphic ? '#1e1e2e' : '#18181b') : (isNeomorphic ? '#e0e5ec' : '#f8fafc'),
+                      color: isDark ? '#f8fafc' : '#18181b',
+                      border: 'none',
+                      boxShadow: 'none'
+                    }}
                   />
                 </ModelErrorBoundary>
               ) : (
