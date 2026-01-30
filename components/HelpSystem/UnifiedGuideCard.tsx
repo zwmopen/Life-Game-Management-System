@@ -168,6 +168,9 @@ const UnifiedGuideCard: React.FC<UnifiedGuideCardProps> = ({
           color: var(--text-main);
           font-size: 24px;
           font-weight: 700;
+          display: flex;
+          align-items: center;
+          gap: 10px;
         }
         
         .guide-close {
