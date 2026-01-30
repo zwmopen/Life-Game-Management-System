@@ -32,19 +32,28 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
 
   const [draggedItem, setDraggedItem] = useState<number | null>(null);
   
-  // 侧边栏宽度状态
-  const [sidebarWidth, setSidebarWidth] = useState<number>(180); // 调整为较小的默认宽度
+  // 侧边栏宽度限制
+  const MIN_SIDEBAR_WIDTH = 48; // 12 * 4
+  const MAX_SIDEBAR_WIDTH = 280;
   
+  // 侧边栏宽度状态
+  const [sidebarWidth, setSidebarWidth] = useState<number>(isNavCollapsed ? MIN_SIDEBAR_WIDTH : 224); // 根据isNavCollapsed初始化宽度
+
+  // 当isNavCollapsed变化时，更新sidebarWidth
+  useEffect(() => {
+    if (isNavCollapsed) {
+      setSidebarWidth(MIN_SIDEBAR_WIDTH);
+    } else {
+      setSidebarWidth(224);
+    }
+  }, [isNavCollapsed]);
+
   // 手机端手势滑动相关状态
   const [touchStart, setTouchStart] = useState<number>(0);
   const [touchEnd, setTouchEnd] = useState<number>(0);
   
   // 最小滑动距离（像素）
   const minSwipeDistance = 30;
-  
-  // 侧边栏宽度限制
-  const MIN_SIDEBAR_WIDTH = 48; // 12 * 4
-  const MAX_SIDEBAR_WIDTH = 280;
   
   // 侧边栏容器引用
   const sidebarRef = useRef<HTMLDivElement>(null);
@@ -88,16 +97,16 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
     if (Math.abs(swipeDistance) >= minSwipeDistance) {
       // 判断滑动方向和距离
       if (swipeDistance > 0) {
-        // 向右滑动 - 展开侧边栏
-        if (isNavHidden) {
-          setIsNavHidden(false);
-          setIsNavCollapsed(false);
-          setSidebarWidth(180);
-        } else if (isNavCollapsed) {
-          setIsNavCollapsed(false);
-          setSidebarWidth(180);
-        }
-      } else {
+          // 向右滑动 - 展开侧边栏
+          if (isNavHidden) {
+            setIsNavHidden(false);
+            setIsNavCollapsed(false);
+            setSidebarWidth(224);
+          } else if (isNavCollapsed) {
+            setIsNavCollapsed(false);
+            setSidebarWidth(224);
+          }
+        } else {
         // 向左滑动 - 折叠侧边栏
         if (!isNavCollapsed) {
           setIsNavCollapsed(true);
@@ -116,40 +125,27 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
   // 监听窗口大小变化，在移动端自动调整
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 768) {
-        // 在移动端默认使用最小宽度
-        setSidebarWidth(MIN_SIDEBAR_WIDTH);
-        setIsNavCollapsed(true);
-      } else {
-        // 在桌面端恢复默认宽度
-        setSidebarWidth(224);
-        setIsNavCollapsed(false);
+      if (typeof window !== 'undefined') {
+        // 只调整宽度，不修改isNavCollapsed状态
+        if (isNavCollapsed) {
+          setSidebarWidth(MIN_SIDEBAR_WIDTH);
+        } else {
+          setSidebarWidth(224);
+        }
       }
     };
     
     window.addEventListener('resize', handleResize);
     
-    // 延迟初始化，确保window.innerWidth已正确获取
-    const timer = setTimeout(() => {
-      handleResize();
-    }, 100);
+    // 立即初始化，确保组件加载时宽度正确设置
+    handleResize();
     
     return () => {
       window.removeEventListener('resize', handleResize);
-      clearTimeout(timer);
     };
-  }, []);
-  
-  // 初始状态修复：确保桌面端初始状态正确
-  useEffect(() => {
-    // 直接设置初始状态，避免依赖window.innerWidth的异步问题
-    if (typeof window !== 'undefined') {
-      if (window.innerWidth >= 768) {
-        setSidebarWidth(224);
-        setIsNavCollapsed(false);
-      }
-    }
-  }, []);
+  }, [isNavCollapsed]); // 依赖isNavCollapsed，确保宽度随状态变化
+
+
 
   const isDark = theme.includes('dark');
   const isNeomorphic = theme.startsWith('neomorphic');
