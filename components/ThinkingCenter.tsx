@@ -222,7 +222,8 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme = 'neomorphic-lig
       principle: fixEncoding(model.principle),
       scope: fixEncoding(model.scope),
       tips: fixEncoding(model.tips),
-      practice: fixEncoding(model.practice)
+      practice: fixEncoding(model.practice),
+      scenario: fixEncoding(model.scenario)
     };
   }, [fixEncoding]);
 
@@ -543,9 +544,6 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme = 'neomorphic-lig
           {/* Model Display with lazy loading and error handling */}
           {/* Model Content */}
           <div className="space-y-4 animate-fadeIn">
-            {/* Model Description */}
-            <p className={`text-sm ${textSub} mt-0`}>{currentModel.description}</p>
-            
             {/* Visual Design - Lazy loaded with error handling */}
             <div className={`rounded-xl p-4 border transition-all duration-200 ${isDark ? (isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow}` : 'bg-zinc-900 border-zinc-800') : (isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow}` : 'bg-white border-slate-200')}`}>
               {currentModel && currentModel.visualDesign ? (
@@ -576,6 +574,59 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme = 'neomorphic-lig
                   暂无可视化设计
                 </div>
               )}
+            </div>
+            
+            {/* Model Details */}
+            <div className={`rounded-xl p-4 border transition-all duration-200 ${isDark ? (isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow}` : 'bg-zinc-900 border-zinc-800') : (isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow}` : 'bg-white border-slate-200')}`}>
+              <div className="space-y-4">
+                {/* Deep Analysis */}
+                {currentModel.deepAnalysis && (
+                  <div>
+                    <h3 className={`text-base font-semibold mb-2 ${textMain}`}>深度分析</h3>
+                    <p className={`text-sm ${textSub}`}>{currentModel.deepAnalysis}</p>
+                  </div>
+                )}
+                
+                {/* Principle */}
+                {currentModel.principle && (
+                  <div>
+                    <h3 className={`text-base font-semibold mb-2 ${textMain}`}>核心原则</h3>
+                    <p className={`text-sm ${textSub}`}>{currentModel.principle}</p>
+                  </div>
+                )}
+                
+                {/* Scope */}
+                {currentModel.scope && (
+                  <div>
+                    <h3 className={`text-base font-semibold mb-2 ${textMain}`}>适用范围</h3>
+                    <p className={`text-sm ${textSub}`}>{currentModel.scope}</p>
+                  </div>
+                )}
+                
+                {/* Tips */}
+                {currentModel.tips && (
+                  <div>
+                    <h3 className={`text-base font-semibold mb-2 ${textMain}`}>使用技巧</h3>
+                    <p className={`text-sm ${textSub}`}>{currentModel.tips}</p>
+                  </div>
+                )}
+                
+                {/* Practice */}
+                {currentModel.practice && (
+                  <div>
+                    <h3 className={`text-base font-semibold mb-2 ${textMain}`}>实践建议</h3>
+                    <p className={`text-sm ${textSub}`}>{currentModel.practice}</p>
+                  </div>
+                )}
+                
+                {/* Scenario */}
+                {currentModel.scenario && (
+                  <div>
+                    <h3 className={`text-base font-semibold mb-2 ${textMain}`}>应用场景</h3>
+                    <p className={`text-sm ${textSub}`}>{currentModel.scenario}</p>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
