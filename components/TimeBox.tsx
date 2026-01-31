@@ -54,6 +54,13 @@ const TimeBox: React.FC = () => {
   const [isEditing, setIsEditing] = useState<number | null>(null);
   const [editForm, setEditForm] = useState<any>({});
   const [isGuideCardOpen, setIsGuideCardOpen] = useState(false);
+  const [isAddTaskOpen, setIsAddTaskOpen] = useState(false);
+  const [newTask, setNewTask] = useState({
+    title: '',
+    description: '',
+    priority: '中',
+    duration: 60
+  });
 
   // 计算统计数据
   const stats = useMemo(() => {
@@ -79,11 +86,11 @@ const TimeBox: React.FC = () => {
     if (isTimerRunning && selectedTask) {
       interval = setInterval(() => {
         setTimer(prev => {
-          if (prev >= selectedTask.duration * 60) {
+          if (prev <= 0) {
             setIsTimerRunning(false);
-            return selectedTask.duration * 60;
+            return 0;
           }
-          return prev + 1;
+          return prev - 1;
         });
       }, 1000);
     }
@@ -100,7 +107,7 @@ const TimeBox: React.FC = () => {
   // 开始专注
   const startFocus = (task: any) => {
     setSelectedTask(task);
-    setTimer(0);
+    setTimer(task.duration * 60); // 设置为总时长，倒计时
     setIsTimerRunning(true);
     setIsFocusModalOpen(true);
   };
@@ -108,6 +115,7 @@ const TimeBox: React.FC = () => {
   // 继续专注
   const continueFocus = (task: any) => {
     setSelectedTask(task);
+    setTimer(task.duration * 60); // 设置为总时长，倒计时
     setIsTimerRunning(true);
     setIsFocusModalOpen(true);
   };
@@ -142,6 +150,37 @@ const TimeBox: React.FC = () => {
     setEditForm({});
   };
 
+  // 添加任务
+  const addTask = () => {
+    if (newTask.title.trim()) {
+      const task = {
+        id: Date.now(),
+        ...newTask,
+        status: '待处理',
+        isActive: false
+      };
+      setTasks(prev => [...prev, task]);
+      setNewTask({
+        title: '',
+        description: '',
+        priority: '中',
+        duration: 60
+      });
+      setIsAddTaskOpen(false);
+    }
+  };
+
+  // 取消添加任务
+  const cancelAddTask = () => {
+    setNewTask({
+      title: '',
+      description: '',
+      priority: '中',
+      duration: 60
+    });
+    setIsAddTaskOpen(false);
+  };
+
   // 获取优先级颜色
   const getPriorityColor = (priority: string) => {
     switch (priority) {
@@ -160,13 +199,26 @@ const TimeBox: React.FC = () => {
           <h1 className="text-2xl font-bold mb-2">时间盒子</h1>
           <p className="text-zinc-600">基于Elon Musk的时间管理方法论</p>
           
-          {/* 指南卡片按钮 */}
-          <button
-            onClick={() => setIsGuideCardOpen(!isGuideCardOpen)}
-            className="absolute top-0 right-0 p-3 rounded-full bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] transition-all duration-300 hover:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-          </button>
+          {/* 按钮组 */}
+          <div className="absolute top-0 right-0 flex space-x-3">
+            {/* 添加任务按钮 */}
+            <button
+              onClick={() => setIsAddTaskOpen(!isAddTaskOpen)}
+              className="p-3 rounded-full bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] transition-all duration-300 hover:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]"
+              title="添加任务"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            </button>
+            
+            {/* 指南卡片按钮 */}
+            <button
+              onClick={() => setIsGuideCardOpen(!isGuideCardOpen)}
+              className="p-3 rounded-full bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] transition-all duration-300 hover:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]"
+              title="使用指南"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+            </button>
+          </div>
           
           {/* 指南卡片 */}
           {isGuideCardOpen && (
@@ -192,11 +244,80 @@ const TimeBox: React.FC = () => {
               </ul>
             </div>
           )}
+          
+          {/* 添加任务模态框 */}
+          {isAddTaskOpen && (
+            <div className="absolute top-12 right-0 w-96 bg-[#e0e5ec] rounded-xl p-6 shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] z-20">
+              <h3 className="text-lg font-semibold mb-4 text-zinc-700">添加任务</h3>
+              <div className="space-y-3">
+                <div>
+                  <label className="block text-xs font-medium text-zinc-600 mb-1">任务标题</label>
+                  <input
+                    type="text"
+                    value={newTask.title}
+                    onChange={(e) => setNewTask({ ...newTask, title: e.target.value })}
+                    placeholder="输入任务标题"
+                    className="w-full px-3 py-2 bg-[#e0e5ec] rounded-lg text-sm shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,1)] border-none focus:outline-none focus:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.8),inset_-4px_-4px_8px_rgba(255,255,255,1)]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-zinc-600 mb-1">任务描述</label>
+                  <textarea
+                    value={newTask.description}
+                    onChange={(e) => setNewTask({ ...newTask, description: e.target.value })}
+                    placeholder="输入任务描述"
+                    rows={3}
+                    className="w-full px-3 py-2 bg-[#e0e5ec] rounded-lg text-sm shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,1)] border-none focus:outline-none focus:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.8),inset_-4px_-4px_8px_rgba(255,255,255,1)]"
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-medium text-zinc-600 mb-1">优先级</label>
+                    <select
+                      value={newTask.priority}
+                      onChange={(e) => setNewTask({ ...newTask, priority: e.target.value })}
+                      className="w-full px-3 py-2 bg-[#e0e5ec] rounded-lg text-sm shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,1)] border-none focus:outline-none focus:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.8),inset_-4px_-4px_8px_rgba(255,255,255,1)]"
+                    >
+                      <option value="高">高</option>
+                      <option value="中">中</option>
+                      <option value="低">低</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-zinc-600 mb-1">预计时长（分钟）</label>
+                    <input
+                      type="number"
+                      value={newTask.duration}
+                      onChange={(e) => setNewTask({ ...newTask, duration: parseInt(e.target.value) || 0 })}
+                      min="5"
+                      max="300"
+                      step="5"
+                      className="w-full px-3 py-2 bg-[#e0e5ec] rounded-lg text-sm shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,1)] border-none focus:outline-none focus:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.8),inset_-4px_-4px_8px_rgba(255,255,255,1)]"
+                    />
+                  </div>
+                </div>
+                <div className="flex space-x-3 pt-2">
+                  <button
+                    onClick={addTask}
+                    className="flex-1 py-2 bg-[#e0e5ec] text-green-600 rounded-lg text-sm font-medium shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[8px_8px_16px_rgba(163,177,198,0.8),-8px_-8px_16px_rgba(255,255,255,1)] transition-all"
+                  >
+                    添加任务
+                  </button>
+                  <button
+                    onClick={cancelAddTask}
+                    className="flex-1 py-2 bg-[#e0e5ec] text-red-600 rounded-lg text-sm font-medium shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[8px_8px_16px_rgba(163,177,198,0.8),-8px_-8px_16px_rgba(255,255,255,1)] transition-all"
+                  >
+                    取消
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* 统计卡片 */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-          <div className="bg-[#e0e5ec] rounded-xl shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] p-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div className="bg-[#e0e5ec] rounded-xl shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] p-5 transition-all duration-300 hover:shadow-[8px_8px_16px_rgba(163,177,198,0.8),-8px_-8px_16px_rgba(255,255,255,1)]">
             <div className="flex justify-between items-center mb-2">
               <h3 className="text-sm font-medium text-zinc-600">完成率</h3>
               <span className="text-xs text-zinc-500">
@@ -207,7 +328,7 @@ const TimeBox: React.FC = () => {
             <p className="text-xs text-zinc-500">{stats.completedTasks}/{stats.totalTasks} 任务已完成</p>
           </div>
           
-          <div className="bg-[#e0e5ec] rounded-xl shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] p-4">
+          <div className="bg-[#e0e5ec] rounded-xl shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] p-5 transition-all duration-300 hover:shadow-[8px_8px_16px_rgba(163,177,198,0.8),-8px_-8px_16px_rgba(255,255,255,1)]">
             <div className="flex justify-between items-center mb-2">
               <h3 className="text-sm font-medium text-zinc-600">已完成任务</h3>
               <span className="text-xs text-zinc-500">
@@ -218,7 +339,7 @@ const TimeBox: React.FC = () => {
             <p className="text-xs text-zinc-500">你做得很好！</p>
           </div>
           
-          <div className="bg-[#e0e5ec] rounded-xl shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] p-4">
+          <div className="bg-[#e0e5ec] rounded-xl shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] p-5 transition-all duration-300 hover:shadow-[8px_8px_16px_rgba(163,177,198,0.8),-8px_-8px_16px_rgba(255,255,255,1)]">
             <div className="flex justify-between items-center mb-2">
               <h3 className="text-sm font-medium text-zinc-600">平均专注时间</h3>
               <span className="text-xs text-zinc-500">
@@ -229,7 +350,7 @@ const TimeBox: React.FC = () => {
             <p className="text-xs text-zinc-500">每个已完成任务</p>
           </div>
           
-          <div className="bg-[#e0e5ec] rounded-xl shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] p-4">
+          <div className="bg-[#e0e5ec] rounded-xl shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] p-5 transition-all duration-300 hover:shadow-[8px_8px_16px_rgba(163,177,198,0.8),-8px_-8px_16px_rgba(255,255,255,1)]">
             <div className="flex justify-between items-center mb-2">
               <h3 className="text-sm font-medium text-zinc-600">效率得分</h3>
               <span className="text-xs text-zinc-500">
@@ -244,19 +365,29 @@ const TimeBox: React.FC = () => {
         {/* 今日焦点 */}
         <div className="mb-8">
           <h2 className="text-xl font-semibold mb-4 text-zinc-700">今日焦点</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {tasks.map((task) => (
               <div 
                 key={task.id}
-                className="bg-[#e0e5ec] rounded-xl shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] p-4 border-l-4 border-blue-500"
+                className={`bg-[#e0e5ec] rounded-xl shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] p-5 border-l-4 border-blue-500 transition-all duration-300 hover:shadow-[8px_8px_16px_rgba(163,177,198,0.8),-8px_-8px_16px_rgba(255,255,255,1)] hover:translate-y-[-2px] ${
+                  task.status === '已完成' ? 'opacity-70' : ''
+                }`}
               >
                 <div className="flex justify-between items-start mb-2">
-                  <h3 className="font-medium text-base text-zinc-700">{task.title}</h3>
+                  <h3 className={`font-medium text-base transition-colors ${
+                    task.status === '已完成' 
+                      ? 'text-zinc-500 line-through' 
+                      : 'text-zinc-700'
+                  }`}>{task.title}</h3>
                   <button className="text-xs text-zinc-500">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
                   </button>
                 </div>
-                <p className="text-xs text-zinc-500 mb-3">{task.description}</p>
+                <p className={`text-xs transition-colors ${
+                  task.status === '已完成' 
+                    ? 'text-zinc-400 line-through' 
+                    : 'text-zinc-500'
+                } mb-3`}>{task.description}</p>
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center">
                     <span className={`text-xs font-medium ${getPriorityColor(task.priority)} mr-2`}>
@@ -312,10 +443,7 @@ const TimeBox: React.FC = () => {
                 ) : (
                   <div className="flex space-x-2">
                     <button
-                      onClick={() => {
-                        setSelectedTask(task);
-                        setIsFocusModalOpen(true);
-                      }}
+                      onClick={() => startFocus(task)}
                       className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all ${
                         task.isActive 
                           ? 'bg-[#e0e5ec] text-red-500 shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,1)] hover:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.8),inset_-4px_-4px_8px_rgba(255,255,255,1)]'
@@ -338,31 +466,32 @@ const TimeBox: React.FC = () => {
           </div>
         </div>
 
-        {/* 专注模态框 */}
+        {/* 时间盒子倒计时模态框 */}
         {isFocusModalOpen && selectedTask && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-[#e0e5ec] rounded-xl shadow-[10px_10px_20px_rgba(0,0,0,0.2),-10px_-10px_20px_rgba(255,255,255,0.8)] p-8 max-w-md w-full">
-              <h2 className="text-xl font-semibold mb-6 text-center text-zinc-700">{selectedTask.title}</h2>
-              <div className="flex flex-col items-center mb-8">
-                <div className="relative w-64 h-64 mb-6">
-                  <div className="absolute inset-0 rounded-full border-8 border-blue-100"></div>
-                  <div className="absolute inset-0 rounded-full border-8 border-blue-500 border-t-transparent animate-spin-slow"></div>
+          <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+            <div className="bg-[#e0e5ec] rounded-2xl shadow-[15px_15px_30px_rgba(0,0,0,0.3),-15px_-15px_30px_rgba(255,255,255,0.9)] p-10 max-w-2xl w-full mx-4">
+              <h2 className="text-2xl font-semibold mb-2 text-center text-zinc-700">时间盒子倒计时</h2>
+              <h3 className="text-xl font-medium mb-8 text-center text-zinc-600">{selectedTask.title}</h3>
+              <div className="flex flex-col items-center mb-10">
+                <div className="relative w-80 h-80 mb-8">
+                  <div className="absolute inset-0 rounded-full border-10 border-blue-100"></div>
+                  <div className="absolute inset-0 rounded-full border-10 border-blue-500 border-t-transparent animate-spin-slow"></div>
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-4xl font-bold text-zinc-700">
+                    <span className="text-6xl font-bold text-zinc-700">
                       {formatTime(timer)}
                     </span>
                   </div>
                 </div>
-                <div className="flex space-x-4">
+                <div className="flex space-x-6">
                   <button
                     onClick={() => setIsTimerRunning(!isTimerRunning)}
-                    className="px-6 py-2 bg-[#e0e5ec] text-blue-600 rounded-lg text-sm font-medium shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[8px_8px_16px_rgba(163,177,198,0.8),-8px_-8px_16px_rgba(255,255,255,1)] transition-all"
+                    className="px-8 py-3 bg-[#e0e5ec] text-blue-600 rounded-lg text-base font-medium shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[12px_12px_24px_rgba(163,177,198,0.8),-12px_-12px_24px_rgba(255,255,255,1)] transition-all"
                   >
                     {isTimerRunning ? '暂停' : '开始'}
                   </button>
                   <button
                     onClick={completeTask}
-                    className="px-6 py-2 bg-[#e0e5ec] text-zinc-700 rounded-lg text-sm font-medium shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[8px_8px_16px_rgba(163,177,198,0.8),-8px_-8px_16px_rgba(255,255,255,1)] transition-all"
+                    className="px-8 py-3 bg-[#e0e5ec] text-zinc-700 rounded-lg text-base font-medium shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[12px_12px_24px_rgba(163,177,198,0.8),-12px_-12px_24px_rgba(255,255,255,1)] transition-all"
                   >
                     完成
                   </button>
