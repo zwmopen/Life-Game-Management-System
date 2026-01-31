@@ -577,8 +577,35 @@ const TimeBox: React.FC = () => {
           <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
             <div className="flex flex-col items-center justify-center">
               <div className="relative w-96 h-96 mb-10">
-                <div className="absolute inset-0 rounded-full border-12 border-blue-900 opacity-30"></div>
-                <div className="absolute inset-0 rounded-full border-12 border-blue-500 border-t-transparent animate-spin-slow"></div>
+                {/* 背景圆形 */}
+                <div className="absolute inset-0 rounded-full bg-blue-900 opacity-20"></div>
+                
+                {/* 进度条倒计时 */}
+                <svg className="absolute inset-0" width="100%" height="100%" viewBox="0 0 300 300">
+                  <circle
+                    cx="150"
+                    cy="150"
+                    r="130"
+                    fill="none"
+                    stroke="rgba(30, 64, 175, 0.3)"
+                    strokeWidth="12"
+                  />
+                  <circle
+                    cx="150"
+                    cy="150"
+                    r="130"
+                    fill="none"
+                    stroke="#3b82f6"
+                    strokeWidth="12"
+                    strokeLinecap="round"
+                    transform="rotate(-90 150 150)"
+                    strokeDasharray={`${2 * Math.PI * 130}`}
+                    strokeDashoffset={`${2 * Math.PI * 130 * (1 - timer / (selectedTask.duration * 60))}`}
+                    className="transition-all duration-1000 ease-linear"
+                  />
+                </svg>
+                
+                {/* 中心内容 */}
                 <div className="absolute inset-0 flex items-center justify-center flex-col">
                   <h2 className="text-2xl font-semibold mb-4 text-center text-white">时间盒子倒计时</h2>
                   <h3 className="text-xl font-medium mb-6 text-center text-blue-200">{selectedTask.title}</h3>
