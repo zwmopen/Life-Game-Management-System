@@ -574,11 +574,11 @@ const TimeBox: React.FC = () => {
 
         {/* 时间盒子倒计时模态框 */}
         {isFocusModalOpen && selectedTask && (
-          <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
+          <div className="fixed inset-0 bg-[#1e1e2e] flex items-center justify-center z-50">
             <div className="flex flex-col items-center justify-center">
               <div className="relative w-96 h-96 mb-10">
-                {/* 背景圆形 */}
-                <div className="absolute inset-0 rounded-full bg-blue-900 opacity-20"></div>
+                {/* 拟态背景圆形 */}
+                <div className="absolute inset-0 rounded-full bg-[#1e1e2e] shadow-[15px_15px_30px_rgba(0,0,0,0.3),-15px_-15px_30px_rgba(40,40,60,0.1)]"></div>
                 
                 {/* 进度条倒计时 */}
                 <svg className="absolute inset-0" width="100%" height="100%" viewBox="0 0 300 300">
@@ -617,13 +617,13 @@ const TimeBox: React.FC = () => {
               <div className="flex space-x-8">
                 <button
                   onClick={() => setIsTimerRunning(!isTimerRunning)}
-                  className="px-10 py-4 bg-white text-blue-600 rounded-lg text-base font-medium shadow-lg hover:shadow-xl transition-all"
+                  className="px-10 py-4 bg-[#1e1e2e] text-blue-400 rounded-lg text-base font-medium shadow-[5px_5px_10px_rgba(0,0,0,0.3),-5px_-5px_10px_rgba(40,40,60,0.1)] hover:shadow-[inset_5px_5px_10px_rgba(0,0,0,0.3),inset_-5px_-5px_10px_rgba(40,40,60,0.1)] transition-all"
                 >
                   {isTimerRunning ? '暂停' : '开始'}
                 </button>
                 <button
                   onClick={completeTask}
-                  className="px-10 py-4 bg-blue-600 text-white rounded-lg text-base font-medium shadow-lg hover:shadow-xl transition-all"
+                  className="px-10 py-4 bg-[#1e1e2e] text-white rounded-lg text-base font-medium shadow-[5px_5px_10px_rgba(0,0,0,0.3),-5px_-5px_10px_rgba(40,40,60,0.1)] hover:shadow-[inset_5px_5px_10px_rgba(0,0,0,0.3),inset_-5px_-5px_10px_rgba(40,40,60,0.1)] transition-all"
                 >
                   完成
                 </button>

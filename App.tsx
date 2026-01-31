@@ -1368,7 +1368,7 @@ const App: React.FC = () => {
                   onHelpClick={setActiveHelp}
                 />;
       case View.TIME_BOX:
-        return <TimeBox />;
+        return <TimeBox setModalState={setModalState} />;
       default: 
         // 当遇到未知视图时，返回默认组件而不是null，防止白屏问题
         // 如果当前View状态异常，先显示错误信息并尝试重置
