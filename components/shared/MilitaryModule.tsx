@@ -74,7 +74,7 @@ const MilitaryModule: React.FC<MilitaryModuleProps> = ({
           />
         ) : (
           <span 
-            className={`text-xs font-mono font-bold ${isDark ? 'text-yellow-400' : 'text-yellow-600'} cursor-pointer`}
+            className={`text-xs font-mono font-black ${isDark ? 'text-yellow-400' : 'text-yellow-600'} cursor-pointer`}
             onDoubleClick={() => setIsEditingBalance(true)}
           >
             {Math.floor(balance)}
@@ -98,7 +98,7 @@ const MilitaryModule: React.FC<MilitaryModuleProps> = ({
           />
         ) : (
           <span 
-            className={`text-xs font-mono font-bold ${isDark ? 'text-red-400' : 'text-red-600'} cursor-pointer`}
+            className={`text-xs font-mono font-black ${isDark ? 'text-red-400' : 'text-red-600'} cursor-pointer`}
             onDoubleClick={() => setIsEditingKills(true)}
           >
             {totalKills}

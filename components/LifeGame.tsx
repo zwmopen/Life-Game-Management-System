@@ -891,19 +891,13 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                 <div className="mt-1 flex justify-between items-center text-xs">
                                     <div className="flex items-center gap-3">
                                         <span className="text-zinc-500">
-                                            本周平均: {(() => {
+                                            本周平均专注：<span className="font-black">{(() => {
                                                 // 计算本周平均专注时间
                                                 const total = Object.values(statsHistory).reduce((sum, stats: any) => sum + (stats.focusMinutes || 0), 0) + (todayStats?.focusMinutes || 0);
                                                 const days = Math.min(Object.keys(statsHistory).length + 1, 7);
                                                 return Math.round(total / days) || 0; 
-                                            })()} min
+                                            })()} min</span> 今日已经专注：<span className="font-black">{todayStats?.focusMinutes || 0} min</span>
                                         </span>
-                                        <div className="flex items-center gap-1">
-                                            <Clock size={8} className="text-zinc-500"/>
-                                            <span className={`font-mono ${isDark ? 'text-blue-400' : 'text-blue-600'}`}>
-                                                今日: {todayStats?.focusMinutes || 0} min
-                                            </span>
-                                        </div>
                                     </div>
 
                                 </div>

@@ -161,10 +161,11 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
     if (taskCategory === 'daily') {
       const completed = habitTasks.filter(task => task.completed).length;
       const total = habitTasks.length;
-      return total > 0 ? `${Math.round((completed / total) * 100)}%` : '0%';
+      const percentage = total > 0 ? `${Math.round((completed / total) * 100)}%` : '0%';
+      return { percentage, completed, total };
     } else if (taskCategory === 'main') {
       const totalWeight = projectTasks.length;
-      if (totalWeight === 0) return '0%';
+      if (totalWeight === 0) return { percentage: '0%', completed: 0, total: 0 };
       
       const overallProgress = projectTasks.reduce((sum, task) => {
         if (task.completed) {
@@ -177,11 +178,14 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
         }
       }, 0);
       
-      return `${Math.round((overallProgress / totalWeight) * 100)}%`;
+      const percentage = `${Math.round((overallProgress / totalWeight) * 100)}%`;
+      const completed = projectTasks.filter(task => task.completed).length;
+      return { percentage, completed, total: totalWeight };
     } else {
       const completed = diceState?.completedTasks?.length || 0;
       const total = (diceState?.pendingTasks?.length || 0) + completed;
-      return total > 0 ? `${Math.round((completed / total) * 100)}%` : '0%';
+      const percentage = total > 0 ? `${Math.round((completed / total) * 100)}%` : '0%';
+      return { percentage, completed, total };
     }
   }, [taskCategory, habitTasks, projectTasks, diceState]);
 
@@ -319,13 +323,12 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
         {/* 任务进度条 */}
         <div className="w-full sm:w-auto sm:flex-1 sm:max-w-xs">
           <div className="flex items-center justify-between text-xs mb-1">
-            <span className={textSub}>进度</span>
-            <span className="font-mono font-bold text-blue-500">{taskProgress}</span>
+            <span className={textSub}>当前任务完成率<span className="font-black">{taskProgress.percentage}</span>，<span className="font-black">{taskProgress.completed} / {taskProgress.total}</span> 个任务已完成</span>
           </div>
           <div className={`w-full h-2.5 rounded-full overflow-hidden shadow-inner ${isDark ? 'bg-zinc-800' : 'bg-slate-200'}`}>
             <div 
               className="h-full bg-blue-600 rounded-full transition-all duration-500 ease-out"
-              style={{ width: taskProgress }}
+              style={{ width: taskProgress.percentage }}
             ></div>
           </div>
         </div>
