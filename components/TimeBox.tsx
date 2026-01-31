@@ -485,66 +485,72 @@ const TimeBox: React.FC<TimeBoxProps> = ({ setModalState }) => {
             </div>
           )}
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {tasks.map((task) => (
               <div 
                 key={task.id}
-                className={`${themeStyles.cardBg} rounded-xl ${themeStyles.cardShadow} p-5 border-l-4 border-blue-500 transition-all duration-300 hover:shadow-[8px_8px_16px_rgba(163,177,198,0.8),-8px_-8px_16px_rgba(255,255,255,1)] hover:translate-y-[-2px] ${
+                className={`${themeStyles.cardBg} rounded-xl ${themeStyles.cardShadow} p-6 border-l-4 border-blue-500 transition-all duration-300 hover:shadow-[8px_8px_16px_rgba(163,177,198,0.8),-8px_-8px_16px_rgba(255,255,255,1)] hover:translate-y-[-2px] ${
                   task.status === '已完成' ? 'opacity-70' : ''
                 }`}
               >
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className={`font-medium text-base transition-colors ${
+                <div className="flex justify-between items-start mb-3">
+                  <h3 className={`font-semibold text-lg transition-colors ${
                     task.status === '已完成' 
                       ? 'text-zinc-500 line-through' 
-                      : 'text-zinc-700'
+                      : theme.includes('dark') ? 'text-white' : 'text-zinc-800'
                   }`}>{task.title}</h3>
                   <div className="relative group">
-                    <button className="text-xs text-zinc-500">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
+                    <button className={`p-1 rounded-full ${themeStyles.cardBg} ${themeStyles.buttonShadow}`}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={theme.includes('dark') ? 'currentColor' : 'currentColor'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
                     </button>
-                    <div className={`absolute right-0 mt-1 w-24 ${themeStyles.modalBg} rounded-lg ${themeStyles.modalShadow} py-2 z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300`}>
+                    <div className={`absolute right-0 mt-1 w-28 ${themeStyles.modalBg} rounded-lg ${themeStyles.modalShadow} py-2 z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300`}>
                       <button
                         onClick={() => startEditing(task)}
-                        className="block w-full text-left px-3 py-1 text-sm text-zinc-700 hover:bg-[#d5d9e0] transition-colors"
+                        className={`block w-full text-left px-3 py-2 text-sm ${theme.includes('dark') ? 'text-zinc-300 hover:bg-zinc-700' : 'text-zinc-700 hover:bg-zinc-100'} transition-colors`}
                       >
                         编辑
                       </button>
                       <button
                         onClick={() => deleteTask(task.id)}
-                        className="block w-full text-left px-3 py-1 text-sm text-red-600 hover:bg-[#d5d9e0] transition-colors"
+                        className={`block w-full text-left px-3 py-2 text-sm ${theme.includes('dark') ? 'text-red-400 hover:bg-zinc-700' : 'text-red-600 hover:bg-zinc-100'} transition-colors`}
                       >
                         删除
                       </button>
                     </div>
                   </div>
                 </div>
-                <p className={`text-xs transition-colors ${
+                <p className={`text-sm transition-colors ${
                   task.status === '已完成' 
                     ? 'text-zinc-400 line-through' 
-                    : 'text-zinc-500'
-                } mb-3`}>{task.description}</p>
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center">
-                    <span className={`text-xs font-medium ${getPriorityColor(task.priority)} mr-2`}>
-                      {task.priority === '高' ? '🔥' : task.priority === '中' ? '⚡' : '🌱'}
-                    </span>
-                    <span className="text-xs text-zinc-500">{task.priority}</span>
+                    : theme.includes('dark') ? 'text-zinc-300' : 'text-zinc-600'
+                } mb-4`}>{task.description}</p>
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center space-x-4">
+                    <div className="flex items-center">
+                      <span className={`text-sm font-medium ${getPriorityColor(task.priority)} mr-2`}>
+                        {task.priority === '高' ? '🔥' : task.priority === '中' ? '⚡' : '🌱'}
+                      </span>
+                      <span className={`text-sm ${theme.includes('dark') ? 'text-zinc-300' : 'text-zinc-600'}`}>{task.priority}</span>
+                    </div>
+                    <div className="flex items-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={theme.includes('dark') ? 'currentColor' : 'currentColor'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`mr-2 ${theme.includes('dark') ? 'text-zinc-400' : 'text-zinc-500'}`}><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                      <span className={`text-sm ${theme.includes('dark') ? 'text-zinc-300' : 'text-zinc-600'}`}>{task.duration} 分钟</span>
+                    </div>
+                    <div className="flex items-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={theme.includes('dark') ? 'currentColor' : 'currentColor'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`mr-2 ${theme.includes('dark') ? 'text-blue-400' : 'text-blue-500'}`}><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                      <span className={`text-sm ${theme.includes('dark') ? 'text-zinc-300' : 'text-zinc-600'}`}>{task.status}</span>
+                    </div>
                   </div>
-                  <span className="text-xs text-zinc-500">{task.duration} 分钟</span>
-                </div>
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs text-zinc-500">{task.status}</span>
-                  <span className="text-xs text-zinc-500">{task.duration} 分钟</span>
                 </div>
                 <button
                   onClick={() => startFocus(task)}
-                  className={`w-full py-2 rounded-lg text-sm font-medium transition-all ${
+                  className={`w-full py-3 rounded-lg text-sm font-medium flex items-center justify-center space-x-2 transition-all ${
                     task.isActive 
-                      ? `${themeStyles.cardBg} text-red-500 ${themeStyles.buttonHoverShadow} hover:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.8),inset_-4px_-4px_8px_rgba(255,255,255,1)]'
-                      : `${themeStyles.cardBg} text-zinc-700 ${themeStyles.buttonShadow} hover:${themeStyles.buttonHoverShadow}'
+                      ? `${themeStyles.cardBg} text-red-500 ${themeStyles.buttonHoverShadow} hover:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.8),inset_-4px_-4px_8px_rgba(255,255,255,1)]`
+                      : `${themeStyles.cardBg} ${theme.includes('dark') ? 'text-white' : 'text-zinc-800'} ${themeStyles.buttonShadow} hover:${themeStyles.buttonHoverShadow}`
                   }`}
                 >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                   {task.isActive ? '继续专注' : '开始专注'}
                 </button>
               </div>
@@ -631,11 +637,11 @@ const TimeBox: React.FC<TimeBoxProps> = ({ setModalState }) => {
 
         {/* 时间盒子倒计时模态框 */}
         {isFocusModalOpen && selectedTask && (
-          <div className={`fixed inset-0 ${theme.includes('dark') ? 'bg-[#1e1e2e]' : 'bg-black bg-opacity-80'} flex items-center justify-center z-50`}>
+          <div className={`fixed inset-0 ${themeStyles.bg} flex items-center justify-center z-50`}>
             <div className="flex flex-col items-center justify-center">
               <div className="relative w-96 h-96 mb-10">
                 {/* 背景圆形 */}
-                <div className={`absolute inset-0 rounded-full ${theme.includes('dark') ? 'bg-[#1e1e2e] shadow-[15px_15px_30px_rgba(0,0,0,0.3),-15px_-15px_30px_rgba(40,40,60,0.1)]' : 'bg-white bg-opacity-10 shadow-[15px_15px_30px_rgba(0,0,0,0.2),-15px_-15px_30px_rgba(255,255,255,0.1)]'}`}></div>
+                <div className={`absolute inset-0 rounded-full ${themeStyles.cardBg} ${themeStyles.cardShadow}`}></div>
                 
                 {/* 进度条倒计时 */}
                 <svg className="absolute inset-0" width="100%" height="100%" viewBox="0 0 300 300">
@@ -664,9 +670,9 @@ const TimeBox: React.FC<TimeBoxProps> = ({ setModalState }) => {
                 
                 {/* 中心内容 */}
                 <div className="absolute inset-0 flex items-center justify-center flex-col">
-                  <h2 className={`text-2xl font-semibold mb-4 text-center ${theme.includes('dark') ? 'text-white' : 'text-white'}`}>时间盒子倒计时</h2>
-                  <h3 className={`text-xl font-medium mb-6 text-center ${theme.includes('dark') ? 'text-blue-300' : 'text-blue-200'}`}>{selectedTask.title}</h3>
-                  <span className={`text-7xl font-bold ${theme.includes('dark') ? 'text-white' : 'text-white'}`}>
+                  <h2 className={`text-2xl font-semibold mb-4 text-center ${themeStyles.text}`}>时间盒子倒计时</h2>
+                  <h3 className={`text-xl font-medium mb-6 text-center ${theme.includes('dark') ? 'text-blue-300' : 'text-blue-600'}`}>{selectedTask.title}</h3>
+                  <span className={`text-7xl font-bold ${themeStyles.text}`}>
                     {formatTime(timer)}
                   </span>
                 </div>
@@ -674,13 +680,13 @@ const TimeBox: React.FC<TimeBoxProps> = ({ setModalState }) => {
               <div className="flex space-x-8">
                 <button
                   onClick={() => setIsTimerRunning(!isTimerRunning)}
-                  className={`px-10 py-4 rounded-lg text-base font-medium transition-all ${theme.includes('dark') ? 'bg-[#1e1e2e] text-blue-400 shadow-[5px_5px_10px_rgba(0,0,0,0.3),-5px_-5px_10px_rgba(40,40,60,0.1)] hover:shadow-[inset_5px_5px_10px_rgba(0,0,0,0.3),inset_-5px_-5px_10px_rgba(40,40,60,0.1)]' : 'bg-white text-blue-600 shadow-lg hover:shadow-xl'}`}
+                  className={`px-10 py-4 rounded-lg text-base font-medium transition-all ${themeStyles.cardBg} ${themeStyles.text} ${themeStyles.buttonShadow} hover:${themeStyles.buttonHoverShadow}`}
                 >
                   {isTimerRunning ? '暂停' : '开始'}
                 </button>
                 <button
                   onClick={completeTask}
-                  className={`px-10 py-4 rounded-lg text-base font-medium transition-all ${theme.includes('dark') ? 'bg-[#1e1e2e] text-white shadow-[5px_5px_10px_rgba(0,0,0,0.3),-5px_-5px_10px_rgba(40,40,60,0.1)] hover:shadow-[inset_5px_5px_10px_rgba(0,0,0,0.3),inset_-5px_-5px_10px_rgba(40,40,60,0.1)]' : 'bg-blue-600 text-white shadow-lg hover:shadow-xl'}`}
+                  className={`px-10 py-4 rounded-lg text-base font-medium transition-all ${themeStyles.cardBg} ${themeStyles.text} ${themeStyles.buttonShadow} hover:${themeStyles.buttonHoverShadow}`}
                 >
                   完成
                 </button>
