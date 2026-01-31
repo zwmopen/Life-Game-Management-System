@@ -1,12 +1,20 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { Clock, Edit, Save, X } from 'lucide-react';
+import { useTheme } from '../contexts/ThemeContext';
+
+interface TimeBoxProps {
+  setModalState: (isOpen: boolean) => void;
+}
 
 /**
  * 时间盒子组件
  * 基于Elon Musk的时间管理方法论
  * 将时间分割成固定长度的时间段，每个时间段专注于单一任务
  */
-const TimeBox: React.FC = () => {
+const TimeBox: React.FC<TimeBoxProps> = ({ setModalState }) => {
+  // 使用主题上下文
+  const { theme } = useTheme();
+  
   // 状态管理
   const [tasks, setTasks] = useState([
     {
@@ -17,15 +25,6 @@ const TimeBox: React.FC = () => {
       duration: 90,
       status: '进行中',
       isActive: true
-    },
-    {
-      id: 2,
-      title: '集成AI时间估算功能',
-      description: '在任务列表中添加一个按钮，用于调用GenKit流程进行时间估算。',
-      priority: '中',
-      duration: 60,
-      status: '待处理',
-      isActive: false
     },
     {
       id: 3,
@@ -62,6 +61,11 @@ const TimeBox: React.FC = () => {
     priority: '中',
     duration: 60
   });
+  
+  // 打开弹窗时设置模态状态
+  const openModal = useCallback((isOpen: boolean) => {
+    setModalState(isOpen);
+  }, [setModalState]);
 
   // 计算统计数据
   const stats = useMemo(() => {
@@ -111,6 +115,7 @@ const TimeBox: React.FC = () => {
     setTimer(task.duration * 60); // 设置为总时长，倒计时
     setIsTimerRunning(true);
     setIsFocusModalOpen(true);
+    openModal(true);
   };
 
   // 继续专注
@@ -119,12 +124,14 @@ const TimeBox: React.FC = () => {
     setTimer(task.duration * 60); // 设置为总时长，倒计时
     setIsTimerRunning(true);
     setIsFocusModalOpen(true);
+    openModal(true);
   };
 
   // 完成任务
   const completeTask = () => {
     setIsTimerRunning(false);
     setIsFocusModalOpen(false);
+    openModal(false);
     setTasks(prev => prev.map(task => 
       task.id === selectedTask.id ? { ...task, status: '已完成', isActive: false } : task
     ));
@@ -136,6 +143,7 @@ const TimeBox: React.FC = () => {
     setSelectedEditTask(task);
     setEditForm({ ...task });
     setIsEditTaskOpen(true);
+    openModal(true);
   };
 
   // 删除任务
@@ -151,12 +159,14 @@ const TimeBox: React.FC = () => {
       task.id === selectedEditTask.id ? { ...editForm } : task
     ));
     setIsEditTaskOpen(false);
+    openModal(false);
     setSelectedEditTask(null);
   };
 
   // 取消编辑
   const cancelEdit = () => {
     setIsEditTaskOpen(false);
+    openModal(false);
     setSelectedEditTask(null);
     setEditForm({});
   };
@@ -178,6 +188,7 @@ const TimeBox: React.FC = () => {
         duration: 60
       });
       setIsAddTaskOpen(false);
+      openModal(false);
     }
   };
 
@@ -190,6 +201,7 @@ const TimeBox: React.FC = () => {
       duration: 60
     });
     setIsAddTaskOpen(false);
+    openModal(false);
   };
 
   // 获取优先级颜色
@@ -202,8 +214,41 @@ const TimeBox: React.FC = () => {
     }
   };
 
+  // 获取主题相关的样式
+  const getThemeStyles = () => {
+    if (theme.includes('dark')) {
+      return {
+        bg: 'bg-[#1e1e2e]',
+        text: 'text-zinc-100',
+        cardBg: 'bg-[#2a2d36]',
+        cardShadow: 'shadow-[5px_5px_10px_rgba(0,0,0,0.3),-5px_-5px_10px_rgba(42,45,54,0.8)]',
+        inputBg: 'bg-[#2a2d36]',
+        inputShadow: 'shadow-[inset_3px_3px_6px_rgba(0,0,0,0.3),inset_-3px_-3px_6px_rgba(42,45,54,0.8)]',
+        buttonShadow: 'shadow-[5px_5px_10px_rgba(0,0,0,0.3),-5px_-5px_10px_rgba(42,45,54,0.8)]',
+        buttonHoverShadow: 'shadow-[inset_3px_3px_6px_rgba(0,0,0,0.3),inset_-3px_-3px_6px_rgba(42,45,54,0.8)]',
+        modalBg: 'bg-[#2a2d36]',
+        modalShadow: 'shadow-[8px_8px_16px_rgba(0,0,0,0.4),-8px_-8px_16px_rgba(42,45,54,0.8)]'
+      };
+    } else {
+      return {
+        bg: 'bg-[#e0e5ec]',
+        text: 'text-zinc-800',
+        cardBg: 'bg-[#e0e5ec]',
+        cardShadow: 'shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)]',
+        inputBg: 'bg-[#e0e5ec]',
+        inputShadow: 'shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,1)]',
+        buttonShadow: 'shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)]',
+        buttonHoverShadow: 'shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,1)]',
+        modalBg: 'bg-[#e0e5ec]',
+        modalShadow: 'shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]'
+      };
+    }
+  };
+
+  const themeStyles = getThemeStyles();
+
   return (
-    <div className={`p-6 min-h-screen bg-[#e0e5ec] ${(isAddTaskOpen || isGuideCardOpen || isEditTaskOpen || isFocusModalOpen) ? 'overflow-hidden' : ''}`}>
+    <div className={`p-6 min-h-screen ${themeStyles.bg} ${themeStyles.text} ${(isAddTaskOpen || isGuideCardOpen || isEditTaskOpen || isFocusModalOpen) ? 'overflow-hidden' : ''}`}>
       <div className="max-w-6xl mx-auto">
         {/* 仪表盘标题 */}
         <div className="mb-6">
@@ -213,7 +258,7 @@ const TimeBox: React.FC = () => {
 
         {/* 统计卡片 */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="bg-[#e0e5ec] rounded-xl shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] p-5 transition-all duration-300 hover:shadow-[8px_8px_16px_rgba(163,177,198,0.8),-8px_-8px_16px_rgba(255,255,255,1)]">
+          <div className={`${themeStyles.cardBg} rounded-xl ${themeStyles.cardShadow} p-5 transition-all duration-300 hover:shadow-[8px_8px_16px_rgba(163,177,198,0.8),-8px_-8px_16px_rgba(255,255,255,1)]`}>
             <div className="flex justify-between items-center mb-2">
               <h3 className="text-sm font-medium text-zinc-600">完成率</h3>
               <span className="text-xs text-zinc-500">
@@ -224,7 +269,7 @@ const TimeBox: React.FC = () => {
             <p className="text-xs text-zinc-500">{stats.completedTasks}/{stats.totalTasks} 任务已完成</p>
           </div>
           
-          <div className="bg-[#e0e5ec] rounded-xl shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] p-5 transition-all duration-300 hover:shadow-[8px_8px_16px_rgba(163,177,198,0.8),-8px_-8px_16px_rgba(255,255,255,1)]">
+          <div className={`${themeStyles.cardBg} rounded-xl ${themeStyles.cardShadow} p-5 transition-all duration-300 hover:shadow-[8px_8px_16px_rgba(163,177,198,0.8),-8px_-8px_16px_rgba(255,255,255,1)]`}>
             <div className="flex justify-between items-center mb-2">
               <h3 className="text-sm font-medium text-zinc-600">已完成任务</h3>
               <span className="text-xs text-zinc-500">
@@ -235,7 +280,7 @@ const TimeBox: React.FC = () => {
             <p className="text-xs text-zinc-500">你做得很好！</p>
           </div>
           
-          <div className="bg-[#e0e5ec] rounded-xl shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] p-5 transition-all duration-300 hover:shadow-[8px_8px_16px_rgba(163,177,198,0.8),-8px_-8px_16px_rgba(255,255,255,1)]">
+          <div className={`${themeStyles.cardBg} rounded-xl ${themeStyles.cardShadow} p-5 transition-all duration-300 hover:shadow-[8px_8px_16px_rgba(163,177,198,0.8),-8px_-8px_16px_rgba(255,255,255,1)]`}>
             <div className="flex justify-between items-center mb-2">
               <h3 className="text-sm font-medium text-zinc-600">平均专注时间</h3>
               <span className="text-xs text-zinc-500">
@@ -246,7 +291,7 @@ const TimeBox: React.FC = () => {
             <p className="text-xs text-zinc-500">每个已完成任务</p>
           </div>
           
-          <div className="bg-[#e0e5ec] rounded-xl shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] p-5 transition-all duration-300 hover:shadow-[8px_8px_16px_rgba(163,177,198,0.8),-8px_-8px_16px_rgba(255,255,255,1)]">
+          <div className={`${themeStyles.cardBg} rounded-xl ${themeStyles.cardShadow} p-5 transition-all duration-300 hover:shadow-[8px_8px_16px_rgba(163,177,198,0.8),-8px_-8px_16px_rgba(255,255,255,1)]`}>
             <div className="flex justify-between items-center mb-2">
               <h3 className="text-sm font-medium text-zinc-600">效率得分</h3>
               <span className="text-xs text-zinc-500">
@@ -265,8 +310,11 @@ const TimeBox: React.FC = () => {
             <div className="flex space-x-3">
               {/* 指南卡片按钮 */}
               <button
-                onClick={() => setIsGuideCardOpen(!isGuideCardOpen)}
-                className="p-3 rounded-full bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] transition-all duration-300 hover:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]"
+                onClick={() => {
+                  setIsGuideCardOpen(!isGuideCardOpen);
+                  openModal(!isGuideCardOpen);
+                }}
+                className={`p-3 rounded-full ${themeStyles.cardBg} ${themeStyles.buttonShadow} transition-all duration-300 hover:${themeStyles.buttonHoverShadow}`}
                 title="使用指南"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
@@ -274,8 +322,11 @@ const TimeBox: React.FC = () => {
               
               {/* 添加任务按钮 */}
               <button
-                onClick={() => setIsAddTaskOpen(!isAddTaskOpen)}
-                className="px-4 py-2 bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] transition-all duration-300 hover:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)] rounded-lg text-sm font-medium"
+                onClick={() => {
+                  setIsAddTaskOpen(!isAddTaskOpen);
+                  openModal(!isAddTaskOpen);
+                }}
+                className={`px-4 py-2 ${themeStyles.cardBg} ${themeStyles.buttonShadow} transition-all duration-300 hover:${themeStyles.buttonHoverShadow} rounded-lg text-sm font-medium`}
                 title="添加任务"
               >
                 添加任务
@@ -286,12 +337,15 @@ const TimeBox: React.FC = () => {
           {/* 指南卡片 */}
           {isGuideCardOpen && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-              <div className="bg-[#e0e5ec] rounded-xl p-6 max-w-2xl w-full mx-4 shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]">
+              <div className={`${themeStyles.modalBg} rounded-xl p-6 max-w-2xl w-full mx-4 ${themeStyles.modalShadow}`}>
                 <div className="flex justify-between items-center mb-4">
                   <h3 className="text-xl font-semibold text-zinc-700">Elon Musk 时间管理方法论</h3>
                   <button
-                    onClick={() => setIsGuideCardOpen(false)}
-                    className="p-2 rounded-full bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] transition-all duration-300 hover:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]"
+                    onClick={() => {
+                      setIsGuideCardOpen(false);
+                      openModal(false);
+                    }}
+                    className={`p-2 rounded-full ${themeStyles.cardBg} ${themeStyles.buttonShadow} transition-all duration-300 hover:${themeStyles.buttonHoverShadow}`}
                   >
                     <X size={18} />
                   </button>
@@ -352,12 +406,15 @@ const TimeBox: React.FC = () => {
           {/* 添加任务模态框 */}
           {isAddTaskOpen && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-              <div className="bg-[#e0e5ec] rounded-xl p-6 max-w-md w-full mx-4 shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]">
+              <div className={`${themeStyles.modalBg} rounded-xl p-6 max-w-md w-full mx-4 ${themeStyles.modalShadow}`}>
                 <div className="flex justify-between items-center mb-4">
                   <h3 className="text-lg font-semibold text-zinc-700">添加任务</h3>
                   <button
-                    onClick={() => setIsAddTaskOpen(false)}
-                    className="p-2 rounded-full bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] transition-all duration-300 hover:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]"
+                    onClick={() => {
+                      setIsAddTaskOpen(false);
+                      openModal(false);
+                    }}
+                    className={`p-2 rounded-full ${themeStyles.cardBg} ${themeStyles.buttonShadow} transition-all duration-300 hover:${themeStyles.buttonHoverShadow}`}
                   >
                     <X size={18} />
                   </button>
@@ -370,7 +427,7 @@ const TimeBox: React.FC = () => {
                       value={newTask.title}
                       onChange={(e) => setNewTask({ ...newTask, title: e.target.value })}
                       placeholder="输入任务标题"
-                      className="w-full px-3 py-2 bg-[#e0e5ec] rounded-lg text-sm shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,1)] border-none focus:outline-none focus:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.8),inset_-4px_-4px_8px_rgba(255,255,255,1)]"
+                      className={`w-full px-3 py-2 ${themeStyles.inputBg} rounded-lg text-sm ${themeStyles.inputShadow} border-none focus:outline-none focus:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.8),inset_-4px_-4px_8px_rgba(255,255,255,1)]`}
                     />
                   </div>
                   <div>
@@ -380,7 +437,7 @@ const TimeBox: React.FC = () => {
                       onChange={(e) => setNewTask({ ...newTask, description: e.target.value })}
                       placeholder="输入任务描述"
                       rows={3}
-                      className="w-full px-3 py-2 bg-[#e0e5ec] rounded-lg text-sm shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,1)] border-none focus:outline-none focus:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.8),inset_-4px_-4px_8px_rgba(255,255,255,1)]"
+                      className={`w-full px-3 py-2 ${themeStyles.inputBg} rounded-lg text-sm ${themeStyles.inputShadow} border-none focus:outline-none focus:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.8),inset_-4px_-4px_8px_rgba(255,255,255,1)]`}
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-3">
@@ -389,7 +446,7 @@ const TimeBox: React.FC = () => {
                       <select
                         value={newTask.priority}
                         onChange={(e) => setNewTask({ ...newTask, priority: e.target.value })}
-                        className="w-full px-3 py-2 bg-[#e0e5ec] rounded-lg text-sm shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,1)] border-none focus:outline-none focus:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.8),inset_-4px_-4px_8px_rgba(255,255,255,1)]"
+                        className={`w-full px-3 py-2 ${themeStyles.inputBg} rounded-lg text-sm ${themeStyles.inputShadow} border-none focus:outline-none focus:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.8),inset_-4px_-4px_8px_rgba(255,255,255,1)]`}
                       >
                         <option value="高">高</option>
                         <option value="中">中</option>
@@ -405,20 +462,20 @@ const TimeBox: React.FC = () => {
                         min="5"
                         max="300"
                         step="5"
-                        className="w-full px-3 py-2 bg-[#e0e5ec] rounded-lg text-sm shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,1)] border-none focus:outline-none focus:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.8),inset_-4px_-4px_8px_rgba(255,255,255,1)]"
+                        className={`w-full px-3 py-2 ${themeStyles.inputBg} rounded-lg text-sm ${themeStyles.inputShadow} border-none focus:outline-none focus:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.8),inset_-4px_-4px_8px_rgba(255,255,255,1)]`}
                       />
                     </div>
                   </div>
                   <div className="flex space-x-3 pt-2">
                     <button
                       onClick={addTask}
-                      className="flex-1 py-2 bg-[#e0e5ec] text-green-600 rounded-lg text-sm font-medium shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[8px_8px_16px_rgba(163,177,198,0.8),-8px_-8px_16px_rgba(255,255,255,1)] transition-all"
+                      className={`flex-1 py-2 ${themeStyles.cardBg} text-green-600 rounded-lg text-sm font-medium ${themeStyles.buttonShadow} hover:${themeStyles.buttonHoverShadow} transition-all`}
                     >
                       添加任务
                     </button>
                     <button
                       onClick={cancelAddTask}
-                      className="flex-1 py-2 bg-[#e0e5ec] text-red-600 rounded-lg text-sm font-medium shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[8px_8px_16px_rgba(163,177,198,0.8),-8px_-8px_16px_rgba(255,255,255,1)] transition-all"
+                      className={`flex-1 py-2 ${themeStyles.cardBg} text-red-600 rounded-lg text-sm font-medium ${themeStyles.buttonShadow} hover:${themeStyles.buttonHoverShadow} transition-all`}
                     >
                       取消
                     </button>
@@ -432,7 +489,7 @@ const TimeBox: React.FC = () => {
             {tasks.map((task) => (
               <div 
                 key={task.id}
-                className={`bg-[#e0e5ec] rounded-xl shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] p-5 border-l-4 border-blue-500 transition-all duration-300 hover:shadow-[8px_8px_16px_rgba(163,177,198,0.8),-8px_-8px_16px_rgba(255,255,255,1)] hover:translate-y-[-2px] ${
+                className={`${themeStyles.cardBg} rounded-xl ${themeStyles.cardShadow} p-5 border-l-4 border-blue-500 transition-all duration-300 hover:shadow-[8px_8px_16px_rgba(163,177,198,0.8),-8px_-8px_16px_rgba(255,255,255,1)] hover:translate-y-[-2px] ${
                   task.status === '已完成' ? 'opacity-70' : ''
                 }`}
               >
@@ -446,7 +503,7 @@ const TimeBox: React.FC = () => {
                     <button className="text-xs text-zinc-500">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
                     </button>
-                    <div className="absolute right-0 mt-1 w-24 bg-[#e0e5ec] rounded-lg shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] py-2 z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+                    <div className={`absolute right-0 mt-1 w-24 ${themeStyles.modalBg} rounded-lg ${themeStyles.modalShadow} py-2 z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300`}>
                       <button
                         onClick={() => startEditing(task)}
                         className="block w-full text-left px-3 py-1 text-sm text-zinc-700 hover:bg-[#d5d9e0] transition-colors"
@@ -484,8 +541,8 @@ const TimeBox: React.FC = () => {
                   onClick={() => startFocus(task)}
                   className={`w-full py-2 rounded-lg text-sm font-medium transition-all ${
                     task.isActive 
-                      ? 'bg-[#e0e5ec] text-red-500 shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,1)] hover:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.8),inset_-4px_-4px_8px_rgba(255,255,255,1)]'
-                      : 'bg-[#e0e5ec] text-zinc-700 shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[8px_8px_16px_rgba(163,177,198,0.8),-8px_-8px_16px_rgba(255,255,255,1)]'
+                      ? `${themeStyles.cardBg} text-red-500 ${themeStyles.buttonHoverShadow} hover:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.8),inset_-4px_-4px_8px_rgba(255,255,255,1)]'
+                      : `${themeStyles.cardBg} text-zinc-700 ${themeStyles.buttonShadow} hover:${themeStyles.buttonHoverShadow}'
                   }`}
                 >
                   {task.isActive ? '继续专注' : '开始专注'}
@@ -498,12 +555,12 @@ const TimeBox: React.FC = () => {
         {/* 编辑任务模态框 */}
         {isEditTaskOpen && selectedEditTask && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-            <div className="bg-[#e0e5ec] rounded-xl p-6 max-w-md w-full mx-4 shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]">
+            <div className={`${themeStyles.modalBg} rounded-xl p-6 max-w-md w-full mx-4 ${themeStyles.modalShadow}`}>
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-lg font-semibold text-zinc-700">编辑任务</h3>
                 <button
                   onClick={cancelEdit}
-                  className="p-2 rounded-full bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] transition-all duration-300 hover:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]"
+                  className={`p-2 rounded-full ${themeStyles.cardBg} ${themeStyles.buttonShadow} transition-all duration-300 hover:${themeStyles.buttonHoverShadow}`}
                 >
                   <X size={18} />
                 </button>
@@ -515,7 +572,7 @@ const TimeBox: React.FC = () => {
                     type="text"
                     value={editForm.title}
                     onChange={(e) => setEditForm({ ...editForm, title: e.target.value })}
-                    className="w-full px-3 py-2 bg-[#e0e5ec] rounded-lg text-sm shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,1)] border-none focus:outline-none focus:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.8),inset_-4px_-4px_8px_rgba(255,255,255,1)]"
+                    className={`w-full px-3 py-2 ${themeStyles.inputBg} rounded-lg text-sm ${themeStyles.inputShadow} border-none focus:outline-none focus:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.8),inset_-4px_-4px_8px_rgba(255,255,255,1)]`}
                   />
                 </div>
                 <div>
@@ -524,7 +581,7 @@ const TimeBox: React.FC = () => {
                     value={editForm.description}
                     onChange={(e) => setEditForm({ ...editForm, description: e.target.value })}
                     rows={3}
-                    className="w-full px-3 py-2 bg-[#e0e5ec] rounded-lg text-sm shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,1)] border-none focus:outline-none focus:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.8),inset_-4px_-4px_8px_rgba(255,255,255,1)]"
+                    className={`w-full px-3 py-2 ${themeStyles.inputBg} rounded-lg text-sm ${themeStyles.inputShadow} border-none focus:outline-none focus:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.8),inset_-4px_-4px_8px_rgba(255,255,255,1)]`}
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-3">
@@ -533,7 +590,7 @@ const TimeBox: React.FC = () => {
                     <select
                       value={editForm.priority}
                       onChange={(e) => setEditForm({ ...editForm, priority: e.target.value })}
-                      className="w-full px-3 py-2 bg-[#e0e5ec] rounded-lg text-sm shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,1)] border-none focus:outline-none focus:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.8),inset_-4px_-4px_8px_rgba(255,255,255,1)]"
+                      className={`w-full px-3 py-2 ${themeStyles.inputBg} rounded-lg text-sm ${themeStyles.inputShadow} border-none focus:outline-none focus:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.8),inset_-4px_-4px_8px_rgba(255,255,255,1)]`}
                     >
                       <option value="高">高</option>
                       <option value="中">中</option>
@@ -549,20 +606,20 @@ const TimeBox: React.FC = () => {
                       min="5"
                       max="300"
                       step="5"
-                      className="w-full px-3 py-2 bg-[#e0e5ec] rounded-lg text-sm shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,1)] border-none focus:outline-none focus:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.8),inset_-4px_-4px_8px_rgba(255,255,255,1)]"
+                      className={`w-full px-3 py-2 ${themeStyles.inputBg} rounded-lg text-sm ${themeStyles.inputShadow} border-none focus:outline-none focus:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.8),inset_-4px_-4px_8px_rgba(255,255,255,1)]`}
                     />
                   </div>
                 </div>
                 <div className="flex space-x-3 pt-2">
                   <button
                     onClick={saveEdit}
-                    className="flex-1 py-2 bg-[#e0e5ec] text-green-600 rounded-lg text-sm font-medium shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[8px_8px_16px_rgba(163,177,198,0.8),-8px_-8px_16px_rgba(255,255,255,1)] transition-all"
+                    className={`flex-1 py-2 ${themeStyles.cardBg} text-green-600 rounded-lg text-sm font-medium ${themeStyles.buttonShadow} hover:${themeStyles.buttonHoverShadow} transition-all`}
                   >
                     保存更改
                   </button>
                   <button
                     onClick={cancelEdit}
-                    className="flex-1 py-2 bg-[#e0e5ec] text-red-600 rounded-lg text-sm font-medium shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[8px_8px_16px_rgba(163,177,198,0.8),-8px_-8px_16px_rgba(255,255,255,1)] transition-all"
+                    className={`flex-1 py-2 ${themeStyles.cardBg} text-red-600 rounded-lg text-sm font-medium ${themeStyles.buttonShadow} hover:${themeStyles.buttonHoverShadow} transition-all`}
                   >
                     取消
                   </button>
@@ -574,11 +631,11 @@ const TimeBox: React.FC = () => {
 
         {/* 时间盒子倒计时模态框 */}
         {isFocusModalOpen && selectedTask && (
-          <div className="fixed inset-0 bg-[#1e1e2e] flex items-center justify-center z-50">
+          <div className={`fixed inset-0 ${theme.includes('dark') ? 'bg-[#1e1e2e]' : 'bg-black bg-opacity-80'} flex items-center justify-center z-50`}>
             <div className="flex flex-col items-center justify-center">
               <div className="relative w-96 h-96 mb-10">
-                {/* 拟态背景圆形 */}
-                <div className="absolute inset-0 rounded-full bg-[#1e1e2e] shadow-[15px_15px_30px_rgba(0,0,0,0.3),-15px_-15px_30px_rgba(40,40,60,0.1)]"></div>
+                {/* 背景圆形 */}
+                <div className={`absolute inset-0 rounded-full ${theme.includes('dark') ? 'bg-[#1e1e2e] shadow-[15px_15px_30px_rgba(0,0,0,0.3),-15px_-15px_30px_rgba(40,40,60,0.1)]' : 'bg-white bg-opacity-10 shadow-[15px_15px_30px_rgba(0,0,0,0.2),-15px_-15px_30px_rgba(255,255,255,0.1)]'}`}></div>
                 
                 {/* 进度条倒计时 */}
                 <svg className="absolute inset-0" width="100%" height="100%" viewBox="0 0 300 300">
@@ -587,7 +644,7 @@ const TimeBox: React.FC = () => {
                     cy="150"
                     r="130"
                     fill="none"
-                    stroke="rgba(30, 64, 175, 0.3)"
+                    stroke={theme.includes('dark') ? 'rgba(30, 64, 175, 0.3)' : 'rgba(30, 64, 175, 0.2)'}
                     strokeWidth="12"
                   />
                   <circle
@@ -595,7 +652,7 @@ const TimeBox: React.FC = () => {
                     cy="150"
                     r="130"
                     fill="none"
-                    stroke="#3b82f6"
+                    stroke={theme.includes('dark') ? '#3b82f6' : '#2563eb'}
                     strokeWidth="12"
                     strokeLinecap="round"
                     transform="rotate(-90 150 150)"
@@ -607,9 +664,9 @@ const TimeBox: React.FC = () => {
                 
                 {/* 中心内容 */}
                 <div className="absolute inset-0 flex items-center justify-center flex-col">
-                  <h2 className="text-2xl font-semibold mb-4 text-center text-white">时间盒子倒计时</h2>
-                  <h3 className="text-xl font-medium mb-6 text-center text-blue-200">{selectedTask.title}</h3>
-                  <span className="text-7xl font-bold text-white">
+                  <h2 className={`text-2xl font-semibold mb-4 text-center ${theme.includes('dark') ? 'text-white' : 'text-white'}`}>时间盒子倒计时</h2>
+                  <h3 className={`text-xl font-medium mb-6 text-center ${theme.includes('dark') ? 'text-blue-300' : 'text-blue-200'}`}>{selectedTask.title}</h3>
+                  <span className={`text-7xl font-bold ${theme.includes('dark') ? 'text-white' : 'text-white'}`}>
                     {formatTime(timer)}
                   </span>
                 </div>
@@ -617,13 +674,13 @@ const TimeBox: React.FC = () => {
               <div className="flex space-x-8">
                 <button
                   onClick={() => setIsTimerRunning(!isTimerRunning)}
-                  className="px-10 py-4 bg-[#1e1e2e] text-blue-400 rounded-lg text-base font-medium shadow-[5px_5px_10px_rgba(0,0,0,0.3),-5px_-5px_10px_rgba(40,40,60,0.1)] hover:shadow-[inset_5px_5px_10px_rgba(0,0,0,0.3),inset_-5px_-5px_10px_rgba(40,40,60,0.1)] transition-all"
+                  className={`px-10 py-4 rounded-lg text-base font-medium transition-all ${theme.includes('dark') ? 'bg-[#1e1e2e] text-blue-400 shadow-[5px_5px_10px_rgba(0,0,0,0.3),-5px_-5px_10px_rgba(40,40,60,0.1)] hover:shadow-[inset_5px_5px_10px_rgba(0,0,0,0.3),inset_-5px_-5px_10px_rgba(40,40,60,0.1)]' : 'bg-white text-blue-600 shadow-lg hover:shadow-xl'}`}
                 >
                   {isTimerRunning ? '暂停' : '开始'}
                 </button>
                 <button
                   onClick={completeTask}
-                  className="px-10 py-4 bg-[#1e1e2e] text-white rounded-lg text-base font-medium shadow-[5px_5px_10px_rgba(0,0,0,0.3),-5px_-5px_10px_rgba(40,40,60,0.1)] hover:shadow-[inset_5px_5px_10px_rgba(0,0,0,0.3),inset_-5px_-5px_10px_rgba(40,40,60,0.1)] transition-all"
+                  className={`px-10 py-4 rounded-lg text-base font-medium transition-all ${theme.includes('dark') ? 'bg-[#1e1e2e] text-white shadow-[5px_5px_10px_rgba(0,0,0,0.3),-5px_-5px_10px_rgba(40,40,60,0.1)] hover:shadow-[inset_5px_5px_10px_rgba(0,0,0,0.3),inset_-5px_-5px_10px_rgba(40,40,60,0.1)]' : 'bg-blue-600 text-white shadow-lg hover:shadow-xl'}`}
                 >
                   完成
                 </button>
