@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Menu, X, Sun, Moon, GripVertical, Gamepad2, BarChart2, ShoppingBag, ShieldAlert, Activity, Medal, Book, Settings, ChevronRight, ChevronLeft, GripHorizontal } from 'lucide-react';
+import { Menu, X, Sun, Moon, GripVertical, Gamepad2, BarChart2, ShoppingBag, ShieldAlert, Activity, Medal, Book, Settings, ChevronRight, ChevronLeft, GripHorizontal, Clock } from 'lucide-react';
 import { View, Theme } from '../types';
 import { APP_VERSION } from '../constants/app';
 import { GlobalHelpButton } from './HelpSystem';
@@ -27,6 +27,7 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
     { id: View.HALL_OF_FAME, label: '荣誉殿堂（成就）', icon: Medal },
     { id: View.BLACK_MARKET, label: '补给黑市（奖励）', icon: ShoppingBag },
     { id: View.THINKING_CENTER, label: '思维中心（模型）', icon: Book },
+    { id: View.TIME_BOX, label: '时间盒子（beta）', icon: Clock },
     { id: View.SETTINGS, label: '设置中心（配置）', icon: Settings },
   ]);
 

@@ -99,6 +99,7 @@ export enum View {
   PROJECT_MANUAL = 'PROJECT_MANUAL', // 项目开发书 (New)
   SETTINGS = 'SETTINGS',             // 设置中心 (New)
   THINKING_CENTER = 'THINKING_CENTER', // 思维中心 (New)
+  TIME_BOX = 'TIME_BOX',             // 时间盒子 (New)
 }
 
 /**
