@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>思维模型模板</title>
+  <style>
+    /* 拟态设计 - 白色主题（默认） */
+    :root {
+      --bg: #e0e5ec;
+      --primary-color: #3b82f6;
+      --primary-hover: #2563eb;
+      --text-primary: #1e293b;
+      --text-secondary: #64748b;
+      --shadow-light: rgba(255, 255, 255, 0.8);
+      --shadow-dark: rgba(174, 174, 192, 0.4);
+      --card-bg: #e0e5ec;
+      --button-bg: #e0e5ec;
+      --button-text: #3b82f6;
+      --input-bg: #e0e5ec;
+      --input-text: #1e293b;
+      --file-item-bg: #e0e5ec;
+      --file-item-hover: #d1d9e6;
+      --file-item-active: #3b82f6;
+      --file-item-active-text: #ffffff;
+      --border-radius: 16px;
+    }
+
+    /* 拟态设计 - 深色主题 */
+    [data-theme="dark"] {
+      --bg: #1a1b1e;
+      --primary-color: #3b82f6;
+      --primary-hover: #2563eb;
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --shadow-light: rgba(255, 255, 255, 0.05);
+      --shadow-dark: rgba(0, 0, 0, 0.5);
+      --card-bg: #1a1b1e;
+      --button-bg: #1a1b1e;
+      --button-text: #3b82f6;
+      --input-bg: #1a1b1e;
+      --input-text: #f8fafc;
+      --file-item-bg: #1a1b1e;
+      --file-item-hover: #2d3748;
+      --file-item-active: #3b82f6;
+      --file-item-active-text: #ffffff;
+      --border-radius: 16px;
+    }
+
+    /* 全局样式 */
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .neu-card {
+      background-color: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
+      transition: all 0.3s ease;
+    }
+
+    .text-content {
+      background-color: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 30px;
+      box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
+      transition: all 0.3s ease;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 900;
+      margin-bottom: 20px;
+      color: var(--primary-color);
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-top: 30px;
+      margin-bottom: 15px;
+      color: var(--text-primary);
+    }
+
+    h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      color: var(--text-primary);
+    }
+
+    p {
+      margin-bottom: 20px;
+      color: var(--text-secondary);
+    }
+
+    ul {
+      margin-bottom: 20px;
+      padding-left: 20px;
+    }
+
+    li {
+      margin-bottom: 8px;
+      color: var(--text-secondary);
+    }
+
+    strong {
+      color: var(--text-primary);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 30px;
+    }
+
+    .section {
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);
+      margin-bottom: 20px;
+    }
+
+    svg {
+      width: 100%;
+      height: auto;
+      max-height: 500px;
+    }
+  </style>
+</head>
+<body>
+  <div class="neu-card">
+    <svg viewBox="0 0 1000 800">
+      <!-- 这里放置模型的可视化图表 -->
+      <g transform="translate(500, 400)">
+        <circle cx="0" cy="0" r="150" fill="var(--primary-color)" fill-opacity="0.1" stroke="var(--primary-color)" stroke-width="4" />
+        <text text-anchor="middle" y="10" fill="var(--primary-color)" style="font-size: 48px; font-weight: 900;">思维模型</text>
+        <text y="60" text-anchor="middle" fill="var(--text-secondary)" style="font-size: 16px;">（可视化图表）</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="text-content">
+    <h1>思维模型名称</h1>
+    <p>思维模型的简要介绍，说明其核心概念和用途。</p>
+
+    <div class="section">
+      <h2>深度分析</h2>
+      <p>对思维模型的深入分析，包括其理论基础、发展历程、关键要素等。</p>
+      <ul>
+        <li>关键要素1：详细说明</li>
+        <li>关键要素2：详细说明</li>
+        <li>关键要素3：详细说明</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>核心原则</h2>
+      <p>思维模型的核心原则和基本假设。</p>
+      <ul>
+        <li><strong>原则1：</strong>详细说明</li>
+        <li><strong>原则2：</strong>详细说明</li>
+        <li><strong>原则3：</strong>详细说明</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>适用范围</h2>
+      <p>思维模型的适用场景和范围。</p>
+      <ul>
+        <li>适用场景1：详细说明</li>
+        <li>适用场景2：详细说明</li>
+        <li>适用场景3：详细说明</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>使用技巧</h2>
+      <p>使用思维模型的具体技巧和方法。</p>
+      <ul>
+        <li><strong>技巧1：</strong>详细说明</li>
+        <li><strong>技巧2：</strong>详细说明</li>
+        <li><strong>技巧3：</strong>详细说明</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>实践建议</h2>
+      <p>如何在实际工作和生活中应用思维模型。</p>
+      <ul>
+        <li><strong>建议1：</strong>详细说明</li>
+        <li><strong>建议2：</strong>详细说明</li>
+        <li><strong>建议3：</strong>详细说明</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>应用场景</h2>
+      <p>思维模型的具体应用案例。</p>
+      <ul>
+        <li><strong>案例1：</strong>详细说明</li>
+        <li><strong>案例2：</strong>详细说明</li>
+        <li><strong>案例3：</strong>详细说明</li>
+      </ul>
+    </div>
+
+    <div class="grid">
+      <div>
+        <h3>关键点</h3>
+        <ul>
+          <li><strong>关键1：</strong>详细说明</li>
+          <li><strong>关键2：</strong>详细说明</li>
+        </ul>
+      </div>
+      <div>
+        <h3>注意事项</h3>
+        <ul>
+          <li><strong>注意1：</strong>详细说明</li>
+          <li><strong>注意2：</strong>详细说明</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 从localStorage中读取主题设置并应用
+    document.addEventListener('DOMContentLoaded', function() {
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      document.body.setAttribute('data-theme', savedTheme);
+    });
+  </script>
+</body>
+</html>

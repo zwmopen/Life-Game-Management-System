@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>优化版思维模型编辑器</title>
+  <style>
+    /* 拟态设计 - 白色主题（默认） */
+    :root { 
+      --primary-color: #3b82f6;
+      --primary-hover: #2563eb;
+      --text-primary: #1e293b;
+      --text-secondary: #64748b;
+      --shadow-light: rgba(255, 255, 255, 0.8);
+      --shadow-dark: rgba(174, 174, 192, 0.4);
+      --card-bg: #e0e5ec;
+      --button-bg: #e0e5ec;
+      --button-text: #3b82f6;
+      --input-bg: #e0e5ec;
+      --input-text: #1e293b;
+      --file-item-bg: #e0e5ec;
+      --file-item-hover: #d1d9e6;
+      --file-item-active: #3b82f6;
+      --file-item-active-text: #ffffff;
+      --border-radius: 16px;
+      --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    /* 拟态设计 - 深色主题 */
+    [data-theme="dark"] { 
+      --primary-color: #3b82f6;
+      --primary-hover: #2563eb;
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --shadow-light: rgba(255, 255, 255, 0.05);
+      --shadow-dark: rgba(0, 0, 0, 0.5);
+      --card-bg: #1a1b1e;
+      --button-bg: #1a1b1e;
+      --button-text: #3b82f6;
+      --input-bg: #1a1b1e;
+      --input-text: #f8fafc;
+      --file-item-bg: #1a1b1e;
+      --file-item-hover: #2d3748;
+      --file-item-active: #3b82f6;
+      --file-item-active-text: #ffffff;
+      --border-radius: 16px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-family);
+      background-color: var(--card-bg);
+      padding: 20px;
+      color: var(--text-primary);
+      transition: background-color 0.3s ease;
+    }
+
+    .container {
+      max-width: 1600px;
+      margin: 0 auto;
+      background: var(--button-bg);
+      border-radius: var(--border-radius);
+      box-shadow: 0.6em 0.6em 0.8em var(--shadow-dark),
+                  -0.6em -0.6em 0.8em var(--shadow-light);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: calc(100vh - 40px);
+    }
+    
+    .top-bar {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background: var(--button-bg);
+      border-bottom: 1px solid transparent;
+      box-shadow: 0.4em 0.4em 0.6em var(--shadow-dark),
+                  -0.4em -0.4em 0.6em var(--shadow-light);
+      flex-shrink: 0;
+    }
+    
+    .controls {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      flex: 1;
+      max-width: 400px;
+    }
+
+    .header {
+      background: var(--button-bg);
+      color: var(--text-primary);
+      padding: 20px;
+      text-align: center;
+      border-bottom: 1px solid transparent;
+      box-shadow: 0.4em 0.4em 0.6em var(--shadow-dark),
+                  -0.4em -0.4em 0.6em var(--shadow-light);
+      flex-shrink: 0;
+    }
+
+    .header h1 {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      opacity: 0.9;
+    }
+
+    .controls {
+      padding: 15px 20px;
+      background: var(--button-bg);
+      border-bottom: 1px solid transparent;
+      box-shadow: 0.4em 0.4em 0.6em var(--shadow-dark),
+                  -0.4em -0.4em 0.6em var(--shadow-light);
+      flex-shrink: 0;
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+
+    .search-box {
+      flex: 1;
+      max-width: 400px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 12px 15px;
+      background: var(--input-bg);
+      border: none;
+      border-radius: 12px;
+      font-family: inherit;
+      color: var(--input-text);
+      box-shadow: inset 0.3em 0.3em 0.4em var(--shadow-dark),
+                  inset -0.3em -0.3em 0.4em var(--shadow-light);
+    }
+
+    .search-input:focus {
+      outline: none;
+      box-shadow: inset 0.4em 0.4em 0.6em var(--shadow-dark),
+                  inset -0.4em -0.4em 0.6em var(--shadow-light);
+    }
+
+
+    .selector-panel-full-width {
+      width: 100%;
+      background: var(--button-bg);
+      border-bottom: 1px solid transparent;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0.4em 0.4em 0.6em var(--shadow-dark),
+                  -0.4em -0.4em 0.6em var(--shadow-light);
+      flex-shrink: 0;
+    }
+
+    .selector-panel {
+      width: 350px;
+      background: var(--button-bg);
+      border-right: 1px solid transparent;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0.4em 0.4em 0.6em var(--shadow-dark),
+                  -0.4em -0.4em 0.6em var(--shadow-light);
+      flex-shrink: 0;
+    }
+
+    .model-list-container {
+      flex: 1;
+      padding: 0;
+    }
+
+    .selector-panel-full-width {
+      width: 100%;
+      background: var(--button-bg);
+      border-bottom: 1px solid transparent;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0.4em 0.4em 0.6em var(--shadow-dark),
+                  -0.4em -0.4em 0.6em var(--shadow-light);
+      flex-shrink: 0;
+      max-height: 250px; /* 限制整个选择面板高度 */
+    }
+
+    .model-list-wrapper {
+      flex: 1;
+      overflow-y: auto;
+      max-height: 150px;
+      padding: 8px;
+    }
+
+    .model-list {
+      list-style: none;
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 8px;
+      padding: 8px;
+      counter-reset: model-counter; /* 添加计数器 */
+      list-style-position: initial;
+      list-style-image: initial;
+      list-style-type: none;
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      row-gap: 8px;
+      column-gap: 8px;
+      padding-top: 8px;
+      padding-right: 8px;
+      padding-bottom: 8px;
+      padding-left: 8px;
+    }
+
+    .model-item {
+      padding: 8px 12px;
+      border: none;
+      background: var(--button-bg);
+      color: var(--button-text);
+      cursor: pointer;
+      border-radius: var(--border-radius);
+      transition: all 0.3s ease;
+      font-size: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      position: relative;
+      box-shadow: 0.3em 0.3em 0.4em var(--shadow-dark),
+                  -0.3em -0.3em 0.4em var(--shadow-light);
+      counter-increment: model-counter; /* 递增计数器 */
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .model-item::before {
+      content: counter(model-counter); /* 显示计数器值 */
+      font-size: 10px;
+      color: var(--text-secondary);
+      background: var(--card-bg);
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--text-secondary);
+      flex-shrink: 0; /* 防止编号被压缩 */
+    }
+
+    .model-item:hover {
+      background: var(--primary-hover);
+      color: white;
+      box-shadow: inset 0.3em 0.3em 0.4em var(--shadow-dark),
+                  inset -0.3em -0.3em 0.4em var(--shadow-light);
+    }
+
+    .model-item.active {
+      background: var(--primary-color);
+      color: white;
+      box-shadow: inset 0.3em 0.3em 0.4em var(--shadow-dark),
+                  inset -0.3em -0.3em 0.4em var(--shadow-light);
+    }
+
+    .model-item.active::before {
+      background: var(--card-bg);
+      color: var(--primary-color);
+      border-color: var(--primary-color);
+    }
+
+    .model-item:active {
+      box-shadow: inset 0.2em 0.2em 0.3em var(--shadow-dark),
+                  inset -0.2em -0.2em 0.3em var(--shadow-light);
+      transform: translateY(1px);
+    }
+
+    .editor-panel {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      height: 50vh; /* 固定编辑器高度 */
+    }
+
+    .editor-header {
+      margin-bottom: 20px;
+    }
+
+    .editor-main {
+      display: flex;
+      gap: 20px;
+      height: calc(100% - 60px);
+      min-height: 0; /* 确保flex子项可以收缩到内容以下 */
+      align-items: flex-start;
+    }
+
+    .editor-left {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      min-height: 400px;
+    }
+
+    .editor-right {
+      flex: 1;
+      min-width: 400px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      min-height: 400px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .form-group textarea, .form-group input {
+      width: 100%;
+      padding: 12px;
+      background: var(--input-bg);
+      border: none;
+      border-radius: 12px;
+      font-family: inherit;
+      color: var(--input-text);
+      box-shadow: inset 0.3em 0.3em 0.4em var(--shadow-dark),
+                  inset -0.3em -0.3em 0.4em var(--shadow-light);
+    }
+
+    .form-group textarea:focus, .form-group input:focus {
+      outline: none;
+      box-shadow: inset 0.4em 0.4em 0.6em var(--shadow-dark),
+                  inset -0.4em -0.4em 0.6em var(--shadow-light);
+    }
+
+    .form-group textarea {
+      min-height: 100px;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .form-row .form-group {
+      flex: 1;
+      margin-bottom: 0;
+    }
+
+    .save-btn {
+      background: var(--button-bg);
+      color: var(--button-text);
+      border: none;
+      padding: 12px 24px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      box-shadow: 0.3em 0.3em 0.4em var(--shadow-dark),
+                  -0.3em -0.3em 0.4em var(--shadow-light);
+      margin-bottom: 20px;
+    }
+
+    .save-btn:hover {
+      box-shadow: inset 0.3em 0.3em 0.4em var(--shadow-dark),
+                  inset -0.3em -0.3em 0.4em var(--shadow-light);
+    }
+
+    .preview-section {
+      margin-top: 0px;
+      padding: 15px;
+      border: none;
+      box-shadow: 0.4em 0.4em 0.6em var(--shadow-dark),
+                  -0.4em -0.4em 0.6em var(--shadow-light);
+      align-self: flex-start;
+    }
+
+    .preview-title {
+      font-size: 1.5rem;
+      color: var(--text-primary);
+      margin-bottom: 15px;
+    }
+
+    .preview-content {
+      background: var(--input-bg);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: inset 0.3em 0.3em 0.4em var(--shadow-dark),
+                  inset -0.3em -0.3em 0.4em var(--shadow-light);
+    }
+
+    .preview-section h3 {
+      color: var(--primary-color);
+      margin: 15px 0 10px 0;
+    }
+
+    .preview-section h4 {
+      color: var(--primary-color);
+      margin: 15px 0 10px 0;
+    }
+
+    .preview-section p {
+      margin-bottom: 10px;
+    }
+
+    .visual-design-preview {
+      margin-top: 15px;
+      padding: 15px;
+      background: var(--input-bg);
+      border-radius: 12px;
+      box-shadow: inset 0.3em 0.3em 0.4em var(--shadow-dark),
+                  inset -0.3em -0.3em 0.4em var(--shadow-light);
+    }
+
+    .visual-design-preview > * {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .theme-toggle {
+      background: var(--button-bg);
+      color: var(--button-text);
+      border: none;
+      padding: 10px 15px;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0.3em 0.3em 0.4em var(--shadow-dark),
+                  -0.3em -0.3em 0.4em var(--shadow-light);
+    }
+
+    .theme-toggle:hover {
+      box-shadow: inset 0.3em 0.3em 0.4em var(--shadow-dark),
+                  inset -0.3em -0.3em 0.4em var(--shadow-light);
+    }
+
+    .theme-icon {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* 日间模式下的太阳图标 */
+    .light-theme .theme-toggle .sun-icon,
+    .light-theme .theme-toggle .sun-rays {
+      display: block;
+    }
+
+    .light-theme .theme-toggle .moon-icon {
+      display: none;
+    }
+
+    /* 夜间模式下的月亮图标 */
+    .dark-theme .theme-toggle .sun-icon,
+    .dark-theme .theme-toggle .sun-rays {
+      display: none;
+    }
+
+    .dark-theme .theme-toggle .moon-icon {
+      display: block;
+    }
+
+    /* 默认显示太阳图标 */
+    .theme-toggle .moon-icon {
+      display: none;
+    }
+
+    .model-count {
+      background: var(--button-bg);
+      color: var(--button-text);
+      padding: 5px 10px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      box-shadow: 0.2em 0.2em 0.3em var(--shadow-dark),
+                  -0.2em -0.2em 0.3em var(--shadow-light);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="top-bar">
+      <div class="controls">
+        <div class="search-box">
+          <input type="text" class="search-input" id="searchInput" placeholder="搜索模型...">
+        </div>
+        <button class="theme-toggle" onclick="toggleTheme()" title="切换主题">
+                <svg class="theme-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path id="sun-icon" d="M12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16Z" stroke="currentColor" stroke-width="2"/>
+                  <path id="sun-rays" d="M12 2V4M12 20V22M4 12H2M22 12H20M19.07 19.07L17.66 17.66M6.34 6.34L4.93 4.93M19.07 4.93L17.66 6.34M6.34 19.07L4.93 17.66" stroke="currentColor" stroke-width="2"/>
+                  <path id="moon-icon" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" fill="none"/>
+                </svg>
+              </button>
+        <div class="model-count">共 <span id="totalCount">0</span> 个模型</div>
+      </div>
+    </div>
+
+    <div class="selector-panel-full-width">
+      <div class="model-list-wrapper">
+        <div class="model-list-container">
+          <ul class="model-list" id="modelList">
+            <li class="loading">加载模型数据中...</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="editor-panel">
+      <div id="editorForm" style="display: none;">
+        <div class="editor-main">
+          <div class="editor-left">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+              <h2 id="currentModelTitle">当前模型</h2>
+              <button class="save-btn" onclick="saveChanges()" style="position: relative; top: 0; right: 0; margin: 0; padding: 8px 16px; font-size: 0.9rem;">保存更改</button>
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="id">ID *</label>
+                <input type="text" id="id" placeholder="模型唯一标识">
+              </div>
+              <div class="form-group">
+                <label for="name">名称 *</label>
+                <input type="text" id="name" placeholder="模型名称">
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="label">显示标签</label>
+                <input type="text" id="label" placeholder="显示标签">
+              </div>
+              <div class="form-group">
+                <label for="icon">图标</label>
+                <input type="text" id="icon" value="BrainCircuit" placeholder="图标名称">
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="description">模型简介 *</label>
+              <textarea id="description" placeholder="一句话概括模型的核心思想"></textarea>
+            </div>
+            
+            <div class="form-group">
+              <label for="deepAnalysis">深度分析 *</label>
+              <textarea id="deepAnalysis" placeholder="详细阐述模型的原理和机制"></textarea>
+            </div>
+            
+            <div class="form-group">
+              <label for="principle">核心原则 *</label>
+              <textarea id="principle" placeholder="列出模型的核心原则，用分号分隔"></textarea>
+            </div>
+            
+            <div class="form-group">
+              <label for="scope">适用范围 *</label>
+              <textarea id="scope" placeholder="模型适用的领域和场景"></textarea>
+            </div>
+            
+            <div class="form-group">
+              <label for="tips">使用技巧 *</label>
+              <textarea id="tips" placeholder="使用模型的技巧和注意事项，用分号分隔"></textarea>
+            </div>
+            
+            <div class="form-group">
+              <label for="practice">实践建议 *</label>
+              <textarea id="practice" placeholder="如何在实践中应用模型，用分号分隔"></textarea>
+            </div>
+            
+            <div class="form-group">
+              <label for="scenario">应用场景 *</label>
+              <textarea id="scenario" placeholder="具体的使用场景和案例，用分号分隔"></textarea>
+            </div>
+            
+            <div class="form-group">
+              <label for="visualDesign">可视化设计</label>
+              <textarea id="visualDesign" placeholder="模型的可视化表示，HTML/SVG代码"></textarea>
+            </div>
+          </div>
+          
+          <div class="editor-right">
+            <div class="preview-section">
+              <h3 class="preview-title">内容预览</h3>
+              <div class="preview-content" id="previewContent">
+                <p>编辑内容后将在此处显示预览</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div id="noSelection" style="display: block; padding: 40px; text-align: center; color: var(--text-secondary);">
+        <p>请在左侧选择一个模型进行编辑</p>
+      </div>
+    </div>
+    </div>
+  </div>
+
+  <script>
+    let modelsData = [];
+    let currentModelIndex = -1;
+    let filteredModels = [];
+    
+    // 检测系统主题偏好
+    function detectSystemTheme() {
+      return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    
+    // 设置主题
+    function setTheme(theme) {
+      const body = document.body;
+      body.classList.remove('light-theme', 'dark-theme');
+      body.classList.add(theme + '-theme');
+      localStorage.setItem('theme', theme);
+      
+      // 更新主题切换按钮图标
+      updateThemeIcon(theme);
+    }
+    
+    // 更新主题图标
+    function updateThemeIcon(theme) {
+      const themeToggle = document.querySelector('.theme-toggle');
+      if (theme === 'dark') {
+        // 显示月亮图标
+        themeToggle.querySelector('#sun-icon').style.display = 'none';
+        themeToggle.querySelector('#sun-rays').style.display = 'none';
+        themeToggle.querySelector('#moon-icon').style.display = 'block';
+      } else {
+        // 显示太阳图标
+        themeToggle.querySelector('#sun-icon').style.display = 'block';
+        themeToggle.querySelector('#sun-rays').style.display = 'block';
+        themeToggle.querySelector('#moon-icon').style.display = 'none';
+      }
+    }
+    
+    // 切换主题
+    function toggleTheme() {
+      const currentTheme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      setTheme(newTheme);
+    }
+    
+    // 页面加载时初始化主题
+    document.addEventListener('DOMContentLoaded', function() {
+      const savedTheme = localStorage.getItem('theme') || detectSystemTheme();
+      setTheme(savedTheme);
+    });
+
+    // 从thinkingModels.json加载数据
+    async function loadModelsData() {
+      try {
+        const response = await fetch('./thinkingModels.json');
+        if (!response.ok) {
+          throw new Error(`加载失败: ${response.status} ${response.statusText}`);
+        }
+        modelsData = await response.json();
+        filteredModels = [...modelsData];
+        
+        document.getElementById('totalCount').textContent = modelsData.length;
+        renderModelList();
+      } catch (error) {
+        console.error('加载模型数据失败:', error);
+        document.getElementById('modelList').innerHTML = 
+          `<li class="model-item" style="color: #dc2626;">加载失败: ${error.message}</li>`;
+      }
+    }
+
+    // 更新当前模型名称显示
+    function updateCurrentModelName(index) {
+      if (modelsData && modelsData[index]) {
+        document.getElementById('currentModelTitle').textContent = modelsData[index].name || modelsData[index].label || modelsData[index].id || '未知模型';
+      } else {
+        document.getElementById('currentModelTitle').textContent = '请选择一个模型';
+      }
+    }
+
+    // 渲染模型列表
+    function renderModelList() {
+      const list = document.getElementById('modelList');
+      list.innerHTML = '';
+      
+      filteredModels.forEach((model, index) => {
+        const li = document.createElement('li');
+        li.className = 'model-item';
+        li.textContent = model.label || model.name || model.id;
+        li.onclick = () => selectModelByOriginalIndex(modelsData.indexOf(model));
+        li.dataset.index = modelsData.indexOf(model);
+        list.appendChild(li);
+      });
+      
+      // 默认选中第一个模型
+      if (filteredModels.length > 0) {
+        setTimeout(() => {
+          selectModelByOriginalIndex(modelsData.indexOf(filteredModels[0]));
+        }, 500);
+      }
+    }
+
+    // 根据原始索引选择模型
+    function selectModelByOriginalIndex(originalIndex) {
+      currentModelIndex = originalIndex;
+      const model = modelsData[originalIndex];
+      
+      // 更新活动状态
+      document.querySelectorAll('.model-item').forEach(item => {
+        item.classList.remove('active');
+      });
+      // 找到对应的列表项并激活
+      const items = document.querySelectorAll('.model-item');
+      items.forEach(item => {
+        if(parseInt(item.dataset.index) === originalIndex) {
+          item.classList.add('active');
+        }
+      });
+      
+      // 更新模型名称显示
+      updateCurrentModelName(originalIndex);
+      
+      // 填充表单
+      document.getElementById('id').value = model.id || '';
+      document.getElementById('name').value = model.name || '';
+      document.getElementById('label').value = model.label || '';
+      document.getElementById('icon').value = model.icon || 'BrainCircuit';
+      document.getElementById('description').value = model.description || '';
+      document.getElementById('deepAnalysis').value = model.deepAnalysis || '';
+      document.getElementById('principle').value = model.principle || '';
+      document.getElementById('scope').value = model.scope || '';
+      document.getElementById('tips').value = model.tips || '';
+      document.getElementById('practice').value = model.practice || '';
+      document.getElementById('scenario').value = model.scenario || '';
+      document.getElementById('visualDesign').value = model.visualDesign || '';
+      
+      // 显示表单和隐藏提示
+      document.getElementById('editorForm').style.display = 'block';
+      document.getElementById('noSelection').style.display = 'none';
+      
+      // 更新预览
+      updatePreview();
+    }
+
+    // 更新预览
+    function updatePreview() {
+      if (currentModelIndex < 0) return;
+      
+      const model = modelsData[currentModelIndex];
+      const preview = document.getElementById('previewContent');
+      
+      const name = document.getElementById('name').value || model.name || '未知模型';
+      const description = document.getElementById('description').value || model.description || '';
+      const deepAnalysis = document.getElementById('deepAnalysis').value || model.deepAnalysis || '';
+      const principle = document.getElementById('principle').value || model.principle || '';
+      const scope = document.getElementById('scope').value || model.scope || '';
+      const tips = document.getElementById('tips').value || model.tips || '';
+      const practice = document.getElementById('practice').value || model.practice || '';
+      const scenario = document.getElementById('scenario').value || model.scenario || '';
+      const visualDesign = document.getElementById('visualDesign').value || model.visualDesign || '';
+      
+      preview.innerHTML = `
+        <h3>${name}</h3>
+        
+        <h4>可视化设计</h4>
+        <div class="visual-design-preview">${visualDesign || '<p>暂无可视化设计</p>'}</div>
+        
+        <h4>模型概述</h4>
+        <p>${description}</p>
+        
+        <h4>深度分析</h4>
+        <p>${deepAnalysis}</p>
+        
+        <h4>核心原则</h4>
+        <p>${principle.replace(/;/g, '<br>')}</p>
+        
+        <h4>适用范围</h4>
+        <p>${scope}</p>
+        
+        <h4>使用技巧</h4>
+        <p>${tips.replace(/;/g, '<br>')}</p>
+        
+        <h4>实践建议</h4>
+        <p>${practice.replace(/;/g, '<br>')}</p>
+        
+        <h4>应用场景</h4>
+        <p>${scenario.replace(/;/g, '<br>')}</p>
+      `;
+    }
+
+    // 保存更改
+    function saveChanges() {
+      if (currentModelIndex < 0) return;
+      
+      // 更新当前模型数据
+      const model = modelsData[currentModelIndex];
+      model.id = document.getElementById('id').value;
+      model.name = document.getElementById('name').value;
+      model.label = document.getElementById('label').value;
+      model.icon = document.getElementById('icon').value;
+      model.description = document.getElementById('description').value;
+      model.deepAnalysis = document.getElementById('deepAnalysis').value;
+      model.principle = document.getElementById('principle').value;
+      model.scope = document.getElementById('scope').value;
+      model.tips = document.getElementById('tips').value;
+      model.practice = document.getElementById('practice').value;
+      model.scenario = document.getElementById('scenario').value;
+      model.visualDesign = document.getElementById('visualDesign').value;
+      
+      alert('更改已保存到内存中！\n注意：要永久保存，需要将整个JSON文件写回服务器。');
+      
+      // 重新渲染列表以更新显示名称
+      renderModelList();
+    }
+
+    // 搜索功能
+    function setupSearch() {
+      const searchInput = document.getElementById('searchInput');
+      searchInput.addEventListener('input', function(e) {
+        const searchTerm = e.target.value.toLowerCase();
+        
+        if (!searchTerm) {
+          filteredModels = [...modelsData];
+        } else {
+          filteredModels = modelsData.filter(model => 
+            (model.label && model.label.toLowerCase().includes(searchTerm)) ||
+            (model.name && model.name.toLowerCase().includes(searchTerm)) ||
+            (model.id && model.id.toLowerCase().includes(searchTerm))
+          );
+        }
+        
+        renderModelList();
+      });
+    }
+
+
+
+    // 监听输入变化以更新预览
+    document.addEventListener('DOMContentLoaded', function() {
+      // 从localStorage中读取主题设置并应用
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      document.body.setAttribute('data-theme', savedTheme);
+      
+      loadModelsData();
+      setupSearch();
+      
+      // 为所有输入框添加事件监听器
+      const inputs = document.querySelectorAll('input, textarea');
+      inputs.forEach(input => {
+        input.addEventListener('input', updatePreview);
+      });
+    });
+  </script>
+</body>
+</html>

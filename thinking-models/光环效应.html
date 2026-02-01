@@ -1,120 +1,339 @@
-<!DOCTYPE html>﻿
 <!DOCTYPE html>
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>鍏夌幆鏁堝簲 - 璁ょ煡鏅曟煋</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>光环效应</title>
   <style>
-/* 拟态设计 - 白色主题（默认） */
-:root {
-  --bg: #e0e5ec;
-  --primary-color: #3b82f6;
-  --primary-hover: #2563eb;
-  --text-primary: #1e293b;
-  --text-secondary: #64748b;
-  --shadow-light: rgba(255, 255, 255, 0.8);
-  --shadow-dark: rgba(174, 174, 192, 0.4);
-  --card-bg: #e0e5ec;
-  --button-bg: #e0e5ec;
-  --button-text: #3b82f6;
-  --input-bg: #e0e5ec;
-  --input-text: #1e293b;
-  --file-item-bg: #e0e5ec;
-  --file-item-hover: #d1d9e6;
-  --file-item-active: #3b82f6;
-  --file-item-active-text: #ffffff;
-  --border-radius: 16px;
-}
+    /* 主题CSS变量 */
+    :root {
+      --bg-color: #ffffff;
+      --text-color: #1a1a1a;
+      --secondary-text: #666666;
+      --accent-color: #3b82f6;
+      --accent-color-light: rgba(59, 130, 246, 0.1);
+      --card-bg: #f8f9fa;
+      --border-color: #e9ecef;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+      --shadow-hover: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --border-radius: 16px;
+      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    }
 
-/* 拟态设计 - 深色主题 */
-[data-theme="dark"] {
-  --bg: #1a1b1e;
-  --primary-color: #3b82f6;
-  --primary-hover: #2563eb;
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --shadow-light: rgba(255, 255, 255, 0.05);
-  --shadow-dark: rgba(0, 0, 0, 0.5);
-  --card-bg: #1a1b1e;
-  --button-bg: #1a1b1e;
-  --button-text: #3b82f6;
-  --input-bg: #1a1b1e;
-  --input-text: #f8fafc;
-  --file-item-bg: #1a1b1e;
-  --file-item-hover: #2d3748;
-  --file-item-active: #3b82f6;
-  --file-item-active-text: #ffffff;
-  --border-radius: 16px;
-}
+    /* 深色主题 */
+    [data-theme="dark"] {
+      --bg-color: #121212;
+      --text-color: #f0f0f0;
+      --secondary-text: #b0b0b0;
+      --accent-color: #60a5fa;
+      --accent-color-light: rgba(96, 165, 250, 0.2);
+      --card-bg: #1e1e1e;
+      --border-color: #333333;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.4);
+      --shadow-hover: 0 10px 15px rgba(0, 0, 0, 0.4), 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
 
+    /* 基础样式重置 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      transition: var(--transition);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
 
-    body { background: #020617; font-family: -apple-system, sans-serif; color: #f8fafc; overflow: hidden; }
-    .glass { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05); }
-    @keyframes expand-glow { 0%, 100% { r: 50; opacity: 0.3; } 50% { r: 200; opacity: 0.1; } }
-    .halo { animation: expand-glow 5s infinite ease-in-out; }
-    .node { transition: all 0.3s; cursor: pointer; }
-    .node:hover { transform: scale(1.1); filter: brightness(1.2); }
+    /* 容器样式 */
+    .container {
+      max-width: 1200px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+      padding: 40px;
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+    }
+
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+      .container {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        padding: 30px 20px;
+      }
+
+      body {
+        padding: 10px;
+      }
+    }
+
+    /* 文本内容样式 */
+    .text-content {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800;
+      color: var(--text-color);
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    h2 {
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      font-weight: 700;
+      color: var(--text-color);
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--border-color);
+    }
+
+    h3 {
+      font-size: clamp(1.2rem, 3vw, 1.5rem);
+      font-weight: 700;
+      color: var(--accent-color);
+      margin-bottom: 16px;
+    }
+
+    p {
+      font-size: clamp(1rem, 2vw, 1.125rem);
+      color: var(--secondary-text);
+      line-height: 1.7;
+    }
+
+    /* 网格布局 */
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 16px;
+    }
+
+    @media (max-width: 480px) {
+      .grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+    }
+
+    /* 列表样式 */
+    ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    li {
+      font-size: 0.95rem;
+      color: var(--secondary-text);
+      line-height: 1.6;
+      position: relative;
+      padding-left: 20px;
+    }
+
+    li::before {
+      content: "•";
+      color: var(--accent-color);
+      font-weight: bold;
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+
+    li strong {
+      color: var(--text-color);
+      font-weight: 600;
+    }
+
+    /* SVG容器 */
+    .svg-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 500px;
+    }
+
+    svg {
+      width: 100%;
+      height: auto;
+      max-width: 500px;
+    }
+
+    /* 动画效果 */
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(1.05);
+        opacity: 0.8;
+      }
+    }
+
+    @keyframes expand-glow {
+      0%, 100% {
+        r: 50;
+        opacity: 0.3;
+      }
+      50% {
+        r: 200;
+        opacity: 0.1;
+      }
+    }
+
+    .animate-pulse {
+      animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+
+    .halo {
+      animation: expand-glow 5s infinite ease-in-out;
+    }
+
+    /* 交互反馈 */
+    .container:hover {
+      box-shadow: var(--shadow-hover);
+      transform: translateY(-2px);
+    }
+
+    /* 确保主题正确应用 */
+    [data-theme="dark"] .container {
+      background: var(--card-bg);
+    }
   </style>
 </head>
-<body>data-theme="light" class="p-8 md:p-20 flex items-center justify-center min-h-screen">
-  <div class="max-w-7xl mx-auto w-full grid grid-cols-1 gap-20">
-    <div class="relative flex items-center justify-center glass p-12 rounded-[4rem] shadow-2xl overflow-hidden bg-sky-900/5">
-      <svg viewBox="0 0 600 600" class="w-full h-auto max-w-[500px]">
-        <!-- 婕弽灏勫厜鐜?-->
-        <circle cx="300" cy="200" r="100" fill="#3b82f6" class="halo" />
+<body>
+  <div class="container">
+    <div class="svg-container">
+      <svg viewBox="0 0 600 600">
+        <!-- 光环效果 -->
+        <circle cx="300" cy="200" r="100" fill="var(--accent-color)" class="halo" />
         
-        <!-- 鏍稿績浼樼偣鑺傜偣 -->
-        <g class="node" transform="translate(300, 200)">
-           <circle r="40" fill="#3b82f6" filter="drop-shadow(0 0 20px #3b82f6)" />
-           <text text-anchor="middle" y="5" fill="white" class="font-black text-xs italic tracking-widest uppercase">Good Trait</text>
+        <!-- 核心优点节点 -->
+        <g transform="translate(300, 200)">
+           <circle r="40" fill="var(--accent-color)" filter="drop-shadow(0 0 20px var(--accent-color))" />
+           <text text-anchor="middle" y="5" fill="white" style="font-size: 14px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px;">优点</text>
         </g>
 
-        <!-- 琚€滅収浜€濈殑鍏朵粬骞冲焊鑺傜偣 -->
-        <g class="node" transform="translate(150, 400)">
-           <circle r="30" fill="#334155" stroke="#3b82f6" stroke-width="1" stroke-dasharray="2 2" />
-           <text text-anchor="middle" y="5" fill="#3b82f6" class="text-[8px] font-bold">Smart?</text>
+        <!-- 被"感染"的其他品质节点 -->
+        <g transform="translate(150, 400)">
+           <circle r="30" fill="var(--accent-color)" fill-opacity="0.2" stroke="var(--accent-color)" stroke-width="2" />
+           <text text-anchor="middle" y="5" fill="var(--accent-color)" style="font-size: 12px; font-weight: 700;">聪明?</text>
         </g>
-        <g class="node" transform="translate(450, 400)">
-           <circle r="30" fill="#334155" stroke="#3b82f6" stroke-width="1" stroke-dasharray="2 2" />
-           <text text-anchor="middle" y="5" fill="#3b82f6" class="text-[8px] font-bold">Kind?</text>
+        <g transform="translate(450, 400)">
+           <circle r="30" fill="var(--accent-color)" fill-opacity="0.2" stroke="var(--accent-color)" stroke-width="2" />
+           <text text-anchor="middle" y="5" fill="var(--accent-color)" style="font-size: 12px; font-weight: 700;">善良?</text>
         </g>
-        <g class="node" transform="translate(300, 500)">
-           <circle r="30" fill="#334155" stroke="#3b82f6" stroke-width="1" stroke-dasharray="2 2" />
-           <text text-anchor="middle" y="5" fill="#3b82f6" class="text-[8px] font-bold">Trustworthy?</text>
+        <g transform="translate(300, 500)">
+           <circle r="30" fill="var(--accent-color)" fill-opacity="0.2" stroke="var(--accent-color)" stroke-width="2" />
+           <text text-anchor="middle" y="5" fill="var(--accent-color)" style="font-size: 12px; font-weight: 700;">可靠?</text>
         </g>
 
-        <text x="300" y="580" text-anchor="middle" fill="#475569" class="text-[8px] font-black uppercase tracking-[1em]">The Radiance of Bias</text>
+        <!-- 光线连接 -->
+        <line x1="300" y1="240" x2="180" y2="370" stroke="var(--accent-color)" stroke-width="2" stroke-dasharray="5 5" />
+        <line x1="300" y1="240" x2="420" y2="370" stroke="var(--accent-color)" stroke-width="2" stroke-dasharray="5 5" />
+        <line x1="300" y1="240" x2="300" y2="470" stroke="var(--accent-color)" stroke-width="2" stroke-dasharray="5 5" />
+
+        <text x="300" y="580" text-anchor="middle" fill="var(--secondary-text)" opacity="0.3" style="font-size: 18px; font-weight: 900; letter-spacing: 0.5em;">光环的辐射效应</text>
       </svg>
     </div>
-    <div class="space-y-12">
-      <h1 class="text-8xl font-black text-white tracking-tighter leading-[0.8]">鍏夌幆鏁堝簲<br><span class="text-sky-500 italic">Halo Effect</span></h1>
-      <p class="text-xl text-slate-400 border-l-4 border-sky-500 pl-6 italic">鈥滃綋浣犵埍涓婁竴涓汉鐨勯暱鐩革紝浣犱細瑙夊緱浠栫殑鎬ф牸銆佹櫤鍔涖€佷汉鍝佸叏閮芥棤鎳堝彲鍑汇€傗€?/p>
-      <div class="glass p-10 rounded-[3rem] space-y-6 shadow-xl">
-        <h3 class="text-2xl font-black text-white italic">鏍稿績闅愬柣锛氶€忛暅鏅曟煋</h3>
-        <p class="text-sm text-slate-400 leading-relaxed">
-          杩欐槸涓€绉嶅吀鍨嬬殑璁ょ煡鍋忚銆傚綋鎴戜滑瀵逛竴涓汉鐨勬煇涓壒寰侊紙濡傜浉璨屻€佸鍘嗐€佹紨璁茶兘鍔涳級浜х敓鏋佷匠鐨勫嵃璞℃椂锛岃繖绉嶅嵃璞′細鍍忓己鍏変竴鏍峰悜鍛ㄥ洿鈥滄檿鏌撯€濓紝瀵艰嚧鎴戜滑瀵逛粬瀹屽叏鏃犲叧鐨勫叾浠栫壒寰佷骇鐢熸闈㈣瘎浠枫€?
-        </p>
-        <div class="grid grid-cols-2 gap-4">
-          <div class="bg-sky-600/10 p-5 rounded-3xl border border-sky-500/20">
-             <h4 class="text-sky-400 font-black text-[10px] uppercase mb-1">鍟嗕笟搴旂敤</h4>
-             <p class="text-[11px] text-slate-300 italic">閭€璇烽珮棰滃€肩殑鏄庢槦浠ｈ█锛岃浜у搧鐪嬭捣鏉ユ洿鍙潬銆?/p>
-          </div>
-          <div class="bg-white/5 p-5 rounded-3xl border border-white/5">
-             <h4 class="text-slate-500 font-black text-[10px] uppercase mb-1">閫嗗悜搴旂敤</h4>
-             <p class="text-[11px] text-slate-300 italic">璀︽儠鈥滄潈濞佸厜鐜€濓紝鍓ョ鍚嶄汉鐨勫厜鐜幓瀹¤浠栫殑鍏蜂綋瑷€璁恒€?/p>
-          </div>
-        </div>
-      </div>
+    <div class="text-content">
+      <h1>光环效应 (Halo Effect)</h1>
+      <p>当你喜欢一个人的某个特质时，你会觉得他的性格、能力、人品全部都完美无缺。这种认知偏差会像光环一样扩散，影响你对这个人其他方面的判断。</p>
+
+      <h2>深度分析</h2>
+      <p>光环效应是一种常见的认知偏差，由美国心理学家爱德华·桑代克（Edward Thorndike）在1920年首次提出。它指的是当我们对一个人的某一方面形成积极或消极的印象后，会将这种印象扩展到对该人其他方面的评价上。</p>
+      <ul>
+        <li><strong>认知捷径的副作用：</strong>光环效应是大脑为了节省认知资源而采取的一种捷径，将复杂的个体简化为单一特质。</li>
+        <li><strong>情感与理性的冲突：</strong>当我们对某个人产生好感时，情感会干扰理性判断，导致对其缺点的忽视。</li>
+        <li><strong>第一印象的重要性：</strong>光环效应往往基于第一印象形成，且一旦形成就很难改变。</li>
+        <li><strong>晕轮的扩散方向：</strong>光环效应不仅会从一个优点扩散到其他优点，也会从一个缺点扩散到其他缺点，形成负光环效应。</li>
+        <li><strong>领域的迁移性：</strong>光环效应还会跨领域迁移，例如认为外貌出众的人在其他方面也更优秀。</li>
+      </ul>
+
+      <h2>核心原则</h2>
+      <p>光环效应的核心原则在于理解其形成机制和影响因素。</p>
+      <ul>
+        <li><strong>整体评价原则：</strong>人们倾向于对他人形成整体的、一致的评价，而不是客观分析各个特质。</li>
+        <li><strong>认知一致性原则：</strong>大脑会努力保持认知的一致性，避免出现矛盾的评价。</li>
+        <li><strong>情感优先原则：</strong>情感评价往往先于理性分析，影响后续的判断。</li>
+        <li><strong>显著性原则：</strong>显著的特质（如外貌、才华）更容易引发光环效应。</li>
+        <li><strong>上下文依赖原则：</strong>光环效应的强度会受到评价上下文的影响。</li>
+      </ul>
+
+      <h2>适用范围</h2>
+      <p>光环效应影响着人类社会的多个领域，从个人关系到商业决策。</p>
+      <ul>
+        <li><strong>人际关系：</strong>在恋爱、友谊和职场关系中，光环效应会影响我们对他人的评价。</li>
+        <li><strong>招聘决策：</strong>面试官可能会因为候选人的某一优点（如良好的沟通能力）而忽略其他缺点。</li>
+        <li><strong>品牌营销：</strong>品牌的某一优势（如产品质量）可能会让消费者认为该品牌的所有产品都很好。</li>
+        <li><strong>教育评估：</strong>教师可能会因为学生的学习成绩好而认为他们在其他方面也表现优秀。</li>
+        <li><strong>政治选举：</strong>选民可能会因为候选人的某一特质（如演讲能力）而忽略其政策主张的缺陷。</li>
+      </ul>
+
+      <h2>使用技巧</h2>
+      <p>有效识别和管理光环效应的具体技巧。</p>
+      <ul>
+        <li><strong>分解评价维度：</strong>将对他人的评价分解为多个独立的维度，分别进行评估。</li>
+        <li><strong>延迟判断：</strong>避免基于第一印象快速形成评价，给自己时间收集更多信息。</li>
+        <li><strong>寻求反馈：</strong>从他人那里获取对同一对象的评价，减少个人偏见的影响。</li>
+        <li><strong>反思自身偏见：</strong>定期反思自己是否受到光环效应的影响，培养自我觉察能力。</li>
+        <li><strong>关注具体行为：</strong>基于具体的行为和结果进行评价，而非基于整体印象。</li>
+      </ul>
+
+      <h2>实践建议</h2>
+      <p>如何在日常生活和工作中应对光环效应。</p>
+      <ul>
+        <li><strong>结构化面试：</strong>在招聘过程中使用结构化面试，对每个维度进行独立评分。</li>
+        <li><strong>360度评价：</strong>在绩效评估中采用360度评价方法，收集多方面的反馈。</li>
+        <li><strong>品牌定位：</strong>在品牌建设中，聚焦于打造一个核心优势，利用光环效应带动整体评价。</li>
+        <li><strong>自我提升：</strong>在个人发展中，注重培养显著的优势，利用光环效应提升整体形象。</li>
+        <li><strong>批判性思维：</strong>培养批判性思维能力，对自己和他人的评价保持理性。</li>
+      </ul>
+
+      <h2>应用场景</h2>
+      <p>光环效应在不同场景中的具体应用案例。</p>
+      <ul>
+        <li><strong>市场营销：</strong>通过打造产品的某一核心优势，利用光环效应提升消费者对整个产品的评价。例如，苹果公司通过强调产品设计的优势，让消费者认为其产品在性能、易用性等方面也更优秀。</li>
+        <li><strong>职场发展：</strong>在职场中，培养自己的核心竞争力，利用光环效应提升同事和上级对自己整体能力的评价。例如，在项目中展现出色的领导力，可能会让他人认为你在其他方面也很优秀。</li>
+        <li><strong>教育教学：</strong>教师在教学中应该避免光环效应，对学生进行客观、全面的评价，关注每个学生的具体优点和不足。</li>
+        <li><strong>人际关系：</strong>在建立人际关系时，意识到光环效应的存在，避免因为某一方面的好感而忽视其他重要特质。</li>
+        <li><strong>投资决策：</strong>在投资决策中，避免因为公司的某一优势（如知名CEO）而忽视其潜在风险，进行全面的尽职调查。</li>
+      </ul>
     </div>
   </div>
-<script>
-  // 从localStorage中读取主题设置并应用
-  document.addEventListener('DOMContentLoaded', function() {
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    document.body.setAttribute('data-theme', savedTheme);
-  });
-</script></body>
+  <script>
+    // 从localStorage中读取主题设置并应用
+    document.addEventListener('DOMContentLoaded', function() {
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      document.body.setAttribute('data-theme', savedTheme);
+    });
+
+    // 监听主题变化事件
+    window.addEventListener('themeChange', function(e) {
+      document.body.setAttribute('data-theme', e.detail.theme);
+    });
+  </script>
+</body>
 </html>
 

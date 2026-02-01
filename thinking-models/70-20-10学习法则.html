@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
@@ -45,6 +44,28 @@
   --file-item-active-text: #ffffff;
   --border-radius: 16px;
 }
+
+/* 章节样式 */
+.section {
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius);
+  padding: 30px;
+  box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
+  margin-bottom: 30px;
+  transition: all 0.3s ease;
+}
+
+.section:hover {
+  box-shadow: 10px 10px 20px var(--shadow-dark), -10px -10px 20px var(--shadow-light);
+}
+
+/* 网格样式 */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-top: 30px;
+}
 </style></head>
 <body >
   <div class="neu-card">
@@ -72,12 +93,87 @@
           <text y="35" text-anchor="middle" fill="#ef4444" style="font-size: 10px; opacity: 0.6;">(课程、书籍、讲座)</text>
         </g>
       </g>
-      <text x="500" y="50" text-anchor="middle" fill="#64748b" opacity="0.2" style="font-size: 24px; font-weight: 900; letter-spacing: 0.5em;">THE HOL我ST我C LEaRN我NG RaT我O</text>
+      <text x="500" y="50" text-anchor="middle" fill="#64748b" opacity="0.2" style="font-size: 24px; font-weight: 900; letter-spacing: 0.5em;">THE HOLISTIC LEARNING RATIO</text>
     </svg>
   </div>
   <div class="text-content">
     <h1>70/20/10 学习法则</h1>
     <p>人类成长的黄金比例：真正的能力，70% 来源于具有挑战性的实战经历，20% 来源于他人的反馈与观察，仅有 10% 来源于课堂教学。</p>
+
+    <div class="section">
+      <h2>深度分析</h2>
+      <p>70/20/10 学习法则是一种关于成人学习和发展的理论，它强调了实践经验、社交互动和正式学习在个人成长中的不同作用和比重。</p>
+      <ul>
+        <li><strong>比例设计：</strong>70% 实践经验、20% 社交互动、10% 正式学习的比例分配，基于对成人学习行为的研究和观察，反映了学习效果的实际来源分布。</li>
+        <li><strong>学习金字塔：</strong>从被动学习（正式培训）到互动学习（社交交流）再到主动学习（实践经验），学习效果逐级提升，符合认知科学的研究发现。</li>
+        <li><strong>成人学习特点：</strong>成人学习具有目标导向、经验基础、实用性偏好等特点，70/20/10 法则正是基于这些特点设计的。</li>
+        <li><strong>知识转化：</strong>强调了知识从获取到应用再到内化的转化过程，其中实践是关键环节。</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>核心原则</h2>
+      <p>70/20/10 学习法则的核心原则基于成人学习的特点和效果最大化的理念。</p>
+      <ul>
+        <li><strong>实践主导：</strong>通过实际工作中的挑战和问题解决来学习，这是最有效的学习方式。</li>
+        <li><strong>社交学习：</strong>通过与他人的互动、反馈和合作来学习，加速知识的获取和应用。</li>
+        <li><strong>理论基础：</strong>正式学习提供必要的理论框架和基础知识，为实践和社交学习提供支撑。</li>
+        <li><strong>整合应用：</strong>将三种学习方式有机结合，形成完整的学习闭环。</li>
+        <li><strong>个性化：</strong>根据个人特点和学习目标，适当调整三种学习方式的比例。</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>适用范围</h2>
+      <p>70/20/10 学习法则适用于各种成人学习和发展场景。</p>
+      <ul>
+        <li><strong>职业发展：</strong>职场技能提升、领导力发展、职业转型等。</li>
+        <li><strong>企业培训：</strong>员工培训体系设计、学习项目开发、培训效果评估等。</li>
+        <li><strong>个人成长：</strong>个人技能学习、兴趣爱好培养、自我提升等。</li>
+        <li><strong>教育教学：</strong>高等教育、职业教育、成人教育等。</li>
+        <li><strong>团队建设：</strong>团队学习、知识共享、协作能力提升等。</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>使用技巧</h2>
+      <p>有效应用70/20/10 学习法则的具体技巧和方法。</p>
+      <ul>
+        <li><strong>实践设计：</strong>主动寻找具有挑战性的工作任务，将学习融入日常工作中。</li>
+        <li><strong>社交网络：</strong>建立学习伙伴关系，参与专业社区，寻求导师指导。</li>
+        <li><strong>理论选择：</strong>根据实际需求选择相关的正式学习内容，注重实用性和针对性。</li>
+        <li><strong>反思总结：</strong>定期对实践经验进行反思和总结，提取关键学习点。</li>
+        <li><strong>反馈寻求：</strong>主动寻求他人的反馈和建议，不断调整学习和实践方法。</li>
+        <li><strong>学习计划：</strong>制定基于70/20/10 原则的学习计划，确保三种学习方式的平衡。</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>实践建议</h2>
+      <p>如何在实际学习和工作中有效应用70/20/10 学习法则。</p>
+      <ul>
+        <li><strong>从实践出发：</strong>以实际工作中的问题和挑战为起点，驱动学习过程。</li>
+        <li><strong>建立学习社区：</strong>与同事、同行建立学习社区，分享经验和知识。</li>
+        <li><strong>选择优质资源：</strong>选择高质量的正式学习资源，如专业课程、书籍和讲座。</li>
+        <li><strong>创造实践机会：</strong>主动承担新任务和挑战，创造更多的实践学习机会。</li>
+        <li><strong>培养反思习惯：</strong>养成定期反思的习惯，记录学习心得和收获。</li>
+        <li><strong>建立反馈机制：</strong>建立正式或非正式的反馈机制，获取持续的学习反馈。</li>
+        <li><strong>评估学习效果：</strong>定期评估学习效果，调整学习策略和方法。</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>应用场景</h2>
+      <p>70/20/10 学习法则在不同领域的具体应用案例。</p>
+      <ul>
+        <li><strong>领导力发展：</strong>通过实际管理挑战（70%）、导师指导和 peer coaching（20%）、领导力课程（10%）相结合的方式发展领导力。</li>
+        <li><strong>技能培训：</strong>通过实际工作任务（70%）、同事反馈和协作（20%）、技能课程（10%）相结合的方式提升专业技能。</li>
+        <li><strong>职业转型：</strong>通过新领域的实践项目（70%）、行业 networking 和 mentorship（20%）、新领域基础知识课程（10%）相结合的方式实现职业转型。</li>
+        <li><strong>企业培训体系：</strong>设计基于70/20/10 原则的培训体系，将正式培训、实践项目和社交学习有机结合。</li>
+        <li><strong>个人学习计划：</strong>制定个人学习计划时，分配70%的时间用于实践，20%的时间用于与他人交流学习，10%的时间用于正式学习。</li>
+      </ul>
+    </div>
+
     <div class="grid">
       <div>
         <h3>反直觉逻辑</h3>
