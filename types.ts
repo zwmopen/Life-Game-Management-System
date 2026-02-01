@@ -100,6 +100,7 @@ export enum View {
   SETTINGS = 'SETTINGS',             // 设置中心 (New)
   THINKING_CENTER = 'THINKING_CENTER', // 思维中心 (New)
   TIME_BOX = 'TIME_BOX',             // 时间盒子 (New)
+  SELF_MANIFESTATION = 'SELF_MANIFESTATION', // 自我显化 (New)
 }
 
 /**

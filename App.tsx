@@ -6,6 +6,7 @@ import HallOfFame from './components/HallOfFame';
 import Settings from './components/Settings';
 import ThinkingCenter from './components/ThinkingCenter';
 import TimeBox from './components/TimeBox';
+import SelfManifestation from './components/SelfManifestation';
 import { AlertTriangle } from 'lucide-react';
 import { View, Transaction, ReviewLog, Habit, Task, TaskType, DailyStats, Theme, Project, AttributeType, AttributeTypeValue, AchievementItem, AutoTask, AutoTaskType, SoundType, DiceState, DiceTask, DiceCategory, DiceHistory } from './types';
 import { Wallet, Crown, Clock, Brain, Zap, Target, Crosshair, Skull, Star, Gift, Medal, Sparkles, Swords, Flame, Footprints, Calendar, ShoppingBag, Dumbbell, Shield } from 'lucide-react';
@@ -1369,6 +1370,11 @@ const App: React.FC = () => {
                 />;
       case View.TIME_BOX:
         return <TimeBox setModalState={setModalState} />;
+      case View.SELF_MANIFESTATION:
+        return <SelfManifestation 
+                  theme={theme} 
+                  onHelpClick={setActiveHelp}
+                />;
       default: 
         // 当遇到未知视图时，返回默认组件而不是null，防止白屏问题
         // 如果当前View状态异常，先显示错误信息并尝试重置
