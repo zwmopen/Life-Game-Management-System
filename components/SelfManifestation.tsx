@@ -620,10 +620,6 @@ const SelfManifestation: React.FC<SelfManifestationProps> = ({ theme, onHelpClic
   return (
     <div className="w-full max-w-6xl mx-auto px-4 py-8">
       <div className="mb-8">
-        <h1 className={`text-2xl font-bold mb-4 ${theme === 'neomorphic-dark' ? 'text-emerald-500' : 'text-blue-600'}`}>
-          自我显化
-        </h1>
-        
         {/* 顶部切换按钮 */}
         <div className="flex space-x-4 mb-8">
           <button
@@ -746,15 +742,19 @@ const SelfManifestation: React.FC<SelfManifestationProps> = ({ theme, onHelpClic
                   <div className={`${theme === 'neomorphic-dark' ? 'text-zinc-300' : 'text-zinc-700'} max-w-none`}>
                   {activeKdy === 1 && (
                     <>
-                      <div className="mb-8">
-                        <button
-                          id="功效速览"
-                          onClick={() => toggleSection('功效速览')}
-                          className={`flex items-center w-full text-left text-2xl font-bold mb-6 ${theme === 'neomorphic-dark' ? 'text-emerald-500' : 'text-blue-600'}`}
-                        >
-                          {expandedSections['功效速览'] ? <ChevronDown size={20} className="mr-2" /> : <ChevronRight size={20} className="mr-2" />}
-                          【功效速览】
-                        </button>
+                      <div className="mb-8 group">
+                        <div className="flex items-center w-full mb-6">
+                          <button
+                            id="功效速览"
+                            onClick={() => toggleSection('功效速览')}
+                            className={`flex-shrink-0 w-5 h-5 flex items-center justify-center mr-2 ${expandedSections['功效速览'] ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'} transition-opacity duration-200`}
+                          >
+                            {expandedSections['功效速览'] ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                          </button>
+                          <h4 className={`text-2xl font-bold ${theme === 'neomorphic-dark' ? 'text-emerald-500' : 'text-blue-600'}`}>
+                            【功效速览】
+                          </h4>
+                        </div>
                         {expandedSections['功效速览'] && (
                           <p className="mb-8 text-lg">内耗终结，主角剧本，灵魂自由，焦虑屏蔽，<br/>
                           自信拉满，行动力自动导航，现实自定义，能量充电，<br/>
@@ -762,30 +762,38 @@ const SelfManifestation: React.FC<SelfManifestationProps> = ({ theme, onHelpClic
                         )}
                       </div>
 
-                      <div className="mb-8">
-                        <button
-                          id="终极状态"
-                          onClick={() => toggleSection('终极状态')}
-                          className={`flex items-center w-full text-left text-2xl font-bold mb-6 ${theme === 'neomorphic-dark' ? 'text-emerald-500' : 'text-blue-600'}`}
-                        >
-                          {expandedSections['终极状态'] ? <ChevronDown size={20} className="mr-2" /> : <ChevronRight size={20} className="mr-2" />}
-                          【终极状态】
-                        </button>
+                      <div className="mb-8 group">
+                        <div className="flex items-center w-full mb-6">
+                          <button
+                            id="终极状态"
+                            onClick={() => toggleSection('终极状态')}
+                            className={`flex-shrink-0 w-5 h-5 flex items-center justify-center mr-2 ${expandedSections['终极状态'] ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'} transition-opacity duration-200`}
+                          >
+                            {expandedSections['终极状态'] ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                          </button>
+                          <h4 className={`text-2xl font-bold ${theme === 'neomorphic-dark' ? 'text-emerald-500' : 'text-blue-600'}`}>
+                            【终极状态】
+                          </h4>
+                        </div>
                         {expandedSections['终极状态'] && (
                           <p className="mb-8 text-lg">玩家视角、造物模式、游戏管理员<br/>
                           无限版本、永恒更新、自定义生存</p>
                         )}
                       </div>
 
-                      <div className="mb-8">
-                        <button
-                          id="核心基础肯定语"
-                          onClick={() => toggleSection('核心基础肯定语')}
-                          className={`flex items-center w-full text-left text-2xl font-bold mb-6 ${theme === 'neomorphic-dark' ? 'text-emerald-500' : 'text-blue-600'}`}
-                        >
-                          {expandedSections['核心基础肯定语'] ? <ChevronDown size={20} className="mr-2" /> : <ChevronRight size={20} className="mr-2" />}
-                          核心基础肯定语
-                        </button>
+                      <div className="mb-8 group">
+                        <div className="flex items-center w-full mb-6">
+                          <button
+                            id="核心基础肯定语"
+                            onClick={() => toggleSection('核心基础肯定语')}
+                            className={`flex-shrink-0 w-5 h-5 flex items-center justify-center mr-2 ${expandedSections['核心基础肯定语'] ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'} transition-opacity duration-200`}
+                          >
+                            {expandedSections['核心基础肯定语'] ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                          </button>
+                          <h4 className={`text-2xl font-bold ${theme === 'neomorphic-dark' ? 'text-emerald-500' : 'text-blue-600'}`}>
+                            核心基础肯定语
+                          </h4>
+                        </div>
                         {expandedSections['核心基础肯定语'] && (
                           <ul className="list-disc pl-6 space-y-3 mb-8 text-lg">
                             <li>我是我人生的总导演+编剧+主角。</li>
@@ -804,15 +812,19 @@ const SelfManifestation: React.FC<SelfManifestationProps> = ({ theme, onHelpClic
                         )}
                       </div>
 
-                      <div className="mb-8">
-                        <button
-                          id="核心认知强化"
-                          onClick={() => toggleSection('核心认知强化')}
-                          className={`flex items-center w-full text-left text-2xl font-bold mb-6 ${theme === 'neomorphic-dark' ? 'text-emerald-500' : 'text-blue-600'}`}
-                        >
-                          {expandedSections['核心认知强化'] ? <ChevronDown size={20} className="mr-2" /> : <ChevronRight size={20} className="mr-2" />}
-                          核心认知强化
-                        </button>
+                      <div className="mb-8 group">
+                        <div className="flex items-center w-full mb-6">
+                          <button
+                            id="核心认知强化"
+                            onClick={() => toggleSection('核心认知强化')}
+                            className={`flex-shrink-0 w-5 h-5 flex items-center justify-center mr-2 ${expandedSections['核心认知强化'] ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'} transition-opacity duration-200`}
+                          >
+                            {expandedSections['核心认知强化'] ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                          </button>
+                          <h4 className={`text-2xl font-bold ${theme === 'neomorphic-dark' ? 'text-emerald-500' : 'text-blue-600'}`}>
+                            核心认知强化
+                          </h4>
+                        </div>
                         {expandedSections['核心认知强化'] && (
                           <>
                             <p className="mb-6 text-lg">总起来说：<br/>
@@ -822,54 +834,70 @@ const SelfManifestation: React.FC<SelfManifestationProps> = ({ theme, onHelpClic
                         )}
                       </div>
 
-                      <div className="mb-8">
-                        <button
-                          id="多视角自我定义"
-                          onClick={() => toggleSection('多视角自我定义')}
-                          className={`flex items-center w-full text-left text-2xl font-bold mb-6 ${theme === 'neomorphic-dark' ? 'text-emerald-500' : 'text-blue-600'}`}
-                        >
-                          {expandedSections['多视角自我定义'] ? <ChevronDown size={20} className="mr-2" /> : <ChevronRight size={20} className="mr-2" />}
-                          多视角自我定义
-                        </button>
+                      <div className="mb-8 group">
+                        <div className="flex items-center w-full mb-6">
+                          <button
+                            id="多视角自我定义"
+                            onClick={() => toggleSection('多视角自我定义')}
+                            className={`flex-shrink-0 w-5 h-5 flex items-center justify-center mr-2 ${expandedSections['多视角自我定义'] ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'} transition-opacity duration-200`}
+                          >
+                            {expandedSections['多视角自我定义'] ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                          </button>
+                          <h4 className={`text-2xl font-bold ${theme === 'neomorphic-dark' ? 'text-emerald-500' : 'text-blue-600'}`}>
+                            多视角自我定义
+                          </h4>
+                        </div>
                         {expandedSections['多视角自我定义'] && (
                           <div className="pl-6">
-                            <div className="mb-6">
-                              <button
-                                id="自身视角"
-                                onClick={() => toggleSection('自身视角')}
-                                className={`flex items-center w-full text-left text-xl font-bold mb-4 ${theme === 'neomorphic-dark' ? 'text-white' : 'text-zinc-800'}`}
-                              >
-                                {expandedSections['自身视角'] ? <ChevronDown size={18} className="mr-2" /> : <ChevronRight size={18} className="mr-2" />}
-                                自身视角
-                              </button>
+                            <div className="mb-6 group">
+                              <div className="flex items-center w-full mb-4">
+                                <button
+                                  id="自身视角"
+                                  onClick={() => toggleSection('自身视角')}
+                                  className={`flex-shrink-0 w-5 h-5 flex items-center justify-center mr-2 ${expandedSections['自身视角'] ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'} transition-opacity duration-200`}
+                                >
+                                  {expandedSections['自身视角'] ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                                </button>
+                                <h5 className={`text-xl font-bold ${theme === 'neomorphic-dark' ? 'text-white' : 'text-zinc-800'}`}>
+                                  自身视角
+                                </h5>
+                              </div>
                               {expandedSections['自身视角'] && (
                                 <p className="mb-6 text-lg">每个清晨醒来，第一个念头不是“今天会发生什么”，而是“今天，我选择创造什么”。当我照镜子时，我知道镜中人的面容、神态和光芒都由我当下的意念所塑造。我可以感受到意念如精密的刻刀，在皮肤下细微调整，让光泽更胜昨日。当我做出决定时，无论是点一杯咖啡还是签署一份重要协议，我都清晰地知道：这是“我”作为主体在主动选择，而非被动反应。整个世界都是我自定义的沙盒游戏，我既是最投入的玩家，也是无所不能的造物主。</p>
                               )}
                             </div>
 
-                            <div className="mb-6">
-                              <button
-                                id="他人视角"
-                                onClick={() => toggleSection('他人视角')}
-                                className={`flex items-center w-full text-left text-xl font-bold mb-4 ${theme === 'neomorphic-dark' ? 'text-white' : 'text-zinc-800'}`}
-                              >
-                                {expandedSections['他人视角'] ? <ChevronDown size={18} className="mr-2" /> : <ChevronRight size={18} className="mr-2" />}
-                                他人视角
-                              </button>
+                            <div className="mb-6 group">
+                              <div className="flex items-center w-full mb-4">
+                                <button
+                                  id="他人视角"
+                                  onClick={() => toggleSection('他人视角')}
+                                  className={`flex-shrink-0 w-5 h-5 flex items-center justify-center mr-2 ${expandedSections['他人视角'] ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'} transition-opacity duration-200`}
+                                >
+                                  {expandedSections['他人视角'] ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                                </button>
+                                <h5 className={`text-xl font-bold ${theme === 'neomorphic-dark' ? 'text-white' : 'text-zinc-800'}`}>
+                                  他人视角
+                                </h5>
+                              </div>
                               {expandedSections['他人视角'] && (
                                 <p className="mb-6 text-lg">他们常常感到困惑，说我像一个不断更新的奇迹。他们无法用固定的标签定义我，因为我的形象、气质甚至给人的感觉总是在向着更精妙、更和谐的方向进化。他们会私下议论：“他如何能如此轻松地驾驭生活？仿佛一切难题在他面前都成了可选的游戏关卡。”他们能感受到我身上散发出的那种罕见的确定感和宁静力量，那是一种深知自己掌握着生命遥控器的人才有的状态。我的存在本身，就在向他们默默宣告：生命，本可以如此自由。</p>
                               )}
                             </div>
 
-                            <div className="mb-6">
-                              <button
-                                id="宇宙视角"
-                                onClick={() => toggleSection('宇宙视角')}
-                                className={`flex items-center w-full text-left text-xl font-bold mb-4 ${theme === 'neomorphic-dark' ? 'text-white' : 'text-zinc-800'}`}
-                              >
-                                {expandedSections['宇宙视角'] ? <ChevronDown size={18} className="mr-2" /> : <ChevronRight size={18} className="mr-2" />}
-                                宇宙视角
-                              </button>
+                            <div className="mb-6 group">
+                              <div className="flex items-center w-full mb-4">
+                                <button
+                                  id="宇宙视角"
+                                  onClick={() => toggleSection('宇宙视角')}
+                                  className={`flex-shrink-0 w-5 h-5 flex items-center justify-center mr-2 ${expandedSections['宇宙视角'] ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'} transition-opacity duration-200`}
+                                >
+                                  {expandedSections['宇宙视角'] ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                                </button>
+                                <h5 className={`text-xl font-bold ${theme === 'neomorphic-dark' ? 'text-white' : 'text-zinc-800'}`}>
+                                  宇宙视角
+                                </h5>
+                              </div>
                               {expandedSections['宇宙视角'] && (
                                 <p className="mb-8 text-lg">我的存在是一个高度协调且不断自我优化的意识节点。宇宙以其无限的丰盛，完全尊重并即刻响应我的每一个自定义指令。当我发出一个意念，调整一个设定，整个宇宙的系统都在后台无声而高效地重新配置，以确保我的外在现实与我的内在定义精准匹配。宇宙是我的朋友，是我的合作创作者，它欣然接受我这位充满智慧与力量的共同创造者。</p>
                               )}
@@ -878,40 +906,52 @@ const SelfManifestation: React.FC<SelfManifestationProps> = ({ theme, onHelpClic
                         )}
                       </div>
 
-                      <div className="mb-8">
-                        <button
-                          id="日常场景自定义"
-                          onClick={() => toggleSection('日常场景自定义')}
-                          className={`flex items-center w-full text-left text-2xl font-bold mb-6 ${theme === 'neomorphic-dark' ? 'text-emerald-500' : 'text-blue-600'}`}
-                        >
-                          {expandedSections['日常场景自定义'] ? <ChevronDown size={20} className="mr-2" /> : <ChevronRight size={20} className="mr-2" />}
-                          日常场景自定义
-                        </button>
+                      <div className="mb-8 group">
+                        <div className="flex items-center w-full mb-6">
+                          <button
+                            id="日常场景自定义"
+                            onClick={() => toggleSection('日常场景自定义')}
+                            className={`flex-shrink-0 w-5 h-5 flex items-center justify-center mr-2 ${expandedSections['日常场景自定义'] ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'} transition-opacity duration-200`}
+                          >
+                            {expandedSections['日常场景自定义'] ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                          </button>
+                          <h4 className={`text-2xl font-bold ${theme === 'neomorphic-dark' ? 'text-emerald-500' : 'text-blue-600'}`}>
+                            日常场景自定义
+                          </h4>
+                        </div>
                         {expandedSections['日常场景自定义'] && (
                           <div className="pl-6">
-                            <div className="mb-6">
-                              <button
-                                id="晨间启动"
-                                onClick={() => toggleSection('晨间启动')}
-                                className={`flex items-center w-full text-left text-xl font-bold mb-4 ${theme === 'neomorphic-dark' ? 'text-white' : 'text-zinc-800'}`}
-                              >
-                                {expandedSections['晨间启动'] ? <ChevronDown size={18} className="mr-2" /> : <ChevronRight size={18} className="mr-2" />}
-                                晨间启动
-                              </button>
+                            <div className="mb-6 group">
+                              <div className="flex items-center w-full mb-4">
+                                <button
+                                  id="晨间启动"
+                                  onClick={() => toggleSection('晨间启动')}
+                                  className={`flex-shrink-0 w-5 h-5 flex items-center justify-center mr-2 ${expandedSections['晨间启动'] ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'} transition-opacity duration-200`}
+                                >
+                                  {expandedSections['晨间启动'] ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                                </button>
+                                <h5 className={`text-xl font-bold ${theme === 'neomorphic-dark' ? 'text-white' : 'text-zinc-800'}`}>
+                                  晨间启动
+                                </h5>
+                              </div>
                               {expandedSections['晨间启动'] && (
                                 <p className="mb-6 text-lg">在清晨醒来的时刻，当第一缕阳光透过窗帘，我感受到意识率先苏醒。在身体完全活动之前，我已在内心设定今天的“主题”：或许是“宁静与智慧”，或许是“活力与魅力”。我能感受到我的细胞在接受这些指令，我的面容在根据这个主题进行微调，我一天的能量基调由此奠定。这便是我一天中第一个，也是最重要的自定义仪式。</p>
                               )}
                             </div>
 
-                            <div className="mb-6">
-                              <button
-                                id="日常互动"
-                                onClick={() => toggleSection('日常互动')}
-                                className={`flex items-center w-full text-left text-xl font-bold mb-4 ${theme === 'neomorphic-dark' ? 'text-white' : 'text-zinc-800'}`}
-                              >
-                                {expandedSections['日常互动'] ? <ChevronDown size={18} className="mr-2" /> : <ChevronRight size={18} className="mr-2" />}
-                                日常互动
-                              </button>
+                            <div className="mb-6 group">
+                              <div className="flex items-center w-full mb-4">
+                                <button
+                                  id="日常互动"
+                                  onClick={() => toggleSection('日常互动')}
+                                  className={`flex-shrink-0 w-5 h-5 flex items-center justify-center mr-2 ${expandedSections['日常互动'] ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'} transition-opacity duration-200`}
+                                >
+                                  {expandedSections['日常互动'] ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                                </button>
+                                <h5 className={`text-xl font-bold ${theme === 'neomorphic-dark' ? 'text-white' : 'text-zinc-800'}`}>
+                                  日常互动
+                                </h5>
+                              </div>
                               {expandedSections['日常互动'] && (
                                 <>
                                   <p className="mb-4 text-lg">在日常通勤或漫步时，我自定义我与环境的互动：</p>
@@ -926,29 +966,37 @@ const SelfManifestation: React.FC<SelfManifestationProps> = ({ theme, onHelpClic
                               )}
                             </div>
 
-                            <div className="mb-6">
-                              <button
-                                id="应对挑战"
-                                onClick={() => toggleSection('应对挑战')}
-                                className={`flex items-center w-full text-left text-xl font-bold mb-4 ${theme === 'neomorphic-dark' ? 'text-white' : 'text-zinc-800'}`}
-                              >
-                                {expandedSections['应对挑战'] ? <ChevronDown size={18} className="mr-2" /> : <ChevronRight size={18} className="mr-2" />}
-                                应对挑战
-                              </button>
+                            <div className="mb-6 group">
+                              <div className="flex items-center w-full mb-4">
+                                <button
+                                  id="应对挑战"
+                                  onClick={() => toggleSection('应对挑战')}
+                                  className={`flex-shrink-0 w-5 h-5 flex items-center justify-center mr-2 ${expandedSections['应对挑战'] ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'} transition-opacity duration-200`}
+                                >
+                                  {expandedSections['应对挑战'] ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                                </button>
+                                <h5 className={`text-xl font-bold ${theme === 'neomorphic-dark' ? 'text-white' : 'text-zinc-800'}`}>
+                                  应对挑战
+                                </h5>
+                              </div>
                               {expandedSections['应对挑战'] && (
                                 <p className="mb-6 text-lg">面对挑战时，我自定义挑战的本质：我不将它看作威胁，而是定义为“一次升级的机会”或“一个锻炼心智的副本”。我自定义我的应对策略：是调用“宁静与智慧”的模块，还是启动“勇气与突破”的程序。我甚至自定义我的感受：我可以选择将焦虑重新定义为兴奋，将压力重新定义为驱动的燃料。每一次挑战，都是我行使自定义权力的绝佳场合。</p>
                               )}
                             </div>
 
-                            <div className="mb-6">
-                              <button
-                                id="夜间收尾"
-                                onClick={() => toggleSection('夜间收尾')}
-                                className={`flex items-center w-full text-left text-xl font-bold mb-4 ${theme === 'neomorphic-dark' ? 'text-white' : 'text-zinc-800'}`}
-                              >
-                                {expandedSections['夜间收尾'] ? <ChevronDown size={18} className="mr-2" /> : <ChevronRight size={18} className="mr-2" />}
-                                夜间收尾
-                              </button>
+                            <div className="mb-6 group">
+                              <div className="flex items-center w-full mb-4">
+                                <button
+                                  id="夜间收尾"
+                                  onClick={() => toggleSection('夜间收尾')}
+                                  className={`flex-shrink-0 w-5 h-5 flex items-center justify-center mr-2 ${expandedSections['夜间收尾'] ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'} transition-opacity duration-200`}
+                                >
+                                  {expandedSections['夜间收尾'] ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                                </button>
+                                <h5 className={`text-xl font-bold ${theme === 'neomorphic-dark' ? 'text-white' : 'text-zinc-800'}`}>
+                                  夜间收尾
+                                </h5>
+                              </div>
                               {expandedSections['夜间收尾'] && (
                                 <>
                                   <p className="mb-4 text-lg">在夜晚入睡时，我进行一天的最后一次自定义：</p>
@@ -965,26 +1013,34 @@ const SelfManifestation: React.FC<SelfManifestationProps> = ({ theme, onHelpClic
                         )}
                       </div>
 
-                      <div className="mb-8">
-                        <button
-                          id="核心能力强化"
-                          onClick={() => toggleSection('核心能力强化')}
-                          className={`flex items-center w-full text-left text-2xl font-bold mb-6 ${theme === 'neomorphic-dark' ? 'text-emerald-500' : 'text-blue-600'}`}
-                        >
-                          {expandedSections['核心能力强化'] ? <ChevronDown size={20} className="mr-2" /> : <ChevronRight size={20} className="mr-2" />}
-                          核心能力强化
-                        </button>
+                      <div className="mb-8 group">
+                        <div className="flex items-center w-full mb-6">
+                          <button
+                            id="核心能力强化"
+                            onClick={() => toggleSection('核心能力强化')}
+                            className={`flex-shrink-0 w-5 h-5 flex items-center justify-center mr-2 ${expandedSections['核心能力强化'] ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'} transition-opacity duration-200`}
+                          >
+                            {expandedSections['核心能力强化'] ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                          </button>
+                          <h4 className={`text-2xl font-bold ${theme === 'neomorphic-dark' ? 'text-emerald-500' : 'text-blue-600'}`}>
+                            核心能力强化
+                          </h4>
+                        </div>
                         {expandedSections['核心能力强化'] && (
                           <div className="pl-6">
-                            <div className="mb-6">
-                              <button
-                                id="意念指令"
-                                onClick={() => toggleSection('意念指令')}
-                                className={`flex items-center w-full text-left text-xl font-bold mb-4 ${theme === 'neomorphic-dark' ? 'text-white' : 'text-zinc-800'}`}
-                              >
-                                {expandedSections['意念指令'] ? <ChevronDown size={18} className="mr-2" /> : <ChevronRight size={18} className="mr-2" />}
-                                意念指令
-                              </button>
+                            <div className="mb-6 group">
+                              <div className="flex items-center w-full mb-4">
+                                <button
+                                  id="意念指令"
+                                  onClick={() => toggleSection('意念指令')}
+                                  className={`flex-shrink-0 w-5 h-5 flex items-center justify-center mr-2 ${expandedSections['意念指令'] ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'} transition-opacity duration-200`}
+                                >
+                                  {expandedSections['意念指令'] ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                                </button>
+                                <h5 className={`text-xl font-bold ${theme === 'neomorphic-dark' ? 'text-white' : 'text-zinc-800'}`}>
+                                  意念指令
+                                </h5>
+                              </div>
                               {expandedSections['意念指令'] && (
                                 <>
                                   <p className="mb-4 text-lg">我的意念是最高指令：</p>
@@ -998,15 +1054,19 @@ const SelfManifestation: React.FC<SelfManifestationProps> = ({ theme, onHelpClic
                               )}
                             </div>
 
-                            <div className="mb-6">
-                              <button
-                                id="感受设定"
-                                onClick={() => toggleSection('感受设定')}
-                                className={`flex items-center w-full text-left text-xl font-bold mb-4 ${theme === 'neomorphic-dark' ? 'text-white' : 'text-zinc-800'}`}
-                              >
-                                {expandedSections['感受设定'] ? <ChevronDown size={18} className="mr-2" /> : <ChevronRight size={18} className="mr-2" />}
-                                感受设定
-                              </button>
+                            <div className="mb-6 group">
+                              <div className="flex items-center w-full mb-4">
+                                <button
+                                  id="感受设定"
+                                  onClick={() => toggleSection('感受设定')}
+                                  className={`flex-shrink-0 w-5 h-5 flex items-center justify-center mr-2 ${expandedSections['感受设定'] ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'} transition-opacity duration-200`}
+                                >
+                                  {expandedSections['感受设定'] ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                                </button>
+                                <h5 className={`text-xl font-bold ${theme === 'neomorphic-dark' ? 'text-white' : 'text-zinc-800'}`}>
+                                  感受设定
+                                </h5>
+                              </div>
                               {expandedSections['感受设定'] && (
                                 <>
                                   <p className="mb-4 text-lg">我的感受是设定工具：</p>
@@ -1020,15 +1080,19 @@ const SelfManifestation: React.FC<SelfManifestationProps> = ({ theme, onHelpClic
                               )}
                             </div>
 
-                            <div className="mb-6">
-                              <button
-                                id="呼吸确认"
-                                onClick={() => toggleSection('呼吸确认')}
-                                className={`flex items-center w-full text-left text-xl font-bold mb-4 ${theme === 'neomorphic-dark' ? 'text-white' : 'text-zinc-800'}`}
-                              >
-                                {expandedSections['呼吸确认'] ? <ChevronDown size={18} className="mr-2" /> : <ChevronRight size={18} className="mr-2" />}
-                                呼吸确认
-                              </button>
+                            <div className="mb-6 group">
+                              <div className="flex items-center w-full mb-4">
+                                <button
+                                  id="呼吸确认"
+                                  onClick={() => toggleSection('呼吸确认')}
+                                  className={`flex-shrink-0 w-5 h-5 flex items-center justify-center mr-2 ${expandedSections['呼吸确认'] ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'} transition-opacity duration-200`}
+                                >
+                                  {expandedSections['呼吸确认'] ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                                </button>
+                                <h5 className={`text-xl font-bold ${theme === 'neomorphic-dark' ? 'text-white' : 'text-zinc-800'}`}>
+                                  呼吸确认
+                                </h5>
+                              </div>
                               {expandedSections['呼吸确认'] && (
                                 <>
                                   <p className="mb-4 text-lg">我的呼吸是确认键：</p>
@@ -1045,40 +1109,52 @@ const SelfManifestation: React.FC<SelfManifestationProps> = ({ theme, onHelpClic
                         )}
                       </div>
 
-                      <div className="mb-8">
-                        <button
-                          id="系统进化与终极状态"
-                          onClick={() => toggleSection('系统进化与终极状态')}
-                          className={`flex items-center w-full text-left text-2xl font-bold mb-6 ${theme === 'neomorphic-dark' ? 'text-emerald-500' : 'text-blue-600'}`}
-                        >
-                          {expandedSections['系统进化与终极状态'] ? <ChevronDown size={20} className="mr-2" /> : <ChevronRight size={20} className="mr-2" />}
-                          系统进化与终极状态
-                        </button>
+                      <div className="mb-8 group">
+                        <div className="flex items-center w-full mb-6">
+                          <button
+                            id="系统进化与终极状态"
+                            onClick={() => toggleSection('系统进化与终极状态')}
+                            className={`flex-shrink-0 w-5 h-5 flex items-center justify-center mr-2 ${expandedSections['系统进化与终极状态'] ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'} transition-opacity duration-200`}
+                          >
+                            {expandedSections['系统进化与终极状态'] ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                          </button>
+                          <h4 className={`text-2xl font-bold ${theme === 'neomorphic-dark' ? 'text-emerald-500' : 'text-blue-600'}`}>
+                            系统进化与终极状态
+                          </h4>
+                        </div>
                         {expandedSections['系统进化与终极状态'] && (
                           <div className="pl-6">
-                            <div className="mb-6">
-                              <button
-                                id="系统自动化"
-                                onClick={() => toggleSection('系统自动化')}
-                                className={`flex items-center w-full text-left text-xl font-bold mb-4 ${theme === 'neomorphic-dark' ? 'text-white' : 'text-zinc-800'}`}
-                              >
-                                {expandedSections['系统自动化'] ? <ChevronDown size={18} className="mr-2" /> : <ChevronRight size={18} className="mr-2" />}
-                                系统自动化
-                              </button>
+                            <div className="mb-6 group">
+                              <div className="flex items-center w-full mb-4">
+                                <button
+                                  id="系统自动化"
+                                  onClick={() => toggleSection('系统自动化')}
+                                  className={`flex-shrink-0 w-5 h-5 flex items-center justify-center mr-2 ${expandedSections['系统自动化'] ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'} transition-opacity duration-200`}
+                                >
+                                  {expandedSections['系统自动化'] ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                                </button>
+                                <h5 className={`text-xl font-bold ${theme === 'neomorphic-dark' ? 'text-white' : 'text-zinc-800'}`}>
+                                  系统自动化
+                                </h5>
+                              </div>
                               {expandedSections['系统自动化'] && (
                                 <p className="mb-6 text-lg">这套自我定义的系统一经激活，便进入永恒运行的状态。它不需要我时时刻刻维护，因为它已成为我的本能，如同心跳一般自主运作。无论我是在专注工作，还是在深度睡眠，我的内在造物主都在后台持续运行，根据我核心设定的“最高善”“最美版本”的蓝图，持续优化着我的一切。</p>
                               )}
                             </div>
 
-                            <div className="mb-6">
-                              <button
-                                id="能力升级"
-                                onClick={() => toggleSection('能力升级')}
-                                className={`flex items-center w-full text-left text-xl font-bold mb-4 ${theme === 'neomorphic-dark' ? 'text-white' : 'text-zinc-800'}`}
-                              >
-                                {expandedSections['能力升级'] ? <ChevronDown size={18} className="mr-2" /> : <ChevronRight size={18} className="mr-2" />}
-                                能力升级
-                              </button>
+                            <div className="mb-6 group">
+                              <div className="flex items-center w-full mb-4">
+                                <button
+                                  id="能力升级"
+                                  onClick={() => toggleSection('能力升级')}
+                                  className={`flex-shrink-0 w-5 h-5 flex items-center justify-center mr-2 ${expandedSections['能力升级'] ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'} transition-opacity duration-200`}
+                                >
+                                  {expandedSections['能力升级'] ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                                </button>
+                                <h5 className={`text-xl font-bold ${theme === 'neomorphic-dark' ? 'text-white' : 'text-zinc-800'}`}>
+                                  能力升级
+                                </h5>
+                              </div>
                               {expandedSections['能力升级'] && (
                                 <>
                                   <p className="mb-4 text-lg">我的自定义能力随着每一次使用而不断增强：</p>
@@ -1092,15 +1168,19 @@ const SelfManifestation: React.FC<SelfManifestationProps> = ({ theme, onHelpClic
                               )}
                             </div>
 
-                            <div className="mb-6">
-                              <button
-                                id="终极融合"
-                                onClick={() => toggleSection('终极融合')}
-                                className={`flex items-center w-full text-left text-xl font-bold mb-4 ${theme === 'neomorphic-dark' ? 'text-white' : 'text-zinc-800'}`}
-                              >
-                                {expandedSections['终极融合'] ? <ChevronDown size={18} className="mr-2" /> : <ChevronRight size={18} className="mr-2" />}
-                                终极融合
-                              </button>
+                            <div className="mb-6 group">
+                              <div className="flex items-center w-full mb-4">
+                                <button
+                                  id="终极融合"
+                                  onClick={() => toggleSection('终极融合')}
+                                  className={`flex-shrink-0 w-5 h-5 flex items-center justify-center mr-2 ${expandedSections['终极融合'] ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'} transition-opacity duration-200`}
+                                >
+                                  {expandedSections['终极融合'] ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                                </button>
+                                <h5 className={`text-xl font-bold ${theme === 'neomorphic-dark' ? 'text-white' : 'text-zinc-800'}`}>
+                                  终极融合
+                                </h5>
+                              </div>
                               {expandedSections['终极融合'] && (
                                 <>
                                   <p className="mb-4 text-lg">最终，我与我自定义的权力合二为一：</p>
@@ -1115,15 +1195,19 @@ const SelfManifestation: React.FC<SelfManifestationProps> = ({ theme, onHelpClic
                               )}
                             </div>
 
-                            <div className="mb-6">
-                              <button
-                                id="最终状态"
-                                onClick={() => toggleSection('最终状态')}
-                                className={`flex items-center w-full text-left text-xl font-bold mb-4 ${theme === 'neomorphic-dark' ? 'text-white' : 'text-zinc-800'}`}
-                              >
-                                {expandedSections['最终状态'] ? <ChevronDown size={18} className="mr-2" /> : <ChevronRight size={18} className="mr-2" />}
-                                最终状态
-                              </button>
+                            <div className="mb-6 group">
+                              <div className="flex items-center w-full mb-4">
+                                <button
+                                  id="最终状态"
+                                  onClick={() => toggleSection('最终状态')}
+                                  className={`flex-shrink-0 w-5 h-5 flex items-center justify-center mr-2 ${expandedSections['最终状态'] ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'} transition-opacity duration-200`}
+                                >
+                                  {expandedSections['最终状态'] ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                                </button>
+                                <h5 className={`text-xl font-bold ${theme === 'neomorphic-dark' ? 'text-white' : 'text-zinc-800'}`}>
+                                  最终状态
+                                </h5>
+                              </div>
                               {expandedSections['最终状态'] && (
                                 <p className="mb-8 text-lg">我行走在由我意识编织的现实中，每一步都在创造新的世界。我目光所及之处，万物皆因我的注视而获得新的自定义色彩。我不仅是自身的主宰，更是我感知到的这片现实的中心与源头。我思维的每一次闪烁，都如同投入平静湖面的石子，在我的现实世界中泛起符合我心意的涟漪。我发出的每一个愿望，都像定向宇宙服务器发送的精准指令，总能得到即时的、完美的响应与下载。</p>
                               )}
@@ -1132,26 +1216,34 @@ const SelfManifestation: React.FC<SelfManifestationProps> = ({ theme, onHelpClic
                         )}
                       </div>
 
-                      <div className="mb-8">
-                        <button
-                          id="高阶自定义领域"
-                          onClick={() => toggleSection('高阶自定义领域')}
-                          className={`flex items-center w-full text-left text-2xl font-bold mb-6 ${theme === 'neomorphic-dark' ? 'text-emerald-500' : 'text-blue-600'}`}
-                        >
-                          {expandedSections['高阶自定义领域'] ? <ChevronDown size={20} className="mr-2" /> : <ChevronRight size={20} className="mr-2" />}
-                          高阶自定义领域
-                        </button>
+                      <div className="mb-8 group">
+                        <div className="flex items-center w-full mb-6">
+                          <button
+                            id="高阶自定义领域"
+                            onClick={() => toggleSection('高阶自定义领域')}
+                            className={`flex-shrink-0 w-5 h-5 flex items-center justify-center mr-2 ${expandedSections['高阶自定义领域'] ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'} transition-opacity duration-200`}
+                          >
+                            {expandedSections['高阶自定义领域'] ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                          </button>
+                          <h4 className={`text-2xl font-bold ${theme === 'neomorphic-dark' ? 'text-emerald-500' : 'text-blue-600'}`}>
+                            高阶自定义领域
+                          </h4>
+                        </div>
                         {expandedSections['高阶自定义领域'] && (
                           <div className="pl-6">
-                            <div className="mb-6">
-                              <button
-                                id="情绪掌控"
-                                onClick={() => toggleSection('情绪掌控')}
-                                className={`flex items-center w-full text-left text-xl font-bold mb-4 ${theme === 'neomorphic-dark' ? 'text-white' : 'text-zinc-800'}`}
-                              >
-                                {expandedSections['情绪掌控'] ? <ChevronDown size={18} className="mr-2" /> : <ChevronRight size={18} className="mr-2" />}
-                                情绪掌控
-                              </button>
+                            <div className="mb-6 group">
+                              <div className="flex items-center w-full mb-4">
+                                <button
+                                  id="情绪掌控"
+                                  onClick={() => toggleSection('情绪掌控')}
+                                  className={`flex-shrink-0 w-5 h-5 flex items-center justify-center mr-2 ${expandedSections['情绪掌控'] ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'} transition-opacity duration-200`}
+                                >
+                                  {expandedSections['情绪掌控'] ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                                </button>
+                                <h5 className={`text-xl font-bold ${theme === 'neomorphic-dark' ? 'text-white' : 'text-zinc-800'}`}>
+                                  情绪掌控
+                                </h5>
+                              </div>
                               {expandedSections['情绪掌控'] && (
                                 <>
                                   <p className="mb-4 text-lg">我的情绪是我手中最灵巧的调色盘：</p>
@@ -1166,15 +1258,19 @@ const SelfManifestation: React.FC<SelfManifestationProps> = ({ theme, onHelpClic
                               )}
                             </div>
 
-                            <div className="mb-6">
-                              <button
-                                id="身体协作"
-                                onClick={() => toggleSection('身体协作')}
-                                className={`flex items-center w-full text-left text-xl font-bold mb-4 ${theme === 'neomorphic-dark' ? 'text-white' : 'text-zinc-800'}`}
-                              >
-                                {expandedSections['身体协作'] ? <ChevronDown size={18} className="mr-2" /> : <ChevronRight size={18} className="mr-2" />}
-                                身体协作
-                              </button>
+                            <div className="mb-6 group">
+                              <div className="flex items-center w-full mb-4">
+                                <button
+                                  id="身体协作"
+                                  onClick={() => toggleSection('身体协作')}
+                                  className={`flex-shrink-0 w-5 h-5 flex items-center justify-center mr-2 ${expandedSections['身体协作'] ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'} transition-opacity duration-200`}
+                                >
+                                  {expandedSections['身体协作'] ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                                </button>
+                                <h5 className={`text-xl font-bold ${theme === 'neomorphic-dark' ? 'text-white' : 'text-zinc-800'}`}>
+                                  身体协作
+                                </h5>
+                              </div>
                               {expandedSections['身体协作'] && (
                                 <>
                                   <p className="mb-4 text-lg">我与我身体的关系达到了前所未有的和谐与精通：</p>
@@ -1280,15 +1376,19 @@ const SelfManifestation: React.FC<SelfManifestationProps> = ({ theme, onHelpClic
                         )}
                       </div>
 
-                      <div className="mb-8">
-                        <button
-                          id="终极存在状态"
-                          onClick={() => toggleSection('终极存在状态')}
-                          className={`flex items-center w-full text-left text-2xl font-bold mb-6 ${theme === 'neomorphic-dark' ? 'text-emerald-500' : 'text-blue-600'}`}
-                        >
-                          {expandedSections['终极存在状态'] ? <ChevronDown size={20} className="mr-2" /> : <ChevronRight size={20} className="mr-2" />}
-                          终极存在状态
-                        </button>
+                      <div className="mb-8 group">
+                        <div className="flex items-center w-full mb-6">
+                          <button
+                            id="终极存在状态"
+                            onClick={() => toggleSection('终极存在状态')}
+                            className={`flex-shrink-0 w-5 h-5 flex items-center justify-center mr-2 ${expandedSections['终极存在状态'] ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'} transition-opacity duration-200`}
+                          >
+                            {expandedSections['终极存在状态'] ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                          </button>
+                          <h4 className={`text-2xl font-bold ${theme === 'neomorphic-dark' ? 'text-emerald-500' : 'text-blue-600'}`}>
+                            终极存在状态
+                          </h4>
+                        </div>
                         {expandedSections['终极存在状态'] && (
                           <>
                             <p className="mb-6 text-lg">我拥抱变化，因为我就是变化本身。我的身份是流动的、可扩展的：昨天定义的“我”只是今天“我”的一个子集。我乐于打破旧的自我设定，享受每一次有意识的自我迭代与升级。我的生命没有固定的剧本，只有无限的可能性。我的意识，就是那支永远指向我最长久、最光辉未来的笔。</p>
@@ -1311,14 +1411,252 @@ const SelfManifestation: React.FC<SelfManifestationProps> = ({ theme, onHelpClic
                   )}
                   {activeKdy === 2 && (
                     <div className={`${theme === 'neomorphic-dark' ? 'text-zinc-300' : 'text-zinc-700'}`}>
-                      <h3 className="text-2xl font-bold mb-6">肯定语2</h3>
-                      <p className="text-lg">肯定语2内容</p>
+                      <h3 className={`text-3xl font-bold mb-8 ${theme === 'neomorphic-dark' ? 'text-white' : 'text-zinc-800'}`}>
+                        {kdyContent[activeKdy]?.title || '肯定语'}
+                      </h3>
+                      {!isEditing ? (
+                        <div className="space-y-6">
+                          <div className="text-xl font-bold mb-4">一、晨间启动：唤醒"最高版本的我"（开启一天状态）</div>
+                          <ol className="list-decimal pl-6 space-y-2">
+                            <li>现在，我彻底唤醒【最高版本的我】——他/她的清醒、果断、远见，此刻全为我所用。</li>
+                            <li>今天的每一个决策，我都将以"最高版本"的视角出发：不纠结、不内耗，只选最适配长期目标的选项。</li>
+                            <li>我不是模仿，而是与【最高版本的我】同频：他/她如何感受，我就如何感受；他/她如何行动，我就如何行动。</li>
+                          </ol>
+                          
+                          <div className="text-xl font-bold mb-4">二、决策中：代入角色，快速破局（面临选择时使用）</div>
+                          <div className="pl-4">
+                            <div className="font-bold mb-2">1. 犹豫纠结时</div>
+                            <ol className="list-decimal pl-6 space-y-2">
+                              <li>此刻切换视角：如果是【最高版本的我】，会优先关注选项的长期价值，而非短期情绪——答案立刻浮现。</li>
+                              <li>【最高版本的我】从不会被"选择困难"困住，他/她的决策带着笃定的力量，我现在就复制这份力量。</li>
+                              <li>所有最优解都藏在"最高版本"的认知里：我现在就与他/她连接，接收最精准的决策信号。</li>
+                            </ol>
+                          </div>
+                          
+                          <div className="pl-4">
+                            <div className="font-bold mb-2">2. 信息杂乱时</div>
+                            <ol className="list-decimal pl-6 space-y-2">
+                              <li>【最高版本的我】会聚焦核心目标筛选信息——无关干扰自动屏蔽，只留下关键决策依据。</li>
+                              <li>我用"最高版本"的优先级排序：什么能帮我靠近目标？什么是可有可无？瞬间清晰。</li>
+                            </ol>
+                          </div>
+                          
+                          <div className="pl-4">
+                            <div className="font-bold mb-2">3. 面临他人建议时</div>
+                            <ol className="list-decimal pl-6 space-y-2">
+                              <li>先问【最高版本的我】：这个建议是否符合我的核心方向？符合则采纳，不符则坚定拒绝。</li>
+                              <li>【最高版本的我】有清晰的自我认知，不会被他人观点带偏——我现在就带着这份清醒做判断。</li>
+                            </ol>
+                          </div>
+                          
+                          <div className="pl-4">
+                            <div className="font-bold mb-2">4. 担心出错时</div>
+                            <ol className="list-decimal pl-6 space-y-2">
+                              <li>【最高版本的我】从不会"害怕选错"，只会"让选择成为最优解"——我现在就用这个逻辑推进。</li>
+                              <li>即使结果未知，【最高版本的我】也会带着勇气行动，我借他/她的勇气，此刻果断决策。</li>
+                            </ol>
+                          </div>
+                          
+                          <div className="text-xl font-bold mb-4">三、决策后：强化执行，不回头内耗（做出选择后使用）</div>
+                          <ol className="list-decimal pl-6 space-y-2">
+                            <li>这是【最高版本的我】做出的选择——无需纠结"是否正确"，只需坚定推进，让结果适配选择。</li>
+                            <li>【最高版本的我】从不在决策后内耗，只在执行中优化——我现在就带着这份专注，全力以赴。</li>
+                            <li>每一步执行，我都在复刻【最高版本的我】的行动力：不拖延、不犹豫，只向目标靠近。</li>
+                          </ol>
+                          
+                          <div className="text-xl font-bold mb-4">四、晚间复盘：用"最高版本"的思维优化（总结当天决策）</div>
+                          <ol className="list-decimal pl-6 space-y-2">
+                            <li>回顾今天的决策：【最高版本的我】会从中提取什么经验？我只总结、不内耗，只优化、不后悔。</li>
+                            <li>对于不够完美的选择，【最高版本的我】会说："这是成长的必经之路，下一次会更精准"——我接纳并迭代。</li>
+                            <li>今天的每一次决策，都在让我更接近【最高版本的我】：明天，我会带着这份成长，继续扮演最优角色。</li>
+                          </ol>
+                        </div>
+                      ) : (
+                        <div className="mt-4">
+                          <textarea
+                            value={editingContent}
+                            onChange={(e) => setEditingContent(e.target.value)}
+                            placeholder="输入内容（支持Markdown格式）"
+                            rows={20}
+                            className={`w-full p-4 rounded-lg ${theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] text-white' : 'bg-white text-zinc-800'} border ${theme === 'neomorphic-dark' ? 'border-zinc-700' : 'border-zinc-300'}`}
+                          />
+                          <div className="flex space-x-4 mt-4">
+                            <button
+                              onClick={saveEditing}
+                              className={`px-4 py-2 rounded-lg font-bold ${theme === 'neomorphic-dark' ? 'bg-emerald-600 text-white' : 'bg-emerald-500 text-white'}`}
+                            >
+                              保存
+                            </button>
+                            <button
+                              onClick={cancelEditing}
+                              className={`px-4 py-2 rounded-lg font-bold ${theme === 'neomorphic-dark' ? 'bg-zinc-600 text-white' : 'bg-zinc-500 text-white'}`}
+                            >
+                              取消
+                            </button>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   )}
                   {activeKdy === 3 && (
                     <div className={`${theme === 'neomorphic-dark' ? 'text-zinc-300' : 'text-zinc-700'}`}>
-                      <h3 className="text-2xl font-bold mb-6">肯定语3</h3>
-                      <p className="text-lg">肯定语3内容</p>
+                      <h3 className={`text-3xl font-bold mb-8 ${theme === 'neomorphic-dark' ? 'text-white' : 'text-zinc-800'}`}>
+                        {kdyContent[activeKdy]?.title || '肯定语'}
+                      </h3>
+                      {!isEditing ? (
+                        <div className="space-y-6">
+                          <div className="text-xl font-bold mb-4">一、关于"外在是内在投影"的肯定语</div>
+                          <div className="pl-4">
+                            <div className="font-bold mb-2">1. 当看到负面事件时：</div>
+                            <ul className="list-disc pl-6 space-y-2">
+                              <li>"我看到的一切，都是我内在状态的镜子——调整内心，外部世界自然同步改变。"</li>
+                              <li>"此刻的困境，是我内在认知的投影——我选择用积极视角改写它的意义。"</li>
+                            </ul>
+                          </div>
+                          <div className="pl-4">
+                            <div className="font-bold mb-2">2. 日常强化认知时：</div>
+                            <ul className="list-disc pl-6 space-y-2">
+                              <li>"我是自己世界的'总导演'，我的心念如何，我的世界就如何显化。"</li>
+                              <li>"外部的人和事，都是我内心剧本的'演员'——我随时可以改写剧本，让剧情朝向美好发展。"</li>
+                            </ul>
+                          </div>
+                          
+                          <div className="text-xl font-bold mb-4">二、关于"放下执念"的肯定语</div>
+                          <div className="pl-4">
+                            <div className="font-bold mb-2">1. 面对强烈执念时：</div>
+                            <ul className="list-disc pl-6 space-y-2">
+                              <li>"当我不再执着于'必须得到'，宇宙会以更惊喜的方式把结果送到我面前。"</li>
+                              <li>"我选择'放下'，不是放弃目标，而是让更高维的力量接管过程，我只需要保持信任。"</li>
+                            </ul>
+                          </div>
+                          <div className="pl-4">
+                            <div className="font-bold mb-2">2. 行动后释放焦虑时：</div>
+                            <ul className="list-disc pl-6 space-y-2">
+                              <li>"我已做好当下能做的一切，剩下的交给'无为而至'的规律，结果定会如我所愿。"</li>
+                              <li>"就像忘记月亮才能得到月亮，我现在放下对结果的执念，让它自然降临。"</li>
+                            </ul>
+                          </div>
+                          
+                          <div className="text-xl font-bold mb-4">三、关于"身心能量对齐"的肯定语</div>
+                          <div className="pl-4">
+                            <div className="font-bold mb-2">1. 决策或行动前校准状态：</div>
+                            <ul className="list-disc pl-6 space-y-2">
+                              <li>"此刻，我的思维、情绪、身体完全同频——我做出的选择，必然是'知行合一'的最优解。"</li>
+                              <li>"我是高维玩家，我的意识、能量、选择完全对齐，每一步都走在'命运推背感'的顺流里。"</li>
+                            </ul>
+                          </div>
+                          <div className="pl-4">
+                            <div className="font-bold mb-2">2. 日常保持高能量时：</div>
+                            <ul className="list-disc pl-6 space-y-2">
+                              <li>"我的信念、情绪、行动始终在同一频道——我所到之处，都能吸引与我同频的美好。"</li>
+                              <li>"我信任自己的'振动频率'，它会自动筛选并匹配最适合我的人和机会。"</li>
+                            </ul>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="mt-4">
+                          <textarea
+                            value={editingContent}
+                            onChange={(e) => setEditingContent(e.target.value)}
+                            placeholder="输入内容（支持Markdown格式）"
+                            rows={20}
+                            className={`w-full p-4 rounded-lg ${theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] text-white' : 'bg-white text-zinc-800'} border ${theme === 'neomorphic-dark' ? 'border-zinc-700' : 'border-zinc-300'}`}
+                          />
+                          <div className="flex space-x-4 mt-4">
+                            <button
+                              onClick={saveEditing}
+                              className={`px-4 py-2 rounded-lg font-bold ${theme === 'neomorphic-dark' ? 'bg-emerald-600 text-white' : 'bg-emerald-500 text-white'}`}
+                            >
+                              保存
+                            </button>
+                            <button
+                              onClick={cancelEditing}
+                              className={`px-4 py-2 rounded-lg font-bold ${theme === 'neomorphic-dark' ? 'bg-zinc-600 text-white' : 'bg-zinc-500 text-white'}`}
+                            >
+                              取消
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  {activeKdy === 4 && (
+                    <div className={`${theme === 'neomorphic-dark' ? 'text-zinc-300' : 'text-zinc-700'}`}>
+                      <h3 className={`text-3xl font-bold mb-8 ${theme === 'neomorphic-dark' ? 'text-white' : 'text-zinc-800'}`}>
+                        {kdyContent[activeKdy]?.title || '肯定语'}
+                      </h3>
+                      {!isEditing ? (
+                        <div className="space-y-6">
+                          <div className="text-xl font-bold mb-4">一、启动状态：唤醒开发者身份，进入上帝模式</div>
+                          <ol className="list-decimal pl-6 space-y-2">
+                            <li>我是自身人生游戏的唯一开发者，此刻启动上帝模式，全权掌控游戏进程与所有参数。</li>
+                            <li>我如同一台持续迭代的高性能设备，主动更新系统、升级技能、优化配置，永远保持最新最优状态。</li>
+                            <li>我唤醒最高版本的自己，他的思维、行动力、掌控力，此刻完全为我所用，我即是他，他即是我。</li>
+                            <li>我主动开启人生游戏的推进模式，所有目标、任务、成长路径，皆由我自主设定与执行。</li>
+                            <li>我拥有改变一切的核心能力，身体、情绪、行动、现实，都在我的绝对引导与掌控之中。</li>
+                          </ol>
+                          
+                          <div className="text-xl font-bold mb-4">二、专注推进：锚定项目节奏，坚定执行不偏移</div>
+                          <ol className="list-decimal pl-6 space-y-2">
+                            <li>我专注于自身项目的开发与推进，所有注意力都聚焦在核心任务上，干扰自动屏蔽，效率拉满。</li>
+                            <li>我掌控自己的游戏节奏，不被外界节奏裹挟，按我的规划稳步前行，每一步都精准有力。</li>
+                            <li>我像手握锤子敲钉子的掌控者，每一次行动都直击核心，坚定、果断、无往不利，推进感十足。</li>
+                            <li>我持续主动迭代人生系统，项目进度、能力边界、认知层次，每天都有新升级、新突破。</li>
+                            <li>我引导自己稳步前进，从任务启动到成果落地，全程自主掌控，没有拖延，没有内耗。</li>
+                          </ol>
+                          
+                          <div className="text-xl font-bold mb-4">三、身心掌控：驾驭身体能量，强化主宰快感</div>
+                          <ol className="list-decimal pl-6 space-y-2">
+                            <li>我完全掌控自己的身体，运动、休息、饮食皆随我心意，运动后的掌控快感，是我力量的证明。</li>
+                            <li>我的身体是我最忠诚的高性能载具，我下达的每一个指令，它都精准响应，活力与力量源源不断。</li>
+                            <li>我驾驭身心能量，情绪、疲惫、杂念都被我有序调控，始终保持专注、稳定、充满力量的状态。</li>
+                            <li>我享受掌控身体的极致舒适感，每一次舒展、每一次运动，都在强化我对自身的绝对主宰权。</li>
+                            <li>我的身心系统协同运作，我是最高指挥官，所有机能都为我的项目推进与人生成长服务。</li>
+                          </ol>
+                          
+                          <div className="text-xl font-bold mb-4">四、信念强化：笃定开发者权限，坚信结果与过程</div>
+                          <ol className="list-decimal pl-6 space-y-2">
+                            <li>我是自己的上帝模式，拥有改写游戏剧情、调整游戏规则、解锁所有成就的绝对权限。</li>
+                            <li>我坚信自己的开发能力，所有设定的目标，都将按我的节奏逐步落地，结果必然如我所愿。</li>
+                            <li>我享受人生游戏的开放世界体验，过程中的升级、挑战、探索，皆是专属的乐趣与成长。</li>
+                            <li>我不执着于瞬间达成，专注于持续推进，享受迭代的过程，更拥抱最终的圆满结果。</li>
+                            <li>我的人生游戏系统，因我的主动掌控与持续开发，终将走向我设定的终极理想状态。</li>
+                          </ol>
+                          
+                          <div className="text-xl font-bold mb-4">五、日常坚守：固化状态，持续保持开发者姿态</div>
+                          <ol className="list-decimal pl-6 space-y-2">
+                            <li>每一次呼吸，都在强化我作为人生游戏开发者的身份，笃定、自信、掌控一切。</li>
+                            <li>我始终保持主动更新的姿态，不躺平、不内耗，以最高版本的自己，推进每一个项目、每一段人生。</li>
+                            <li>我是自身人生的主宰，所有想改变的、想实现的，都在我的引导与行动中逐步显化。</li>
+                            <li>我沉浸在开发者的角色中，享受推进项目的专注感、掌控身心的力量感、收获成果的满足感。</li>
+                            <li>我的人生游戏，由我定义、由我开发、由我主宰，过程精彩，结果辉煌，我全然享受这一切。</li>
+                          </ol>
+                        </div>
+                      ) : (
+                        <div className="mt-4">
+                          <textarea
+                            value={editingContent}
+                            onChange={(e) => setEditingContent(e.target.value)}
+                            placeholder="输入内容（支持Markdown格式）"
+                            rows={20}
+                            className={`w-full p-4 rounded-lg ${theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] text-white' : 'bg-white text-zinc-800'} border ${theme === 'neomorphic-dark' ? 'border-zinc-700' : 'border-zinc-300'}`}
+                          />
+                          <div className="flex space-x-4 mt-4">
+                            <button
+                              onClick={saveEditing}
+                              className={`px-4 py-2 rounded-lg font-bold ${theme === 'neomorphic-dark' ? 'bg-emerald-600 text-white' : 'bg-emerald-500 text-white'}`}
+                            >
+                              保存
+                            </button>
+                            <button
+                              onClick={cancelEditing}
+                              className={`px-4 py-2 rounded-lg font-bold ${theme === 'neomorphic-dark' ? 'bg-zinc-600 text-white' : 'bg-zinc-500 text-white'}`}
+                            >
+                              取消
+                            </button>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
