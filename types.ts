@@ -267,6 +267,8 @@ export interface Habit {
   streak: number;
   /** 是否归档 */
   archived: boolean;
+  /** 优先级 */
+  priority: 'high' | 'medium' | 'low';
   /** 习惯颜色 */
   color: string;
   /** 关联属性 */
@@ -314,6 +316,8 @@ export interface SubTask {
   completed: boolean;
   /** 频率 */
   frequency: 'daily' | 'weekly' | 'once';
+  /** 优先级 */
+  priority: 'high' | 'medium' | 'low';
 }
 
 /**
@@ -342,6 +346,8 @@ export interface Project {
   todayFocusMinutes: number;
   /** 关联属性 */
   attr?: AttributeTypeValue;
+  /** 优先级 */
+  priority: 'high' | 'medium' | 'low';
   /** 提醒设置 */
   reminder?: {
     enabled: boolean;
@@ -425,6 +431,8 @@ export interface Task {
   originalData?: Habit | Project;
   /** 关联属性 */
   attr?: AttributeTypeValue;
+  /** 优先级 */
+  priority?: 'high' | 'medium' | 'low';
   /** 提醒设置 */
   reminder?: {
     enabled: boolean;

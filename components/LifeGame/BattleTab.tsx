@@ -115,7 +115,7 @@ const BattleTab: React.FC<BattleTabProps> = memo(({
   onUpdateDiceState, onLevelChange, theme, isDark, isNeomorphic, cardBg, textMain, textSub, neomorphicStyles,
   level, setLevel, characterProfileRef, toggleSubTask, giveUpSubTask, checkInUpdated, setActiveHelp
 }) => {
-  const [taskCategory, setTaskCategory] = useState<'daily' | 'main' | 'random'>('random');
+  const [taskCategory, setTaskCategory] = useState<'daily' | 'main' | 'timebox' | 'dice'>('daily');
   
   const [isAddTaskOpen, setIsAddTaskOpen] = useState(false);
   const [newTaskTitle, setNewTaskTitle] = useState('');
@@ -123,7 +123,7 @@ const BattleTab: React.FC<BattleTabProps> = memo(({
   const [newTaskXP, setNewTaskXP] = useState('20');
   const [newTaskDuration, setNewTaskDuration] = useState('30');
   const [newTaskAttr, setNewTaskAttr] = useState<AttributeTypeValue>(AttributeType.WEALTH);
-  const [newTaskType, setNewTaskType] = useState<'daily' | 'main' | 'random'>('daily');
+  const [newTaskType, setNewTaskType] = useState<'daily' | 'main' | 'random' | 'timebox'>('daily');
   const [newTaskDiceCategory, setNewTaskDiceCategory] = useState<DiceCategory>('health');
   const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
   const [editingProjectSubTasks, setEditingProjectSubTasks] = useState<SubTask[]>([]);
@@ -145,6 +145,18 @@ const BattleTab: React.FC<BattleTabProps> = memo(({
   // 战略储备双击编辑状态
   const [isEditingSavings, setIsEditingSavings] = useState(false);
   const [tempSavings, setTempSavings] = useState(balance);
+  
+  // 时间盒子功能
+  const [isTimeBoxOpen, setIsTimeBoxOpen] = useState(false);
+  const [timeBoxTasks, setTimeBoxTasks] = useState([
+    { id: 1, title: '实现任务状态管理', duration: 90, status: '进行中' },
+    { id: 2, title: '构建分析页面', duration: 150, status: '待处理' },
+    { id: 3, title: '创建专注模式页面', duration: 75, status: '待处理' }
+  ]);
+  
+  const toggleTimeBox = useCallback(() => {
+    setIsTimeBoxOpen(prev => !prev);
+  }, []);
   
   // 使用拖拽 Hook
   const { draggedTask, draggedTaskIndex, handleDragStart, handleDragEnd, handleDragOver } = useDragAndDrop({
@@ -235,7 +247,7 @@ const BattleTab: React.FC<BattleTabProps> = memo(({
         
         return {
             id: p.id, text: p.name, attr: p.attr || 'WEA', xp: baseRewardXP, gold: baseRewardGold, type: TaskType.MAIN,
-            completed: p.status === 'completed', frequency: 'once' as const, isExpanded: true,
+            completed: p.status === 'completed', frequency: 'once' as const, isExpanded: false,
             originalData: p,
             subTasks: p.subTasks.map(st => ({
                 id: st.id, text: st.title, completed: st.completed, 
@@ -334,12 +346,14 @@ const BattleTab: React.FC<BattleTabProps> = memo(({
               reward: parseInt(newTaskReward),
               xp: parseInt(newTaskXP),
               duration: parseInt(newTaskDuration),
+              priority: newTaskPriority,
               reminder: reminderData
           });
-      } else if (newTaskType === 'main') {
+      } else if (newTaskType === 'main' || newTaskType === 'timebox') {
           onUpdateProject(editingTaskId!, { 
               name: newTaskTitle, 
               subTasks: editingProjectSubTasks,
+              priority: newTaskPriority,
               reminder: reminderData as any 
           });
       } else if (newTaskType === 'random') {
@@ -351,7 +365,8 @@ const BattleTab: React.FC<BattleTabProps> = memo(({
                   gold: parseInt(newTaskReward) || 20,
                   xp: parseInt(newTaskXP) || 30,
                   duration: parseInt(newTaskDuration) || 20,
-                  attr: newTaskAttr
+                  attr: newTaskAttr,
+                  priority: newTaskPriority
               };
               setChallengePool(prevPool => prevPool.map(task => task === originalTaskStr ? JSON.stringify(newTask) : task));
           } else if (editingTaskId) {
@@ -360,13 +375,14 @@ const BattleTab: React.FC<BattleTabProps> = memo(({
                   text: newTaskTitle,
                   gold: parseInt(newTaskReward) || 20,
                   xp: parseInt(newTaskXP) || 30,
-                  duration: parseInt(newTaskDuration) || 20
+                  duration: parseInt(newTaskDuration) || 20,
+                  priority: newTaskPriority
               });
           }
       }
       setIsAddTaskOpen(false);
       setEditingTaskId(null);
-  }, [newTaskType, editingTaskId, newTaskTitle, newTaskReward, newTaskXP, newTaskDuration, newTaskAttr, newTaskDiceCategory, reminderEnabled, reminderDate, reminderTime, reminderRepeat, reminderInterval, onUpdateHabit, onUpdateProject, setChallengePool, onUpdateDiceTask, setIsAddTaskOpen, setEditingTaskId, editingProjectSubTasks]);
+  }, [newTaskType, editingTaskId, newTaskTitle, newTaskReward, newTaskXP, newTaskDuration, newTaskPriority, newTaskAttr, newTaskDiceCategory, reminderEnabled, reminderDate, reminderTime, reminderRepeat, reminderInterval, onUpdateHabit, onUpdateProject, setChallengePool, onUpdateDiceTask, setIsAddTaskOpen, setEditingTaskId, editingProjectSubTasks]);
 
   const handleAddNewTask = useCallback(() => {
       if (!newTaskTitle.trim()) return;
@@ -380,8 +396,13 @@ const BattleTab: React.FC<BattleTabProps> = memo(({
       } : undefined;
 
       if (newTaskType === 'daily') {
-          onAddHabit(newTaskTitle, parseInt(newTaskReward) || 15);
-      } else if (newTaskType === 'main') {
+          onAddHabit(newTaskTitle, parseInt(newTaskReward) || 15, {
+              xp: parseInt(newTaskXP) || 20,
+              duration: parseInt(newTaskDuration) || 30,
+              priority: newTaskPriority,
+              reminder: reminderData
+          });
+      } else if (newTaskType === 'main' || newTaskType === 'timebox') {
           onAddProject({
               id: Date.now().toString(), 
               name: newTaskTitle, 
@@ -394,6 +415,7 @@ const BattleTab: React.FC<BattleTabProps> = memo(({
               fears: [], 
               todayFocusMinutes: 0, 
               attr: newTaskAttr,
+              priority: newTaskPriority,
               reminder: reminderData as any
           });
       } else if (newTaskType === 'random') {
@@ -403,7 +425,8 @@ const BattleTab: React.FC<BattleTabProps> = memo(({
               xp: parseInt(newTaskXP) || 30,
               duration: parseInt(newTaskDuration) || 20,
               attr: AttributeType.WEALTH,
-              category: newTaskDiceCategory || 'health'
+              category: newTaskDiceCategory || 'health',
+              priority: newTaskPriority
           };
           onAddDiceTask(newTask);
           onAddFloatingReward("命运事件已入库", "text-purple-500");
@@ -413,6 +436,7 @@ const BattleTab: React.FC<BattleTabProps> = memo(({
       setNewTaskReward('15');
       setNewTaskXP('20');
       setNewTaskDuration('30');
+      setNewTaskPriority('medium');
       setNewTaskAttr(AttributeType.WEALTH);
       setEditingProjectSubTasks([]);
       setReminderEnabled(false);
@@ -420,7 +444,7 @@ const BattleTab: React.FC<BattleTabProps> = memo(({
       setReminderTime('');
       setReminderRepeat('none');
       setReminderInterval('1');
-  }, [newTaskTitle, newTaskReward, newTaskXP, newTaskDuration, newTaskType, newTaskAttr, newTaskDiceCategory, reminderEnabled, reminderDate, reminderTime, reminderRepeat, reminderInterval, editingProjectSubTasks, onAddHabit, onAddProject, onAddDiceTask, onAddFloatingReward, setIsAddTaskOpen, setNewTaskTitle, setNewTaskReward, setNewTaskXP, setNewTaskDuration, setNewTaskAttr, setEditingProjectSubTasks, setReminderEnabled, setReminderDate, setReminderTime, setReminderRepeat, setReminderInterval]);
+  }, [newTaskTitle, newTaskReward, newTaskXP, newTaskDuration, newTaskType, newTaskPriority, newTaskAttr, newTaskDiceCategory, reminderEnabled, reminderDate, reminderTime, reminderRepeat, reminderInterval, editingProjectSubTasks, onAddHabit, onAddProject, onAddDiceTask, onAddFloatingReward, setIsAddTaskOpen, setNewTaskTitle, setNewTaskReward, setNewTaskXP, setNewTaskDuration, setNewTaskPriority, setNewTaskAttr, setEditingProjectSubTasks, setReminderEnabled, setReminderDate, setReminderTime, setReminderRepeat, setReminderInterval]);
 
   // 使用useMemo优化按钮类名计算
   const dailyButtonClass = useMemo(() => `px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
@@ -441,6 +465,18 @@ const BattleTab: React.FC<BattleTabProps> = memo(({
       : getButtonStyle(false, false, isNeomorphic, theme, isDark)
   }`, [taskCategory, isNeomorphic, theme, isDark]);
   
+  const timeboxButtonClass = useMemo(() => `px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+    taskCategory === 'timebox' 
+      ? 'bg-blue-500 text-white' 
+      : getButtonStyle(false, false, isNeomorphic, theme, isDark)
+  }`, [taskCategory, isNeomorphic, theme, isDark]);
+  
+  const diceButtonClass = useMemo(() => `px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+    taskCategory === 'dice' 
+      ? 'bg-blue-500 text-white' 
+      : getButtonStyle(false, false, isNeomorphic, theme, isDark)
+  }`, [taskCategory, isNeomorphic, theme, isDark]);
+  
   return (
     <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8">
       {/* 战略指挥部 - 包含角色状态、任务管理、实时情报 */}
@@ -454,19 +490,25 @@ const BattleTab: React.FC<BattleTabProps> = memo(({
               onClick={() => setTaskCategory('daily')}
               className={dailyButtonClass}
             >
-              日常任务
+              日常显化
             </button>
             <button 
               onClick={() => setTaskCategory('main')}
               className={mainButtonClass}
             >
-              主线战役
+              主线任务
             </button>
             <button 
-              onClick={() => setTaskCategory('random')}
-              className={randomButtonClass}
+              onClick={() => setTaskCategory('timebox')}
+              className={timeboxButtonClass}
             >
-              随机挑战
+              时间盒子
+            </button>
+            <button 
+              onClick={() => setTaskCategory('dice')}
+              className={diceButtonClass}
+            >
+              命运骰子
             </button>
           </div>
         </div>
@@ -510,53 +552,176 @@ const BattleTab: React.FC<BattleTabProps> = memo(({
           />
           
           {/* 任务管理系统 */}
-          <TaskManagement 
-            taskCategory={taskCategory}
-            habitTasks={habitTasks}
-            projectTasks={projectTasks}
-            habitOrder={habitOrder}
-            projectOrder={projectOrder}
-            onToggleHabit={onToggleHabit}
-            onUpdateHabit={onUpdateHabit}
-            onDeleteHabit={onDeleteHabit}
-            onUpdateProject={onUpdateProject}
-            onDeleteProject={onDeleteProject}
-            onAddHabit={onAddHabit}
-            onAddProject={onAddProject}
-            onAddFloatingReward={onAddFloatingReward}
-            challengePool={challengePool}
-            setChallengePool={setChallengePool}
-            todaysChallenges={todaysChallenges}
-            completedRandomTasks={completedRandomTasks}
-            onToggleRandomChallenge={onToggleRandomChallenge}
-            onStartAutoTask={onStartAutoTask}
-            givenUpTasks={givenUpTasks}
-            onCompleteTask={completeTask}
-            onGiveUpTask={giveUpTask}
-            onLevelChange={onLevelChange}
-            theme={theme}
-            isDark={isDark}
-            isNeomorphic={isNeomorphic}
-            cardBg={cardBg}
-            textMain={textMain}
-            textSub={textSub}
-            neomorphicStyles={neomorphicStyles}
-            onUpdateHabitOrder={onUpdateHabitOrder}
-            onUpdateProjectOrder={onUpdateProjectOrder}
-            toggleSubTask={toggleSubTask}
-            giveUpSubTask={giveUpSubTask}
-            openEditTask={openEditTask}
-            openEditRandomTask={openEditRandomTask}
-            onHelpClick={setActiveHelp}
-            settings={settings}
-            onDragStart={handleDragStart}
-            onDragEnd={handleDragEnd}
-            onDragOver={handleDragOver}
-            draggedTask={draggedTask}
-            todayStr={todayStr}
-            onStartTimer={handleStartTimer}
-            setIsNavCollapsed={setIsNavCollapsed}
-          />
+          {taskCategory === 'daily' && (
+            <TaskManagement 
+              taskCategory="daily"
+              habitTasks={habitTasks}
+              projectTasks={projectTasks}
+              habitOrder={habitOrder}
+              projectOrder={projectOrder}
+              onToggleHabit={onToggleHabit}
+              onUpdateHabit={onUpdateHabit}
+              onDeleteHabit={onDeleteHabit}
+              onUpdateProject={onUpdateProject}
+              onDeleteProject={onDeleteProject}
+              onAddHabit={onAddHabit}
+              onAddProject={onAddProject}
+              onAddFloatingReward={onAddFloatingReward}
+              challengePool={challengePool}
+              setChallengePool={setChallengePool}
+              todaysChallenges={todaysChallenges}
+              completedRandomTasks={completedRandomTasks}
+              onToggleRandomChallenge={onToggleRandomChallenge}
+              onStartAutoTask={onStartAutoTask}
+              givenUpTasks={givenUpTasks}
+              onCompleteTask={completeTask}
+              onGiveUpTask={giveUpTask}
+              onLevelChange={onLevelChange}
+              theme={theme}
+              isDark={isDark}
+              isNeomorphic={isNeomorphic}
+              cardBg={cardBg}
+              textMain={textMain}
+              textSub={textSub}
+              neomorphicStyles={neomorphicStyles}
+              onUpdateHabitOrder={onUpdateHabitOrder}
+              onUpdateProjectOrder={onUpdateProjectOrder}
+              toggleSubTask={toggleSubTask}
+              giveUpSubTask={giveUpSubTask}
+              openEditTask={openEditTask}
+              openEditRandomTask={openEditRandomTask}
+              onHelpClick={setActiveHelp}
+              settings={settings}
+              onDragStart={handleDragStart}
+              onDragEnd={handleDragEnd}
+              onDragOver={handleDragOver}
+              draggedTask={draggedTask}
+              todayStr={todayStr}
+              onStartTimer={handleStartTimer}
+              setIsNavCollapsed={setIsNavCollapsed}
+            />
+          )}
+          
+          {taskCategory === 'main' && (
+            <TaskManagement 
+              taskCategory="main"
+              habitTasks={habitTasks}
+              projectTasks={projectTasks}
+              habitOrder={habitOrder}
+              projectOrder={projectOrder}
+              onToggleHabit={onToggleHabit}
+              onUpdateHabit={onUpdateHabit}
+              onDeleteHabit={onDeleteHabit}
+              onUpdateProject={onUpdateProject}
+              onDeleteProject={onDeleteProject}
+              onAddHabit={onAddHabit}
+              onAddProject={onAddProject}
+              onAddFloatingReward={onAddFloatingReward}
+              challengePool={challengePool}
+              setChallengePool={setChallengePool}
+              todaysChallenges={todaysChallenges}
+              completedRandomTasks={completedRandomTasks}
+              onToggleRandomChallenge={onToggleRandomChallenge}
+              onStartAutoTask={onStartAutoTask}
+              givenUpTasks={givenUpTasks}
+              onCompleteTask={completeTask}
+              onGiveUpTask={giveUpTask}
+              onLevelChange={onLevelChange}
+              theme={theme}
+              isDark={isDark}
+              isNeomorphic={isNeomorphic}
+              cardBg={cardBg}
+              textMain={textMain}
+              textSub={textSub}
+              neomorphicStyles={neomorphicStyles}
+              onUpdateHabitOrder={onUpdateHabitOrder}
+              onUpdateProjectOrder={onUpdateProjectOrder}
+              toggleSubTask={toggleSubTask}
+              giveUpSubTask={giveUpSubTask}
+              openEditTask={openEditTask}
+              openEditRandomTask={openEditRandomTask}
+              onHelpClick={setActiveHelp}
+              settings={settings}
+              onDragStart={handleDragStart}
+              onDragEnd={handleDragEnd}
+              onDragOver={handleDragOver}
+              draggedTask={draggedTask}
+              todayStr={todayStr}
+              onStartTimer={handleStartTimer}
+              setIsNavCollapsed={setIsNavCollapsed}
+            />
+          )}
+          
+          {taskCategory === 'timebox' && (
+            <div className={`${cardBg} border p-4 rounded-2xl transition-all duration-300 hover:shadow-lg`}>
+              <div className="flex items-center justify-between mb-4">
+                <div className="text-sm font-bold text-zinc-500 uppercase tracking-wider flex items-center gap-2">
+                  <Clock size={16}/> 时间盒子
+                </div>
+                <button 
+                  onClick={toggleTimeBox}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${getButtonStyle(false, false, isNeomorphic, theme, isDark)}`}
+                >
+                  {isTimeBoxOpen ? '收起' : '展开'}
+                </button>
+              </div>
+              
+              {isTimeBoxOpen && (
+                <div className="space-y-3">
+                  <div className="text-xs text-zinc-500 mb-2">
+                    基于Elon Musk时间管理方法，将大任务分解为25-90分钟的专注时段
+                  </div>
+                  <div className="space-y-2">
+                    {timeBoxTasks.map(task => (
+                      <div 
+                        key={task.id} 
+                        className={`${cardBg} border p-2 rounded-lg flex items-center justify-between transition-all duration-300 hover:shadow-md`}
+                      >
+                        <div className="flex items-center gap-2">
+                          <div className={`w-2 h-2 rounded-full ${task.status === '进行中' ? 'bg-blue-500' : 'bg-zinc-400'}`}></div>
+                          <div>
+                            <div className="text-sm font-medium">{task.title}</div>
+                            <div className="text-xs text-zinc-500">{task.duration}分钟</div>
+                          </div>
+                        </div>
+                        <div className={`text-xs px-2 py-0.5 rounded ${task.status === '进行中' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' : 'bg-zinc-100 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-200'}`}>
+                          {task.status}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+          
+          {taskCategory === 'dice' && (
+            <div className={`${cardBg} border p-4 rounded-2xl transition-all duration-300 hover:shadow-lg`}>
+              <div className="flex items-center justify-between mb-4">
+                <div className="text-sm font-bold text-zinc-500 uppercase tracking-wider flex items-center gap-2">
+                  <Dice5 size={16}/> 命运骰子
+                </div>
+              </div>
+              <FateDice 
+                diceState={diceState}
+                onSpinDice={onSpinDice}
+                onDiceResult={onDiceResult}
+                onAddDiceTask={onAddDiceTask}
+                onDeleteDiceTask={onDeleteDiceTask}
+                onUpdateDiceTask={onUpdateDiceTask}
+                onUpdateDiceConfig={onUpdateDiceConfig}
+                onUpdateDiceState={onUpdateDiceState}
+                theme={theme}
+                isDark={isDark}
+                isNeomorphic={isNeomorphic}
+                cardBg={cardBg}
+                textMain={textMain}
+                textSub={textSub}
+                neomorphicStyles={neomorphicStyles}
+                onAddFloatingReward={onAddFloatingReward}
+              />
+            </div>
+          )}
         </div>
       </div>
       

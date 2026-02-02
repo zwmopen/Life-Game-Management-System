@@ -120,19 +120,57 @@ export default defineConfig(({ mode }) => {
         terserOptions: {
           compress: {
             drop_console: true,
-            drop_debugger: true
+            drop_debugger: true,
+            // 更严格的压缩选项
+            passes: 2,
+            pure_funcs: ['console.log', 'console.warn', 'console.error']
+          },
+          mangle: {
+            toplevel: true,
+            properties: {
+              regex: /^_/,
+              keep_quoted: true
+            }
           }
         },
         // 支持GitHub Pages部署
         outDir: 'dist',
         assetsDir: 'assets',
+        // 生成source map以方便调试
+        sourcemap: false,
+        // 启用CSS代码分割
+        cssCodeSplit: true,
+        // 优化大文件处理
+        chunkSizeWarningLimit: 1000,
+        // 启用依赖预构建
+        optimizeDeps: {
+          include: ['react', 'react-dom', 'lucide-react'],
+          exclude: ['@capacitor/core', '@capacitor/android', '@capacitor/ios'],
+          // 强制预构建所有依赖
+          force: true
+        },
         rollupOptions: {
           output: {
             manualChunks: {
               react: ['react', 'react-dom'],
               recharts: ['recharts'],
-              dndkit: ['@dnd-kit/core', '@dnd-kit/sortable', '@dnd-kit/utilities']
-            }
+              dndkit: ['@dnd-kit/core', '@dnd-kit/sortable', '@dnd-kit/utilities'],
+              three: ['three', 'three-stdlib'],
+              googlegenai: ['@google/genai'],
+              lucide: ['lucide-react'],
+              crypto: ['crypto-js', 'bcryptjs', 'jsonwebtoken'],
+              audio: ['@tweenjs/tween.js']
+            },
+            // 优化chunk命名
+            entryFileNames: 'assets/js/[name]-[hash].js',
+            chunkFileNames: 'assets/js/[name]-[hash].js',
+            assetFileNames: 'assets/[ext]/[name]-[hash].[ext]'
+          },
+          // 树摇配置
+          treeshake: {
+            moduleSideEffects: false,
+            propertyReadSideEffects: false,
+            tryCatchDeoptimization: false
           }
         }
       }

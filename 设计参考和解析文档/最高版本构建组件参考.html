@@ -1,0 +1,593 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>最高版本自我 (静态版)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..900;1,400..900&family=Belleza&display=swap" rel="stylesheet">
+    <style>
+        /* Based on src/app/globals.css */
+        :root {
+            --background: 208 100% 97%;
+            --foreground: 275 25% 20%;
+            --card: 208 100% 97%;
+            --card-foreground: 275 25% 20%;
+            --popover: 208 100% 97%;
+            --popover-foreground: 275 25% 20%;
+            --primary: 275 100% 25%;
+            --primary-foreground: 28 100% 98%;
+            --secondary: 208 50% 92%;
+            --secondary-foreground: 275 25% 20%;
+            --muted: 208 30% 90%;
+            --muted-foreground: 275 10% 40%;
+            --accent: 28 100% 86%;
+            --accent-foreground: 275 100% 25%;
+            --destructive: 0 84.2% 60.2%;
+            --destructive-foreground: 0 0% 98%;
+            --border: 208 20% 88%;
+            --input: 208 30% 94%;
+            --ring: 275 100% 50%;
+            --radius: 0.75rem;
+        }
+
+        /* General styles */
+        * {
+            box-sizing: border-box;
+            border-color: hsl(var(--border));
+        }
+
+        body {
+            background-color: hsl(var(--background));
+            color: hsl(var(--foreground));
+            font-family: 'Alegreya', serif;
+            margin: 0;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+
+        .font-headline {
+            font-family: 'Belleza', sans-serif;
+        }
+
+        .container {
+            max-width: 1152px; /* max-w-7xl */
+            margin: 0 auto;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+             font-weight: bold;
+        }
+
+        /* Card component imitation */
+        .card {
+            background-color: hsl(var(--card));
+            color: hsl(var(--card-foreground));
+            border: 1px solid hsl(var(--border));
+            border-radius: var(--radius);
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            margin-bottom: 2rem;
+        }
+        .card-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid hsl(var(--border));
+        }
+        .card-content {
+            padding: 1.5rem;
+        }
+        .card-title {
+            font-size: 1.5rem;
+            line-height: 2rem;
+            font-family: 'Belleza', sans-serif;
+        }
+        .card-description {
+            color: hsl(var(--muted-foreground));
+            font-size: 0.875rem;
+        }
+
+        /* Tabs imitation */
+        .tabs-list {
+            display: flex;
+            background-color: hsl(var(--muted));
+            border-radius: 0.5rem;
+            padding: 0.25rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+        .tab-trigger {
+            padding: 0.5rem 1rem;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            color: hsl(var(--muted-foreground));
+            font-size: 0.875rem;
+            border-radius: 0.375rem; /* rounded-sm */
+            transition: all 0.2s;
+        }
+        .tab-trigger.active {
+            background-color: hsl(var(--background));
+            color: hsl(var(--foreground));
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Table imitation */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+        th, td {
+            padding: 1rem;
+            border-bottom: 1px solid hsl(var(--border));
+        }
+        th {
+            font-family: 'Belleza', sans-serif;
+            color: hsl(var(--muted-foreground));
+        }
+        tr:last-child > td {
+            border-bottom: none;
+        }
+        
+        /* Badge imitation */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            border-radius: 9999px;
+            border: 1px solid transparent;
+            padding: 0.125rem 0.625rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+        .badge-destructive {
+            background-color: hsl(var(--destructive));
+            color: hsl(var(--destructive-foreground));
+        }
+        .badge-secondary {
+            background-color: hsl(var(--secondary));
+            color: hsl(var(--secondary-foreground));
+        }
+
+        /* Accordion imitation */
+        .accordion-item {
+            border-bottom: 1px solid hsl(var(--border));
+        }
+        .accordion-trigger {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            padding: 1rem 0;
+            font-size: 1.125rem;
+            font-family: 'Belleza', sans-serif;
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+        }
+        .accordion-trigger:after {
+            content: '▼';
+            transition: transform 0.2s;
+        }
+        .accordion-trigger.open:after {
+            transform: rotate(180deg);
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .accordion-content ul {
+            list-style: disc;
+            padding-left: 1.25rem;
+            padding-bottom: 1rem;
+        }
+        
+        /* Form elements */
+        .form-item {
+            margin-bottom: 1rem;
+        }
+        .label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+        .input, .textarea {
+            display: flex;
+            width: 100%;
+            border-radius: 0.375rem;
+            border: 1px solid hsl(var(--input));
+            background-color: hsl(var(--background));
+            padding: 0.5rem 0.75rem;
+            font-size: 0.875rem;
+            color: hsl(var(--foreground));
+        }
+        .input:focus, .textarea:focus {
+            outline: 2px solid hsl(var(--ring));
+            outline-offset: 2px;
+        }
+        .textarea {
+            min-height: 80px;
+        }
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            border-radius: 0.375rem;
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            background-color: hsl(var(--primary));
+            color: hsl(var(--primary-foreground));
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .button:hover {
+            background-color: hsl(var(--primary) / 0.9);
+        }
+        .button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* Daily Tasks */
+        .progress-bar {
+            width: 100%;
+            height: 0.5rem;
+            background-color: hsl(var(--secondary));
+            border-radius: 9999px;
+            overflow: hidden;
+        }
+        .progress-indicator {
+            height: 100%;
+            width: 0%;
+            background-color: hsl(var(--primary));
+            transition: width 0.3s ease;
+        }
+        .task-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background-color: hsl(var(--secondary) / 0.5);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .task-item label.checked {
+            text-decoration: line-through;
+            color: hsl(var(--muted-foreground));
+        }
+    </style>
+</head>
+<body>
+    <main class="container">
+        <header style="text-align: center; margin-bottom: 2rem;">
+            <h1 class="font-headline" style="font-size: 3rem; font-weight: bold; color: hsl(var(--primary));">
+                最高版本自我 (ZWM Pro)
+            </h1>
+            <p style="margin-top: 0.5rem; font-size: 1.25rem; color: hsl(var(--muted-foreground));">
+                一个极致专注、知行合一、开源迭代的超级个体。绝不回滚（No Rollback）。
+            </p>
+        </header>
+
+        <div id="dashboard">
+            <div class="tabs-list">
+                <button class="tab-trigger active" data-tab="overview">系统总览</button>
+                <button class="tab-trigger" data-tab="blueprint">身份蓝图</button>
+                <button class="tab-trigger" data-tab="tasks">每日任务</button>
+                <button class="tab-trigger" data-tab="scripting">现实剧本</button>
+                <button class="tab-trigger" data-tab="ai">AI 助理</button>
+            </div>
+
+            <div id="overview" class="tab-content active">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">ZWM 系统版本迭代对照表</h2>
+                        <p class="card-description">从 ZWM Legacy (v0.9) 到 ZWM Pro (V_Max) 的跃迁路径。</p>
+                    </div>
+                    <div class="card-content" style="overflow-x: auto;">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>核心维度</th>
+                                    <th>⚠️ 旧版本 ZWM Legacy (v0.9) <span class="badge badge-destructive">已卸载</span></th>
+                                    <th>🚀 最高版本 ZWM Pro (V_Max) <span class="badge badge-secondary">运行中</span></th>
+                                </tr>
+                            </thead>
+                            <tbody id="version-comparison-data">
+                                <!-- Data will be injected by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="blueprint" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">ZWM Pro 像素级身份设定（最高版本·已拥有一切）</h2>
+                        <p class="card-description">这是你最高版本的像素级画像，是你一切行动的北极星。</p>
+                    </div>
+                    <div class="card-content" id="avatar-blueprint-accordion">
+                        <!-- Accordion items will be injected by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <div id="tasks" class="tab-content">
+                 <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">每日任务：制造小赢</h2>
+                        <p class="card-description">每天完成 V_Max 会做的小事，记录下来，告诉大脑：“看，我就是这样的人。”</p>
+                    </div>
+                    <div class="card-content">
+                        <div style="margin-bottom: 1rem;">
+                            <div class="progress-bar">
+                                <div id="tasks-progress-indicator" class="progress-indicator"></div>
+                            </div>
+                            <p id="tasks-progress-text" style="text-align: right; font-size: 0.875rem; color: hsl(var(--muted-foreground));">0% 已完成</p>
+                        </div>
+                        <div id="daily-tasks-list">
+                            <!-- Tasks will be injected by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="scripting" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">编写现实剧本</h2>
+                        <p class="card-description">你是编剧，也是演员。把未来的生活写成现在的剧本，针对你最害怕的场景，提前写好“最高版本”的反应剧本。</p>
+                    </div>
+                    <div class="card-content">
+                        <p style="font-size: 0.875rem; color: hsl(var(--muted-foreground));">
+                            <strong>写作技巧:</strong> 使用现在时态书写。不要写“我想要...”，要写<strong>“我是...”</strong>。
+                            <br>
+                            <strong>错误示例:</strong> 我希望我有自信，赚到100万。
+                            <br>
+                            <strong>正确示例:</strong> 我是一个极其自信的创业者，我的账户里有100万现金流，我每天从容地处理业务。
+                        </p>
+                        <textarea class="textarea" placeholder="在这里写下你的剧本..." rows="15" style="margin-top: 1rem;"></textarea>
+                        <div style="display: flex; justify-content: flex-end; margin-top: 1rem;">
+                            <button class="button" onclick="alert('剧本已保存！')">保存剧本</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="ai" class="tab-content">
+                <div class="card">
+                    <div class="card-content" style="padding-top: 1.5rem;">
+                        <div style="display:flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--primary))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect x="4" y="12" width="16" height="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v-2a3 3 0 0 0-3-3H9a3 3 0 0 0-3 3v2"/></svg>
+                            <h2 class="font-headline" style="font-size: 1.5rem;">AI 助理</h2>
+                        </div>
+                        
+                        <div class="form-item" style="margin-bottom: 1.5rem;">
+                            <label for="api-key" class="label" style="display: flex; align-items: center; gap: 0.5rem;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 11.27-2.43-2.43a1.41 1.41 0 0 0-2 0l-1.42 1.42a2 2 0 0 1-2.82 0L10.2 7.4a2 2 0 0 0-2.82 0L6 8.82a2 2 0 0 1-2.82 0L2.27 7.91a1.41 1.41 0 0 0-2 0l-2.43 2.43a1.41 1.41 0 0 0 0 2l2.43 2.43a1.41 1.41 0 0 0 2 0l1.42-1.42a2 2 0 0 1 2.82 0l2.86 2.86a2 2 0 0 0 2.82 0l1.42-1.42a2 2 0 0 1 2.82 0l1.42 1.42a1.41 1.41 0 0 0 2 0l2.43-2.43a1.41 1.41 0 0 0 0-2z"/><circle cx="12" cy="12" r="1"/></svg>
+                                硅基流动 API 密钥
+                            </label>
+                            <input id="api-key" placeholder="在此处输入您的 API 密钥" type="password" class="input">
+                            <p style="font-size: 0.75rem; color: hsl(var(--muted-foreground)); margin-top: 0.5rem;">您的 API 密钥将仅用于浏览器会话，不会被储存。</p>
+                        </div>
+
+                        <div id="ai-tabs">
+                             <div class="tabs-list" style="display: grid; grid-template-columns: 1fr 1fr; width: 100%;">
+                                <button class="tab-trigger active" data-tab="review-ai">进度审查</button>
+                                <button class="tab-trigger" data-tab="share-ai">系统更新分享</button>
+                            </div>
+                            <div id="review-ai" class="tab-content active" style="margin-top: 1rem;">
+                               <p class="card-description" style="margin-bottom: 1rem;">根据您提供的信息，AI 将为您提供反馈，识别优势、劣势和需要进一步发展的领域，并建议下一步的行动方案。</p>
+                                <form onsubmit="handleAiSubmit(event, 'review')">
+                                    <div class="form-item">
+                                        <label class="label">过往进展记录</label>
+                                        <textarea class="textarea" rows="5" placeholder="记录你过去的努力、成就和挑战..."></textarea>
+                                    </div>
+                                    <div class="form-item">
+                                        <label class="label">我的目标</label>
+                                        <textarea class="textarea" rows="3" placeholder="你希望在哪些方面得到提升？你的具体目标是什么？"></textarea>
+                                    </div>
+                                    <div class="form-item">
+                                        <label class="label">其他相关信息 (可选)</label>
+                                        <textarea class="textarea" rows="3" placeholder="任何你认为有助于 AI 提供反馈的其他信息。"></textarea>
+                                    </div>
+                                    <button class="button" type="submit">获取 AI 反馈</button>
+                                </form>
+                            </div>
+                            <div id="share-ai" class="tab-content" style="margin-top: 1rem;">
+                                <p class="card-description" style="margin-bottom: 1rem;">将你的进展输出为“系统更新日志”。AI 将根据你的 Avatar 名称和系统表现，生成社交媒体帖子，以增强你的信心并分享你的旅程。</p>
+                                 <form onsubmit="handleAiSubmit(event, 'share')">
+                                    <div class="form-item">
+                                        <label class="label">Avatar 名称</label>
+                                        <input class="input" value="ZWM Pro">
+                                    </div>
+                                    <div class="form-item">
+                                        <label class="label">系统表现总结</label>
+                                        <textarea class="textarea" rows="5" placeholder="总结本次迭代的系统表现，包括改进的领域和成果..."></textarea>
+                                    </div>
+                                    <button class="button" type="submit">生成社交媒体帖子</button>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // Data from src/lib/data.ts
+        const versionComparisonData = [
+            { dimension: '0. 核心定位', oldVersion: '<strong>被动等待者</strong><br/><br/>等待环境、等待好运，拥有宝山却无力挖掘的“废物感”。', newVersion: '<strong>主动开发者</strong><br/><br/>人生游戏的唯一GM，时间掌控者，永不回滚的高维玩家。' },
+            { dimension: '1. 作息系统', oldVersion: '<strong>失控 (Out of Control)</strong><br/><br/>长期熬夜，赖床，电源管理失效，身心长期低电量。', newVersion: '<strong>满电 (Fully Charged)</strong><br/><br/>23:00睡 - 07:00起。醒来即满格，无赖床，身心合一。' },
+            { dimension: '2. 晨间启动', oldVersion: '<strong>卡顿 (Lag)</strong><br/><br/>醒来无计划，被动刷手机，被琐事和情绪牵着走。', newVersion: '<strong>极速启动 (Fast Boot)</strong><br/><br/>1. 滴答清单列任务。<br/>2. 筛选Top3重要紧急。<br/>3. <strong>时间压缩20%</strong>，制造良性压力。' },
+            { dimension: '3. 执行内核', oldVersion: '<strong>死锁 (Deadlock)</strong><br/><br/>多线程内耗，遇到困难就逃避/拖延，任务无限延期。', newVersion: '<strong>单线程心流 (Single-thread Flow)</strong><br/><br/>1. 倒计时开启。<br/>2. <strong>马斯克三连击</strong>解决卡顿。<br/>3. 闹钟响即停，绝不恋战。' },
+            { dimension: '4. I/O (输入/输出)', oldVersion: '<strong>内存溢出 (Memory Leak)</strong><br/><br/>只收藏不践行，只输入不输出。好的思想烂在肚子里。', newVersion: '<strong>开源迭代 (Open Source)</strong><br/><br/>1. 看到好东西 -> <strong>马上践行</strong>。<br/>2. 感悟 -> <strong>打包成产品/更新日志</strong> -> 全网分发。' },
+            { dimension: '5. 错误处理', oldVersion: '<strong>死循环 (Infinite Loop)</strong><br/><br/>明知是坑反复踩，“狗改不了吃屎”，陷入悔恨循环。', newVersion: '<strong>补丁修复 (Hotfix)</strong><br/><br/>踩坑 -> 提取教训 -> <strong>修正代码</strong> -> <strong>永不再犯</strong>。错误只犯一次。' },
+            { dimension: '6. 社交与边界', oldVersion: '<strong>防火墙失效 (Firewall Error)</strong><br/><br/>不敢拒绝，被垃圾人/事消耗精力，过度关注无关紧要的80%。', newVersion: '<strong>精准屏蔽 (Block)</strong><br/><br/>1. 对垃圾信息点击“不感兴趣”。<br/>2. 对消耗型关系果断拉黑。<br/>3. 链接同频高手。' },
+            { dimension: '7. 精神气场', oldVersion: '<strong>低压 (Low Voltage)</strong><br/><br/>畏缩、自卑、阴暗，不敢表达，声音小，眼神躲闪。', newVersion: '<strong>高压 (High Voltage)</strong><br/><br/>自信、笃定、洪亮。脊柱挺拔，走路带风，传递“靠谱”的确定性。' },
+            { dimension: '8. 娱乐风控', oldVersion: '<strong>成瘾 (Addiction)</strong><br/><br/>沉迷短视频/爽文，被多巴胺绑架，导致主任务中断。', newVersion: '<strong>理性克制 (Controlled)</strong><br/><br/>娱乐是充电（音乐/小说），绝不打断主进程。绝不因娱乐而赖床/拖延。' },
+            { dimension: '9. 迭代机制', oldVersion: '<strong>无更新 (No Update)</strong><br/><br/>更新仅停留在表面/短期，长期停滞在低版本。', newVersion: '<strong>持续交付 (CI/CD)</strong><br/><br/>每日复盘，每周迭代。旧版本直接覆盖，<strong>绝不回滚</strong>。' },
+            { dimension: '10. 成果交付', oldVersion: '<strong>无产出 (No Output)</strong><br/><br/>无作品、无名片、无影响力。价值被严重浪费。', newVersion: '<strong>产品化 (Productization)</strong><br/><br/>账号即官网，内容即日志。拥有显性化的作品，积累复利。' }
+        ];
+
+        const avatarBlueprintData = {
+            title: 'ZWM Pro 像素级身份设定（最高版本·已拥有一切）',
+            sections: [
+                { title: '一、基础身份标识', content: [{ label: '角色名称', value: 'ZWM Pro' }, { label: '核心定位', value: '人生游戏唯一开发者、时间掌控者、持续迭代的高维玩家，身心合一、执行笃定、永不回滚的顶级版本自我' }] },
+                { title: '二、作息与时间管理（已固化为本能）', content: [{ label: '作息节律', value: '每日23点准时入睡，7点自然苏醒，睡眠充足，无熬夜、无赖床，身心始终处于满电修复状态' }, { label: '晨间启动', value: '第一时间打开滴答清单录入当日待办，分配时长并压缩10-20%，按四象限排序置顶Top 3，通过时间盒子完成任务框架搭建' }, { label: '专注执行', value: '启动倒计时后关闭所有通知。任务卡壳时，启动「马斯克三连击」5分钟内决策。时间盒结束即停止，记录完成度' }, { label: '复盘优化', value: '每日5分钟记录实际与预估耗时偏差，优化时间盒。每周复盘任务价值，剔除低价值事项' },] },
+                { title: '三、体态与举止（刻入行为的掌控感）', content: [{ label: '体态', value: '站立时腰背笔直、脊柱挺拔，核心收紧，无含胸驼背，始终保持开发者的挺拔姿态' }, { label: '举止', value: '走路步幅稳健、带风前行，步伐坚定有力量，自带高维玩家的气场' }, { label: '表达', value: '声音洪亮有穿透力，吐字清晰，逻辑流畅，表述自信肯定，无迟疑、无冗余' },] },
+                { title: '四、外在状态（健康精致，自带高光）', content: [{ label: '皮肤', value: '状态健康通透，无暗沉、无疲态，肤色均匀，呈现运动与规律作息带来的自然光泽' }, { label: '神态', value: '眼神坚定有神，目光专注有力量，无涣散、无迷茫，自带笃定与掌控的气场' }, { label: '发型', value: '帅气利落、干净清爽，无杂乱、无油腻，贴合自身气质，简约又有质感' }, { label: '穿搭', value: '衣物干净整洁、清爽舒适，搭配风格帅气耐看，简约高级且适配自身身份' },] },
+                { title: '五、内在感受（核心底层状态，时刻在线）', content: [{ label: '每日苏醒', value: '瞬间充满能量，激情澎湃，对新一天的人生游戏充满期待，无焦虑、无内耗' }, { label: '核心状态', value: '身心合一、意念合一，目标清晰、动力充沛，身心健康、身心舒适，全程沉浸在对生活与工作的掌控感中' }, { label: '日常体验', value: '沉浸式工作、沉浸式生活，主动觉察每一个当下，从容淡定，面对任何事务都心无波澜，始终保持稳定的高能量状态' },] },
+                { title: '六、项目推进与做事风格（稳如磐石，日拱一卒）', content: [{ label: '项目执行', value: '每一步推进都扎实稳健，对外呈现极致靠谱的状态，无敷衍、无疏漏，按计划落地每一个环节' }, { label: '任务推进', value: '当日任务当日清，一丝不苟、日拱一卒，执行节奏稳定可控' }, { label: '执行氛围', value: '伴随专属音乐轻松推进任务，所有事务都能在规划时间内高效完成，毫无精力透支感' }, { label: '时间纪律', value: '严格遵循预设时间节点，到点即启动、到点即结束，无拖延、无恋战' },] },
+                { title: '七、娱乐与多巴胺管理（理性克制，无成瘾内耗）', content: [{ label: '娱乐方式', value: '以音乐为核心娱乐载体，偶尔阅读小说，仅作为人生游戏的放松调剂，无过度沉迷' }, { label: '纪律底线', value: '绝不因小说、短视频等多巴胺刺激中断任务，彻底摆脱多巴胺绑架' }, { label: '精力分配', value: '所有娱乐行为均在规划的弹性时间内完成，不侵占核心任务时间' },] },
+                { title: '八、学习与迭代升级（主动输入，即时落地）', content: [{ label: '信息输入', value: '每日固定进行新信息、新知识学习，保持持续输入的习惯，不断拓宽认知边界' }, { label: '践行原则', value: '遇到优质内容，绝不只收藏不行动，立即暂停、记录要点、马上践行' }, { label: '作品输出', value: '主动通过文字、视频形式制作作品，将所思所想打包成模块化插件、更新日志，全平台分享' }, { label: '版本更新', value: '优质认知、方法、插件立即更新至自身系统，覆盖旧版本，绝不回滚' },] },
+                { title: '九、错误修正与边界管理（零重复犯错，精准筛选环境）', content: [{ label: '错误处理', value: '所有错误仅犯一次，踩过的坑绝不重复踏入，从每一次失误中提取迭代经验' }, { label: '信息筛选', value: '对信息输入极度吝啬，主动识别并屏蔽垃圾信息、低价值内容' }, { label: '人际边界', value: '果断拉黑切断消耗型、低质量人群，净化社交环境' }, { label: '迭代态度', value: '对所有能推动自身版本升级的事物，保持极致积极主动，投入全部热情与专注' },] },
+                { title: '十、核心行为准则（ZWM Pro 底层逻辑）', content: [{ label: '准则 1', value: '永远主动迭代，拒绝被动等待，旧版本直接覆盖，系统永不回滚' }, { label: '准则 2', value: '时间是核心资源，用时间盒子、压缩时长、倒计时三重机制牢牢掌控' }, { label: '准则 3', value: '专注单线程，用马斯克三连击破解所有卡壳，5分钟内完成决策' }, { label: '准则 4', value: '输入必践行，践行必输出，输出必迭代，形成认知-行动-升级的闭环' }, { label: '准则 5', value: '屏蔽垃圾信息与人，守住精力边界，把全部注意力投入自我升级' }, { label: '准则 6', value: '从容不焦虑，掌控每一个当下，享受人生游戏的推进过程与最终结果' },] }
+            ]
+        };
+
+        const dailyTasksData = [
+            { id: 'task-1', label: '早上 7:00 自然苏醒，不赖床' },
+            { id: 'task-2', label: '使用滴答清单规划当日任务' },
+            { id: 'task-3', label: '完成 30 分钟的体育锻炼' },
+            { id: 'task-4', label: '阅读 10 页书' },
+            { id: 'task-5', label: '进行一次单线程专注工作（时间盒）' },
+            { id: 'task-6', label: '晚上 23:00 准时入睡' },
+            { id: 'task-7', label: '每日复盘，优化时间感' },
+            { id: 'task-8', label: '发布一篇“更新日志”（文章/视频）' },
+        ];
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Tab switching logic
+            function setupTabs(containerId) {
+                const container = document.getElementById(containerId);
+                const tabTriggers = container.querySelectorAll(':scope > .tabs-list .tab-trigger');
+                const tabContents = container.querySelectorAll(':scope > .tab-content');
+
+                tabTriggers.forEach(trigger => {
+                    trigger.addEventListener('click', () => {
+                        tabTriggers.forEach(t => t.classList.remove('active'));
+                        tabContents.forEach(c => c.classList.remove('active'));
+
+                        trigger.classList.add('active');
+                        container.querySelector(`#${trigger.dataset.tab}`).classList.add('active');
+                    });
+                });
+            }
+
+            setupTabs('dashboard');
+            setupTabs('ai-tabs');
+
+            // Inject version comparison data
+            const versionTableBody = document.getElementById('version-comparison-data');
+            versionTableBody.innerHTML = versionComparisonData.map(row => `
+                <tr>
+                    <td style="font-weight: 500;">${row.dimension}</td>
+                    <td>${row.oldVersion}</td>
+                    <td>${row.newVersion}</td>
+                </tr>
+            `).join('');
+
+            // Inject and setup avatar blueprint accordion
+            const accordionContainer = document.getElementById('avatar-blueprint-accordion');
+            accordionContainer.innerHTML = avatarBlueprintData.sections.map((section, index) => `
+                <div class="accordion-item">
+                    <h2>
+                        <button class="accordion-trigger" data-index="${index}">
+                           ${section.title}
+                        </button>
+                    </h2>
+                    <div class="accordion-content">
+                        <ul>
+                            ${section.content.map(item => `
+                                <li>
+                                    <strong style="color: hsl(var(--primary) / 0.8);">${item.label}:</strong> ${item.value}
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                </div>
+            `).join('');
+            
+            accordionContainer.querySelectorAll('.accordion-trigger').forEach(trigger => {
+                trigger.addEventListener('click', () => {
+                    const content = trigger.parentElement.nextElementSibling;
+                    const isOpen = trigger.classList.toggle('open');
+                    
+                    if (isOpen) {
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                    } else {
+                        content.style.maxHeight = '0';
+                    }
+                });
+            });
+             // Set first accordion item open by default
+            const firstTrigger = accordionContainer.querySelector('.accordion-trigger');
+            if(firstTrigger) {
+                firstTrigger.click();
+            }
+
+            // Inject and setup daily tasks
+            const tasksListContainer = document.getElementById('daily-tasks-list');
+            tasksListContainer.innerHTML = dailyTasksData.map(task => `
+                <div class="task-item">
+                    <input type="checkbox" id="${task.id}" data-task-checkbox>
+                    <label for="${task.id}">${task.label}</label>
+                </div>
+            `).join('');
+
+            const taskCheckboxes = tasksListContainer.querySelectorAll('[data-task-checkbox]');
+            const progressIndicator = document.getElementById('tasks-progress-indicator');
+            const progressText = document.getElementById('tasks-progress-text');
+            
+            function updateProgress() {
+                const checkedCount = Array.from(taskCheckboxes).filter(cb => cb.checked).length;
+                const progress = (checkedCount / taskCheckboxes.length) * 100;
+                progressIndicator.style.width = `${progress}%`;
+                progressText.textContent = `${Math.round(progress)}% 已完成`;
+                
+                taskCheckboxes.forEach(checkbox => {
+                    const label = checkbox.nextElementSibling;
+                    if (checkbox.checked) {
+                        label.classList.add('checked');
+                    } else {
+                        label.classList.remove('checked');
+                    }
+                });
+            }
+
+            taskCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', updateProgress);
+            });
+        });
+
+        function handleAiSubmit(event, type) {
+            event.preventDefault();
+            const apiKey = document.getElementById('api-key').value;
+            if (!apiKey) {
+                alert('API 密钥缺失，请输入您的硅基流动 API 密钥。');
+                return;
+            }
+            alert(`已提交到 AI 助理进行"${type === 'review' ? '进度审查': '系统更新分享'}"。这是一个静态演示，不会真的发送请求。`);
+        }
+    </script>
+</body>
+</html>
+    

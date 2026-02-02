@@ -739,6 +739,34 @@ const SelfManifestation: React.FC<HighestVersionProps> = ({ onHelpClick }) => {
     });
   }, []);
 
+  // 时间盒子功能
+  const [isTimeBoxOpen, setIsTimeBoxOpen] = useState(false);
+  const [timeBoxTasks, setTimeBoxTasks] = useState([
+    { id: 1, title: '实现任务状态管理', duration: 90, status: '进行中' },
+    { id: 2, title: '构建分析页面', duration: 150, status: '待处理' },
+    { id: 3, title: '创建专注模式页面', duration: 75, status: '待处理' }
+  ]);
+
+  const toggleTimeBox = useCallback(() => {
+    setIsTimeBoxOpen(prev => !prev);
+  }, []);
+
+  const addTimeBoxTask = useCallback((title: string, duration: number) => {
+    const newTask = {
+      id: Date.now(),
+      title,
+      duration,
+      status: '待处理'
+    };
+    setTimeBoxTasks(prev => [...prev, newTask]);
+  }, []);
+
+  const completeTimeBoxTask = useCallback((taskId: number) => {
+    setTimeBoxTasks(prev => prev.map(task => 
+      task.id === taskId ? { ...task, status: '已完成' } : task
+    ));
+  }, []);
+
   const versionComparisonData = [
     { dimension: '0. 核心定位', oldVersion: '<strong>被动等待者</strong><br/><br/>等待环境、等待好运，拥有宝山却无力挖掘的“废物感”。', newVersion: '<strong>主动开发者</strong><br/><br/>人生游戏的唯一GM，时间掌控者，永不回滚的高维玩家。' },
     { dimension: '1. 作息系统', oldVersion: '<strong>失控 (Out of Control)</strong><br/><br/>长期熬夜，赖床，电源管理失效，身心长期低电量。', newVersion: '<strong>满电 (Fully Charged)</strong><br/><br/>23:00睡 - 07:00起。醒来即满格，无赖床，身心合一。' },
@@ -894,7 +922,7 @@ const SelfManifestation: React.FC<HighestVersionProps> = ({ onHelpClick }) => {
             [
               { id: 'overview', label: '系统总览' },
               { id: 'blueprint', label: '身份蓝图' },
-              { id: 'tasks', label: '每日任务' },
+              { id: 'tasks', label: '日常显化' },
               { id: 'scripting', label: '现实剧本' },
               { id: 'subbgm', label: 'SUB&KDY' },
               { id: 'ai', label: 'AI 助理' }
@@ -1067,6 +1095,64 @@ const SelfManifestation: React.FC<HighestVersionProps> = ({ onHelpClick }) => {
                 ))}
               </div>
             </div>
+          </div>
+        )}
+
+        {/* 时间盒子 */}
+        {activeTab === 'tasks' && (
+          <div className="my-6">
+            <button 
+              onClick={toggleTimeBox}
+              className={`w-full py-4 rounded-2xl ${themeStyles.cardBg} ${themeStyles.cardBorder} border ${theme === 'neomorphic-dark' ? 'shadow-[12px_12px_24px_rgba(0,0,0,0.5),-12px_-12px_24px_rgba(30,30,46,1)] hover:shadow-[8px_8px_16px_rgba(0,0,0,0.4),-8px_-8px_16px_rgba(30,30,46,0.8)]' : 'shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] hover:shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]'} transition-all duration-300 flex items-center justify-between`}
+            >
+              <div className="flex items-center">
+                <Clock size={24} className={`mr-3 ${themeStyles.primaryText}`} />
+                <h3 className={`text-xl font-bold ${themeStyles.text}`}>时间盒子</h3>
+              </div>
+              <div className={`p-2 rounded-full ${themeStyles.cardBg} ${theme === 'neomorphic-dark' ? 'shadow-[5px_5px_10px_rgba(0,0,0,0.3),-5px_-5px_10px_rgba(30,30,46,0.7)]' : 'shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)]'}`}>
+                {isTimeBoxOpen ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
+              </div>
+            </button>
+
+            {isTimeBoxOpen && (
+              <div className={`mt-4 rounded-2xl ${themeStyles.cardBg} ${themeStyles.cardBorder} border ${theme === 'neomorphic-dark' ? 'shadow-[12px_12px_24px_rgba(0,0,0,0.5),-12px_-12px_24px_rgba(30,30,46,1)]' : 'shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)]'}`}>
+                <div className="p-6 border-b border-gray-200">
+                  <h3 className={`text-xl font-bold mb-2 ${themeStyles.text}`}>
+                    基于Elon Musk的时间管理方法论
+                  </h3>
+                  <p className={`${themeStyles.mutedText}`}>
+                    将时间分割成固定长度的时间段，每个时间段专注于单一任务，提高效率和专注力。
+                  </p>
+                </div>
+                <div className="p-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {timeBoxTasks.map((task) => (
+                      <div 
+                        key={task.id}
+                        className={`${themeStyles.cardBg} rounded-xl ${theme === 'neomorphic-dark' ? 'shadow-[5px_5px_10px_rgba(0,0,0,0.3),-5px_-5px_10px_rgba(30,30,46,0.7)]' : 'shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)]'} p-4 border-l-4 border-blue-500 transition-all duration-300 hover:shadow-lg`}
+                      >
+                        <div className="flex justify-between items-start mb-2">
+                          <h4 className={`font-semibold ${themeStyles.text}`}>{task.title}</h4>
+                          <span className={`text-sm ${task.status === '已完成' ? 'text-green-500' : 'text-blue-500'}`}>{task.status}</span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center">
+                            <Clock size={16} className={`mr-2 ${themeStyles.mutedText}`} />
+                            <span className={`text-sm ${themeStyles.mutedText}`}>{task.duration} 分钟</span>
+                          </div>
+                          <button
+                            onClick={() => completeTimeBoxTask(task.id)}
+                            className={`px-3 py-1 rounded-lg text-xs font-medium ${task.status === '已完成' ? 'bg-gray-200 text-gray-600' : `${themeStyles.buttonBg} text-white hover:${themeStyles.buttonHoverBg}`} transition-all`}
+                          >
+                            {task.status === '已完成' ? '已完成' : '标记完成'}
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         )}
 

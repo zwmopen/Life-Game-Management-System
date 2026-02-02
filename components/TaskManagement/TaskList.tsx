@@ -2,7 +2,7 @@
  * 任务列表组件 - 日常任务和主线任务的渲染
  */
 
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 import { Check, X, Edit3, GripVertical, Play } from 'lucide-react';
 import { TaskItem } from './types';
 
@@ -45,6 +45,22 @@ const TaskList: React.FC<TaskListProps> = memo(({
   isDark,
   isNeomorphic
 }) => {
+  // 状态管理：跟踪每个任务的展开/折叠状态
+  const [expandedTasks, setExpandedTasks] = useState<{[key: string]: boolean}>(
+    // 初始化状态，默认所有任务都是折叠状态
+    tasks.reduce((acc, task) => {
+      acc[task.id] = false;
+      return acc;
+    }, {} as {[key: string]: boolean})
+  );
+  
+  // 切换任务展开/折叠状态
+  const toggleTaskExpanded = (taskId: string) => {
+    setExpandedTasks(prev => ({
+      ...prev,
+      [taskId]: !prev[taskId]
+    }));
+  };
   // 日常任务渲染
   const renderDailyTask = (task: TaskItem, index: number) => (
     <div 
@@ -71,10 +87,20 @@ const TaskList: React.FC<TaskListProps> = memo(({
             <button onClick={() => onOpenEditTask(task)} className="opacity-0 group-hover:opacity-100 text-zinc-500 hover:text-blue-500 transition-opacity ml-1 sm:ml-2"><Edit3 size={12}/></button>
           </div>
           <div className="flex items-center gap-2 sm:gap-3 text-[11px] font-mono text-zinc-500 mt-1 flex-wrap">
-            <span className="text-purple-400">+{task.xp}</span>
-            <span className="text-yellow-500">+{task.gold}</span>
-            <span className="text-blue-500">{task.duration || 25}m</span>
-          </div>
+              <span className="text-purple-400">总经验 +{task.xp}</span>
+              <span className="text-yellow-500">总金币 +{task.gold}</span>
+              <span className="text-blue-500">总时长 {task.duration || 25} 分钟</span>
+              <span className="flex items-center gap-1">
+                <span className={`${task.priority === 'high' ? 'text-red-500' : task.priority === 'medium' ? 'text-yellow-500' : 'text-green-500'}`}>
+                  {task.priority === 'high' ? '🔥' : task.priority === 'medium' ? '⚡' : '🌱'}
+                </span>
+                <span className="text-zinc-500">{task.priority === 'high' ? '高' : task.priority === 'medium' ? '中' : '低'}</span>
+              </span>
+              <span className="flex items-center gap-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-500"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                <span className="text-zinc-500">{task.completed ? '已完成' : '待处理'}</span>
+              </span>
+            </div>
         </div>
         <div className="flex items-center gap-1 sm:gap-2">
           {!task.completed && !task.isGivenUp && (
@@ -108,6 +134,21 @@ const TaskList: React.FC<TaskListProps> = memo(({
           </button>
           <div className="flex-1">
             <div className="flex items-center gap-1.5 mb-1 flex-wrap">
+              <button 
+                onClick={() => toggleTaskExpanded(task.id)}
+                className="w-4 h-4 mr-1 text-zinc-500 hover:text-blue-500 transition-colors flex items-center justify-center"
+                title={expandedTasks[task.id] ? '收起子任务' : '展开子任务'}
+              >
+                {expandedTasks[task.id] ? (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M6 9l6 6 6-6"/>
+                  </svg>
+                ) : (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M18 15l-6-6-6 6"/>
+                  </svg>
+                )}
+              </button>
               <h3 className={`font-bold ${task.completed ? 'line-through text-zinc-500' : textMain}`}>
                 {task.text}
               </h3>
@@ -118,6 +159,12 @@ const TaskList: React.FC<TaskListProps> = memo(({
               <span className="text-purple-400">总经验 +{task.xp}</span>
               <span className="text-yellow-500">总金币 +{task.gold}</span>
               <span className="text-blue-500">总时长 {task.subTasks?.reduce((sum, st) => sum + st.duration, 0)} 分钟</span>
+              <span className="flex items-center gap-1">
+                <span className={`${task.priority === 'high' ? 'text-red-500' : task.priority === 'medium' ? 'text-yellow-500' : 'text-green-500'}`}>
+                  {task.priority === 'high' ? '🔥' : task.priority === 'medium' ? '⚡' : '🌱'}
+                </span>
+                <span className="text-zinc-500">{task.priority === 'high' ? '高' : task.priority === 'medium' ? '中' : '低'}</span>
+              </span>
             </div>
             {/* 主线任务进度条 */}
             {!task.completed && task.subTasks && (
@@ -136,8 +183,8 @@ const TaskList: React.FC<TaskListProps> = memo(({
           </div>
         </div>
       </div>
-      {/* 子任务列表 */}
-      {task.subTasks && !task.completed && (
+      {/* 子任务列表 - 只在任务未完成且展开时显示 */}
+      {task.subTasks && !task.completed && expandedTasks[task.id] && (
         <div className={`border-t p-1 sm:p-2 space-y-1 ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'border-[#1e1e2e] bg-[#1e1e2e]' : 'border-[#e0e5ec] bg-[#e0e5ec]') : isDark ? 'border-zinc-800 bg-zinc-950/30' : 'border-slate-200 bg-slate-50'}`}>
           {task.subTasks.map((st) => {
             // 提取子任务卡片样式逻辑到变量

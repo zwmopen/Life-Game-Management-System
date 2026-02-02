@@ -7,7 +7,7 @@
 
 import React, { useCallback, useMemo, useState } from 'react';
 import { logInfo, logError, logWarn } from '../../utils/logger';
-import { ListTodo, Target, Sparkles, Plus } from 'lucide-react';
+import { ListTodo, Target, Sparkles, Plus, Clock, Edit3 } from 'lucide-react';
 import { GlobalHelpButton } from '../HelpSystem';
 import TaskList from './TaskList';
 import DiceTaskList from './DiceTaskList';
@@ -54,6 +54,40 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
   
   // 搜索状态
   const [searchTerm, setSearchTerm] = useState('');
+  
+  // 状态管理：跟踪每个任务的展开/折叠状态
+  const [expandedTasks, setExpandedTasks] = useState<{[key: string]: boolean}>(
+    // 初始化状态，默认所有任务都是折叠状态
+    projectTasks.reduce((acc, task) => {
+      acc[task.id] = false;
+      return acc;
+    }, {} as {[key: string]: boolean})
+  );
+  
+  // 状态管理：跟踪正在进行番茄钟计时的任务
+  const [activeTasks, setActiveTasks] = useState<Set<string>>(new Set());
+  
+  // 切换任务展开/折叠状态
+  const toggleTaskExpanded = (taskId: string) => {
+    setExpandedTasks(prev => ({
+      ...prev,
+      [taskId]: !prev[taskId]
+    }));
+  };
+  
+  // 开始任务的番茄钟计时
+  const startTaskTimer = (taskId: string) => {
+    setActiveTasks(prev => new Set(prev).add(taskId));
+  };
+  
+  // 停止任务的番茄钟计时
+  const stopTaskTimer = (taskId: string) => {
+    setActiveTasks(prev => {
+      const newSet = new Set(prev);
+      newSet.delete(taskId);
+      return newSet;
+    });
+  };
 
   // 过滤任务函数
   const filterTasks = useCallback((tasks: any[], searchTerm: string) => {
@@ -163,7 +197,7 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
       const total = habitTasks.length;
       const percentage = total > 0 ? `${Math.round((completed / total) * 100)}%` : '0%';
       return { percentage, completed, total };
-    } else if (taskCategory === 'main') {
+    } else if (taskCategory === 'main' || taskCategory === 'timebox') {
       const totalWeight = projectTasks.length;
       if (totalWeight === 0) return { percentage: '0%', completed: 0, total: 0 };
       
@@ -253,7 +287,7 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
                 : (isDark ? 'text-zinc-400 hover:text-zinc-100' : 'text-slate-500 hover:text-slate-800')
             }`}
           >
-            <ListTodo size={14} /> 日常任务
+            <ListTodo size={14} /> 日常显化
             {overdueDailyTasksCount > 0 && (
               <span className="ml-1 relative flex h-5 w-5 items-center justify-center">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
@@ -264,26 +298,18 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
             )}
           </button>
           <button 
-            onClick={() => setTaskCategory('main')} 
+            onClick={() => setTaskCategory('timebox')} 
             className={`flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full transition-all font-semibold text-xs sm:text-sm ${
-              taskCategory === 'main' 
+              taskCategory === 'timebox' 
                 ? (isNeomorphic 
                   ? (theme === 'neomorphic-dark' 
-                    ? 'bg-[#1e1e2e] text-purple-400 shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-4px_-4px_8px_rgba(30,30,46,0.8)]' 
-                    : 'bg-[#e0e5ec] text-purple-600 shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]')
-                  : (isDark ? 'bg-purple-600 text-white' : 'bg-purple-500 text-white'))
+                    ? 'bg-[#1e1e2e] text-green-400 shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-4px_-4px_8px_rgba(30,30,46,0.8)]' 
+                    : 'bg-[#e0e5ec] text-green-600 shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]')
+                  : (isDark ? 'bg-green-600 text-white' : 'bg-green-500 text-white'))
                 : (isDark ? 'text-zinc-400 hover:text-zinc-100' : 'text-slate-500 hover:text-slate-800')
             }`}
           >
-            <Target size={14} /> 主线任务
-            {overdueMainTasksCount > 0 && (
-              <span className="ml-1 relative flex h-5 w-5 items-center justify-center">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-5 w-5 bg-red-500 items-center justify-center text-[8px] font-bold text-white">
-                  {overdueMainTasksCount > 9 ? '9+' : overdueMainTasksCount}
-                </span>
-              </span>
-            )}
+            <Target size={14} /> 时间盒子
           </button>
           <button 
             onClick={() => setTaskCategory('random')} 
@@ -389,6 +415,211 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
           isDark={isDark}
           isNeomorphic={isNeomorphic}
         />
+      )}
+
+      {taskCategory === 'timebox' && (
+        <div className={`${cardBg} border p-4 rounded-xl transition-all duration-300 hover:shadow-lg`}>
+          <div className="flex items-center justify-between mb-4">
+            <div className="text-sm font-bold text-zinc-500 uppercase tracking-wider flex items-center gap-2">
+              <Clock size={16}/> 时间盒子
+            </div>
+          </div>
+          <div className="space-y-6">
+            <div className="text-xs text-zinc-500">
+              基于Elon Musk时间管理方法，将大任务分解为25-90分钟的专注时段
+            </div>
+            
+            {/* 统计卡片 */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className={`${cardBg} border rounded-lg p-3 transition-all duration-300 hover:shadow-md`}>
+                <div className="flex justify-between items-center mb-2">
+                  <h3 className="text-xs font-medium text-zinc-600">完成率</h3>
+                  <span className="text-xs text-zinc-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                  </span>
+                </div>
+                <p className="text-lg font-bold text-zinc-700">0%</p>
+                <p className="text-xs text-zinc-500">0/3 任务已完成</p>
+              </div>
+              
+              <div className={`${cardBg} border rounded-lg p-3 transition-all duration-300 hover:shadow-md`}>
+                <div className="flex justify-between items-center mb-2">
+                  <h3 className="text-xs font-medium text-zinc-600">已完成任务</h3>
+                  <span className="text-xs text-zinc-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                  </span>
+                </div>
+                <p className="text-lg font-bold text-zinc-700">0</p>
+                <p className="text-xs text-zinc-500">你做得很好！</p>
+              </div>
+              
+              <div className={`${cardBg} border rounded-lg p-3 transition-all duration-300 hover:shadow-md`}>
+                <div className="flex justify-between items-center mb-2">
+                  <h3 className="text-xs font-medium text-zinc-600">平均专注时间</h3>
+                  <span className="text-xs text-zinc-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                  </span>
+                </div>
+                <p className="text-lg font-bold text-zinc-700">105 分钟</p>
+                <p className="text-xs text-zinc-500">每个已完成任务</p>
+              </div>
+              
+              <div className={`${cardBg} border rounded-lg p-3 transition-all duration-300 hover:shadow-md`}>
+                <div className="flex justify-between items-center mb-2">
+                  <h3 className="text-xs font-medium text-zinc-600">效率得分</h3>
+                  <span className="text-xs text-zinc-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                  </span>
+                </div>
+                <p className="text-lg font-bold text-zinc-700">-23</p>
+                <p className="text-xs text-zinc-500">基于完成情况和时间</p>
+              </div>
+            </div>
+            
+            {/* 今日焦点 */}
+            <div>
+              <div className="flex justify-between items-center mb-3">
+                <h2 className="text-base font-semibold text-zinc-700">今日焦点</h2>
+                <div className="flex space-x-2">
+                  {/* 帮助按钮 */}
+                  {onShowHelp && (
+                    <button
+                      onClick={() => onShowHelp('time-box')}
+                      className="flex items-center justify-center text-zinc-500 hover:text-blue-400 p-1 rounded-full"
+                      aria-label="帮助"
+                      title="查看说明"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><path d="M12 17h.01"></path></svg>
+                    </button>
+                  )}
+                </div>
+              </div>
+              
+              {/* 任务列表 */}
+              <div className="flex flex-col gap-4">
+                {projectTasks.map(task => (
+                  <div 
+                    key={task.id} 
+                    className={`relative group rounded-lg border transition-all overflow-hidden cursor-pointer ${task.completed ? 'opacity-50 grayscale ' + (isDark ? 'bg-zinc-950/50' : 'bg-slate-100') : ''} ${cardBg} ${!task.completed ? 'hover:shadow-lg' : (isDark ? 'border-zinc-800' : 'border-slate-200')}`}
+                  >
+                    <div className="p-3 flex flex-col gap-2">
+                      <div className="flex items-center gap-2">
+                        <button onClick={(e) => onCompleteTask(task, e)} className={`w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all shrink-0 ${task.completed ? 'bg-emerald-500 border-emerald-500 text-white' : (isDark ? 'border-zinc-600 hover:border-emerald-500 cursor-pointer' : 'border-slate-300 hover:border-emerald-500 bg-white cursor-pointer')}`}>
+                          {task.completed && <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>}
+                        </button>
+                        <div className="flex-1">
+                          <div className="flex items-center gap-1.5 mb-1 flex-wrap">
+                            {task.subTasks && !task.completed && (
+                              <button 
+                                onClick={() => toggleTaskExpanded(task.id)}
+                                className="w-4 h-4 mr-1 text-zinc-500 hover:text-blue-500 transition-colors flex items-center justify-center"
+                                title={expandedTasks[task.id] ? '收起子任务' : '展开子任务'}
+                              >
+                                {expandedTasks[task.id] ? (
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M6 9l6 6 6-6"/>
+                                  </svg>
+                                ) : (
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M18 15l-6-6-6 6"/>
+                                  </svg>
+                                )}
+                              </button>
+                            )}
+                            <h3 className={`font-bold ${task.completed ? 'line-through text-zinc-500' : textMain}`}>
+                              {task.text}
+                            </h3>
+                            <button onClick={() => onOpenEditTask(task)} className="opacity-0 group-hover:opacity-100 text-zinc-500 hover:text-blue-500 transition-opacity ml-1"><Edit3 size={12}/></button>
+                          </div>
+                          {/* 显示主任务的经验、金币、消耗时长、优先级和状态 */}
+                          <div className="flex items-center gap-2 sm:gap-3 text-xs font-mono text-zinc-500 flex-wrap">
+                            <span className="text-purple-400">总经验 +{task.xp}</span>
+                            <span className="text-yellow-500">总金币 +{task.gold}</span>
+                            <span className="text-blue-500">总时长 {task.subTasks?.reduce((sum, st) => sum + st.duration, 0)} 分钟</span>
+                            <span className="flex items-center gap-1">
+                              <span className={`${task.priority === 'high' ? 'text-red-500' : task.priority === 'medium' ? 'text-yellow-500' : 'text-green-500'}`}>
+                                {task.priority === 'high' ? '🔥' : task.priority === 'medium' ? '⚡' : '🌱'}
+                              </span>
+                              <span className="text-zinc-500">{task.priority === 'high' ? '高' : task.priority === 'medium' ? '中' : '低'}</span>
+                            </span>
+                            <span className="flex items-center gap-1">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-500"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                              <span className="text-zinc-500">{task.completed ? '已完成' : activeTasks.has(task.id) ? '进行中' : '待处理'}</span>
+                            </span>
+                          </div>
+                          {/* 主线任务进度条 */}
+                          {!task.completed && task.subTasks && (
+                            <div className="mt-1.5">
+                              <div className="flex items-center justify-end text-xs mb-0.5">
+                                <span className="font-mono text-blue-500">{Math.round((task.subTasks.filter(st => st.completed).length / task.subTasks.length) * 100)}%</span>
+                              </div>
+                              <div className={`w-full h-2 rounded-full overflow-hidden ${isNeomorphic ? 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)]' : isDark ? 'bg-zinc-800 shadow-inner' : 'bg-slate-200 shadow-[inset_2px_2px_4px_rgba(163,177,198,0.3),inset_-2px_-2px_4px_rgba(255,255,255,0.8)]'}`}>
+                                <div 
+                                  className="h-full bg-blue-600 rounded-full transition-all duration-500 ease-out"
+                                  style={{ width: `${(task.subTasks.filter(st => st.completed).length / task.subTasks.length) * 100}%` }}
+                                ></div>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                        <div className="flex items-center gap-1 sm:gap-2">
+                          <button onClick={() => { onStartTimer(task.duration || 25); startTaskTimer(task.id); }} disabled={task.completed} className={`p-3 rounded-full text-white transition-colors group-hover:scale-105 shadow-lg ${isDark ? 'bg-zinc-800 hover:bg-emerald-600' : 'bg-blue-500 hover:bg-blue-600'} disabled:opacity-50 disabled:scale-100`}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    {/* 子任务列表 - 只在任务未完成、有子任务且展开时显示 */}
+                    {task.subTasks && !task.completed && expandedTasks[task.id] && (
+                      <div className={`border-t p-1 sm:p-2 space-y-1 ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'border-[#1e1e2e] bg-[#1e1e2e]' : 'border-[#e0e5ec] bg-[#e0e5ec]') : isDark ? 'border-zinc-800 bg-zinc-950/30' : 'border-slate-200 bg-slate-50'}`}>
+                        {task.subTasks.map((st) => {
+                          let subTaskCardClass = 'flex flex-wrap items-center justify-between gap-1 sm:gap-2 p-1.5 rounded cursor-pointer group/sub transition-all';
+                          
+                          if (isNeomorphic) {
+                            if (theme === 'neomorphic-dark') {
+                              subTaskCardClass += ' bg-[#1e1e2e] shadow-[3px_3px_6px_rgba(0,0,0,0.3),-3px_-3px_6px_rgba(30,30,46,0.7)] hover:shadow-[4px_4px_8px_rgba(0,0,0,0.4),-4px_-4px_8px_rgba(30,30,46,0.8)]';
+                            } else {
+                              subTaskCardClass += ' bg-[#e0e5ec] shadow-[3px_3px_6px_rgba(163,177,198,0.4),-3px_-3px_6px_rgba(255,255,255,0.8)] hover:shadow-[4px_4px_8px_rgba(163,177,198,0.5),-4px_-4px_8px_rgba(255,255,255,1)]';
+                            }
+                          } else {
+                            subTaskCardClass += isDark ? ' hover:bg-white/5' : ' hover:bg-white border border-transparent hover:border-slate-200';
+                          }
+                          
+                          return (
+                            <div 
+                              key={st.id} 
+                              className={subTaskCardClass}
+                            >
+                              <div className="flex items-center gap-2 flex-1 min-w-0">
+                                <button onClick={(e) => onToggleSubTask(task.id, st.id)} className={`w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all shrink-0 ${st.completed ? 'bg-emerald-500 border-emerald-500 text-white' : (isDark ? 'border-zinc-600 hover:border-emerald-500 text-transparent' : 'border-slate-300 hover:border-emerald-500 bg-white')}`}>
+                                  {st.completed && <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>}
+                                </button>
+                                <span className={`text-sm truncate ${st.completed ? 'text-zinc-600 line-through' : textMain} transition-all`}>
+                                  {st.text}
+                                </span>
+                              </div>
+                              {/* 显示子任务的经验、金币和时长 */}
+                              <div className="flex items-center gap-1 sm:gap-2 text-xs font-mono text-zinc-500 flex-wrap mb-1 sm:mb-0">
+                                <span className="text-purple-400">+{st.xp}</span>
+                                <span className="text-yellow-500">+{st.gold}</span>
+                                <span className="text-blue-500">{st.duration}m</span>
+                              </div>
+                              <div className="flex items-center gap-1 sm:gap-0.5">
+                                <button onClick={() => { onStartTimer(st.duration || 25); startTaskTimer(task.id); }} className={`p-2 rounded-full text-white transition-colors hover:scale-110 shadow-lg ${isDark ? 'bg-zinc-800 hover:bg-emerald-600' : 'bg-blue-500 hover:bg-blue-600'} opacity-0 group-hover/sub:opacity-100`}>
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                                </button>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
       )}
 
       {taskCategory === 'random' && (

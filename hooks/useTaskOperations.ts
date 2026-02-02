@@ -74,9 +74,16 @@ export const useTaskOperations = ({
             onUpdateBalance(amount, reason);
             onAddFloatingReward(`${amount > 0 ? '+' : ''}${amount} Gold`, amount > 0 ? "text-yellow-500" : "text-red-500", e?.clientX, e?.clientY);
         } else if (task.type === TaskType.MAIN) {
-            onUpdateProject(task.id, { status: 'completed' });
-            onUpdateBalance(task.gold, `完成主线: ${task.text}`);
-            onAddFloatingReward(`+${task.gold} Gold`, "text-yellow-500", e?.clientX, e?.clientY);
+            // 直接使用task对象的completed属性来获取当前状态，确保是最新的
+            const isCurrentlyCompleted = !!task.completed;
+            // 计算新的完成状态（取反）
+            const newStatus = isCurrentlyCompleted ? 'active' : 'completed';
+            onUpdateProject(task.id, { status: newStatus });
+            // 根据任务当前状态更新奖励（完成/取消完成）
+            const amount = isCurrentlyCompleted ? -task.gold : task.gold;
+            const reason = isCurrentlyCompleted ? `取消完成主线: ${task.text}` : `完成主线: ${task.text}`;
+            onUpdateBalance(amount, reason);
+            onAddFloatingReward(`${amount > 0 ? '+' : ''}${amount} Gold`, amount > 0 ? "text-yellow-500" : "text-red-500", e?.clientX, e?.clientY);
         }
     }, [onUpdateHabit, onUpdateProject, onUpdateBalance, onAddFloatingReward, todayStr]);
 

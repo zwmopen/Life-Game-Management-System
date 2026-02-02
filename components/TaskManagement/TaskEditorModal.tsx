@@ -9,13 +9,15 @@ interface TaskEditorModalProps {
   editingTaskId: string | null;
   newTaskTitle: string;
   setNewTaskTitle: (title: string) => void;
-  newTaskType: 'daily' | 'main' | 'random';
+  newTaskType: 'daily' | 'main' | 'random' | 'timebox';
   newTaskXP: string;
   setNewTaskXP: (xp: string) => void;
   newTaskReward: string;
   setNewTaskReward: (reward: string) => void;
   newTaskDuration: string;
   setNewTaskDuration: (duration: string) => void;
+  newTaskPriority: 'high' | 'medium' | 'low';
+  setNewTaskPriority: (priority: 'high' | 'medium' | 'low') => void;
   reminderEnabled: boolean;
   setReminderEnabled: (enabled: boolean) => void;
   reminderDate: string;
@@ -53,6 +55,8 @@ const TaskEditorModal: React.FC<TaskEditorModalProps> = ({
   setNewTaskReward,
   newTaskDuration,
   setNewTaskDuration,
+  newTaskPriority,
+  setNewTaskPriority,
   reminderEnabled,
   setReminderEnabled,
   reminderDate,
@@ -119,10 +123,11 @@ const TaskEditorModal: React.FC<TaskEditorModalProps> = ({
           
           {(newTaskType === 'daily' || newTaskType === 'main' || newTaskType === 'random') && (
             <>
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 gap-4">
                 <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>经验奖励</label><input type="number" value={newTaskXP} onChange={e => setNewTaskXP(e.target.value)} className={`w-full border-b py-1 outline-none ${textMain} ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] border-none rounded-lg p-1' : 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-1') : (isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300')}`} /></div>
                 <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>金币奖励</label><input type="number" value={newTaskReward} onChange={e => setNewTaskReward(e.target.value)} className={`w-full border-b py-1 outline-none ${textMain} ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] border-none rounded-lg p-1' : 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-1') : (isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300')}`} /></div>
                 <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>预估时长(m)</label><input type="number" value={newTaskDuration} onChange={e => setNewTaskDuration(e.target.value)} className={`w-full border-b py-1 outline-none ${textMain} ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] border-none rounded-lg p-1' : 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-1') : (isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300')}`} /></div>
+                <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>优先级</label><select value={newTaskPriority} onChange={e => setNewTaskPriority(e.target.value as 'high' | 'medium' | 'low')} className={`w-full border-b py-1 outline-none ${textMain} ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] border-none rounded-lg p-1' : 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-1') : (isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300')}`}><option value="high">高</option><option value="medium">中</option><option value="low">低</option></select></div>
               </div>
 
               {/* 任务提醒设置 */}
@@ -197,7 +202,7 @@ const TaskEditorModal: React.FC<TaskEditorModalProps> = ({
             </>
           )}
           
-          {newTaskType === 'main' && (
+          {(newTaskType === 'main' || newTaskType === 'timebox') && (
             <div className="space-y-3">
               <div className="flex justify-between items-center">
                 <label className={`text-[10px] uppercase font-bold ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>子任务</label>

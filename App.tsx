@@ -1,12 +1,14 @@
-import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, lazy, Suspense } from 'react';
 import Navigation from './components/Navigation';
-import MissionControl from './components/MissionControl'; 
-import LifeGame from './components/LifeGame';
-import HallOfFame from './components/HallOfFame';
-import Settings from './components/Settings';
-import ThinkingCenter from './components/ThinkingCenter';
-import TimeBox from './components/TimeBox';
-import SelfManifestation from './components/SelfManifestation';
+
+// 懒加载组件
+const MissionControl = lazy(() => import('./components/MissionControl'));
+const LifeGame = lazy(() => import('./components/LifeGame'));
+const HallOfFame = lazy(() => import('./components/HallOfFame'));
+const Settings = lazy(() => import('./components/Settings'));
+const ThinkingCenter = lazy(() => import('./components/ThinkingCenter'));
+const TimeBox = lazy(() => import('./components/TimeBox'));
+const SelfManifestation = lazy(() => import('./components/SelfManifestation'));
 import { AlertTriangle } from 'lucide-react';
 import { View, Transaction, ReviewLog, Habit, Task, TaskType, DailyStats, Theme, Project, AttributeType, AttributeTypeValue, AchievementItem, AutoTask, AutoTaskType, SoundType, DiceState, DiceTask, DiceCategory, DiceHistory } from './types';
 import { Wallet, Crown, Clock, Brain, Zap, Target, Crosshair, Skull, Star, Gift, Medal, Sparkles, Swords, Flame, Footprints, Calendar, ShoppingBag, Dumbbell, Shield } from 'lucide-react';
@@ -159,7 +161,7 @@ const App: React.FC = () => {
   const [todayGoal, setTodayGoal] = useState("今日核心：完成核心模块代码"); 
 
   // Navigation Deep Linking State
-  const [initialTaskCategory, setInitialTaskCategory] = useState<'daily' | 'main' | 'random'>('random');
+  const [initialTaskCategory, setInitialTaskCategory] = useState<'daily' | 'main' | 'timebox' | 'random'>('timebox');
 
   // Data State - Using useReducer for complex task state management
   const {
@@ -577,7 +579,7 @@ const App: React.FC = () => {
       }, 1500); 
   };
 
-  const handleUpdateBalance = (amount: number, reason: string) => {
+  const handleUpdateBalance = useCallback((amount: number, reason: string) => {
     setBalance(prev => prev + amount);
     const newTransaction: Transaction = {
       id: Date.now().toString(),
@@ -599,9 +601,9 @@ const App: React.FC = () => {
           soundManagerOptimized.playSoundEffect("coin");
       }
     }
-  };
+  }, []);
 
-  const handleClaimReward = (id: string, rewardXp: number, rewardGold: number) => {
+  const handleClaimReward = useCallback((id: string, rewardXp: number, rewardGold: number) => {
       setClaimedBadges(prev => [...prev, id]);
       
       const safeGold = rewardGold;
@@ -614,21 +616,21 @@ const App: React.FC = () => {
       }
       setActiveAchievement(null); // Close modal
       soundManagerOptimized.playSoundEffect("achievement");
-  };
+  }, [handleUpdateBalance]);
 
-  const handleGiveUpTask = (taskId: string) => {
+  const handleGiveUpTask = useCallback((taskId: string) => {
       setGivenUpTasks(prev => [...prev, taskId]);
-  };
+  }, []);
 
   // Settings Handlers
-  const handleUpdateSettings = (newSettings: any) => {
+  const handleUpdateSettings = useCallback((newSettings: any) => {
       setSettings(prev => ({ ...prev, ...newSettings }));
-  };
+  }, []);
 
-  const handleToggleTheme = () => {
+  const handleToggleTheme = useCallback(() => {
       // 使用新的主题上下文来切换主题
       toggleTheme();
-  };
+  }, [toggleTheme]);
 
   // 全局音频管理已通过 GlobalAudioProvider 在组件树顶层处理
   // 此处不再需要局部的音频管理逻辑
@@ -636,7 +638,7 @@ const App: React.FC = () => {
   // 音频管理已由GlobalAudioManagerOptimized统一处理，不再需要局部状态
   // 已移除旧的音频处理函数和状态，由GlobalAudioManagerOptimized统一管理
 
-  const handleToggleRandomChallenge = (taskTitle: string) => {
+  const handleToggleRandomChallenge = useCallback((taskTitle: string) => {
       const todayStr = new Date().toLocaleDateString();
       const currentList = completedRandomTasks[todayStr] || [];
       const isCompleted = currentList.includes(taskTitle);
@@ -687,13 +689,13 @@ const App: React.FC = () => {
           soundManagerOptimized.playSoundEffect("taskComplete");
       }
       setCompletedRandomTasks(newCompleted);
-  };
+  }, [completedRandomTasks, handleUpdateBalance]);
 
-  const handleStartAutoTask = (type: AutoTaskType, id: string, duration: number, subId?: string) => {
+  const handleStartAutoTask = useCallback((type: AutoTaskType, id: string, duration: number, subId?: string) => {
       setActiveAutoTask({ type, id, subId });
-  };
+  }, []);
 
-  const handleSaveReview = (content: string, aiAnalysis: string) => {
+  const handleSaveReview = useCallback((content: string, aiAnalysis: string) => {
       const log: ReviewLog = {
           id: Date.now().toString(),
           date: new Date().toLocaleDateString(),
@@ -702,23 +704,36 @@ const App: React.FC = () => {
           timestamp: Date.now()
       };
       setReviews(prev => [...prev, log]);
-  };
+  }, []);
 
-  const handleAddHabit = (name: string, reward: number) => {
-      const h: Habit = { id: Date.now().toString(), name, reward, xp: Math.ceil(reward * 1.5), duration: reward, streak: 0, color: '#8b5cf6', attr: AttributeType.DISCIPLINE, archived: false, history: {}, logs: {} };
+  const handleAddHabit = useCallback((name: string, reward: number, options?: { xp?: number, duration?: number, priority?: 'high' | 'medium' | 'low', reminder?: any }) => {
+      const h: Habit = { 
+          id: Date.now().toString(), 
+          name, 
+          reward, 
+          xp: options?.xp || Math.ceil(reward * 1.5), 
+          duration: options?.duration || reward, 
+          streak: 0, 
+          color: '#8b5cf6', 
+          attr: AttributeType.DISCIPLINE, 
+          archived: false, 
+          history: {}, 
+          logs: {},
+          priority: options?.priority || 'medium'
+      };
       setHabits([...habits, h]);
       setHabitOrder([...habitOrder, h.id]);
-  };
-  const handleUpdateHabit = (id: string, updates: Partial<Habit>) => {
+  }, [habits, habitOrder]);
+  const handleUpdateHabit = useCallback((id: string, updates: Partial<Habit>) => {
       setHabits(prev => prev.map(h => h.id === id ? { ...h, ...updates } : h));
-  };
-  const handleDeleteHabit = (id: string) => {
+  }, []);
+  const handleDeleteHabit = useCallback((id: string) => {
       if(window.confirm('确定要删除此习惯协议吗？')) {
           setHabits(prev => prev.filter(h => h.id !== id));
           setHabitOrder(prev => prev.filter(habitId => habitId !== id));
       }
-  };
-  const handleToggleHabit = (id: string, dateStr: string) => {
+  }, []);
+  const handleToggleHabit = useCallback((id: string, dateStr: string) => {
       setHabits(habits.map(h => {
           if(h.id === id) {
               const wasDone = !!h.history[dateStr];
@@ -762,7 +777,7 @@ const App: React.FC = () => {
           }
           return h;
       }));
-  };
+  }, [habits, handleUpdateBalance]);
 
   const handleUpdateProject = (id: string, updates: Partial<Project>) => {
       setProjects(prev => prev.map(p => {
@@ -848,18 +863,18 @@ const App: React.FC = () => {
           return p;
       }));
   };
-  const handleAddProject = (project: Project) => {
+  const handleAddProject = useCallback((project: Project) => {
       setProjects([...projects, project]);
       setProjectOrder([...projectOrder, project.id]);
-  };
-  const handleDeleteProject = (id: string) => {
+  }, [projects, projectOrder]);
+  const handleDeleteProject = useCallback((id: string) => {
       if(window.confirm('确定要删除此战役吗？')) {
           setProjects(prev => prev.filter(p => p.id !== id));
           setProjectOrder(prev => prev.filter(projectId => projectId !== id));
       }
-  };
+  }, []);
 
-  const handlePomodoroComplete = (m: number) => {
+  const handlePomodoroComplete = useCallback((m: number) => {
       handleUpdateBalance(m, `专注奖励 ${m}min`);
       setTodayStats(s => ({ ...s, focusMinutes: s.focusMinutes + m }));
       setXp(prev => prev + m * 2);
@@ -880,17 +895,17 @@ const App: React.FC = () => {
           }
           return project;
       }));
-  };
+  }, [handleUpdateBalance]);
 
-  const handleTaskComplete = (task: Task) => {
+  const handleTaskComplete = useCallback((task: Task) => {
       handleUpdateBalance(50, `任务完成: ${task.text || '未知任务'}`);
       setTodayStats(s => ({ ...s, tasksCompleted: s.tasksCompleted + 1 }));
-  };
+  }, [handleUpdateBalance]);
 
-  const handleNavigateToTaskCategory = (category: 'daily' | 'main' | 'random') => {
+  const handleNavigateToTaskCategory = useCallback((category: 'daily' | 'main' | 'random') => {
       setInitialTaskCategory(category);
       setCurrentView(View.RPG_MISSION_CENTER);
-  };
+  }, []);
 
   // --- 命运骰子核心逻辑 --- //
 
@@ -1520,7 +1535,15 @@ const App: React.FC = () => {
           )}
          
           <div className="relative z-10 flex-1 overflow-y-auto">
-            {renderView()}
+            <Suspense fallback={
+              <div className="flex items-center justify-center h-full w-full">
+                <div className={`text-2xl font-bold ${theme.includes('dark') ? 'text-emerald-500' : 'text-emerald-700'}`}>
+                  加载中...
+                </div>
+              </div>
+            }>
+              {renderView()}
+            </Suspense>
           </div>
         </main>
 

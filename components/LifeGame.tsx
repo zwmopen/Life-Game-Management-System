@@ -57,7 +57,7 @@ interface LifeGameProps {
   onAddHabit: (name: string, reward: number) => void;
   onAddProject: (project: Project) => void;
   initialTab?: 'battle' | 'shop' | 'armory'; 
-  initialCategory?: 'daily' | 'main' | 'random';
+  initialCategory?: 'daily' | 'main' | 'timebox' | 'random';
   onAddFloatingReward: (text: string, color: string, x?: number, y?: number) => void;
   totalTasksCompleted: number;
   totalHours: number; 
@@ -164,7 +164,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
   const characterProfileRef = useRef<CharacterProfileHandle>(null);
 
   const [mainTab, setMainTab] = useState<'battle' | 'shop' | 'armory'>(() => initialTab || 'battle');
-  const [taskCategory, setTaskCategory] = useState<'daily' | 'main' | 'random'>(initialCategory || 'random');
+  const [taskCategory, setTaskCategory] = useState<'daily' | 'main' | 'timebox' | 'random'>(initialCategory || 'timebox');
   
   // 使用 shop 钩子
   const {
@@ -213,7 +213,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
   const [newTaskXP, setNewTaskXP] = useState('20');
   const [newTaskDuration, setNewTaskDuration] = useState('30');
   const [newTaskAttr, setNewTaskAttr] = useState<AttributeTypeValue>(AttributeType.WEALTH);
-  const [newTaskType, setNewTaskType] = useState<'daily' | 'main' | 'random'>('daily');
+  const [newTaskType, setNewTaskType] = useState<'daily' | 'main' | 'random' | 'timebox'>('daily');
   const [newTaskDiceCategory, setNewTaskDiceCategory] = useState<DiceCategory>('health');
   const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
   const [editingProjectSubTasks, setEditingProjectSubTasks] = useState<SubTask[]>([]);
@@ -257,6 +257,8 @@ const LifeGame: React.FC<LifeGameProps> = ({
   // 战略储备双击编辑状态
   const [isEditingSavings, setIsEditingSavings] = useState(false);
   const [tempSavings, setTempSavings] = useState(balance);
+  // 任务优先级状态
+  const [newTaskPriority, setNewTaskPriority] = useState<'high' | 'medium' | 'low'>('medium');
   
   // 使用拖拽 Hook
   const { draggedTask, draggedTaskIndex, handleDragStart, handleDragEnd, handleDragOver } = useDragAndDrop({
@@ -335,7 +337,8 @@ const LifeGame: React.FC<LifeGameProps> = ({
     return sortedHabits.map(h => ({
         id: h.id, text: h.name, attr: h.attr || 'DIS', xp: h.xp || Math.ceil(h.reward * 1.5), gold: h.reward, duration: h.duration || 0,
         type: TaskType.DAILY, completed: !!h.history[todayStr], frequency: 'daily' as const, originalData: h,
-        isGivenUp: givenUpTasks.includes(h.id)
+        isGivenUp: givenUpTasks.includes(h.id),
+        priority: h.priority
     })).sort((a, b) => {
         if (a.isGivenUp && !b.isGivenUp) return 1;
         if (!a.isGivenUp && b.isGivenUp) return -1;
@@ -361,12 +364,14 @@ const LifeGame: React.FC<LifeGameProps> = ({
         return {
             id: p.id, text: p.name, attr: p.attr || 'WEA', xp: baseRewardXP, gold: baseRewardGold, type: TaskType.MAIN,
             completed: p.status === 'completed', frequency: 'once' as const, isExpanded: true,
+            priority: p.priority,
             originalData: p,
             subTasks: p.subTasks.map(st => ({
                 id: st.id, text: st.title, completed: st.completed, 
                 xp: avgXP, // 均分主线任务的经验奖励
                 gold: avgGold, // 均分主线任务的金币奖励
-                duration: st.duration || 30 // 子任务自己的时长，默认30分钟
+                duration: st.duration || 30, // 子任务自己的时长，默认30分钟
+                priority: st.priority
             }))
         };
     }).sort((a, b) => Number(a.completed) - Number(b.completed));
@@ -463,6 +468,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
       setNewTaskXP((task.xp || 20).toString());
       setNewTaskDuration((task.duration || 30).toString());
       setNewTaskType(task.type || (task.category ? 'random' : 'daily'));
+      setNewTaskPriority(task.priority || 'medium');
       
       if (task.category) {
           setNewTaskDiceCategory(task.category);
@@ -534,12 +540,14 @@ const LifeGame: React.FC<LifeGameProps> = ({
               reward: parseInt(newTaskReward),
               xp: parseInt(newTaskXP),
               duration: parseInt(newTaskDuration),
+              priority: newTaskPriority,
               reminder: reminderData
           });
-      } else if (newTaskType === 'main') {
+      } else if (newTaskType === 'main' || newTaskType === 'timebox') {
           onUpdateProject(editingTaskId!, { 
               name: newTaskTitle, 
               subTasks: editingProjectSubTasks,
+              priority: newTaskPriority,
               reminder: reminderData as any 
           });
       } else if (newTaskType === 'random') {
@@ -551,7 +559,8 @@ const LifeGame: React.FC<LifeGameProps> = ({
                   gold: parseInt(newTaskReward) || 20,
                   xp: parseInt(newTaskXP) || 30,
                   duration: parseInt(newTaskDuration) || 20,
-                  attr: newTaskAttr
+                  attr: newTaskAttr,
+                  priority: newTaskPriority
               };
               setChallengePool(prevPool => prevPool.map(task => task === originalTaskStr ? JSON.stringify(newTask) : task));
           } else if (editingTaskId) {
@@ -560,7 +569,8 @@ const LifeGame: React.FC<LifeGameProps> = ({
                   text: newTaskTitle,
                   gold: parseInt(newTaskReward) || 20,
                   xp: parseInt(newTaskXP) || 30,
-                  duration: parseInt(newTaskDuration) || 20
+                  duration: parseInt(newTaskDuration) || 20,
+                  priority: newTaskPriority
               });
           }
       }
@@ -581,8 +591,8 @@ const LifeGame: React.FC<LifeGameProps> = ({
 
       if (newTaskType === 'daily') {
           onAddHabit(newTaskTitle, parseInt(newTaskReward) || 15);
-      } else if (newTaskType === 'main') {
-          // 如果没有手动设置提醒，则为主任务设置默认的每日14点提醒
+      } else if (newTaskType === 'main' || newTaskType === 'timebox') {
+          // 如果没有手动设置提醒，则为任务设置默认的每日14点提醒
           const projectReminderData = reminderEnabled ? {
               enabled: true,
               date: reminderDate,
@@ -607,6 +617,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
               fears: [], 
               todayFocusMinutes: 0, 
               attr: newTaskAttr,
+              priority: newTaskPriority,
               reminder: projectReminderData as any
           });
       } else if (newTaskType === 'random') {
@@ -616,7 +627,8 @@ const LifeGame: React.FC<LifeGameProps> = ({
               xp: parseInt(newTaskXP) || 30,
               duration: parseInt(newTaskDuration) || 20,
               attr: AttributeType.WEALTH,
-              category: newTaskDiceCategory || 'health'
+              category: newTaskDiceCategory || 'health',
+              priority: newTaskPriority
           };
           onAddDiceTask(newTask);
           onAddFloatingReward("命运事件已入库", "text-purple-500");
@@ -627,6 +639,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
       setNewTaskXP('20');
       setNewTaskDuration('30');
       setNewTaskAttr(AttributeType.WEALTH);
+      setNewTaskPriority('medium');
       setEditingProjectSubTasks([]);
       setReminderEnabled(false);
       setReminderDate('');
@@ -1194,7 +1207,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                     <div className={`flex p-2 border-b ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] border-[#1e1e2e] shadow-[inset_3px_3px_6px_rgba(0,0,0,0.3),inset_-3px_-3px_6px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] border-[#e0e5ec] shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,1)]') : (isDark ? 'border-zinc-800 bg-zinc-900/50' : 'border-slate-200 bg-slate-50')}`}>
                         <button onClick={() => setManageTaskTab('random')} className={`flex-1 text-xs py-2 rounded font-bold flex items-center justify-center gap-1 transition-all duration-200 ${getButtonStyleLocal(manageTaskTab === 'random')}`}><Dice5 size={12} /> 命运骰子</button>
                         <button onClick={() => setManageTaskTab('main')} className={`flex-1 text-xs py-2 rounded font-bold transition-all duration-200 ${getButtonStyleLocal(manageTaskTab === 'main')}`}>主线任务</button>
-                        <button onClick={() => setManageTaskTab('daily')} className={`flex-1 text-xs py-2 rounded font-bold transition-all duration-200 ${getButtonStyleLocal(manageTaskTab === 'daily')}`}>日常任务</button>
+                        <button onClick={() => setManageTaskTab('daily')} className={`flex-1 text-xs py-2 rounded font-bold transition-all duration-200 ${getButtonStyleLocal(manageTaskTab === 'daily')}`}>日常显化</button>
                     </div>
                             
                     <div className={`p-4 overflow-y-auto space-y-2 flex-1 ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[inset_5px_5px_10px_rgba(0,0,0,0.4),inset_-5px_-5px_10px_rgba(30,30,46,0.8)] border-none rounded-xl' : 'bg-[#e0e5ec] shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)] border-none rounded-xl') : (isDark ? 'bg-zinc-900' : 'bg-slate-100')}`}>
@@ -1205,7 +1218,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                             </div>
                             <h4 className={`text-lg font-bold mb-2 ${textMain}`}>任务部署中心</h4>
                             <p className={`text-xs mb-6 max-w-[200px] leading-relaxed ${textSub}`}>
-                                点击下方按钮部署新的{manageTaskTab === 'random' ? '命运事件' : manageTaskTab === 'main' ? '主线任务' : '日常任务'}，系统将自动分配资源与奖励。
+                                点击下方按钮部署新的{manageTaskTab === 'random' ? '命运事件' : manageTaskTab === 'main' ? '主线任务' : '日常显化'}，系统将自动分配资源与奖励。
                             </p>
                             <button 
                                 onClick={() => {
@@ -1317,6 +1330,8 @@ const LifeGame: React.FC<LifeGameProps> = ({
             setNewTaskReward={setNewTaskReward}
             newTaskDuration={newTaskDuration}
             setNewTaskDuration={setNewTaskDuration}
+            newTaskPriority={newTaskPriority}
+            setNewTaskPriority={setNewTaskPriority}
             reminderEnabled={reminderEnabled}
             setReminderEnabled={setReminderEnabled}
             reminderDate={reminderDate}

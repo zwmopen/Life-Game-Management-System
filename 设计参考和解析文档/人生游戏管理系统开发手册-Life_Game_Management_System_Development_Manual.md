@@ -19,6 +19,92 @@
   - recharts: 图表库 (v3.6.0)
   - webdav-server: WebDAV服务器（开发依赖，v2.6.2）
 
+## 性能优化
+
+### 1. 代码分割和懒加载
+
+```typescript
+// 懒加载组件
+const MissionControl = lazy(() => import('./components/MissionControl'));
+const LifeGame = lazy(() => import('./components/LifeGame'));
+const HallOfFame = lazy(() => import('./components/HallOfFame'));
+const Settings = lazy(() => import('./components/Settings'));
+const ThinkingCenter = lazy(() => import('./components/ThinkingCenter'));
+const TimeBox = lazy(() => import('./components/TimeBox'));
+const SelfManifestation = lazy(() => import('./components/SelfManifestation'));
+
+// 使用Suspense包裹
+<Suspense fallback={
+  <div className="flex items-center justify-center h-full w-full">
+    <div className={`text-2xl font-bold ${theme.includes('dark') ? 'text-emerald-500' : 'text-emerald-700'}`}>
+      加载中...
+    </div>
+  </div>
+}>
+  {renderView()}
+</Suspense>
+```
+
+### 2. 构建配置优化
+
+```typescript
+build: {
+  minify: 'terser',
+  terserOptions: {
+    compress: {
+      drop_console: true,
+      drop_debugger: true,
+      passes: 2,
+      pure_funcs: ['console.log', 'console.warn', 'console.error']
+    },
+    mangle: {
+      toplevel: true,
+      properties: {
+        regex: /^_/,
+        keep_quoted: true
+      }
+    }
+  },
+  cssCodeSplit: true,
+  chunkSizeWarningLimit: 1000,
+  rollupOptions: {
+    output: {
+      manualChunks: {
+        react: ['react', 'react-dom'],
+        recharts: ['recharts'],
+        dndkit: ['@dnd-kit/core', '@dnd-kit/sortable', '@dnd-kit/utilities'],
+        three: ['three', 'three-stdlib'],
+        googlegenai: ['@google/genai'],
+        lucide: ['lucide-react'],
+        crypto: ['crypto-js', 'bcryptjs', 'jsonwebtoken'],
+        audio: ['@tweenjs/tween.js']
+      }
+    }
+  }
+}
+```
+
+### 3. 渲染性能优化
+
+```typescript
+// 使用useCallback缓存回调函数
+const handleUpdateBalance = useCallback((amount: number, reason: string) => {
+  // 函数逻辑
+}, []);
+
+const handleClaimReward = useCallback((id: string, rewardXp: number, rewardGold: number) => {
+  // 函数逻辑
+}, [handleUpdateBalance]);
+
+// 其他回调函数也使用useCallback缓存
+```
+
+### 4. 响应式设计优化
+
+- 优化移动设备加载速度
+- 确保界面在不同屏幕尺寸下都能正常显示
+- 减少移动设备上的不必要渲染
+
 ## 项目结构
 
 ```
@@ -90,9 +176,59 @@
 
 ## 核心功能模块
 
-### 1. 角色系统
+### 1. SUBBGM和肯定语系统
 
-#### 1.1 属性系统
+#### 1.1 功能概述
+
+SUBBGM和肯定语系统是一个帮助用户通过背景音乐和积极肯定语句进行自我提升的功能模块，集成在自我显化(对齐)组件中。
+
+#### 1.2 核心功能
+
+- **SUBBGM管理**：支持添加、编辑、删除背景音乐
+- **肯定语管理**：支持添加、编辑、删除积极肯定语句
+- **播放控制**：背景音乐播放、暂停、音量调节
+- **显示模式**：肯定语滚动显示、高亮显示
+- **数据持久化**：本地存储所有配置
+
+#### 1.3 UI设计
+
+```tsx
+// SUBBGM和肯定语标签页
+const subBgmActiveTab = useState('subBgm');
+
+// 标签页切换
+<div className="flex gap-2 mb-4 overflow-x-auto">
+  <button 
+    className={`px-4 py-2 rounded-lg font-medium ${subBgmActiveTab === 'subBgm' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-zinc-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-zinc-700'}`}
+    onClick={() => setSubBgmActiveTab('subBgm')}
+  >
+    SUB&KDY
+  </button>
+</div>
+
+// SUBBGM模块
+<div className="bg-white dark:bg-zinc-800 rounded-xl shadow-lg p-6">
+  <h3 className="text-xl font-bold mb-4">SUBBGM</h3>
+  {/* 音频管理功能 */}
+</div>
+
+// 肯定语模块
+<div className="bg-white dark:bg-zinc-800 rounded-xl shadow-lg p-6">
+  <h3 className="text-xl font-bold mb-4">肯定语</h3>
+  {/* 肯定语管理和显示功能 */}
+</div>
+```
+
+#### 1.4 功能集成与优化
+
+- **多组件集成**：将SUBBGM和肯定语功能从SelfManifestation组件复制到最高版本构建(ZWM Pro)组件
+- **布局优化**：放在现实剧本和AI助理之间，优化了功能布局
+- **UI改进**：采用拟态风格和大圆角，提升视觉效果
+- **命名优化**：将SUBBGM & 肯定语按钮标签优化为SUB&KDY
+
+### 2. 角色系统
+
+#### 2.1 属性系统
 
 - **核心属性**: 力量、智力、魅力、创造力、社交、财富、自律
 - **属性范围**: 0-150
@@ -365,6 +501,69 @@ export const POMODORO_CONFIG = {
   </div>
 </div>
 ```
+
+### 6. UI优化与用户体验
+
+#### 6.1 视觉设计优化
+
+- **拟态风格应用**：顶部标签栏采用拟态风格，圆角拉满
+- **按钮设计**：统一了按钮颜色，确保与主题色一致
+- **布局紧凑**：缩小了按钮和容器尺寸，使界面更紧凑
+- **圆角设计**：采用大圆角设计，提升视觉舒适度
+
+#### 6.2 功能模块优化
+
+- **每日任务模块**：添加了编辑按钮，可添加和删除任务
+- **身份蓝图**：默认展开状态，提高用户体验
+- **剧本管理**：保存的剧本可以编辑和删除
+- **SUBBGM模块**：调整了位置，放在顶部，优化了展示效果
+
+#### 6.3 交互体验
+
+- **布局优化**：移除了顶部不必要的切换按钮
+- **肯定语展示**：优化了kdy展示部分的布局
+- **响应式设计**：确保界面在不同屏幕尺寸下都能正常显示
+
+### 7. 数据管理与存储
+
+#### 7.1 本地存储
+
+- **API密钥管理**：API密钥本地存储功能
+- **数据持久化**：本地数据持久化改进，确保数据安全
+
+#### 7.2 备份功能
+
+- **数据导出**：支持数据导出功能
+- **数据导入**：支持数据导入功能
+- **备份优化**：备份功能整体优化，提升用户体验
+
+### 8. 命名规范与优化
+
+- **组件命名**：将HighestVersion组件重命名为自我显化(对齐)
+- **功能命名**：将"最高版本自我 (ZWM Pro)"重命名为"最高版本构建(ZWM Pro)"
+- **标签命名**：将SUBBGM & 肯定语按钮标签优化为SUB&KDY
+
+### 9. 技术改进
+
+#### 9.1 代码质量
+
+- **状态管理**：修复了重复状态变量导致的冲突
+- **语法错误**：修复了模板字符串语法错误
+- **结构优化**：修复了JSX结构错误
+- **类型安全**：解决了TypeScript编译错误
+
+#### 9.2 主题适配
+
+- **深色模式**：确保所有组件在深色模式下正确显示
+- **颜色统一**：统一了拟态深色主题的背景色
+- **一致性**：修复了颜色不一致的问题
+
+#### 9.3 性能优化
+
+- **代码分割**：使用React.lazy和Suspense实现了组件的按需加载
+- **构建优化**：改进了Vite构建配置，添加了详细的代码分割策略
+- **渲染优化**：为所有回调函数添加了useCallback缓存，减少了不必要的重新渲染
+- **移动设备**：优化了移动设备的加载速度
 
 ## 核心组件详细实现
 
@@ -1038,6 +1237,88 @@ npm run preview
 8. **API开放**: 提供开放API，支持第三方集成
 
 ## 更新日志
+
+### 2026年2月更新
+
+#### 性能优化
+
+1. **代码分割和组件懒加载**
+   - 使用 `React.lazy` 和 `Suspense` 实现了组件的按需加载
+   - 将大型组件（如 LifeGame、SelfManifestation 等）拆分为独立的代码块
+   - 添加了加载状态提示，提升用户体验
+
+2. **构建配置优化**
+   - 改进了 Vite 构建配置，添加了详细的代码分割策略
+   - 优化了压缩选项，移除了生产环境中的 console 和 debugger 语句
+   - 配置了更合理的 chunk 命名和输出路径
+   - 启用了 CSS 代码分割，减少了主包体积
+
+3. **组件渲染性能优化**
+   - 为所有回调函数添加了 `useCallback` 缓存，减少了不必要的重新渲染
+   - 优化了依赖项数组，确保回调函数只在必要时重新创建
+   - 提高了应用的响应速度和交互流畅度
+
+4. **资源管理**
+   - 检查了项目中的资源文件，确认主要是音频资源，无需图片优化
+   - 构建结果显示代码分割效果显著，各个组件都被合理拆分
+
+#### 功能更新
+
+1. **SUBBGM和肯定语功能集成**
+   - 将 SUBBGM 和肯定语功能从 SelfManifestation 组件复制到 HighestVersion 组件
+   - 优化了功能布局，放在现实剧本和 AI 助理之间
+   - 改进了 UI 设计，采用拟态风格和大圆角
+
+2. **UI 优化**
+   - 顶部标签栏采用拟态风格，圆角拉满
+   - 每日任务模块改进，添加了编辑按钮，可添加和删除任务
+   - 身份蓝图默认展开状态
+   - 保存的剧本可以编辑和删除
+   - 统一了按钮颜色，确保与主题色一致
+
+3. **数据管理**
+   - API 密钥本地存储功能
+   - 备份功能优化，支持数据导出和导入
+   - 本地数据持久化改进
+
+4. **命名优化**
+   - 将 HighestVersion 组件重命名为 自我显化(对齐)
+   - 将 "最高版本自我 (ZWM Pro)" 重命名为 "最高版本构建(ZWM Pro)"
+   - 将 SUBBGM & 肯定语按钮标签优化为 SUB&KDY
+
+5. **布局优化**
+   - 调整了 SUBBGM 模块位置，放在顶部
+   - 优化了 kdy展示部分的布局
+   - 移除了顶部不必要的切换按钮
+   - 缩小了按钮和容器尺寸，使界面更紧凑
+
+#### 技术改进
+
+1. **代码质量**
+   - 修复了重复状态变量导致的冲突
+   - 修复了模板字符串语法错误
+   - 修复了 JSX 结构错误
+   - 解决了 TypeScript 编译错误
+
+2. **主题适配**
+   - 确保所有组件在深色模式下正确显示
+   - 统一了拟态深色主题的背景色
+   - 修复了颜色不一致的问题
+
+3. **响应式设计**
+   - 优化了移动设备的加载速度
+   - 确保界面在不同屏幕尺寸下都能正常显示
+
+#### 部署与构建
+
+1. **构建优化**
+   - 构建过程成功完成，生成了多个独立的代码块
+   - 开发服务器运行正常，访问地址：http://localhost:3002/
+
+2. **性能验证**
+   - 预期移动设备加载速度将显著提升
+   - 初始加载体积更小，组件按需加载
+   - 渲染性能优化，提高了应用的响应速度
 
 ### 2025-12-27
 

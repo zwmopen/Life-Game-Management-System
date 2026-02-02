@@ -23,6 +23,7 @@ export interface TaskItem {
   isGivenUp?: boolean;
   subTasks?: SubTaskItem[];
   isExpanded?: boolean;
+  priority?: 'high' | 'medium' | 'low';
   reminder?: {
     enabled: boolean;
     date?: string;
@@ -43,6 +44,7 @@ export interface SubTaskItem {
   gold: number;
   duration: number;
   isGivenUp?: boolean;
+  priority?: 'high' | 'medium' | 'low';
 }
 
 /**
@@ -79,8 +81,8 @@ export interface TaskManagementProps {
   projects?: Project[];
   
   // 任务分类
-  taskCategory: 'daily' | 'main' | 'random';
-  setTaskCategory: (category: 'daily' | 'main' | 'random') => void;
+  taskCategory: 'daily' | 'main' | 'timebox' | 'random';
+  setTaskCategory: (category: 'daily' | 'main' | 'timebox' | 'random') => void;
   
   // 任务操作回调
   onCompleteTask: (task: TaskItem, e: React.MouseEvent | null) => void;
