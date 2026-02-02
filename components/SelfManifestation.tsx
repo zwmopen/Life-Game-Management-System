@@ -1029,7 +1029,7 @@ const SelfManifestation: React.FC<HighestVersionProps> = ({ onHelpClick }) => {
                   />
                   <button 
                     onClick={addTask}
-                    className={`px-4 py-2 rounded-full ${theme === 'neomorphic-dark' ? 'bg-purple-700 text-white hover:bg-purple-600 shadow-[8px_8px_16px_rgba(0,0,0,0.4),-8px_-8px_16px_rgba(30,30,46,0.8)] hover:shadow-[12px_12px_24px_rgba(0,0,0,0.5),-12px_-12px_24px_rgba(30,30,46,1)]' : 'bg-purple-800 text-white hover:bg-purple-700 shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)] hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)]'} font-medium text-sm transition-all duration-200 hover:scale-105`}
+                    className={`px-4 py-2 rounded-full ${themeStyles.buttonBg} text-white font-medium text-sm transition-all duration-200 hover:${themeStyles.buttonHoverBg} ${themeStyles.buttonShadow} hover:${themeStyles.buttonHoverShadow} hover:scale-105`}
                   >
                     添加
                   </button>
@@ -1326,286 +1326,253 @@ const SelfManifestation: React.FC<HighestVersionProps> = ({ onHelpClick }) => {
         {activeTab === 'subbgm' && (
           <div className={`rounded-xl ${themeStyles.cardBg} ${themeStyles.cardBorder} border shadow-lg`}>
             <div className="p-6">
-              {/* 顶部切换按钮 */}
-              <div className="flex space-x-4 mb-8">
-                <button
-                  onClick={() => setSubBgmActiveTab('sub')}
-                  className={`px-6 py-3 rounded-full font-bold transition-all duration-300 ${subBgmActiveTab === 'sub' 
-                    ? theme === 'neomorphic-dark' 
-                      ? 'bg-[#1e1e2e] text-white shadow-[inset_3px_3px_6px_rgba(0,0,0,0.3),inset_-3px_-3px_6px_rgba(30,30,46,0.7)]'
-                      : 'bg-[#e0e5ec] text-zinc-700 shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,1)]'
-                    : theme === 'neomorphic-dark'
-                      ? 'bg-[#1a1b1e] text-zinc-400 hover:bg-[#1e1e2e] hover:shadow-[12px_12px_24px_rgba(0,0,0,0.5),-12px_-12px_24px_rgba(30,30,46,1)]'
-                      : 'bg-[#e0e5ec] text-zinc-500 hover:bg-[#e0e5ec] hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)]'
-                  }`}
-                >
-                  sub bgm
-                </button>
-                <button
-                  onClick={() => setSubBgmActiveTab('kdy')}
-                  className={`px-6 py-3 rounded-full font-bold transition-all duration-300 ${subBgmActiveTab === 'kdy' 
-                    ? theme === 'neomorphic-dark' 
-                      ? 'bg-[#1e1e2e] text-white shadow-[inset_3px_3px_6px_rgba(0,0,0,0.3),inset_-3px_-3px_6px_rgba(30,30,46,0.7)]'
-                      : 'bg-[#e0e5ec] text-zinc-700 shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,1)]'
-                    : theme === 'neomorphic-dark'
-                      ? 'bg-[#1a1b1e] text-zinc-400 hover:bg-[#1e1e2e] hover:shadow-[12px_12px_24px_rgba(0,0,0,0.5),-12px_-12px_24px_rgba(30,30,46,1)]'
-                      : 'bg-[#e0e5ec] text-zinc-500 hover:bg-[#e0e5ec] hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)]'
-                  }`}
-                >
-                  kdy
-                </button>
+              {/* sub bgm 模块 */}
+              <div className={`mb-8 p-4 rounded-xl transition-all duration-500 hover:shadow-[15px_15px_30px_rgba(163,177,198,0.7),-15px_-15px_30px_rgba(255,255,255,1)] ${theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] hover:shadow-[15px_15px_30px_rgba(0,0,0,0.6),-15px_-15px_30px_rgba(30,30,46,1)]' : 'bg-[#e0e5ec] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)]'}`}>
+                <h2 className={`text-lg font-bold mb-4 ${theme === 'neomorphic-dark' ? 'text-white' : 'text-zinc-700'}`}>
+                  音乐平台链接
+                </h2>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                  {musicLinks.map((link, index) => (
+                    <a
+                      key={index}
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`px-3 py-2 rounded-full text-center text-sm transition-all duration-300 transform ${theme === 'neomorphic-dark'
+                        ? 'bg-[#1a1b1e] text-zinc-300 hover:bg-[#1e1e2e] hover:shadow-[12px_12px_24px_rgba(0,0,0,0.5),-12px_-12px_24px_rgba(30,30,46,1)] hover:scale-105'
+                        : 'bg-[#e0e5ec] text-zinc-700 hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] hover:scale-105'
+                      }`}
+                    >
+                      {link.name}
+                    </a>
+                  ))}
+                </div>
               </div>
 
-              {/* 内容区域 */}
+              {/* kdy 模块 */}
               <div className={`p-6 rounded-xl transition-all duration-500 hover:shadow-[15px_15px_30px_rgba(163,177,198,0.7),-15px_-15px_30px_rgba(255,255,255,1)] ${theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] hover:shadow-[15px_15px_30px_rgba(0,0,0,0.6),-15px_-15px_30px_rgba(30,30,46,1)]' : 'bg-[#e0e5ec] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)]'}`}>
-                {subBgmActiveTab === 'sub' ? (
-                  <div>
-                    <h2 className={`text-xl font-bold mb-6 ${theme === 'neomorphic-dark' ? 'text-white' : 'text-zinc-700'}`}>
-                      音乐平台链接
-                    </h2>
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                      {musicLinks.map((link, index) => (
-                        <a
-                          key={index}
-                          href={link.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={`px-4 py-3 rounded-full text-center transition-all duration-300 transform ${theme === 'neomorphic-dark'
-                            ? 'bg-[#1a1b1e] text-zinc-300 hover:bg-[#1e1e2e] hover:shadow-[12px_12px_24px_rgba(0,0,0,0.5),-12px_-12px_24px_rgba(30,30,46,1)] hover:scale-105'
-                            : 'bg-[#e0e5ec] text-zinc-700 hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] hover:scale-105'
-                          }`}
-                        >
-                          {link.name}
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-                ) : (
-                  <div>
-                    {/* kdy子按钮 */}
-                    <div className="flex flex-wrap gap-3 mb-6">
-                      {Object.keys(kdyContent).map((key) => {
-                        const kdy = parseInt(key);
-                        return (
-                          <button
-                            key={kdy}
-                            onClick={() => {
-                              setActiveKdy(kdy);
-                              // 在编辑模式下切换KDY时，更新编辑内容
-                              if (isEditing) {
-                                setEditingTitle(kdyContent[kdy]?.title || '');
-                                setEditingContent(kdyContent[kdy]?.content || '');
-                              }
-                            }}
-                            className={`px-4 py-2 rounded-full font-bold transition-all duration-300 transform ${activeKdy === kdy
-                              ? theme === 'neomorphic-dark'
-                                ? 'bg-[#1e1e2e] text-white shadow-[inset_2px_2px_4px_rgba(0,0,0,0.3),inset_-2px_-2px_4px_rgba(30,30,46,0.7)]'
-                                : 'bg-[#e0e5ec] text-zinc-700 shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)]'
-                              : theme === 'neomorphic-dark'
-                                ? 'bg-[#1a1b1e] text-zinc-400 hover:bg-[#1e1e2e] hover:shadow-[12px_12px_24px_rgba(0,0,0,0.5),-12px_-12px_24px_rgba(30,30,46,1)] hover:scale-105'
-                                : 'bg-[#e0e5ec] text-zinc-500 hover:bg-[#e0e5ec] hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] hover:scale-105'
-                            }`}
-                          >
-                            kdy{kdy}-{kdyContent[kdy]?.title || ''}
-                          </button>
-                        );
-                      })}
-                    </div>
+                {/* kdy子按钮 */}
+                <div className="flex flex-wrap gap-3 mb-6">
+                  {Object.keys(kdyContent).map((key) => {
+                    const kdy = parseInt(key);
+                    return (
+                      <button
+                        key={kdy}
+                        onClick={() => {
+                          setActiveKdy(kdy);
+                          // 在编辑模式下切换KDY时，更新编辑内容
+                          if (isEditing) {
+                            setEditingTitle(kdyContent[kdy]?.title || '');
+                            setEditingContent(kdyContent[kdy]?.content || '');
+                          }
+                        }}
+                        className={`px-4 py-2 rounded-full font-bold transition-all duration-300 transform ${activeKdy === kdy
+                          ? theme === 'neomorphic-dark'
+                            ? 'bg-[#1e1e2e] text-white shadow-[inset_2px_2px_4px_rgba(0,0,0,0.3),inset_-2px_-2px_4px_rgba(30,30,46,0.7)]'
+                            : 'bg-[#e0e5ec] text-zinc-700 shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)]'
+                          : theme === 'neomorphic-dark'
+                            ? 'bg-[#1a1b1e] text-zinc-400 hover:bg-[#1e1e2e] hover:shadow-[12px_12px_24px_rgba(0,0,0,0.5),-12px_-12px_24px_rgba(30,30,46,1)] hover:scale-105'
+                            : 'bg-[#e0e5ec] text-zinc-500 hover:bg-[#e0e5ec] hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] hover:scale-105'
+                        }`}
+                      >
+                        kdy{kdy}-{kdyContent[kdy]?.title || ''}
+                      </button>
+                    );
+                  })}
+                </div>
 
-                    {/* 编辑按钮区域 - 放在预览区上面 */}
-                    {isEditing && (
-                      <div className={`flex flex-wrap gap-2 mb-6 p-3 rounded-xl ${theme === 'neomorphic-dark' ? 'bg-[#1a1b1e]' : 'bg-[#e0e5ec]'} transition-all duration-300`}>
+                {/* 编辑按钮区域 - 放在预览区上面 */}
+                {isEditing && (
+                  <div className={`flex flex-wrap gap-2 mb-6 p-3 rounded-xl ${theme === 'neomorphic-dark' ? 'bg-[#1a1b1e]' : 'bg-[#e0e5ec]'} transition-all duration-300`}>
+                    <button
+                      onClick={() => deleteKdy(activeKdy)}
+                      className={`px-3 py-1.5 rounded-full transition-all duration-300 transform ${theme === 'neomorphic-dark'
+                        ? 'bg-[#1a1b1e] text-zinc-400 shadow-[12px_12px_24px_rgba(0,0,0,0.5),-12px_-12px_24px_rgba(30,30,46,1)] scale-105 hover:bg-[#1e1e2e]'
+                        : 'bg-[#e0e5ec] text-zinc-700 shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] scale-105 hover:bg-[#e0e5ec]'
+                      }`}
+                      disabled={Object.keys(kdyContent).length <= 1}
+                    >
+                      删除
+                    </button>
+                    <button
+                      onClick={addNewKdy}
+                      className={`px-3 py-1.5 rounded-full transition-all duration-300 transform ${theme === 'neomorphic-dark'
+                        ? 'bg-[#1a1b1e] text-zinc-400 shadow-[12px_12px_24px_rgba(0,0,0,0.5),-12px_-12px_24px_rgba(30,30,46,1)] scale-105 hover:bg-[#1e1e2e]'
+                        : 'bg-[#e0e5ec] text-zinc-700 shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] scale-105 hover:bg-[#e0e5ec]'
+                      }`}
+                    >
+                      添加
+                    </button>
+                    <button
+                      onClick={saveEditing}
+                      className={`px-3 py-1.5 rounded-full transition-all duration-300 transform ${theme === 'neomorphic-dark'
+                        ? 'bg-[#1a1b1e] text-zinc-400 shadow-[12px_12px_24px_rgba(0,0,0,0.5),-12px_-12px_24px_rgba(30,30,46,1)] scale-105 hover:bg-[#1e1e2e]'
+                        : 'bg-[#e0e5ec] text-zinc-700 shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] scale-105 hover:bg-[#e0e5ec]'
+                      }`}
+                    >
+                      保存
+                    </button>
+                    <button
+                      onClick={cancelEditing}
+                      className={`px-3 py-1.5 rounded-full transition-all duration-300 transform ${theme === 'neomorphic-dark'
+                        ? 'bg-[#1a1b1e] text-zinc-400 shadow-[12px_12px_24px_rgba(0,0,0,0.5),-12px_-12px_24px_rgba(30,30,46,1)] scale-105 hover:bg-[#1e1e2e]'
+                        : 'bg-[#e0e5ec] text-zinc-700 shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] scale-105 hover:bg-[#e0e5ec]'
+                      }`}
+                    >
+                      取消
+                    </button>
+                  </div>
+                )}
+
+                {/* 内容展示 */}
+                <div className="flex-1">
+                  {!isEditing ? (
+                    <>
+                      <div className="flex justify-between items-center mb-8">
+                        <h3 className={`text-3xl font-bold ${theme === 'neomorphic-dark' ? 'text-white' : 'text-zinc-800'}`}>
+                          {kdyContent[activeKdy]?.title || '肯定语'}
+                        </h3>
+                        {/* 非编辑状态下的编辑按钮 */}
                         <button
-                          onClick={() => deleteKdy(activeKdy)}
-                          className={`px-3 py-1.5 rounded-full transition-all duration-300 transform ${theme === 'neomorphic-dark'
-                            ? 'bg-[#1a1b1e] text-zinc-400 shadow-[12px_12px_24px_rgba(0,0,0,0.5),-12px_-12px_24px_rgba(30,30,46,1)] scale-105 hover:bg-[#1e1e2e]'
-                            : 'bg-[#e0e5ec] text-zinc-700 shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] scale-105 hover:bg-[#e0e5ec]'
-                          }`}
-                          disabled={Object.keys(kdyContent).length <= 1}
-                        >
-                          删除
-                        </button>
-                        <button
-                          onClick={addNewKdy}
-                          className={`px-3 py-1.5 rounded-full transition-all duration-300 transform ${theme === 'neomorphic-dark'
-                            ? 'bg-[#1a1b1e] text-zinc-400 shadow-[12px_12px_24px_rgba(0,0,0,0.5),-12px_-12px_24px_rgba(30,30,46,1)] scale-105 hover:bg-[#1e1e2e]'
-                            : 'bg-[#e0e5ec] text-zinc-700 shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] scale-105 hover:bg-[#e0e5ec]'
+                          onClick={startEditing}
+                          className={`px-4 py-2 rounded-full font-bold transition-all duration-300 transform ${theme === 'neomorphic-dark'
+                            ? 'bg-[#1a1b1e] text-blue-400 hover:bg-[#1e1e2e] hover:shadow-[12px_12px_24px_rgba(0,0,0,0.5),-12px_-12px_24px_rgba(30,30,46,1)] hover:scale-105'
+                            : 'bg-[#e0e5ec] text-blue-600 hover:bg-[#e0e5ec] hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] hover:scale-105'
                           }`}
                         >
-                          添加
-                        </button>
-                        <button
-                          onClick={saveEditing}
-                          className={`px-3 py-1.5 rounded-full transition-all duration-300 transform ${theme === 'neomorphic-dark'
-                            ? 'bg-[#1a1b1e] text-zinc-400 shadow-[12px_12px_24px_rgba(0,0,0,0.5),-12px_-12px_24px_rgba(30,30,46,1)] scale-105 hover:bg-[#1e1e2e]'
-                            : 'bg-[#e0e5ec] text-zinc-700 shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] scale-105 hover:bg-[#e0e5ec]'
-                          }`}
-                        >
-                          保存
-                        </button>
-                        <button
-                          onClick={cancelEditing}
-                          className={`px-3 py-1.5 rounded-full transition-all duration-300 transform ${theme === 'neomorphic-dark'
-                            ? 'bg-[#1a1b1e] text-zinc-400 shadow-[12px_12px_24px_rgba(0,0,0,0.5),-12px_-12px_24px_rgba(30,30,46,1)] scale-105 hover:bg-[#1e1e2e]'
-                            : 'bg-[#e0e5ec] text-zinc-700 shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] scale-105 hover:bg-[#e0e5ec]'
-                          }`}
-                        >
-                          取消
+                          编辑
                         </button>
                       </div>
-                    )}
 
-                    {/* 内容展示 */}
-                    <div className="flex-1">
-                      {!isEditing ? (
-                        <>
-                          <div className="flex justify-between items-center mb-8">
-                            <h3 className={`text-3xl font-bold ${theme === 'neomorphic-dark' ? 'text-white' : 'text-zinc-800'}`}>
-                              {kdyContent[activeKdy]?.title || '肯定语'}
-                            </h3>
-                            {/* 非编辑状态下的编辑按钮 */}
-                            <button
-                              onClick={startEditing}
-                              className={`px-4 py-2 rounded-full font-bold transition-all duration-300 transform ${theme === 'neomorphic-dark'
-                                ? 'bg-[#1a1b1e] text-blue-400 hover:bg-[#1e1e2e] hover:shadow-[12px_12px_24px_rgba(0,0,0,0.5),-12px_-12px_24px_rgba(30,30,46,1)] hover:scale-105'
-                                : 'bg-[#e0e5ec] text-blue-600 hover:bg-[#e0e5ec] hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] hover:scale-105'
-                              }`}
-                            >
-                              编辑
-                            </button>
-                          </div>
-
-                          {/* 富文本内容展示 */}
-                          <div className={`${theme === 'neomorphic-dark' ? 'text-zinc-300' : 'text-zinc-700'} max-w-none`}>
-                            {(() => {
-                              const content = kdyContent[activeKdy]?.content || '';
-                              const sections = parseMarkdownContent(content);
-                              
-                              // 渲染Markdown内容的函数
-                              const renderMarkdownContent = (content: string[]) => {
-                                const lines = content.join('\n').split('\n');
-                                const paragraphs: JSX.Element[] = [];
-                                let currentList: JSX.Element[] = [];
-                                let currentText: string[] = [];
-                                
-                                lines.forEach(line => {
-                                  const trimmedLine = line.trim();
-                                  if (trimmedLine.startsWith('- ') || trimmedLine.startsWith('* ')) {
-                                    // 处理列表项
-                                    if (currentText.length > 0) {
-                                      paragraphs.push(
-                                        <p key={paragraphs.length} className="mb-4">
-                                          {currentText.join('\n')}
-                                        </p>
-                                      );
-                                      currentText = [];
-                                    }
-                                    if (currentList.length > 0 && !trimmedLine.startsWith('- ') && !trimmedLine.startsWith('* ')) {
-                                      paragraphs.push(
-                                        <ul key={paragraphs.length} className="list-disc pl-6 mb-4">
-                                          {currentList}
-                                        </ul>
-                                      );
-                                      currentList = [];
-                                    }
-                                    currentList.push(
-                                      <li key={currentList.length} className="mb-2">
-                                        {trimmedLine.substring(2)}
-                                      </li>
-                                    );
-                                  } else if (trimmedLine === '') {
-                                    // 处理空行
-                                    if (currentText.length > 0) {
-                                      paragraphs.push(
-                                        <p key={paragraphs.length} className="mb-4">
-                                          {currentText.join('\n')}
-                                        </p>
-                                      );
-                                      currentText = [];
-                                    } else if (currentList.length > 0) {
-                                      paragraphs.push(
-                                        <ul key={paragraphs.length} className="list-disc pl-6 mb-4">
-                                          {currentList}
-                                        </ul>
-                                      );
-                                      currentList = [];
-                                    }
-                                  } else {
-                                    // 处理普通文本
-                                    if (currentList.length > 0) {
-                                      paragraphs.push(
-                                        <ul key={paragraphs.length} className="list-disc pl-6 mb-4">
-                                          {currentList}
-                                        </ul>
-                                      );
-                                      currentList = [];
-                                    }
-                                    currentText.push(line);
-                                  }
-                                });
-                                
-                                // 处理剩余的内容
+                      {/* 富文本内容展示 */}
+                      <div className={`${theme === 'neomorphic-dark' ? 'text-zinc-300' : 'text-zinc-700'} max-w-none`}>
+                        {(() => {
+                          const content = kdyContent[activeKdy]?.content || '';
+                          const sections = parseMarkdownContent(content);
+                          
+                          // 渲染Markdown内容的函数
+                          const renderMarkdownContent = (content: string[]) => {
+                            const lines = content.join('\n').split('\n');
+                            const paragraphs: JSX.Element[] = [];
+                            let currentList: JSX.Element[] = [];
+                            let currentText: string[] = [];
+                            
+                            lines.forEach(line => {
+                              const trimmedLine = line.trim();
+                              if (trimmedLine.startsWith('- ') || trimmedLine.startsWith('* ')) {
+                                // 处理列表项
                                 if (currentText.length > 0) {
                                   paragraphs.push(
                                     <p key={paragraphs.length} className="mb-4">
                                       {currentText.join('\n')}
                                     </p>
                                   );
+                                  currentText = [];
+                                }
+                                if (currentList.length > 0 && !trimmedLine.startsWith('- ') && !trimmedLine.startsWith('* ')) {
+                                  paragraphs.push(
+                                    <ul key={paragraphs.length} className="list-disc pl-6 mb-4">
+                                      {currentList}
+                                    </ul>
+                                  );
+                                  currentList = [];
+                                }
+                                currentList.push(
+                                  <li key={currentList.length} className="mb-2">
+                                    {trimmedLine.substring(2)}
+                                  </li>
+                                );
+                              } else if (trimmedLine === '') {
+                                // 处理空行
+                                if (currentText.length > 0) {
+                                  paragraphs.push(
+                                    <p key={paragraphs.length} className="mb-4">
+                                      {currentText.join('\n')}
+                                    </p>
+                                  );
+                                  currentText = [];
                                 } else if (currentList.length > 0) {
                                   paragraphs.push(
                                     <ul key={paragraphs.length} className="list-disc pl-6 mb-4">
                                       {currentList}
                                     </ul>
                                   );
+                                  currentList = [];
                                 }
-                                
-                                return paragraphs;
-                              };
-                              
-                              return (
-                                <div>
-                                  {sections.map((section, sectionIndex) => (
-                                    <div key={sectionIndex} className="mb-6">
-                                      <h4 className={`text-lg font-bold mb-3 ${theme === 'neomorphic-dark' ? 'text-white' : 'text-zinc-800'}`}>
-                                        {section.title}
-                                      </h4>
-                                      <div className="pl-4">
-                                        {renderMarkdownContent(section.content)}
-                                      </div>
-                                    </div>
-                                  ))}
-                                </div>
+                              } else {
+                                // 处理普通文本
+                                if (currentList.length > 0) {
+                                  paragraphs.push(
+                                    <ul key={paragraphs.length} className="list-disc pl-6 mb-4">
+                                      {currentList}
+                                    </ul>
+                                  );
+                                  currentList = [];
+                                }
+                                currentText.push(line);
+                              }
+                            });
+                            
+                            // 处理剩余的内容
+                            if (currentText.length > 0) {
+                              paragraphs.push(
+                                <p key={paragraphs.length} className="mb-4">
+                                  {currentText.join('\n')}
+                                </p>
                               );
-                            })()}
-                          </div>
-                        </>
-                      ) : (
-                        <>
-                          {/* 编辑状态下的标题输入 */}
-                          <div className="mb-4">
-                            <input
-                              type="text"
-                              value={editingTitle}
-                              onChange={(e) => setEditingTitle(e.target.value)}
-                              className={`w-full p-3 rounded-lg border ${theme === 'neomorphic-dark' ? 'bg-[#1a1b1e] text-white border-[#2d2d3f]' : 'bg-white text-zinc-800 border-gray-300'} focus:outline-none focus:ring-2 focus:ring-blue-500`}
-                              placeholder="输入标题"
-                            />
-                          </div>
-                          {/* 编辑状态下的内容输入 */}
-                          <div className="mb-4">
-                            <textarea
-                              value={editingContent}
-                              onChange={(e) => setEditingContent(e.target.value)}
-                              className={`w-full p-3 rounded-lg border ${theme === 'neomorphic-dark' ? 'bg-[#1a1b1e] text-white border-[#2d2d3f]' : 'bg-white text-zinc-800 border-gray-300'} focus:outline-none focus:ring-2 focus:ring-blue-500`}
-                              placeholder="输入内容"
-                              rows={20}
-                            ></textarea>
-                          </div>
-                        </>
-                      )}
-                    </div>
-                  </div>
-                )}
+                            } else if (currentList.length > 0) {
+                              paragraphs.push(
+                                <ul key={paragraphs.length} className="list-disc pl-6 mb-4">
+                                  {currentList}
+                                </ul>
+                              );
+                            }
+                            
+                            return paragraphs;
+                          };
+                          
+                          return (
+                            <div>
+                              {sections.map((section, sectionIndex) => (
+                                <div key={sectionIndex} className="mb-6">
+                                  <h4 className={`text-lg font-bold mb-3 ${theme === 'neomorphic-dark' ? 'text-white' : 'text-zinc-800'}`}>
+                                    {section.title}
+                                  </h4>
+                                  <div className="pl-4">
+                                    {renderMarkdownContent(section.content)}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          );
+                        })()}
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      {/* 编辑状态下的标题输入 */}
+                      <div className="mb-4">
+                        <input
+                          type="text"
+                          value={editingTitle}
+                          onChange={(e) => setEditingTitle(e.target.value)}
+                          className={`w-full p-3 rounded-lg border ${theme === 'neomorphic-dark' ? 'bg-[#1a1b1e] text-white border-[#2d2d3f]' : 'bg-white text-zinc-800 border-gray-300'} focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                          placeholder="输入标题"
+                        />
+                      </div>
+                      {/* 编辑状态下的内容输入 */}
+                      <div className="mb-4">
+                        <textarea
+                          value={editingContent}
+                          onChange={(e) => setEditingContent(e.target.value)}
+                          className={`w-full p-3 rounded-lg border ${theme === 'neomorphic-dark' ? 'bg-[#1a1b1e] text-white border-[#2d2d3f]' : 'bg-white text-zinc-800 border-gray-300'} focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                          placeholder="输入内容"
+                          rows={20}
+                        ></textarea>
+                      </div>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           </div>
