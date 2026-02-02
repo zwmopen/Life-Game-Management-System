@@ -16,9 +16,10 @@ interface NavigationProps {
   isNavCollapsed: boolean;
   setIsNavCollapsed: (collapsed: boolean) => void;
   onHelpClick: (helpId: string) => void;
+  isModalOpen?: boolean; // New prop for modal state
 }
 
-const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileOpen, setIsMobileOpen, entropy, isNavCollapsed, setIsNavCollapsed, onHelpClick }) => {
+const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileOpen, setIsMobileOpen, entropy, isNavCollapsed, setIsNavCollapsed, onHelpClick, isModalOpen = false }) => {
   const { theme, setTheme } = useTheme();
   // 新增状态：控制是否完全隐藏侧边栏（仅手机端）
   const [isNavHidden, setIsNavHidden] = useState(false);
@@ -28,7 +29,7 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
     { id: View.BLACK_MARKET, label: '补给黑市（奖励）', icon: ShoppingBag },
     { id: View.THINKING_CENTER, label: '思维中心（模型）', icon: Book },
     { id: View.TIME_BOX, label: '时间盒子（beta）', icon: Clock },
-    { id: View.SELF_MANIFESTATION, label: '自我显化', icon: Star },
+    { id: View.HIGHEST_VERSION, label: '自我显化（对齐）', icon: Star },
     { id: View.SETTINGS, label: '设置中心（配置）', icon: Settings },
   ]);
 
@@ -61,7 +62,9 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
   const sidebarRef = useRef<HTMLDivElement>(null);
   const resizerRef = useRef<HTMLDivElement>(null);
 
-  const handleNavClick = (view: View) => {
+  const handleNavClick = (view: View, e?: React.MouseEvent | React.TouchEvent) => {
+    // 阻止事件冒泡，防止在手机上触发侧边栏的触摸事件处理逻辑
+    e?.stopPropagation();
     setView(view);
   };
 
@@ -220,24 +223,25 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
           </button>
 
       {/* 侧边栏容器 - 使用覆盖式设计 */}
-      <div 
-        ref={sidebarRef}
-        className={`
-          inset-y-0 left-0 transform transition-all duration-300 ease-in-out
-          flex flex-col z-40 ${sidebarClass}
-          fixed md:relative
-          ${isNavHidden ? 'hidden' : ''}
-          shadow-2xl
-        `}
-        style={{
-          width: `${sidebarWidth}px`,
-          transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
-        }}
-        // 手机端手势滑动事件监听器
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-      >
+      {!isModalOpen && (
+        <div 
+          ref={sidebarRef}
+          className={`
+            inset-y-0 left-0 transform transition-all duration-300 ease-in-out
+            flex flex-col z-40 ${sidebarClass}
+            fixed md:relative
+            ${isNavHidden ? 'hidden' : ''}
+            shadow-2xl
+          `}
+          style={{
+            width: `${sidebarWidth}px`,
+            transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+          }}
+          // 手机端手势滑动事件监听器
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
           <div className={`px-4 py-6 ${isNeomorphic ? (theme === 'neomorphic-dark' ? `bg-[#1e1e2e]` : `bg-[#e0e5ec]`) : ''} flex items-center justify-between ${isNavCollapsed ? 'hidden' : 'md:flex'}`}>
             <h1 className={`text-xl font-bold tracking-tighter ${isDark ? 'text-emerald-500' : 'text-blue-600'}`}>
               人生游戏系统
@@ -259,7 +263,8 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
                     </div>
                   )}
                   <button
-                  onClick={() => handleNavClick(item.id)}
+                  onClick={(e) => handleNavClick(item.id, e)}
+                  onTouchEnd={(e) => handleNavClick(item.id, e)}
                   className={`
                       flex items-center rounded-full transition-all duration-200 border border-transparent
                       ${isNavCollapsed 
@@ -341,7 +346,8 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
                 <div className={`text-[10px] font-mono ${isDark ? 'text-zinc-600' : 'text-slate-400'}`}>V {APP_VERSION}</div>
               )}
           </div>
-      </div>
+        </div>
+      )}
     </>
   );
 };

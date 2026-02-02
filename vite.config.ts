@@ -81,7 +81,7 @@ export default defineConfig(({ mode }) => {
     
     return {
       // 配置base路径，解决GitHub Pages部署后资源加载404问题
-      base: '/Life-Game-Management-System/',
+      base: mode === 'production' ? '/Life-Game-Management-System/' : '/',
       server: {
         port: 3000,
         host: '0.0.0.0',

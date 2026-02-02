@@ -1310,6 +1310,10 @@ const App: React.FC = () => {
                   onUpdateDiceTask={updateDiceTask}
                   onUpdateDiceConfig={updateDiceConfig}
                   onUpdateDiceState={updateDiceState}
+                  // 角色等级变化回调
+                  onLevelChange={handleLevelChange}
+                  // 模态框状态管理
+                  setModalState={setModalState}
                   // 帮助卡片系统
                   onHelpClick={setActiveHelp}
                />;
@@ -1371,8 +1375,12 @@ const App: React.FC = () => {
       case View.TIME_BOX:
         return <TimeBox setModalState={setModalState} />;
       case View.SELF_MANIFESTATION:
+        // 重定向到自我显化（对齐）视图
         return <SelfManifestation 
-                  theme={theme} 
+                  onHelpClick={setActiveHelp}
+                />;
+      case View.HIGHEST_VERSION:
+        return <SelfManifestation 
                   onHelpClick={setActiveHelp}
                 />;
       default: 

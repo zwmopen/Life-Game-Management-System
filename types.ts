@@ -101,6 +101,7 @@ export enum View {
   THINKING_CENTER = 'THINKING_CENTER', // 思维中心 (New)
   TIME_BOX = 'TIME_BOX',             // 时间盒子 (New)
   SELF_MANIFESTATION = 'SELF_MANIFESTATION', // 自我显化 (New)
+  HIGHEST_VERSION = 'HIGHEST_VERSION', // 最高版本 (构建)
 }
 
 /**
