@@ -793,9 +793,9 @@ const SelfManifestation: React.FC<SelfManifestationProps> = ({ theme, onHelpClic
                 <div className={`flex flex-wrap gap-2 mb-6 p-3 rounded-xl ${theme === 'neomorphic-dark' ? 'bg-[#1a1b1e]' : 'bg-[#e0e5ec]'} transition-all duration-300`}>
                   <button
                     onClick={() => deleteKdy(activeKdy)}
-                    className={`px-3 py-1.5 rounded-full font-bold transition-all duration-300 transform ${theme === 'neomorphic-dark'
-                      ? 'bg-[#1a1b1e] text-zinc-300 hover:bg-[#1e1e2e] hover:shadow-[12px_12px_24px_rgba(0,0,0,0.5),-12px_-12px_24px_rgba(30,30,46,1)] hover:scale-105'
-                      : 'bg-[#e0e5ec] text-zinc-800 hover:bg-[#e0e5ec] hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] hover:scale-105'
+                    className={`px-3 py-1.5 rounded-full transition-all duration-300 transform ${theme === 'neomorphic-dark'
+                      ? 'bg-[#1a1b1e] text-zinc-400 shadow-[12px_12px_24px_rgba(0,0,0,0.5),-12px_-12px_24px_rgba(30,30,46,1)] scale-105 hover:bg-[#1e1e2e]'
+                      : 'bg-[#e0e5ec] text-zinc-700 shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] scale-105 hover:bg-[#e0e5ec]'
                     }`}
                     disabled={Object.keys(kdyContent).length <= 1}
                   >
@@ -803,27 +803,27 @@ const SelfManifestation: React.FC<SelfManifestationProps> = ({ theme, onHelpClic
                   </button>
                   <button
                     onClick={addNewKdy}
-                    className={`px-3 py-1.5 rounded-full font-bold transition-all duration-300 transform ${theme === 'neomorphic-dark'
-                      ? 'bg-[#1a1b1e] text-zinc-300 hover:bg-[#1e1e2e] hover:shadow-[12px_12px_24px_rgba(0,0,0,0.5),-12px_-12px_24px_rgba(30,30,46,1)] hover:scale-105'
-                      : 'bg-[#e0e5ec] text-zinc-800 hover:bg-[#e0e5ec] hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] hover:scale-105'
+                    className={`px-3 py-1.5 rounded-full transition-all duration-300 transform ${theme === 'neomorphic-dark'
+                      ? 'bg-[#1a1b1e] text-zinc-400 shadow-[12px_12px_24px_rgba(0,0,0,0.5),-12px_-12px_24px_rgba(30,30,46,1)] scale-105 hover:bg-[#1e1e2e]'
+                      : 'bg-[#e0e5ec] text-zinc-700 shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] scale-105 hover:bg-[#e0e5ec]'
                     }`}
                   >
                     添加
                   </button>
                   <button
                     onClick={saveEditing}
-                    className={`px-3 py-1.5 rounded-full font-bold transition-all duration-300 transform ${theme === 'neomorphic-dark'
-                      ? 'bg-[#1a1b1e] text-zinc-300 hover:bg-[#1e1e2e] hover:shadow-[12px_12px_24px_rgba(0,0,0,0.5),-12px_-12px_24px_rgba(30,30,46,1)] hover:scale-105'
-                      : 'bg-[#e0e5ec] text-zinc-800 hover:bg-[#e0e5ec] hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] hover:scale-105'
+                    className={`px-3 py-1.5 rounded-full transition-all duration-300 transform ${theme === 'neomorphic-dark'
+                      ? 'bg-[#1a1b1e] text-zinc-400 shadow-[12px_12px_24px_rgba(0,0,0,0.5),-12px_-12px_24px_rgba(30,30,46,1)] scale-105 hover:bg-[#1e1e2e]'
+                      : 'bg-[#e0e5ec] text-zinc-700 shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] scale-105 hover:bg-[#e0e5ec]'
                     }`}
                   >
                     保存
                   </button>
                   <button
                     onClick={cancelEditing}
-                    className={`px-3 py-1.5 rounded-full font-bold transition-all duration-300 transform ${theme === 'neomorphic-dark'
-                      ? 'bg-[#1a1b1e] text-zinc-300 hover:bg-[#1e1e2e] hover:shadow-[12px_12px_24px_rgba(0,0,0,0.5),-12px_-12px_24px_rgba(30,30,46,1)] hover:scale-105'
-                      : 'bg-[#e0e5ec] text-zinc-800 hover:bg-[#e0e5ec] hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] hover:scale-105'
+                    className={`px-3 py-1.5 rounded-full transition-all duration-300 transform ${theme === 'neomorphic-dark'
+                      ? 'bg-[#1a1b1e] text-zinc-400 shadow-[12px_12px_24px_rgba(0,0,0,0.5),-12px_-12px_24px_rgba(30,30,46,1)] scale-105 hover:bg-[#1e1e2e]'
+                      : 'bg-[#e0e5ec] text-zinc-700 shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] scale-105 hover:bg-[#e0e5ec]'
                     }`}
                   >
                     取消
