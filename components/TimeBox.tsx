@@ -62,6 +62,9 @@ const TimeBox: React.FC<TimeBoxProps> = ({ setModalState }) => {
     duration: 60
   });
   
+  const [batchTasks, setBatchTasks] = useState('');
+  const [isBatchMode, setIsBatchMode] = useState(false);
+  
   // 打开弹窗时设置模态状态
   const openModal = useCallback((isOpen: boolean) => {
     setModalState(isOpen);
@@ -152,6 +155,13 @@ const TimeBox: React.FC<TimeBoxProps> = ({ setModalState }) => {
       setTasks(prev => prev.filter(task => task.id !== taskId));
     }
   };
+  
+  // 切换任务状态
+  const toggleTaskStatus = (taskId: number) => {
+    setTasks(prev => prev.map(task => 
+      task.id === taskId ? { ...task, status: task.status === '已完成' ? '待处理' : '已完成', isActive: false } : task
+    ));
+  };
 
   // 保存编辑
   const saveEdit = () => {
@@ -200,8 +210,74 @@ const TimeBox: React.FC<TimeBoxProps> = ({ setModalState }) => {
       priority: '中',
       duration: 60
     });
+    setBatchTasks('');
+    setIsBatchMode(false);
     setIsAddTaskOpen(false);
     openModal(false);
+  };
+  
+  // 批量添加任务
+  const addBatchTasks = () => {
+    if (!batchTasks.trim()) return;
+    
+    const tasks = batchTasks.split('\n').filter(line => line.trim());
+    const newTasks = [];
+    
+    tasks.forEach(taskText => {
+      const task = {
+        id: Date.now() + Math.random(),
+        title: '',
+        description: '',
+        priority: '中',
+        duration: 60,
+        status: '待处理',
+        isActive: false,
+        timeSlot: ''
+      };
+      
+      // 解析任务文本
+      const parts = taskText.split('。').filter(part => part.trim());
+      
+      parts.forEach(part => {
+        // 匹配时长
+        const durationMatch = part.match(/(\d+)分钟/);
+        if (durationMatch) {
+          task.duration = parseInt(durationMatch[1]);
+          return;
+        }
+        
+        // 匹配时间段
+        const timeMatch = part.match(/(\d{2}:\d{2})-(\d{2}:\d{2})/);
+        if (timeMatch) {
+          task.timeSlot = `${timeMatch[1]}-${timeMatch[2]}`;
+          return;
+        }
+        
+        // 匹配优先级
+        const priorityMatch = part.match(/(高|中|低)优先级/);
+        if (priorityMatch) {
+          task.priority = priorityMatch[1];
+          return;
+        }
+        
+        // 剩余部分作为任务标题
+        if (!task.title) {
+          task.title = part.trim();
+        } else {
+          task.description += part.trim() + ' ';
+        }
+      });
+      
+      if (task.title) {
+        newTasks.push(task);
+      }
+    });
+    
+    if (newTasks.length > 0) {
+      setTasks(prev => [...prev, ...newTasks]);
+    }
+    
+    cancelAddTask();
   };
 
   // 获取优先级颜色
@@ -353,50 +429,190 @@ const TimeBox: React.FC<TimeBoxProps> = ({ setModalState }) => {
                 
                 <div className="space-y-6">
                   <div>
-                    <h4 className="text-lg font-medium text-zinc-700 mb-2">原理</h4>
-                    <p className="text-zinc-600">Elon Musk的时间管理方法基于将时间分割成固定长度的时间段，每个时间段专注于单一任务。这种方法有助于提高专注力，减少任务切换的时间成本，并确保所有重要任务都能得到充分关注。</p>
-                  </div>
-                  
-                  <div>
-                    <h4 className="text-lg font-medium text-zinc-700 mb-2">技巧</h4>
+                    <h4 className="text-lg font-medium text-zinc-700 mb-2">本质与核心理念</h4>
                     <ul className="space-y-2 text-zinc-600">
                       <li className="flex items-start">
                         <span className="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2"></span>
-                        <span>将时间分割成 5-15 分钟的固定时间段</span>
+                        <span>定义：为任务设明确时间边界，时间一到强制结束，不无限延展。</span>
                       </li>
                       <li className="flex items-start">
                         <span className="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2"></span>
-                        <span>每个时间段只专注于单一任务或活动</span>
+                        <span>核心差异：待办清单是"线性无限"，时间盒是"空间有限"，把任务变成日历上的"硬预约"。</span>
                       </li>
                       <li className="flex items-start">
                         <span className="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2"></span>
-                        <span>严格遵守时间限制，避免任务蔓延</span>
+                        <span>底层逻辑：用"物理式时间约束"替代"弹性任务清单"，用5分钟颗粒度把时间变成可量化、可执行的资源，匹配"第一性原理"的效率思维。</span>
                       </li>
                       <li className="flex items-start">
                         <span className="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2"></span>
-                        <span>通过频繁切换任务保持大脑新鲜感</span>
+                        <span>关键效应：截止预期效应，略紧的时限带来紧迫感，提升专注与效率。</span>
                       </li>
                     </ul>
                   </div>
                   
                   <div>
-                    <h4 className="text-lg font-medium text-zinc-700 mb-2">实践</h4>
-                    <p className="text-zinc-600">每天开始时，列出当天需要完成的任务，并为每个任务分配合理的时间。然后使用时间盒子进行倒计时，确保在规定时间内完成任务。完成一个任务后，短暂休息，然后开始下一个任务。</p>
+                    <h4 className="text-lg font-medium text-zinc-700 mb-2">马斯克式执行细节</h4>
+                    <ul className="space-y-2 text-zinc-600">
+                      <li className="flex items-start">
+                        <span className="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2"></span>
+                        <span>时间切割：醒着的18小时切成216个5分钟"盒子"，连接水、会议、回复邮件都精准入盒。</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2"></span>
+                        <span>优先级排序：80%时间投入高价值任务（如工程设计、核心决策），低价值任务直接剔除。</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2"></span>
+                        <span>执行原则：一次只做一件事，时间到就切换，不纠结未完成部分，避免"完美主义陷阱"。</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2"></span>
+                        <span>动态调度：按任务优先级实时调整日程，允许计划外中断，但每月设"熔断机制"防系统崩溃。</span>
+                      </li>
+                    </ul>
                   </div>
                   
                   <div>
-                    <h4 className="text-lg font-medium text-zinc-700 mb-2">方法</h4>
-                    <p className="text-zinc-600">1. 列出任务清单
-2. 为每个任务分配时间
-3. 使用时间盒子进行倒计时
-4. 专注于当前任务
-5. 完成后标记任务状态
-6. 分析时间使用情况，不断优化</p>
+                    <h4 className="text-lg font-medium text-zinc-700 mb-2">普通人可复制的四步流程</h4>
+                    <div className="space-y-4">
+                      <div>
+                        <h5 className="font-medium text-zinc-700 mb-2">1. 任务筛选与排序</h5>
+                        <ul className="space-y-2 text-zinc-600 pl-4">
+                          <li className="flex items-start">
+                            <span className="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2"></span>
+                            <span>列出所有待办，用"收益≥2×时间成本"筛掉无效项。</span>
+                          </li>
+                          <li className="flex items-start">
+                            <span className="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2"></span>
+                            <span>按"重要且紧急＞重要不紧急＞紧急不重要＞不紧急不重要"排序，锁定核心任务。</span>
+                          </li>
+                        </ul>
+                      </div>
+                      <div>
+                        <h5 className="font-medium text-zinc-700 mb-2">2. 时间盒设计</h5>
+                        <ul className="space-y-2 text-zinc-600 pl-4">
+                          <li className="flex items-start">
+                            <span className="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2"></span>
+                            <span>颗粒度：日常用15-60分钟（新手不建议5分钟），按任务复杂度拆分。</span>
+                          </li>
+                          <li className="flex items-start">
+                            <span className="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2"></span>
+                            <span>时长设定：比预估短10%-20%（如预估1小时设50分钟），制造合理压力。</span>
+                          </li>
+                          <li className="flex items-start">
+                            <span className="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2"></span>
+                            <span>精力匹配：把高认知任务（创意、决策）放在10:00-11:30，机械任务放14:00-15:00等低谷期。</span>
+                          </li>
+                        </ul>
+                      </div>
+                      <div>
+                        <h5 className="font-medium text-zinc-700 mb-2">3. 专注执行</h5>
+                        <ul className="space-y-2 text-zinc-600 pl-4">
+                          <li className="flex items-start">
+                            <span className="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2"></span>
+                            <span>启动倒计时，期间关闭手机通知，拒绝多线程，专注单任务。</span>
+                          </li>
+                          <li className="flex items-start">
+                            <span className="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2"></span>
+                            <span>遇到卡壳：用"马斯克三连击"→写阻碍→算解决成本→立即执行或永久删除（犹豫超5分钟放弃）。</span>
+                          </li>
+                          <li className="flex items-start">
+                            <span className="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2"></span>
+                            <span>时间到即停，记录完成度，不拖延到下一盒。</span>
+                          </li>
+                        </ul>
+                      </div>
+                      <div>
+                        <h5 className="font-medium text-zinc-700 mb-2">4. 复盘优化</h5>
+                        <ul className="space-y-2 text-zinc-600 pl-4">
+                          <li className="flex items-start">
+                            <span className="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2"></span>
+                            <span>每日花5分钟记录实际耗时与预估偏差，迭代后续时间盒时长。</span>
+                          </li>
+                          <li className="flex items-start">
+                            <span className="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2"></span>
+                            <span>每周回看优先级与任务筛选，剔除持续低价值事项。</span>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
                   </div>
                   
                   <div>
-                    <h4 className="text-lg font-medium text-zinc-700 mb-2">案例</h4>
-                    <p className="text-zinc-600">Elon Musk使用这种方法管理他的多公司业务，包括Tesla和SpaceX。他每天将时间分割成多个5-15分钟的时间段，每个时间段专注于一个特定的任务或会议。这种方法帮助他在有限的时间内完成更多的工作，同时保持高水准的创造力和决策能力。</p>
+                    <h4 className="text-lg font-medium text-zinc-700 mb-2">避坑要点与工具推荐</h4>
+                    <div className="space-y-4">
+                      <div>
+                        <h5 className="font-medium text-zinc-700 mb-2">避坑要点</h5>
+                        <ul className="space-y-2 text-zinc-600 pl-4">
+                          <li className="flex items-start">
+                            <span className="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2"></span>
+                            <span>不贪多：每天核心任务不超3个，避免计划过载。</span>
+                          </li>
+                          <li className="flex items-start">
+                            <span className="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2"></span>
+                            <span>留缓冲：每2-3个盒子间留5-10分钟弹性，应对突发。</span>
+                          </li>
+                          <li className="flex items-start">
+                            <span className="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2"></span>
+                            <span>接受不完美：时间盒的核心是"完成度"而非"完美度"，避免因未做完而焦虑。</span>
+                          </li>
+                        </ul>
+                      </div>
+                      <div>
+                        <h5 className="font-medium text-zinc-700 mb-2">工具推荐</h5>
+                        <ul className="space-y-2 text-zinc-600 pl-4">
+                          <li className="flex items-start">
+                            <span className="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2"></span>
+                            <span>日历类：谷歌日历、Outlook、苹果日历（直接拖拽创建时间块）。</span>
+                          </li>
+                          <li className="flex items-start">
+                            <span className="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2"></span>
+                            <span>专注类：Forest、番茄ToDo（倒计时+专注模式）。</span>
+                          </li>
+                          <li className="flex items-start">
+                            <span className="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2"></span>
+                            <span>复盘类：Notion、Excel（记录耗时与完成度，生成周/月报表）。</span>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <h4 className="text-lg font-medium text-zinc-700 mb-2">常见问题与解决</h4>
+                    <ul className="space-y-2 text-zinc-600">
+                      <li className="flex items-start">
+                        <span className="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2"></span>
+                        <span>问题1：时间到任务没做完？→停止并标记"未完成"，移至下一个盒子或重新评估优先级，不占用其他任务时间。</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2"></span>
+                        <span>问题2：频繁被打断？→设"免打扰时段"，非紧急事务集中处理（如每天16:00统一回消息）。</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2"></span>
+                        <span>问题3：坚持不了？→从3个时间盒/天开始，逐步增加，用"完成奖励"（如休息10分钟）强化习惯。</span>
+                      </li>
+                    </ul>
+                  </div>
+                  
+                  <div>
+                    <h4 className="text-lg font-medium text-zinc-700 mb-2">与其他方法的区别</h4>
+                    <ul className="space-y-2 text-zinc-600">
+                      <li className="flex items-start">
+                        <span className="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2"></span>
+                        <span>时间盒 vs 番茄工作法：番茄是25分钟固定时长+5分钟休息；时间盒按任务设时长，更灵活。</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2"></span>
+                        <span>时间盒 vs GTD：GTD强调"收集-处理-组织-回顾-执行"；时间盒聚焦"时间约束+专注执行"，解决"执行拖延"。</span>
+                      </li>
+                    </ul>
+                  </div>
+                  
+                  <div>
+                    <h4 className="text-lg font-medium text-zinc-700 mb-2">一句话总结</h4>
+                    <p className="text-zinc-600">时间盒不是"填鸭式"塞满日程，而是用"有限时间"倒逼"高效产出"，让你在多任务中保持专注，告别无效忙碌。</p>
                   </div>
                 </div>
               </div>
@@ -410,68 +626,101 @@ const TimeBox: React.FC<TimeBoxProps> = ({ setModalState }) => {
                 <div className="flex justify-between items-center mb-4">
                   <h3 className="text-lg font-semibold text-zinc-700">添加任务</h3>
                   <button
-                    onClick={() => {
-                      setIsAddTaskOpen(false);
-                      openModal(false);
-                    }}
+                    onClick={cancelAddTask}
                     className={`p-2 rounded-full ${themeStyles.cardBg} ${themeStyles.buttonShadow} transition-all duration-300 hover:${themeStyles.buttonHoverShadow}`}
                   >
                     <X size={18} />
                   </button>
                 </div>
+                
+                {/* 切换模式按钮 */}
+                <div className="flex mb-4 border-b border-zinc-200">
+                  <button
+                    onClick={() => setIsBatchMode(false)}
+                    className={`px-4 py-2 text-sm font-medium ${!isBatchMode ? 'border-b-2 border-blue-500 text-blue-600' : 'text-zinc-500'} transition-colors`}
+                  >
+                    单个添加
+                  </button>
+                  <button
+                    onClick={() => setIsBatchMode(true)}
+                    className={`px-4 py-2 text-sm font-medium ${isBatchMode ? 'border-b-2 border-blue-500 text-blue-600' : 'text-zinc-500'} transition-colors`}
+                  >
+                    批量添加
+                  </button>
+                </div>
+                
                 <div className="space-y-3">
-                  <div>
-                    <label className="block text-xs font-medium text-zinc-600 mb-1">任务标题</label>
-                    <input
-                      type="text"
-                      value={newTask.title}
-                      onChange={(e) => setNewTask({ ...newTask, title: e.target.value })}
-                      placeholder="输入任务标题"
-                      className={`w-full px-3 py-2 ${themeStyles.inputBg} rounded-lg text-sm ${themeStyles.inputShadow} border-none focus:outline-none focus:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.8),inset_-4px_-4px_8px_rgba(255,255,255,1)]`}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-medium text-zinc-600 mb-1">任务描述</label>
-                    <textarea
-                      value={newTask.description}
-                      onChange={(e) => setNewTask({ ...newTask, description: e.target.value })}
-                      placeholder="输入任务描述"
-                      rows={3}
-                      className={`w-full px-3 py-2 ${themeStyles.inputBg} rounded-lg text-sm ${themeStyles.inputShadow} border-none focus:outline-none focus:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.8),inset_-4px_-4px_8px_rgba(255,255,255,1)]`}
-                    />
-                  </div>
-                  <div className="grid grid-cols-2 gap-3">
+                  {!isBatchMode ? (
+                    // 单个添加模式
+                    <>
+                      <div>
+                        <label className="block text-xs font-medium text-zinc-600 mb-1">任务标题</label>
+                        <input
+                          type="text"
+                          value={newTask.title}
+                          onChange={(e) => setNewTask({ ...newTask, title: e.target.value })}
+                          placeholder="输入任务标题"
+                          className={`w-full px-3 py-2 ${themeStyles.inputBg} rounded-lg text-sm ${themeStyles.inputShadow} border-none focus:outline-none focus:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.8),inset_-4px_-4px_8px_rgba(255,255,255,1)]`}
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium text-zinc-600 mb-1">任务描述</label>
+                        <textarea
+                          value={newTask.description}
+                          onChange={(e) => setNewTask({ ...newTask, description: e.target.value })}
+                          placeholder="输入任务描述"
+                          rows={3}
+                          className={`w-full px-3 py-2 ${themeStyles.inputBg} rounded-lg text-sm ${themeStyles.inputShadow} border-none focus:outline-none focus:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.8),inset_-4px_-4px_8px_rgba(255,255,255,1)]`}
+                        />
+                      </div>
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <label className="block text-xs font-medium text-zinc-600 mb-1">优先级</label>
+                          <select
+                            value={newTask.priority}
+                            onChange={(e) => setNewTask({ ...newTask, priority: e.target.value })}
+                            className={`w-full px-3 py-2 ${themeStyles.inputBg} rounded-lg text-sm ${themeStyles.inputShadow} border-none focus:outline-none focus:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.8),inset_-4px_-4px_8px_rgba(255,255,255,1)]`}
+                          >
+                            <option value="高">高</option>
+                            <option value="中">中</option>
+                            <option value="低">低</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label className="block text-xs font-medium text-zinc-600 mb-1">预计时长（分钟）</label>
+                          <input
+                            type="number"
+                            value={newTask.duration}
+                            onChange={(e) => setNewTask({ ...newTask, duration: parseInt(e.target.value) || 0 })}
+                            min="5"
+                            max="300"
+                            step="5"
+                            className={`w-full px-3 py-2 ${themeStyles.inputBg} rounded-lg text-sm ${themeStyles.inputShadow} border-none focus:outline-none focus:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.8),inset_-4px_-4px_8px_rgba(255,255,255,1)]`}
+                          />
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    // 批量添加模式
                     <div>
-                      <label className="block text-xs font-medium text-zinc-600 mb-1">优先级</label>
-                      <select
-                        value={newTask.priority}
-                        onChange={(e) => setNewTask({ ...newTask, priority: e.target.value })}
-                        className={`w-full px-3 py-2 ${themeStyles.inputBg} rounded-lg text-sm ${themeStyles.inputShadow} border-none focus:outline-none focus:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.8),inset_-4px_-4px_8px_rgba(255,255,255,1)]`}
-                      >
-                        <option value="高">高</option>
-                        <option value="中">中</option>
-                        <option value="低">低</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-xs font-medium text-zinc-600 mb-1">预计时长（分钟）</label>
-                      <input
-                        type="number"
-                        value={newTask.duration}
-                        onChange={(e) => setNewTask({ ...newTask, duration: parseInt(e.target.value) || 0 })}
-                        min="5"
-                        max="300"
-                        step="5"
+                      <label className="block text-xs font-medium text-zinc-600 mb-1">批量添加任务</label>
+                      <textarea
+                        value={batchTasks}
+                        onChange={(e) => setBatchTasks(e.target.value)}
+                        placeholder="一行一个任务，例如：\n买一个车。50分钟。14:00-14:50。高优先级\n完成项目报告。30分钟。中优先级"
+                        rows={8}
                         className={`w-full px-3 py-2 ${themeStyles.inputBg} rounded-lg text-sm ${themeStyles.inputShadow} border-none focus:outline-none focus:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.8),inset_-4px_-4px_8px_rgba(255,255,255,1)]`}
                       />
+                      <p className="text-xs text-zinc-500 mt-1">支持自动识别任务标题、时长、时间段和优先级</p>
                     </div>
-                  </div>
+                  )}
+                  
                   <div className="flex space-x-3 pt-2">
                     <button
-                      onClick={addTask}
+                      onClick={isBatchMode ? addBatchTasks : addTask}
                       className={`flex-1 py-2 ${themeStyles.cardBg} text-green-600 rounded-lg text-sm font-medium ${themeStyles.buttonShadow} hover:${themeStyles.buttonHoverShadow} transition-all`}
                     >
-                      添加任务
+                      {isBatchMode ? '批量添加' : '添加任务'}
                     </button>
                     <button
                       onClick={cancelAddTask}
@@ -511,6 +760,12 @@ const TimeBox: React.FC<TimeBoxProps> = ({ setModalState }) => {
                         编辑
                       </button>
                       <button
+                        onClick={() => toggleTaskStatus(task.id)}
+                        className={`block w-full text-left px-3 py-2 text-sm ${theme.includes('dark') ? 'text-green-400 hover:bg-zinc-700' : 'text-green-600 hover:bg-zinc-100'} transition-colors`}
+                      >
+                        {task.status === '已完成' ? '标记为未完成' : '标记为已完成'}
+                      </button>
+                      <button
                         onClick={() => deleteTask(task.id)}
                         className={`block w-full text-left px-3 py-2 text-sm ${theme.includes('dark') ? 'text-red-400 hover:bg-zinc-700' : 'text-red-600 hover:bg-zinc-100'} transition-colors`}
                       >
@@ -536,6 +791,12 @@ const TimeBox: React.FC<TimeBoxProps> = ({ setModalState }) => {
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={theme.includes('dark') ? 'currentColor' : 'currentColor'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`mr-2 ${theme.includes('dark') ? 'text-zinc-400' : 'text-zinc-500'}`}><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                       <span className={`text-sm ${theme.includes('dark') ? 'text-zinc-300' : 'text-zinc-600'}`}>{task.duration} 分钟</span>
                     </div>
+                    {task.timeSlot && (
+                      <div className="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={theme.includes('dark') ? 'currentColor' : 'currentColor'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`mr-2 ${theme.includes('dark') ? 'text-purple-400' : 'text-purple-500'}`}><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                        <span className={`text-sm ${theme.includes('dark') ? 'text-zinc-300' : 'text-zinc-600'}`}>{task.timeSlot}</span>
+                      </div>
+                    )}
                     <div className="flex items-center">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={theme.includes('dark') ? 'currentColor' : 'currentColor'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`mr-2 ${theme.includes('dark') ? 'text-blue-400' : 'text-blue-500'}`}><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
                       <span className={`text-sm ${theme.includes('dark') ? 'text-zinc-300' : 'text-zinc-600'}`}>{task.status}</span>
