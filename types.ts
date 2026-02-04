@@ -433,6 +433,8 @@ export interface Task {
   attr?: AttributeTypeValue;
   /** 优先级 */
   priority?: 'high' | 'medium' | 'low';
+  /** 任务备注 */
+  note?: string;
   /** 提醒设置 */
   reminder?: {
     enabled: boolean;

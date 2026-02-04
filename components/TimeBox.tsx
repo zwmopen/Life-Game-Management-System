@@ -837,17 +837,33 @@ const TimeBox: React.FC<TimeBoxProps> = ({ setModalState }) => {
                     </div>
                   </div>
                 </div>
-                <button
-                  onClick={() => startFocus(task)}
-                  className={`w-full py-3 rounded-lg text-sm font-medium flex items-center justify-center space-x-2 transition-all ${
-                    task.isActive 
-                      ? `${themeStyles.cardBg} text-red-500 ${themeStyles.buttonHoverShadow} hover:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.8),inset_-4px_-4px_8px_rgba(255,255,255,1)]`
-                      : `${themeStyles.cardBg} ${theme.includes('dark') ? 'text-white' : 'text-zinc-800'} ${themeStyles.buttonShadow} hover:${themeStyles.buttonHoverShadow}`
-                  }`}
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                  {task.isActive ? '继续专注' : '开始专注'}
-                </button>
+                <div className="flex space-x-3">
+                  <button
+                    onClick={() => {
+                      if (window.confirm('确定要放弃这个任务吗？')) {
+                        setTasks(prev => prev.map(t => 
+                          t.id === task.id ? { ...t, status: '已放弃', isActive: false } : t
+                        ));
+                      }
+                    }}
+                    className={`flex-1 py-3 rounded-lg text-sm font-medium flex items-center justify-center space-x-2 transition-all ${themeStyles.cardBg} text-red-500 ${themeStyles.buttonShadow} hover:${themeStyles.buttonHoverShadow}`}
+                    title="放弃任务 (无奖励)"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    放弃任务
+                  </button>
+                  <button
+                    onClick={() => startFocus(task)}
+                    className={`flex-1 py-3 rounded-lg text-sm font-medium flex items-center justify-center space-x-2 transition-all ${
+                      task.isActive 
+                        ? `${themeStyles.cardBg} text-red-500 ${themeStyles.buttonHoverShadow} hover:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.8),inset_-4px_-4px_8px_rgba(255,255,255,1)]`
+                        : `${themeStyles.cardBg} ${theme.includes('dark') ? 'text-white' : 'text-zinc-800'} ${themeStyles.buttonShadow} hover:${themeStyles.buttonHoverShadow}`
+                    }`}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    {task.isActive ? '继续专注' : '开始专注'}
+                  </button>
+                </div>
               </div>
             ))}
           </div>

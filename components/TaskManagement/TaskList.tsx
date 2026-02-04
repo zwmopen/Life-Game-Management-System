@@ -87,9 +87,12 @@ const TaskList: React.FC<TaskListProps> = memo(({
             <button onClick={() => onOpenEditTask(task)} className="opacity-0 group-hover:opacity-100 text-zinc-500 hover:text-blue-500 transition-opacity ml-1 sm:ml-2"><Edit3 size={12}/></button>
           </div>
           <div className="flex items-center gap-2 sm:gap-3 text-[11px] font-mono text-zinc-500 mt-1 flex-wrap">
-              <span className="text-purple-400">总经验 +{task.xp}</span>
-              <span className="text-yellow-500">总金币 +{task.gold}</span>
-              <span className="text-blue-500">总时长 {task.duration || 25} 分钟</span>
+              <span className="text-purple-400">经验 +{task.xp}</span>
+              <span className="text-yellow-500">金币 +{task.gold}</span>
+              <span className="text-blue-500">时长 {task.duration || 25} 分钟</span>
+              {task.reminder && task.reminder.enabled && task.reminder.time && (
+                <span className="text-green-500">时间 {task.reminder.time}</span>
+              )}
               <span className="flex items-center gap-1">
                 <span className={`${task.priority === 'high' ? 'text-red-500' : task.priority === 'medium' ? 'text-yellow-500' : 'text-green-500'}`}>
                   {task.priority === 'high' ? '🔥' : task.priority === 'medium' ? '⚡' : '🌱'}
@@ -152,18 +155,25 @@ const TaskList: React.FC<TaskListProps> = memo(({
               <h3 className={`font-bold ${task.completed ? 'line-through text-zinc-500' : textMain}`}>
                 {task.text}
               </h3>
-              <button onClick={() => onOpenEditTask(task)} className="opacity-0 group-hover:opacity-100 text-zinc-500 hover:text-blue-500 transition-opacity ml-1"><Edit3 size={12}/></button>
+              <button onClick={() => onOpenEditTask(task)} className="opacity-0 group-hover:opacity-100 text-zinc-500 hover:text-blue-500 transition-opacity ml-1 p-1 rounded-full hover:bg-blue-900/10"><Edit3 size={12}/></button>
             </div>
             {/* 显示主任务的经验、金币和消耗时长 */}
             <div className="flex items-center gap-2 sm:gap-3 text-xs font-mono text-zinc-500 flex-wrap">
-              <span className="text-purple-400">总经验 +{task.xp}</span>
-              <span className="text-yellow-500">总金币 +{task.gold}</span>
-              <span className="text-blue-500">总时长 {task.subTasks?.reduce((sum, st) => sum + st.duration, 0)} 分钟</span>
+              <span className="text-purple-400">经验 +{task.xp}</span>
+              <span className="text-yellow-500">金币 +{task.gold}</span>
+              <span className="text-blue-500">时长 {task.subTasks?.reduce((sum, st) => sum + st.duration, 0)} 分钟</span>
+              {task.reminder && task.reminder.enabled && task.reminder.time && (
+                <span className="text-green-500">时间 {task.reminder.time}</span>
+              )}
               <span className="flex items-center gap-1">
                 <span className={`${task.priority === 'high' ? 'text-red-500' : task.priority === 'medium' ? 'text-yellow-500' : 'text-green-500'}`}>
                   {task.priority === 'high' ? '🔥' : task.priority === 'medium' ? '⚡' : '🌱'}
                 </span>
                 <span className="text-zinc-500">{task.priority === 'high' ? '高' : task.priority === 'medium' ? '中' : '低'}</span>
+              </span>
+              <span className="flex items-center gap-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-500"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                <span className="text-zinc-500">{task.completed ? '已完成' : '待处理'}</span>
               </span>
             </div>
             {/* 主线任务进度条 */}
@@ -226,7 +236,7 @@ const TaskList: React.FC<TaskListProps> = memo(({
                   <button onClick={(e) => { 
                     e.stopPropagation(); 
                     onStartTimer(st.duration || 25);
-                  }} className={`p-2 rounded-full text-white transition-colors hover:scale-110 shadow-lg ${isDark ? 'bg-zinc-800 hover:bg-emerald-600' : 'bg-blue-500 hover:bg-blue-600'} opacity-0 group-hover/sub:opacity-100`}>
+                  }} className={`p-3 rounded-full text-white transition-colors group-hover/sub:scale-105 shadow-lg ${isDark ? 'bg-zinc-800 hover:bg-emerald-600' : 'bg-blue-500 hover:bg-blue-600'} opacity-0 group-hover/sub:opacity-100`}>
                     <Play size={16} fill="currentColor"/>
                   </button>
                 </div>

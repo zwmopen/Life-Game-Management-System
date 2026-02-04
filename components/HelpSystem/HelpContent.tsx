@@ -8,6 +8,7 @@ export interface HelpContentItem {
   underlyingPrinciple: string; // 底层原理
   coreRules: string; // 核心规则
   usageMethods: string; // 使用方法
+  detailedContent?: string; // 详细内容
   updateTime: string;
 }
 
@@ -303,6 +304,196 @@ export const helpContent: Record<string, HelpContentItem> = {
     underlyingPrinciple: '基于Elon Musk的时间管理方法论和时间约束原理设计，通过有限时间倒逼高效产出，让用户在多任务中保持专注，告别无效忙碌。结合游戏化元素，将时间管理转化为可视化的任务完成过程。',
     coreRules: '时间切割：将时间分割成固定长度的时间段（盒子）；优先级排序：80%时间投入高价值任务；执行原则：一次只做一件事，时间到就切换；动态调度：按任务优先级实时调整日程；任务筛选：用"收益≥2×时间成本"筛掉无效项。',
     usageMethods: '1. 添加任务并设置优先级和预计时长；2. 点击"开始专注"进入时间盒子倒计时；3. 专注结束后标记任务完成状态；4. 查看统计数据了解完成率和效率得分；5. 定期复盘优化时间盒设计和执行策略。',
+    detailedContent: `
+      <div class="space-y-6">
+        <div>
+          <h4 class="text-lg font-medium mb-3">本质与核心理念</h4>
+          <ul class="space-y-3">
+            <li class="flex items-start">
+              <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+              <span>定义：为任务设明确时间边界，时间一到强制结束，不无限延展。</span>
+            </li>
+            <li class="flex items-start">
+              <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+              <span>核心差异：待办清单是"线性无限"，时间盒是"空间有限"，把任务变成日历上的"硬预约"。</span>
+            </li>
+            <li class="flex items-start">
+              <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+              <span>底层逻辑：用"物理式时间约束"替代"弹性任务清单"，用5分钟颗粒度把时间变成可量化、可执行的资源，匹配"第一性原理"的效率思维。</span>
+            </li>
+            <li class="flex items-start">
+              <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+              <span>关键效应：截止预期效应，略紧的时限带来紧迫感，提升专注与效率。</span>
+            </li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="text-lg font-medium mb-3">马斯克式执行细节</h4>
+          <ul class="space-y-3">
+            <li class="flex items-start">
+              <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+              <span>时间切割：醒着的18小时切成216个5分钟"盒子"，连接水、会议、回复邮件都精准入盒。</span>
+            </li>
+            <li class="flex items-start">
+              <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+              <span>优先级排序：80%时间投入高价值任务（如工程设计、核心决策），低价值任务直接剔除。</span>
+            </li>
+            <li class="flex items-start">
+              <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+              <span>执行原则：一次只做一件事，时间到就切换，不纠结未完成部分，避免"完美主义陷阱"。</span>
+            </li>
+            <li class="flex items-start">
+              <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+              <span>动态调度：按任务优先级实时调整日程，允许计划外中断，但每月设"熔断机制"防系统崩溃。</span>
+            </li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="text-lg font-medium mb-3">普通人可复制的四步流程</h4>
+          <div class="space-y-4">
+            <div>
+              <h5 class="font-medium mb-2">1. 任务筛选与排序</h5>
+              <ul class="space-y-2 pl-4">
+                <li class="flex items-start">
+                  <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+                  <span>列出所有待办，用"收益≥2×时间成本"筛掉无效项。</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+                  <span>按"重要且紧急＞重要不紧急＞紧急不重要＞不紧急不重要"排序，锁定核心任务。</span>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h5 class="font-medium mb-2">2. 时间盒设计</h5>
+              <ul class="space-y-2 pl-4">
+                <li class="flex items-start">
+                  <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+                  <span>颗粒度：日常用15-60分钟（新手不建议5分钟），按任务复杂度拆分。</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+                  <span>时长设定：比预估短10%-20%（如预估1小时设50分钟），制造合理压力。</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+                  <span>精力匹配：把高认知任务（创意、决策）放在10:00-11:30，机械任务放14:00-15:00等低谷期。</span>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h5 class="font-medium mb-2">3. 专注执行</h5>
+              <ul class="space-y-2 pl-4">
+                <li class="flex items-start">
+                  <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+                  <span>启动倒计时，期间关闭手机通知，拒绝多线程，专注单任务。</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+                  <span>遇到卡壳：用"马斯克三连击"→写阻碍→算解决成本→立即执行或永久删除（犹豫超5分钟放弃）。</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+                  <span>时间到即停，记录完成度，不拖延到下一盒。</span>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h5 class="font-medium mb-2">4. 复盘优化</h5>
+              <ul class="space-y-2 pl-4">
+                <li class="flex items-start">
+                  <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+                  <span>每日花5分钟记录实际耗时与预估偏差，迭代后续时间盒时长。</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+                  <span>每周回看优先级与任务筛选，剔除持续低价值事项。</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        <div>
+          <h4 class="text-lg font-medium mb-3">避坑要点与工具推荐</h4>
+          <div class="space-y-4">
+            <div>
+              <h5 class="font-medium mb-2">避坑要点</h5>
+              <ul class="space-y-2 pl-4">
+                <li class="flex items-start">
+                  <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+                  <span>不贪多：每天核心任务不超3个，避免计划过载。</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+                  <span>留缓冲：每2-3个盒子间留5-10分钟弹性，应对突发。</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+                  <span>接受不完美：时间盒的核心是"完成度"而非"完美度"，避免因未做完而焦虑。</span>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h5 class="font-medium mb-2">工具推荐</h5>
+              <ul class="space-y-2 pl-4">
+                <li class="flex items-start">
+                  <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+                  <span>日历类：谷歌日历、Outlook、苹果日历（直接拖拽创建时间块）。</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+                  <span>专注类：Forest、番茄ToDo（倒计时+专注模式）。</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+                  <span>复盘类：Notion、Excel（记录耗时与完成度，生成周/月报表）。</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        <div>
+          <h4 class="text-lg font-medium mb-3">常见问题与解决</h4>
+          <ul class="space-y-3">
+            <li class="flex items-start">
+              <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+              <span>问题1：时间到任务没做完？→停止并标记"未完成"，移至下一个盒子或重新评估优先级，不占用其他任务时间。</span>
+            </li>
+            <li class="flex items-start">
+              <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+              <span>问题2：频繁被打断？→设"免打扰时段"，非紧急事务集中处理（如每天16:00统一回消息）。</span>
+            </li>
+            <li class="flex items-start">
+              <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+              <span>问题3：坚持不了？→从3个时间盒/天开始，逐步增加，用"完成奖励"（如休息10分钟）强化习惯。</span>
+            </li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="text-lg font-medium mb-3">与其他方法的区别</h4>
+          <ul class="space-y-3">
+            <li class="flex items-start">
+              <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+              <span>时间盒 vs 番茄工作法：番茄是25分钟固定时长+5分钟休息；时间盒按任务设时长，更灵活。</span>
+            </li>
+            <li class="flex items-start">
+              <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+              <span>时间盒 vs GTD：GTD强调"收集-处理-组织-回顾-执行"；时间盒聚焦"时间约束+专注执行"，解决"执行拖延"。</span>
+            </li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="text-lg font-medium mb-3">一句话总结</h4>
+          <p>时间盒不是"填鸭式"塞满日程，而是用"有限时间"倒逼"高效产出"，让你在多任务中保持专注，告别无效忙碌。</p>
+        </div>
+      </div>
+    `,
     updateTime: '2026-02-02'
   }
 };

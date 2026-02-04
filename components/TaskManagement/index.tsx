@@ -7,7 +7,7 @@
 
 import React, { useCallback, useMemo, useState } from 'react';
 import { logInfo, logError, logWarn } from '../../utils/logger';
-import { ListTodo, Target, Sparkles, Plus, Clock, Edit3 } from 'lucide-react';
+import { ListTodo, Target, Sparkles, Plus, Clock, Edit3, X } from 'lucide-react';
 import { GlobalHelpButton } from '../HelpSystem';
 import TaskList from './TaskList';
 import DiceTaskList from './DiceTaskList';
@@ -49,6 +49,7 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
   todayStr,
   setIsImmersive,
   onAddTask,
+  onOpenTaskManagement,
   setIsNavCollapsed
 }) => {
   
@@ -284,7 +285,11 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
                     ? 'bg-[#1e1e2e] text-blue-400 shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-4px_-4px_8px_rgba(30,30,46,0.8)]' 
                     : 'bg-[#e0e5ec] text-blue-600 shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]')
                   : (isDark ? 'bg-blue-600 text-white' : 'bg-blue-500 text-white'))
-                : (isDark ? 'text-zinc-400 hover:text-zinc-100' : 'text-slate-500 hover:text-slate-800')
+                : (isNeomorphic 
+                  ? (theme === 'neomorphic-dark' 
+                    ? 'bg-[#1e1e2e] text-blue-400 shadow-[3px_3px_6px_rgba(0,0,0,0.4),-3px_-3px_6px_rgba(30,30,46,0.8)] hover:shadow-[2px_2px_4px_rgba(0,0,0,0.3),-2px_-2px_4px_rgba(30,30,46,0.7)] active:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)]' 
+                    : 'bg-[#e0e5ec] text-blue-600 shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] hover:shadow-[2px_2px_4px_rgba(163,177,198,0.6),-2px_-2px_4px_rgba(255,255,255,1)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)]')
+                  : (isDark ? 'text-zinc-400 hover:text-zinc-100' : 'text-slate-500 hover:text-slate-800'))
             }`}
           >
             <ListTodo size={14} /> 日常显化
@@ -306,7 +311,11 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
                     ? 'bg-[#1e1e2e] text-green-400 shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-4px_-4px_8px_rgba(30,30,46,0.8)]' 
                     : 'bg-[#e0e5ec] text-green-600 shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]')
                   : (isDark ? 'bg-green-600 text-white' : 'bg-green-500 text-white'))
-                : (isDark ? 'text-zinc-400 hover:text-zinc-100' : 'text-slate-500 hover:text-slate-800')
+                : (isNeomorphic 
+                  ? (theme === 'neomorphic-dark' 
+                    ? 'bg-[#1e1e2e] text-green-400 shadow-[3px_3px_6px_rgba(0,0,0,0.4),-3px_-3px_6px_rgba(30,30,46,0.8)] hover:shadow-[2px_2px_4px_rgba(0,0,0,0.3),-2px_-2px_4px_rgba(30,30,46,0.7)] active:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)]' 
+                    : 'bg-[#e0e5ec] text-green-600 shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] hover:shadow-[2px_2px_4px_rgba(163,177,198,0.6),-2px_-2px_4px_rgba(255,255,255,1)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)]')
+                  : (isDark ? 'text-zinc-400 hover:text-zinc-100' : 'text-slate-500 hover:text-slate-800'))
             }`}
           >
             <Target size={14} /> 时间盒子
@@ -320,7 +329,11 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
                     ? 'bg-[#1e1e2e] text-yellow-400 shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-4px_-4px_8px_rgba(30,30,46,0.8)]' 
                     : 'bg-[#e0e5ec] text-yellow-600 shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]')
                   : (isDark ? 'bg-yellow-600 text-white' : 'bg-yellow-500 text-white'))
-                : (isDark ? 'text-zinc-400 hover:text-zinc-100' : 'text-slate-500 hover:text-slate-800')
+                : (isNeomorphic 
+                  ? (theme === 'neomorphic-dark' 
+                    ? 'bg-[#1e1e2e] text-yellow-400 shadow-[3px_3px_6px_rgba(0,0,0,0.4),-3px_-3px_6px_rgba(30,30,46,0.8)] hover:shadow-[2px_2px_4px_rgba(0,0,0,0.3),-2px_-2px_4px_rgba(30,30,46,0.7)] active:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)]' 
+                    : 'bg-[#e0e5ec] text-yellow-600 shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] hover:shadow-[2px_2px_4px_rgba(163,177,198,0.6),-2px_-2px_4px_rgba(255,255,255,1)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)]')
+                  : (isDark ? 'text-zinc-400 hover:text-zinc-100' : 'text-slate-500 hover:text-slate-800'))
             }`}
           >
             <Sparkles size={14} /> 命运骰子
@@ -334,6 +347,18 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
                 </span>
               </span>
             )}
+          </button>
+          <button 
+            onClick={onOpenTaskManagement} 
+            className={`flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full transition-all font-semibold text-xs sm:text-sm ${
+              isNeomorphic 
+                ? (theme === 'neomorphic-dark' 
+                  ? 'bg-[#1e1e2e] text-emerald-400 shadow-[3px_3px_6px_rgba(0,0,0,0.4),-3px_-3px_6px_rgba(30,30,46,0.8)] hover:shadow-[2px_2px_4px_rgba(0,0,0,0.3),-2px_-2px_4px_rgba(30,30,46,0.7)] active:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)]' 
+                  : 'bg-[#e0e5ec] text-emerald-600 shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] hover:shadow-[2px_2px_4px_rgba(163,177,198,0.6),-2px_-2px_4px_rgba(255,255,255,1)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)]') 
+                : (isDark ? 'bg-emerald-600 text-white' : 'bg-emerald-500 text-white')
+            }`}
+          >
+            <Plus size={14} /> 管理
           </button>
           {onShowHelp && (
             <GlobalHelpButton 
@@ -351,7 +376,7 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
           <div className="flex items-center justify-between text-xs mb-1">
             <span className={textSub}>当前任务完成率<span className="font-black">{taskProgress.percentage}</span>，<span className="font-black">{taskProgress.completed} / {taskProgress.total}</span> 个任务已完成</span>
           </div>
-          <div className={`w-full h-2.5 rounded-full overflow-hidden shadow-inner ${isDark ? 'bg-zinc-800' : 'bg-slate-200'}`}>
+          <div className={`w-full h-2.5 rounded-full overflow-hidden ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-4px_-4px_8px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]') : (isDark ? 'bg-zinc-800 shadow-[inset_3px_3px_6px_rgba(0,0,0,0.5),inset_-3px_-3px_6px_rgba(50,50,50,0.3)]' : 'bg-slate-200 shadow-[inset_3px_3px_6px_rgba(163,177,198,0.4),inset_-3px_-3px_6px_rgba(255,255,255,0.8)]')}`}>
             <div 
               className="h-full bg-blue-600 rounded-full transition-all duration-500 ease-out"
               style={{ width: taskProgress.percentage }}
@@ -471,7 +496,7 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                   </span>
                 </div>
-                <p className="text-lg font-bold text-zinc-700">-23</p>
+                <p className="text-lg font-bold text-zinc-700">{Math.max(0, Math.round((projectTasks.filter(task => task.completed).length / Math.max(1, projectTasks.length)) * 100 - (projectTasks.length - projectTasks.filter(task => task.completed).length) * 5))}</p>
                 <p className="text-xs text-zinc-500">基于完成情况和时间</p>
               </div>
             </div>
@@ -533,9 +558,12 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
                           </div>
                           {/* 显示主任务的经验、金币、消耗时长、优先级和状态 */}
                           <div className="flex items-center gap-2 sm:gap-3 text-xs font-mono text-zinc-500 flex-wrap">
-                            <span className="text-purple-400">总经验 +{task.xp}</span>
-                            <span className="text-yellow-500">总金币 +{task.gold}</span>
-                            <span className="text-blue-500">总时长 {task.subTasks?.reduce((sum, st) => sum + st.duration, 0)} 分钟</span>
+                            <span className="text-purple-400">经验 +{task.xp}</span>
+                            <span className="text-yellow-500">金币 +{task.gold}</span>
+                            <span className="text-blue-500">时长 {task.subTasks?.reduce((sum, st) => sum + st.duration, 0)} 分钟</span>
+                            {task.reminder && task.reminder.enabled && task.reminder.time && (
+                              <span className="text-green-500">时间 {task.reminder.time}</span>
+                            )}
                             <span className="flex items-center gap-1">
                               <span className={`${task.priority === 'high' ? 'text-red-500' : task.priority === 'medium' ? 'text-yellow-500' : 'text-green-500'}`}>
                                 {task.priority === 'high' ? '🔥' : task.priority === 'medium' ? '⚡' : '🌱'}
@@ -563,8 +591,13 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
                           )}
                         </div>
                         <div className="flex items-center gap-1 sm:gap-2">
+                          {!task.completed && (
+                            <button onClick={(e) => onGiveUpTask(task.id, e)} className="text-zinc-600 hover:text-red-500 p-2 rounded-full hover:bg-red-900/10 transition-colors" title="放弃任务 (无奖励)">
+                              <X size={16} />
+                            </button>
+                          )}
                           <button onClick={() => { onStartTimer(task.duration || 25); startTaskTimer(task.id); }} disabled={task.completed} className={`p-3 rounded-full text-white transition-colors group-hover:scale-105 shadow-lg ${isDark ? 'bg-zinc-800 hover:bg-emerald-600' : 'bg-blue-500 hover:bg-blue-600'} disabled:opacity-50 disabled:scale-100`}>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                           </button>
                         </div>
                       </div>

@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import ReactDOM from 'react-dom';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, LineChart, Line, ComposedChart } from 'recharts';
 import { 
   Coins, Trophy, ShoppingBag, CheckCircle, Swords, Flame, 
@@ -215,6 +214,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
   const [newTaskAttr, setNewTaskAttr] = useState<AttributeTypeValue>(AttributeType.WEALTH);
   const [newTaskType, setNewTaskType] = useState<'daily' | 'main' | 'random' | 'timebox'>('daily');
   const [newTaskDiceCategory, setNewTaskDiceCategory] = useState<DiceCategory>('health');
+  const [newTaskNote, setNewTaskNote] = useState('');
   const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
   const [editingProjectSubTasks, setEditingProjectSubTasks] = useState<SubTask[]>([]);
   
@@ -541,39 +541,45 @@ const LifeGame: React.FC<LifeGameProps> = ({
               xp: parseInt(newTaskXP),
               duration: parseInt(newTaskDuration),
               priority: newTaskPriority,
-              reminder: reminderData
+              reminder: reminderData,
+              note: newTaskNote
           });
       } else if (newTaskType === 'main' || newTaskType === 'timebox') {
           onUpdateProject(editingTaskId!, { 
               name: newTaskTitle, 
               subTasks: editingProjectSubTasks,
               priority: newTaskPriority,
-              reminder: reminderData as any 
+              reminder: reminderData as any,
+              note: newTaskNote
           });
       } else if (newTaskType === 'random') {
-          if (editingTaskId?.startsWith('random-')) {
-              // 处理旧挑战池任务
-              const originalTaskStr = editingTaskId.replace('random-', '');
-              const newTask = {
-                  text: newTaskTitle,
-                  gold: parseInt(newTaskReward) || 20,
-                  xp: parseInt(newTaskXP) || 30,
-                  duration: parseInt(newTaskDuration) || 20,
-                  attr: newTaskAttr,
-                  priority: newTaskPriority
-              };
-              setChallengePool(prevPool => prevPool.map(task => task === originalTaskStr ? JSON.stringify(newTask) : task));
-          } else if (editingTaskId) {
-              // 处理命运骰子任务
-              onUpdateDiceTask(editingTaskId, newTaskDiceCategory, {
-                  text: newTaskTitle,
-                  gold: parseInt(newTaskReward) || 20,
-                  xp: parseInt(newTaskXP) || 30,
-                  duration: parseInt(newTaskDuration) || 20,
-                  priority: newTaskPriority
-              });
-          }
-      }
+            if (editingTaskId?.startsWith('random-')) {
+                // 处理旧挑战池任务
+                const originalTaskStr = editingTaskId.replace('random-', '');
+                const newTask = {
+                    text: newTaskTitle,
+                    gold: parseInt(newTaskReward) || 20,
+                    xp: parseInt(newTaskXP) || 30,
+                    duration: parseInt(newTaskDuration) || 20,
+                    attr: newTaskAttr,
+                    priority: newTaskPriority,
+                    reminder: reminderData,
+                    note: newTaskNote
+                };
+                setChallengePool(prevPool => prevPool.map(task => task === originalTaskStr ? JSON.stringify(newTask) : task));
+            } else if (editingTaskId) {
+                // 处理命运骰子任务
+                onUpdateDiceTask(editingTaskId, newTaskDiceCategory, {
+                    text: newTaskTitle,
+                    gold: parseInt(newTaskReward) || 20,
+                    xp: parseInt(newTaskXP) || 30,
+                    duration: parseInt(newTaskDuration) || 20,
+                    priority: newTaskPriority,
+                    reminder: reminderData,
+                    note: newTaskNote
+                });
+            }
+        }
       setIsAddTaskOpen(false);
       setEditingTaskId(null);
   };
@@ -590,6 +596,23 @@ const LifeGame: React.FC<LifeGameProps> = ({
       } : undefined;
 
       if (newTaskType === 'daily') {
+          // 为习惯任务添加note字段
+          const habitWithNote = {
+              id: Date.now().toString(),
+              name: newTaskTitle,
+              reward: parseInt(newTaskReward) || 15,
+              xp: parseInt(newTaskXP) || 20,
+              duration: parseInt(newTaskDuration) || 30,
+              color: '#8b5cf6',
+              attr: newTaskAttr,
+              archived: false,
+              history: {},
+              logs: {},
+              priority: newTaskPriority,
+              reminder: reminderData,
+              note: newTaskNote
+          };
+          // 调用onAddHabit或直接添加到habits状态
           onAddHabit(newTaskTitle, parseInt(newTaskReward) || 15);
       } else if (newTaskType === 'main' || newTaskType === 'timebox') {
           // 如果没有手动设置提醒，则为任务设置默认的每日14点提醒
@@ -618,7 +641,8 @@ const LifeGame: React.FC<LifeGameProps> = ({
               todayFocusMinutes: 0, 
               attr: newTaskAttr,
               priority: newTaskPriority,
-              reminder: projectReminderData as any
+              reminder: projectReminderData as any,
+              note: newTaskNote
           });
       } else if (newTaskType === 'random') {
           const newTask = {
@@ -628,7 +652,8 @@ const LifeGame: React.FC<LifeGameProps> = ({
               duration: parseInt(newTaskDuration) || 20,
               attr: AttributeType.WEALTH,
               category: newTaskDiceCategory || 'health',
-              priority: newTaskPriority
+              priority: newTaskPriority,
+              note: newTaskNote
           };
           onAddDiceTask(newTask);
           onAddFloatingReward("命运事件已入库", "text-purple-500");
@@ -640,6 +665,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
       setNewTaskDuration('30');
       setNewTaskAttr(AttributeType.WEALTH);
       setNewTaskPriority('medium');
+      setNewTaskNote('');
       setEditingProjectSubTasks([]);
       setReminderEnabled(false);
       setReminderDate('');
@@ -1128,6 +1154,32 @@ const LifeGame: React.FC<LifeGameProps> = ({
                         todayStr={todayStr}
                         setIsImmersive={setIsImmersive}
                         onAddTask={() => {
+                            // 根据当前任务分类设置新任务类型
+                            if (taskCategory === 'daily') {
+                                setNewTaskType('daily');
+                            } else if (taskCategory === 'timebox') {
+                                setNewTaskType('timebox');
+                            } else if (taskCategory === 'random') {
+                                setNewTaskType('random');
+                            }
+                            // 打开任务编辑模态框（添加新任务）
+                            setEditingTaskId(null);
+                            setNewTaskTitle('');
+                            setNewTaskReward('15');
+                            setNewTaskXP('20');
+                            setNewTaskDuration('30');
+                            setNewTaskPriority('medium');
+                            setNewTaskNote('');
+                            setReminderEnabled(false);
+                            setReminderDate('');
+                            setReminderTime('');
+                            setReminderRepeat('none');
+                            setReminderInterval('1');
+                            setEditingProjectSubTasks([]);
+                            setIsAddTaskOpen(true);
+                            setModalState && setModalState(true);
+                        }}
+                        onOpenTaskManagement={() => {
                             setIsManageTasksOpen(true);
                             setModalState && setModalState(true);
                         }}
@@ -1204,22 +1256,15 @@ const LifeGame: React.FC<LifeGameProps> = ({
                         }} className="text-zinc-500 hover:text-red-500"><X size={20}/></button>
                     </div>
                             
-                    <div className={`flex p-2 border-b ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] border-[#1e1e2e] shadow-[inset_3px_3px_6px_rgba(0,0,0,0.3),inset_-3px_-3px_6px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] border-[#e0e5ec] shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,1)]') : (isDark ? 'border-zinc-800 bg-zinc-900/50' : 'border-slate-200 bg-slate-50')}`}>
-                        <button onClick={() => setManageTaskTab('random')} className={`flex-1 text-xs py-2 rounded font-bold flex items-center justify-center gap-1 transition-all duration-200 ${getButtonStyleLocal(manageTaskTab === 'random')}`}><Dice5 size={12} /> 命运骰子</button>
-                        <button onClick={() => setManageTaskTab('main')} className={`flex-1 text-xs py-2 rounded font-bold transition-all duration-200 ${getButtonStyleLocal(manageTaskTab === 'main')}`}>主线任务</button>
-                        <button onClick={() => setManageTaskTab('daily')} className={`flex-1 text-xs py-2 rounded font-bold transition-all duration-200 ${getButtonStyleLocal(manageTaskTab === 'daily')}`}>日常显化</button>
+                    <div className={`flex p-2 ${isDark ? 'border-zinc-800' : 'border-slate-200'}`}>
+                        <button onClick={() => setManageTaskTab('random')} className={`flex-1 text-xs py-2 rounded-full font-bold flex items-center justify-center gap-1 transition-all duration-200 ${getButtonStyleLocal(manageTaskTab === 'random')}`}><Dice5 size={12} /> 命运骰子</button>
+                        <button onClick={() => setManageTaskTab('main')} className={`flex-1 text-xs py-2 rounded-full font-bold transition-all duration-200 ${getButtonStyleLocal(manageTaskTab === 'main')}`}>时间盒子</button>
+                        <button onClick={() => setManageTaskTab('daily')} className={`flex-1 text-xs py-2 rounded-full font-bold transition-all duration-200 ${getButtonStyleLocal(manageTaskTab === 'daily')}`}>日常显化</button>
                     </div>
                             
-                    <div className={`p-4 overflow-y-auto space-y-2 flex-1 ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[inset_5px_5px_10px_rgba(0,0,0,0.4),inset_-5px_-5px_10px_rgba(30,30,46,0.8)] border-none rounded-xl' : 'bg-[#e0e5ec] shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)] border-none rounded-xl') : (isDark ? 'bg-zinc-900' : 'bg-slate-100')}`}>
+                    <div className={`p-4 overflow-y-auto space-y-2 flex-1`}>
                         {/* 任务部署中心 - 统一入口 */}
-                        <div className="flex flex-col items-center justify-center p-8 text-center animate-in fade-in slide-in-from-bottom-4 duration-300">
-                            <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[5px_5px_10px_rgba(0,0,0,0.4),-5px_-5px_10px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)]') : (isDark ? 'bg-zinc-800' : 'bg-slate-200')}`}>
-                                <Target size={32} className="text-emerald-500" />
-                            </div>
-                            <h4 className={`text-lg font-bold mb-2 ${textMain}`}>任务部署中心</h4>
-                            <p className={`text-xs mb-6 max-w-[200px] leading-relaxed ${textSub}`}>
-                                点击下方按钮部署新的{manageTaskTab === 'random' ? '命运事件' : manageTaskTab === 'main' ? '主线任务' : '日常显化'}，系统将自动分配资源与奖励。
-                            </p>
+                        <div className="flex justify-center p-4 animate-in fade-in slide-in-from-bottom-4 duration-300">
                             <button 
                                 onClick={() => {
                                     setNewTaskType(manageTaskTab as 'daily' | 'main' | 'random');
@@ -1237,8 +1282,8 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                 <div key={h.id} className={`flex items-center justify-between p-2 rounded ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[5px_5px_10px_rgba(0,0,0,0.4),-5px_-5px_10px_rgba(30,30,46,0.8)] border-none rounded-lg' : 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] border-none rounded-lg') : (isDark ? 'border-zinc-800 bg-zinc-900/50' : 'border-slate-200 bg-slate-50')}`}>
                                     <span className={`text-xs ${textMain}`}>{h.name}</span>
                                     <div className="flex gap-2">
-                                        <button onClick={() => { openEditTask({...h, text:h.name, type:'daily', gold:h.reward}); setIsManageTasksOpen(false); }} className={`${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[3px_3px_6px_rgba(0,0,0,0.3),-3px_-3px_6px_rgba(30,30,46,0.7)] border-none rounded text-blue-400 hover:shadow-[1px_1px_3px_rgba(0,0,0,0.3),-1px_-1px_3px_rgba(30,30,46,0.7)] active:shadow-[inset_1px_1px_2px_rgba(0,0,0,0.3),inset_-1px_-1px_2px_rgba(30,30,46,0.7)] p-1' : 'bg-[#e0e5ec] shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] border-none rounded text-blue-500 hover:shadow-[1px_1px_3px_rgba(163,177,198,0.6),-1px_-1px_3px_rgba(255,255,255,1)] active:shadow-[inset_1px_1px_2px_rgba(163,177,198,0.6),inset_-1px_-1px_2px_rgba(255,255,255,1)] p-1') : 'text-blue-500 hover:text-blue-400'}`}><Edit3 size={14}/></button>
-                                        <button onClick={() => onDeleteHabit(h.id)} className={`${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[3px_3px_6px_rgba(0,0,0,0.3),-3px_-3px_6px_rgba(30,30,46,0.7)] border-none rounded text-red-400 hover:shadow-[1px_1px_3px_rgba(0,0,0,0.3),-1px_-1px_3px_rgba(30,30,46,0.7)] active:shadow-[inset_1px_1px_2px_rgba(0,0,0,0.3),inset_-1px_-1px_2px_rgba(30,30,46,0.7)] p-1' : 'bg-[#e0e5ec] shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] border-none rounded text-red-500 hover:shadow-[1px_1px_3px_rgba(163,177,198,0.6),-1px_-1px_3px_rgba(255,255,255,1)] active:shadow-[inset_1px_1px_2px_rgba(163,177,198,0.6),inset_-1px_-1px_2px_rgba(255,255,255,1)] p-1') : 'text-red-500 hover:text-red-400'}`}><Trash2 size={14}/></button>
+                                        <button onClick={() => { openEditTask({...h, text:h.name, type:'daily', gold:h.reward}); setIsManageTasksOpen(false); }} className={`${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[3px_3px_6px_rgba(0,0,0,0.3),-3px_-3px_6px_rgba(30,30,46,0.7)] border-none rounded-full text-blue-400 hover:shadow-[1px_1px_3px_rgba(0,0,0,0.3),-1px_-1px_3px_rgba(30,30,46,0.7)] active:shadow-[inset_1px_1px_2px_rgba(0,0,0,0.3),inset_-1px_-1px_2px_rgba(30,30,46,0.7)] p-1' : 'bg-[#e0e5ec] shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] border-none rounded-full text-blue-500 hover:shadow-[1px_1px_3px_rgba(163,177,198,0.6),-1px_-1px_3px_rgba(255,255,255,1)] active:shadow-[inset_1px_1px_2px_rgba(163,177,198,0.6),inset_-1px_-1px_2px_rgba(255,255,255,1)] p-1') : 'text-blue-500 hover:text-blue-400 p-1 rounded-full hover:bg-blue-900/10'}`}><Edit3 size={14}/></button>
+                                        <button onClick={() => onDeleteHabit(h.id)} className={`${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[3px_3px_6px_rgba(0,0,0,0.3),-3px_-3px_6px_rgba(30,30,46,0.7)] border-none rounded-full text-red-400 hover:shadow-[1px_1px_3px_rgba(0,0,0,0.3),-1px_-1px_3px_rgba(30,30,46,0.7)] active:shadow-[inset_1px_1px_2px_rgba(0,0,0,0.3),inset_-1px_-1px_2px_rgba(30,30,46,0.7)] p-1' : 'bg-[#e0e5ec] shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] border-none rounded-full text-red-500 hover:shadow-[1px_1px_3px_rgba(163,177,198,0.6),-1px_-1px_3px_rgba(255,255,255,1)] active:shadow-[inset_1px_1px_2px_rgba(163,177,198,0.6),inset_-1px_-1px_2px_rgba(255,255,255,1)] p-1') : 'text-red-500 hover:text-red-400 p-1 rounded-full hover:bg-red-900/10'}`}><Trash2 size={14}/></button>
                                     </div>
                                 </div>
                             ))}
@@ -1246,8 +1291,8 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                 <div key={p.id} className={`flex items-center justify-between p-2 rounded ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[5px_5px_10px_rgba(0,0,0,0.4),-5px_-5px_10px_rgba(30,30,46,0.8)] border-none rounded-lg' : 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] border-none rounded-lg') : (isDark ? 'border-zinc-800 bg-zinc-900/50' : 'border-slate-200 bg-slate-50')}`}>
                                     <span className={`text-xs ${textMain}`}>{p.name}</span>
                                     <div className="flex gap-2">
-                                        <button onClick={() => { openEditTask({...p, text:p.name, type:'main', gold:500}); setIsManageTasksOpen(false); }} className={`${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[3px_3px_6px_rgba(0,0,0,0.3),-3px_-3px_6px_rgba(30,30,46,0.7)] border-none rounded text-blue-400 hover:shadow-[1px_1px_3px_rgba(0,0,0,0.3),-1px_-1px_3px_rgba(30,30,46,0.7)] active:shadow-[inset_1px_1px_2px_rgba(0,0,0,0.3),inset_-1px_-1px_2px_rgba(30,30,46,0.7)] p-1' : 'bg-[#e0e5ec] shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] border-none rounded text-blue-500 hover:shadow-[1px_1px_3px_rgba(163,177,198,0.6),-1px_-1px_3px_rgba(255,255,255,1)] active:shadow-[inset_1px_1px_2px_rgba(163,177,198,0.6),inset_-1px_-1px_2px_rgba(255,255,255,1)] p-1') : 'text-blue-500 hover:text-blue-400'}`}><Edit3 size={14}/></button>
-                                        <button onClick={() => onDeleteProject(p.id)} className={`${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[3px_3px_6px_rgba(0,0,0,0.3),-3px_-3px_6px_rgba(30,30,46,0.7)] border-none rounded text-red-400 hover:shadow-[1px_1px_3px_rgba(0,0,0,0.3),-1px_-1px_3px_rgba(30,30,46,0.7)] active:shadow-[inset_1px_1px_2px_rgba(0,0,0,0.3),inset_-1px_-1px_2px_rgba(30,30,46,0.7)] p-1' : 'bg-[#e0e5ec] shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] border-none rounded text-red-500 hover:shadow-[1px_1px_3px_rgba(163,177,198,0.6),-1px_-1px_3px_rgba(255,255,255,1)] active:shadow-[inset_1px_1px_2px_rgba(163,177,198,0.6),inset_-1px_-1px_2px_rgba(255,255,255,1)] p-1') : 'text-red-500 hover:text-red-400'}`}><Trash2 size={14}/></button>
+                                        <button onClick={() => { openEditTask({...p, text:p.name, type:'main', gold:500}); setIsManageTasksOpen(false); }} className={`${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[3px_3px_6px_rgba(0,0,0,0.3),-3px_-3px_6px_rgba(30,30,46,0.7)] border-none rounded-full text-blue-400 hover:shadow-[1px_1px_3px_rgba(0,0,0,0.3),-1px_-1px_3px_rgba(30,30,46,0.7)] active:shadow-[inset_1px_1px_2px_rgba(0,0,0,0.3),inset_-1px_-1px_2px_rgba(30,30,46,0.7)] p-1' : 'bg-[#e0e5ec] shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] border-none rounded-full text-blue-500 hover:shadow-[1px_1px_3px_rgba(163,177,198,0.6),-1px_-1px_3px_rgba(255,255,255,1)] active:shadow-[inset_1px_1px_2px_rgba(163,177,198,0.6),inset_-1px_-1px_2px_rgba(255,255,255,1)] p-1') : 'text-blue-500 hover:text-blue-400 p-1 rounded-full hover:bg-blue-900/10'}`}><Edit3 size={14}/></button>
+                                        <button onClick={() => onDeleteProject(p.id)} className={`${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[3px_3px_6px_rgba(0,0,0,0.3),-3px_-3px_6px_rgba(30,30,46,0.7)] border-none rounded-full text-red-400 hover:shadow-[1px_1px_3px_rgba(0,0,0,0.3),-1px_-1px_3px_rgba(30,30,46,0.7)] active:shadow-[inset_1px_1px_2px_rgba(0,0,0,0.3),inset_-1px_-1px_2px_rgba(30,30,46,0.7)] p-1' : 'bg-[#e0e5ec] shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] border-none rounded-full text-red-500 hover:shadow-[1px_1px_3px_rgba(163,177,198,0.6),-1px_-1px_3px_rgba(255,255,255,1)] active:shadow-[inset_1px_1px_2px_rgba(163,177,198,0.6),inset_-1px_-1px_2px_rgba(255,255,255,1)] p-1') : 'text-red-500 hover:text-red-400 p-1 rounded-full hover:bg-red-900/10'}`}><Trash2 size={14}/></button>
                                     </div>
                                 </div>
                             ))}
@@ -1285,14 +1330,15 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                                                     <button 
                                                                         onClick={() => {
                                                                             openEditTask({...task, type: 'random'});
+                                                                            setIsManageTasksOpen(false);
                                                                         }}
-                                                                        className={`${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[3px_3px_6px_rgba(0,0,0,0.3),-3px_-3px_6px_rgba(30,30,46,0.7)] border-none rounded text-blue-400 hover:shadow-[1px_1px_3px_rgba(0,0,0,0.3),-1px_-1px_3px_rgba(30,30,46,0.7)] active:shadow-[inset_1px_1px_2px_rgba(0,0,0,0.3),inset_-1px_-1px_2px_rgba(30,30,46,0.7)] p-1' : 'bg-[#e0e5ec] shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] border-none rounded text-blue-500 hover:shadow-[1px_1px_3px_rgba(163,177,198,0.6),-1px_-1px_3px_rgba(255,255,255,1)] active:shadow-[inset_1px_1px_2px_rgba(163,177,198,0.6),inset_-1px_-1px_2px_rgba(255,255,255,1)] p-1') : 'text-blue-500 hover:text-blue-400'}`}
+                                                                        className={`${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[3px_3px_6px_rgba(0,0,0,0.3),-3px_-3px_6px_rgba(30,30,46,0.7)] border-none rounded-full text-blue-400 hover:shadow-[1px_1px_3px_rgba(0,0,0,0.3),-1px_-1px_3px_rgba(30,30,46,0.7)] active:shadow-[inset_1px_1px_2px_rgba(0,0,0,0.3),inset_-1px_-1px_2px_rgba(30,30,46,0.7)] p-1' : 'bg-[#e0e5ec] shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] border-none rounded-full text-blue-500 hover:shadow-[1px_1px_3px_rgba(163,177,198,0.6),-1px_-1px_3px_rgba(255,255,255,1)] active:shadow-[inset_1px_1px_2px_rgba(163,177,198,0.6),inset_-1px_-1px_2px_rgba(255,255,255,1)] p-1') : 'text-blue-500 hover:text-blue-400 p-1 rounded-full hover:bg-blue-900/10'}`}
                                                                     >
                                                                         <Edit3 size={14}/>
                                                                     </button>
                                                                     <button 
                                                                         onClick={() => onDeleteDiceTask(task.id, task.category as DiceCategory)}
-                                                                        className={`${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[3px_3px_6px_rgba(0,0,0,0.3),-3px_-3px_6px_rgba(30,30,46,0.7)] border-none rounded text-red-400 hover:shadow-[1px_1px_3px_rgba(0,0,0,0.3),-1px_-1px_3px_rgba(30,30,46,0.7)] active:shadow-[inset_1px_1px_2px_rgba(0,0,0,0.3),inset_-1px_-1px_2px_rgba(30,30,46,0.7)] p-1' : 'bg-[#e0e5ec] shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] border-none rounded text-red-500 hover:shadow-[1px_1px_3px_rgba(163,177,198,0.6),-1px_-1px_3px_rgba(255,255,255,1)] active:shadow-[inset_1px_1px_2px_rgba(163,177,198,0.6),inset_-1px_-1px_2px_rgba(255,255,255,1)] p-1') : 'text-red-500 hover:text-red-400'}`}
+                                                                        className={`${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[3px_3px_6px_rgba(0,0,0,0.3),-3px_-3px_6px_rgba(30,30,46,0.7)] border-none rounded-full text-red-400 hover:shadow-[1px_1px_3px_rgba(0,0,0,0.3),-1px_-1px_3px_rgba(30,30,46,0.7)] active:shadow-[inset_1px_1px_2px_rgba(0,0,0,0.3),inset_-1px_-1px_2px_rgba(30,30,46,0.7)] p-1' : 'bg-[#e0e5ec] shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] border-none rounded-full text-red-500 hover:shadow-[1px_1px_3px_rgba(163,177,198,0.6),-1px_-1px_3px_rgba(255,255,255,1)] active:shadow-[inset_1px_1px_2px_rgba(163,177,198,0.6),inset_-1px_-1px_2px_rgba(255,255,255,1)] p-1') : 'text-red-500 hover:text-red-400 p-1 rounded-full hover:bg-red-900/10'}`}
                                                                     >
                                                                         <Trash2 size={14}/>
                                                                     </button>
@@ -1332,6 +1378,8 @@ const LifeGame: React.FC<LifeGameProps> = ({
             setNewTaskDuration={setNewTaskDuration}
             newTaskPriority={newTaskPriority}
             setNewTaskPriority={setNewTaskPriority}
+            newTaskNote={newTaskNote}
+            setNewTaskNote={setNewTaskNote}
             reminderEnabled={reminderEnabled}
             setReminderEnabled={setReminderEnabled}
             reminderDate={reminderDate}

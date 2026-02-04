@@ -4,7 +4,7 @@
  */
 
 import React, { memo } from 'react';
-import { Check, X, Play } from 'lucide-react';
+import { Check, X, Play, Edit3 } from 'lucide-react';
 import { GlobalHelpButton } from '../HelpSystem';
 import { DiceTaskRecord } from './types';
 
@@ -15,6 +15,7 @@ interface DiceTaskListProps {
   onCompleteTask: (taskId: string) => void;
   onAbandonTask: (taskId: string) => void;
   onStartTimer: (duration: number) => void;
+  onOpenEditTask: (task: any) => void;
   onHelpClick?: (helpId: string) => void;
   cardBg: string;
   textMain: string;
@@ -30,6 +31,7 @@ const DiceTaskList: React.FC<DiceTaskListProps> = memo(({
   onCompleteTask,
   onAbandonTask,
   onStartTimer,
+  onOpenEditTask,
   onHelpClick,
   cardBg,
   textMain,
@@ -57,16 +59,20 @@ const DiceTaskList: React.FC<DiceTaskListProps> = memo(({
           </div>
         )}
         <div className="flex-1 min-w-0 w-full">
-          <div className="flex items-center gap-1 sm:gap-2 flex-wrap">
+          <div className="flex items-center gap-1 sm:gap-2">
             <h3 className={`font-bold truncate flex-1 min-w-0 ${isPending ? textMain : 'text-zinc-500 line-through'}`}>
               {taskRecord.task.text}
             </h3>
+            <button onClick={() => onOpenEditTask({...taskRecord.task, type: 'random'})} className="opacity-0 group-hover:opacity-100 text-zinc-500 hover:text-blue-500 transition-opacity flex-shrink-0"><Edit3 size={12}/></button>
           </div>
           <div className="flex items-center gap-2 sm:gap-3 text-[10px] sm:text-[11px] font-mono text-zinc-500 mt-1 flex-wrap">
-            <span className="text-purple-400">+{taskRecord.generatedXp}</span>
-            <span className="text-yellow-500">+{taskRecord.generatedGold}</span>
+            <span className="text-purple-400">经验 +{taskRecord.generatedXp}</span>
+            <span className="text-yellow-500">金币 +{taskRecord.generatedGold}</span>
             {taskRecord.task.duration && (
-              <span className="text-blue-500">{taskRecord.task.duration}m</span>
+              <span className="text-blue-500">时长 {taskRecord.task.duration}m</span>
+            )}
+            {taskRecord.task.reminder && taskRecord.task.reminder.enabled && taskRecord.task.reminder.time && (
+              <span className="text-green-500">时间 {taskRecord.task.reminder.time}</span>
             )}
           </div>
         </div>
@@ -77,8 +83,8 @@ const DiceTaskList: React.FC<DiceTaskListProps> = memo(({
                 e.stopPropagation();
                 onAbandonTask(taskRecord.id);
               }} 
-              className="text-zinc-600 hover:text-red-500 p-2 rounded hover:bg-red-900/10 transition-colors active:scale-95" 
-              title="放弃任务"
+              className="text-zinc-600 hover:text-red-500 p-2 rounded-full hover:bg-red-900/10 transition-colors active:scale-95" 
+              title="放弃任务 (无奖励)"
             >
               <X size={16} />
             </button>

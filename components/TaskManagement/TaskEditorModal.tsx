@@ -18,6 +18,8 @@ interface TaskEditorModalProps {
   setNewTaskDuration: (duration: string) => void;
   newTaskPriority: 'high' | 'medium' | 'low';
   setNewTaskPriority: (priority: 'high' | 'medium' | 'low') => void;
+  newTaskNote: string;
+  setNewTaskNote: (note: string) => void;
   reminderEnabled: boolean;
   setReminderEnabled: (enabled: boolean) => void;
   reminderDate: string;
@@ -57,6 +59,8 @@ const TaskEditorModal: React.FC<TaskEditorModalProps> = ({
   setNewTaskDuration,
   newTaskPriority,
   setNewTaskPriority,
+  newTaskNote,
+  setNewTaskNote,
   reminderEnabled,
   setReminderEnabled,
   reminderDate,
@@ -121,7 +125,7 @@ const TaskEditorModal: React.FC<TaskEditorModalProps> = ({
             </div>
           )}
           
-          {(newTaskType === 'daily' || newTaskType === 'main' || newTaskType === 'random') && (
+          {(newTaskType === 'daily' || newTaskType === 'main' || newTaskType === 'timebox' || newTaskType === 'random') && (
             <>
               <div className="grid grid-cols-2 gap-4">
                 <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>经验奖励</label><input type="number" value={newTaskXP} onChange={e => setNewTaskXP(e.target.value)} className={`w-full border-b py-1 outline-none ${textMain} ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] border-none rounded-lg p-1' : 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-1') : (isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300')}`} /></div>
@@ -199,63 +203,77 @@ const TaskEditorModal: React.FC<TaskEditorModalProps> = ({
                   </div>
                 )}
               </div>
-            </>
-          )}
-          
-          {(newTaskType === 'main' || newTaskType === 'timebox') && (
-            <div className="space-y-3">
-              <div className="flex justify-between items-center">
-                <label className={`text-[10px] uppercase font-bold ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>子任务</label>
-                <button 
-                  onClick={() => {
-                    setEditingProjectSubTasks([...editingProjectSubTasks, {
-                      id: `sub-${Date.now()}`,
-                      title: '',
-                      completed: false,
-                      duration: 30
-                    }]);
-                  }}
-                  className={`text-xs px-3 py-1 rounded flex items-center gap-1 ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[5px_5px_10px_rgba(0,0,0,0.4),-5px_-5px_10px_rgba(30,30,46,0.8)] border-none text-blue-400 hover:shadow-[3px_3px_6px_rgba(0,0,0,0.3),-3px_-3px_6px_rgba(30,30,46,0.7)] active:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] border-none text-blue-600 hover:shadow-[3px_3px_6px_rgba(163,177,198,0.5),-3px_-3px_6px_rgba(255,255,255,1)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)]') : 'bg-blue-600 hover:bg-blue-500 text-white'}`}
-                >
-                  <Plus size={12}/> 添加子任务
-                </button>
-              </div>
-              
-              {editingProjectSubTasks.map((subTask, index) => (
-                <div key={subTask.id} className="flex gap-2 items-start">
-                  <input 
-                    type="text" 
-                    value={subTask.title} 
-                    onChange={(e) => {
-                      const newSubTasks = [...editingProjectSubTasks];
-                      newSubTasks[index] = { ...newSubTasks[index], title: e.target.value };
-                      setEditingProjectSubTasks(newSubTasks);
-                    }} 
-                    placeholder={`子任务 ${index + 1} 标题...`} 
-                    className={`flex-1 border-b py-1 outline-none ${textMain} ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] border-none rounded-lg p-2' : 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-2') : (isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300')}`} 
-                  />
-                  <input 
-                    type="number" 
-                    value={subTask.duration} 
-                    onChange={(e) => {
-                      const newSubTasks = [...editingProjectSubTasks];
-                      newSubTasks[index] = { ...newSubTasks[index], duration: parseInt(e.target.value) || 30 };
-                      setEditingProjectSubTasks(newSubTasks);
-                    }} 
-                    placeholder="时长(m)" 
-                    className={`w-20 border-b py-1 outline-none ${textMain} ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] border-none rounded-lg p-2' : 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-2') : (isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300')}`} 
-                  />
-                  <button 
-                    onClick={() => {
-                      setEditingProjectSubTasks(editingProjectSubTasks.filter((_, i) => i !== index));
-                    }}
-                    className={`p-2 ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[5px_5px_10px_rgba(0,0,0,0.4),-5px_-5px_10px_rgba(30,30,46,0.8)] border-none rounded text-red-400 hover:shadow-[3px_3px_6px_rgba(0,0,0,0.3),-3px_-3px_6px_rgba(30,30,46,0.7)] active:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] border-none rounded text-red-500 hover:shadow-[3px_3px_6px_rgba(163,177,198,0.5),-3px_-3px_6px_rgba(255,255,255,1)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)]') : 'text-red-500 hover:text-red-400'}`}
-                  >
-                    <Trash2 size={14}/>
-                  </button>
+
+              {/* 子任务 */}
+              {(newTaskType === 'main' || newTaskType === 'timebox') && (
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center">
+                    <label className={`text-[10px] uppercase font-bold ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>子任务</label>
+                    <button 
+                      onClick={() => {
+                        setEditingProjectSubTasks([...editingProjectSubTasks, {
+                          id: `sub-${Date.now()}`,
+                          title: '',
+                          completed: false,
+                          duration: 30
+                        }]);
+                      }}
+                      className={`text-xs px-3 py-1 rounded flex items-center gap-1 ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[5px_5px_10px_rgba(0,0,0,0.4),-5px_-5px_10px_rgba(30,30,46,0.8)] border-none text-blue-400 hover:shadow-[3px_3px_6px_rgba(0,0,0,0.3),-3px_-3px_6px_rgba(30,30,46,0.7)] active:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] border-none text-blue-600 hover:shadow-[3px_3px_6px_rgba(163,177,198,0.5),-3px_-3px_6px_rgba(255,255,255,1)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)]') : 'bg-blue-600 hover:bg-blue-500 text-white'}`}
+                    >
+                      <Plus size={12}/> 添加子任务
+                    </button>
+                  </div>
+                  
+                  {editingProjectSubTasks.map((subTask, index) => (
+                    <div key={subTask.id} className="flex gap-2 items-start">
+                      <input 
+                        type="text" 
+                        value={subTask.title} 
+                        onChange={(e) => {
+                          const newSubTasks = [...editingProjectSubTasks];
+                          newSubTasks[index] = { ...newSubTasks[index], title: e.target.value };
+                          setEditingProjectSubTasks(newSubTasks);
+                        }} 
+                        placeholder={`子任务 ${index + 1} 标题...`} 
+                        className={`flex-1 border-b py-1 outline-none ${textMain} ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] border-none rounded-lg p-2' : 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-2') : (isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300')}`} 
+                      />
+                      <input 
+                        type="number" 
+                        value={subTask.duration} 
+                        onChange={(e) => {
+                          const newSubTasks = [...editingProjectSubTasks];
+                          newSubTasks[index] = { ...newSubTasks[index], duration: parseInt(e.target.value) || 30 };
+                          setEditingProjectSubTasks(newSubTasks);
+                        }} 
+                        placeholder="时长(m)" 
+                        className={`w-20 border-b py-1 outline-none ${textMain} ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] border-none rounded-lg p-2' : 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-2') : (isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300')}`} 
+                      />
+                      <button 
+                        onClick={() => {
+                          setEditingProjectSubTasks(editingProjectSubTasks.filter((_, i) => i !== index));
+                        }}
+                        className={`p-2 ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[5px_5px_10px_rgba(0,0,0,0.4),-5px_-5px_10px_rgba(30,30,46,0.8)] border-none rounded text-red-400 hover:shadow-[3px_3px_6px_rgba(0,0,0,0.3),-3px_-3px_6px_rgba(30,30,46,0.7)] active:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] border-none rounded text-red-500 hover:shadow-[3px_3px_6px_rgba(163,177,198,0.5),-3px_-3px_6px_rgba(255,255,255,1)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)]') : 'text-red-500 hover:text-red-400'}`}
+                      >
+                        <Trash2 size={14}/>
+                      </button>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              )}
+
+              {/* 任务备注 */}
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <label className={`text-[10px] uppercase font-bold ${isDark ? 'text-zinc-400' : 'text-slate-500'}`}>任务备注</label>
+                </div>
+                <textarea 
+                  value={newTaskNote} 
+                  onChange={e => setNewTaskNote(e.target.value)}
+                  placeholder="输入任务备注..." 
+                  className={`w-full min-h-[100px] p-3 outline-none ${textMain} ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] border-none rounded-lg resize-none' : 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg resize-none') : (isDark ? 'bg-zinc-900 border-zinc-700 rounded-lg resize-none' : 'bg-white border-slate-200 rounded-lg resize-none')}`}
+                />
+              </div>
+            </>
           )}
           
           <div className="flex justify-end gap-2 mt-6">

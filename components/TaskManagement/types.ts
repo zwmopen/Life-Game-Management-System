@@ -119,6 +119,7 @@ export interface TaskManagementProps {
   
   // 任务管理
   onAddTask?: () => void;
+  onOpenTaskManagement?: () => void;
   
   // 导航控制
   setIsNavCollapsed?: (collapsed: boolean) => void;

@@ -393,12 +393,27 @@ const FateDice: React.FC<FateDiceProps> = memo(({ theme, diceState, onSpinDice, 
     harmonicOscillator.stop(startTime + 0.4);
   };
   
+  // 音频元素引用
+  const diceSoundRef = useRef<HTMLAudioElement | null>(null);
+  
   // 掷骰子
   const rollDice = () => {
     if (isRolling || !diceMeshRef.current || !onSpinDice || (diceState?.isSpinning || (remainingCount <= 0))) return;
     
     // 播放滚动音效 - 优先使用本地音频文件
-    soundManager.playSoundEffect('dice');
+    try {
+      // 直接创建音频元素播放音效
+      const audio = new Audio('/audio/sfx/投骰子音效.mp3');
+      audio.volume = 0.7;
+      audio.play().catch(error => {
+        console.warn('FateDice: Audio playback failed, falling back to generated sound:', error);
+        // 回退到生成的音效
+        generateRollingSound();
+      });
+    } catch (error) {
+      console.warn('FateDice: Failed to create audio element, using generated sound:', error);
+      generateRollingSound();
+    }
     
     setIsRolling(true);
     
