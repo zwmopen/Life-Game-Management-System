@@ -483,74 +483,249 @@ export const helpContent: Record<string, HelpContentItem> = {
             </li>
             <li class="flex items-start">
               <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
-              <span>时间盒 vs GTD：GTD强调"收集-处理-组织-回顾-执行"；时间盒聚焦"时间约束+专注执行"，解决"执行拖延"。</span>
             </li>
           </ul>
-        </div>
-        
-        <div>
-          <h4 class="text-lg font-medium mb-3">一句话总结</h4>
-          <p>时间盒不是"填鸭式"塞满日程，而是用"有限时间"倒逼"高效产出"，让你在多任务中保持专注，告别无效忙碌。</p>
         </div>
       </div>
     `,
-    updateTime: '2026-02-04'
+    updateTime: '2026-01-30'
   },
   
-  // 番茄钟全屏界面帮助卡片
+  // 番茄钟全屏模式帮助卡片
   'pomodoro-guide': {
-    title: '【番茄钟全屏界面】使用指南',
-    icon: <Clock size={24} className="text-blue-500" />,
-    productIntro: '番茄钟全屏界面是一个专为专注设计的沉浸式环境，提供3D大陆和时间盒子两种模式，帮助用户在无干扰的环境中保持高效专注。',
-    underlyingPrinciple: '基于沉浸式设计理念和专注心理学，通过去除干扰元素和提供视觉反馈，创造一个专注于当前任务的环境。结合游戏化元素，将专注时间转化为植物生长，增强用户的持续动力。',
-    coreRules: '支持两种模式切换：3D大陆模式和时间盒子模式；3D大陆模式下可选择不同种子进行种植，植物生长与专注度关联；时间盒子模式提供倒计时功能，帮助用户管理时间；支持深色/浅色主题切换，适应不同使用环境。',
-    usageMethods: '1. 3D大陆模式：选择左侧种子，点击中心圆环开始专注，专注时间会转化为植物生长；2. 时间盒子模式：查看倒计时，点击开始/暂停按钮控制计时；3. 点击右上角模式切换按钮在两种模式间切换；4. 点击左上角月亮图标切换主题；5. 点击左上角问号图标查看此帮助内容。',
+    title: '【番茄钟全屏模式】使用指南',
+    icon: <Clock size={24} className="text-red-500" />,
+    productIntro: '番茄钟全屏模式是一款基于番茄工作法的沉浸式时间管理工具，提供3D大陆和时间盒子两种模式，通过全屏沉浸式体验帮助用户提高专注力，避免干扰，提升工作效率。',
+    underlyingPrinciple: '基于番茄工作法和注意力管理理论设计，通过沉浸式全屏模式减少外界干扰，培养用户的专注能力。结合3D可视化和游戏化元素，将专注时间转化为植物生长和任务完成的可视化反馈，增强用户的持续动力。',
+    coreRules: '支持两种模式：3D大陆模式（可视化植物生长）和时间盒子模式（简洁专注界面）；默认专注时长25分钟，支持自定义时长；专注完成后获得积分和经验奖励；支持暂停、重置等操作；全屏模式下可通过右上角按钮退出或切换模式；支持主题切换，适应不同使用环境。',
+    usageMethods: '1. 点击任务右侧的"开始专注"进入番茄钟全屏模式；2. 默认进入3D大陆模式，可点击右上角按钮切换到时间盒子模式；3. 点击中心圆环开始专注；4. 专注结束后获得奖励并可选择继续或退出；5. 使用左上角的主题切换按钮调整界面风格；6. 点击问号按钮查看本指南。',
     detailedContent: `
       <div class="space-y-6">
         <div>
-          <h4 class="text-lg font-medium mb-3">时间界面说明</h4>
-          <p class="pl-4">时间界面设计目的是提供沉浸式专注环境，去除所有干扰元素，让用户能够全神贯注于当前任务。通过清晰的倒计时和视觉反馈，帮助用户保持专注状态。</p>
+          <h4 class="text-lg font-medium mb-3">模式切换功能详解</h4>
+          <div class="space-y-4">
+            <div>
+              <h5 class="font-medium mb-2">3D大陆模式</h5>
+              <ul class="space-y-3">
+                <li class="flex items-start">
+                  <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+                  <span><strong>优势：</strong>提供沉浸式3D视觉体验，通过植物生长直观展示专注时间的积累，增加成就感和趣味性。</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+                  <span><strong>原理：</strong>基于游戏化设计和视觉反馈理论，将抽象的时间概念转化为具体的植物生长过程，通过视觉成就感强化专注行为。</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+                  <span><strong>使用方法：</strong>在3D大陆模式下，左侧可选择不同种子类型，中心圆环显示倒计时，专注过程中植物会逐渐生长，专注结束后植物成熟并获得奖励。</span>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h5 class="font-medium mb-2">时间盒子模式</h5>
+              <ul class="space-y-3">
+                <li class="flex items-start">
+                  <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+                  <span><strong>优势：</strong>界面简洁清爽，无任何干扰元素，适合需要极致专注的场景，减少视觉疲劳。</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+                  <span><strong>原理：</strong>基于极简设计原则和注意力集中理论，通过去除所有无关元素，创造纯净的专注环境，提高信息处理效率。</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+                  <span><strong>使用方法：</strong>在时间盒子模式下，中央显示大型倒计时，界面简洁明了，专注结束后直接返回任务界面。</span>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
         
         <div>
-          <h4 class="text-lg font-medium mb-3">按钮行为说明</h4>
-          <ul class="space-y-2 pl-4">
-            <li class="flex items-start">
-              <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
-              <span><strong>完成按钮</strong>：点击后直接返回任务界面，结束当前专注 session。</span>
-            </li>
-            <li class="flex items-start">
-              <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
-              <span><strong>暂停按钮</strong>：点击后暂停当前计时，再次点击可继续。</span>
-            </li>
-          </ul>
-        </div>
-        
-        <div>
-          <h4 class="text-lg font-medium mb-3">3D大陆界面说明</h4>
-          <p class="pl-4 mb-3">3D大陆界面是一个游戏化的专注环境，通过植物生长来可视化专注时间。</p>
-          <ul class="space-y-2 pl-4">
-            <li class="flex items-start">
-              <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
-              <span><strong>左侧种子选择</strong>：提供多种植物和动物种子供选择，不同种子代表不同类型的专注。</span>
-            </li>
-            <li class="flex items-start">
-              <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
-              <span><strong>中间植物生长</strong>：专注时间会转化为植物的生长进度，专注度越高，植物生长越快。</span>
-            </li>
-            <li class="flex items-start">
-              <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
-              <span><strong>Frost森林种植玩法</strong>：在3D大陆的Frost森林中，你可以种植各种植物，通过持续的专注来培育它们成长。</span>
-            </li>
-          </ul>
+          <h4 class="text-lg font-medium mb-3">核心功能详解</h4>
+          <div class="space-y-4">
+            <div>
+              <h5 class="font-medium mb-2">专注计时器</h5>
+              <ul class="space-y-2 pl-4">
+                <li class="flex items-start">
+                  <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+                  <span>默认25分钟专注时长，可通过底部预设按钮快速切换（1、5、10、25、30、45、60分钟）。</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+                  <span>双击预设时间按钮可自定义时长，满足个性化需求。</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+                  <span>专注过程中可点击中心圆环暂停/继续，点击重置按钮重新开始。</span>
+                </li>
+              </ul>
+            </div>
+            
+            <div>
+              <h5 class="font-medium mb-2">3D大陆种植系统</h5>
+              <ul class="space-y-2 pl-4">
+                <li class="flex items-start">
+                  <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+                  <span>左侧种子选择器提供多种植物和动物种子，每种种子对应不同的视觉效果。</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+                  <span>专注过程中，种子会逐渐生长，生长速度与专注时间成正比。</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+                  <span>专注结束后，植物成熟并记录到总植物数量中，为用户提供长期的视觉成就感。</span>
+                </li>
+              </ul>
+            </div>
+            
+            <div>
+              <h5 class="font-medium mb-2">背景音乐系统</h5>
+              <ul class="space-y-2 pl-4">
+                <li class="flex items-start">
+                  <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+                  <span>右下角音乐图标可打开背景音乐选择器，提供多种自然音效和环境音乐。</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+                  <span>音乐按播放次数排序，支持单曲循环和快速切换。</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+                  <span>背景音乐状态自动保存，下次进入时保持上次播放状态。</span>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
         
         <div>
           <h4 class="text-lg font-medium mb-3">主题切换功能</h4>
-          <p class="pl-4">点击左上角的月亮图标可以切换深色/浅色模式，系统会自动保存你的主题偏好，并在所有界面（包括侧边栏和人生游戏系统导航栏）统一应用新主题。</p>
+          <ul class="space-y-3">
+            <li class="flex items-start">
+              <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+              <span>左上角的月亮/太阳图标可切换系统主题，支持浅色、深色和拟态主题。</span>
+            </li>
+            <li class="flex items-start">
+              <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+              <span>主题切换会实时应用到整个系统，包括侧边栏和导航栏。</span>
+            </li>
+            <li class="flex items-start">
+              <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+              <span>深色主题适合夜间使用，减少眼睛疲劳；浅色主题适合白天使用，提供清晰的视觉体验。</span>
+            </li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="text-lg font-medium mb-3">使用技巧与最佳实践</h4>
+          <div class="space-y-4">
+            <div>
+              <h5 class="font-medium mb-2">环境准备</h5>
+              <ul class="space-y-2 pl-4">
+                <li class="flex items-start">
+                  <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+                  <span>选择安静的环境，关闭手机通知，确保专注过程不被打断。</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+                  <span>根据当前任务类型选择合适的模式：创意类任务适合3D大陆模式，需要高度集中的任务适合时间盒子模式。</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+                  <span>选择适合的背景音乐，有助于营造专注氛围（推荐自然音效如森林、雨声）。</span>
+                </li>
+              </ul>
+            </div>
+            
+            <div>
+              <h5 class="font-medium mb-2">执行策略</h5>
+              <ul class="space-y-2 pl-4">
+                <li class="flex items-start">
+                  <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+                  <span>采用25分钟专注+5分钟休息的番茄工作法循环，保持大脑的最佳状态。</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+                  <span>设置合理的目标，每次专注只处理一个任务，避免多任务切换导致的效率下降。</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+                  <span>利用专注结束后的短暂休息时间，起身活动、喝水或做简单伸展，缓解身体疲劳。</span>
+                </li>
+              </ul>
+            </div>
+            
+            <div>
+              <h5 class="font-medium mb-2">长期坚持</h5>
+              <ul class="space-y-2 pl-4">
+                <li class="flex items-start">
+                  <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+                  <span>每天固定时间使用番茄钟，培养专注习惯，形成规律性的工作节奏。</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+                  <span>记录每天的专注时长和完成的任务数量，定期复盘，优化时间管理策略。</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+                  <span>利用3D大陆模式的植物生长记录，可视化自己的专注积累，增强成就感和持续动力。</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        <div>
+          <h4 class="text-lg font-medium mb-3">常见问题与解决方案</h4>
+          <ul class="space-y-3">
+            <li class="flex items-start">
+              <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+              <span><strong>问题1：</strong>专注过程中容易分心？→解决方案：选择时间盒子模式，关闭所有无关界面；使用白噪音或自然音效屏蔽外界干扰；设置明确的任务目标，增强专注动力。</span>
+            </li>
+            <li class="flex items-start">
+              <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+              <span><strong>问题2：</strong>无法坚持完成25分钟专注？→解决方案：从较短时长开始（如10分钟），逐步增加；每完成一个番茄钟给予自己小奖励；使用3D大陆模式，通过植物生长的视觉反馈增强动力。</span>
+            </li>
+            <li class="flex items-start">
+              <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+              <span><strong>问题3：</strong>切换模式后界面不适应？→解决方案：根据当前任务类型和个人偏好选择合适的模式；尝试在不同环境下使用不同模式，找到最适合自己的专注方式。</span>
+            </li>
+            <li class="flex items-start">
+              <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+              <span><strong>问题4：</strong>主题切换后视觉效果不佳？→解决方案：根据当前环境光线选择合适的主题；在夜间使用深色主题保护眼睛；如果不确定，可尝试不同主题并观察效果。</span>
+            </li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="text-lg font-medium mb-3">总结与优势回顾</h4>
+          <ul class="space-y-3">
+            <li class="flex items-start">
+              <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+              <span><strong>双重模式优势：</strong>3D大陆模式提供视觉反馈和游戏化体验，时间盒子模式提供纯净专注环境，满足不同场景需求。</span>
+            </li>
+            <li class="flex items-start">
+              <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+              <span><strong>沉浸式体验：</strong>全屏模式减少外界干扰，创造专注氛围，提高注意力质量。</span>
+            </li>
+            <li class="flex items-start">
+              <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+              <span><strong>个性化定制：</strong>支持自定义时长、背景音乐、主题切换，适应不同用户的个性化需求。</span>
+            </li>
+            <li class="flex items-start">
+              <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+              <span><strong>数据可视化：</strong>通过植物生长和统计数据，直观展示专注时间的积累，增强用户的成就感和持续动力。</span>
+            </li>
+            <li class="flex items-start">
+              <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+              <span><strong>科学时间管理：</strong>基于番茄工作法的时间分割，结合人类注意力的自然周期，提高工作效率和质量。</span>
+            </li>
+          </ul>
         </div>
       </div>
     `,
-    updateTime: '2026-02-04'
+    updateTime: '2026-01-30'
   }
 };

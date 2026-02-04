@@ -125,6 +125,7 @@ const BattleTab: React.FC<BattleTabProps> = memo(({
   const [newTaskAttr, setNewTaskAttr] = useState<AttributeTypeValue>(AttributeType.WEALTH);
   const [newTaskType, setNewTaskType] = useState<'daily' | 'main' | 'random' | 'timebox'>('daily');
   const [newTaskDiceCategory, setNewTaskDiceCategory] = useState<DiceCategory>('health');
+  const [newTaskPriority, setNewTaskPriority] = useState<'high' | 'medium' | 'low'>('medium');
   const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
   const [editingProjectSubTasks, setEditingProjectSubTasks] = useState<SubTask[]>([]);
   

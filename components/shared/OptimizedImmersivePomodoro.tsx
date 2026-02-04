@@ -7,6 +7,7 @@ import { getNeomorphicStyles } from '../../utils/styleHelpers';
 import UnifiedBgMusicSelector from './UnifiedBgMusicSelector';
 import { GlobalGuideCard, GlobalHelpButton, helpContent } from '../../components/HelpSystem';
 import { SPECIES } from '../../data/speciesData';
+import { useTheme } from '../../contexts/ThemeContext';
 import '../../styles/immersive-pomodoro.css';
 
 interface OptimizedImmersivePomodoroProps {
@@ -75,6 +76,9 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
 
   // 使用全局音频管理器
   const { currentBgMusicId } = useGlobalAudio();
+  
+  // 使用主题管理
+  const { theme: currentTheme, toggleTheme } = useTheme();
   
   // 计时器效果 - 使用useCallback优化
   useEffect(() => {
@@ -319,10 +323,10 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
             <div className="fixed top-0 right-0 flex items-center justify-end gap-4 p-4 z-10">
               {/* 模式切换按钮 */}
               <button 
-                className={`w-10 h-10 rounded-full flex items-center justify-center ${isNeomorphic 
+                className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${isNeomorphic 
                   ? `${isDark 
-                      ? 'bg-[#1e1e2e] border border-zinc-700 shadow-[5px_5px_10px_rgba(0,0,0,0.3),-5px_-5px_10px_rgba(40,43,52,0.8)] hover:shadow-[5px_5px_10px_rgba(0,0,0,0.4),-5px_-5px_10px_rgba(40,43,52,1)] active:shadow-[inset_5px_5px_10px_rgba(0,0,0,0.3),inset_-5px_-5px_10px_rgba(40,43,52,0.8)]' 
-                      : 'bg-[#e0e5ec] border border-slate-300 shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[5px_5px_10px_rgba(163,177,198,0.7),-5px_-5px_10px_rgba(255,255,255,1)] active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]' 
+                      ? 'bg-[#1e1e2e] border border-zinc-700 shadow-[5px_5px_10px_rgba(0,0,0,0.3),-5px_-5px_10px_rgba(40,43,52,0.8)] hover:shadow-[7px_7px_14px_rgba(0,0,0,0.4),-7px_-7px_14px_rgba(40,43,52,1)] active:shadow-[inset_5px_5px_10px_rgba(0,0,0,0.3),inset_-5px_-5px_10px_rgba(40,43,52,0.8)]' 
+                      : 'bg-[#e0e5ec] border border-slate-300 shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[7px_7px_14px_rgba(163,177,198,0.7),-7px_-7px_14px_rgba(255,255,255,1)] active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]' 
                     }`
                   : `${isDark ? 'text-zinc-300 hover:text-blue-400 hover:bg-zinc-800/50' : 'text-zinc-500 hover:text-blue-400 hover:bg-white/10'}`}`}
                 onClick={() => setMode(mode === '3d' ? 'timebox' : '3d')}
@@ -331,16 +335,20 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
                   background: mode === '3d' 
                     ? 'linear-gradient(90deg, #2563eb 50%, #ffffff 50%)' 
                     : 'linear-gradient(90deg, #ffffff 50%, #2563eb 50%)',
-                  backgroundSize: '100% 100%',
-                  transition: 'background-position 0.3s ease',
-                  backgroundPosition: mode === '3d' ? '0% 0%' : '100% 0%'
+                  backgroundSize: '200% 100%',
+                  transition: 'background-position 0.4s ease, box-shadow 0.3s ease, transform 0.2s ease',
+                  backgroundPosition: mode === '3d' ? '0% 0%' : '100% 0%',
+                  boxShadow: isNeomorphic
+                    ? isDark
+                      ? '5px 5px 10px rgba(0,0,0,0.3), -5px -5px 10px rgba(40,43,52,0.8)'
+                      : '5px 5px 10px rgba(163,177,198,0.6), -5px -5px 10px rgba(255,255,255,1)'
+                    : 'none'
                 }}
               >
-                <div className="w-0.5 h-6 bg-black rounded-full" style={{ marginLeft: '50%', transform: 'translateX(-50%)' }}></div>
               </button>
               
               {/* 退出按钮 */}
-              <div className="exit-btn" id="exitBtn" onClick={onExitImmersive}>✕</div>
+              <button className="exit-btn" id="exitBtn" onClick={onExitImmersive}>✕</button>
             </div>
 
             {/* UI容器 */}
@@ -403,13 +411,7 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
                   {/* 主题切换按钮 - 模拟白天/黑夜效果 */}
                   <button 
                     className="p-2 rounded-full transition-all duration-300 hover:scale-110 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                    onClick={() => {
-                      // 触发全局主题切换
-                      const themeToggleBtn = document.querySelector('.theme-toggle') as HTMLElement;
-                      if (themeToggleBtn) {
-                        themeToggleBtn.click();
-                      }
-                    }}
+                    onClick={toggleTheme}
                     title="切换主题（白天/黑夜）"
                   >
                     {isDark ? <Sun size={18} className="text-yellow-400" /> : <Moon size={18} className="text-gray-600" />}
@@ -562,10 +564,10 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
             <div className="fixed top-0 right-0 flex items-center justify-end gap-4 p-4 z-10">
               {/* 模式切换按钮 */}
               <button 
-                className={`w-10 h-10 rounded-full flex items-center justify-center ${isNeomorphic 
+                className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${isNeomorphic 
                   ? `${isDark 
-                      ? 'bg-[#1e1e2e] border border-zinc-700 shadow-[5px_5px_10px_rgba(0,0,0,0.3),-5px_-5px_10px_rgba(40,43,52,0.8)] hover:shadow-[5px_5px_10px_rgba(0,0,0,0.4),-5px_-5px_10px_rgba(40,43,52,1)] active:shadow-[inset_5px_5px_10px_rgba(0,0,0,0.3),inset_-5px_-5px_10px_rgba(40,43,52,0.8)]' 
-                      : 'bg-[#e0e5ec] border border-slate-300 shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[5px_5px_10px_rgba(163,177,198,0.7),-5px_-5px_10px_rgba(255,255,255,1)] active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]' 
+                      ? 'bg-[#1e1e2e] border border-zinc-700 shadow-[5px_5px_10px_rgba(0,0,0,0.3),-5px_-5px_10px_rgba(40,43,52,0.8)] hover:shadow-[7px_7px_14px_rgba(0,0,0,0.4),-7px_-7px_14px_rgba(40,43,52,1)] active:shadow-[inset_5px_5px_10px_rgba(0,0,0,0.3),inset_-5px_-5px_10px_rgba(40,43,52,0.8)]' 
+                      : 'bg-[#e0e5ec] border border-slate-300 shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[7px_7px_14px_rgba(163,177,198,0.7),-7px_-7px_14px_rgba(255,255,255,1)] active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]' 
                     }`
                   : `${isDark ? 'text-zinc-300 hover:text-blue-400 hover:bg-zinc-800/50' : 'text-zinc-500 hover:text-blue-400 hover:bg-white/10'}`}`}
                 onClick={() => setMode(mode === '3d' ? 'timebox' : '3d')}
@@ -574,16 +576,20 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
                   background: mode === '3d' 
                     ? 'linear-gradient(90deg, #2563eb 50%, #ffffff 50%)' 
                     : 'linear-gradient(90deg, #ffffff 50%, #2563eb 50%)',
-                  backgroundSize: '100% 100%',
-                  transition: 'background-position 0.3s ease',
-                  backgroundPosition: mode === '3d' ? '0% 0%' : '100% 0%'
+                  backgroundSize: '200% 100%',
+                  transition: 'background-position 0.4s ease, box-shadow 0.3s ease, transform 0.2s ease',
+                  backgroundPosition: mode === '3d' ? '0% 0%' : '100% 0%',
+                  boxShadow: isNeomorphic
+                    ? isDark
+                      ? '5px 5px 10px rgba(0,0,0,0.3), -5px -5px 10px rgba(40,43,52,0.8)'
+                      : '5px 5px 10px rgba(163,177,198,0.6), -5px -5px 10px rgba(255,255,255,1)'
+                    : 'none'
                 }}
               >
-                <div className="w-0.5 h-6 bg-black rounded-full" style={{ marginLeft: '50%', transform: 'translateX(-50%)' }}></div>
               </button>
               
               {/* 退出按钮 */}
-              <div className="exit-btn" id="exitBtn" onClick={onExitImmersive}>✕</div>
+              <button className="exit-btn" id="exitBtn" onClick={onExitImmersive}>✕</button>
             </div>
             
             <div className="flex flex-col items-center justify-center">
