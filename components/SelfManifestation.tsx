@@ -22,6 +22,7 @@ const SelfManifestation: React.FC<HighestVersionProps> = ({ onHelpClick }) => {
     '九、错误修正与边界管理（零重复犯错，精准筛选环境）': true,
     '十、核心行为准则（ZWM Pro 底层逻辑）': true
   });
+  const [completedTasks, setCompletedTasks] = useState<Set<string>>(new Set());
   const [apiKey, setApiKey] = useState(localStorage.getItem('siliconFlowApiKey') || '');
 
   const updateApiKey = (newKey: string) => {

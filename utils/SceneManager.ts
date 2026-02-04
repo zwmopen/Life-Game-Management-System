@@ -427,7 +427,7 @@ export class SceneManager {
   }
 
   /**
-   * 获取主题颜色 - 采用Forest风格色彩体系
+   * 获取主题颜色 - 与系统主题色保持一致
    */
   private getThemeColors(): ThemeColors {
     // Forest风格色彩系统
@@ -438,14 +438,22 @@ export class SceneManager {
     const earthYellow = 0xD7CCC8;  // 土黄色
     const darkBrown = 0x8D6E63;    // 深褐色
     
-    // 根据当前主题返回不同的背景颜色
-    let bgColor = 0xF5F5F5; // 浅色模式：柔和的自然色调
-    let neuBgColor = 0xF5F5F5;
+    // 根据当前主题返回不同的背景颜色，与系统主题色保持一致
+    let bgColor = 0xE0E5EC; // 拟态浅色主题：#e0e5ec
+    let neuBgColor = 0xE0E5EC;
     
     if (this.theme && this.theme.includes('dark')) {
-      // 深色模式：深绿色调，确保色彩一致性
-      bgColor = 0x1B5E20;
-      neuBgColor = 0x1B5E20;
+      // 拟态深色主题：#1e1e2e
+      bgColor = 0x1E1E2E;
+      neuBgColor = 0x1E1E2E;
+    } else if (this.theme === 'light') {
+      // 传统浅色主题：白色
+      bgColor = 0xFFFFFF;
+      neuBgColor = 0xFFFFFF;
+    } else if (this.theme === 'dark') {
+      // 传统深色主题：#0f172a
+      bgColor = 0x0F172A;
+      neuBgColor = 0x0F172A;
     }
     
     return {
@@ -468,7 +476,9 @@ export class SceneManager {
     
     const colors = this.getThemeColors();
     const isFullFocusMode = isFocusing && !isPaused;
-    const bgColor = isFullFocusMode ? 0x1a1a2e : colors.bgColor;
+    
+    // 使用与系统主题一致的背景颜色，专注模式下保持相同主题色
+    let bgColor = colors.bgColor;
     
     // 更新场景背景颜色
     if (!this.scene.background) {

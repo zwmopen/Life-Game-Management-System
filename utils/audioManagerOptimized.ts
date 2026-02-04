@@ -360,15 +360,16 @@ class AudioManager {
       .flatMap(cat => cat.files.filter(file => file.type === SoundType.SOUND_EFFECT));
   }
 
-  // 获取正确的音频URL，添加GitHub Pages基础路径
+  // 获取正确的音频URL，根据环境使用不同的基础路径
   private getCorrectAudioUrl(url: string): string {
     // 检查URL是否已经包含完整路径
     if (url.startsWith('http://') || url.startsWith('https://')) {
       return url;
     }
     
-    // 添加GitHub Pages基础路径
-    const basePath = '/Life-Game-Management-System';
+    // 根据环境使用不同的基础路径
+    const isDevelopment = process.env.NODE_ENV === 'development';
+    const basePath = isDevelopment ? '' : '/Life-Game-Management-System';
     // 确保URL格式正确
     const normalizedUrl = url.startsWith('/') ? url : `/${url}`;
     return `${basePath}${normalizedUrl}`;

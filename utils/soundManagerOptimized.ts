@@ -50,15 +50,16 @@ class SoundManager {
     }
   }
 
-  // 获取正确的音频URL，添加GitHub Pages基础路径
+  // 获取正确的音频URL，根据环境决定是否添加GitHub Pages基础路径
   private getCorrectAudioUrl(url: string): string {
     // 检查URL是否已经包含完整路径
     if (url.startsWith('http://') || url.startsWith('https://')) {
       return url;
     }
     
-    // 添加GitHub Pages基础路径
-    const basePath = '/Life-Game-Management-System';
+    // 开发环境不添加基础路径，生产环境添加
+    const isDevelopment = process.env.NODE_ENV === 'development';
+    const basePath = isDevelopment ? '' : '/Life-Game-Management-System';
     // 确保URL格式正确
     const normalizedUrl = url.startsWith('/') ? url : `/${url}`;
     return `${basePath}${normalizedUrl}`;
