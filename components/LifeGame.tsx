@@ -338,7 +338,8 @@ const LifeGame: React.FC<LifeGameProps> = ({
         id: h.id, text: h.name, attr: h.attr || 'DIS', xp: h.xp || Math.ceil(h.reward * 1.5), gold: h.reward, duration: h.duration || 0,
         type: TaskType.DAILY, completed: !!h.history[todayStr], frequency: 'daily' as const, originalData: h,
         isGivenUp: givenUpTasks.includes(h.id),
-        priority: h.priority
+        priority: h.priority,
+        reminder: h.reminder
     })).sort((a, b) => {
         if (a.isGivenUp && !b.isGivenUp) return 1;
         if (!a.isGivenUp && b.isGivenUp) return -1;
@@ -366,6 +367,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
             completed: p.status === 'completed', frequency: 'once' as const, isExpanded: true,
             priority: p.priority,
             originalData: p,
+            reminder: p.reminder,
             subTasks: p.subTasks.map(st => ({
                 id: st.id, text: st.title, completed: st.completed, 
                 xp: avgXP, // 均分主线任务的经验奖励
@@ -693,8 +695,14 @@ const LifeGame: React.FC<LifeGameProps> = ({
             <ReminderPopup
                 activeReminder={activeReminder}
                 onClose={() => setActiveReminder(null)}
-                onStart={() => {
+                onStart={(duration) => {
                     setActiveReminder(null);
+                    // 设置时长为任务原本需要耗费的时长，默认为25分钟
+                    const taskDuration = duration || 25;
+                    onChangeDuration(taskDuration);
+                    // 启动番茄钟
+                    onToggleTimer();
+                    // 进入沉浸式模式
                     setIsImmersive(true);
                 }}
                 isNeomorphic={isNeomorphic}

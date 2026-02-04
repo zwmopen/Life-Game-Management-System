@@ -208,17 +208,21 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
               }
             }}
             className={`
-              fixed left-0 top-1/2 transform -translate-y-1/2 p-2 rounded-r-full transition-all duration-300 flex items-center justify-center z-50
+              fixed left-0 top-1/2 transform -translate-y-1/2 p-3 rounded-r-full transition-all duration-300 flex items-center justify-center z-50
               md:absolute md:left-0 md:right-auto md:transform-none md:translate-y-0
               ${isNeomorphic 
                 ? 'bg-transparent text-zinc-700 hover:bg-transparent hover:shadow-none' 
                 : isDark 
                 ? 'text-zinc-500 hover:text-white hover:bg-transparent' 
-                : 'text-slate-500 hover:text-slate-700 hover:bg-transparent'}`}
+                : 'text-slate-500 hover:text-slate-700 hover:bg-transparent'}
+              hover:scale-[1.1] active:scale-[0.95]
+            `}
             title={isNavHidden ? '展开导航栏' : isNavCollapsed ? '隐藏导航栏' : '折叠导航栏'}
           >
             {/* 根据状态显示正确的图标方向 */}
-            {isNavHidden ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
+            <div className="transition-transform duration-300 ease-in-out">
+              {isNavHidden ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
+            </div>
           </button>
 
       {/* 侧边栏容器 - 使用覆盖式设计 */}
@@ -231,6 +235,7 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
             fixed md:relative
             ${isNavHidden ? 'hidden' : ''}
             shadow-2xl
+            md:shadow-none
           `}
           style={{
             width: `${sidebarWidth}px`,
@@ -265,12 +270,13 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
                   onClick={(e) => handleNavClick(item.id, e)}
                   onTouchEnd={(e) => handleNavClick(item.id, e)}
                   className={`
-                      flex items-center rounded-full transition-all duration-200 border border-transparent
+                      flex items-center rounded-full transition-all duration-300 border border-transparent
                       ${isNavCollapsed 
                         ? `w-10 h-10 justify-center mx-auto my-1` 
                         : `w-full space-x-3 px-4 py-3 pl-8`
                       }
                       ${currentView === item.id ? activeClass : `${textClass} ${hoverClass}`}
+                      transform hover:scale-[1.03] active:scale-[0.98]
                   `}
                   title={item.label}
                   >

@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback, lazy, Suspense } from 'react';
 import Navigation from './components/Navigation';
+import Loading from './components/shared/Loading';
+import ErrorBoundary, { DefaultErrorFallback } from './components/ErrorBoundary';
 
 // 懒加载组件
 const MissionControl = lazy(() => import('./components/MissionControl'));
@@ -1461,10 +1463,6 @@ const App: React.FC = () => {
                     setUseInternalImmersive(true);
                   }}
                   // Audio Management - 使用全局音频管理器
-                  isMuted={isMuted}
-                  currentSoundId={currentSoundId}
-                  onToggleMute={handleMuteToggle}
-                  onSoundChange={handleSoundChange}
                   // Settings
                   settings={settings}
                   // 命运骰子相关
@@ -1490,91 +1488,83 @@ const App: React.FC = () => {
   const entropy = Math.round((1 - (todayStats.habitsDone / Math.max(1, habits.length))) * 100);
 
   if (!isDataLoaded) {
-      return (
-          <div className="flex items-center justify-center h-screen bg-zinc-950 text-emerald-500 font-mono animate-pulse">
-              系统内核初始化中... (INITIALIZING SYSTEM KERNEL...)
-          </div>
-      );
+      return <Loading fullscreen size="large" message="系统内核初始化中..." />;
   }
 
   return (
-      <GlobalAudioProvider>
-        <GlobalBackgroundMusicManager />
-        <div className={`flex h-screen w-full overflow-hidden font-sans relative transition-colors duration-500 ${bgClass}`}>
-        {/* Conditionally render Navigation based on immersive mode and modal state */}
-        {!isImmersive && !isModalOpen && (
-          <Navigation 
-            currentView={currentView} 
-            setView={setCurrentView} 
-            isMobileOpen={isMobileOpen}
-            setIsMobileOpen={setIsMobileOpen}
-            entropy={entropy} 
-            isNavCollapsed={isNavCollapsed}
-            setIsNavCollapsed={setIsNavCollapsed}
-            onHelpClick={(helpId) => setActiveHelp(helpId)}
-          />
-        )}
-        
-        {/* GLOBAL REWARD POPUP */}
-        {activeAchievement && <RewardModal badge={activeAchievement} onClose={(id, xp, gold) => { setIsModalOpen(false); handleClaimReward(id, xp, gold); }} theme={theme} />}
-
-        {/* 统一背景，消除侧边栏和主体的颜色割裂 */}
-        <main className={`flex-1 h-full overflow-y-auto relative scroll-smooth flex flex-col transition-all duration-200 ${bgClass}`}>
-          {theme.includes('dark') ? (
-               <div className="absolute inset-0 z-0 pointer-events-none opacity-20"
-                  style={{
-                  backgroundImage: 'radial-gradient(circle at 50% 5%, #10b981 0%, transparent 20%), radial-gradient(circle at 90% 90%, #3b82f6 0%, transparent 20%)'
-                  }}>
-              </div>
-          ) : (
-               <div className="absolute inset-0 z-0 pointer-events-none opacity-40"
-                  style={{
-                  backgroundImage: 'radial-gradient(circle at 50% 5%, #cbd5e1 0%, transparent 30%)'
-                  }}>
-              </div>
+      <ErrorBoundary fallback={DefaultErrorFallback}>
+        <GlobalAudioProvider>
+          <GlobalBackgroundMusicManager />
+          <div className={`flex h-screen w-full overflow-hidden font-sans relative transition-colors duration-500 ${bgClass}`}>
+          {/* Conditionally render Navigation based on immersive mode and modal state */}
+          {!isImmersive && !isModalOpen && (
+            <Navigation 
+              currentView={currentView} 
+              setView={setCurrentView} 
+              isMobileOpen={isMobileOpen}
+              setIsMobileOpen={setIsMobileOpen}
+              entropy={entropy} 
+              isNavCollapsed={isNavCollapsed}
+              setIsNavCollapsed={setIsNavCollapsed}
+              onHelpClick={(helpId) => setActiveHelp(helpId)}
+            />
           )}
-         
-          <div className="relative z-10 flex-1 overflow-y-auto">
-            <Suspense fallback={
-              <div className="flex items-center justify-center h-full w-full">
-                <div className={`text-2xl font-bold ${theme.includes('dark') ? 'text-emerald-500' : 'text-emerald-700'}`}>
-                  加载中...
-                </div>
-              </div>
-            }>
-              {renderView()}
-            </Suspense>
-          </div>
-        </main>
+          
+          {/* GLOBAL REWARD POPUP */}
+          {activeAchievement && <RewardModal badge={activeAchievement} onClose={(id, xp, gold) => { setIsModalOpen(false); handleClaimReward(id, xp, gold); }} theme={theme} />}
 
-        {floatingTexts.map(ft => (
-            <div 
-              key={ft.id}
-              className={`fixed pointer-events-none text-xl sm:text-2xl font-black ${ft.color} animate-bounce z-[9999]`}
-              style={{ left: ft.x, top: ft.y, textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}
-            >
-                {ft.text}
+          {/* 统一背景，消除侧边栏和主体的颜色割裂 */}
+          <main className={`flex-1 h-full overflow-y-auto relative scroll-smooth flex flex-col transition-all duration-200 ${bgClass}`}>
+            {theme.includes('dark') ? (
+                 <div className="absolute inset-0 z-0 pointer-events-none opacity-20"
+                    style={{
+                    backgroundImage: 'radial-gradient(circle at 50% 5%, #10b981 0%, transparent 20%), radial-gradient(circle at 90% 90%, #3b82f6 0%, transparent 20%)'
+                    }}>
+                </div>
+            ) : (
+                 <div className="absolute inset-0 z-0 pointer-events-none opacity-40"
+                    style={{
+                    backgroundImage: 'radial-gradient(circle at 50% 5%, #cbd5e1 0%, transparent 30%)'
+                    }}>
+                </div>
+            )}
+           
+            <div className="relative z-10 flex-1 overflow-y-auto">
+              <Suspense fallback={<Loading fullscreen message="加载系统模块..." />}>
+                {renderView()}
+              </Suspense>
             </div>
-        ))}
-        
-        {/* 全局帮助卡片 */}
-        <GlobalGuideCard
-          activeHelp={activeHelp}
-          helpContent={helpContent}
-          onClose={() => { setIsModalOpen(false); setActiveHelp(null); }}
-          cardBg={theme.includes('dark') ? 'bg-[#1e1e2e] shadow-[8px_8px_16px_rgba(0,0,0,0.4),-8px_-8px_16px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)]'}
-          textMain={theme.includes('dark') ? 'text-zinc-200' : 'text-zinc-800'}
-          textSub={theme.includes('dark') ? 'text-zinc-500' : 'text-zinc-600'}
-          config={settings.guideCardConfig || {
-            fontSize: 'medium',
-            borderRadius: 'medium',
-            shadowIntensity: 'medium',
-            showUnderlyingPrinciple: true
-          }}
-        />
-        
-        </div>
-    </GlobalAudioProvider>
+          </main>
+
+          {floatingTexts.map(ft => (
+              <div 
+                key={ft.id}
+                className={`fixed pointer-events-none text-xl sm:text-2xl font-black ${ft.color} animate-bounce z-[9999]`}
+                style={{ left: ft.x, top: ft.y, textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}
+              >
+                  {ft.text}
+              </div>
+          ))}
+          
+          {/* 全局帮助卡片 */}
+          <GlobalGuideCard
+            activeHelp={activeHelp}
+            helpContent={helpContent}
+            onClose={() => { setIsModalOpen(false); setActiveHelp(null); }}
+            cardBg={theme.includes('dark') ? 'bg-[#1e1e2e] shadow-[8px_8px_16px_rgba(0,0,0,0.4),-8px_-8px_16px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)]'}
+            textMain={theme.includes('dark') ? 'text-zinc-200' : 'text-zinc-800'}
+            textSub={theme.includes('dark') ? 'text-zinc-500' : 'text-zinc-600'}
+            config={settings.guideCardConfig || {
+              fontSize: 'medium',
+              borderRadius: 'medium',
+              shadowIntensity: 'medium',
+              showUnderlyingPrinciple: true
+            }}
+          />
+          
+          </div>
+        </GlobalAudioProvider>
+      </ErrorBoundary>
   );
 };
 

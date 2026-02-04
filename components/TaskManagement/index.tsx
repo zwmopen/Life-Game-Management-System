@@ -274,11 +274,11 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
   return (
     <div className="space-y-4">
       {/* 任务分类导航 */}
-      <div className={`${cardBg} border p-2 sm:p-3 rounded-xl flex flex-wrap items-center justify-between gap-2`}>
-        <div className="flex items-center gap-1 sm:gap-2 flex-wrap">
+      <div className={`${cardBg} border p-2 sm:p-3 rounded-xl flex flex-col items-stretch gap-3`}>
+        <div className="flex items-center gap-1 sm:gap-2 overflow-x-auto pb-1 -mx-1 px-1">
           <button 
             onClick={() => setTaskCategory('daily')} 
-            className={`flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full transition-all font-semibold text-xs sm:text-sm ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full transition-all font-semibold text-xs sm:text-sm whitespace-nowrap ${
               taskCategory === 'daily' 
                 ? (isNeomorphic 
                   ? (theme === 'neomorphic-dark' 
@@ -304,7 +304,7 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
           </button>
           <button 
             onClick={() => setTaskCategory('timebox')} 
-            className={`flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full transition-all font-semibold text-xs sm:text-sm ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full transition-all font-semibold text-xs sm:text-sm whitespace-nowrap ${
               taskCategory === 'timebox' 
                 ? (isNeomorphic 
                   ? (theme === 'neomorphic-dark' 
@@ -322,7 +322,7 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
           </button>
           <button 
             onClick={() => setTaskCategory('random')} 
-            className={`flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full transition-all font-semibold text-xs sm:text-sm ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full transition-all font-semibold text-xs sm:text-sm whitespace-nowrap ${
               taskCategory === 'random' 
                 ? (isNeomorphic 
                   ? (theme === 'neomorphic-dark' 
@@ -350,7 +350,7 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
           </button>
           <button 
             onClick={onOpenTaskManagement} 
-            className={`flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full transition-all font-semibold text-xs sm:text-sm ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full transition-all font-semibold text-xs sm:text-sm whitespace-nowrap ${
               isNeomorphic 
                 ? (theme === 'neomorphic-dark' 
                   ? 'bg-[#1e1e2e] text-emerald-400 shadow-[3px_3px_6px_rgba(0,0,0,0.4),-3px_-3px_6px_rgba(30,30,46,0.8)] hover:shadow-[2px_2px_4px_rgba(0,0,0,0.3),-2px_-2px_4px_rgba(30,30,46,0.7)] active:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)]' 
@@ -366,7 +366,7 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
               onHelpClick={onShowHelp} 
               size={14} 
               variant="ghost"
-              className="ml-1"
+              className="ml-1 flex-shrink-0"
             />
           )}
         </div>
@@ -525,11 +525,11 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
                 {projectTasks.map(task => (
                   <div 
                     key={task.id} 
-                    className={`relative group rounded-lg border transition-all overflow-hidden cursor-pointer ${task.completed ? 'opacity-50 grayscale ' + (isDark ? 'bg-zinc-950/50' : 'bg-slate-100') : ''} ${cardBg} ${!task.completed ? 'hover:shadow-lg' : (isDark ? 'border-zinc-800' : 'border-slate-200')}`}
+                    className={`relative group rounded-lg border transition-all duration-300 overflow-hidden cursor-pointer ${task.completed ? 'opacity-50 grayscale ' + (isDark ? 'bg-zinc-950/50' : 'bg-slate-100') : ''} ${cardBg} ${!task.completed ? 'hover:shadow-lg hover:scale-[1.01]' : (isDark ? 'border-zinc-800' : 'border-slate-200')}`}
                   >
                     <div className="p-3 flex flex-col gap-2">
                       <div className="flex items-center gap-2">
-                        <button onClick={(e) => onCompleteTask(task, e)} className={`w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all shrink-0 ${task.completed ? 'bg-emerald-500 border-emerald-500 text-white' : (isDark ? 'border-zinc-600 hover:border-emerald-500 cursor-pointer' : 'border-slate-300 hover:border-emerald-500 bg-white cursor-pointer')}`}>
+                        <button onClick={(e) => onCompleteTask(task, e)} className={`w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all duration-300 shrink-0 ${task.completed ? 'bg-emerald-500 border-emerald-500 text-white scale-[1.05]' : (isDark ? 'border-zinc-600 hover:border-emerald-500 cursor-pointer hover:scale-[1.05]' : 'border-slate-300 hover:border-emerald-500 bg-white cursor-pointer hover:scale-[1.05]')}`}>
                           {task.completed && <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>}
                         </button>
                         <div className="flex-1">
@@ -592,11 +592,11 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
                         </div>
                         <div className="flex items-center gap-1 sm:gap-2">
                           {!task.completed && (
-                            <button onClick={(e) => onGiveUpTask(task.id, e)} className="text-zinc-600 hover:text-red-500 p-2 rounded-full hover:bg-red-900/10 transition-colors" title="放弃任务 (无奖励)">
+                            <button onClick={(e) => onGiveUpTask(task.id, e)} className="text-zinc-600 hover:text-red-500 p-2 rounded-full hover:bg-red-900/10 transition-all duration-300 hover:scale-[1.1] active:scale-[0.95]" title="放弃任务 (无奖励)">
                               <X size={16} />
                             </button>
                           )}
-                          <button onClick={() => { onStartTimer(task.duration || 25); startTaskTimer(task.id); }} disabled={task.completed} className={`p-3 rounded-full text-white transition-colors group-hover:scale-105 shadow-lg ${isDark ? 'bg-zinc-800 hover:bg-emerald-600' : 'bg-blue-500 hover:bg-blue-600'} disabled:opacity-50 disabled:scale-100`}>
+                          <button onClick={() => { onStartTimer(task.duration || 25); startTaskTimer(task.id); }} disabled={task.completed} className={`p-3 rounded-full text-white transition-all duration-300 group-hover:scale-110 active:scale-95 shadow-lg ${isDark ? 'bg-zinc-800 hover:bg-emerald-600' : 'bg-blue-500 hover:bg-blue-600'} disabled:opacity-50 disabled:scale-100`}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                           </button>
                         </div>

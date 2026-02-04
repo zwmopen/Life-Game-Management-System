@@ -136,9 +136,17 @@ const TaskEditorModal: React.FC<TaskEditorModalProps> = ({
 
               {/* 任务提醒设置 */}
               <div className={`p-3 rounded-xl border border-dashed ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] border-zinc-700 shadow-[inset_3px_3px_6px_rgba(0,0,0,0.3)]' : 'bg-[#e0e5ec] border-zinc-300 shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6)]') : (isDark ? 'border-zinc-700 bg-zinc-900/50' : 'border-slate-200 bg-slate-50')}`}>
-                <div className="flex items-center gap-2 mb-2">
-                  <Bell size={12} className="text-blue-500" />
-                  <label className={`text-[10px] uppercase font-bold ${isDark ? 'text-zinc-400' : 'text-slate-500'}`}>时间提醒</label>
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <Bell size={12} className="text-blue-500" />
+                    <label className={`text-[10px] uppercase font-bold ${isDark ? 'text-zinc-400' : 'text-slate-500'}`}>时间提醒</label>
+                  </div>
+                  <button 
+                    onClick={() => setReminderEnabled(!reminderEnabled)}
+                    className={`w-8 h-4 rounded-full relative ${isNeomorphic ? (theme === 'neomorphic-dark' ? reminderEnabled ? 'bg-blue-500' : 'bg-zinc-700' : reminderEnabled ? 'bg-blue-600' : 'bg-slate-300') : reminderEnabled ? 'bg-blue-600' : 'bg-slate-300'} transition-colors duration-300`}
+                  >
+                    <div className={`w-3 h-3 rounded-full absolute top-1/2 transform -translate-y-1/2 ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[1px_1px_2px_rgba(0,0,0,0.4),-1px_-1px_2px_rgba(30,30,46,0.8)]' : 'bg-white shadow-[1px_1px_2px_rgba(163,177,198,0.6),-1px_-1px_2px_rgba(255,255,255,1)]') : 'bg-white shadow-sm'} transition-transform duration-300 ${reminderEnabled ? 'left-[14px]' : 'left-[1px]'}`} />
+                  </button>
                 </div>
                 
                 <div className="space-y-3 pt-2 animate-in fade-in slide-in-from-top-2 duration-300">

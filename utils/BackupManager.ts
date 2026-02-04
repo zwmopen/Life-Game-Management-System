@@ -31,14 +31,14 @@ class BackupManager {
   private initializingPromise: Promise<void> | null = null;
   
   constructor(config?: BackupConfig) {
-    this.config = {
-      localAutoBackup: config?.localAutoBackup ?? true,
-      cloudAutoBackup: config?.cloudAutoBackup ?? false,
-      backupInterval: config?.backupInterval ?? 60, // 默认每小时备份一次
-      retentionDays: config?.retentionDays ?? 7, // 默认保留7天
-      ...config
-    };
-  }
+       this.config = {
+         localAutoBackup: config?.localAutoBackup ?? true,
+         cloudAutoBackup: config?.cloudAutoBackup ?? true, // 默认启用云端备份
+         backupInterval: config?.backupInterval ?? 60, // 默认每小时备份一次
+         retentionDays: config?.retentionDays ?? 7, // 默认保留7天
+         ...config
+       };
+     }
 
   /**
    * 初始化备份管理器
@@ -140,19 +140,40 @@ class BackupManager {
   }
 
   /**
-   * 执行自动备份
-   */
-  private async performAutoBackup(): Promise<void> {
-    console.log('执行自动备份...');
-    
-    if (this.config.localAutoBackup) {
-      await this.createLocalBackup();
-    }
-    
-    if (this.config.cloudAutoBackup && (this.webDAVBackup || this.enhancedWebDAVBackup)) {
-      await this.createCloudBackup();
-    }
-  }
+    * 执行自动备份
+    */
+   private async performAutoBackup(): Promise<void> {
+     console.log('执行自动备份...');
+     
+     try {
+       // 首先执行本地备份
+       if (this.config.localAutoBackup) {
+         console.log('开始本地自动备份...');
+         await this.createLocalBackup(`auto-local-backup-${Date.now()}`);
+         console.log('本地自动备份完成');
+       }
+       
+       // 然后执行云端备份
+       if (this.config.cloudAutoBackup && (this.webDAVBackup || this.enhancedWebDAVBackup)) {
+         console.log('开始云端自动备份...');
+         await this.createCloudBackup(`auto-cloud-backup-${Date.now()}`);
+         console.log('云端自动备份完成');
+       } else if (this.config.cloudAutoBackup) {
+         console.warn('云端自动备份已启用，但WebDAV未配置');
+         // 尝试初始化WebDAV
+         await this.initialize(true);
+         if (this.webDAVBackup || this.enhancedWebDAVBackup) {
+           console.log('WebDAV初始化成功，开始云端自动备份...');
+           await this.createCloudBackup(`auto-cloud-backup-${Date.now()}`);
+           console.log('云端自动备份完成');
+         } else {
+           console.error('WebDAV初始化失败，无法执行云端备份');
+         }
+       }
+     } catch (error) {
+       console.error('自动备份失败:', error);
+     }
+   }
 
   /**
    * 创建本地备份
