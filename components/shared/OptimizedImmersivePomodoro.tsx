@@ -66,7 +66,17 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
   });
   const [isSoundMenuOpen, setIsSoundMenuOpen] = useState(false);
   const [activeHelp, setActiveHelp] = useState<string | null>(null);
-  const [mode, setMode] = useState<'3d' | 'timebox'>('3d'); // 3d模式或时间盒子模式
+  const [mode, setMode] = useState<'3d' | 'timebox'>(() => {
+    const savedMode = localStorage.getItem('immersionPomodoro_mode');
+    return (savedMode === '3d' || savedMode === 'timebox') ? savedMode : '3d';
+  }); // 3d模式或时间盒子模式
+
+  // 处理模式切换并保存到本地存储
+  const handleModeToggle = useCallback(() => {
+    const newMode = mode === '3d' ? 'timebox' : '3d';
+    setMode(newMode);
+    localStorage.setItem('immersionPomodoro_mode', newMode);
+  }, [mode]);
   
   const totalPlantsRef = useRef<HTMLDivElement>(null);
   const todayPlantsRef = useRef<HTMLDivElement>(null);
@@ -329,7 +339,7 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
                       : 'border border-slate-300 shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[7px_7px_14px_rgba(163,177,198,0.7),-7px_-7px_14px_rgba(255,255,255,1)] active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]' 
                     }`
                   : `${isDark ? 'text-zinc-300 hover:text-blue-400 hover:bg-zinc-800/50' : 'text-zinc-500 hover:text-blue-400 hover:bg-white/10'}`}`}
-                onClick={() => setMode(mode === '3d' ? 'timebox' : '3d')}
+                onClick={handleModeToggle}
                 title="切换模式"
                 style={{
                   background: mode === '3d' 
@@ -569,7 +579,7 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
                       : 'border border-slate-300 shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[7px_7px_14px_rgba(163,177,198,0.7),-7px_-7px_14px_rgba(255,255,255,1)] active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]' 
                     }`
                   : `${isDark ? 'text-zinc-300 hover:text-blue-400 hover:bg-zinc-800/50' : 'text-zinc-500 hover:text-blue-400 hover:bg-white/10'}`}`}
-                onClick={() => setMode(mode === '3d' ? 'timebox' : '3d')}
+                onClick={handleModeToggle}
                 title="切换模式"
                 style={{
                   background: mode === '3d' 

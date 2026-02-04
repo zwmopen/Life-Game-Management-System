@@ -475,12 +475,24 @@ const LifeGame: React.FC<LifeGameProps> = ({
       }
       
       // 加载提醒设置
-      if (task.reminder) {
-          setReminderEnabled(task.reminder.enabled);
-          setReminderDate(task.reminder.date || '');
-          setReminderTime(task.reminder.time || '');
-          setReminderRepeat(task.reminder.repeat || 'none');
-          setReminderInterval(task.reminder.repeatInterval?.toString() || '1');
+      let taskReminder = null;
+      if (task.type === TaskType.DAILY) {
+          const habit = habits.find(h => h.id === task.id);
+          taskReminder = habit?.reminder;
+      } else if (task.type === TaskType.MAIN || task.type === 'timebox') {
+          const project = projects.find(p => p.id === task.id);
+          taskReminder = project?.reminder;
+      } else if (task.reminder) {
+          // 对于其他类型的任务，直接使用task.reminder
+          taskReminder = task.reminder;
+      }
+      
+      if (taskReminder) {
+          setReminderEnabled(taskReminder.enabled);
+          setReminderDate(taskReminder.date || '');
+          setReminderTime(taskReminder.time || '');
+          setReminderRepeat(taskReminder.repeat || 'none');
+          setReminderInterval(taskReminder.repeatInterval?.toString() || '1');
       } else {
           setReminderEnabled(false);
           setReminderDate('');

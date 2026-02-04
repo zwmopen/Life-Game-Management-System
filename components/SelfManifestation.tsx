@@ -22,7 +22,6 @@ const SelfManifestation: React.FC<HighestVersionProps> = ({ onHelpClick }) => {
     '九、错误修正与边界管理（零重复犯错，精准筛选环境）': true,
     '十、核心行为准则（ZWM Pro 底层逻辑）': true
   });
-  const [completedTasks, setCompletedTasks] = useState<Set<string>>(new Set());
   const [apiKey, setApiKey] = useState(localStorage.getItem('siliconFlowApiKey') || '');
 
   const updateApiKey = (newKey: string) => {
@@ -867,8 +866,6 @@ const SelfManifestation: React.FC<HighestVersionProps> = ({ onHelpClick }) => {
   // 备份数据功能
   const backupData = () => {
     const dataToBackup = {
-      dailyTasks: dailyTasksData,
-      completedTasks: Array.from(completedTasks),
       savedScripts: savedScripts,
       apiKey: apiKey,
       timestamp: Date.now()
@@ -892,8 +889,6 @@ const SelfManifestation: React.FC<HighestVersionProps> = ({ onHelpClick }) => {
     reader.onload = (e) => {
       try {
         const data = JSON.parse(e.target?.result as string);
-        if (data.dailyTasks) setDailyTasksData(data.dailyTasks);
-        if (data.completedTasks) setCompletedTasks(new Set(data.completedTasks));
         if (data.savedScripts) setSavedScripts(data.savedScripts);
         if (data.apiKey) updateApiKey(data.apiKey);
         alert('数据恢复成功！');

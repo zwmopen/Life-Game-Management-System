@@ -170,23 +170,25 @@ class SoundManager {
   }
 
   // 播放音效
-  playSoundEffect(soundId: string): void {
+  async playSoundEffect(soundId: string): Promise<void> {
     if (this.isMuted) return;
 
     try {
       const audio = this.sounds[soundId] || this.sounds[`${soundId}-fallback`];
       if (audio) {
         audio.currentTime = 0;
-        audio.play().catch(e => {
+        try {
+          await audio.play();
+        } catch (e) {
           if (process.env.NODE_ENV === 'development') {
             console.error('Error playing sound effect:', e);
           }
           // 如果播放失败，尝试直接使用在线音效
-          this.playFallbackSound(soundId);
-        });
+          await this.playFallbackSound(soundId);
+        }
       } else {
         // 如果没有找到对应的音效，尝试播放回退音效
-        this.playFallbackSound(soundId);
+        await this.playFallbackSound(soundId);
       }
     } catch (e) {
       if (process.env.NODE_ENV === 'development') {
@@ -196,7 +198,7 @@ class SoundManager {
   }
 
   // 播放回退音效
-  private playFallbackSound(soundId: string): void {
+  private async playFallbackSound(soundId: string): Promise<void> {
     try {
       // 直接创建音频元素播放回退音效
       let fallbackUrl = '';
@@ -232,11 +234,13 @@ class SoundManager {
       if (fallbackUrl) {
         const audio = new Audio(this.getCorrectAudioUrl(fallbackUrl));
         audio.volume = this.masterVolume;
-        audio.play().catch(e => {
+        try {
+          await audio.play();
+        } catch (e) {
           if (process.env.NODE_ENV === 'development') {
             console.error('Error playing fallback sound:', e);
           }
-        });
+        }
       }
     } catch (e) {
       if (process.env.NODE_ENV === 'development') {
