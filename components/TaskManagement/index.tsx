@@ -2,7 +2,92 @@
  * 任务管理主组件
  * 整合日常任务、主线任务和命运骰子任务
  * 
- * 性能优化：使用React.memo包裹组件，仅在props变化时重新渲染
+ * @component
+ * @description 任务管理模块是游戏的核心功能之一，允许用户管理日常显化、时间盒子和命运骰子任务
+ * @param {number} balance - 用户当前余额
+ * @param {Function} onUpdateBalance - 更新余额的回调函数
+ * @param {Array} habitTasks - 习惯任务列表
+ * @param {Array} projectTasks - 项目任务列表
+ * @param {Object} diceState - 命运骰子状态
+ * @param {Array} habits - 习惯列表
+ * @param {Array} projects - 项目列表
+ * @param {string} taskCategory - 当前任务分类
+ * @param {Function} setTaskCategory - 设置任务分类的回调函数
+ * @param {Function} onCompleteTask - 完成任务的回调函数
+ * @param {Function} onGiveUpTask - 放弃任务的回调函数
+ * @param {Function} onOpenEditTask - 打开任务编辑的回调函数
+ * @param {Function} onToggleSubTask - 切换子任务状态的回调函数
+ * @param {Function} onGiveUpSubTask - 放弃子任务的回调函数
+ * @param {Function} onStartTimer - 开始计时器的回调函数
+ * @param {Function} onDragStart - 开始拖拽的回调函数
+ * @param {Function} onDragEnd - 结束拖拽的回调函数
+ * @param {Function} onDragOver - 拖拽经过的回调函数
+ * @param {Object} draggedTask - 正在拖拽的任务
+ * @param {Function} onSpinDice - 旋转骰子的回调函数
+ * @param {Function} onUpdateDiceState - 更新骰子状态的回调函数
+ * @param {Function} onDiceResult - 处理骰子结果的回调函数
+ * @param {Function} onChangeDuration - 更改时长的回调函数
+ * @param {Function} onToggleTimer - 切换计时器的回调函数
+ * @param {Function} onAddFloatingReward - 添加浮动奖励的回调函数
+ * @param {string} theme - 当前主题
+ * @param {string} cardBg - 卡片背景样式
+ * @param {string} textMain - 主文本样式
+ * @param {string} textSub - 次文本样式
+ * @param {boolean} isDark - 是否为深色模式
+ * @param {boolean} isNeomorphic - 是否为拟态风格
+ * @param {Function} onShowHelp - 显示帮助的回调函数
+ * @param {string} todayStr - 今日日期字符串
+ * @param {Function} setIsImmersive - 设置沉浸式模式的回调函数
+ * @param {Function} onAddTask - 添加任务的回调函数
+ * @param {Function} onOpenTaskManagement - 打开任务管理的回调函数
+ * @param {Function} setIsNavCollapsed - 设置导航栏折叠状态的回调函数
+ * 
+ * @example
+ * // 基本用法
+ * <TaskManagement
+ *   habitTasks={habitTasks}
+ *   projectTasks={projectTasks}
+ *   diceState={diceState}
+ *   habits={habits}
+ *   projects={projects}
+ *   taskCategory={taskCategory}
+ *   setTaskCategory={setTaskCategory}
+ *   onCompleteTask={onCompleteTask}
+ *   onGiveUpTask={onGiveUpTask}
+ *   onOpenEditTask={onOpenEditTask}
+ *   onToggleSubTask={onToggleSubTask}
+ *   onGiveUpSubTask={onGiveUpSubTask}
+ *   onStartTimer={onStartTimer}
+ *   onDragStart={onDragStart}
+ *   onDragEnd={onDragEnd}
+ *   onDragOver={onDragOver}
+ *   draggedTask={draggedTask}
+ *   onSpinDice={onSpinDice}
+ *   onUpdateDiceState={onUpdateDiceState}
+ *   onDiceResult={onDiceResult}
+ *   onChangeDuration={onChangeDuration}
+ *   onToggleTimer={onToggleTimer}
+ *   onAddFloatingReward={onAddFloatingReward}
+ *   theme={theme}
+ *   cardBg={cardBg}
+ *   textMain={textMain}
+ *   textSub={textSub}
+ *   isDark={isDark}
+ *   isNeomorphic={isNeomorphic}
+ *   onShowHelp={onShowHelp}
+ *   todayStr={todayStr}
+ *   setIsImmersive={setIsImmersive}
+ *   onAddTask={onAddTask}
+ *   onOpenTaskManagement={onOpenTaskManagement}
+ *   setIsNavCollapsed={setIsNavCollapsed}
+ * />
+ * 
+ * @returns {JSX.Element} 任务管理组件
+ * 
+ * @performance 使用React.memo包裹组件，仅在props变化时重新渲染
+ * @see TaskList - 任务列表组件
+ * @see DiceTaskList - 命运骰子任务列表组件
+ * @see FateDice - 命运骰子组件
  */
 
 import React, { useCallback, useMemo, useState } from 'react';
@@ -274,8 +359,8 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
   return (
     <div className="space-y-4">
       {/* 任务分类导航 */}
-      <div className={`${cardBg} border p-2 sm:p-3 rounded-xl flex flex-col items-stretch gap-3`}>
-        <div className="flex items-center gap-1 sm:gap-2 overflow-x-auto pb-1 -mx-1 px-1">
+      <div className={`${cardBg} border p-2 sm:p-3 rounded-xl flex flex-wrap items-center gap-3`}>
+        <div className="flex items-center gap-1 sm:gap-2 overflow-x-auto pb-1 -mx-1 px-1 flex-shrink-0">
           <button 
             onClick={() => setTaskCategory('daily')} 
             className={`flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full transition-all font-semibold text-xs sm:text-sm whitespace-nowrap ${
@@ -372,7 +457,7 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
         </div>
 
         {/* 任务进度条 */}
-        <div className="w-full sm:w-auto sm:flex-1 sm:max-w-xs">
+        <div className="flex-1 min-w-[200px] sm:min-w-[300px]">
           <div className="flex items-center justify-between text-xs mb-1">
             <span className={textSub}>当前任务完成率<span className="font-black">{taskProgress.percentage}</span>，<span className="font-black">{taskProgress.completed} / {taskProgress.total}</span> 个任务已完成</span>
           </div>

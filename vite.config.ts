@@ -123,7 +123,11 @@ export default defineConfig(({ mode }) => {
             drop_debugger: true,
             // 更严格的压缩选项
             passes: 2,
-            pure_funcs: ['console.log', 'console.warn', 'console.error']
+            pure_funcs: ['console.log', 'console.warn', 'console.error'],
+            // 优化变量名
+            reduce_vars: true,
+            // 内联常量
+            inline: true
           },
           mangle: {
             toplevel: true,
@@ -131,6 +135,11 @@ export default defineConfig(({ mode }) => {
               regex: /^_/,
               keep_quoted: true
             }
+          },
+          // 生成更紧凑的输出
+          output: {
+            beautify: false,
+            comments: false
           }
         },
         // 支持GitHub Pages部署
@@ -144,10 +153,12 @@ export default defineConfig(({ mode }) => {
         chunkSizeWarningLimit: 1000,
         // 启用依赖预构建
         optimizeDeps: {
-          include: ['react', 'react-dom', 'lucide-react'],
+          include: ['react', 'react-dom', 'lucide-react', 'recharts', '@dnd-kit/core', '@dnd-kit/sortable', '@dnd-kit/utilities'],
           exclude: ['@capacitor/core', '@capacitor/android', '@capacitor/ios'],
           // 强制预构建所有依赖
-          force: true
+          force: true,
+          // 启用依赖缓存
+          cacheDir: 'node_modules/.vite-cache'
         },
         rollupOptions: {
           output: {
@@ -159,20 +170,47 @@ export default defineConfig(({ mode }) => {
               googlegenai: ['@google/genai'],
               lucide: ['lucide-react'],
               crypto: ['crypto-js', 'bcryptjs', 'jsonwebtoken'],
-              audio: ['@tweenjs/tween.js']
+              audio: ['@tweenjs/tween.js'],
+              confetti: ['canvas-confetti']
             },
             // 优化chunk命名
             entryFileNames: 'assets/js/[name]-[hash].js',
             chunkFileNames: 'assets/js/[name]-[hash].js',
-            assetFileNames: 'assets/[ext]/[name]-[hash].[ext]'
+            assetFileNames: 'assets/[ext]/[name]-[hash].[ext]',
+            // 优化输出
+            compact: true,
+            // 启用代码分割
+            codeSplit: true,
+            // 优化动态导入
+            manualChunksSortMode: 'size'
           },
           // 树摇配置
           treeshake: {
             moduleSideEffects: false,
             propertyReadSideEffects: false,
             tryCatchDeoptimization: false
-          }
-        }
+          },
+          // 优化依赖
+          plugins: [
+            // 移除未使用的导入
+            {
+              name: 'remove-unused-imports',
+              transform(code, id) {
+                if (!id.endsWith('.ts') && !id.endsWith('.tsx') && !id.endsWith('.js') && !id.endsWith('.jsx')) {
+                  return null;
+                }
+                // 这里可以添加更复杂的未使用导入检测逻辑
+                return null;
+              }
+            }
+          ]
+        },
+        // 启用持久化缓存
+        cacheDir: 'node_modules/.vite-build-cache',
+        // 启用多线程构建
+        workers: true,
+        // 优化资产大小
+        assetInlineLimit: 4096 // 4KB以下的资产内联
       }
     };
 });

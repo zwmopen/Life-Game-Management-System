@@ -51,6 +51,7 @@ import { useTaskReducer } from './hooks/useTaskReducer';
 // 导入音效管理库
 import soundManagerOptimized from './utils/soundManagerOptimized';
 import backupManager from './utils/BackupManager';
+import syncManager from './utils/SyncManager';
 
 // 导入全局音频管理器
 import { GlobalAudioProvider, GlobalBackgroundMusicManager } from './components/GlobalAudioManagerOptimized';
@@ -230,6 +231,9 @@ const App: React.FC = () => {
     
     // 初始化备份管理器
     backupManager.initialize();
+    
+    // 初始化同步管理器
+    syncManager.initialize();
     
     // 执行坚果云配置迁移
     migrateOldWebDAVConfig();
@@ -431,11 +435,25 @@ const App: React.FC = () => {
         todayGoal, 
         givenUpTasks, // Persist this
         lastLoginDate: new Date().toLocaleDateString(),
-        startDate: localStorage.getItem('aes-global-data-v3') ? JSON.parse(localStorage.getItem('aes-global-data-v3')!).startDate : new Date().toISOString()
+        startDate: (() => {
+            const globalDataStr = localStorage.getItem('aes-global-data-v3');
+            try {
+                return globalDataStr ? JSON.parse(globalDataStr).startDate : new Date().toISOString();
+            } catch {
+                return new Date().toISOString();
+            }
+        })()
     };
     localStorage.setItem('aes-global-data-v3', JSON.stringify(data));
     
-    const lgStats = localStorage.getItem('life-game-stats-v2') ? JSON.parse(localStorage.getItem('life-game-stats-v2')!) : {};
+    const lgStats = (() => {
+        const statsStr = localStorage.getItem('life-game-stats-v2');
+        try {
+            return statsStr ? JSON.parse(statsStr) : {};
+        } catch {
+            return {};
+        }
+    })();
     lgStats.xp = xp;
     localStorage.setItem('life-game-stats-v2', JSON.stringify(lgStats));
 
