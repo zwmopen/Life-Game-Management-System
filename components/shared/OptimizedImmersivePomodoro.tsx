@@ -65,6 +65,7 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
   });
   const [isSoundMenuOpen, setIsSoundMenuOpen] = useState(false);
   const [activeHelp, setActiveHelp] = useState<string | null>(null);
+  const [mode, setMode] = useState<'3d' | 'timebox'>('3d'); // 3d模式或时间盒子模式
   
   const totalPlantsRef = useRef<HTMLDivElement>(null);
   const todayPlantsRef = useRef<HTMLDivElement>(null);
@@ -298,25 +299,53 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
     <div className={`fixed inset-0 z-50 flex flex-col bg-transparent`}>
       {/* 主容器 */}
       <div ref={containerRef} className="absolute inset-0 w-full h-full">
-        {/* 优化后的3D场景组件 */}
-        <OptimizedImmersivePomodoro3D
-          theme={theme}
-          totalPlants={totalPlants}
-          currentSeed={currentSeed}
-          isFocusing={isFocusing}
-          isPaused={isPaused}
-          onEntityCreated={(entity) => {
-            // 当3D实体创建时的回调
-            console.log('Entity created:', entity);
-          }}
-        />
-        
-        {/* 退出按钮 */}
-        <div className="exit-btn" id="exitBtn" onClick={onExitImmersive}>✕</div>
+        {mode === '3d' ? (
+          /* 3D模式 */
+          <>
+            {/* 优化后的3D场景组件 */}
+            <OptimizedImmersivePomodoro3D
+              theme={theme}
+              totalPlants={totalPlants}
+              currentSeed={currentSeed}
+              isFocusing={isFocusing}
+              isPaused={isPaused}
+              onEntityCreated={(entity) => {
+                // 当3D实体创建时的回调
+                console.log('Entity created:', entity);
+              }}
+            />
+            
+            {/* 顶部控制按钮组 */}
+            <div className="fixed top-0 right-0 flex items-center justify-end gap-4 p-4 z-10">
+              {/* 模式切换按钮 */}
+              <button 
+                className={`w-10 h-10 rounded-full flex items-center justify-center ${isNeomorphic 
+                  ? `${isDark 
+                      ? 'bg-[#1e1e2e] border border-zinc-700 shadow-[5px_5px_10px_rgba(0,0,0,0.3),-5px_-5px_10px_rgba(40,43,52,0.8)] hover:shadow-[5px_5px_10px_rgba(0,0,0,0.4),-5px_-5px_10px_rgba(40,43,52,1)] active:shadow-[inset_5px_5px_10px_rgba(0,0,0,0.3),inset_-5px_-5px_10px_rgba(40,43,52,0.8)]' 
+                      : 'bg-[#e0e5ec] border border-slate-300 shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[5px_5px_10px_rgba(163,177,198,0.7),-5px_-5px_10px_rgba(255,255,255,1)] active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]' 
+                    }`
+                  : `${isDark ? 'text-zinc-300 hover:text-blue-400 hover:bg-zinc-800/50' : 'text-zinc-500 hover:text-blue-400 hover:bg-white/10'}`}`}
+                onClick={() => setMode(mode === '3d' ? 'timebox' : '3d')}
+                title="切换模式"
+                style={{
+                  background: mode === '3d' 
+                    ? 'linear-gradient(90deg, #2563eb 50%, #ffffff 50%)' 
+                    : 'linear-gradient(90deg, #ffffff 50%, #2563eb 50%)',
+                  backgroundSize: '100% 100%',
+                  transition: 'background-position 0.3s ease',
+                  backgroundPosition: mode === '3d' ? '0% 0%' : '100% 0%'
+                }}
+              >
+                <div className="w-0.5 h-6 bg-black rounded-full" style={{ marginLeft: '50%', transform: 'translateX(-50%)' }}></div>
+              </button>
+              
+              {/* 退出按钮 */}
+              <div className="exit-btn" id="exitBtn" onClick={onExitImmersive}>✕</div>
+            </div>
 
-        {/* UI容器 */}
-        <div className="ui-container">
-          {/* 顶部数据栏 - 合并的统计面板 - 修改条件，在专注模式下完全隐藏 */}
+            {/* UI容器 */}
+            <div className="ui-container">
+              {/* 顶部数据栏 - 合并的统计面板 - 修改条件，在专注模式下完全隐藏 */}
           <div className={`stats-bar ${isFocusing && !isPaused ? 'hidden' : ''}`}>
             <div 
               ref={totalPlantsRef}
@@ -370,10 +399,10 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
                     )}
                   </div>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-4 ml-auto pl-8">
                   {/* 主题切换按钮 - 模拟白天/黑夜效果 */}
                   <button 
-                    className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                    className="p-2 rounded-full transition-all duration-300 hover:scale-110 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     onClick={() => {
                       // 触发全局主题切换
                       const themeToggleBtn = document.querySelector('.theme-toggle') as HTMLElement;
@@ -383,15 +412,20 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
                     }}
                     title="切换主题（白天/黑夜）"
                   >
-                    {isDark ? <Sun size={16} className="text-yellow-400" /> : <Moon size={16} className="text-gray-600" />}
+                    {isDark ? <Sun size={18} className="text-yellow-400" /> : <Moon size={18} className="text-gray-600" />}
                   </button>
                   {/* 统计数据使用指南小问号 */}
-                  <GlobalHelpButton 
-                    helpId="stats" 
-                    onHelpClick={setActiveHelp} 
-                    size={14}
-                    variant="ghost"
-                  />
+                  <button
+                    className="p-2 rounded-full transition-all duration-300 hover:scale-110 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    onClick={() => setActiveHelp('pomodoro-guide')}
+                    title="查看说明"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-500">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                      <path d="M12 17h.01"></path>
+                    </svg>
+                  </button>
                 </div>
               </div>
             </div>
@@ -518,7 +552,114 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
               </div>
             ))}
           </div>
+
         </div>
+          </>
+        ) : (
+          /* 时间盒子模式 */
+          <div className={`fixed inset-0 ${isNeomorphicDark ? 'bg-[#1e1e2e]' : isDark ? 'bg-[#1a202c]' : 'bg-[#e0e5ec]'} flex items-center justify-center z-[100000]`}>
+            {/* 顶部控制按钮组 */}
+            <div className="fixed top-0 right-0 flex items-center justify-end gap-4 p-4 z-10">
+              {/* 模式切换按钮 */}
+              <button 
+                className={`w-10 h-10 rounded-full flex items-center justify-center ${isNeomorphic 
+                  ? `${isDark 
+                      ? 'bg-[#1e1e2e] border border-zinc-700 shadow-[5px_5px_10px_rgba(0,0,0,0.3),-5px_-5px_10px_rgba(40,43,52,0.8)] hover:shadow-[5px_5px_10px_rgba(0,0,0,0.4),-5px_-5px_10px_rgba(40,43,52,1)] active:shadow-[inset_5px_5px_10px_rgba(0,0,0,0.3),inset_-5px_-5px_10px_rgba(40,43,52,0.8)]' 
+                      : 'bg-[#e0e5ec] border border-slate-300 shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[5px_5px_10px_rgba(163,177,198,0.7),-5px_-5px_10px_rgba(255,255,255,1)] active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]' 
+                    }`
+                  : `${isDark ? 'text-zinc-300 hover:text-blue-400 hover:bg-zinc-800/50' : 'text-zinc-500 hover:text-blue-400 hover:bg-white/10'}`}`}
+                onClick={() => setMode(mode === '3d' ? 'timebox' : '3d')}
+                title="切换模式"
+                style={{
+                  background: mode === '3d' 
+                    ? 'linear-gradient(90deg, #2563eb 50%, #ffffff 50%)' 
+                    : 'linear-gradient(90deg, #ffffff 50%, #2563eb 50%)',
+                  backgroundSize: '100% 100%',
+                  transition: 'background-position 0.3s ease',
+                  backgroundPosition: mode === '3d' ? '0% 0%' : '100% 0%'
+                }}
+              >
+                <div className="w-0.5 h-6 bg-black rounded-full" style={{ marginLeft: '50%', transform: 'translateX(-50%)' }}></div>
+              </button>
+              
+              {/* 退出按钮 */}
+              <div className="exit-btn" id="exitBtn" onClick={onExitImmersive}>✕</div>
+            </div>
+            
+            <div className="flex flex-col items-center justify-center">
+              <div className="relative w-96 h-96 mb-10">
+                {/* 背景圆形 */}
+                <div className={`absolute inset-0 rounded-full ${isNeomorphic 
+                  ? `${isDark 
+                      ? 'bg-[#1e1e2e] shadow-[5px_5px_10px_rgba(0,0,0,0.3),-5px_-5px_10px_rgba(40,43,52,0.8)]' 
+                      : 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)]' 
+                    }`
+                  : ''}`}></div>
+                
+                {/* 进度条倒计时 */}
+                <svg className="absolute inset-0" width="100%" height="100%" viewBox="0 0 300 300">
+                  <circle
+                    cx="150"
+                    cy="150"
+                    r="130"
+                    fill="none"
+                    stroke={isDark ? 'rgba(30, 64, 175, 0.3)' : 'rgba(30, 64, 175, 0.2)'}
+                    strokeWidth="12"
+                  />
+                  <circle
+                    cx="150"
+                    cy="150"
+                    r="130"
+                    fill="none"
+                    stroke={isDark ? '#3b82f6' : '#2563eb'}
+                    strokeWidth="12"
+                    strokeLinecap="round"
+                    transform="rotate(-90 150 150)"
+                    strokeDasharray={`${2 * Math.PI * 130}`}
+                    strokeDashoffset={`${2 * Math.PI * 130 * (1 - secondsRemaining / currentDuration)}`}
+                    className="transition-all duration-1000 ease-linear"
+                  />
+                </svg>
+                
+                {/* 中心内容 */}
+                <div className="absolute inset-0 flex items-center justify-center flex-col">
+                  <h2 className={`text-2xl font-semibold mb-4 text-center ${isDark ? 'text-zinc-100' : 'text-zinc-800'}`}>时间盒子倒计时</h2>
+                  <h3 className={`text-xl font-medium mb-6 text-center ${isDark ? 'text-blue-300' : 'text-blue-600'}`}>实现任务状态管理</h3>
+                  <span className={`text-7xl font-bold ${isDark ? 'text-zinc-100' : 'text-zinc-800'}`}>
+                    {formatTime(secondsRemaining)}
+                  </span>
+                </div>
+              </div>
+              <div className="flex space-x-8">
+                <button
+                  onClick={() => isFocusing ? pauseFocus() : startFocus()}
+                  className={`px-10 py-4 rounded-lg text-base font-medium transition-all ${isNeomorphic 
+                    ? `${isDark 
+                        ? 'bg-[#1e1e2e] border border-zinc-700 shadow-[5px_5px_10px_rgba(0,0,0,0.3),-5px_-5px_10px_rgba(40,43,52,0.8)] hover:shadow-[inset_5px_5px_10px_rgba(0,0,0,0.3),inset_-5px_-5px_10px_rgba(40,43,52,0.8)]' 
+                        : 'bg-[#e0e5ec] border border-slate-300 shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]' 
+                      }`
+                    : ''} ${isDark ? 'text-zinc-300' : 'text-zinc-600'}`}
+                >
+                  {isFocusing ? '暂停' : '开始'}
+                </button>
+                <button
+                  onClick={() => {
+                    resetFocus();
+                    onExitImmersive();
+                  }}
+                  className={`px-10 py-4 rounded-lg text-base font-medium transition-all ${isNeomorphic 
+                    ? `${isDark 
+                        ? 'bg-[#1e1e2e] border border-zinc-700 shadow-[5px_5px_10px_rgba(0,0,0,0.3),-5px_-5px_10px_rgba(40,43,52,0.8)] hover:shadow-[inset_5px_5px_10px_rgba(0,0,0,0.3),inset_-5px_-5px_10px_rgba(40,43,52,0.8)]' 
+                        : 'bg-[#e0e5ec] border border-slate-300 shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]' 
+                      }`
+                    : ''} ${isDark ? 'text-zinc-300' : 'text-zinc-600'}`}
+                >
+                  完成
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
       
       {/* 样式已移至外部CSS文件 */}

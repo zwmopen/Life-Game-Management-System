@@ -28,7 +28,6 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
     { id: View.HALL_OF_FAME, label: '荣誉殿堂（成就）', icon: Medal },
     { id: View.BLACK_MARKET, label: '补给黑市（奖励）', icon: ShoppingBag },
     { id: View.THINKING_CENTER, label: '思维中心（模型）', icon: Book },
-    { id: View.TIME_BOX, label: '时间盒子（beta）', icon: Clock },
     { id: View.HIGHEST_VERSION, label: '自我显化（对齐）', icon: Star },
     { id: View.SETTINGS, label: '设置中心（配置）', icon: Settings },
   ]);

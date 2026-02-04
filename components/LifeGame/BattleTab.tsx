@@ -128,12 +128,48 @@ const BattleTab: React.FC<BattleTabProps> = memo(({
   const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
   const [editingProjectSubTasks, setEditingProjectSubTasks] = useState<SubTask[]>([]);
   
-  // 提醒设置状态
-  const [reminderEnabled, setReminderEnabled] = useState(false);
-  const [reminderDate, setReminderDate] = useState('');
-  const [reminderTime, setReminderTime] = useState('');
-  const [reminderRepeat, setReminderRepeat] = useState<'none' | 'daily' | 'weekly' | 'monthly' | 'custom'>('none');
-  const [reminderInterval, setReminderInterval] = useState('1');
+  // 提醒设置状态 - 从本地存储加载初始值
+  const [reminderEnabled, setReminderEnabled] = useState(() => {
+    const saved = localStorage.getItem('life-game-reminder-enabled');
+    return saved ? JSON.parse(saved) : true; // 默认启用
+  });
+  const [reminderDate, setReminderDate] = useState(() => {
+    const saved = localStorage.getItem('life-game-reminder-date');
+    return saved || new Date().toISOString().split('T')[0]; // 默认今天
+  });
+  const [reminderTime, setReminderTime] = useState(() => {
+    const saved = localStorage.getItem('life-game-reminder-time');
+    return saved || new Date().toTimeString().split(' ')[0].substring(0, 5); // 默认当前时间
+  });
+  const [reminderRepeat, setReminderRepeat] = useState<'none' | 'daily' | 'weekly' | 'monthly' | 'custom'>(() => {
+    const saved = localStorage.getItem('life-game-reminder-repeat');
+    return (saved as 'none' | 'daily' | 'weekly' | 'monthly' | 'custom') || 'none';
+  });
+  const [reminderInterval, setReminderInterval] = useState(() => {
+    const saved = localStorage.getItem('life-game-reminder-interval');
+    return saved || '1';
+  });
+
+  // 实时保存提醒设置到本地存储
+  useEffect(() => {
+    localStorage.setItem('life-game-reminder-enabled', JSON.stringify(reminderEnabled));
+  }, [reminderEnabled]);
+
+  useEffect(() => {
+    localStorage.setItem('life-game-reminder-date', reminderDate);
+  }, [reminderDate]);
+
+  useEffect(() => {
+    localStorage.setItem('life-game-reminder-time', reminderTime);
+  }, [reminderTime]);
+
+  useEffect(() => {
+    localStorage.setItem('life-game-reminder-repeat', reminderRepeat);
+  }, [reminderRepeat]);
+
+  useEffect(() => {
+    localStorage.setItem('life-game-reminder-interval', reminderInterval);
+  }, [reminderInterval]);
 
   // 使用提醒 Hook
   const { activeReminder, setActiveReminder } = useReminders(habits, projects, onUpdateHabit, onUpdateProject);

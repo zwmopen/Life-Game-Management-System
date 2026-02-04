@@ -465,9 +465,6 @@
 
 /* 退出按钮 */
 .exit-btn {
-  position: absolute;
-  top: 30px;
-  right: 30px;
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -478,7 +475,6 @@
   align-items: center;
   cursor: pointer;
   transition: all 0.2s ease;
-  z-index: 100;
   font-size: 20px;
   font-weight: bold;
   color: var(--text-main);

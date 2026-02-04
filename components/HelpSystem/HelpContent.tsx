@@ -494,6 +494,63 @@ export const helpContent: Record<string, HelpContentItem> = {
         </div>
       </div>
     `,
-    updateTime: '2026-02-02'
+    updateTime: '2026-02-04'
+  },
+  
+  // 番茄钟全屏界面帮助卡片
+  'pomodoro-guide': {
+    title: '【番茄钟全屏界面】使用指南',
+    icon: <Clock size={24} className="text-blue-500" />,
+    productIntro: '番茄钟全屏界面是一个专为专注设计的沉浸式环境，提供3D大陆和时间盒子两种模式，帮助用户在无干扰的环境中保持高效专注。',
+    underlyingPrinciple: '基于沉浸式设计理念和专注心理学，通过去除干扰元素和提供视觉反馈，创造一个专注于当前任务的环境。结合游戏化元素，将专注时间转化为植物生长，增强用户的持续动力。',
+    coreRules: '支持两种模式切换：3D大陆模式和时间盒子模式；3D大陆模式下可选择不同种子进行种植，植物生长与专注度关联；时间盒子模式提供倒计时功能，帮助用户管理时间；支持深色/浅色主题切换，适应不同使用环境。',
+    usageMethods: '1. 3D大陆模式：选择左侧种子，点击中心圆环开始专注，专注时间会转化为植物生长；2. 时间盒子模式：查看倒计时，点击开始/暂停按钮控制计时；3. 点击右上角模式切换按钮在两种模式间切换；4. 点击左上角月亮图标切换主题；5. 点击左上角问号图标查看此帮助内容。',
+    detailedContent: `
+      <div class="space-y-6">
+        <div>
+          <h4 class="text-lg font-medium mb-3">时间界面说明</h4>
+          <p class="pl-4">时间界面设计目的是提供沉浸式专注环境，去除所有干扰元素，让用户能够全神贯注于当前任务。通过清晰的倒计时和视觉反馈，帮助用户保持专注状态。</p>
+        </div>
+        
+        <div>
+          <h4 class="text-lg font-medium mb-3">按钮行为说明</h4>
+          <ul class="space-y-2 pl-4">
+            <li class="flex items-start">
+              <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+              <span><strong>完成按钮</strong>：点击后直接返回任务界面，结束当前专注 session。</span>
+            </li>
+            <li class="flex items-start">
+              <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+              <span><strong>暂停按钮</strong>：点击后暂停当前计时，再次点击可继续。</span>
+            </li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="text-lg font-medium mb-3">3D大陆界面说明</h4>
+          <p class="pl-4 mb-3">3D大陆界面是一个游戏化的专注环境，通过植物生长来可视化专注时间。</p>
+          <ul class="space-y-2 pl-4">
+            <li class="flex items-start">
+              <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+              <span><strong>左侧种子选择</strong>：提供多种植物和动物种子供选择，不同种子代表不同类型的专注。</span>
+            </li>
+            <li class="flex items-start">
+              <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+              <span><strong>中间植物生长</strong>：专注时间会转化为植物的生长进度，专注度越高，植物生长越快。</span>
+            </li>
+            <li class="flex items-start">
+              <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
+              <span><strong>Frost森林种植玩法</strong>：在3D大陆的Frost森林中，你可以种植各种植物，通过持续的专注来培育它们成长。</span>
+            </li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="text-lg font-medium mb-3">主题切换功能</h4>
+          <p class="pl-4">点击左上角的月亮图标可以切换深色/浅色模式，系统会自动保存你的主题偏好，并在所有界面（包括侧边栏和人生游戏系统导航栏）统一应用新主题。</p>
+        </div>
+      </div>
+    `,
+    updateTime: '2026-02-04'
   }
 };
