@@ -72,7 +72,15 @@ const DiceTaskList: React.FC<DiceTaskListProps> = memo(({
               <span className="text-blue-500">时长 {taskRecord.task.duration}m</span>
             )}
             {taskRecord.task.reminder && taskRecord.task.reminder.enabled && taskRecord.task.reminder.time && (
-              <span className="text-green-500">时间 {taskRecord.task.reminder.time}</span>
+              <span className="text-green-500">{taskRecord.task.reminder.time}</span>
+            )}
+            {taskRecord.task.priority && (
+              <span className="flex items-center gap-1">
+                <span className={`${taskRecord.task.priority === 'high' ? 'text-red-500' : taskRecord.task.priority === 'medium' ? 'text-yellow-500' : 'text-green-500'}`}>
+                  {taskRecord.task.priority === 'high' ? '🔥' : taskRecord.task.priority === 'medium' ? '⚡' : '🌱'}
+                </span>
+                <span className="text-zinc-500">{taskRecord.task.priority === 'high' ? '高' : taskRecord.task.priority === 'medium' ? '中' : '低'}</span>
+              </span>
             )}
           </div>
         </div>

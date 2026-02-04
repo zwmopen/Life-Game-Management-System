@@ -9,7 +9,6 @@ interface HighestVersionProps {
 const SelfManifestation: React.FC<HighestVersionProps> = ({ onHelpClick }) => {
   const { theme } = useTheme();
   const [activeTab, setActiveTab] = useState('overview');
-  const [activeAiTab, setActiveAiTab] = useState('review-ai');
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
     '一、基础身份标识': true,
     '二、作息与时间管理（已固化为本能）': true,
@@ -23,12 +22,6 @@ const SelfManifestation: React.FC<HighestVersionProps> = ({ onHelpClick }) => {
     '十、核心行为准则（ZWM Pro 底层逻辑）': true
   });
   const [completedTasks, setCompletedTasks] = useState<Set<string>>(new Set());
-  const [apiKey, setApiKey] = useState(localStorage.getItem('siliconFlowApiKey') || '');
-
-  const updateApiKey = (newKey: string) => {
-    setApiKey(newKey);
-    localStorage.setItem('siliconFlowApiKey', newKey);
-  };
   const [currentScript, setCurrentScript] = useState('');
   const [savedScripts, setSavedScripts] = useState<Array<{id: string, content: string, timestamp: number}>>([]);
   const [editingScriptId, setEditingScriptId] = useState<string | null>(null);
@@ -919,15 +912,14 @@ const SelfManifestation: React.FC<HighestVersionProps> = ({ onHelpClick }) => {
               { id: 'overview', label: '系统总览' },
               { id: 'blueprint', label: '身份蓝图' },
               { id: 'scripting', label: '现实剧本' },
-              { id: 'subbgm', label: 'SUB&KDY' },
-              { id: 'ai', label: 'AI 助理' }
+              { id: 'subbgm', label: 'SUB&KDY' }
             ].map(tab => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-6 py-3 rounded-full transition-all duration-300 transform ${activeTab === tab.id 
+                className={`px-6 py-2 rounded-full transition-all duration-300 transform ${activeTab === tab.id 
                   ? `${themeStyles.tabActiveBg} ${themeStyles.text} ${theme === 'neomorphic-dark' ? 'shadow-[inset_3px_3px_6px_rgba(0,0,0,0.3),inset_-3px_-3px_6px_rgba(30,30,46,0.7)]' : 'shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,1)]'} scale-105` 
-                  : `${themeStyles.mutedText} hover:${themeStyles.text} ${theme === 'neomorphic-dark' ? 'hover:bg-[#1e1e2e] hover:shadow-[12px_12px_24px_rgba(0,0,0,0.5),-12px_-12px_24px_rgba(30,30,46,1)]' : 'hover:bg-[#e0e5ec] hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)]'} hover:scale-105`}`}
+                  : `${themeStyles.text} ${theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[12px_12px_24px_rgba(0,0,0,0.5),-12px_-12px_24px_rgba(30,30,46,1)] hover:shadow-[10px_10px_20px_rgba(0,0,0,0.4),-10px_-10px_20px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] hover:shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)]'} hover:scale-105`}`}
               >
                 {tab.label}
               </button>
@@ -947,17 +939,17 @@ const SelfManifestation: React.FC<HighestVersionProps> = ({ onHelpClick }) => {
               </p>
             </div>
             <div className="p-6 overflow-x-auto">
-              <table className="w-full text-left">
+              <table className={`w-full text-left border-collapse ${theme === 'neomorphic-dark' ? 'border-[#2d2d3f] border' : 'border-[#b0b5bc] border'}`}>
                 <thead>
-                  <tr className={`border-b ${themeStyles.cardBorder} border`}>
-                    <th className="py-4 px-6 font-semibold ${themeStyles.mutedText}">核心维度</th>
-                    <th className="py-4 px-6 font-semibold ${themeStyles.mutedText}">
+                  <tr className={`border-b ${theme === 'neomorphic-dark' ? 'border-[#2d2d3f] border' : 'border-[#b0b5bc] border'}`}>
+                    <th className={`py-4 px-6 font-semibold ${themeStyles.mutedText} ${theme === 'neomorphic-dark' ? 'border-r border-[#2d2d3f]' : 'border-r border-[#b0b5bc]'}`}>核心维度</th>
+                    <th className={`py-4 px-6 font-semibold ${themeStyles.mutedText} ${theme === 'neomorphic-dark' ? 'border-r border-[#2d2d3f]' : 'border-r border-[#b0b5bc]'}`}>
                       ⚠️ 旧版本 ZWM Legacy (v0.9) 
                       <span className={`inline-flex items-center ml-2 px-2 py-1 rounded-full text-xs font-bold ${themeStyles.destructiveBadgeBg} text-white`}>
                         已卸载
                       </span>
                     </th>
-                    <th className="py-4 px-6 font-semibold ${themeStyles.mutedText}">
+                    <th className={`py-4 px-6 font-semibold ${themeStyles.mutedText}`}>
                       🚀 最高版本 ZWM Pro (V_Max) 
                       <span className={`inline-flex items-center ml-2 px-2 py-1 rounded-full text-xs font-bold ${themeStyles.secondaryBadgeBg} ${themeStyles.secondaryBadgeText}`}>
                         运行中
@@ -967,9 +959,9 @@ const SelfManifestation: React.FC<HighestVersionProps> = ({ onHelpClick }) => {
                 </thead>
                 <tbody>
                   {versionComparisonData.map((row, index) => (
-                    <tr key={index} className={`border-b ${themeStyles.cardBorder} border`}>
-                      <td className={`py-4 px-6 font-medium ${themeStyles.text}`}>{row.dimension}</td>
-                      <td className={`py-4 px-6 ${themeStyles.text}`} dangerouslySetInnerHTML={{ __html: row.oldVersion }} />
+                    <tr key={index} className={`border-b ${theme === 'neomorphic-dark' ? 'border-[#2d2d3f] border' : 'border-[#b0b5bc] border'}`}>
+                      <td className={`py-4 px-6 font-medium ${themeStyles.text} ${theme === 'neomorphic-dark' ? 'border-r border-[#2d2d3f]' : 'border-r border-[#b0b5bc]'}`}>{row.dimension}</td>
+                      <td className={`py-4 px-6 ${themeStyles.text} ${theme === 'neomorphic-dark' ? 'border-r border-[#2d2d3f]' : 'border-r border-[#b0b5bc]'}`} dangerouslySetInnerHTML={{ __html: row.oldVersion }} />
                       <td className={`py-4 px-6 ${themeStyles.text}`} dangerouslySetInnerHTML={{ __html: row.newVersion }} />
                     </tr>
                   ))}
@@ -1231,179 +1223,7 @@ const SelfManifestation: React.FC<HighestVersionProps> = ({ onHelpClick }) => {
           </div>
         )}
 
-        {/* AI 助理 */}
-        {activeTab === 'ai' && (
-          <div className={`rounded-xl ${themeStyles.cardBg} ${themeStyles.cardBorder} border shadow-lg`}>
-            <div className="p-6">
-              <div className="flex items-center gap-3 mb-6">
-                <div className={`p-2 rounded-full ${themeStyles.primaryText}`}>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M12 8V4H8"/>
-                    <rect x="4" y="12" width="16" height="8" rx="2"/>
-                    <path d="M2 14h2"/>
-                    <path d="M20 14h2"/>
-                    <path d="M15 13v-2a3 3 0 0 0-3-3H9a3 3 0 0 0-3 3v2"/>
-                  </svg>
-                </div>
-                <h2 className={`text-2xl font-bold ${themeStyles.text}`}>
-                  AI 助理
-                </h2>
-              </div>
-
-              <div className="mb-6">
-                <label className={`flex items-center gap-2 mb-2 font-medium ${themeStyles.text}`}>
-                  <Lock size={16} />
-                  硅基流动 API 密钥
-                </label>
-                <input
-                  type="password"
-                  value={apiKey}
-                  onChange={(e) => updateApiKey(e.target.value)}
-                  placeholder="在此处输入您的 API 密钥"
-                  className={`w-full p-3 rounded-lg border ${themeStyles.inputBg} ${themeStyles.inputBorder} ${themeStyles.text} focus:outline-none focus:ring-2 focus:ring-purple-500`}
-                />
-                <p className={`text-xs mt-2 ${themeStyles.mutedText}`}>
-                  您的 API 密钥将保存到本地存储，以便下次访问时自动加载。
-                </p>
-              </div>
-
-              {/* AI 助理子标签页 */}
-              <div className="mb-4">
-                <div className={`flex p-1 rounded-lg ${themeStyles.tabBg}`}>
-                  {[
-                    { id: 'review-ai', label: '进度审查' },
-                    { id: 'share-ai', label: '系统更新分享' }
-                  ].map(tab => (
-                    <button
-                      key={tab.id}
-                      onClick={() => setActiveAiTab(tab.id)}
-                      className={`flex-1 py-2 rounded-md transition-all duration-200 ${activeAiTab === tab.id 
-                        ? `${themeStyles.tabActiveBg} ${themeStyles.text} shadow-sm` 
-                        : `${themeStyles.mutedText} hover:${themeStyles.text}`}`}
-                    >
-                      {tab.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* 进度审查 */}
-              {activeAiTab === 'review-ai' && (
-                <div className="space-y-4">
-                  <p className={`${themeStyles.mutedText}`}>
-                    根据您提供的信息，AI 将为您提供反馈，识别优势、劣势和需要进一步发展的领域，并建议下一步的行动方案。
-                  </p>
-                  <div className="space-y-4">
-                    <div>
-                      <label className={`block mb-2 font-medium ${themeStyles.text}`}>
-                        过往进展记录
-                      </label>
-                      <textarea
-                        className={`w-full p-3 rounded-lg border ${themeStyles.inputBg} ${themeStyles.inputBorder} ${themeStyles.text} focus:outline-none focus:ring-2 focus:ring-purple-500`}
-                        rows={5}
-                        placeholder="记录你过去的努力、成就和挑战..."
-                      ></textarea>
-                    </div>
-                    <div>
-                      <label className={`block mb-2 font-medium ${themeStyles.text}`}>
-                        过往进展记录
-                      </label>
-                      <textarea
-                        className={`w-full p-3 rounded-lg border ${themeStyles.inputBg} ${themeStyles.inputBorder} ${themeStyles.text} focus:outline-none focus:ring-2 focus:ring-purple-500`}
-                        rows={3}
-                        placeholder="你希望在哪些方面得到提升？你的具体目标是什么？"
-                      ></textarea>
-                    </div>
-                    <div>
-                      <label className={`block mb-2 font-medium ${themeStyles.text}`}>
-                        其他相关信息 (可选)
-                      </label>
-                      <textarea
-                        className={`w-full p-3 rounded-lg border ${themeStyles.inputBg} ${themeStyles.inputBorder} ${themeStyles.text} focus:outline-none focus:ring-2 focus:ring-purple-500`}
-                        rows={3}
-                        placeholder="任何你认为有助于 AI 提供反馈的其他信息。"
-                      ></textarea>
-                    </div>
-                    <button className={`w-full py-3 rounded-lg ${themeStyles.buttonBg} text-white font-medium transition-all duration-200 hover:${themeStyles.buttonHoverBg} ${themeStyles.buttonShadow} hover:${themeStyles.buttonHoverShadow} hover:scale-105`}>
-                      获取 AI 反馈
-                    </button>
-                  </div>
-                </div>
-              )}
-
-              {/* 系统更新分享 */}
-              {activeAiTab === 'share-ai' && (
-                <div className="space-y-4">
-                  <p className={`${themeStyles.mutedText}`}>
-                    将你的进展输出为“系统更新日志”。AI 将根据你的 Avatar 名称和系统表现，生成社交媒体帖子，以增强你的信心并分享你的旅程。
-                  </p>
-                  <div className="space-y-4">
-                    <div>
-                      <label className={`block mb-2 font-medium ${themeStyles.text}`}>
-                        系统表现总结
-                      </label>
-                      <input
-                        type="text"
-                        defaultValue="ZWM Pro"
-                        className={`w-full p-3 rounded-lg border ${themeStyles.inputBg} ${themeStyles.inputBorder} ${themeStyles.text} focus:outline-none focus:ring-2 focus:ring-purple-500`}
-                      />
-                    </div>
-                    <div>
-                      <label className={`block mb-2 font-medium ${themeStyles.text}`}>
-                        我的目标
-                      </label>
-                      <textarea
-                        className={`w-full p-3 rounded-lg border ${themeStyles.inputBg} ${themeStyles.inputBorder} ${themeStyles.text} focus:outline-none focus:ring-2 focus:ring-purple-500`}
-                        rows={5}
-                        placeholder="总结本次迭代的系统表现，包括改进的领域和成果..."
-                      ></textarea>
-                    </div>
-                    <button className={`w-full py-3 rounded-lg ${themeStyles.buttonBg} text-white font-medium transition-all duration-200 hover:${themeStyles.buttonHoverBg} ${themeStyles.buttonShadow} hover:${themeStyles.buttonHoverShadow} hover:scale-105`}>
-                      生成社交媒体帖子
-                    </button>
-                  </div>
-                </div>
-              )}
-              
-              {/* 数据备份与恢复 */}
-              <div className="mt-8 pt-6 border-t border-gray-200">
-                <h3 className={`text-xl font-bold mb-4 ${themeStyles.text}`}>
-                  数据备份与恢复
-                </h3>
-                <div className="space-y-4">
-                  <div className={`p-4 rounded-xl ${themeStyles.inputBg} ${theme === 'neomorphic-dark' ? 'shadow-[inset_2px_2px_4px_rgba(0,0,0,0.3),inset_-2px_-2px_4px_rgba(30,30,46,0.7)]' : 'shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)]'}`}>
-                    <p className={`text-sm ${themeStyles.text}`}>
-                      备份数据可以保存您的所有任务、剧本和API密钥，以便在不同设备间迁移或在意外情况下恢复。
-                    </p>
-                  </div>
-                  <div className="flex flex-wrap gap-4">
-                    <button 
-                      onClick={backupData}
-                      className={`px-6 py-3 rounded-lg ${themeStyles.buttonBg} text-white font-medium transition-all duration-200 hover:${themeStyles.buttonHoverBg} ${themeStyles.buttonShadow} hover:${themeStyles.buttonHoverShadow} hover:scale-105`}
-                    >
-                      导出备份
-                    </button>
-                    <div className="relative">
-                      <button 
-                        className={`px-6 py-3 rounded-lg ${themeStyles.buttonBg} text-white font-medium transition-all duration-200 hover:${themeStyles.buttonHoverBg} ${themeStyles.buttonShadow} hover:${themeStyles.buttonHoverShadow} hover:scale-105`}
-                      >
-                        导入备份
-                      </button>
-                      <input
-                        type="file"
-                        accept=".json"
-                        onChange={restoreData}
-                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* SUBBGM 和 肯定语言 */}
+                {/* SUBBGM 和 肯定语言 */}
         {activeTab === 'subbgm' && (
           <div className={`rounded-xl ${themeStyles.cardBg} ${themeStyles.cardBorder} border shadow-lg`}>
             <div className="p-6">
