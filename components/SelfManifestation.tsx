@@ -922,7 +922,6 @@ const SelfManifestation: React.FC<HighestVersionProps> = ({ onHelpClick }) => {
             [
               { id: 'overview', label: '系统总览' },
               { id: 'blueprint', label: '身份蓝图' },
-              { id: 'tasks', label: '日常显化' },
               { id: 'scripting', label: '现实剧本' },
               { id: 'subbgm', label: 'SUB&KDY' },
               { id: 'ai', label: 'AI 助理' }

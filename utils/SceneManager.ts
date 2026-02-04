@@ -506,21 +506,21 @@ export class SceneManager {
     // 根据主题设置光照强度和颜色
     const isDarkTheme = this.theme && this.theme.includes('dark');
     
-    // 白天/黑夜的光照参数 - 降低光照强度，避免物体过亮显示为白色
+    // 白天/黑夜的光照参数 - 增加深色模式下的光照强度，确保能看清动植物
     const ambientParams = isDarkTheme 
-      ? { intensity: 0.3, color: 0x444466 }  // 夜晚：暗蓝色
+      ? { intensity: 0.6, color: 0x666688 }  // 夜晚：亮蓝色，增加强度
       : { intensity: 0.6, color: 0xffffff };  // 白天：白色
     
     const sunParams = isDarkTheme 
-      ? { intensity: 0.5, color: 0x666688 }  // 夜晚：深蓝色
+      ? { intensity: 0.8, color: 0x8888aa }  // 夜晚：亮蓝色，增加强度
       : { intensity: 1.0, color: 0xffffff };  // 白天：白色
     
     const fillParams = isDarkTheme 
-      ? { intensity: 0.3, color: 0x444455 }  // 夜晚：深灰色
+      ? { intensity: 0.6, color: 0x666677 }  // 夜晚：亮灰色，增加强度
       : { intensity: 0.8, color: 0xffffff };  // 白天：白色
     
     const hemisphereParams = isDarkTheme 
-      ? { intensity: 0.3, color: 0x222244, groundColor: 0x111122 }  // 夜晚：深蓝色地面
+      ? { intensity: 0.6, color: 0x444466, groundColor: 0x222244 }  // 夜晚：亮蓝色地面，增加强度
       : { intensity: 0.8, color: 0xffffff, groundColor: 0x8d6e63 };  // 白天：白色，棕色地面
     
     // 更新所有灯光

@@ -325,19 +325,18 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
               <button 
                 className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${isNeomorphic 
                   ? `${isDark 
-                      ? 'bg-[#1e1e2e] border border-zinc-700 shadow-[5px_5px_10px_rgba(0,0,0,0.3),-5px_-5px_10px_rgba(40,43,52,0.8)] hover:shadow-[7px_7px_14px_rgba(0,0,0,0.4),-7px_-7px_14px_rgba(40,43,52,1)] active:shadow-[inset_5px_5px_10px_rgba(0,0,0,0.3),inset_-5px_-5px_10px_rgba(40,43,52,0.8)]' 
-                      : 'bg-[#e0e5ec] border border-slate-300 shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[7px_7px_14px_rgba(163,177,198,0.7),-7px_-7px_14px_rgba(255,255,255,1)] active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]' 
+                      ? 'border border-zinc-700 shadow-[5px_5px_10px_rgba(0,0,0,0.3),-5px_-5px_10px_rgba(40,43,52,0.8)] hover:shadow-[7px_7px_14px_rgba(0,0,0,0.4),-7px_-7px_14px_rgba(40,43,52,1)] active:shadow-[inset_5px_5px_10px_rgba(0,0,0,0.3),inset_-5px_-5px_10px_rgba(40,43,52,0.8)]' 
+                      : 'border border-slate-300 shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[7px_7px_14px_rgba(163,177,198,0.7),-7px_-7px_14px_rgba(255,255,255,1)] active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]' 
                     }`
                   : `${isDark ? 'text-zinc-300 hover:text-blue-400 hover:bg-zinc-800/50' : 'text-zinc-500 hover:text-blue-400 hover:bg-white/10'}`}`}
                 onClick={() => setMode(mode === '3d' ? 'timebox' : '3d')}
                 title="切换模式"
                 style={{
                   background: mode === '3d' 
-                    ? 'linear-gradient(90deg, #2563eb 50%, #ffffff 50%)' 
-                    : 'linear-gradient(90deg, #ffffff 50%, #2563eb 50%)',
-                  backgroundSize: '200% 100%',
-                  transition: 'background-position 0.4s ease, box-shadow 0.3s ease, transform 0.2s ease',
-                  backgroundPosition: mode === '3d' ? '0% 0%' : '100% 0%',
+                    ? `linear-gradient(90deg, #2563eb 50%, ${isDark ? '#1e1e2e' : '#e0e5ec'} 50%)` 
+                    : `linear-gradient(90deg, ${isDark ? '#1e1e2e' : '#e0e5ec'} 50%, #2563eb 50%)`,
+                  backgroundSize: '100% 100%',
+                  transition: 'background 0.4s ease, box-shadow 0.3s ease, transform 0.2s ease',
                   boxShadow: isNeomorphic
                     ? isDark
                       ? '5px 5px 10px rgba(0,0,0,0.3), -5px -5px 10px rgba(40,43,52,0.8)'
@@ -566,19 +565,18 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
               <button 
                 className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${isNeomorphic 
                   ? `${isDark 
-                      ? 'bg-[#1e1e2e] border border-zinc-700 shadow-[5px_5px_10px_rgba(0,0,0,0.3),-5px_-5px_10px_rgba(40,43,52,0.8)] hover:shadow-[7px_7px_14px_rgba(0,0,0,0.4),-7px_-7px_14px_rgba(40,43,52,1)] active:shadow-[inset_5px_5px_10px_rgba(0,0,0,0.3),inset_-5px_-5px_10px_rgba(40,43,52,0.8)]' 
-                      : 'bg-[#e0e5ec] border border-slate-300 shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[7px_7px_14px_rgba(163,177,198,0.7),-7px_-7px_14px_rgba(255,255,255,1)] active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]' 
+                      ? 'border border-zinc-700 shadow-[5px_5px_10px_rgba(0,0,0,0.3),-5px_-5px_10px_rgba(40,43,52,0.8)] hover:shadow-[7px_7px_14px_rgba(0,0,0,0.4),-7px_-7px_14px_rgba(40,43,52,1)] active:shadow-[inset_5px_5px_10px_rgba(0,0,0,0.3),inset_-5px_-5px_10px_rgba(40,43,52,0.8)]' 
+                      : 'border border-slate-300 shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] hover:shadow-[7px_7px_14px_rgba(163,177,198,0.7),-7px_-7px_14px_rgba(255,255,255,1)] active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]' 
                     }`
                   : `${isDark ? 'text-zinc-300 hover:text-blue-400 hover:bg-zinc-800/50' : 'text-zinc-500 hover:text-blue-400 hover:bg-white/10'}`}`}
                 onClick={() => setMode(mode === '3d' ? 'timebox' : '3d')}
                 title="切换模式"
                 style={{
                   background: mode === '3d' 
-                    ? 'linear-gradient(90deg, #2563eb 50%, #ffffff 50%)' 
-                    : 'linear-gradient(90deg, #ffffff 50%, #2563eb 50%)',
-                  backgroundSize: '200% 100%',
-                  transition: 'background-position 0.4s ease, box-shadow 0.3s ease, transform 0.2s ease',
-                  backgroundPosition: mode === '3d' ? '0% 0%' : '100% 0%',
+                    ? `linear-gradient(90deg, #2563eb 50%, ${isDark ? '#1e1e2e' : '#e0e5ec'} 50%)` 
+                    : `linear-gradient(90deg, ${isDark ? '#1e1e2e' : '#e0e5ec'} 50%, #2563eb 50%)`,
+                  backgroundSize: '100% 100%',
+                  transition: 'background 0.4s ease, box-shadow 0.3s ease, transform 0.2s ease',
                   boxShadow: isNeomorphic
                     ? isDark
                       ? '5px 5px 10px rgba(0,0,0,0.3), -5px -5px 10px rgba(40,43,52,0.8)'
