@@ -159,25 +159,11 @@ class AudioManager {
       }
 
       // 由于直接获取目录列表可能不可行，我们使用预定义的文件列表
-      // 或者尝试从一个 JSON 文件中获取文件列表
-      const filesResponse = await fetch(`${folderPath}/files.json?t=${Date.now()}`);
-      if (filesResponse.ok) {
-        const fileNames: string[] = await filesResponse.json();
-        return fileNames.map(fileName => ({
-          id: `${folderPath.replace('/', '_').replace('-', '_')}_${fileName.replace(/\.[^/.]+$/, "")}`,
-          name: fileName.replace(/\.[^/.]+$/, ""), // 移除扩展名作为显示名称
-          url: this.getCorrectAudioUrl(`${folderPath}/${fileName}`),
-          type,
-          icon: this.getIconForAudio(fileName, type)
-        }));
-      } else {
-        // 如果没有 files.json，尝试从硬编码的列表中获取（用于演示目的）
-        // 实际应用中应该有一个更好的机制来发现音频文件
-        if (process.env.NODE_ENV === 'development') {
-          console.log(`Directory listing not available for ${folderPath}, using fallback`);
-        }
-        return this.getDefaultFilesForFolder(folderPath, type);
+      // 不再尝试从 JSON 文件中获取文件列表，而是直接使用默认文件列表
+      if (process.env.NODE_ENV === 'development') {
+        console.log(`Using fallback files for ${folderPath}`);
       }
+      return this.getDefaultFilesForFolder(folderPath, type);
     } catch (error) {
       if (process.env.NODE_ENV === 'development') {
         console.warn(`Error scanning folder: ${folderPath}`, error);

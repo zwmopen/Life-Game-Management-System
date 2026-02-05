@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>检查WebDAV配置</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .error {
+            color: red;
+        }
+        .success {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>检查WebDAV配置</h1>
+        <div id="result"></div>
+    </div>
+    <script>
+        function checkWebDAVConfig() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<h2>检查结果：</h2>';
+            
+            // 检查WebDAV配置
+            const webdavConfig = localStorage.getItem('webdav-config');
+            resultDiv.innerHTML += `<p><strong>WebDAV配置：</strong>${webdavConfig ? '存在' : '不存在'}</p>`;
+            
+            if (webdavConfig) {
+                resultDiv.innerHTML += '<h3>配置内容：</h3>';
+                resultDiv.innerHTML += `<pre>${webdavConfig}</pre>`;
+            }
+            
+            // 检查旧的WebDAV配置
+            const oldUrl = localStorage.getItem('webdav-url');
+            const oldUsername = localStorage.getItem('webdav-username');
+            const oldPassword = localStorage.getItem('webdav-password');
+            
+            resultDiv.innerHTML += '<h3>旧配置：</h3>';
+            resultDiv.innerHTML += `<p><strong>URL：</strong>${oldUrl || '不存在'}</p>`;
+            resultDiv.innerHTML += `<p><strong>用户名：</strong>${oldUsername || '不存在'}</p>`;
+            resultDiv.innerHTML += `<p><strong>密码：</strong>${oldPassword ? '存在' : '不存在'}</p>`;
+            
+            // 检查其他相关配置
+            resultDiv.innerHTML += '<h3>其他相关配置：</h3>';
+            const syncStatus = localStorage.getItem('sync_status');
+            resultDiv.innerHTML += `<p><strong>同步状态：</strong>${syncStatus ? '存在' : '不存在'}</p>`;
+            
+            if (syncStatus) {
+                resultDiv.innerHTML += '<pre>' + syncStatus + '</pre>';
+            }
+        }
+        
+        // 页面加载时检查配置
+        window.onload = checkWebDAVConfig;
+    </script>
+</body>
+</html>

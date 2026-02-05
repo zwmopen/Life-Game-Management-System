@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tailwind CSS 测试</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        font-family: 'LXGW WenKai Screen', 'Inter', sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="flex h-screen w-full overflow-hidden font-sans relative transition-colors duration-500 bg-[#e0e5ec] text-zinc-800">
+      <div class="flex-1 h-full overflow-y-auto relative scroll-smooth flex flex-col transition-all duration-200">
+        <div class="flex-1 overflow-y-auto p-4 md:p-6">
+          <div class="max-w-4xl mx-auto space-y-6 sm:space-y-8">
+            <h1 class="text-2xl font-bold mb-4">Tailwind CSS 测试</h1>
+            <div class="bg-white p-4 rounded-lg shadow-md">
+              <p class="text-gray-800">这是一个测试文本，用于验证 Tailwind CSS 是否正确加载。</p>
+            </div>
+            <div class="flex space-x-4">
+              <div class="bg-blue-500 text-white p-4 rounded-lg">按钮 1</div>
+              <div class="bg-green-500 text-white p-4 rounded-lg">按钮 2</div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="bg-gray-100 p-4 rounded-lg">列 1</div>
+              <div class="bg-gray-200 p-4 rounded-lg">列 2</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
