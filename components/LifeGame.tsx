@@ -17,7 +17,7 @@ import CharacterProfile, { CharacterProfileHandle } from './CharacterProfile';
 import { GlobalGuideCard, helpContent, GlobalHelpButton } from './HelpSystem';
 import FateGiftModal from './shared/FateGiftModal';
 import FateDice from './FateDice';
-import TaskManagement from './taskmanagement';
+import TaskManagement from './TaskManagement';
 import ShopCatalog from './ShopCatalog';
 import BankModal from './shared/BankModal';
 import MorningProtocolModal from './shared/MorningProtocolModal';
