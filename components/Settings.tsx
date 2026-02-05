@@ -47,7 +47,8 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
   // State for help card modal
   const [activeHelp, setActiveHelp] = useState<string | null>(null);
   // State for data management
-  const [activeBackupTab, setActiveBackupTab] = useState<'cloud' | 'local'>('local');
+  const [activeBackupTab, setActiveBackupTab] = useState<'cloud' | 'local' | 'baidu'>('local');
+  const [cloudProvider, setCloudProvider] = useState<'webdav' | 'baidu'>('webdav');
   
   // State for WebDAV settings
   const [webdavConfig, setWebdavConfig] = useState<WebDAVConfig>(() => {
@@ -59,6 +60,10 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
       basePath: '/人生游戏管理系统',
     };
   });
+  
+  // State for Baidu Netdisk
+  const [baiduNetdiskStatus, setBaiduNetdiskStatus] = useState<string>('');
+  const [isBaiduNetdiskAuthed, setIsBaiduNetdiskAuthed] = useState<boolean>(false);
   // State for WebDAV operation status
   const [webdavStatus, setWebdavStatus] = useState<string>('');
   const [isWebdavConfigCollapsed, setIsWebdavConfigCollapsed] = useState(false);
@@ -397,6 +402,49 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
       setWebdavStatus('WebDAV恢复失败：' + (error as Error).message);
     } finally {
       setTimeout(() => setWebdavStatus(''), 3000);
+    }
+  };
+  
+  // Baidu Netdisk auth function
+  const authBaiduNetdisk = async () => {
+    setBaiduNetdiskStatus('正在跳转到百度网盘授权页面...');
+    try {
+      await backupManager.authBaiduNetdisk();
+      setBaiduNetdiskStatus('百度网盘授权成功！');
+      setIsBaiduNetdiskAuthed(true);
+    } catch (error) {
+      console.error('Failed to auth Baidu Netdisk:', error);
+      setBaiduNetdiskStatus('百度网盘授权失败：' + (error as Error).message);
+    } finally {
+      setTimeout(() => setBaiduNetdiskStatus(''), 3000);
+    }
+  };
+  
+  // Baidu Netdisk backup function
+  const backupToBaiduNetdisk = async () => {
+    setBaiduNetdiskStatus('正在备份到百度网盘...');
+    try {
+      await backupManager.createCloudBackup('baidu');
+      setBaiduNetdiskStatus('百度网盘备份成功！');
+    } catch (error) {
+      console.error('Failed to backup to Baidu Netdisk:', error);
+      setBaiduNetdiskStatus('百度网盘备份失败：' + (error as Error).message);
+    } finally {
+      setTimeout(() => setBaiduNetdiskStatus(''), 3000);
+    }
+  };
+  
+  // Baidu Netdisk restore function
+  const restoreFromBaiduNetdisk = async () => {
+    setBaiduNetdiskStatus('正在从百度网盘恢复...');
+    try {
+      await backupManager.restoreFromCloudBackup('baidu');
+      setBaiduNetdiskStatus('百度网盘恢复成功！');
+    } catch (error) {
+      console.error('Failed to restore from Baidu Netdisk:', error);
+      setBaiduNetdiskStatus('百度网盘恢复失败：' + (error as Error).message);
+    } finally {
+      setTimeout(() => setBaiduNetdiskStatus(''), 3000);
     }
   };
   
@@ -795,92 +843,161 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
             {/* Cloud Backup Tab */}
             {activeBackupTab === 'cloud' && (
               <div className="space-y-2">
+                {/* Cloud Provider Selection */}
                 <div className="space-y-1">
-                  <label className={['text-xs font-bold', textMain].join(' ')}>WebDAV服务器地址</label>
-                  <input
-                    type="text"
-                    value={webdavConfig.url}
-                    onChange={(e) => setWebdavConfig({ ...webdavConfig, url: e.target.value })}
-                    placeholder="https://dav.jianguoyun.com/dav/"
-                    className={[
-                      'w-full px-2 py-1 rounded text-xs',
-                      isNeomorphic
-                        ? isNeomorphicDark
-                          ? 'bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-4px_-4px_8px_rgba(30,30,46,0.8)] text-zinc-200'
-                          : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] text-zinc-800'
-                        : isDark
-                        ? 'bg-zinc-900 border border-zinc-800 text-zinc-200'
-                        : 'bg-white border border-slate-300 text-zinc-800'
-                    ].join(' ')}
-                  />
+                  <label className={['text-xs font-bold', textMain].join(' ')}>云服务提供商</label>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => setCloudProvider('webdav')}
+                      className={[
+                        'flex-1 px-3 py-1.5 rounded-full text-xs font-bold transition-all',
+                        cloudProvider === 'webdav'
+                          ? 'bg-blue-500 text-white'
+                          : getButtonStyle(false)
+                      ].join(' ')}
+                    >
+                      WebDAV
+                    </button>
+                    <button
+                      onClick={() => setCloudProvider('baidu')}
+                      className={[
+                        'flex-1 px-3 py-1.5 rounded-full text-xs font-bold transition-all',
+                        cloudProvider === 'baidu'
+                          ? 'bg-blue-500 text-white'
+                          : getButtonStyle(false)
+                      ].join(' ')}
+                    >
+                      百度网盘
+                    </button>
+                  </div>
                 </div>
 
-                <div className="space-y-1">
-                  <label className={['text-xs font-bold', textMain].join(' ')}>用户名</label>
-                  <input
-                    type="text"
-                    value={webdavConfig.username}
-                    onChange={(e) => setWebdavConfig({ ...webdavConfig, username: e.target.value })}
-                    className={[
-                      'w-full px-2 py-1 rounded text-xs',
-                      isNeomorphic
-                        ? isNeomorphicDark
-                          ? 'bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-4px_-4px_8px_rgba(30,30,46,0.8)] text-zinc-200'
-                          : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] text-zinc-800'
-                        : isDark
-                        ? 'bg-zinc-900 border border-zinc-800 text-zinc-200'
-                        : 'bg-white border border-slate-300 text-zinc-800'
-                    ].join(' ')}
-                  />
-                </div>
+                {/* WebDAV Configuration */}
+                {cloudProvider === 'webdav' && (
+                  <div className="space-y-2">
+                    <div className="space-y-1">
+                      <label className={['text-xs font-bold', textMain].join(' ')}>WebDAV服务器地址</label>
+                      <input
+                        type="text"
+                        value={webdavConfig.url}
+                        onChange={(e) => setWebdavConfig({ ...webdavConfig, url: e.target.value })}
+                        placeholder="https://dav.jianguoyun.com/dav/"
+                        className={[
+                          'w-full px-2 py-1 rounded text-xs',
+                          isNeomorphic
+                            ? isNeomorphicDark
+                              ? 'bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-4px_-4px_8px_rgba(30,30,46,0.8)] text-zinc-200'
+                              : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] text-zinc-800'
+                            : isDark
+                            ? 'bg-zinc-900 border border-zinc-800 text-zinc-200'
+                            : 'bg-white border border-slate-300 text-zinc-800'
+                        ].join(' ')}
+                      />
+                    </div>
 
-                <div className="space-y-1">
-                  <label className={['text-xs font-bold', textMain].join(' ')}>密码</label>
-                  <input
-                    type="password"
-                    value={webdavConfig.password}
-                    onChange={(e) => setWebdavConfig({ ...webdavConfig, password: e.target.value })}
-                    className={[
-                      'w-full px-2 py-1 rounded text-xs',
-                      isNeomorphic
-                        ? isNeomorphicDark
-                          ? 'bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-4px_-4px_8px_rgba(30,30,46,0.8)] text-zinc-200'
-                          : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] text-zinc-800'
-                        : isDark
-                        ? 'bg-zinc-900 border border-zinc-800 text-zinc-200'
-                        : 'bg-white border border-slate-300 text-zinc-800'
-                    ].join(' ')}
-                  />
-                </div>
+                    <div className="space-y-1">
+                      <label className={['text-xs font-bold', textMain].join(' ')}>用户名</label>
+                      <input
+                        type="text"
+                        value={webdavConfig.username}
+                        onChange={(e) => setWebdavConfig({ ...webdavConfig, username: e.target.value })}
+                        className={[
+                          'w-full px-2 py-1 rounded text-xs',
+                          isNeomorphic
+                            ? isNeomorphicDark
+                              ? 'bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-4px_-4px_8px_rgba(30,30,46,0.8)] text-zinc-200'
+                              : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] text-zinc-800'
+                            : isDark
+                            ? 'bg-zinc-900 border border-zinc-800 text-zinc-200'
+                            : 'bg-white border border-slate-300 text-zinc-800'
+                        ].join(' ')}
+                      />
+                    </div>
 
-                <button
-                  onClick={updateWebdavConfig}
-                  className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-full text-xs font-bold transition-all'].join(' ')}
-                >
-                  <Save size={14} className="inline-block mr-1" />
-                  保存WebDAV配置
-                </button>
+                    <div className="space-y-1">
+                      <label className={['text-xs font-bold', textMain].join(' ')}>密码</label>
+                      <input
+                        type="password"
+                        value={webdavConfig.password}
+                        onChange={(e) => setWebdavConfig({ ...webdavConfig, password: e.target.value })}
+                        className={[
+                          'w-full px-2 py-1 rounded text-xs',
+                          isNeomorphic
+                            ? isNeomorphicDark
+                              ? 'bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-4px_-4px_8px_rgba(30,30,46,0.8)] text-zinc-200'
+                              : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] text-zinc-800'
+                            : isDark
+                            ? 'bg-zinc-900 border border-zinc-800 text-zinc-200'
+                            : 'bg-white border border-slate-300 text-zinc-800'
+                        ].join(' ')}
+                      />
+                    </div>
 
-                <button
-                  onClick={backupToWebDAV}
-                  disabled={isBackingUp}
-                  className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-full text-xs font-bold transition-all'].join(' ')}
-                >
-                  <Cloud size={14} className="inline-block mr-1" />
-                  {isBackingUp ? '备份中...' : '备份到云端'}
-                </button>
+                    <button
+                      onClick={updateWebdavConfig}
+                      className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-full text-xs font-bold transition-all'].join(' ')}
+                    >
+                      <Save size={14} className="inline-block mr-1" />
+                      保存WebDAV配置
+                    </button>
 
-                <button
-                  onClick={restoreFromWebDAV}
-                  disabled={isRestoring}
-                  className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-full text-xs font-bold transition-all'].join(' ')}
-                >
-                  <Download size={14} className="inline-block mr-1" />
-                  {isRestoring ? '恢复中...' : '从云端恢复'}
-                </button>
+                    <button
+                      onClick={backupToWebDAV}
+                      disabled={isBackingUp}
+                      className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-full text-xs font-bold transition-all'].join(' ')}
+                    >
+                      <Cloud size={14} className="inline-block mr-1" />
+                      {isBackingUp ? '备份中...' : '备份到WebDAV'}
+                    </button>
 
-                {webdavStatus && (
-                  <p className={['text-xs text-center', textSub].join(' ')}>{webdavStatus}</p>
+                    <button
+                      onClick={restoreFromWebDAV}
+                      disabled={isRestoring}
+                      className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-full text-xs font-bold transition-all'].join(' ')}
+                    >
+                      <Download size={14} className="inline-block mr-1" />
+                      {isRestoring ? '恢复中...' : '从WebDAV恢复'}
+                    </button>
+
+                    {webdavStatus && (
+                      <p className={['text-xs text-center', textSub].join(' ')}>{webdavStatus}</p>
+                    )}
+                  </div>
+                )}
+
+                {/* Baidu Netdisk Configuration */}
+                {cloudProvider === 'baidu' && (
+                  <div className="space-y-2">
+                    <p className={['text-xs', textSub].join(' ')}>百度网盘备份已集成，使用您的百度账号授权即可开始备份。</p>
+                    
+                    <button
+                      onClick={authBaiduNetdisk}
+                      className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-full text-xs font-bold transition-all'].join(' ')}
+                    >
+                      <Cloud size={14} className="inline-block mr-1" />
+                      授权百度网盘
+                    </button>
+
+                    <button
+                      onClick={backupToBaiduNetdisk}
+                      className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-full text-xs font-bold transition-all'].join(' ')}
+                    >
+                      <Cloud size={14} className="inline-block mr-1" />
+                      备份到百度网盘
+                    </button>
+
+                    <button
+                      onClick={restoreFromBaiduNetdisk}
+                      className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-full text-xs font-bold transition-all'].join(' ')}
+                    >
+                      <Download size={14} className="inline-block mr-1" />
+                      从百度网盘恢复
+                    </button>
+
+                    {baiduNetdiskStatus && (
+                      <p className={['text-xs text-center', textSub].join(' ')}>{baiduNetdiskStatus}</p>
+                    )}
+                  </div>
                 )}
               </div>
             )}
