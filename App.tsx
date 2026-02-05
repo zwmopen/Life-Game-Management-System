@@ -229,14 +229,26 @@ const App: React.FC = () => {
   useEffect(() => {
     logInfo('Initializing app data loading');
     
-    // 初始化备份管理器
-    backupManager.initialize();
+    try {
+      // 初始化备份管理器
+      backupManager.initialize();
+    } catch (error) {
+      logError('Failed to initialize backup manager:', error);
+    }
     
-    // 初始化同步管理器
-    syncManager.initialize();
+    try {
+      // 初始化同步管理器
+      syncManager.initialize();
+    } catch (error) {
+      logError('Failed to initialize sync manager:', error);
+    }
     
-    // 执行坚果云配置迁移
-    migrateOldWebDAVConfig();
+    try {
+      // 执行坚果云配置迁移
+      migrateOldWebDAVConfig();
+    } catch (error) {
+      logError('Failed to migrate old WebDAV config:', error);
+    }
     
     const savedGlobal = localStorage.getItem('aes-global-data-v3');
     const savedLifeGame = localStorage.getItem('life-game-stats-v2');
@@ -325,36 +337,36 @@ const App: React.FC = () => {
     }
 
     // 加载命运骰子状态
-  if (savedDiceState) {
-    try {
-      const diceData = JSON.parse(savedDiceState);
-      const todayStr = new Date().toLocaleDateString();
-      
-      // 如果是新的一天，重置次数和任务列表
-      if (diceData.lastClickDate !== todayStr) {
-        setDiceState(prev => ({
-          ...prev,
-          todayCount: 0,
-          lastClickDate: todayStr,
-          pendingTasks: [],
-          completedTasks: []
-        }));
-      } else {
-        // 确保新字段存在
-        setDiceState({
-          ...diceData,
-          pendingTasks: diceData.pendingTasks || [],
-          completedTasks: diceData.completedTasks || []
-        });
+    if (savedDiceState) {
+      try {
+        const diceData = JSON.parse(savedDiceState);
+        const todayStr = new Date().toLocaleDateString();
+        
+        // 如果是新的一天，重置次数和任务列表
+        if (diceData.lastClickDate !== todayStr) {
+          setDiceState(prev => ({
+            ...prev,
+            todayCount: 0,
+            lastClickDate: todayStr,
+            pendingTasks: [],
+            completedTasks: []
+          }));
+        } else {
+          // 确保新字段存在
+          setDiceState({
+            ...diceData,
+            pendingTasks: diceData.pendingTasks || [],
+            completedTasks: diceData.completedTasks || []
+          });
+        }
+      } catch (e) {
+        logError("Dice save corrupted", { error: e, stack: (e as Error).stack });
+        setDiceState(INITIAL_DICE_STATE);
       }
-    } catch (e) {
-      logError("Dice save corrupted", { error: e, stack: (e as Error).stack });
+    } else {
+      // 首次使用，初始化骰子状态
       setDiceState(INITIAL_DICE_STATE);
     }
-  } else {
-    // 首次使用，初始化骰子状态
-    setDiceState(INITIAL_DICE_STATE);
-  }
 
     if (savedLifeGame) {
         try {
