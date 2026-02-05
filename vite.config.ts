@@ -119,11 +119,11 @@ export default defineConfig(({ mode }) => {
         minify: 'terser',
         terserOptions: {
           compress: {
-            drop_console: true,
+            drop_console: false,
             drop_debugger: true,
             // 更严格的压缩选项
             passes: 2,
-            pure_funcs: ['console.log', 'console.warn', 'console.error'],
+            pure_funcs: [],
             // 优化变量名
             reduce_vars: true,
             // 内联常量
@@ -146,7 +146,7 @@ export default defineConfig(({ mode }) => {
         outDir: 'dist',
         assetsDir: 'assets',
         // 生成source map以方便调试
-        sourcemap: false,
+        sourcemap: true,
         // 启用CSS代码分割
         cssCodeSplit: true,
         // 优化大文件处理
