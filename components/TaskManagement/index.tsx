@@ -870,6 +870,7 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
             onCompleteTask={handleDiceTaskComplete}
             onAbandonTask={handleDiceTaskAbandon}
             onStartTimer={onStartTimer}
+            onOpenEditTask={onOpenEditTask}
             onHelpClick={onShowHelp}
             cardBg={cardBg}
             textMain={textMain}

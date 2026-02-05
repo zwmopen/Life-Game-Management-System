@@ -43,12 +43,16 @@ const DiceTaskList: React.FC<DiceTaskListProps> = memo(({
   const renderTaskCard = (taskRecord: DiceTaskRecord, isPending: boolean = false) => (
     <div 
       key={taskRecord.id} 
+      onClick={() => onOpenEditTask({...taskRecord.task, id: taskRecord.id, type: 'random', gold: taskRecord.generatedGold, xp: taskRecord.generatedXp, completed: taskRecord.status === 'completed', frequency: 'once'})}
       className={`relative group rounded-lg border transition-all overflow-hidden cursor-pointer ${cardBg} hover:shadow-lg ${isDark ? 'border-zinc-800' : 'border-slate-200'}`}
     >
       <div className="p-2 sm:p-3 flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3">
         {isPending ? (
           <button 
-            onClick={() => onCompleteTask(taskRecord.id)} 
+            onClick={(e) => {
+              e.stopPropagation();
+              onCompleteTask(taskRecord.id);
+            }} 
             className={`w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all shrink-0 ${isDark ? 'border-zinc-600 hover:border-emerald-500 text-transparent' : 'border-slate-300 hover:border-emerald-500 bg-white'} active:scale-95`}
           >
             <Check size={16} strokeWidth={4} className="text-transparent hover:text-white transition-colors" />
@@ -60,10 +64,21 @@ const DiceTaskList: React.FC<DiceTaskListProps> = memo(({
         )}
         <div className="flex-1 min-w-0 w-full">
           <div className="flex items-center gap-1 sm:gap-2">
-            <h3 className={`font-bold truncate flex-1 min-w-0 ${isPending ? textMain : 'text-zinc-500 line-through'}`}>
+            <h3 
+              onClick={() => onOpenEditTask({...taskRecord.task, id: taskRecord.id, type: 'random', gold: taskRecord.generatedGold, xp: taskRecord.generatedXp, completed: taskRecord.status === 'completed', frequency: 'once'})}
+              className={`font-bold truncate flex-1 min-w-0 ${isPending ? textMain : 'text-zinc-500 line-through'}`}
+            >
               {taskRecord.task.text}
             </h3>
-            <button onClick={() => onOpenEditTask({...taskRecord.task, type: 'random'})} className="opacity-0 group-hover:opacity-100 text-zinc-500 hover:text-blue-500 transition-opacity flex-shrink-0"><Edit3 size={12}/></button>
+            <button 
+              onClick={(e) => {
+                e.stopPropagation();
+                onOpenEditTask({...taskRecord.task, id: taskRecord.id, type: 'random', gold: taskRecord.generatedGold, xp: taskRecord.generatedXp, completed: taskRecord.status === 'completed', frequency: 'once'});
+              }} 
+              className="opacity-70 hover:opacity-100 text-zinc-500 hover:text-blue-500 transition-all flex-shrink-0 p-1"
+            >
+              <Edit3 size={14}/>
+            </button>
           </div>
           <div className="flex items-center gap-2 sm:gap-3 text-[10px] sm:text-[11px] font-mono text-zinc-500 mt-1 flex-wrap">
             <span className="text-purple-400">经验 +{taskRecord.generatedXp}</span>
@@ -97,7 +112,10 @@ const DiceTaskList: React.FC<DiceTaskListProps> = memo(({
               <X size={16} />
             </button>
             <button 
-              onClick={() => onStartTimer(taskRecord.task.duration || 25)} 
+              onClick={(e) => {
+                e.stopPropagation();
+                onStartTimer(taskRecord.task.duration || 25);
+              }} 
               className={`p-3 rounded-full text-white transition-colors group-hover:scale-105 shadow-lg ${isDark ? 'bg-zinc-800 hover:bg-emerald-600' : 'bg-blue-500 hover:bg-blue-600'}`}
             >
               <Play size={16} fill="currentColor"/>

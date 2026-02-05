@@ -81,12 +81,12 @@ const TaskList: React.FC<TaskListProps> = memo(({
           {task.isGivenUp && <X size={16} strokeWidth={4} />}
         </button>
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-1 sm:gap-2 flex-wrap">
-            <h3 className={`font-bold truncate ${task.completed || task.isGivenUp ? 'line-through text-zinc-500' : textMain}`}>
+          <div className="flex items-center gap-1 sm:gap-2">
+            <h3 className={`font-bold truncate flex-1 min-w-0 ${task.completed || task.isGivenUp ? 'line-through text-zinc-500' : textMain}`}>
               {task.text}
               {task.isGivenUp && <span className="ml-1 text-[9px] text-red-500 border border-red-900 bg-red-900/20 px-1 rounded font-bold whitespace-nowrap">已放弃</span>}
             </h3>
-            <button onClick={() => onOpenEditTask(task)} className="opacity-0 group-hover:opacity-100 text-zinc-500 hover:text-blue-500 transition-opacity ml-1 sm:ml-2"><Edit3 size={12}/></button>
+            <button onClick={() => onOpenEditTask(task)} className="opacity-0 group-hover:opacity-100 text-zinc-500 hover:text-blue-500 transition-opacity flex-shrink-0"><Edit3 size={12}/></button>
           </div>
           <div className="flex items-center gap-2 sm:gap-3 text-[11px] font-mono text-zinc-500 mt-1 flex-wrap">
               <span className="text-purple-400">经验 +{task.xp}</span>

@@ -466,7 +466,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
   const openEditTask = (task: any) => {
       setEditingTaskId(task.id);
       setNewTaskTitle(task.text);
-      setNewTaskReward(task.gold.toString());
+      setNewTaskReward((task.gold || 0).toString());
       setNewTaskXP((task.xp || 20).toString());
       setNewTaskDuration((task.duration || 30).toString());
       setNewTaskType(task.type || (task.category ? 'random' : 'daily'));
@@ -1349,7 +1349,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                                                 <div className="flex gap-2">
                                                                     <button 
                                                                         onClick={() => {
-                                                                            openEditTask({...task, type: 'random'});
+                                                                            openEditTask({...task, id: task.id, type: 'random', gold: task.gold, xp: task.xp, completed: false, frequency: 'once'});
                                                                             setIsManageTasksOpen(false);
                                                                         }}
                                                                         className={`${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[3px_3px_6px_rgba(0,0,0,0.3),-3px_-3px_6px_rgba(30,30,46,0.7)] border-none rounded-full text-blue-400 hover:shadow-[1px_1px_3px_rgba(0,0,0,0.3),-1px_-1px_3px_rgba(30,30,46,0.7)] active:shadow-[inset_1px_1px_2px_rgba(0,0,0,0.3),inset_-1px_-1px_2px_rgba(30,30,46,0.7)] p-1' : 'bg-[#e0e5ec] shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] border-none rounded-full text-blue-500 hover:shadow-[1px_1px_3px_rgba(163,177,198,0.6),-1px_-1px_3px_rgba(255,255,255,1)] active:shadow-[inset_1px_1px_2px_rgba(163,177,198,0.6),inset_-1px_-1px_2px_rgba(255,255,255,1)] p-1') : 'text-blue-500 hover:text-blue-400 p-1 rounded-full hover:bg-blue-900/10'}`}
