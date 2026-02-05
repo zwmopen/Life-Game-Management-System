@@ -360,7 +360,7 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
     <div className="space-y-4">
       {/* 任务分类导航 */}
       <div className={`${cardBg} border p-2 sm:p-3 rounded-xl flex flex-wrap items-center gap-3`}>
-        <div className="flex items-center gap-1 sm:gap-2 overflow-x-auto pb-1 -mx-1 px-1 flex-shrink-0">
+        <div className="flex items-center gap-1 sm:gap-2 pb-1 flex-shrink-0 flex-nowrap">
           <button 
             onClick={() => setTaskCategory('daily')} 
             className={`flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full transition-all font-semibold text-xs sm:text-sm whitespace-nowrap ${
