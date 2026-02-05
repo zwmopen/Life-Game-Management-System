@@ -153,6 +153,57 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
   // 状态管理：跟踪正在进行番茄钟计时的任务
   const [activeTasks, setActiveTasks] = useState<Set<string>>(new Set());
   
+  // 状态管理：任务排序方式
+  const [taskSorting, setTaskSorting] = useState<'priority' | 'dueDate' | 'creationDate' | 'progress'>('priority');
+  
+  // 状态管理：任务筛选
+  const [taskFilter, setTaskFilter] = useState<'all' | 'completed' | 'pending' | 'overdue'>('all');
+  
+  // 状态管理：显示模式
+  const [displayMode, setDisplayMode] = useState<'card' | 'list'>('card');
+  
+  // 排序任务函数
+  const sortTasks = useCallback((tasks: any[]) => {
+    return [...tasks].sort((a, b) => {
+      switch (taskSorting) {
+        case 'priority':
+          const priorityOrder = { high: 0, medium: 1, low: 2 };
+          return (priorityOrder[a.priority as keyof typeof priorityOrder] || 2) - 
+                 (priorityOrder[b.priority as keyof typeof priorityOrder] || 2);
+        case 'dueDate':
+          const dateA = a.reminder?.date ? new Date(a.reminder.date) : new Date(8640000000000000);
+          const dateB = b.reminder?.date ? new Date(b.reminder.date) : new Date(8640000000000000);
+          return dateA.getTime() - dateB.getTime();
+        case 'creationDate':
+          const createdA = a.createdAt ? new Date(a.createdAt) : new Date(0);
+          const createdB = b.createdAt ? new Date(b.createdAt) : new Date(0);
+          return createdB.getTime() - createdA.getTime();
+        case 'progress':
+          const progressA = a.completed ? 100 : 
+            a.subTasks ? (a.subTasks.filter(st => st.completed).length / a.subTasks.length) * 100 : 0;
+          const progressB = b.completed ? 100 : 
+            b.subTasks ? (b.subTasks.filter(st => st.completed).length / b.subTasks.length) * 100 : 0;
+          return progressA - progressB;
+        default:
+          return 0;
+      }
+    });
+  }, [taskSorting]);
+  
+  // 筛选任务函数
+  const filterTasksByStatus = useCallback((tasks: any[]) => {
+    switch (taskFilter) {
+      case 'completed':
+        return tasks.filter(task => task.completed);
+      case 'pending':
+        return tasks.filter(task => !task.completed && !isTaskOverdue(task));
+      case 'overdue':
+        return tasks.filter(task => !task.completed && isTaskOverdue(task));
+      default:
+        return tasks;
+    }
+  }, [taskFilter]);
+  
   // 切换任务展开/折叠状态
   const toggleTaskExpanded = (taskId: string) => {
     setExpandedTasks(prev => ({
@@ -198,24 +249,28 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
   }, []);
 
   // 过滤后的任务列表
-  const filteredHabitTasks = useMemo(() => 
-    filterTasks(habitTasks, searchTerm),
-    [habitTasks, searchTerm, filterTasks]
-  );
+  const filteredHabitTasks = useMemo(() => {
+    let filtered = filterTasks(habitTasks, searchTerm);
+    filtered = filterTasksByStatus(filtered);
+    filtered = sortTasks(filtered);
+    return filtered;
+  }, [habitTasks, searchTerm, filterTasks, filterTasksByStatus, sortTasks]);
 
-  const filteredProjectTasks = useMemo(() => 
-    filterTasks(projectTasks, searchTerm),
-    [projectTasks, searchTerm, filterTasks]
-  );
+  const filteredProjectTasks = useMemo(() => {
+    let filtered = filterTasks(projectTasks, searchTerm);
+    filtered = filterTasksByStatus(filtered);
+    filtered = sortTasks(filtered);
+    return filtered;
+  }, [projectTasks, searchTerm, filterTasks, filterTasksByStatus, sortTasks]);
 
   const filteredDiceTasks = useMemo(() => {
     if (!diceState) return { pending: [], completed: [], abandoned: [] };
     return {
-      pending: filterTasks(diceState.pendingTasks || [], searchTerm),
+      pending: sortTasks(filterTasks(diceState.pendingTasks || [], searchTerm)),
       completed: filterTasks(diceState.completedTasks || [], searchTerm),
       abandoned: filterTasks(diceState.abandonedTasks || [], searchTerm)
     };
-  }, [diceState, searchTerm, filterTasks]);
+  }, [diceState, searchTerm, filterTasks, sortTasks]);
 
   // 检查任务是否逾期的辅助函数
   const isTaskOverdue = (task: any) => {
@@ -470,6 +525,58 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
         </div>
       </div>
 
+      {/* 任务控制栏：排序、筛选、显示模式 */}
+      <div className={`${cardBg} border p-2 sm:p-3 rounded-xl flex flex-wrap items-center gap-3`}>
+        {/* 排序控制 */}
+        <div className="flex items-center gap-2">
+          <label className="text-xs font-semibold text-zinc-500">排序：</label>
+          <select 
+            value={taskSorting} 
+            onChange={(e) => setTaskSorting(e.target.value as any)} 
+            className={`text-xs px-2 py-1 rounded-lg border ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] border-[#1e1e2e] text-zinc-300' : 'bg-[#e0e5ec] border-[#e0e5ec] text-zinc-700') : isDark ? 'bg-zinc-800 border-zinc-700 text-zinc-300' : 'bg-white border-zinc-200 text-zinc-700'}`}
+          >
+            <option value="priority">按优先级</option>
+            <option value="dueDate">按截止日期</option>
+            <option value="creationDate">按创建日期</option>
+            <option value="progress">按进度</option>
+          </select>
+        </div>
+        
+        {/* 筛选控制 */}
+        <div className="flex items-center gap-2">
+          <label className="text-xs font-semibold text-zinc-500">筛选：</label>
+          <select 
+            value={taskFilter} 
+            onChange={(e) => setTaskFilter(e.target.value as any)} 
+            className={`text-xs px-2 py-1 rounded-lg border ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] border-[#1e1e2e] text-zinc-300' : 'bg-[#e0e5ec] border-[#e0e5ec] text-zinc-700') : isDark ? 'bg-zinc-800 border-zinc-700 text-zinc-300' : 'bg-white border-zinc-200 text-zinc-700'}`}
+          >
+            <option value="all">全部任务</option>
+            <option value="pending">待处理</option>
+            <option value="completed">已完成</option>
+            <option value="overdue">逾期</option>
+          </select>
+        </div>
+        
+        {/* 显示模式 */}
+        <div className="flex items-center gap-2">
+          <label className="text-xs font-semibold text-zinc-500">显示：</label>
+          <div className="flex gap-1">
+            <button 
+                onClick={() => setDisplayMode('card')} 
+                className={`text-xs px-2 py-1 rounded-lg transition-all ${displayMode === 'card' ? (isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] text-blue-400 shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-4px_-4px_8px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] text-blue-600 shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]') : (isDark ? 'bg-blue-600 text-white' : 'bg-blue-500 text-white')) : (isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] text-blue-400 shadow-[3px_3px_6px_rgba(0,0,0,0.4),-3px_-3px_6px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] text-blue-600 shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)]') : (isDark ? 'text-zinc-400 hover:text-zinc-100' : 'text-slate-500 hover:text-slate-800'))}`}
+              >
+                卡片
+              </button>
+              <button 
+                onClick={() => setDisplayMode('list')} 
+                className={`text-xs px-2 py-1 rounded-lg transition-all ${displayMode === 'list' ? (isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] text-blue-400 shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-4px_-4px_8px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] text-blue-600 shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]') : (isDark ? 'bg-blue-600 text-white' : 'bg-blue-500 text-white')) : (isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] text-blue-400 shadow-[3px_3px_6px_rgba(0,0,0,0.4),-3px_-3px_6px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] text-blue-600 shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)]') : (isDark ? 'text-zinc-400 hover:text-zinc-100' : 'text-slate-500 hover:text-slate-800'))}`}
+              >
+                列表
+              </button>
+          </div>
+        </div>
+      </div>
+
       {/* 搜索栏 */}
       <TaskSearchBar
         searchTerm={searchTerm}
@@ -502,6 +609,7 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
           theme={theme}
           isDark={isDark}
           isNeomorphic={isNeomorphic}
+          displayMode={displayMode}
         />
       )}
 
@@ -524,6 +632,7 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
           theme={theme}
           isDark={isDark}
           isNeomorphic={isNeomorphic}
+          displayMode={displayMode}
         />
       )}
 

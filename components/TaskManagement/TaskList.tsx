@@ -24,6 +24,7 @@ interface TaskListProps {
   theme: string;
   isDark: boolean;
   isNeomorphic: boolean;
+  displayMode?: 'card' | 'list';
 }
 
 const TaskList: React.FC<TaskListProps> = memo(({
@@ -43,7 +44,8 @@ const TaskList: React.FC<TaskListProps> = memo(({
   textMain,
   theme,
   isDark,
-  isNeomorphic
+  isNeomorphic,
+  displayMode = 'card'
 }) => {
   // 状态管理：跟踪每个任务的展开/折叠状态
   const [expandedTasks, setExpandedTasks] = useState<{[key: string]: boolean}>(
@@ -252,10 +254,73 @@ const TaskList: React.FC<TaskListProps> = memo(({
     </div>
   );
 
+  // 列表模式的任务渲染
+  const renderTaskAsList = (task: TaskItem, index: number) => (
+    <div 
+      key={task.id} 
+      draggable 
+      onDragStart={() => onDragStart(task, index)} 
+      onDragEnd={onDragEnd} 
+      onDragOver={(e) => onDragOver(e, index)} 
+      onDoubleClick={() => onOpenEditTask(task)} 
+      className={`flex items-center gap-2 p-2 border-b ${isDark ? 'border-zinc-800' : 'border-slate-200'} ${task.completed ? 'opacity-70' : ''} ${draggedTask && draggedTask.id === task.id ? 'opacity-50 bg-blue-100 dark:bg-blue-900/20' : ''}`}
+    >
+      <button onClick={(e) => { e.stopPropagation(); onCompleteTask(task, e); }} className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all shrink-0 ${task.completed ? 'bg-emerald-500 border-emerald-500 text-white' : task.isGivenUp ? 'border-red-900 text-red-900 cursor-not-allowed' : (isDark ? 'border-zinc-600 hover:border-emerald-500 text-transparent' : 'border-slate-300 hover:border-emerald-500 bg-white')}`} disabled={task.isGivenUp}>
+        {task.completed && <Check size={12} strokeWidth={4} />}
+        {task.isGivenUp && <X size={12} strokeWidth={4} />}
+      </button>
+      <div className="flex-1 min-w-0">
+        <h3 className={`text-sm font-medium truncate ${task.completed || task.isGivenUp ? 'line-through text-zinc-500' : textMain}`}>
+          {task.text}
+          {task.isGivenUp && <span className="ml-1 text-[9px] text-red-500 border border-red-900 bg-red-900/20 px-1 rounded font-bold whitespace-nowrap">已放弃</span>}
+        </h3>
+        <div className="flex items-center gap-2 text-[10px] font-mono text-zinc-500 flex-wrap">
+          <span className="text-purple-400">+{task.xp}</span>
+          <span className="text-yellow-500">+{task.gold}</span>
+          <span className="text-blue-500">{task.duration || 25}m</span>
+          {task.reminder && task.reminder.enabled && task.reminder.time && (
+            <span className="text-green-500">{task.reminder.time}</span>
+          )}
+          <span className={`${task.priority === 'high' ? 'text-red-500' : task.priority === 'medium' ? 'text-yellow-500' : 'text-green-500'}`}>
+            {task.priority === 'high' ? '🔥' : task.priority === 'medium' ? '⚡' : '🌱'}
+          </span>
+        </div>
+      </div>
+      <div className="flex items-center gap-1">
+        {!task.completed && !task.isGivenUp && (
+          <button onClick={(e) => onGiveUpTask(task.id, e)} className="text-zinc-600 hover:text-red-500 p-1 rounded-full hover:bg-red-900/10 transition-colors" title="放弃任务 (无奖励)">
+            <X size={12} />
+          </button>
+        )}
+        <button onClick={() => onStartTimer(task.duration || 25)} disabled={task.completed || task.isGivenUp} className={`p-2 rounded-full text-white transition-colors ${isDark ? 'bg-zinc-800 hover:bg-emerald-600' : 'bg-blue-500 hover:bg-blue-600'} disabled:opacity-50`}>
+          <Play size={12} fill="currentColor"/>
+        </button>
+      </div>
+    </div>
+  );
+
   return (
-    <div className="flex flex-col gap-4 mb-4">
-      {category === 'daily' && tasks.map((task, index) => renderDailyTask(task, index))}
-      {category === 'main' && tasks.map((task, index) => renderMainTask(task, index))}
+    <div className="mb-4">
+      {displayMode === 'list' ? (
+        <div className={`rounded-lg border ${cardBg} overflow-hidden`}>
+          {tasks.map((task, index) => renderTaskAsList(task, index))}
+          {tasks.length === 0 && (
+            <div className="p-4 text-center text-zinc-500 text-sm">
+              暂无任务
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className="flex flex-col gap-4">
+          {category === 'daily' && tasks.map((task, index) => renderDailyTask(task, index))}
+          {category === 'main' && tasks.map((task, index) => renderMainTask(task, index))}
+          {tasks.length === 0 && (
+            <div className={`${cardBg} border rounded-lg p-4 text-center text-zinc-500 text-sm`}>
+              暂无任务
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 });

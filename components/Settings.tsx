@@ -47,7 +47,7 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
   // State for help card modal
   const [activeHelp, setActiveHelp] = useState<string | null>(null);
   // State for data management
-  const [activeBackupTab, setActiveBackupTab] = useState<'cloud' | 'local' | 'baidu'>('local');
+  const [activeBackupTab, setActiveBackupTab] = useState<'cloud' | 'local'>('local');
   const [cloudProvider, setCloudProvider] = useState<'webdav' | 'baidu'>('webdav');
   
   // State for WebDAV settings
@@ -62,6 +62,11 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
   });
   
   // State for Baidu Netdisk
+  const [baiduNetdiskConfig, setBaiduNetdiskConfig] = useState({
+    clientId: '',
+    clientSecret: '',
+    redirectUri: 'https://localhost'
+  });
   const [baiduNetdiskStatus, setBaiduNetdiskStatus] = useState<string>('');
   const [isBaiduNetdiskAuthed, setIsBaiduNetdiskAuthed] = useState<boolean>(false);
   // State for WebDAV operation status
@@ -405,10 +410,36 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
     }
   };
   
+  // Save Baidu Netdisk config
+  const saveBaiduNetdiskConfig = async () => {
+    setBaiduNetdiskStatus('正在保存百度网盘配置...');
+    try {
+      // Update backup manager config
+      await backupManager.updateConfig({
+        baiduNetdiskEnabled: true,
+        cloudBackupProvider: 'baidu',
+        baiduNetdiskConfig: baiduNetdiskConfig
+      });
+      setBaiduNetdiskStatus('百度网盘配置保存成功！');
+    } catch (error) {
+      console.error('Failed to save Baidu Netdisk config:', error);
+      setBaiduNetdiskStatus('百度网盘配置保存失败：' + (error as Error).message);
+    } finally {
+      setTimeout(() => setBaiduNetdiskStatus(''), 3000);
+    }
+  };
+  
   // Baidu Netdisk auth function
   const authBaiduNetdisk = async () => {
     setBaiduNetdiskStatus('正在跳转到百度网盘授权页面...');
     try {
+      // First save config
+      await backupManager.updateConfig({
+        baiduNetdiskEnabled: true,
+        cloudBackupProvider: 'baidu',
+        baiduNetdiskConfig: baiduNetdiskConfig
+      });
+      // Then auth
       await backupManager.authBaiduNetdisk();
       setBaiduNetdiskStatus('百度网盘授权成功！');
       setIsBaiduNetdiskAuthed(true);
@@ -424,7 +455,13 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
   const backupToBaiduNetdisk = async () => {
     setBaiduNetdiskStatus('正在备份到百度网盘...');
     try {
-      await backupManager.createCloudBackup('baidu');
+      // Ensure config is updated
+      await backupManager.updateConfig({
+        baiduNetdiskEnabled: true,
+        cloudBackupProvider: 'baidu',
+        baiduNetdiskConfig: baiduNetdiskConfig
+      });
+      await backupManager.createCloudBackup();
       setBaiduNetdiskStatus('百度网盘备份成功！');
     } catch (error) {
       console.error('Failed to backup to Baidu Netdisk:', error);
@@ -438,7 +475,13 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
   const restoreFromBaiduNetdisk = async () => {
     setBaiduNetdiskStatus('正在从百度网盘恢复...');
     try {
-      await backupManager.restoreFromCloudBackup('baidu');
+      // Ensure config is updated
+      await backupManager.updateConfig({
+        baiduNetdiskEnabled: true,
+        cloudBackupProvider: 'baidu',
+        baiduNetdiskConfig: baiduNetdiskConfig
+      });
+      await backupManager.restoreFromCloudBackup();
       setBaiduNetdiskStatus('百度网盘恢复成功！');
     } catch (error) {
       console.error('Failed to restore from Baidu Netdisk:', error);
@@ -968,8 +1011,76 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
                 {/* Baidu Netdisk Configuration */}
                 {cloudProvider === 'baidu' && (
                   <div className="space-y-2">
-                    <p className={['text-xs', textSub].join(' ')}>百度网盘备份已集成，使用您的百度账号授权即可开始备份。</p>
+                    <p className={['text-xs', textSub].join(' ')}>请输入您的百度网盘开放平台API凭证，获取方式：百度网盘开放平台创建应用获取AppKey和SecretKey</p>
                     
+                    <div className="space-y-1">
+                      <label className={['text-xs font-bold', textMain].join(' ')}>AppKey (Client ID)</label>
+                      <input
+                        type="text"
+                        value={baiduNetdiskConfig.clientId}
+                        onChange={(e) => setBaiduNetdiskConfig({ ...baiduNetdiskConfig, clientId: e.target.value })}
+                        placeholder="请输入百度网盘AppKey"
+                        className={[
+                          'w-full px-2 py-1 rounded text-xs',
+                          isNeomorphic
+                            ? isNeomorphicDark
+                              ? 'bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-4px_-4px_8px_rgba(30,30,46,0.8)] text-zinc-200'
+                              : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] text-zinc-800'
+                            : isDark
+                            ? 'bg-zinc-900 border border-zinc-800 text-zinc-200'
+                            : 'bg-white border border-slate-300 text-zinc-800'
+                        ].join(' ')}
+                      />
+                    </div>
+
+                    <div className="space-y-1">
+                      <label className={['text-xs font-bold', textMain].join(' ')}>SecretKey (Client Secret)</label>
+                      <input
+                        type="password"
+                        value={baiduNetdiskConfig.clientSecret}
+                        onChange={(e) => setBaiduNetdiskConfig({ ...baiduNetdiskConfig, clientSecret: e.target.value })}
+                        placeholder="请输入百度网盘SecretKey"
+                        className={[
+                          'w-full px-2 py-1 rounded text-xs',
+                          isNeomorphic
+                            ? isNeomorphicDark
+                              ? 'bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-4px_-4px_8px_rgba(30,30,46,0.8)] text-zinc-200'
+                              : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] text-zinc-800'
+                            : isDark
+                            ? 'bg-zinc-900 border border-zinc-800 text-zinc-200'
+                            : 'bg-white border border-slate-300 text-zinc-800'
+                        ].join(' ')}
+                      />
+                    </div>
+
+                    <div className="space-y-1">
+                      <label className={['text-xs font-bold', textMain].join(' ')}>Redirect URI</label>
+                      <input
+                        type="text"
+                        value={baiduNetdiskConfig.redirectUri}
+                        onChange={(e) => setBaiduNetdiskConfig({ ...baiduNetdiskConfig, redirectUri: e.target.value })}
+                        placeholder="https://localhost"
+                        className={[
+                          'w-full px-2 py-1 rounded text-xs',
+                          isNeomorphic
+                            ? isNeomorphicDark
+                              ? 'bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-4px_-4px_8px_rgba(30,30,46,0.8)] text-zinc-200'
+                              : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] text-zinc-800'
+                            : isDark
+                            ? 'bg-zinc-900 border border-zinc-800 text-zinc-200'
+                            : 'bg-white border border-slate-300 text-zinc-800'
+                        ].join(' ')}
+                      />
+                    </div>
+
+                    <button
+                      onClick={saveBaiduNetdiskConfig}
+                      className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-full text-xs font-bold transition-all'].join(' ')}
+                    >
+                      <Save size={14} className="inline-block mr-1" />
+                      保存百度网盘配置
+                    </button>
+
                     <button
                       onClick={authBaiduNetdisk}
                       className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-full text-xs font-bold transition-all'].join(' ')}

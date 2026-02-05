@@ -97,12 +97,12 @@ class BackupManager {
          triggerOnAppClose: config?.triggerOnAppClose ?? false, // 默认禁用应用关闭触发
          minDataChangeSize: config?.minDataChangeSize ?? 1024, // 默认1KB
          // 百度网盘默认值
-         baiduNetdiskEnabled: config?.baiduNetdiskEnabled ?? true, // 默认启用百度网盘备份
-         cloudBackupProvider: config?.cloudBackupProvider ?? 'baidu', // 默认使用百度网盘
-         // 百度网盘配置（使用用户提供的凭证）
+         baiduNetdiskEnabled: config?.baiduNetdiskEnabled ?? false, // 默认禁用百度网盘备份
+         cloudBackupProvider: config?.cloudBackupProvider ?? 'webdav', // 默认使用WebDAV
+         // 百度网盘配置（用户需要手动输入）
          baiduNetdiskConfig: config?.baiduNetdiskConfig ?? {
-           clientId: 'G5tdFv7bUtULL4JsJz6aLBJ98Gf3PTfv', // AppKey
-           clientSecret: 'mtdWGnzRfSkDRugMRClUXU71HrGLgYj6', // SecretKey
+           clientId: '', // 请输入AppKey
+           clientSecret: '', // 请输入SecretKey
            redirectUri: 'https://localhost'
          },
          ...config
@@ -1306,6 +1306,40 @@ class BackupManager {
     }
   }
 
+  /**
+   * 更新配置
+   */
+  async updateConfig(config: Partial<BackupConfig>): Promise<void> {
+    // 更新配置
+    this.config = {
+      ...this.config,
+      ...config
+    };
+    
+    // 重新初始化备份管理器
+    await this.initialize(true);
+  }
+  
+  /**
+   * 百度网盘授权
+   */
+  async authBaiduNetdisk(): Promise<void> {
+    if (!this.config.baiduNetdiskEnabled || !this.config.baiduNetdiskConfig) {
+      throw new Error('百度网盘备份未启用或配置不完整');
+    }
+    
+    if (!this.baiduNetdiskBackup) {
+      throw new Error('百度网盘备份客户端未初始化');
+    }
+    
+    // 生成授权链接
+    const authUrl = this.baiduNetdiskBackup.generateAuthorizationUrl();
+    console.log('百度网盘授权链接:', authUrl);
+    
+    // 打开授权链接
+    window.open(authUrl, '_blank');
+  }
+  
   /**
    * 生成备份系统健康报告
    */
