@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>人生游戏系统</title>
+    <meta name="description" content="人生游戏管理系统" />
+    <meta name="theme-color" content="#4285f4" />
+    <link rel="manifest" href="./manifest.json" />
+    <link rel="icon" href="./assets/png/%E5%BA%94%E7%94%A8%E5%9B%BE%E6%A0%87%E7%BD%91%E7%AB%99logo-DMfgrlm7.png" type="image/png" sizes="32x32" />
+    <link rel="icon" href="./assets/png/%E5%BA%94%E7%94%A8%E5%9B%BE%E6%A0%87%E7%BD%91%E7%AB%99logo-DMfgrlm7.png" type="image/png" sizes="16x16" />
+    <link rel="apple-touch-icon" href="./assets/png/%E5%BA%94%E7%94%A8%E5%9B%BE%E6%A0%87%E7%BD%91%E7%AB%99logo-DMfgrlm7.png" />
+    <link rel="shortcut icon" href="./assets/png/%E5%BA%94%E7%94%A8%E5%9B%BE%E6%A0%87%E7%BD%91%E7%AB%99logo-DMfgrlm7.png" type="image/png" />
+    <link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-screen-webfont/style.css" media="all">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+      body {
+        font-family: 'LXGW WenKai Screen', 'Inter', sans-serif;
+        transition: background-color 0.5s ease, color 0.5s ease;
+      }
+      body.light {
+        background-color: #ffffff;
+        color: #18181b;
+      }
+      body.dark {
+        background-color: #1e1e2e;
+        color: #f4f4f5;
+      }
+      .font-mono {
+        font-family: 'JetBrains Mono', monospace;
+      }
+      /* Custom Scrollbar - Updated to match guide card style */
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: rgba(163, 177, 198, 0.1);
+        border-radius: 3px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: rgba(163, 177, 198, 0.5);
+        border-radius: 3px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: rgba(163, 177, 198, 0.7);
+      }
+      /* Animation Keyframes */
+      @keyframes floatUp {
+        0% { transform: translateY(0) scale(1); opacity: 1; }
+        100% { transform: translateY(-40px) scale(1.2); opacity: 0; }
+      }
+      .animate-float-up {
+        animation: floatUp 1s ease-out forwards;
+      }
+      @keyframes spinCoin {
+        0% { transform: rotateY(0deg); }
+        100% { transform: rotateY(720deg); }
+      }
+      .animate-spin-coin {
+        animation: spinCoin 1s ease-in-out infinite;
+      }
+    </style>
+  <script type="module" crossorigin src="./assets/js/index-DMztQwJg.js"></script>
+  <link rel="modulepreload" crossorigin href="./assets/js/react-CkAx5jlO.js">
+  <link rel="modulepreload" crossorigin href="./assets/js/recharts-Du2nWM4a.js">
+  <link rel="modulepreload" crossorigin href="./assets/js/lucide-DOXEVAr0.js">
+  <link rel="modulepreload" crossorigin href="./assets/js/three-BIQ0MFnl.js">
+  <link rel="modulepreload" crossorigin href="./assets/js/crypto-B1cJ1F4j.js">
+  <link rel="modulepreload" crossorigin href="./assets/js/confetti-3I5x4t_c.js">
+  <link rel="stylesheet" crossorigin href="./assets/css/index-k08Icp18.css">
+</head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
