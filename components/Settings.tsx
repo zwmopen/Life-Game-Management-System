@@ -61,14 +61,7 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
     };
   });
   
-  // State for Baidu Netdisk
-  const [baiduNetdiskConfig, setBaiduNetdiskConfig] = useState({
-    clientId: '',
-    clientSecret: '',
-    redirectUri: 'https://localhost'
-  });
-  const [baiduNetdiskStatus, setBaiduNetdiskStatus] = useState<string>('');
-  const [isBaiduNetdiskAuthed, setIsBaiduNetdiskAuthed] = useState<boolean>(false);
+
   // State for WebDAV operation status
   const [webdavStatus, setWebdavStatus] = useState<string>('');
   const [isWebdavConfigCollapsed, setIsWebdavConfigCollapsed] = useState(false);
@@ -410,86 +403,7 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
     }
   };
   
-  // Save Baidu Netdisk config
-  const saveBaiduNetdiskConfig = async () => {
-    setBaiduNetdiskStatus('正在保存百度网盘配置...');
-    try {
-      // Update backup manager config
-      await backupManager.updateConfig({
-        baiduNetdiskEnabled: true,
-        cloudBackupProvider: 'baidu',
-        baiduNetdiskConfig: baiduNetdiskConfig
-      });
-      setBaiduNetdiskStatus('百度网盘配置保存成功！');
-    } catch (error) {
-      console.error('Failed to save Baidu Netdisk config:', error);
-      setBaiduNetdiskStatus('百度网盘配置保存失败：' + (error as Error).message);
-    } finally {
-      setTimeout(() => setBaiduNetdiskStatus(''), 3000);
-    }
-  };
-  
-  // Baidu Netdisk auth function
-  const authBaiduNetdisk = async () => {
-    setBaiduNetdiskStatus('正在跳转到百度网盘授权页面...');
-    try {
-      // First save config
-      await backupManager.updateConfig({
-        baiduNetdiskEnabled: true,
-        cloudBackupProvider: 'baidu',
-        baiduNetdiskConfig: baiduNetdiskConfig
-      });
-      // Then auth
-      await backupManager.authBaiduNetdisk();
-      setBaiduNetdiskStatus('百度网盘授权成功！');
-      setIsBaiduNetdiskAuthed(true);
-    } catch (error) {
-      console.error('Failed to auth Baidu Netdisk:', error);
-      setBaiduNetdiskStatus('百度网盘授权失败：' + (error as Error).message);
-    } finally {
-      setTimeout(() => setBaiduNetdiskStatus(''), 3000);
-    }
-  };
-  
-  // Baidu Netdisk backup function
-  const backupToBaiduNetdisk = async () => {
-    setBaiduNetdiskStatus('正在备份到百度网盘...');
-    try {
-      // Ensure config is updated
-      await backupManager.updateConfig({
-        baiduNetdiskEnabled: true,
-        cloudBackupProvider: 'baidu',
-        baiduNetdiskConfig: baiduNetdiskConfig
-      });
-      await backupManager.createCloudBackup();
-      setBaiduNetdiskStatus('百度网盘备份成功！');
-    } catch (error) {
-      console.error('Failed to backup to Baidu Netdisk:', error);
-      setBaiduNetdiskStatus('百度网盘备份失败：' + (error as Error).message);
-    } finally {
-      setTimeout(() => setBaiduNetdiskStatus(''), 3000);
-    }
-  };
-  
-  // Baidu Netdisk restore function
-  const restoreFromBaiduNetdisk = async () => {
-    setBaiduNetdiskStatus('正在从百度网盘恢复...');
-    try {
-      // Ensure config is updated
-      await backupManager.updateConfig({
-        baiduNetdiskEnabled: true,
-        cloudBackupProvider: 'baidu',
-        baiduNetdiskConfig: baiduNetdiskConfig
-      });
-      await backupManager.restoreFromCloudBackup();
-      setBaiduNetdiskStatus('百度网盘恢复成功！');
-    } catch (error) {
-      console.error('Failed to restore from Baidu Netdisk:', error);
-      setBaiduNetdiskStatus('百度网盘恢复失败：' + (error as Error).message);
-    } finally {
-      setTimeout(() => setBaiduNetdiskStatus(''), 3000);
-    }
-  };
+
   
   // 生成按钮样式的辅助函数 - 与商品分类与管理按钮样式完全一致
   const getButtonStyle = (isActive: boolean, isSpecial?: boolean) => {
@@ -901,17 +815,7 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
                     >
                       WebDAV
                     </button>
-                    <button
-                      onClick={() => setCloudProvider('baidu')}
-                      className={[
-                        'flex-1 px-3 py-1.5 rounded-full text-xs font-bold transition-all',
-                        cloudProvider === 'baidu'
-                          ? 'bg-blue-500 text-white'
-                          : getButtonStyle(false)
-                      ].join(' ')}
-                    >
-                      百度网盘
-                    </button>
+
                   </div>
                 </div>
 
@@ -1008,108 +912,7 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
                   </div>
                 )}
 
-                {/* Baidu Netdisk Configuration */}
-                {cloudProvider === 'baidu' && (
-                  <div className="space-y-2">
-                    <p className={['text-xs', textSub].join(' ')}>请输入您的百度网盘开放平台API凭证，获取方式：百度网盘开放平台创建应用获取AppKey和SecretKey</p>
-                    
-                    <div className="space-y-1">
-                      <label className={['text-xs font-bold', textMain].join(' ')}>AppKey (Client ID)</label>
-                      <input
-                        type="text"
-                        value={baiduNetdiskConfig.clientId}
-                        onChange={(e) => setBaiduNetdiskConfig({ ...baiduNetdiskConfig, clientId: e.target.value })}
-                        placeholder="请输入百度网盘AppKey"
-                        className={[
-                          'w-full px-2 py-1 rounded text-xs',
-                          isNeomorphic
-                            ? isNeomorphicDark
-                              ? 'bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-4px_-4px_8px_rgba(30,30,46,0.8)] text-zinc-200'
-                              : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] text-zinc-800'
-                            : isDark
-                            ? 'bg-zinc-900 border border-zinc-800 text-zinc-200'
-                            : 'bg-white border border-slate-300 text-zinc-800'
-                        ].join(' ')}
-                      />
-                    </div>
 
-                    <div className="space-y-1">
-                      <label className={['text-xs font-bold', textMain].join(' ')}>SecretKey (Client Secret)</label>
-                      <input
-                        type="password"
-                        value={baiduNetdiskConfig.clientSecret}
-                        onChange={(e) => setBaiduNetdiskConfig({ ...baiduNetdiskConfig, clientSecret: e.target.value })}
-                        placeholder="请输入百度网盘SecretKey"
-                        className={[
-                          'w-full px-2 py-1 rounded text-xs',
-                          isNeomorphic
-                            ? isNeomorphicDark
-                              ? 'bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-4px_-4px_8px_rgba(30,30,46,0.8)] text-zinc-200'
-                              : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] text-zinc-800'
-                            : isDark
-                            ? 'bg-zinc-900 border border-zinc-800 text-zinc-200'
-                            : 'bg-white border border-slate-300 text-zinc-800'
-                        ].join(' ')}
-                      />
-                    </div>
-
-                    <div className="space-y-1">
-                      <label className={['text-xs font-bold', textMain].join(' ')}>Redirect URI</label>
-                      <input
-                        type="text"
-                        value={baiduNetdiskConfig.redirectUri}
-                        onChange={(e) => setBaiduNetdiskConfig({ ...baiduNetdiskConfig, redirectUri: e.target.value })}
-                        placeholder="https://localhost"
-                        className={[
-                          'w-full px-2 py-1 rounded text-xs',
-                          isNeomorphic
-                            ? isNeomorphicDark
-                              ? 'bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-4px_-4px_8px_rgba(30,30,46,0.8)] text-zinc-200'
-                              : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] text-zinc-800'
-                            : isDark
-                            ? 'bg-zinc-900 border border-zinc-800 text-zinc-200'
-                            : 'bg-white border border-slate-300 text-zinc-800'
-                        ].join(' ')}
-                      />
-                    </div>
-
-                    <button
-                      onClick={saveBaiduNetdiskConfig}
-                      className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-full text-xs font-bold transition-all'].join(' ')}
-                    >
-                      <Save size={14} className="inline-block mr-1" />
-                      保存百度网盘配置
-                    </button>
-
-                    <button
-                      onClick={authBaiduNetdisk}
-                      className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-full text-xs font-bold transition-all'].join(' ')}
-                    >
-                      <Cloud size={14} className="inline-block mr-1" />
-                      授权百度网盘
-                    </button>
-
-                    <button
-                      onClick={backupToBaiduNetdisk}
-                      className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-full text-xs font-bold transition-all'].join(' ')}
-                    >
-                      <Cloud size={14} className="inline-block mr-1" />
-                      备份到百度网盘
-                    </button>
-
-                    <button
-                      onClick={restoreFromBaiduNetdisk}
-                      className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-full text-xs font-bold transition-all'].join(' ')}
-                    >
-                      <Download size={14} className="inline-block mr-1" />
-                      从百度网盘恢复
-                    </button>
-
-                    {baiduNetdiskStatus && (
-                      <p className={['text-xs text-center', textSub].join(' ')}>{baiduNetdiskStatus}</p>
-                    )}
-                  </div>
-                )}
               </div>
             )}
           </div>

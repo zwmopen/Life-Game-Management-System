@@ -3,8 +3,6 @@ import WebDAVBackupWrapper from './WebDAVBackupWrapper';
 import EnhancedWebDAVBackupManager from './EnhancedWebDAVBackupManager';
 import { BackupProgress } from './EnhancedWebDAVBackupManager';
 import { retrieveWebDAVConfig } from './secureStorage';
-import BaiduNetdiskBackupManager from './BaiduNetdiskBackupManager';
-import { BaiduNetdiskConfig } from './BaiduNetdiskBackupManager';
 
 interface BackupConfig {
   localAutoBackup?: boolean;
@@ -38,10 +36,7 @@ interface BackupConfig {
   triggerOnAppStart?: boolean; // 应用启动时触发
   triggerOnAppClose?: boolean; // 应用关闭时触发
   minDataChangeSize?: number; // 最小数据变化大小（字节）
-  // 百度网盘配置
-  baiduNetdiskEnabled?: boolean; // 启用百度网盘备份
-  baiduNetdiskConfig?: BaiduNetdiskConfig; // 百度网盘配置
-  cloudBackupProvider?: 'webdav' | 'baidu'; // 云端备份提供商
+
 }
 
 interface BackupInfo {
@@ -66,7 +61,6 @@ class BackupManager {
   private config: BackupConfig;
   private webDAVBackup: WebDAVBackupWrapper | null = null;
   private enhancedWebDAVBackup: EnhancedWebDAVBackupManager | null = null;
-  private baiduNetdiskBackup: BaiduNetdiskBackupManager | null = null;
   private backupIntervalId: NodeJS.Timeout | null = null;
   private currentProgress: BackupProgress | null = null;
   private progressCallbacks: Array<(progress: BackupProgress) => void> = [];
@@ -96,15 +90,7 @@ class BackupManager {
          triggerOnAppStart: config?.triggerOnAppStart ?? false, // 默认禁用应用启动触发
          triggerOnAppClose: config?.triggerOnAppClose ?? false, // 默认禁用应用关闭触发
          minDataChangeSize: config?.minDataChangeSize ?? 1024, // 默认1KB
-         // 百度网盘默认值
-         baiduNetdiskEnabled: config?.baiduNetdiskEnabled ?? false, // 默认禁用百度网盘备份
-         cloudBackupProvider: config?.cloudBackupProvider ?? 'webdav', // 默认使用WebDAV
-         // 百度网盘配置（用户需要手动输入）
-         baiduNetdiskConfig: config?.baiduNetdiskConfig ?? {
-           clientId: '', // 请输入AppKey
-           clientSecret: '', // 请输入SecretKey
-           redirectUri: 'https://localhost'
-         },
+
          ...config
        };
      }
@@ -128,17 +114,12 @@ class BackupManager {
       if (force) {
         this.webDAVBackup = null;
         this.enhancedWebDAVBackup = null;
-        this.baiduNetdiskBackup = null;
         this.initialized = false;
       }
 
       // 初始化云端备份
       try {
-        if (this.config.cloudBackupProvider === 'baidu' && this.config.baiduNetdiskEnabled && this.config.baiduNetdiskConfig) {
-          console.log('检测到百度网盘配置，初始化百度网盘备份管理器');
-          this.baiduNetdiskBackup = new BaiduNetdiskBackupManager(this.config.baiduNetdiskConfig);
-          await this.baiduNetdiskBackup.initialize();
-        } else if (webdavConfig.url && webdavConfig.username && webdavConfig.password) {
+        if (webdavConfig.url && webdavConfig.username && webdavConfig.password) {
           console.log('检测到WebDAV完整配置，初始化增强版管理器');
           // 尝试初始化增强版WebDAV备份
           this.enhancedWebDAVBackup = new EnhancedWebDAVBackupManager({
@@ -180,7 +161,7 @@ class BackupManager {
    */
   private async ensureInitialized(): Promise<void> {
     // 检查是否已初始化，以及实例是否存在
-    if (!this.initialized || (!this.webDAVBackup && !this.enhancedWebDAVBackup && !this.baiduNetdiskBackup)) {
+    if (!this.initialized || (!this.webDAVBackup && !this.enhancedWebDAVBackup)) {
       await this.initialize();
       return;
     }
@@ -192,21 +173,11 @@ class BackupManager {
     const hasValidWebDAVConfig = currentConfig.url && currentConfig.username && currentConfig.password;
     const hasEnhancedInstance = this.enhancedWebDAVBackup !== null;
     const hasBasicInstance = this.webDAVBackup !== null;
-    const hasBaiduInstance = this.baiduNetdiskBackup !== null;
     
-    // 根据云备份提供商检查配置与实例是否匹配
-    if (this.config.cloudBackupProvider === 'baidu') {
-      // 百度网盘模式
-      if (this.config.baiduNetdiskEnabled && !hasBaiduInstance) {
-        console.log('百度网盘配置已启用但实例不存在，正在重新初始化...');
-        await this.initialize(true); // 强制重新初始化
-      }
-    } else {
-      // WebDAV模式
-      if ((hasValidWebDAVConfig && !hasEnhancedInstance) || (!hasValidWebDAVConfig && !hasBasicInstance)) {
-        console.log('WebDAV配置与实例不匹配，正在重新初始化...');
-        await this.initialize(true); // 强制重新初始化
-      }
+    // WebDAV模式
+    if ((hasValidWebDAVConfig && !hasEnhancedInstance) || (!hasValidWebDAVConfig && !hasBasicInstance)) {
+      console.log('WebDAV配置与实例不匹配，正在重新初始化...');
+      await this.initialize(true); // 强制重新初始化
     }
   }
 
@@ -547,124 +518,70 @@ class BackupManager {
     console.log('正在执行云端备份...');
     await this.ensureInitialized();
     
-    // 根据云备份提供商选择备份方法
-    if (this.config.cloudBackupProvider === 'baidu' && this.config.baiduNetdiskEnabled) {
-      // 使用百度网盘备份
-      if (!this.baiduNetdiskBackup) {
-        console.log('未检测到百度网盘备份实例，尝试重新初始化...');
-        await this.initialize(true);
-      }
-      
-      if (!this.baiduNetdiskBackup) {
-        throw new Error('百度网盘备份客户端创建失败，请检查配置');
-      }
+    // 使用WebDAV备份
+    // 检查是否有可用的WebDAV配置
+    const webdavConfig = retrieveWebDAVConfig();
+    if (!webdavConfig.username || !webdavConfig.password) {
+      console.error('WebDAV配置不完整，无法执行云端备份');
+      throw new Error('WebDAV备份未配置，请在设置中输入用户名和密码');
+    }
 
-      const backupId = backupName || `baidu-backup-${Date.now()}`;
-      const timestamp = Date.now();
-      
-      try {
-        // 导出所有数据
-        const backupData = dataPersistenceManager.exportAllData();
-        const size = new Blob([backupData]).size;
-        
-        // 上传到百度网盘
-        await this.baiduNetdiskBackup.uploadBackup(backupId, backupData);
-        
-        // 记录备份信息
-        const backupInfo: BackupInfo = {
-          id: backupId,
-          timestamp,
-          size,
-          type: 'cloud',
-          status: 'success',
-          strategy: this.config.backupStrategy
-        };
-        
-        this.saveBackupInfo(backupInfo);
-        
-        console.log(`百度网盘备份创建成功: ${backupId}`);
-        return backupInfo;
-      } catch (error) {
-        console.error(`百度网盘备份创建失败: ${backupId}`, error);
-        
-        const backupInfo: BackupInfo = {
-          id: backupId,
-          timestamp,
-          size: 0,
-          type: 'cloud',
-          status: 'failed',
-          strategy: this.config.backupStrategy
-        };
-        
-        this.saveBackupInfo(backupInfo);
-        throw error;
-      }
-    } else {
-      // 使用WebDAV备份
-      // 检查是否有可用的WebDAV配置
-      const webdavConfig = retrieveWebDAVConfig();
-      if (!webdavConfig.username || !webdavConfig.password) {
-        console.error('WebDAV配置不完整，无法执行云端备份');
-        throw new Error('WebDAV备份未配置，请在设置中输入用户名和密码');
-      }
+    // 如果实例不存在或配置已更新，确保实例可用
+    if (!this.webDAVBackup && !this.enhancedWebDAVBackup) {
+      console.log('未检测到WebDAV备份实例，尝试重新初始化...');
+      await this.initialize(true);
+    }
+    
+    if (!this.webDAVBackup && !this.enhancedWebDAVBackup) {
+      throw new Error('WebDAV备份客户端创建失败，请检查配置或网络连接');
+    }
 
-      // 如果实例不存在或配置已更新，确保实例可用
-      if (!this.webDAVBackup && !this.enhancedWebDAVBackup) {
-        console.log('未检测到WebDAV备份实例，尝试重新初始化...');
-        await this.initialize(true);
+    const backupId = backupName || `webdav-backup-${Date.now()}`;
+    const timestamp = Date.now();
+    
+    try {
+      // 导出所有数据
+      const backupData = dataPersistenceManager.exportAllData();
+      const size = new Blob([backupData]).size;
+      
+      // 上传到WebDAV（优先使用增强版）
+      if (this.enhancedWebDAVBackup) {
+        await this.enhancedWebDAVBackup.uploadBackup(backupId, backupData, (progress) => {
+          this.currentProgress = progress;
+          this.progressCallbacks.forEach(callback => callback(progress));
+        });
+      } else {
+        await this.webDAVBackup!.uploadBackup(backupId, backupData);
       }
       
-      if (!this.webDAVBackup && !this.enhancedWebDAVBackup) {
-        throw new Error('WebDAV备份客户端创建失败，请检查配置或网络连接');
-      }
-
-      const backupId = backupName || `webdav-backup-${Date.now()}`;
-      const timestamp = Date.now();
+      // 记录备份信息
+      const backupInfo: BackupInfo = {
+        id: backupId,
+        timestamp,
+        size,
+        type: 'cloud',
+        status: 'success',
+        strategy: this.config.backupStrategy
+      };
       
-      try {
-        // 导出所有数据
-        const backupData = dataPersistenceManager.exportAllData();
-        const size = new Blob([backupData]).size;
-        
-        // 上传到WebDAV（优先使用增强版）
-        if (this.enhancedWebDAVBackup) {
-          await this.enhancedWebDAVBackup.uploadBackup(backupId, backupData, (progress) => {
-            this.currentProgress = progress;
-            this.progressCallbacks.forEach(callback => callback(progress));
-          });
-        } else {
-          await this.webDAVBackup!.uploadBackup(backupId, backupData);
-        }
-        
-        // 记录备份信息
-        const backupInfo: BackupInfo = {
-          id: backupId,
-          timestamp,
-          size,
-          type: 'cloud',
-          status: 'success',
-          strategy: this.config.backupStrategy
-        };
-        
-        this.saveBackupInfo(backupInfo);
-        
-        console.log(`WebDAV备份创建成功: ${backupId}`);
-        return backupInfo;
-      } catch (error) {
-        console.error(`WebDAV备份创建失败: ${backupId}`, error);
-        
-        const backupInfo: BackupInfo = {
-          id: backupId,
-          timestamp,
-          size: 0,
-          type: 'cloud',
-          status: 'failed',
-          strategy: this.config.backupStrategy
-        };
-        
-        this.saveBackupInfo(backupInfo);
-        throw error;
-      }
+      this.saveBackupInfo(backupInfo);
+      
+      console.log(`WebDAV备份创建成功: ${backupId}`);
+      return backupInfo;
+    } catch (error) {
+      console.error(`WebDAV备份创建失败: ${backupId}`, error);
+      
+      const backupInfo: BackupInfo = {
+        id: backupId,
+        timestamp,
+        size: 0,
+        type: 'cloud',
+        status: 'failed',
+        strategy: this.config.backupStrategy
+      };
+      
+      this.saveBackupInfo(backupInfo);
+      throw error;
     }
   }
 
@@ -738,118 +655,62 @@ class BackupManager {
   async restoreFromCloudBackup(backupId: string, options?: { selective?: boolean; dataKeys?: string[] }): Promise<{ success: boolean; restoredData?: any; message: string }> {
     await this.ensureInitialized();
     
-    // 根据云备份提供商选择恢复方法
-    if (this.config.cloudBackupProvider === 'baidu' && this.config.baiduNetdiskEnabled) {
-      // 使用百度网盘恢复
-      if (!this.baiduNetdiskBackup) {
+    // 使用WebDAV恢复
+    if (!this.webDAVBackup && !this.enhancedWebDAVBackup) {
+      return {
+        success: false,
+        message: 'WebDAV备份未初始化'
+      };
+    }
+
+    try {
+      // 从WebDAV下载备份数据（优先使用增强版）
+      let backupData: string | null = null;
+      if (this.enhancedWebDAVBackup) {
+        backupData = await this.enhancedWebDAVBackup.downloadBackup(backupId);
+      } else {
+        backupData = await this.webDAVBackup!.downloadBackup(backupId);
+      }
+      
+      if (!backupData) {
         return {
           success: false,
-          message: '百度网盘备份未初始化'
+          message: `WebDAV备份不存在: ${backupId}`
         };
       }
 
-      try {
-        // 从百度网盘下载备份数据
-        const backupData = await this.baiduNetdiskBackup.downloadBackup(backupId);
-        
-        if (!backupData) {
-          return {
-            success: false,
-            message: `百度网盘备份不存在: ${backupId}`
-          };
-        }
-
-        // 导入数据
-        let success: boolean;
-        let restoredData: any;
-        
-        if (options?.selective && options.dataKeys && options.dataKeys.length > 0) {
-          // 选择性恢复
-          success = await this.performSelectiveRestore(backupData, options.dataKeys);
-          restoredData = options.dataKeys;
-        } else {
-          // 完整恢复
-          success = dataPersistenceManager.importData(backupData);
-        }
-        
-        if (success) {
-          console.log(`从百度网盘备份恢复成功: ${backupId}`);
-          return {
-            success: true,
-            restoredData,
-            message: `从百度网盘备份恢复成功: ${backupId}`
-          };
-        } else {
-          return {
-            success: false,
-            message: `数据导入失败: ${backupId}`
-          };
-        }
-      } catch (error) {
-        console.error(`从百度网盘备份恢复失败: ${backupId}`, error);
+      // 导入数据
+      let success: boolean;
+      let restoredData: any;
+      
+      if (options?.selective && options.dataKeys && options.dataKeys.length > 0) {
+        // 选择性恢复
+        success = await this.performSelectiveRestore(backupData, options.dataKeys);
+        restoredData = options.dataKeys;
+      } else {
+        // 完整恢复
+        success = dataPersistenceManager.importData(backupData);
+      }
+      
+      if (success) {
+        console.log(`从WebDAV备份恢复成功: ${backupId}`);
+        return {
+          success: true,
+          restoredData,
+          message: `从WebDAV备份恢复成功: ${backupId}`
+        };
+      } else {
         return {
           success: false,
-          message: `从百度网盘备份恢复失败: ${(error as Error).message}`
+          message: `数据导入失败: ${backupId}`
         };
       }
-    } else {
-      // 使用WebDAV恢复
-      if (!this.webDAVBackup && !this.enhancedWebDAVBackup) {
-        return {
-          success: false,
-          message: 'WebDAV备份未初始化'
-        };
-      }
-
-      try {
-        // 从WebDAV下载备份数据（优先使用增强版）
-        let backupData: string | null = null;
-        if (this.enhancedWebDAVBackup) {
-          backupData = await this.enhancedWebDAVBackup.downloadBackup(backupId);
-        } else {
-          backupData = await this.webDAVBackup!.downloadBackup(backupId);
-        }
-        
-        if (!backupData) {
-          return {
-            success: false,
-            message: `WebDAV备份不存在: ${backupId}`
-          };
-        }
-
-        // 导入数据
-        let success: boolean;
-        let restoredData: any;
-        
-        if (options?.selective && options.dataKeys && options.dataKeys.length > 0) {
-          // 选择性恢复
-          success = await this.performSelectiveRestore(backupData, options.dataKeys);
-          restoredData = options.dataKeys;
-        } else {
-          // 完整恢复
-          success = dataPersistenceManager.importData(backupData);
-        }
-        
-        if (success) {
-          console.log(`从WebDAV备份恢复成功: ${backupId}`);
-          return {
-            success: true,
-            restoredData,
-            message: `从WebDAV备份恢复成功: ${backupId}`
-          };
-        } else {
-          return {
-            success: false,
-            message: `数据导入失败: ${backupId}`
-          };
-        }
-      } catch (error) {
-        console.error(`从WebDAV备份恢复失败: ${backupId}`, error);
-        return {
-          success: false,
-          message: `从WebDAV备份恢复失败: ${(error as Error).message}`
-        };
-      }
+    } catch (error) {
+      console.error(`从WebDAV备份恢复失败: ${backupId}`, error);
+      return {
+        success: false,
+        message: `从WebDAV备份恢复失败: ${(error as Error).message}`
+      };
     }
   }
 
@@ -998,10 +859,7 @@ class BackupManager {
         dataPersistenceManager.removeItem(backupKey);
       } else if (type === 'cloud') {
         // 删除云端备份
-        if (this.config.cloudBackupProvider === 'baidu' && this.config.baiduNetdiskEnabled && this.baiduNetdiskBackup) {
-          // 删除百度网盘备份
-          await this.baiduNetdiskBackup.deleteBackup(backupId);
-        } else if (this.webDAVBackup || this.enhancedWebDAVBackup) {
+        if (this.webDAVBackup || this.enhancedWebDAVBackup) {
           // 删除WebDAV备份（优先使用增强版）
           if (this.enhancedWebDAVBackup) {
             await this.enhancedWebDAVBackup.deleteBackup(backupId);
@@ -1137,10 +995,7 @@ class BackupManager {
    * 获取云端备份列表
    */
   async getCloudBackupList(): Promise<Array<{ id: string; timestamp: Date; size: number }>> {
-    if (this.config.cloudBackupProvider === 'baidu' && this.config.baiduNetdiskEnabled && this.baiduNetdiskBackup) {
-      // 获取百度网盘备份列表
-      return await this.baiduNetdiskBackup.getBackupList();
-    } else if (this.enhancedWebDAVBackup) {
+    if (this.enhancedWebDAVBackup) {
       // 获取WebDAV备份列表
       return await this.enhancedWebDAVBackup.listBackups();
     } else {
@@ -1157,19 +1012,7 @@ class BackupManager {
     totalSize: number;
     lastBackupDate?: Date;
   }> {
-    if (this.config.cloudBackupProvider === 'baidu' && this.config.baiduNetdiskEnabled && this.baiduNetdiskBackup) {
-      // 获取百度网盘备份统计信息
-      const backupList = await this.baiduNetdiskBackup.getBackupList();
-      const totalBackups = backupList.length;
-      const totalSize = backupList.reduce((sum, backup) => sum + backup.size, 0);
-      const lastBackupDate = backupList.length > 0 ? backupList[0].timestamp : undefined;
-      
-      return {
-        totalBackups,
-        totalSize,
-        lastBackupDate
-      };
-    } else if (this.enhancedWebDAVBackup) {
+    if (this.enhancedWebDAVBackup) {
       // 获取WebDAV备份统计信息
       return await this.enhancedWebDAVBackup.getBackupStats();
     } else {
@@ -1221,39 +1064,7 @@ class BackupManager {
         }
       } else if (type === 'cloud') {
         // 验证云端备份
-        if (this.config.cloudBackupProvider === 'baidu' && this.config.baiduNetdiskEnabled && this.baiduNetdiskBackup) {
-          // 验证百度网盘备份
-          try {
-            const backupData = await this.baiduNetdiskBackup.downloadBackup(backupId);
-            if (!backupData) {
-              return {
-                success: false,
-                message: `百度网盘备份 ${backupId} 不存在`
-              };
-            }
-            
-            // 检查数据格式
-            try {
-              JSON.parse(backupData);
-              return {
-                success: true,
-                message: `百度网盘备份 ${backupId} 完整性检查通过`
-              };
-            } catch (parseError) {
-              return {
-                success: false,
-                message: `百度网盘备份 ${backupId} 数据格式错误`,
-                details: { error: parseError.message }
-              };
-            }
-          } catch (error) {
-            return {
-              success: false,
-              message: `验证百度网盘备份 ${backupId} 失败`,
-              details: { error: (error as Error).message }
-            };
-          }
-        } else if (this.enhancedWebDAVBackup) {
+        if (this.enhancedWebDAVBackup) {
           // 验证WebDAV备份
           try {
             const backupData = await this.enhancedWebDAVBackup.downloadBackup(backupId);
@@ -1318,26 +1129,6 @@ class BackupManager {
     
     // 重新初始化备份管理器
     await this.initialize(true);
-  }
-  
-  /**
-   * 百度网盘授权
-   */
-  async authBaiduNetdisk(): Promise<void> {
-    if (!this.config.baiduNetdiskEnabled || !this.config.baiduNetdiskConfig) {
-      throw new Error('百度网盘备份未启用或配置不完整');
-    }
-    
-    if (!this.baiduNetdiskBackup) {
-      throw new Error('百度网盘备份客户端未初始化');
-    }
-    
-    // 生成授权链接
-    const authUrl = this.baiduNetdiskBackup.generateAuthorizationUrl();
-    console.log('百度网盘授权链接:', authUrl);
-    
-    // 打开授权链接
-    window.open(authUrl, '_blank');
   }
   
   /**
