@@ -64,6 +64,11 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
   const handleNavClick = (view: View, e?: React.MouseEvent | React.TouchEvent) => {
     // 阻止事件冒泡，防止在手机上触发侧边栏的触摸事件处理逻辑
     e?.stopPropagation();
+    // 确保点击导航项时不会折叠导航栏
+    if (isNavCollapsed) {
+      setIsNavCollapsed(false);
+      setSidebarWidth(224);
+    }
     setView(view);
   };
 
