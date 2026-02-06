@@ -80,8 +80,8 @@ export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, '.', '');
     
     return {
-      // 配置base路径为相对路径，解决GitHub Pages部署后资源加载问题
-      base: './',
+      // 配置base路径为GitHub仓库名称，解决GitHub Pages部署后资源加载问题
+      base: '/Life-Game-Management-System/',
       server: {
         port: 3000,
         host: '0.0.0.0',
