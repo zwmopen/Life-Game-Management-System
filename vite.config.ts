@@ -115,32 +115,8 @@ export default defineConfig(({ mode }) => {
         }
       },
       build: {
-        // 生产构建时移除console和debugger
-        minify: 'terser',
-        terserOptions: {
-          compress: {
-            drop_console: false,
-            drop_debugger: true,
-            // 减少压缩强度，避免变量名冲突
-            passes: 1,
-            pure_funcs: [],
-            // 禁用可能导致问题的优化
-            reduce_vars: false,
-            inline: false
-          },
-          mangle: {
-            toplevel: false,
-            properties: {
-              regex: /^_/,
-              keep_quoted: true
-            }
-          },
-          // 生成更紧凑的输出
-          output: {
-            beautify: false,
-            comments: false
-          }
-        },
+        // 生产构建时暂时禁用压缩，避免变量名冲突
+        minify: false,
         // 支持GitHub Pages部署
         outDir: 'dist',
         assetsDir: 'assets',
