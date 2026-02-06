@@ -121,16 +121,15 @@ export default defineConfig(({ mode }) => {
           compress: {
             drop_console: false,
             drop_debugger: true,
-            // 更严格的压缩选项
-            passes: 2,
+            // 减少压缩强度，避免变量名冲突
+            passes: 1,
             pure_funcs: [],
-            // 优化变量名
-            reduce_vars: true,
-            // 内联常量
-            inline: true
+            // 禁用可能导致问题的优化
+            reduce_vars: false,
+            inline: false
           },
           mangle: {
-            toplevel: true,
+            toplevel: false,
             properties: {
               regex: /^_/,
               keep_quoted: true
