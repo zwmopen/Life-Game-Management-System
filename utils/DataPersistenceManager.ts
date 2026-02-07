@@ -499,6 +499,7 @@ class DataPersistenceManager {
       'life-game-phone-verification-settings',
       'life-game-two-factor-auth-settings',
       'life-game-password-recovery-settings',
+      'audioPlayStatistics',
       'projects',
       'habits',
       'habitOrder',

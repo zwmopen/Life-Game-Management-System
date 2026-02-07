@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>百度网盘授权回调</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        p {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .success {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        .error {
+            color: #f44336;
+            font-weight: bold;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>百度网盘授权</h1>
+        <p id="message">正在处理授权...</p>
+        <button id="closeBtn" style="display: none;">关闭窗口</button>
+    </div>
+    
+    <script>
+        // 从URL中获取授权码
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+        const error = urlParams.get('error');
+        const errorDescription = urlParams.get('error_description');
+        
+        const messageElement = document.getElementById('message');
+        const closeBtn = document.getElementById('closeBtn');
+        
+        if (error) {
+            // 授权失败
+            messageElement.innerHTML = `<span class="error">授权失败：${errorDescription || error}</span>`;
+            closeBtn.style.display = 'block';
+        } else if (code) {
+            // 授权成功，尝试将授权码传递给主应用
+            messageElement.innerHTML = '<span class="success">授权成功！正在处理...</span>';
+            
+            // 尝试使用localStorage存储授权码
+            try {
+                localStorage.setItem('baidu-netdisk-auth-code', code);
+                messageElement.innerHTML = '<span class="success">授权成功！请返回应用继续操作。</span>';
+                closeBtn.style.display = 'block';
+                
+                // 尝试通知主窗口
+                if (window.opener) {
+                    window.opener.postMessage({ type: 'BAIDU_NETDISK_AUTH_CODE', code: code }, '*');
+                }
+            } catch (e) {
+                messageElement.innerHTML = '<span class="error">存储授权码失败：' + e.message + '</span>';
+                closeBtn.style.display = 'block';
+            }
+        } else {
+            messageElement.innerHTML = '<span class="error">无效的授权请求</span>';
+            closeBtn.style.display = 'block';
+        }
+        
+        // 关闭按钮点击事件
+        closeBtn.addEventListener('click', function() {
+            window.close();
+        });
+        
+        // 3秒后自动关闭窗口（如果授权成功）
+        if (code) {
+            setTimeout(function() {
+                window.close();
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

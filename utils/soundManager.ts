@@ -24,15 +24,17 @@ class SoundManager {
   private userInteractionHandler: (() => void) | null = null;
 
   constructor() {
-    // 初始化音效列表
-    this.initSounds();
-    this.initBackgroundMusic();
-    
     // 监听页面可见性变化，确保音乐在后台运行
     this.setupVisibilityListener();
     
     // 监听用户交互，解锁音频播放权限
     this.setupUserInteractionListener();
+    
+    // 异步初始化音效和背景音乐，避免阻塞页面加载
+    setTimeout(() => {
+      this.initSounds();
+      this.initBackgroundMusic();
+    }, 100);
   }
 
   private initSounds(): void {
@@ -117,23 +119,31 @@ class SoundManager {
   }
 
   private loadSound(sound: SoundEffect): void {
-    const correctUrl = this.getCorrectAudioUrl(sound.url);
-    const audio = new Audio(correctUrl);
-    audio.volume = sound.volume || this.masterVolume;
-    audio.loop = sound.loop || false;
-    audio.muted = this.isMuted;
-    this.sounds[sound.id] = audio;
+    try {
+      const correctUrl = this.getCorrectAudioUrl(sound.url);
+      const audio = new Audio(correctUrl);
+      audio.volume = sound.volume || this.masterVolume;
+      audio.loop = sound.loop || false;
+      audio.muted = this.isMuted;
+      this.sounds[sound.id] = audio;
+    } catch (error) {
+      console.warn(`Failed to load sound ${sound.id}:`, error);
+    }
   }
 
   private loadBackgroundMusic(bgm: SoundEffect): void {
-    const correctUrl = this.getCorrectAudioUrl(bgm.url);
-    const audio = new Audio(correctUrl);
-    audio.volume = bgm.volume || this.bgmVolume;
-    audio.loop = bgm.loop || true;
-    audio.muted = this.isMuted;
-    // 设置预加载模式为 metadata，只加载元数据而不是整个文件
-    audio.preload = 'metadata';
-    this.backgroundMusic[bgm.id] = audio;
+    try {
+      const correctUrl = this.getCorrectAudioUrl(bgm.url);
+      const audio = new Audio(correctUrl);
+      audio.volume = bgm.volume || this.bgmVolume;
+      audio.loop = bgm.loop || true;
+      audio.muted = this.isMuted;
+      // 设置预加载模式为 metadata，只加载元数据而不是整个文件
+      audio.preload = 'metadata';
+      this.backgroundMusic[bgm.id] = audio;
+    } catch (error) {
+      console.warn(`Failed to load background music ${bgm.id}:`, error);
+    }
   }
   
   // 按需加载背景音乐，在播放前确保音频已加载

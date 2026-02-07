@@ -1,5 +1,5 @@
 import React, { useState, useEffect, memo } from 'react';
-import { Volume2, VolumeX, Music, Headphones, Sun, Moon, Zap, FileText, Bell, Eye, Database, Info, ShieldAlert, Download, RefreshCw, Trash2, X, ChevronUp, ChevronDown, Upload, Cloud, CloudDownload, Save, RotateCcw } from 'lucide-react';
+import { Volume2, VolumeX, Music, Headphones, Sun, Moon, Zap, FileText, Bell, Eye, Database, Info, ShieldAlert, Download, RefreshCw, Trash2, X, ChevronUp, ChevronDown, Upload, Cloud, CloudDownload, Save, RotateCcw, Key } from 'lucide-react';
 import { Theme, Settings as SettingsType, Transaction, ReviewLog } from '../types';
 import { GlobalGuideCard, helpContent, GlobalHelpButton } from './HelpSystem';
 import { getNeomorphicStyles, getButtonStyle, getCardBgStyle, getTextStyle } from '../utils/styleHelpers';
@@ -93,6 +93,93 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
   
   // State for backup history display settings
   const [showBackupDetails, setShowBackupDetails] = useState<boolean>(true);
+  
+  // State for Baidu Netdisk configuration
+  const [baiduConfig, setBaiduConfig] = useState({
+    clientId: localStorage.getItem('baidu-netdisk-client-id') || '',
+    clientSecret: localStorage.getItem('baidu-netdisk-client-secret') || '',
+    accessToken: localStorage.getItem('baidu-netdisk-access-token') || '',
+    refreshToken: localStorage.getItem('baidu-netdisk-refresh-token') || ''
+  });
+  
+  // 监听百度网盘授权回调
+  useEffect(() => {
+    // 检查localStorage中是否有授权码
+    const checkAuthCode = () => {
+      const authCode = localStorage.getItem('baidu-netdisk-auth-code');
+      if (authCode) {
+        // 处理授权码
+        handleBaiduNetdiskAuthCode(authCode);
+        // 清除授权码
+        localStorage.removeItem('baidu-netdisk-auth-code');
+      }
+    };
+
+    // 检查URL参数中是否有授权码（用于直接打开回调页面的情况）
+    const checkUrlParams = () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const code = urlParams.get('code');
+      if (code) {
+        handleBaiduNetdiskAuthCode(code);
+        // 重定向到不带code参数的URL
+        const newUrl = window.location.pathname + window.location.search.replace(/[?&]code=[^&]+/, '').replace(/^&/, '?');
+        window.history.replaceState({}, '', newUrl);
+      }
+    };
+
+    // 处理授权码
+    const handleBaiduNetdiskAuthCode = async (code: string) => {
+      setWebdavStatus('正在处理百度网盘授权...');
+      
+      try {
+        // 导入百度网盘备份管理器
+        const { default: baiduNetdiskBackupManager } = await import('../utils/BaiduNetdiskBackupManager');
+        
+        // 处理授权回调
+        const success = await baiduNetdiskBackupManager.handleAuthorizationCallback(code);
+        
+        if (success) {
+          // 授权成功，更新配置
+          const accessToken = localStorage.getItem('baidu-netdisk-access-token');
+          const refreshToken = localStorage.getItem('baidu-netdisk-refresh-token');
+          
+          setBaiduConfig(prev => ({
+            ...prev,
+            accessToken: accessToken || '',
+            refreshToken: refreshToken || ''
+          }));
+          
+          setWebdavStatus('百度网盘授权成功！');
+        } else {
+          setWebdavStatus('百度网盘授权失败，请重试。');
+        }
+      } catch (error) {
+        console.error('处理百度网盘授权码失败:', error);
+        setWebdavStatus('处理百度网盘授权失败：' + (error as Error).message);
+      } finally {
+        setTimeout(() => setWebdavStatus(''), 3000);
+      }
+    };
+
+    // 监听postMessage事件
+    const handleMessage = (event: MessageEvent) => {
+      if (event.data.type === 'BAIDU_NETDISK_AUTH_CODE') {
+        handleBaiduNetdiskAuthCode(event.data.code);
+      }
+    };
+
+    // 初始化时检查
+    checkAuthCode();
+    checkUrlParams();
+
+    // 添加事件监听器
+    window.addEventListener('message', handleMessage);
+
+    // 清理
+    return () => {
+      window.removeEventListener('message', handleMessage);
+    };
+  }, []);
   
   // Load local backups from localStorage and setup backup progress
   React.useEffect(() => {
@@ -438,7 +525,7 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
         <div className="space-y-3 px-2 md:px-4 lg:px-6 max-w-5xl mx-auto">
 
           {/* Sound Effects */}
-          <div className={`${cardBg} border p-4 rounded-3xl transition-all duration-300 mt-4`}>
+          <div className={`${cardBg} border p-4 rounded-xl transition-all duration-300 mt-4`}>
               <div className="flex items-center justify-between mb-1">
               <div className="flex items-center gap-2">
                 <Headphones size={18} className="text-purple-500" />
@@ -727,7 +814,7 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
           </div>
 
           {/* Data Management Module */}
-          <div className={[cardBg, 'border p-4 rounded-3xl transition-all duration-300 mt-4'].join(' ')}>
+          <div className={[cardBg, 'border p-4 rounded-xl transition-all duration-300 mt-4'].join(' ')}>
             <div className="flex items-center justify-between mb-1">
               <div className="flex items-center gap-2">
                 <Database size={18} className="text-green-500" />
@@ -815,7 +902,17 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
                     >
                       WebDAV
                     </button>
-
+                    <button
+                      onClick={() => setCloudProvider('baidu')}
+                      className={[
+                        'flex-1 px-3 py-1.5 rounded-full text-xs font-bold transition-all',
+                        cloudProvider === 'baidu'
+                          ? 'bg-blue-500 text-white'
+                          : getButtonStyle(false)
+                      ].join(' ')}
+                    >
+                      百度网盘
+                    </button>
                   </div>
                 </div>
 
@@ -912,13 +1009,202 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
                   </div>
                 )}
 
+                {/* 百度网盘 Configuration */}
+                {cloudProvider === 'baidu' && (
+                  <div className="space-y-2">
+                    <div className="space-y-1">
+                      <label className={['text-xs font-bold', textMain].join(' ')}>百度网盘API配置</label>
+                      <p className={['text-xs', textSub].join(' ')}>请输入百度网盘开放平台的API密钥</p>
+                    </div>
+
+                    <div className="space-y-1">
+                      <label className={['text-xs font-bold', textMain].join(' ')}>AppKey (API Key)</label>
+                      <input
+                        type="text"
+                        value={baiduConfig.clientId}
+                        onChange={(e) => setBaiduConfig({ ...baiduConfig, clientId: e.target.value })}
+                        placeholder="请输入百度网盘AppKey"
+                        className={[
+                          'w-full px-2 py-1 rounded text-xs',
+                          isNeomorphic
+                            ? isNeomorphicDark
+                              ? 'bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-4px_-4px_8px_rgba(30,30,46,0.8)] text-zinc-200'
+                              : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] text-zinc-800'
+                            : isDark
+                            ? 'bg-zinc-900 border border-zinc-800 text-zinc-200'
+                            : 'bg-white border border-slate-300 text-zinc-800'
+                        ].join(' ')}
+                      />
+                    </div>
+
+                    <div className="space-y-1">
+                      <label className={['text-xs font-bold', textMain].join(' ')}>SecretKey (Secret Key)</label>
+                      <input
+                        type="password"
+                        value={baiduConfig.clientSecret}
+                        onChange={(e) => setBaiduConfig({ ...baiduConfig, clientSecret: e.target.value })}
+                        placeholder="请输入百度网盘SecretKey"
+                        className={[
+                          'w-full px-2 py-1 rounded text-xs',
+                          isNeomorphic
+                            ? isNeomorphicDark
+                              ? 'bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-4px_-4px_8px_rgba(30,30,46,0.8)] text-zinc-200'
+                              : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] text-zinc-800'
+                            : isDark
+                            ? 'bg-zinc-900 border border-zinc-800 text-zinc-200'
+                            : 'bg-white border border-slate-300 text-zinc-800'
+                        ].join(' ')}
+                      />
+                    </div>
+
+                    <div className="space-y-1">
+                      <label className={['text-xs font-bold', textMain].join(' ')}>Access Token</label>
+                      <input
+                        type="text"
+                        value={baiduConfig.accessToken}
+                        onChange={(e) => setBaiduConfig({ ...baiduConfig, accessToken: e.target.value })}
+                        placeholder="请输入百度网盘Access Token"
+                        className={[
+                          'w-full px-2 py-1 rounded text-xs',
+                          isNeomorphic
+                            ? isNeomorphicDark
+                              ? 'bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-4px_-4px_8px_rgba(30,30,46,0.8)] text-zinc-200'
+                              : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] text-zinc-800'
+                            : isDark
+                            ? 'bg-zinc-900 border border-zinc-800 text-zinc-200'
+                            : 'bg-white border border-slate-300 text-zinc-800'
+                        ].join(' ')}
+                      />
+                    </div>
+
+                    <div className="space-y-1">
+                      <label className={['text-xs font-bold', textMain].join(' ')}>Refresh Token</label>
+                      <input
+                        type="text"
+                        value={baiduConfig.refreshToken}
+                        onChange={(e) => setBaiduConfig({ ...baiduConfig, refreshToken: e.target.value })}
+                        placeholder="请输入百度网盘Refresh Token"
+                        className={[
+                          'w-full px-2 py-1 rounded text-xs',
+                          isNeomorphic
+                            ? isNeomorphicDark
+                              ? 'bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-4px_-4px_8px_rgba(30,30,46,0.8)] text-zinc-200'
+                              : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] text-zinc-800'
+                            : isDark
+                            ? 'bg-zinc-900 border border-zinc-800 text-zinc-200'
+                            : 'bg-white border border-slate-300 text-zinc-800'
+                        ].join(' ')}
+                      />
+                    </div>
+
+                    <button
+                      onClick={async () => {
+                        setWebdavStatus('正在授权百度网盘...');
+                        
+                        try {
+                          // 首先保存配置，确保API密钥已存储
+                          localStorage.setItem('baidu-netdisk-client-id', baiduConfig.clientId);
+                          localStorage.setItem('baidu-netdisk-client-secret', baiduConfig.clientSecret);
+                          
+                          // 导入百度网盘备份管理器
+                          const { default: baiduNetdiskBackupManager } = await import('../utils/BaiduNetdiskBackupManager');
+                          
+                          // 设置API密钥
+                          baiduNetdiskBackupManager.setApiKeys(baiduConfig.clientId, baiduConfig.clientSecret);
+                          
+                          // 生成授权URL
+                          const authUrl = baiduNetdiskBackupManager.getAuthorizationUrl();
+                          
+                          // 打开授权页面
+                          window.open(authUrl, '_blank', 'width=800,height=600');
+                          
+                          // 提示用户
+                          setWebdavStatus('请在新打开的页面中完成百度网盘授权');
+                          
+                          // 监听回调（这里需要在应用中实现回调处理）
+                          // 注意：实际项目中需要在回调页面中调用handleAuthorizationCallback
+                        } catch (error) {
+                          console.error('百度网盘授权失败:', error);
+                          setWebdavStatus('百度网盘授权失败：' + (error as Error).message);
+                        } finally {
+                          setTimeout(() => setWebdavStatus(''), 5000);
+                        }
+                      }}
+                      className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-full text-xs font-bold transition-all'].join(' ')}
+                    >
+                      <Key size={14} className="inline-block mr-1" />
+                      授权百度网盘
+                    </button>
+
+                    <button
+                      onClick={async () => {
+                        setWebdavStatus('正在保存百度网盘配置...');
+                        
+                        try {
+                          // 保存百度网盘配置到本地存储
+                          localStorage.setItem('baidu-netdisk-client-id', baiduConfig.clientId);
+                          localStorage.setItem('baidu-netdisk-client-secret', baiduConfig.clientSecret);
+                          localStorage.setItem('baidu-netdisk-access-token', baiduConfig.accessToken);
+                          localStorage.setItem('baidu-netdisk-refresh-token', baiduConfig.refreshToken);
+                          
+                          setWebdavStatus('百度网盘配置保存成功！');
+                        } catch (error) {
+                          console.error('保存百度网盘配置失败:', error);
+                          setWebdavStatus('百度网盘配置保存失败：' + (error as Error).message);
+                        } finally {
+                          setTimeout(() => setWebdavStatus(''), 3000);
+                        }
+                      }}
+                      className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-full text-xs font-bold transition-all'].join(' ')}
+                    >
+                      <Save size={14} className="inline-block mr-1" />
+                      保存百度网盘配置
+                    </button>
+
+                    <button
+                      onClick={async () => {
+                        setWebdavStatus('正在备份到百度网盘...');
+                        setIsBackingUp(true);
+                        
+                        try {
+                          await backupManager.createBaiduNetdiskBackup();
+                          setWebdavStatus('百度网盘备份成功！');
+                        } catch (error) {
+                          console.error('百度网盘备份失败:', error);
+                          setWebdavStatus('百度网盘备份失败：' + (error as Error).message);
+                        } finally {
+                          setIsBackingUp(false);
+                          setTimeout(() => setWebdavStatus(''), 3000);
+                        }
+                      }}
+                      disabled={isBackingUp}
+                      className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-full text-xs font-bold transition-all'].join(' ')}
+                    >
+                      <Cloud size={14} className="inline-block mr-1" />
+                      {isBackingUp ? '备份中...' : '备份到百度网盘'}
+                    </button>
+
+                    <button
+                      onClick={restoreFromWebDAV}
+                      disabled={isRestoring}
+                      className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-full text-xs font-bold transition-all'].join(' ')}
+                    >
+                      <Download size={14} className="inline-block mr-1" />
+                      {isRestoring ? '恢复中...' : '从百度网盘恢复'}
+                    </button>
+
+                    {webdavStatus && (
+                      <p className={['text-xs text-center', textSub].join(' ')}>{webdavStatus}</p>
+                    )}
+                  </div>
+                )}
 
               </div>
             )}
           </div>
 
           {/* About Module */}
-          <div className={`${cardBg} border p-4 rounded-3xl transition-all duration-300 mt-4`}>
+          <div className={`${cardBg} border p-4 rounded-xl transition-all duration-300 mt-4`}>
             <div className="flex items-center justify-between mb-1">
               <div className="flex items-center gap-2">
                 <Info size={18} className="text-blue-500" />
