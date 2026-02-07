@@ -6,7 +6,7 @@
 import { useReducer, useCallback, useEffect } from 'react';
 import { DiceState, DiceTask, DiceCategory, DiceTaskRecord } from '../types';
 import { INITIAL_DICE_STATE } from '../constants/index';
-import soundManagerOptimized from '../utils/soundManagerOptimized';
+import soundManager from '../utils/soundManager';
 
 // 定义骰子状态Action类型
 type DiceAction =
@@ -242,7 +242,7 @@ export const useDiceReducer = (isDataLoaded: boolean) => {
   // Helper函数：完成任务
   const completeTask = useCallback((taskId: string) => {
     // 播放命运任务完成音效
-    soundManagerOptimized.playSoundEffect("taskComplete");
+    soundManager.playSoundEffect("taskComplete");
     dispatch({ type: 'COMPLETE_TASK', payload: taskId });
   }, []);
 

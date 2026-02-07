@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState, useRef, useCallback, useMemo } from 'react';
-import soundManager from '../utils/soundManagerOptimized';
+import soundManager from '../utils/soundManager';
 
 interface GlobalAudioContextType {
   currentBgMusicId: string | null;
@@ -68,7 +68,7 @@ export const GlobalAudioProvider: React.FC<GlobalAudioProviderProps> = ({ childr
   const [isBgMusicPlaying, setIsBgMusicPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(soundManager.getIsMuted());
 
-  const [volume, setVolume] = useState(soundManager.getBackgroundMusicVolume());
+  const [volume, setVolume] = useState(soundManager.getBgmVolume());
   
   // 用于跟踪当前播放的音乐ID
   const currentMusicIdRef = useRef<string | null>(currentBgMusicId);
@@ -194,7 +194,10 @@ export const GlobalAudioProvider: React.FC<GlobalAudioProviderProps> = ({ childr
   // 播放音效
   const playSoundEffect = useCallback(async (effectName: string) => {
     try {
-      await soundManager.playSoundEffect(effectName);
+      // 检查是否静音
+      if (!soundManager.getIsMuted()) {
+        await soundManager.playSoundEffect(effectName);
+      }
     } catch (error) {
       if (process.env.NODE_ENV === 'development') {
         console.error('Failed to play sound effect:', error);

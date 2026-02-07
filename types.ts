@@ -273,6 +273,8 @@ export interface Habit {
   color: string;
   /** 关联属性 */
   attr?: AttributeTypeValue;
+  /** 任务备注 */
+  note?: string;
   /** 提醒设置 */
   reminder?: {
     enabled: boolean;

@@ -115,8 +115,30 @@ export default defineConfig(({ mode }) => {
         }
       },
       build: {
-        // 生产构建时暂时禁用压缩，避免变量名冲突
-        minify: false,
+        // 生产构建时使用合理的压缩配置
+        minify: 'terser',
+        terserOptions: {
+          compress: {
+            drop_console: true,
+            drop_debugger: true,
+            passes: 1,
+            pure_funcs: [],
+            // 禁用可能导致问题的优化
+            reduce_vars: false,
+            inline: false
+          },
+          mangle: {
+            toplevel: false,
+            properties: {
+              regex: /^_/,
+              keep_quoted: true
+            }
+          },
+          output: {
+            beautify: false,
+            comments: false
+          }
+        },
         // 支持GitHub Pages部署
         outDir: 'dist',
         assetsDir: 'assets',
@@ -140,24 +162,22 @@ export default defineConfig(({ mode }) => {
             manualChunks: {
               react: ['react', 'react-dom'],
               recharts: ['recharts'],
-              dndkit: ['@dnd-kit/core', '@dnd-kit/sortable', '@dnd-kit/utilities'],
               three: ['three', 'three-stdlib'],
-              googlegenai: ['@google/genai'],
               lucide: ['lucide-react'],
               crypto: ['crypto-js', 'bcryptjs', 'jsonwebtoken'],
-              audio: ['@tweenjs/tween.js'],
-              confetti: ['canvas-confetti']
+              confetti: ['canvas-confetti'],
+              // 大型组件单独打包，实现按需加载
+              thinkingcenter: ['@/components/ThinkingCenter'],
+              lifegame: ['@/components/LifeGame'],
+              selfmanifestation: ['@/components/SelfManifestation'],
+              halloffame: ['@/components/HallOfFame']
             },
             // 优化chunk命名
             entryFileNames: 'assets/js/[name]-[hash].js',
             chunkFileNames: 'assets/js/[name]-[hash].js',
             assetFileNames: 'assets/[ext]/[name]-[hash].[ext]',
             // 优化输出
-            compact: true,
-            // 启用代码分割
-            codeSplit: true,
-            // 优化动态导入
-            manualChunksSortMode: 'size'
+            compact: true
           },
           // 树摇配置
           treeshake: {

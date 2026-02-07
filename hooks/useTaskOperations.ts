@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { TaskType, DiceCategory, DiceTask, Project, Habit, SubTask, AttributeTypeValue } from '../types';
-import soundManagerOptimized from '../utils/soundManagerOptimized';
+import soundManager from '../utils/soundManager';
 
 interface UseTaskOperationsProps {
     onUpdateHabit: (id: string, updates: Partial<Habit>) => void;
@@ -38,14 +38,16 @@ export const useTaskOperations = ({
     givenUpTasks
 }: UseTaskOperationsProps) => {
 
-    const completeTask = useCallback((task: any, e: React.MouseEvent | null) => {
+    const completeTask = useCallback((task: any, e: React.MouseEvent | null, settings?: { enableSoundEffects: boolean }) => {
         if (task.isGivenUp) return;
         
         // 使用统一的音效管理库播放任务完成音效
-        if (task.type === TaskType.DAILY) {
-            soundManagerOptimized.playSoundEffect("taskComplete"); // 日常任务完成音效
-        } else if (task.type === TaskType.MAIN) {
-            soundManagerOptimized.playSoundEffect("mainTaskComplete"); // 主线任务完成音效
+        if (!settings || settings.enableSoundEffects) {
+            if (task.type === TaskType.DAILY) {
+                soundManager.playSoundEffect("taskComplete"); // 日常任务完成音效
+            } else if (task.type === TaskType.MAIN) {
+                soundManager.playSoundEffect("mainTaskComplete"); // 主线任务完成音效
+            }
         }
 
         if (e) {
@@ -87,11 +89,13 @@ export const useTaskOperations = ({
         }
     }, [onUpdateHabit, onUpdateProject, onUpdateBalance, onAddFloatingReward, todayStr]);
 
-    const giveUpTask = useCallback((taskId: string, e: React.MouseEvent) => {
+    const giveUpTask = useCallback((taskId: string, e: React.MouseEvent, settings?: { enableSoundEffects: boolean }) => {
         e.stopPropagation();
         
         // 使用统一的音效管理库播放任务放弃音效
-        soundManagerOptimized.playSoundEffect("taskGiveUp");
+        if (!settings || settings.enableSoundEffects) {
+            soundManager.playSoundEffect("taskGiveUp");
+        }
         
         // 调用传入的 onGiveUpTask 函数更新 givenUpTasks 状态
         if (onGiveUpTask) {

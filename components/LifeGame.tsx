@@ -288,7 +288,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
   });
 
   // 使用全局音频上下文
-  const { isMuted, setIsMuted, currentBgMusicId: currentSoundId, playBgMusic: setCurrentSoundId } = useGlobalAudio() as any;
+  const { isMuted, toggleMute: setIsMuted, currentBgMusicId: currentSoundId, playBgMusic: setCurrentSoundId } = useGlobalAudio();
   const audioRef = useRef<HTMLAudioElement | null>(null); // 保留 ref 以防其他地方引用，虽然不推荐
   
   // 更新tempSavings以反映最新的balance值
@@ -480,6 +480,20 @@ const LifeGame: React.FC<LifeGameProps> = ({
       setNewTaskDuration((task.duration || 30).toString());
       setNewTaskType(task.type || (task.category ? 'random' : 'daily'));
       setNewTaskPriority(task.priority || 'medium');
+      
+      // 加载任务备注
+      let taskNote = '';
+      if (task.type === TaskType.DAILY) {
+          const habit = habits.find(h => h.id === task.id);
+          taskNote = habit?.note || '';
+      } else if (task.type === TaskType.MAIN || task.type === 'timebox') {
+          const project = projects.find(p => p.id === task.id);
+          taskNote = project?.note || '';
+      } else if (task.note) {
+          // 对于其他类型的任务，直接使用task.note
+          taskNote = task.note;
+      }
+      setNewTaskNote(taskNote);
       
       if (task.category) {
           setNewTaskDiceCategory(task.category);
@@ -1308,21 +1322,25 @@ const LifeGame: React.FC<LifeGameProps> = ({
                         {/* 现有任务列表 */}
                         <div className="space-y-2">
                             {manageTaskTab === 'daily' && habits.map((h) => (
-                                <div key={h.id} className={`flex items-center justify-between p-2 rounded ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[5px_5px_10px_rgba(0,0,0,0.4),-5px_-5px_10px_rgba(30,30,46,0.8)] border-none rounded-lg' : 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] border-none rounded-lg') : (isDark ? 'border-zinc-800 bg-zinc-900/50' : 'border-slate-200 bg-slate-50')}`}>
-                                    <span className={`text-xs ${textMain}`}>{h.name}</span>
-                                    <div className="flex gap-2">
-                                        <button onClick={() => { openEditTask({...h, text:h.name, type:'daily', gold:h.reward}); }} className={`${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[3px_3px_6px_rgba(0,0,0,0.3),-3px_-3px_6px_rgba(30,30,46,0.7)] border-none rounded-full text-blue-400 hover:shadow-[1px_1px_3px_rgba(0,0,0,0.3),-1px_-1px_3px_rgba(30,30,46,0.7)] active:shadow-[inset_1px_1px_2px_rgba(0,0,0,0.3),inset_-1px_-1px_2px_rgba(30,30,46,0.7)] p-1' : 'bg-[#e0e5ec] shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] border-none rounded-full text-blue-500 hover:shadow-[1px_1px_3px_rgba(163,177,198,0.6),-1px_-1px_3px_rgba(255,255,255,1)] active:shadow-[inset_1px_1px_2px_rgba(163,177,198,0.6),inset_-1px_-1px_2px_rgba(255,255,255,1)] p-1') : 'text-blue-500 hover:text-blue-400 p-1 rounded-full hover:bg-blue-900/10'}`}><Edit3 size={14}/></button>
-                                        <button onClick={() => onDeleteHabit(h.id)} className={`${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[3px_3px_6px_rgba(0,0,0,0.3),-3px_-3px_6px_rgba(30,30,46,0.7)] border-none rounded-full text-red-400 hover:shadow-[1px_1px_3px_rgba(0,0,0,0.3),-1px_-1px_3px_rgba(30,30,46,0.7)] active:shadow-[inset_1px_1px_2px_rgba(0,0,0,0.3),inset_-1px_-1px_2px_rgba(30,30,46,0.7)] p-1' : 'bg-[#e0e5ec] shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] border-none rounded-full text-red-500 hover:shadow-[1px_1px_3px_rgba(163,177,198,0.6),-1px_-1px_3px_rgba(255,255,255,1)] active:shadow-[inset_1px_1px_2px_rgba(163,177,198,0.6),inset_-1px_-1px_2px_rgba(255,255,255,1)] p-1') : 'text-red-500 hover:text-red-400 p-1 rounded-full hover:bg-red-900/10'}`}><Trash2 size={14}/></button>
+                                <div key={h.id} className={`group flex items-center justify-between p-2 rounded ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[5px_5px_10px_rgba(0,0,0,0.4),-5px_-5px_10px_rgba(30,30,46,0.8)] border-none rounded-lg' : 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] border-none rounded-lg') : (isDark ? 'border-zinc-800 bg-zinc-900/50' : 'border-slate-200 bg-slate-50')}`}>
+                                    <div className="flex items-center gap-1.5 flex-wrap">
+                                        <span className={`text-xs font-bold ${textMain}`}>{h.name}</span>
+                                        <button onClick={() => { openEditTask({...h, text:h.name, type:'daily', gold:h.reward}); }} className="opacity-0 group-hover:opacity-100 text-zinc-500 hover:text-blue-500 transition-opacity ml-1 p-1 rounded-full hover:bg-blue-900/10 flex-shrink-0">
+                                            <Edit3 size={12}/>
+                                        </button>
                                     </div>
+                                    <button onClick={() => onDeleteHabit(h.id)} className={`${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[3px_3px_6px_rgba(0,0,0,0.3),-3px_-3px_6px_rgba(30,30,46,0.7)] border-none rounded-full text-red-400 hover:shadow-[1px_1px_3px_rgba(0,0,0,0.3),-1px_-1px_3px_rgba(30,30,46,0.7)] active:shadow-[inset_1px_1px_2px_rgba(0,0,0,0.3),inset_-1px_-1px_2px_rgba(30,30,46,0.7)] p-1' : 'bg-[#e0e5ec] shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] border-none rounded-full text-red-500 hover:shadow-[1px_1px_3px_rgba(163,177,198,0.6),-1px_-1px_3px_rgba(255,255,255,1)] active:shadow-[inset_1px_1px_2px_rgba(163,177,198,0.6),inset_-1px_-1px_2px_rgba(255,255,255,1)] p-1') : 'text-red-500 hover:text-red-400 p-1 rounded-full hover:bg-red-900/10'}`}><Trash2 size={14}/></button>
                                 </div>
                             ))}
                             {manageTaskTab === 'main' && projects.map((p) => (
-                                <div key={p.id} className={`flex items-center justify-between p-2 rounded ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[5px_5px_10px_rgba(0,0,0,0.4),-5px_-5px_10px_rgba(30,30,46,0.8)] border-none rounded-lg' : 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] border-none rounded-lg') : (isDark ? 'border-zinc-800 bg-zinc-900/50' : 'border-slate-200 bg-slate-50')}`}>
-                                    <span className={`text-xs ${textMain}`}>{p.name}</span>
-                                    <div className="flex gap-2">
-                                        <button onClick={() => { openEditTask({...p, text:p.name, type:'main', gold:500}); }} className={`${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[3px_3px_6px_rgba(0,0,0,0.3),-3px_-3px_6px_rgba(30,30,46,0.7)] border-none rounded-full text-blue-400 hover:shadow-[1px_1px_3px_rgba(0,0,0,0.3),-1px_-1px_3px_rgba(30,30,46,0.7)] active:shadow-[inset_1px_1px_2px_rgba(0,0,0,0.3),inset_-1px_-1px_2px_rgba(30,30,46,0.7)] p-1' : 'bg-[#e0e5ec] shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] border-none rounded-full text-blue-500 hover:shadow-[1px_1px_3px_rgba(163,177,198,0.6),-1px_-1px_3px_rgba(255,255,255,1)] active:shadow-[inset_1px_1px_2px_rgba(163,177,198,0.6),inset_-1px_-1px_2px_rgba(255,255,255,1)] p-1') : 'text-blue-500 hover:text-blue-400 p-1 rounded-full hover:bg-blue-900/10'}`}><Edit3 size={14}/></button>
-                                        <button onClick={() => onDeleteProject(p.id)} className={`${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[3px_3px_6px_rgba(0,0,0,0.3),-3px_-3px_6px_rgba(30,30,46,0.7)] border-none rounded-full text-red-400 hover:shadow-[1px_1px_3px_rgba(0,0,0,0.3),-1px_-1px_3px_rgba(30,30,46,0.7)] active:shadow-[inset_1px_1px_2px_rgba(0,0,0,0.3),inset_-1px_-1px_2px_rgba(30,30,46,0.7)] p-1' : 'bg-[#e0e5ec] shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] border-none rounded-full text-red-500 hover:shadow-[1px_1px_3px_rgba(163,177,198,0.6),-1px_-1px_3px_rgba(255,255,255,1)] active:shadow-[inset_1px_1px_2px_rgba(163,177,198,0.6),inset_-1px_-1px_2px_rgba(255,255,255,1)] p-1') : 'text-red-500 hover:text-red-400 p-1 rounded-full hover:bg-red-900/10'}`}><Trash2 size={14}/></button>
+                                <div key={p.id} className={`group flex items-center justify-between p-2 rounded ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[5px_5px_10px_rgba(0,0,0,0.4),-5px_-5px_10px_rgba(30,30,46,0.8)] border-none rounded-lg' : 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] border-none rounded-lg') : (isDark ? 'border-zinc-800 bg-zinc-900/50' : 'border-slate-200 bg-slate-50')}`}>
+                                    <div className="flex items-center gap-1.5 flex-wrap flex-1">
+                                        <span className={`text-xs font-bold ${textMain}`}>{p.name}</span>
+                                        <button onClick={() => { openEditTask({...p, text:p.name, type:'main', gold:500}); }} className="opacity-0 group-hover:opacity-100 text-zinc-500 hover:text-blue-500 transition-opacity ml-1 p-1 rounded-full hover:bg-blue-900/10 flex-shrink-0">
+                                            <Edit3 size={12}/>
+                                        </button>
                                     </div>
+                                    <button onClick={() => onDeleteProject(p.id)} className={`${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[3px_3px_6px_rgba(0,0,0,0.3),-3px_-3px_6px_rgba(30,30,46,0.7)] border-none rounded-full text-red-400 hover:shadow-[1px_1px_3px_rgba(0,0,0,0.3),-1px_-1px_3px_rgba(30,30,46,0.7)] active:shadow-[inset_1px_1px_2px_rgba(0,0,0,0.3),inset_-1px_-1px_2px_rgba(30,30,46,0.7)] p-1' : 'bg-[#e0e5ec] shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] border-none rounded-full text-red-500 hover:shadow-[1px_1px_3px_rgba(163,177,198,0.6),-1px_-1px_3px_rgba(255,255,255,1)] active:shadow-[inset_1px_1px_2px_rgba(163,177,198,0.6),inset_-1px_-1px_2px_rgba(255,255,255,1)] p-1') : 'text-red-500 hover:text-red-400 p-1 rounded-full hover:bg-red-900/10'}`}><Trash2 size={14}/></button>
                                 </div>
                             ))}
                             {manageTaskTab === 'random' && diceState && (
@@ -1346,31 +1364,26 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                                 <div className="space-y-2">
                                                     {(tasks as any[]).map((task, index) => {
                                                         return (
-                                                            <div key={index} className={`flex items-center justify-between p-2 rounded ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[5px_5px_10px_rgba(0,0,0,0.4),-5px_-5px_10px_rgba(30,30,46,0.8)] border-none rounded-lg' : 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] border-none rounded-lg') : (isDark ? 'border-zinc-800 bg-zinc-900/50' : 'border-slate-200 bg-slate-50')}`}>
-                                                                <div className="flex items-center gap-2">
-                                                                    <span className={`text-xs ${textMain}`}>{task.text}</span>
+                                                            <div key={index} className={`group flex items-center justify-between p-2 rounded ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[5px_5px_10px_rgba(0,0,0,0.4),-5px_-5px_10px_rgba(30,30,46,0.8)] border-none rounded-lg' : 'bg-[#e0e5ec] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,1)] border-none rounded-lg') : (isDark ? 'border-zinc-800 bg-zinc-900/50' : 'border-slate-200 bg-slate-50')}`}>
+                                                                <div className="flex items-center gap-1.5 flex-wrap flex-1">
+                                                                    <span className={`text-xs font-bold ${textMain}`}>{task.text}</span>
+                                                                    <button onClick={() => {
+                                                                        openEditTask({...task, id: task.id, type: 'random', gold: task.gold, xp: task.xp, completed: false, frequency: 'once'});
+                                                                    }} className="opacity-0 group-hover:opacity-100 text-zinc-500 hover:text-blue-500 transition-opacity ml-1 p-1 rounded-full hover:bg-blue-900/10 flex-shrink-0">
+                                                                        <Edit3 size={12}/>
+                                                                    </button>
                                                                     <span className={`text-[9px] px-1.5 py-0.5 rounded-full bg-${categoryInfo.color}-100 text-${categoryInfo.color}-700 ${isDark ? 'bg-' + categoryInfo.color + '-900/30 text-' + categoryInfo.color + '-400' : ''}`}>
                                                                         {categoryInfo.label}
                                                                     </span>
                                                                     <span className={`text-[9px] text-zinc-500`}>+{task.gold}G</span>
                                                                     <span className={`text-[9px] text-zinc-500`}>{task.duration}m</span>
                                                                 </div>
-                                                                <div className="flex gap-2">
-                                                                    <button 
-                                                                        onClick={() => {
-                                                                            openEditTask({...task, id: task.id, type: 'random', gold: task.gold, xp: task.xp, completed: false, frequency: 'once'});
-                                                                        }}
-                                                                        className={`${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[3px_3px_6px_rgba(0,0,0,0.3),-3px_-3px_6px_rgba(30,30,46,0.7)] border-none rounded-full text-blue-400 hover:shadow-[1px_1px_3px_rgba(0,0,0,0.3),-1px_-1px_3px_rgba(30,30,46,0.7)] active:shadow-[inset_1px_1px_2px_rgba(0,0,0,0.3),inset_-1px_-1px_2px_rgba(30,30,46,0.7)] p-1' : 'bg-[#e0e5ec] shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] border-none rounded-full text-blue-500 hover:shadow-[1px_1px_3px_rgba(163,177,198,0.6),-1px_-1px_3px_rgba(255,255,255,1)] active:shadow-[inset_1px_1px_2px_rgba(163,177,198,0.6),inset_-1px_-1px_2px_rgba(255,255,255,1)] p-1') : 'text-blue-500 hover:text-blue-400 p-1 rounded-full hover:bg-blue-900/10'}`}
-                                                                    >
-                                                                        <Edit3 size={14}/>
-                                                                    </button>
-                                                                    <button 
-                                                                        onClick={() => onDeleteDiceTask(task.id, task.category as DiceCategory)}
-                                                                        className={`${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[3px_3px_6px_rgba(0,0,0,0.3),-3px_-3px_6px_rgba(30,30,46,0.7)] border-none rounded-full text-red-400 hover:shadow-[1px_1px_3px_rgba(0,0,0,0.3),-1px_-1px_3px_rgba(30,30,46,0.7)] active:shadow-[inset_1px_1px_2px_rgba(0,0,0,0.3),inset_-1px_-1px_2px_rgba(30,30,46,0.7)] p-1' : 'bg-[#e0e5ec] shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] border-none rounded-full text-red-500 hover:shadow-[1px_1px_3px_rgba(163,177,198,0.6),-1px_-1px_3px_rgba(255,255,255,1)] active:shadow-[inset_1px_1px_2px_rgba(163,177,198,0.6),inset_-1px_-1px_2px_rgba(255,255,255,1)] p-1') : 'text-red-500 hover:text-red-400 p-1 rounded-full hover:bg-red-900/10'}`}
-                                                                    >
-                                                                        <Trash2 size={14}/>
-                                                                    </button>
-                                                                </div>
+                                                                <button 
+                                                                    onClick={() => onDeleteDiceTask(task.id, task.category as DiceCategory)}
+                                                                    className={`${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[3px_3px_6px_rgba(0,0,0,0.3),-3px_-3px_6px_rgba(30,30,46,0.7)] border-none rounded-full text-red-400 hover:shadow-[1px_1px_3px_rgba(0,0,0,0.3),-1px_-1px_3px_rgba(30,30,46,0.7)] active:shadow-[inset_1px_1px_2px_rgba(0,0,0,0.3),inset_-1px_-1px_2px_rgba(30,30,46,0.7)] p-1' : 'bg-[#e0e5ec] shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,1)] border-none rounded-full text-red-500 hover:shadow-[1px_1px_3px_rgba(163,177,198,0.6),-1px_-1px_3px_rgba(255,255,255,1)] active:shadow-[inset_1px_1px_2px_rgba(163,177,198,0.6),inset_-1px_-1px_2px_rgba(255,255,255,1)] p-1') : 'text-red-500 hover:text-red-400 p-1 rounded-full hover:bg-red-900/10'}`}
+                                                                >
+                                                                    <Trash2 size={14}/>
+                                                                </button>
                                                             </div>
                                                         );
                                                     })}
@@ -1391,7 +1404,11 @@ const LifeGame: React.FC<LifeGameProps> = ({
             isOpen={isAddTaskOpen}
             onClose={() => {
                 setIsAddTaskOpen(false);
-                setModalState && setModalState(false);
+                // 只有当任务管理模态框也关闭时，才设置 setModalState(false)
+                // 否则保持模态状态为 true，因为任务管理模态框可能仍然打开
+                if (!isManageTasksOpen) {
+                    setModalState && setModalState(false);
+                }
             }}
             onOpen={() => setModalState && setModalState(true)}
             editingTaskId={editingTaskId}

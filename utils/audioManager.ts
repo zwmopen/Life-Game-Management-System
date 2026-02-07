@@ -26,29 +26,14 @@ class AudioManager {
     // 扫描音频文件并生成分类
     this.audioCategories = [
       {
-        id: 'battle',
-        name: '战斗音效',
-        files: await this.scanAudioFolder('/audio/battle', SoundType.SOUND_EFFECT)
-      },
-      {
         id: 'bgm',
         name: '背景音乐',
-        files: await this.scanAudioFolder('/audio/bgm', SoundType.BACKGROUND_MUSIC)
+        files: await this.scanAudioFolder('/audio/pomodoro/bgm', SoundType.BACKGROUND_MUSIC)
       },
       {
         id: 'pomodoro-bgm',
         name: '番茄钟背景音乐',
         files: await this.scanAudioFolder('/audio/pomodoro/bgm', SoundType.BACKGROUND_MUSIC)
-      },
-      {
-        id: 'pomodoro-sfx',
-        name: '番茄钟音效',
-        files: await this.scanAudioFolder('/audio/pomodoro', SoundType.SOUND_EFFECT)
-      },
-      {
-        id: 'dice',
-        name: '掷骰子音效',
-        files: await this.scanAudioFolder('/audio/dice', SoundType.SOUND_EFFECT)
       },
       {
         id: 'sfx',

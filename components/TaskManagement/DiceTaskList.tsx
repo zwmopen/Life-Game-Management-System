@@ -63,10 +63,10 @@ const DiceTaskList: React.FC<DiceTaskListProps> = memo(({
           </div>
         )}
         <div className="flex-1 min-w-0 w-full">
-          <div className="flex items-center gap-1 sm:gap-2">
+          <div className="flex items-center gap-1 sm:gap-1.5 mb-1">
             <h3 
               onClick={() => onOpenEditTask({...taskRecord.task, id: taskRecord.id, type: 'random', gold: taskRecord.generatedGold, xp: taskRecord.generatedXp, completed: taskRecord.status === 'completed', frequency: 'once'})}
-              className={`font-bold truncate flex-1 min-w-0 ${isPending ? textMain : 'text-zinc-500 line-through'}`}
+              className={`font-bold truncate min-w-0 ${isPending ? textMain : 'text-zinc-500 line-through'}`}
             >
               {taskRecord.task.text}
             </h3>
@@ -75,9 +75,9 @@ const DiceTaskList: React.FC<DiceTaskListProps> = memo(({
                 e.stopPropagation();
                 onOpenEditTask({...taskRecord.task, id: taskRecord.id, type: 'random', gold: taskRecord.generatedGold, xp: taskRecord.generatedXp, completed: taskRecord.status === 'completed', frequency: 'once'});
               }} 
-              className="opacity-70 hover:opacity-100 text-zinc-500 hover:text-blue-500 transition-all flex-shrink-0 p-1"
+              className="opacity-0 group-hover:opacity-100 text-zinc-500 hover:text-blue-500 transition-opacity ml-1 p-1 rounded-full hover:bg-blue-900/10 flex-shrink-0"
             >
-              <Edit3 size={14}/>
+              <Edit3 size={12}/>
             </button>
           </div>
           <div className="flex items-center gap-2 sm:gap-3 text-[10px] sm:text-[11px] font-mono text-zinc-500 mt-1 flex-wrap">
@@ -87,14 +87,14 @@ const DiceTaskList: React.FC<DiceTaskListProps> = memo(({
               <span className="text-blue-500">时长 {taskRecord.task.duration}m</span>
             )}
             {taskRecord.task.reminder && taskRecord.task.reminder.enabled && taskRecord.task.reminder.time && (
-              <span className="text-green-500">{taskRecord.task.reminder.time}</span>
+              <span className="text-zinc-500 dark:text-zinc-400">{taskRecord.task.reminder.time}</span>
             )}
             {taskRecord.task.priority && (
               <span className="flex items-center gap-1">
                 <span className={`${taskRecord.task.priority === 'high' ? 'text-red-500' : taskRecord.task.priority === 'medium' ? 'text-yellow-500' : 'text-green-500'}`}>
                   {taskRecord.task.priority === 'high' ? '🔥' : taskRecord.task.priority === 'medium' ? '⚡' : '🌱'}
                 </span>
-                <span className="text-zinc-500">{taskRecord.task.priority === 'high' ? '高' : taskRecord.task.priority === 'medium' ? '中' : '低'}</span>
+                <span className="text-zinc-500 dark:text-zinc-400">{taskRecord.task.priority === 'high' ? '高' : taskRecord.task.priority === 'medium' ? '中' : '低'}</span>
               </span>
             )}
           </div>

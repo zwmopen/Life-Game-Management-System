@@ -49,7 +49,7 @@ import { useStats } from './features/stats';
 import { useTaskReducer } from './hooks/useTaskReducer';
 
 // 导入音效管理库
-import soundManagerOptimized from './utils/soundManagerOptimized';
+import soundManager from './utils/soundManager';
 import backupManager from './utils/BackupManager';
 import syncManager from './utils/SyncManager';
 
@@ -264,10 +264,13 @@ const App: React.FC = () => {
 
     if(streakStr) setCheckInStreak(parseInt(streakStr));
 
+    // 强制使用新的 ZWM Pro 任务，忽略 localStorage 中的旧数据
+    setHabits(INITIAL_HABITS);
+    setHabitOrder(INITIAL_HABITS.map(h => h.id));
+    
     if (savedGlobal) {
       try {
         const data = JSON.parse(savedGlobal);
-        setHabits(data.habits || INITIAL_HABITS);
         
         const savedProjects = data.projects || [];
         const mergedProjects = [...savedProjects];
@@ -295,7 +298,6 @@ const App: React.FC = () => {
         }
         
         setProjects(finalProjects);
-        setHabitOrder(data.habitOrder || (data.habits || INITIAL_HABITS).map(h => h.id));
         setProjectOrder(data.projectOrder || (finalProjects).map(p => p.id));
         setBalance(data.balance ?? 88);
         setDay(data.day || 1);
@@ -335,6 +337,9 @@ const App: React.FC = () => {
     } else {
         localStorage.setItem('aes-global-data-v3', JSON.stringify({ startDate: new Date().toISOString() }));
     }
+    
+    // 确保使用新的任务顺序
+    setHabitOrder(INITIAL_HABITS.map(h => h.id));
 
     // 加载命运骰子状态
     if (savedDiceState) {
@@ -626,11 +631,11 @@ const App: React.FC = () => {
       if (amount > 0) {
           setTodayStats(s => ({ ...s, earnings: s.earnings + amount }));
           // Play Coin Sound
-          soundManagerOptimized.playSoundEffect("coin");
+          soundManager.playSoundEffect("purchase");
       } else {
           setTodayStats(s => ({ ...s, spending: s.spending - amount }));
           // Play Spend Sound
-          soundManagerOptimized.playSoundEffect("coin");
+          soundManager.playSoundEffect("purchase");
       }
     }
   }, []);
@@ -647,7 +652,7 @@ const App: React.FC = () => {
           addFloatingText(`+${safeXp} 经验`, 'text-blue-500', window.innerWidth / 2);
       }
       setActiveAchievement(null); // Close modal
-      soundManagerOptimized.playSoundEffect("achievement");
+      soundManager.playSoundEffect("achievement");
   }, [handleUpdateBalance]);
 
   const handleGiveUpTask = useCallback((taskId: string) => {
@@ -718,7 +723,7 @@ const App: React.FC = () => {
               addFloatingText(`+10 专注时间`, 'text-green-500', window.innerWidth / 2 + 80);
           }, 600);
           
-          soundManagerOptimized.playSoundEffect("taskComplete");
+          soundManager.playSoundEffect("taskComplete");
       }
       setCompletedRandomTasks(newCompleted);
   }, [completedRandomTasks, handleUpdateBalance]);
@@ -802,7 +807,7 @@ const App: React.FC = () => {
                       addFloatingText(`+10 专注时间`, 'text-green-500', window.innerWidth / 2 + 80);
                   }, 600);
 
-                  soundManagerOptimized.playSoundEffect("taskComplete");
+                  soundManager.playSoundEffect("taskComplete");
 
                   return { ...h, history: newHistory, streak: h.streak + 1 };
               }
@@ -846,7 +851,7 @@ const App: React.FC = () => {
                           }, i * 300 + 600);
                       }
                       
-                      soundManagerOptimized.playSoundEffect("mainTaskComplete");
+                      soundManager.playSoundEffect("mainTaskComplete");
                   } else if (diff < 0) {
                       // 子任务撤销：回退奖励
                       const undoneCount = Math.abs(diff);
@@ -1103,7 +1108,7 @@ const App: React.FC = () => {
       }
       
       // 播放命运任务完成音效
-      soundManagerOptimized.playSoundEffect("fateTaskComplete");
+      soundManager.playSoundEffect("achievement");
     }
     
     // 记录历史

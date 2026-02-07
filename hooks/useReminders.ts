@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Habit, Project } from '../types';
-import soundManager from '../utils/soundManagerOptimized';
+import soundManager from '../utils/soundManager';
 
 interface ReminderInfo {
   title: string;

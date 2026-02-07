@@ -2,8 +2,8 @@ import React, { useRef, useEffect, useState, memo } from 'react';
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three-stdlib';
 import { Theme, DiceState } from '../types';
-// 导入统一音效管理库（优化版）
-import soundManager from '../utils/soundManagerOptimized';
+// 导入音效管理库
+import soundManager from '../utils/soundManager';
 
 interface FateDiceProps {
   theme: Theme;
@@ -400,18 +400,15 @@ const FateDice: React.FC<FateDiceProps> = memo(({ theme, diceState, onSpinDice, 
   const rollDice = () => {
     if (isRolling || !diceMeshRef.current || !onSpinDice || (diceState?.isSpinning || (remainingCount <= 0))) return;
     
-    // 播放滚动音效 - 优先使用本地音频文件
+    // 使用统一的音效管理系统播放骰子音效
     try {
-      // 直接创建音频元素播放音效
-      const audio = new Audio('/audio/sfx/投骰子音效.mp3');
-      audio.volume = 0.7;
-      audio.play().catch(error => {
+      soundManager.playSoundEffect('dice').catch(error => {
         console.warn('FateDice: Audio playback failed, falling back to generated sound:', error);
         // 回退到生成的音效
         generateRollingSound();
       });
     } catch (error) {
-      console.warn('FateDice: Failed to create audio element, using generated sound:', error);
+      console.warn('FateDice: Failed to play sound, using generated sound:', error);
       generateRollingSound();
     }
     
@@ -576,9 +573,11 @@ const FateDice: React.FC<FateDiceProps> = memo(({ theme, diceState, onSpinDice, 
   };
   
   // 播放骰子音效
-  const playDiceSound = () => {
+  const playDiceSound = (enableSoundEffects: boolean = true) => {
     // 使用统一的音效管理系统播放骰子音效
-    soundManager.playSoundEffect('dice');
+    if (enableSoundEffects) {
+      soundManager.playSoundEffect('dice');
+    }
   };
   
   // 窗口大小调整

@@ -82,7 +82,7 @@ const TaskList: React.FC<TaskListProps> = memo(({
         </button>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1 sm:gap-2">
-            <h3 className={`font-bold truncate flex-1 min-w-0 ${task.completed || task.isGivenUp ? 'line-through text-zinc-500' : textMain}`}>
+            <h3 className={`font-bold truncate min-w-0 ${task.completed || task.isGivenUp ? 'line-through text-zinc-500' : textMain}`}>
               {task.text}
               {task.isGivenUp && <span className="ml-1 text-[9px] text-red-500 border border-red-900 bg-red-900/20 px-1 rounded font-bold whitespace-nowrap">已放弃</span>}
             </h3>
@@ -93,13 +93,13 @@ const TaskList: React.FC<TaskListProps> = memo(({
               <span className="text-yellow-500">金币 +{task.gold}</span>
               <span className="text-blue-500">时长 {task.duration || 25} 分钟</span>
               {task.reminder && task.reminder.enabled && task.reminder.time && (
-                <span className="text-green-500">{task.reminder.time}</span>
+                <span className="text-zinc-500 dark:text-zinc-400">{task.reminder.time}</span>
               )}
               <span className="flex items-center gap-1">
                 <span className={`${task.priority === 'high' ? 'text-red-500' : task.priority === 'medium' ? 'text-yellow-500' : 'text-green-500'}`}>
                   {task.priority === 'high' ? '🔥' : task.priority === 'medium' ? '⚡' : '🌱'}
                 </span>
-                <span className="text-zinc-500">{task.priority === 'high' ? '高' : task.priority === 'medium' ? '中' : '低'}</span>
+                <span className="text-zinc-500 dark:text-zinc-400">{task.priority === 'high' ? '高' : task.priority === 'medium' ? '中' : '低'}</span>
               </span>
               <span className="flex items-center gap-1">
                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-500">
@@ -167,13 +167,13 @@ const TaskList: React.FC<TaskListProps> = memo(({
               <span className="text-yellow-500">金币 +{task.gold}</span>
               <span className="text-blue-500">时长 {task.subTasks?.reduce((sum, st) => sum + st.duration, 0)} 分钟</span>
               {task.reminder && task.reminder.enabled && task.reminder.time && (
-                <span className="text-green-500">{task.reminder.time}</span>
+                <span className="text-zinc-500 dark:text-zinc-400">{task.reminder.time}</span>
               )}
               <span className="flex items-center gap-1">
                 <span className={`${task.priority === 'high' ? 'text-red-500' : task.priority === 'medium' ? 'text-yellow-500' : 'text-green-500'}`}>
                   {task.priority === 'high' ? '🔥' : task.priority === 'medium' ? '⚡' : '🌱'}
                 </span>
-                <span className="text-zinc-500">{task.priority === 'high' ? '高' : task.priority === 'medium' ? '中' : '低'}</span>
+                <span className="text-zinc-500 dark:text-zinc-400">{task.priority === 'high' ? '高' : task.priority === 'medium' ? '中' : '低'}</span>
               </span>
               <span className="flex items-center gap-1">
                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-500">
@@ -279,7 +279,7 @@ const TaskList: React.FC<TaskListProps> = memo(({
           <span className="text-yellow-500">+{task.gold}</span>
           <span className="text-blue-500">{task.duration || 25}m</span>
           {task.reminder && task.reminder.enabled && task.reminder.time && (
-            <span className="text-green-500">{task.reminder.time}</span>
+            <span className="text-zinc-500 dark:text-zinc-400">{task.reminder.time}</span>
           )}
           <span className={`${task.priority === 'high' ? 'text-red-500' : task.priority === 'medium' ? 'text-yellow-500' : 'text-green-500'}`}>
             {task.priority === 'high' ? '🔥' : task.priority === 'medium' ? '⚡' : '🌱'}

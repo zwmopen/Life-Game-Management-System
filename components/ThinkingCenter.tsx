@@ -1,9 +1,46 @@
 import React, { useState, useMemo, Suspense, lazy, useEffect } from 'react';
 import { Theme } from '../types';
 import { Search, BookOpen, Settings, ChevronLeft, ChevronRight } from 'lucide-react';
-import thinkingModels from './thinkingModels.json';
 import { GlobalHelpButton } from './HelpSystem';
 import { getNeomorphicStyles, getCardBgStyle, getTextStyle } from '../utils/styleHelpers';
+
+// 按需加载思维模型数据
+const loadThinkingModels = async () => {
+  const data = await import('./thinkingModels.json');
+  return data.default || [];
+};
+
+// 缓存思维模型数据
+let thinkingModelsCache: any[] | null = null;
+const getThinkingModels = async () => {
+  if (!thinkingModelsCache) {
+    thinkingModelsCache = await loadThinkingModels();
+  }
+  return thinkingModelsCache;
+};
+
+// 同步获取模型数据（用于初始渲染）
+const getInitialThinkingModels = () => {
+  try {
+    // 这里我们使用一个简化的初始模型列表，只包含基本信息
+    // 完整数据会在组件挂载后异步加载
+    return [
+      {
+        id: '101010法则',
+        name: '10-10-10法则',
+        label: '10/10/10 法则',
+        icon: 'BrainCircuit',
+        description: '当身陷情绪、难以决断时，将视角拉远，通过三层时间维度来审视当前的决策。'
+      }
+    ];
+  } catch (error) {
+    console.error('Error loading initial thinking models:', error);
+    return [];
+  }
+};
+
+// 同步获取的初始模型数据
+const initialThinkingModels = getInitialThinkingModels();
 
 interface ThinkingCenterProps {
   theme: Theme;
@@ -176,8 +213,6 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme = 'neomorphic-lig
   const textMain = getTextStyle(isDark, isNeomorphic, 'main');
   const textSub = getTextStyle(isDark, isNeomorphic, 'sub');
   
-  // 简化布局：移除复杂的宽度计算，使用更稳定的flex布局
-
   // 生成搜索框样式类
   const getSearchInputClass = () => {
     const baseClass = 'w-full px-4 py-2 pr-10 rounded-[24px] text-sm border transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500/50';
@@ -213,27 +248,29 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme = 'neomorphic-lig
   }, []);
 
   // 修复模型数据编码的函数
-  const fixModelEncoding = React.useCallback((model: typeof thinkingModels[0]) => {
+  const fixModelEncoding = React.useCallback((model: any) => {
     return {
       ...model,
       label: fixEncoding(model.label),
       description: fixEncoding(model.description),
-      deepAnalysis: fixEncoding(model.deepAnalysis),
-      principle: fixEncoding(model.principle),
-      scope: fixEncoding(model.scope),
-      tips: fixEncoding(model.tips),
-      practice: fixEncoding(model.practice),
-      scenario: fixEncoding(model.scenario)
+      deepAnalysis: fixEncoding(model.deepAnalysis || ''),
+      principle: fixEncoding(model.principle || ''),
+      scope: fixEncoding(model.scope || ''),
+      tips: fixEncoding(model.tips || ''),
+      practice: fixEncoding(model.practice || ''),
+      scenario: fixEncoding(model.scenario || '')
     };
   }, [fixEncoding]);
 
   // State management
-  const [activeModel, setActiveModel] = useState<string>(thinkingModels[0]?.id || '');
+  const [thinkingModels, setThinkingModels] = useState<any[]>(initialThinkingModels);
+  const [isLoading, setIsLoading] = useState(true);
+  const [activeModel, setActiveModel] = useState<string>(initialThinkingModels[0]?.id || '');
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [viewCounts, setViewCounts] = useState<Record<string, number>>(() => {
     // 初始化查看次数，所有模型初始为0
     const initialCounts: Record<string, number> = {};
-    thinkingModels.forEach(model => {
+    initialThinkingModels.forEach(model => {
       initialCounts[model.id] = 0;
     });
     return initialCounts;
@@ -264,6 +301,36 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme = 'neomorphic-lig
   useEffect(() => {
     localStorage.setItem('aes-thinking-favorites', JSON.stringify(Array.from(favorites)));
   }, [favorites]);
+  
+  // 异步加载思维模型数据
+  useEffect(() => {
+    const loadModels = async () => {
+      try {
+        setIsLoading(true);
+        const models = await getThinkingModels();
+        setThinkingModels(models);
+        
+        // 初始化查看次数
+        const initialCounts: Record<string, number> = {};
+        models.forEach(model => {
+          initialCounts[model.id] = 0;
+        });
+        setViewCounts(initialCounts);
+        
+        // 如果有模型，设置第一个为激活模型
+        if (models.length > 0 && !activeModel) {
+          setActiveModel(models[0].id);
+          setPreviousModel(models[0].id);
+        }
+      } catch (error) {
+        console.error('Error loading thinking models:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    loadModels();
+  }, []);
   
   // Handle model click event with triple-click favorite functionality
   const handleModelClick = (modelId: string) => {
@@ -373,7 +440,7 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme = 'neomorphic-lig
       models = thinkingModels.filter(model => 
         fixEncoding(model.label).toLowerCase().includes(searchLower) ||
         fixEncoding(model.description).toLowerCase().includes(searchLower) ||
-        fixEncoding(model.deepAnalysis).toLowerCase().includes(searchLower)
+        fixEncoding(model.deepAnalysis || '').toLowerCase().includes(searchLower)
       );
     }
     
@@ -397,7 +464,7 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme = 'neomorphic-lig
     
     // 修复所有模型的编码问题
     return sortedModels.map(fixModelEncoding);
-  }, [searchTerm, favorites, fixEncoding, fixModelEncoding]);
+  }, [thinkingModels, searchTerm, favorites, fixEncoding, fixModelEncoding]);
   
   // Auto-select first model when search results change
   useEffect(() => {
@@ -442,7 +509,7 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme = 'neomorphic-lig
         visualDesign: '<div style="text-align: center; padding: 20px;">默认可视化设计</div>'
       });
     }
-  }, [activeModel, fixModelEncoding]);
+  }, [thinkingModels, activeModel, fixModelEncoding]);
 
   return (
     <div className={`${bgClass} min-h-screen transition-colors duration-200`}>
@@ -477,7 +544,8 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme = 'neomorphic-lig
                       : isDark 
                         ? 'text-white placeholder-zinc-500' 
                         : 'text-black placeholder-black/50'
-                    }`}
+                    } ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    disabled={isLoading}
                   />
                 </div>
                 
@@ -523,20 +591,27 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme = 'neomorphic-lig
             <div className={`relative h-auto max-h-40 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-700 scrollbar-track-transparent rounded-xl ${isNeomorphic ? (isNeomorphicDark ? 'bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.6),inset_-4px_-4px_8px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)]') : (isDark ? 'bg-zinc-900 shadow-[inset_2px_2px_4px_rgba(0,0,0,0.5)]' : 'bg-slate-100 shadow-[inset_2px_2px_4px_rgba(163,177,198,0.3)]')}`}>
               {/* 优化的流式布局：增大间距，更宽松美观 */}
               <div className="flex flex-wrap gap-2 p-2">
-                {filteredModels.map((model, index) => (
-                  <ModelButton
-                    key={model.id}
-                    onClick={() => handleModelClick(model.id)}
-                    isActive={activeModel === model.id}
-                    theme={validTheme as Theme}
-                    isFavorite={favorites.has(model.id)}
-                  >
-                    <div className="flex items-center gap-1 justify-start">
-                      <span className={`inline-flex items-center justify-center w-4 h-4 rounded-full text-[8px] mr-1 ${isDark ? 'bg-zinc-800 text-zinc-400' : 'bg-slate-100 text-slate-500'} flex-shrink-0`}>{index + 1}</span>
-                      <span className="truncate text-nowrap">{fixEncoding(model.label)}</span>
-                    </div>
-                  </ModelButton>
-                ))}
+                {isLoading ? (
+                  <div className="flex items-center gap-2 p-4">
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500"></div>
+                    <span className={`text-sm ${textSub}`}>加载思维模型中...</span>
+                  </div>
+                ) : (
+                  filteredModels.map((model, index) => (
+                    <ModelButton
+                      key={model.id}
+                      onClick={() => handleModelClick(model.id)}
+                      isActive={activeModel === model.id}
+                      theme={validTheme as Theme}
+                      isFavorite={favorites.has(model.id)}
+                    >
+                      <div className="flex items-center gap-1 justify-start">
+                        <span className={`inline-flex items-center justify-center w-4 h-4 rounded-full text-[8px] mr-1 ${isDark ? 'bg-zinc-800 text-zinc-400' : 'bg-slate-100 text-slate-500'} flex-shrink-0`}>{index + 1}</span>
+                        <span className="truncate text-nowrap">{fixEncoding(model.label)}</span>
+                      </div>
+                    </ModelButton>
+                  ))
+                )}
               </div>
             </div>
           </div>
@@ -544,90 +619,99 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme = 'neomorphic-lig
           {/* Model Display with lazy loading and error handling */}
           {/* Model Content */}
           <div className="space-y-4 animate-fadeIn">
-            {/* Visual Design - Lazy loaded with error handling */}
-            <div className={`rounded-xl p-4 border transition-all duration-200 ${isDark ? (isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow}` : 'bg-zinc-900 border-zinc-800') : (isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow}` : 'bg-white border-slate-200')}`}>
-              {currentModel && currentModel.visualDesign ? (
-                <ModelErrorBoundary
-                  fallback={
-                    <div className={`flex flex-col items-center justify-center h-40 text-sm ${textSub} p-4`}>
-                      <p className="mb-2">模型可视化渲染出错</p>
-                      <p className="text-xs opacity-70">请尝试刷新页面或选择其他模型</p>
-                    </div>
-                  }
-                >
-                  {/* Safe rendering with additional checks and theme adaptation */}
-                  <div 
-                    dangerouslySetInnerHTML={{ 
-                      __html: sanitizeHtml(currentModel.visualDesign || '')
-                    }}
-                    className={`w-full ${bgClass} ${textMain} overflow-hidden`}
-                    style={{
-                      backgroundColor: isDark ? (isNeomorphic ? '#1e1e2e' : '#18181b') : (isNeomorphic ? '#e0e5ec' : '#f8fafc'),
-                      color: isDark ? '#f8fafc' : '#18181b',
-                      border: 'none',
-                      boxShadow: 'none'
-                    }}
-                  />
-                </ModelErrorBoundary>
-              ) : (
-                <div className={`flex items-center justify-center h-40 text-sm ${textSub}`}>
-                  暂无可视化设计
-                </div>
-              )}
-            </div>
-            
-            {/* Model Details */}
-            <div className={`rounded-xl p-4 border transition-all duration-200 ${isDark ? (isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow}` : 'bg-zinc-900 border-zinc-800') : (isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow}` : 'bg-white border-slate-200')}`}>
-              <div className="space-y-4">
-                {/* Deep Analysis */}
-                {currentModel.deepAnalysis && (
-                  <div>
-                    <h3 className={`text-base font-semibold mb-2 ${textMain}`}>深度分析</h3>
-                    <p className={`text-sm ${textSub}`}>{currentModel.deepAnalysis}</p>
-                  </div>
-                )}
-                
-                {/* Principle */}
-                {currentModel.principle && (
-                  <div>
-                    <h3 className={`text-base font-semibold mb-2 ${textMain}`}>核心原则</h3>
-                    <p className={`text-sm ${textSub}`}>{currentModel.principle}</p>
-                  </div>
-                )}
-                
-                {/* Scope */}
-                {currentModel.scope && (
-                  <div>
-                    <h3 className={`text-base font-semibold mb-2 ${textMain}`}>适用范围</h3>
-                    <p className={`text-sm ${textSub}`}>{currentModel.scope}</p>
-                  </div>
-                )}
-                
-                {/* Tips */}
-                {currentModel.tips && (
-                  <div>
-                    <h3 className={`text-base font-semibold mb-2 ${textMain}`}>使用技巧</h3>
-                    <p className={`text-sm ${textSub}`}>{currentModel.tips}</p>
-                  </div>
-                )}
-                
-                {/* Practice */}
-                {currentModel.practice && (
-                  <div>
-                    <h3 className={`text-base font-semibold mb-2 ${textMain}`}>实践建议</h3>
-                    <p className={`text-sm ${textSub}`}>{currentModel.practice}</p>
-                  </div>
-                )}
-                
-                {/* Scenario */}
-                {currentModel.scenario && (
-                  <div>
-                    <h3 className={`text-base font-semibold mb-2 ${textMain}`}>应用场景</h3>
-                    <p className={`text-sm ${textSub}`}>{currentModel.scenario}</p>
-                  </div>
-                )}
+            {isLoading ? (
+              <div className="flex flex-col items-center justify-center py-12">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mb-4"></div>
+                <p className={`text-sm ${textSub}`}>加载模型详情中...</p>
               </div>
-            </div>
+            ) : (
+              <>
+                {/* Visual Design - Lazy loaded with error handling */}
+                <div className={`rounded-xl p-4 border transition-all duration-200 ${isDark ? (isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow}` : 'bg-zinc-900 border-zinc-800') : (isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow}` : 'bg-white border-slate-200')}`}>
+                  {currentModel && currentModel.visualDesign ? (
+                    <ModelErrorBoundary
+                      fallback={
+                        <div className={`flex flex-col items-center justify-center h-40 text-sm ${textSub} p-4`}>
+                          <p className="mb-2">模型可视化渲染出错</p>
+                          <p className="text-xs opacity-70">请尝试刷新页面或选择其他模型</p>
+                        </div>
+                      }
+                    >
+                      {/* Safe rendering with additional checks and theme adaptation */}
+                      <div 
+                        dangerouslySetInnerHTML={{ 
+                          __html: sanitizeHtml(currentModel.visualDesign || '')
+                        }}
+                        className={`w-full ${bgClass} ${textMain} overflow-hidden`}
+                        style={{
+                          backgroundColor: isDark ? (isNeomorphic ? '#1e1e2e' : '#18181b') : (isNeomorphic ? '#e0e5ec' : '#f8fafc'),
+                          color: isDark ? '#f8fafc' : '#18181b',
+                          border: 'none',
+                          boxShadow: 'none'
+                        }}
+                      />
+                    </ModelErrorBoundary>
+                  ) : (
+                    <div className={`flex items-center justify-center h-40 text-sm ${textSub}`}>
+                      暂无可视化设计
+                    </div>
+                  )}
+                </div>
+                
+                {/* Model Details */}
+                <div className={`rounded-xl p-4 border transition-all duration-200 ${isDark ? (isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow}` : 'bg-zinc-900 border-zinc-800') : (isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow}` : 'bg-white border-slate-200')}`}>
+                  <div className="space-y-4">
+                    {/* Deep Analysis */}
+                    {currentModel.deepAnalysis && (
+                      <div>
+                        <h3 className={`text-base font-semibold mb-2 ${textMain}`}>深度分析</h3>
+                        <p className={`text-sm ${textSub}`}>{currentModel.deepAnalysis}</p>
+                      </div>
+                    )}
+                    
+                    {/* Principle */}
+                    {currentModel.principle && (
+                      <div>
+                        <h3 className={`text-base font-semibold mb-2 ${textMain}`}>核心原则</h3>
+                        <p className={`text-sm ${textSub}`}>{currentModel.principle}</p>
+                      </div>
+                    )}
+                    
+                    {/* Scope */}
+                    {currentModel.scope && (
+                      <div>
+                        <h3 className={`text-base font-semibold mb-2 ${textMain}`}>适用范围</h3>
+                        <p className={`text-sm ${textSub}`}>{currentModel.scope}</p>
+                      </div>
+                    )}
+                    
+                    {/* Tips */}
+                    {currentModel.tips && (
+                      <div>
+                        <h3 className={`text-base font-semibold mb-2 ${textMain}`}>使用技巧</h3>
+                        <p className={`text-sm ${textSub}`}>{currentModel.tips}</p>
+                      </div>
+                    )}
+                    
+                    {/* Practice */}
+                    {currentModel.practice && (
+                      <div>
+                        <h3 className={`text-base font-semibold mb-2 ${textMain}`}>实践建议</h3>
+                        <p className={`text-sm ${textSub}`}>{currentModel.practice}</p>
+                      </div>
+                    )}
+                    
+                    {/* Scenario */}
+                    {currentModel.scenario && (
+                      <div>
+                        <h3 className={`text-base font-semibold mb-2 ${textMain}`}>应用场景</h3>
+                        <p className={`text-sm ${textSub}`}>{currentModel.scenario}</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>

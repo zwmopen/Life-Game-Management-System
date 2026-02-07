@@ -756,13 +756,13 @@ const TaskManagement: React.FC<TaskManagementProps> = React.memo(({
                             <span className="text-yellow-500">金币 +{task.gold}</span>
                             <span className="text-blue-500">时长 {task.subTasks?.reduce((sum, st) => sum + st.duration, 0)} 分钟</span>
                             {task.reminder && task.reminder.enabled && task.reminder.time && (
-                              <span className="text-green-500">时间 {task.reminder.time}</span>
+                              <span className="text-zinc-500 dark:text-zinc-400">时间 {task.reminder.time}</span>
                             )}
                             <span className="flex items-center gap-1">
                               <span className={`${task.priority === 'high' ? 'text-red-500' : task.priority === 'medium' ? 'text-yellow-500' : 'text-green-500'}`}>
                                 {task.priority === 'high' ? '🔥' : task.priority === 'medium' ? '⚡' : '🌱'}
                               </span>
-                              <span className="text-zinc-500">{task.priority === 'high' ? '高' : task.priority === 'medium' ? '中' : '低'}</span>
+                              <span className="text-zinc-500 dark:text-zinc-400">{task.priority === 'high' ? '高' : task.priority === 'medium' ? '中' : '低'}</span>
                             </span>
                             <span className="flex items-center gap-1">
                               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-500"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>

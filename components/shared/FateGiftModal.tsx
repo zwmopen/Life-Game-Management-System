@@ -215,7 +215,7 @@ const FateGiftModal: React.FC<FateGiftModalProps> = ({
             
             <button 
               onClick={() => {
-                playSoundEffect('task-completed');
+                playSoundEffect('achievement');
                 onComplete();
               }}
               className={`py-3.5 rounded-xl font-bold transition-all duration-300 hover:scale-105 active:scale-95 relative overflow-hidden`}

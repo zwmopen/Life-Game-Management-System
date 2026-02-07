@@ -103,7 +103,7 @@ const UnifiedBgMusicSelector: React.FC<UnifiedBgMusicSelectorProps> = ({
   const loadAllSounds = useCallback(async () => {
     try {
       // 动态导入audioManager
-      const audioManagerModule = await import('../../utils/audioManagerOptimized');
+      const audioManagerModule = await import('../../utils/audioManager');
       await audioManagerModule.default.initialize();
       
       // 直接获取所有背景音乐文件，getBackgroundMusic()方法已经包含了所有类别的背景音乐
@@ -115,7 +115,7 @@ const UnifiedBgMusicSelector: React.FC<UnifiedBgMusicSelectorProps> = ({
       
       // 转换为组件所需的格式
       const nonMuteSounds = sortedBgmFiles.filter(file => file && file.id && file.url).map(file => ({
-        id: file.name, // 使用name作为id，这样与soundManager中的预初始化音乐id格式一致
+        id: file.id, // 使用file.id作为id，与soundManager中的动态加载音乐id格式一致
         name: file.name,
         url: file.url,
         icon: getIconComponentByName(file.name),
@@ -123,17 +123,17 @@ const UnifiedBgMusicSelector: React.FC<UnifiedBgMusicSelectorProps> = ({
         hex: '#3b82f6'
       }));
       
-      // 确保静音选项永远排在最上面
-      const soundList = [
+      // 去重处理，避免重复的音乐项
+      const uniqueSoundList = [
         { id: 'mute', name: '静音', url: '', icon: '🔇', color: 'text-blue-500', hex: '#3b82f6' },
-        ...nonMuteSounds
+        ...Array.from(new Map(nonMuteSounds.map(sound => [sound.id, sound])).values())
       ];
       
-      setAllSounds(soundList);
+      setAllSounds(uniqueSoundList);
       setIsSoundListLoaded(true);
       
       if (process.env.NODE_ENV === 'development') {
-        console.log(`Loaded ${soundList.length - 1} background music files`);
+        console.log(`Loaded ${uniqueSoundList.length - 1} background music files`);
       }
     } catch (error) {
       console.error('Failed to load sound list:', error);

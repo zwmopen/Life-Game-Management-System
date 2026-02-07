@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import soundManager from '../utils/soundManagerOptimized';
+import soundManager from '../utils/soundManager';
 
 interface SoundSettingsProps {
   theme: string;
