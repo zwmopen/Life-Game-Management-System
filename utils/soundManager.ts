@@ -34,23 +34,90 @@ class SoundManager {
     // 不立即初始化，等待页面完全渲染后再调用initialize方法
   }
 
+  // 音频配置列表，仅存储配置，不立即加载
+  private soundConfigs: SoundEffect[] = [
+    // 主要音效
+    { id: 'dice', url: '/audio/sfx/投骰子音效.mp3', volume: 0.7 },
+    { id: 'mainTaskComplete', url: '/audio/sfx/主线任务完成音效超快音效.mp3', volume: 0.5 },
+    { id: 'notification', url: '/audio/sfx/任务弹出通知提醒音效level-up-191997.mp3', volume: 0.5 },
+    { id: 'taskGiveUp', url: '/audio/sfx/任务放弃音效bubblepop-254773.mp3', volume: 0.5 },
+    { id: 'purchase', url: '/audio/sfx/商品购买支出音效.mp3', volume: 0.5 },
+    { id: 'achievement', url: '/audio/sfx/成就解锁音频.mp3', volume: 0.5 },
+    { id: 'achievement2', url: '/audio/sfx/成就解锁音频2.mp3', volume: 0.5 },
+    { id: 'taskComplete', url: '/audio/sfx/日常任务完成音效.mp3', volume: 0.5 },
+    { id: 'timer', url: '/audio/sfx/番茄钟开始和结束计时音效servant-bell-ring-2-211683.mp3', volume: 0.5 },
+    { id: 'checkin', url: '/audio/sfx/签到成功音效.mp3', volume: 0.5 },
+    
+    // 备用音效
+    { id: 'backup1', url: '/audio/sfx/备用-ding-36029.mp3', volume: 0.5 },
+    { id: 'backup2', url: '/audio/sfx/备用-ding-sfx-330333.mp3', volume: 0.5 },
+    { id: 'backup3', url: '/audio/sfx/备用-ding-small-bell-sfx-233008.mp3', volume: 0.5 },
+    { id: 'backup4', url: '/audio/sfx/备用-doorbell-329311.mp3', volume: 0.5 },
+    { id: 'backup5', url: '/audio/sfx/备用-hotel-bell-ding-1-174457.mp3', volume: 0.5 },
+    { id: 'backup6', url: '/audio/sfx/备用-hotel-bell-ding-1-174457 copy.mp3', volume: 0.5 },
+    { id: 'backup7', url: '/audio/sfx/备用3.mp3', volume: 0.5 },
+    { id: 'backup8', url: '/audio/sfx/备用音效.mp3', volume: 0.5 },
+    { id: 'backup9', url: '/audio/sfx/备用音效3.mp3', volume: 0.5 },
+    
+    // 使用在线音效作为回退
+    { id: 'dice-fallback', url: 'https://assets.mixkit.co/sfx/preview/mixkit-dice-roll-6125.mp3', volume: 0.7 },
+    { id: 'positive', url: 'https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3', volume: 0.5 },
+    { id: 'coin', url: 'https://assets.mixkit.co/active_storage/sfx/2003/2003-preview.mp3', volume: 0.5 },
+  ];
+
+  private bgmConfigs: SoundEffect[] = [
+    { id: 'forest', url: '/audio/pomodoro/bgm/森林.mp3', volume: 0.3, loop: true },
+    { id: 'rain', url: '/audio/pomodoro/bgm/雨天.mp3', volume: 0.3, loop: true },
+    { id: 'ocean', url: '/audio/pomodoro/bgm/海洋.mp3', volume: 0.3, loop: true },
+    { id: 'cafe', url: '/audio/pomodoro/bgm/西餐厅.mp3', volume: 0.3, loop: true },
+    { id: 'white-noise', url: '/audio/pomodoro/bgm/风扇.mp3', volume: 0.3, loop: true },
+    // 添加在线背景音乐作为回退
+    { id: 'online-forest', url: 'https://assets.mixkit.co/active_storage/sfx/2441/2441-preview.mp3', volume: 0.3, loop: true },
+    { id: 'online-alpha', url: 'https://assets.mixkit.co/active_storage/sfx/243/243-preview.mp3', volume: 0.3, loop: true },
+    { id: 'online-beta', url: 'https://assets.mixkit.co/active_storage/sfx/1126/1126-preview.mp3', volume: 0.3, loop: true },
+    { id: 'online-theta', url: 'https://assets.mixkit.co/active_storage/sfx/244/244-preview.mp3', volume: 0.3, loop: true },
+    { id: 'online-ocean', url: 'https://assets.mixkit.co/active_storage/sfx/2441/2441-preview.mp3', volume: 0.3, loop: true },
+  ];
+
   // 初始化方法，在页面渲染后调用
   async initialize(): Promise<void> {
     if (this.initialized) return;
     
     try {
       // 延迟初始化，确保页面已完全渲染
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise(resolve => setTimeout(resolve, 500));
       
       console.log('开始初始化音频系统...');
       
-      // 初始化音效
-      await this.initSounds();
-      // 初始化背景音乐
-      await this.initBackgroundMusic();
+      // 只初始化必要的配置，不加载音频文件
+      // 音频文件将在第一次播放时按需加载
+      
+      // 异步加载动态音频配置
+      try {
+        // 延迟加载audioManager，避免阻塞初始化
+        const { default: audioManager } = await import('./audioManager');
+        await audioManager.initialize();
+        
+        // 获取所有背景音乐文件，包括番茄钟专用的背景音乐
+        const bgmFiles = [...audioManager.getBackgroundMusic(), ...audioManager.getCategoryById('pomodoro-bgm')?.files || []];
+        
+        // 添加到配置列表
+        bgmFiles.forEach(file => {
+          const bgm: SoundEffect = {
+            id: file.id,
+            url: file.url,
+            volume: 0.3,
+            loop: true
+          };
+          this.bgmConfigs.push(bgm);
+        });
+      } catch (error) {
+        console.error('加载动态音频配置失败:', error);
+        // 即使audioManager加载失败，也不影响应用运行
+      }
       
       this.initialized = true;
-      console.log('音频系统初始化完成');
+      console.log('音频系统初始化完成（仅加载配置，音频将按需加载）');
     } catch (error) {
       console.error('音频系统初始化失败:', error);
       // 即使初始化失败，也不影响应用运行
@@ -58,121 +125,104 @@ class SoundManager {
     }
   }
 
-  private async initSounds(): Promise<void> {
-    const soundList: SoundEffect[] = [
-      // 主要音效
-      { id: 'dice', url: '/audio/sfx/投骰子音效.mp3', volume: 0.7 },
-      { id: 'mainTaskComplete', url: '/audio/sfx/主线任务完成音效超快音效.mp3', volume: 0.5 },
-      { id: 'notification', url: '/audio/sfx/任务弹出通知提醒音效level-up-191997.mp3', volume: 0.5 },
-      { id: 'taskGiveUp', url: '/audio/sfx/任务放弃音效bubblepop-254773.mp3', volume: 0.5 },
-      { id: 'purchase', url: '/audio/sfx/商品购买支出音效.mp3', volume: 0.5 },
-      { id: 'achievement', url: '/audio/sfx/成就解锁音频.mp3', volume: 0.5 },
-      { id: 'achievement2', url: '/audio/sfx/成就解锁音频2.mp3', volume: 0.5 },
-      { id: 'taskComplete', url: '/audio/sfx/日常任务完成音效.mp3', volume: 0.5 },
-      { id: 'timer', url: '/audio/sfx/番茄钟开始和结束计时音效servant-bell-ring-2-211683.mp3', volume: 0.5 },
-      { id: 'checkin', url: '/audio/sfx/签到成功音效.mp3', volume: 0.5 },
+  // 按需加载音效
+  private async loadSoundOnDemand(id: string): Promise<HTMLAudioElement | null> {
+    // 检查是否已加载
+    if (this.sounds[id]) {
+      return this.sounds[id];
+    }
+    
+    // 查找音效配置
+    const soundConfig = this.soundConfigs.find(sound => sound.id === id);
+    if (!soundConfig) {
+      console.warn(`音效 ${id} 配置未找到`);
+      return null;
+    }
+    
+    // 加载音效
+    try {
+      const correctUrl = this.getCorrectAudioUrl(soundConfig.url);
+      console.log(`加载音效 ${id} 从 ${correctUrl}`);
+      const audio = new Audio(correctUrl);
+      audio.volume = soundConfig.volume || this.masterVolume;
+      audio.loop = soundConfig.loop || false;
+      audio.muted = this.isMuted;
+      audio.preload = 'auto';
       
-      // 备用音效
-      { id: 'backup1', url: '/audio/sfx/备用-ding-36029.mp3', volume: 0.5 },
-      { id: 'backup2', url: '/audio/sfx/备用-ding-sfx-330333.mp3', volume: 0.5 },
-      { id: 'backup3', url: '/audio/sfx/备用-ding-small-bell-sfx-233008.mp3', volume: 0.5 },
-      { id: 'backup4', url: '/audio/sfx/备用-doorbell-329311.mp3', volume: 0.5 },
-      { id: 'backup5', url: '/audio/sfx/备用-hotel-bell-ding-1-174457.mp3', volume: 0.5 },
-      { id: 'backup6', url: '/audio/sfx/备用-hotel-bell-ding-1-174457 copy.mp3', volume: 0.5 },
-      { id: 'backup7', url: '/audio/sfx/备用3.mp3', volume: 0.5 },
-      { id: 'backup8', url: '/audio/sfx/备用音效.mp3', volume: 0.5 },
-      { id: 'backup9', url: '/audio/sfx/备用音效3.mp3', volume: 0.5 },
-      
-      // 使用在线音效作为回退
-      { id: 'dice-fallback', url: 'https://assets.mixkit.co/sfx/preview/mixkit-dice-roll-6125.mp3', volume: 0.7 },
-      { id: 'positive', url: 'https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3', volume: 0.5 },
-      { id: 'coin', url: 'https://assets.mixkit.co/active_storage/sfx/2003/2003-preview.mp3', volume: 0.5 },
-    ];
-
-    // 并行加载音效，但使用try-catch确保单个音效加载失败不影响整体
-    const loadPromises = soundList.map(async (sound) => {
+      // 尝试加载，但不阻塞
+      // 注意：audio.load() 不返回 Promise，所以不能使用 await 和 catch
       try {
-        await this.loadSound(sound);
+        audio.load();
       } catch (error) {
-        console.warn(`加载音效 ${sound.id} 失败:`, error);
+        console.warn(`加载音效 ${id} 时出错:`, error);
       }
-    });
-
-    await Promise.all(loadPromises);
+      
+      this.sounds[id] = audio;
+      return audio;
+    } catch (error) {
+      console.warn(`加载音效 ${id} 失败:`, error);
+      return null;
+    }
   }
 
-  private async initBackgroundMusic(): Promise<void> {
-    // 首先加载默认和在线回退音频
-    const defaultBgmList: SoundEffect[] = [
-      { id: 'forest', url: '/audio/pomodoro/bgm/森林.mp3', volume: 0.3, loop: true },
-      { id: 'rain', url: '/audio/pomodoro/bgm/雨天.mp3', volume: 0.3, loop: true },
-      { id: 'ocean', url: '/audio/pomodoro/bgm/海洋.mp3', volume: 0.3, loop: true },
-      { id: 'cafe', url: '/audio/pomodoro/bgm/西餐厅.mp3', volume: 0.3, loop: true },
-      { id: 'white-noise', url: '/audio/pomodoro/bgm/风扇.mp3', volume: 0.3, loop: true },
-      // 添加在线背景音乐作为回退
-      { id: 'online-forest', url: 'https://assets.mixkit.co/active_storage/sfx/2441/2441-preview.mp3', volume: 0.3, loop: true },
-      { id: 'online-alpha', url: 'https://assets.mixkit.co/active_storage/sfx/243/243-preview.mp3', volume: 0.3, loop: true },
-      { id: 'online-beta', url: 'https://assets.mixkit.co/active_storage/sfx/1126/1126-preview.mp3', volume: 0.3, loop: true },
-      { id: 'online-theta', url: 'https://assets.mixkit.co/active_storage/sfx/244/244-preview.mp3', volume: 0.3, loop: true },
-      { id: 'online-ocean', url: 'https://assets.mixkit.co/active_storage/sfx/2441/2441-preview.mp3', volume: 0.3, loop: true },
-    ];
-
-    // 并行加载默认音频
-    const loadPromises = defaultBgmList.map(async (bgm) => {
-      try {
-        await this.loadBackgroundMusic(bgm);
-      } catch (error) {
-        console.warn(`加载背景音乐 ${bgm.id} 失败:`, error);
-      }
-    });
-
-    await Promise.all(loadPromises);
+  // 按需加载背景音乐
+  private async loadBackgroundMusicOnDemand(id: string): Promise<HTMLAudioElement | null> {
+    // 检查是否已加载
+    if (this.backgroundMusic[id]) {
+      return this.backgroundMusic[id];
+    }
     
-    // 异步加载动态音频文件
+    // 查找背景音乐配置
+    const bgmConfig = this.bgmConfigs.find(bgm => bgm.id === id);
+    if (!bgmConfig) {
+      console.warn(`背景音乐 ${id} 配置未找到`);
+      return null;
+    }
+    
+    // 加载背景音乐
     try {
-      // 延迟加载audioManager，避免阻塞初始化
-      const { default: audioManager } = await import('./audioManager');
-      await audioManager.initialize();
+      const correctUrl = this.getCorrectAudioUrl(bgmConfig.url);
+      console.log(`加载背景音乐 ${id} 从 ${correctUrl}`);
+      const audio = new Audio(correctUrl);
+      audio.volume = bgmConfig.volume || this.bgmVolume;
+      audio.loop = bgmConfig.loop || true;
+      audio.muted = this.isMuted;
+      audio.preload = 'auto';
       
-      // 获取所有背景音乐文件，包括番茄钟专用的背景音乐
-      const bgmFiles = [...audioManager.getBackgroundMusic(), ...audioManager.getCategoryById('pomodoro-bgm')?.files || []];
+      // 尝试加载，但不阻塞
+      // 注意：audio.load() 不返回 Promise，所以不能使用 catch
+      try {
+        audio.load();
+      } catch (error) {
+        console.warn(`加载背景音乐 ${id} 时出错:`, error);
+      }
       
-      // 动态加载新发现的音频文件
-      const dynamicLoadPromises = bgmFiles.map(async (file) => {
-        try {
-          const bgm: SoundEffect = {
-            id: file.id,
-            url: file.url,
-            volume: 0.3,
-            loop: true
-          };
-          await this.loadBackgroundMusic(bgm);
-        } catch (error) {
-          console.warn(`加载动态背景音乐 ${file.id} 失败:`, error);
-        }
-      });
-
-      await Promise.all(dynamicLoadPromises);
+      this.backgroundMusic[id] = audio;
+      return audio;
     } catch (error) {
-      console.error('加载动态音频文件失败:', error);
-      // 即使audioManager加载失败，也不影响应用运行
+      console.warn(`加载背景音乐 ${id} 失败:`, error);
+      return null;
     }
   }
 
   private async loadSound(sound: SoundEffect): Promise<void> {
     try {
       const correctUrl = this.getCorrectAudioUrl(sound.url);
+      console.log(`加载音效 ${sound.id} 从 ${correctUrl}`);
       const audio = new Audio(correctUrl);
       audio.volume = sound.volume || this.masterVolume;
       audio.loop = sound.loop || false;
       audio.muted = this.isMuted;
-      // 设置预加载模式为 metadata，只加载元数据而不是整个文件
-      audio.preload = 'metadata';
+      // 设置预加载模式为 auto，确保音频能及时播放
+      audio.preload = 'auto';
       
       // 尝试加载音频，但不阻塞初始化
-      audio.load().catch(error => {
+      // 注意：audio.load() 不返回 Promise，所以不能使用 catch
+      try {
+        audio.load();
+      } catch (error) {
         console.warn(`加载音效 ${sound.id} 时出错:`, error);
-      });
+      }
       
       this.sounds[sound.id] = audio;
     } catch (error) {
@@ -183,67 +233,75 @@ class SoundManager {
   private async loadBackgroundMusic(bgm: SoundEffect): Promise<void> {
     try {
       const correctUrl = this.getCorrectAudioUrl(bgm.url);
+      console.log(`加载背景音乐 ${bgm.id} 从 ${correctUrl}`);
       const audio = new Audio(correctUrl);
       audio.volume = bgm.volume || this.bgmVolume;
       audio.loop = bgm.loop || true;
       audio.muted = this.isMuted;
-      // 设置预加载模式为 metadata，只加载元数据而不是整个文件
-      audio.preload = 'metadata';
+      // 设置预加载模式为 auto，确保音频能及时播放
+      audio.preload = 'auto';
       
       // 尝试加载音频，但不阻塞初始化
-      audio.load().catch(error => {
+      // 注意：audio.load() 不返回 Promise，所以不能使用 catch
+      try {
+        audio.load();
+      } catch (error) {
         console.warn(`加载背景音乐 ${bgm.id} 时出错:`, error);
-      });
+      }
       
       this.backgroundMusic[bgm.id] = audio;
     } catch (error) {
       console.warn(`加载背景音乐 ${bgm.id} 失败:`, error);
     }
   }
-  
-  // 按需加载背景音乐，在播放前确保音频已加载
-  private async preloadBackgroundMusicOnDemand(id: string): Promise<HTMLAudioElement | null> {
-    const bgm = this.backgroundMusic[id];
-    if (!bgm) {
-      console.warn(`Background music ${id} not found`);
-      return null;
-    }
-    
-    // 如果音频已加载完成，直接返回
-    if (bgm.readyState >= 3) { // HAVE_FUTURE_DATA
-      return bgm;
-    }
-    
-    // 否则等待音频加载完成
-    return new Promise((resolve) => {
-      bgm.oncanplaythrough = () => {
-        resolve(bgm);
-      };
-      bgm.onerror = () => {
-        console.error(`Failed to load background music ${id}`);
-        resolve(null);
-      };
-      
-      // 如果音频还没有开始加载，触发加载
-      if (bgm.readyState === 0) { // HAVE_NOTHING
-        bgm.load();
-      }
-    });
-  }
 
   // 播放音效
-  play(id: string): void {
+  async play(id: string): Promise<void> {
     if (this.isMuted) return;
     
-    const audio = this.sounds[id];
-    if (audio) {
-      // 重置并播放
-      audio.currentTime = 0;
-      audio.play().catch(error => {
-        console.error(`Failed to play sound ${id}:`, error);
-      });
-    } else {
-      console.warn(`Sound ${id} not found`);
+    try {
+      // 按需加载音效
+      const audio = await this.loadSoundOnDemand(id);
+      if (audio) {
+        // 重置并播放
+        audio.currentTime = 0;
+        await audio.play().catch(error => {
+          console.error(`播放音效 ${id} 失败:`, error);
+        });
+      } else {
+        console.warn(`音效 ${id} 未找到或加载失败`);
+      }
+    } catch (error) {
+      console.error(`播放音效时出错:`, error);
+    }
+  }
+
+  // 播放回退音效
+  private async playFallbackSound(effectName: string): Promise<void> {
+    try {
+      let fallbackId: string;
+      switch (effectName) {
+        case 'dice':
+          fallbackId = 'dice-fallback';
+          break;
+        case 'purchase':
+        case 'spend':
+          fallbackId = 'coin';
+          break;
+        default:
+          fallbackId = 'positive';
+      }
+      
+      console.log(`尝试播放回退音效 ${fallbackId}`);
+      const fallbackAudio = await this.loadSoundOnDemand(fallbackId);
+      if (fallbackAudio) {
+        fallbackAudio.currentTime = 0;
+        await fallbackAudio.play().catch(err => {
+          console.error(`播放回退音效 ${fallbackId} 失败:`, err);
+        });
+      }
+    } catch (error) {
+      console.error(`播放回退音效时出错:`, error);
     }
   }
 
@@ -252,62 +310,70 @@ class SoundManager {
     if (this.isMuted) return;
 
     try {
-      // 检查音频是否已解锁
+      console.log(`尝试播放音效 ${effectName}`);
+      // 确保音频已解锁
       if (!this.audioUnlocked) {
-        console.warn('音频未解锁，等待用户交互...');
-        // 尝试再次设置用户交互监听器
-        if (!this.userInteractionHandler) {
-          this.setupUserInteractionListener();
-        }
-        // 尝试立即解锁音频
+        console.warn('音频未解锁，尝试立即解锁...');
         await this.attemptAudioUnlock();
       }
 
-      // 首先尝试播放指定的音效
-      let audio = this.sounds[effectName];
+      // 首先尝试按需加载并播放指定的音效
+      let audio = await this.loadSoundOnDemand(effectName);
       
       // 如果找不到指定音效，使用默认回退音效
       if (!audio) {
-        console.warn(`Sound effect ${effectName} not found, using fallback`);
+        console.warn(`音效 ${effectName} 未找到，使用回退音效`);
         // 根据音效类型选择合适的回退音效
         switch (effectName) {
           case 'dice':
-            audio = this.sounds['dice-fallback'];
+            audio = await this.loadSoundOnDemand('dice-fallback');
             break;
           case 'notification':
           case 'taskComplete':
           case 'mainTaskComplete':
           case 'achievement':
-            audio = this.sounds['positive'];
+            audio = await this.loadSoundOnDemand('positive');
             break;
           case 'purchase':
           case 'spend':
-            audio = this.sounds['coin'];
+            audio = await this.loadSoundOnDemand('coin');
             break;
           default:
-            audio = this.sounds['positive'];
+            audio = await this.loadSoundOnDemand('positive');
         }
       }
       
       if (audio) {
         audio.currentTime = 0;
         try {
+          console.log(`正在播放音效 ${effectName}`);
+          
+          // 直接播放，不使用Promise包装
+          audio.onended = function() {
+            console.log(`音效 ${effectName} 播放成功`);
+          };
+          
+          audio.onerror = function(err) {
+            console.error('播放音效时出错:', err);
+          };
+          
+          // 尝试播放
           await audio.play();
+          console.log(`音效 ${effectName} 播放成功`);
         } catch (e) {
-          console.error('Error playing sound effect:', e);
+          console.error('播放音效时出错:', e);
           // 播放失败时，尝试使用在线回退音效
-          if (effectName === 'dice' && !this.sounds['dice-fallback'].paused) {
-            this.sounds['dice-fallback'].currentTime = 0;
-            await this.sounds['dice-fallback'].play().catch(err => {
-              console.error('Failed to play fallback sound:', err);
-            });
-          }
+          await this.playFallbackSound(effectName);
         }
       } else {
-        console.warn(`No sound effect found for ${effectName}`);
+        console.warn(`未找到 ${effectName} 的音效`);
+        // 尝试使用回退音效
+        await this.playFallbackSound(effectName);
       }
     } catch (e) {
-      console.error('Unexpected error playing sound effect:', e);
+      console.error('播放音效时发生意外错误:', e);
+      // 尝试使用回退音效
+      await this.playFallbackSound(effectName);
     }
   }
 
@@ -330,7 +396,7 @@ class SoundManager {
       const audio = this.backgroundMusic[id];
       if (audio && audio.paused) {
         audio.play().catch(error => {
-          console.error(`Failed to resume background music ${id}:`, error);
+          console.error(`恢复背景音乐 ${id} 失败:`, error);
         });
       }
       return;
@@ -339,8 +405,8 @@ class SoundManager {
     // 停止当前播放的背景音乐
     this.stopCurrentBackgroundMusic();
     
-    // 按需预加载背景音乐
-    const audio = await this.preloadBackgroundMusicOnDemand(id);
+    // 按需加载背景音乐
+    const audio = await this.loadBackgroundMusicOnDemand(id);
     if (audio) {
       this.currentBackgroundMusicId = id;
       // 确保音量设置正确
@@ -354,12 +420,12 @@ class SoundManager {
           audioStatistics.recordPlay(id);
         });
       } catch (error) {
-        console.error(`Failed to play background music ${id}:`, error);
+        console.error(`播放背景音乐 ${id} 失败:`, error);
         // 尝试修复播放问题
         this.handlePlaybackError(audio, id);
       }
     } else {
-      console.warn(`Background music ${id} not found or failed to load`);
+      console.warn(`背景音乐 ${id} 未找到或加载失败`);
     }
   }
 
@@ -661,7 +727,9 @@ class SoundManager {
     // 确保basePath格式正确
     const normalizedBasePath = basePath.endsWith('/') ? basePath.slice(0, -1) : basePath;
     
-    return `${normalizedBasePath}${normalizedUrl}`;
+    const finalUrl = `${normalizedBasePath}${normalizedUrl}`;
+    console.log(`音频文件路径: ${finalUrl}`);
+    return finalUrl;
   }
 
   // 添加新音效

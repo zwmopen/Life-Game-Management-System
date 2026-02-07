@@ -116,36 +116,14 @@ export default defineConfig(({ mode }) => {
       },
       build: {
         // 生产构建时使用合理的压缩配置
-        minify: 'terser',
-        terserOptions: {
-          compress: {
-            drop_console: false, // 保留控制台日志以便调试
-            drop_debugger: true,
-            passes: 1,
-            pure_funcs: [],
-            // 禁用可能导致问题的优化
-            reduce_vars: false,
-            inline: false,
-            // 禁用所有可能导致变量名冲突的优化
-            join_vars: false,
-            comparisons: false
-          },
-          mangle: {
-            toplevel: false,
-            properties: {
-              regex: /^_/,
-              keep_quoted: true
-            },
-            // 禁用变量名混淆，避免冲突
-            reserved: ['window', 'document', 'navigator', 'location']
-          },
-          output: {
-            beautify: false,
-            comments: false,
-            // 禁用可能导致问题的输出优化
-            ascii_only: true,
-            semicolons: true
-          }
+        minify: 'esbuild', // 使用esbuild代替terser，减少压缩错误
+        esbuild: {
+          minify: true,
+          minifyIdentifiers: false, // 禁用变量名混淆
+          minifySyntax: true,
+          minifyWhitespace: true,
+          keepNames: true, // 保留函数和变量名
+          drop: [] // 不删除任何内容，保留所有调试信息
         },
         // 支持GitHub Pages部署
         outDir: 'dist',
