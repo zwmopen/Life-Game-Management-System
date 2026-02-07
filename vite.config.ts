@@ -119,24 +119,32 @@ export default defineConfig(({ mode }) => {
         minify: 'terser',
         terserOptions: {
           compress: {
-            drop_console: true,
+            drop_console: false, // 保留控制台日志以便调试
             drop_debugger: true,
             passes: 1,
             pure_funcs: [],
             // 禁用可能导致问题的优化
             reduce_vars: false,
-            inline: false
+            inline: false,
+            // 禁用所有可能导致变量名冲突的优化
+            join_vars: false,
+            comparisons: false
           },
           mangle: {
             toplevel: false,
             properties: {
               regex: /^_/,
               keep_quoted: true
-            }
+            },
+            // 禁用变量名混淆，避免冲突
+            reserved: ['window', 'document', 'navigator', 'location']
           },
           output: {
             beautify: false,
-            comments: false
+            comments: false,
+            // 禁用可能导致问题的输出优化
+            ascii_only: true,
+            semicolons: true
           }
         },
         // 支持GitHub Pages部署

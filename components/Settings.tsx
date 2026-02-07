@@ -1020,7 +1020,7 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
                     <div className="space-y-1">
                       <label className={['text-xs font-bold', textMain].join(' ')}>AppKey (API Key)</label>
                       <input
-                        type="text"
+                        type="password"
                         value={baiduConfig.clientId}
                         onChange={(e) => setBaiduConfig({ ...baiduConfig, clientId: e.target.value })}
                         placeholder="请输入百度网盘AppKey"
@@ -1060,7 +1060,7 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
                     <div className="space-y-1">
                       <label className={['text-xs font-bold', textMain].join(' ')}>Access Token</label>
                       <input
-                        type="text"
+                        type="password"
                         value={baiduConfig.accessToken}
                         onChange={(e) => setBaiduConfig({ ...baiduConfig, accessToken: e.target.value })}
                         placeholder="请输入百度网盘Access Token"
@@ -1080,7 +1080,7 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
                     <div className="space-y-1">
                       <label className={['text-xs font-bold', textMain].join(' ')}>Refresh Token</label>
                       <input
-                        type="text"
+                        type="password"
                         value={baiduConfig.refreshToken}
                         onChange={(e) => setBaiduConfig({ ...baiduConfig, refreshToken: e.target.value })}
                         placeholder="请输入百度网盘Refresh Token"

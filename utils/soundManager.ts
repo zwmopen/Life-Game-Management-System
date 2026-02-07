@@ -18,6 +18,7 @@ class SoundManager {
   private audioUnlocked: boolean = false; // 音频是否已解锁（用户交互后）
   private selectedMusicIds: Set<string> = new Set(); // 选中的音乐ID集合
   private lockedMusicIds: Set<string> = new Set(); // 锁定的音乐ID集合
+  private initialized: boolean = false; // 是否已初始化
   
   // 添加页面可见性变化监听，确保音乐在后台运行
   private visibilityChangeHandler: (() => void) | null = null;
@@ -30,14 +31,34 @@ class SoundManager {
     // 监听用户交互，解锁音频播放权限
     this.setupUserInteractionListener();
     
-    // 异步初始化音效和背景音乐，避免阻塞页面加载
-    setTimeout(() => {
-      this.initSounds();
-      this.initBackgroundMusic();
-    }, 100);
+    // 不立即初始化，等待页面完全渲染后再调用initialize方法
   }
 
-  private initSounds(): void {
+  // 初始化方法，在页面渲染后调用
+  async initialize(): Promise<void> {
+    if (this.initialized) return;
+    
+    try {
+      // 延迟初始化，确保页面已完全渲染
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      console.log('开始初始化音频系统...');
+      
+      // 初始化音效
+      await this.initSounds();
+      // 初始化背景音乐
+      await this.initBackgroundMusic();
+      
+      this.initialized = true;
+      console.log('音频系统初始化完成');
+    } catch (error) {
+      console.error('音频系统初始化失败:', error);
+      // 即使初始化失败，也不影响应用运行
+      this.initialized = true;
+    }
+  }
+
+  private async initSounds(): Promise<void> {
     const soundList: SoundEffect[] = [
       // 主要音效
       { id: 'dice', url: '/audio/sfx/投骰子音效.mp3', volume: 0.7 },
@@ -68,9 +89,16 @@ class SoundManager {
       { id: 'coin', url: 'https://assets.mixkit.co/active_storage/sfx/2003/2003-preview.mp3', volume: 0.5 },
     ];
 
-    soundList.forEach(sound => {
-      this.loadSound(sound);
+    // 并行加载音效，但使用try-catch确保单个音效加载失败不影响整体
+    const loadPromises = soundList.map(async (sound) => {
+      try {
+        await this.loadSound(sound);
+      } catch (error) {
+        console.warn(`加载音效 ${sound.id} 失败:`, error);
+      }
     });
+
+    await Promise.all(loadPromises);
   }
 
   private async initBackgroundMusic(): Promise<void> {
@@ -89,49 +117,70 @@ class SoundManager {
       { id: 'online-ocean', url: 'https://assets.mixkit.co/active_storage/sfx/2441/2441-preview.mp3', volume: 0.3, loop: true },
     ];
 
-    // 加载默认音频
-    defaultBgmList.forEach(bgm => {
-      this.loadBackgroundMusic(bgm);
+    // 并行加载默认音频
+    const loadPromises = defaultBgmList.map(async (bgm) => {
+      try {
+        await this.loadBackgroundMusic(bgm);
+      } catch (error) {
+        console.warn(`加载背景音乐 ${bgm.id} 失败:`, error);
+      }
     });
+
+    await Promise.all(loadPromises);
     
     // 异步加载动态音频文件
-    setTimeout(async () => {
-      try {
-        await audioManager.initialize();
-        
-        // 获取所有背景音乐文件，包括番茄钟专用的背景音乐
-        const bgmFiles = [...audioManager.getBackgroundMusic(), ...audioManager.getCategoryById('pomodoro-bgm')?.files || []];
-        
-        // 动态加载新发现的音频文件
-        bgmFiles.forEach(file => {
+    try {
+      // 延迟加载audioManager，避免阻塞初始化
+      const { default: audioManager } = await import('./audioManager');
+      await audioManager.initialize();
+      
+      // 获取所有背景音乐文件，包括番茄钟专用的背景音乐
+      const bgmFiles = [...audioManager.getBackgroundMusic(), ...audioManager.getCategoryById('pomodoro-bgm')?.files || []];
+      
+      // 动态加载新发现的音频文件
+      const dynamicLoadPromises = bgmFiles.map(async (file) => {
+        try {
           const bgm: SoundEffect = {
             id: file.id,
             url: file.url,
             volume: 0.3,
             loop: true
           };
-          this.loadBackgroundMusic(bgm);
-        });
-      } catch (error) {
-        console.error('Failed to load dynamic audio files:', error);
-      }
-    }, 0);
+          await this.loadBackgroundMusic(bgm);
+        } catch (error) {
+          console.warn(`加载动态背景音乐 ${file.id} 失败:`, error);
+        }
+      });
+
+      await Promise.all(dynamicLoadPromises);
+    } catch (error) {
+      console.error('加载动态音频文件失败:', error);
+      // 即使audioManager加载失败，也不影响应用运行
+    }
   }
 
-  private loadSound(sound: SoundEffect): void {
+  private async loadSound(sound: SoundEffect): Promise<void> {
     try {
       const correctUrl = this.getCorrectAudioUrl(sound.url);
       const audio = new Audio(correctUrl);
       audio.volume = sound.volume || this.masterVolume;
       audio.loop = sound.loop || false;
       audio.muted = this.isMuted;
+      // 设置预加载模式为 metadata，只加载元数据而不是整个文件
+      audio.preload = 'metadata';
+      
+      // 尝试加载音频，但不阻塞初始化
+      audio.load().catch(error => {
+        console.warn(`加载音效 ${sound.id} 时出错:`, error);
+      });
+      
       this.sounds[sound.id] = audio;
     } catch (error) {
-      console.warn(`Failed to load sound ${sound.id}:`, error);
+      console.warn(`加载音效 ${sound.id} 失败:`, error);
     }
   }
 
-  private loadBackgroundMusic(bgm: SoundEffect): void {
+  private async loadBackgroundMusic(bgm: SoundEffect): Promise<void> {
     try {
       const correctUrl = this.getCorrectAudioUrl(bgm.url);
       const audio = new Audio(correctUrl);
@@ -140,9 +189,15 @@ class SoundManager {
       audio.muted = this.isMuted;
       // 设置预加载模式为 metadata，只加载元数据而不是整个文件
       audio.preload = 'metadata';
+      
+      // 尝试加载音频，但不阻塞初始化
+      audio.load().catch(error => {
+        console.warn(`加载背景音乐 ${bgm.id} 时出错:`, error);
+      });
+      
       this.backgroundMusic[bgm.id] = audio;
     } catch (error) {
-      console.warn(`Failed to load background music ${bgm.id}:`, error);
+      console.warn(`加载背景音乐 ${bgm.id} 失败:`, error);
     }
   }
   
@@ -590,19 +645,33 @@ class SoundManager {
     // 确保URL格式正确
     const normalizedUrl = url.startsWith('/') ? url : `/${url}`;
     
-    // 开发和生产环境都使用基础路径，因为Vite配置了base路径
-    const basePath = '/Life-Game-Management-System';
-    return `${basePath}${normalizedUrl}`;
+    // 动态检测基础路径
+    // 检查当前URL是否包含GitHub Pages路径
+    const currentUrl = window.location.href;
+    let basePath = '';
+    
+    if (currentUrl.includes('/Life-Game-Management-System/')) {
+      // GitHub Pages环境
+      basePath = '/Life-Game-Management-System';
+    } else if (import.meta.env && import.meta.env.BASE_URL) {
+      // Vite环境，使用配置的BASE_URL
+      basePath = import.meta.env.BASE_URL;
+    }
+    
+    // 确保basePath格式正确
+    const normalizedBasePath = basePath.endsWith('/') ? basePath.slice(0, -1) : basePath;
+    
+    return `${normalizedBasePath}${normalizedUrl}`;
   }
 
   // 添加新音效
-  addSound(sound: SoundEffect): void {
-    this.loadSound(sound);
+  async addSound(sound: SoundEffect): Promise<void> {
+    await this.loadSound(sound);
   }
 
   // 添加新背景音乐
-  addBackgroundMusic(bgm: SoundEffect): void {
-    this.loadBackgroundMusic(bgm);
+  async addBackgroundMusic(bgm: SoundEffect): Promise<void> {
+    await this.loadBackgroundMusic(bgm);
   }
 
   // 切换音乐选中状态（用于双击添加/移除歌曲）
@@ -627,19 +696,38 @@ class SoundManager {
   getLockedMusicIds(): Set<string> {
     return this.lockedMusicIds;
   }
+
+  // 检查音频系统是否已初始化
+  isInitialized(): boolean {
+    return this.initialized;
+  }
 }
 
 // 创建单例实例
 const soundManager = new SoundManager();
 
-// 确保在页面卸载时清理资源
-window.addEventListener('beforeunload', () => {
-  soundManager.stopAllBackgroundMusic();
-});
+// 页面加载完成后初始化音频系统
+if (typeof window !== 'undefined') {
+  window.addEventListener('DOMContentLoaded', async () => {
+    try {
+      await soundManager.initialize();
+    } catch (error) {
+      console.error('音频系统初始化失败:', error);
+      // 即使初始化失败，也不影响应用运行
+    }
+  });
+}
 
-// 确保在页面隐藏时也保持音乐播放
-window.addEventListener('pagehide', () => {
-  // 不要停止音乐，让音乐在后台继续播放
-});
+// 确保在页面卸载时清理资源
+if (typeof window !== 'undefined') {
+  window.addEventListener('beforeunload', () => {
+    soundManager.stopAllBackgroundMusic();
+  });
+
+  // 确保在页面隐藏时也保持音乐播放
+  window.addEventListener('pagehide', () => {
+    // 不要停止音乐，让音乐在后台继续播放
+  });
+}
 
 export default soundManager;
