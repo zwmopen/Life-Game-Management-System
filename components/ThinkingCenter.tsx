@@ -131,8 +131,8 @@ const ModelButton = ({ children, onClick, isActive, theme, isFavorite }: { child
       if (isNeomorphicDark) {
         // 拟态暗色主题
         if (isActive) {
-          // 选中状态 - 内凹效果
-          return `${baseClass} bg-[#1e1e2e] text-white shadow-[inset_2px_2px_4px_rgba(0,0,0,0.6),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] transform scale-95`;
+          // 选中状态 - 内凹效果，使用不同的背景色以提高可见性
+          return `${baseClass} bg-[#2a2a3e] text-white shadow-[inset_2px_2px_4px_rgba(0,0,0,0.6),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] transform scale-95 border border-[#3a3a4e]`;
         } else {
           // 默认状态 - 外凸效果
           return `${baseClass} bg-[#1e1e2e] text-zinc-300 shadow-[2px_2px_4px_rgba(0,0,0,0.4),-2px_-2px_4px_rgba(30,30,46,0.8)] hover:shadow-[3px_3px_6px_rgba(0,0,0,0.5),-3px_-3px_6px_rgba(30,30,46,1)] active:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.6),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] active:transform active:scale-95`;

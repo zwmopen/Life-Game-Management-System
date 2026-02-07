@@ -600,8 +600,8 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
               <button className="exit-btn" id="exitBtn" onClick={onExitImmersive}>✕</button>
             </div>
             
-            <div className="flex flex-col items-center justify-center">
-              <div className="relative w-96 h-96 mb-10">
+            <div className="flex flex-col items-center justify-center p-4 w-full">
+              <div className="relative w-full max-w-md aspect-square mb-10">
                 {/* 背景圆形 */}
                 <div className={`absolute inset-0 rounded-full ${isNeomorphic 
                   ? `${isDark 
@@ -637,9 +637,9 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
                 
                 {/* 中心内容 */}
                 <div className="absolute inset-0 flex items-center justify-center flex-col">
-                  <h2 className={`text-2xl font-semibold mb-4 text-center ${isDark ? 'text-zinc-100' : 'text-zinc-800'}`}>时间盒子倒计时</h2>
-                  <h3 className={`text-xl font-medium mb-6 text-center ${isDark ? 'text-blue-300' : 'text-blue-600'}`}>实现任务状态管理</h3>
-                  <span className={`text-7xl font-bold ${isDark ? 'text-zinc-100' : 'text-zinc-800'}`}>
+                  <h2 className={`text-xl md:text-2xl font-semibold mb-4 text-center ${isDark ? 'text-zinc-100' : 'text-zinc-800'}`}>时间盒子倒计时</h2>
+                  <h3 className={`text-lg md:text-xl font-medium mb-6 text-center ${isDark ? 'text-blue-300' : 'text-blue-600'}`}>实现任务状态管理</h3>
+                  <span className={`text-5xl md:text-7xl font-bold ${isDark ? 'text-zinc-100' : 'text-zinc-800'}`}>
                     {formatTime(secondsRemaining)}
                   </span>
                 </div>
