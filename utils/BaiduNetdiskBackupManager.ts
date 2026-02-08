@@ -308,8 +308,22 @@ class BaiduNetdiskBackupManager {
    * @returns 百度网盘授权页面的URL
    */
   getAuthorizationUrl(): string {
-    // 使用正确的百度开放平台授权地址
-    return "https://openapi.baidu.com/oauth/2.0/authorize?client_id=G5tdFv7bUtULL4JsJz6aLBJ98Gf3PTfv&response_type=token&redirect_uri=https%3A%2F%2Fzwmopen.github.io%2FLife-Game-Management-System%2Fcallback&scope=basic%2Cnetdisk&display=page";
+    // 检测是否为本地开发环境
+    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    
+    // 百度开放平台授权地址（正确的域名）
+    const baseUrl = "https://openapi.baidu.com/oauth/2.0/authorize";
+    const clientId = "G5tdFv7bUtULL4JsJz6aLBJ98Gf3PTfv";
+    const responseType = "token";
+    const scope = "basic,netdisk";
+    const display = "page";
+    
+    // 回调地址（使用GitHub Pages地址，避免本地开发的referer问题）
+    const redirectUri = "https://zwmopen.github.io/Life-Game-Management-System/callback";
+    const encodedRedirectUri = encodeURIComponent(redirectUri);
+    
+    // 构建完整的授权URL
+    return `${baseUrl}?client_id=${clientId}&response_type=${responseType}&redirect_uri=${encodedRedirectUri}&scope=${scope}&display=${display}`;
   }
   
   /**
