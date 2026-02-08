@@ -224,8 +224,10 @@ class BaiduNetdiskBackupManager {
     const clientId = 'G5tdFv7bUtULL4JsJz6aLBJ98Gf3PTfv';
     // 使用GitHub Pages作为回调地址
     const redirectUri = 'https://zwmopen.github.io/Life-Game-Management-System/callback';
+    // 对redirectUri进行URL编码
+    const encodedRedirectUri = encodeURIComponent(redirectUri);
     // 使用百度网盘的授权地址和隐式授权模式
-    return `https://pan.baidu.com/oauth/2.0/authorize?client_id=${clientId}&response_type=token&redirect_uri=${redirectUri}&scope=basic,netdisk&display=page`;
+    return `https://pan.baidu.com/oauth/2.0/authorize?client_id=${clientId}&response_type=token&redirect_uri=${encodedRedirectUri}&scope=basic,netdisk&display=page`;
   }
   
   /**
