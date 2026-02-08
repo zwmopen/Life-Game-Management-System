@@ -96,8 +96,8 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
   
   // State for Baidu Netdisk configuration
   const [baiduConfig, setBaiduConfig] = useState({
-    accessToken: localStorage.getItem('baidu-netdisk-access-token') || '',
-    refreshToken: localStorage.getItem('baidu-netdisk-refresh-token') || ''
+    accessToken: localStorage.getItem('bdpan_token') || '',
+    refreshToken: ''
   });
   
   // 检查百度网盘授权状态
@@ -111,13 +111,12 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
       
       if (isAuthorized) {
         // 授权成功，更新配置
-        const accessToken = localStorage.getItem('baidu-netdisk-access-token');
-        const refreshToken = localStorage.getItem('baidu-netdisk-refresh-token');
+        const accessToken = localStorage.getItem('bdpan_token');
         
         setBaiduConfig(prev => ({
           ...prev,
           accessToken: accessToken || '',
-          refreshToken: refreshToken || ''
+          refreshToken: ''
         }));
       }
     } catch (error) {
@@ -868,6 +867,27 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
                 {/* WebDAV Configuration */}
                 {cloudProvider === 'webdav' && (
                   <div className="space-y-2">
+                    {/* 坚果云配置指南 */}
+                    <div className={[
+                      'p-2 rounded-lg',
+                      isNeomorphic
+                        ? isNeomorphicDark
+                          ? 'bg-[#1e1e2e] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(30,30,46,0.8)]'
+                          : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]'
+                        : isDark
+                        ? 'bg-zinc-900/50'
+                        : 'bg-slate-50'
+                    ].join(' ')}>
+                      <h4 className={['text-xs font-bold', textMain].join(' ')}>📁 坚果云配置指南</h4>
+                      <ul className={['text-[10px] space-y-1', textSub].join(' ')}>
+                        <li>1. 服务器地址：<code>https://dav.jianguoyun.com/dav/</code></li>
+                        <li>2. 用户名：坚果云账号（通常是邮箱）</li>
+                        <li>3. 密码：坚果云应用密码（不是登录密码）</li>
+                        <li>4. 如何获取应用密码：设置 → 安全选项 → 应用密码</li>
+                        <li>5. 确保已启用WebDAV服务</li>
+                      </ul>
+                    </div>
+
                     <div className="space-y-1">
                       <label className={['text-xs font-bold', textMain].join(' ')}>WebDAV服务器地址</label>
                       <input
@@ -894,6 +914,7 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
                         type="text"
                         value={webdavConfig.username}
                         onChange={(e) => setWebdavConfig({ ...webdavConfig, username: e.target.value })}
+                        placeholder="坚果云账号（邮箱）"
                         className={[
                           'w-full px-2 py-1 rounded text-xs',
                           isNeomorphic
@@ -913,6 +934,7 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
                         type="password"
                         value={webdavConfig.password}
                         onChange={(e) => setWebdavConfig({ ...webdavConfig, password: e.target.value })}
+                        placeholder="坚果云应用密码"
                         className={[
                           'w-full px-2 py-1 rounded text-xs',
                           isNeomorphic
@@ -926,13 +948,23 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
                       />
                     </div>
 
-                    <button
-                      onClick={updateWebdavConfig}
-                      className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-full text-xs font-bold transition-all'].join(' ')}
-                    >
-                      <Save size={14} className="inline-block mr-1" />
-                      保存WebDAV配置
-                    </button>
+                    <div className="grid grid-cols-2 gap-2">
+                      <button
+                        onClick={testWebdavConnection}
+                        className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-full text-xs font-bold transition-all'].join(' ')}
+                      >
+                        <RefreshCw size={14} className="inline-block mr-1" />
+                        测试连接
+                      </button>
+
+                      <button
+                        onClick={updateWebdavConfig}
+                        className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-full text-xs font-bold transition-all'].join(' ')}
+                      >
+                        <Save size={14} className="inline-block mr-1" />
+                        保存配置
+                      </button>
+                    </div>
 
                     <button
                       onClick={backupToWebDAV}
@@ -952,8 +984,18 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
                       {isRestoring ? '恢复中...' : '从WebDAV恢复'}
                     </button>
 
+                    {connectionTestStatus && (
+                      <p className={[
+                        'text-xs text-center',
+                        connectionTestStatus.includes('成功') ? 'text-green-500' : 'text-red-500'
+                      ].join(' ')}>{connectionTestStatus}</p>
+                    )}
+
                     {webdavStatus && (
-                      <p className={['text-xs text-center', textSub].join(' ')}>{webdavStatus}</p>
+                      <p className={[
+                        'text-xs text-center',
+                        webdavStatus.includes('成功') ? 'text-green-500' : 'text-red-500'
+                      ].join(' ')}>{webdavStatus}</p>
                     )}
                   </div>
                 )}
@@ -986,16 +1028,29 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
                           // 生成授权URL
                           const authUrl = baiduNetdiskBackupManager.getAuthorizationUrl();
                           
-                          // 打开授权页面
-                          window.open(authUrl, '_blank', 'width=800,height=600');
+                          console.log('百度网盘授权URL:', authUrl);
                           
-                          // 提示用户
-                          setWebdavStatus('请在新打开的页面中完成百度网盘授权，授权成功后会自动返回应用');
+                          // 尝试打开授权页面
+                          const popup = window.open(authUrl, '_blank', 'width=800,height=600');
                           
-                          // 3秒后检查授权状态
-                          setTimeout(async () => {
-                            await checkBaiduNetdiskAuth();
-                          }, 3000);
+                          if (popup) {
+                            console.log('授权窗口已打开');
+                            // 提示用户
+                            setWebdavStatus('请在新打开的页面中完成百度网盘授权，授权成功后会自动返回应用');
+                            
+                            // 3秒后检查授权状态
+                            setTimeout(async () => {
+                              await checkBaiduNetdiskAuth();
+                            }, 3000);
+                          } else {
+                            console.error('授权窗口打开失败，可能被浏览器阻止');
+                            setWebdavStatus('授权窗口打开失败，请检查浏览器弹窗设置');
+                            
+                            // 尝试使用location.href作为备选方案
+                            if (window.confirm('授权窗口打开失败，是否在当前标签页打开授权页面？')) {
+                              window.location.href = authUrl;
+                            }
+                          }
                         } catch (error) {
                           console.error('百度网盘授权失败:', error);
                           setWebdavStatus('百度网盘授权失败：' + (error as Error).message);
@@ -1010,36 +1065,75 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
                     </button>
 
                     {baiduConfig.accessToken && (
-                      <button
-                        onClick={async () => {
-                          if (window.confirm('确定要清除百度网盘授权吗？')) {
+                      <div className="space-y-2">
+                        <button
+                          onClick={async () => {
+                            if (window.confirm('确定要清除百度网盘授权吗？')) {
+                              try {
+                                // 导入百度网盘备份管理器
+                                const { default: baiduNetdiskBackupManager } = await import('../utils/BaiduNetdiskBackupManager');
+                                
+                                // 清除授权
+                                baiduNetdiskBackupManager.clearAuthorization();
+                                
+                                // 更新状态
+                                setBaiduConfig({
+                                  accessToken: '',
+                                  refreshToken: ''
+                                });
+                                
+                                setWebdavStatus('百度网盘授权已清除！');
+                              } catch (error) {
+                                console.error('清除百度网盘授权失败:', error);
+                                setWebdavStatus('清除百度网盘授权失败：' + (error as Error).message);
+                              } finally {
+                                setTimeout(() => setWebdavStatus(''), 3000);
+                              }
+                            }
+                          }}
+                          className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-full text-xs font-bold transition-all'].join(' ')}
+                        >
+                          <X size={14} className="inline-block mr-1" />
+                          清除百度网盘授权
+                        </button>
+
+                        <button
+                          onClick={async () => {
+                            setWebdavStatus('正在准备备份...');
+                            
                             try {
                               // 导入百度网盘备份管理器
                               const { default: baiduNetdiskBackupManager } = await import('../utils/BaiduNetdiskBackupManager');
                               
-                              // 清除授权
-                              baiduNetdiskBackupManager.clearAuthorization();
+                              // 导入数据持久化管理器
+                              const { default: dataPersistenceManager } = await import('../utils/DataPersistenceManager');
                               
-                              // 更新状态
-                              setBaiduConfig({
-                                accessToken: '',
-                                refreshToken: ''
+                              // 获取要备份的数据
+                              const backupData = dataPersistenceManager.exportAllData();
+                              
+                              // 执行备份
+                              await baiduNetdiskBackupManager.uploadBackup('manual-backup-' + Date.now(), backupData, (progress) => {
+                                console.log('备份进度:', progress);
+                                if (progress.percentage === 100) {
+                                  setWebdavStatus('✅ 备份成功！已保存到你的百度网盘');
+                                }
                               });
                               
-                              setWebdavStatus('百度网盘授权已清除！');
+                              // 备份成功
+                              setWebdavStatus('✅ 备份成功！已保存到你的百度网盘');
                             } catch (error) {
-                              console.error('清除百度网盘授权失败:', error);
-                              setWebdavStatus('清除百度网盘授权失败：' + (error as Error).message);
+                              console.error('百度网盘备份失败:', error);
+                              setWebdavStatus('❌ 备份失败：' + (error as Error).message);
                             } finally {
-                              setTimeout(() => setWebdavStatus(''), 3000);
+                              setTimeout(() => setWebdavStatus(''), 5000);
                             }
-                          }
-                        }}
-                        className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-full text-xs font-bold transition-all'].join(' ')}
-                      >
-                        <X size={14} className="inline-block mr-1" />
-                        清除百度网盘授权
-                      </button>
+                          }}
+                          className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-full text-xs font-bold transition-all'].join(' ')}
+                        >
+                          <Cloud size={14} className="inline-block mr-1" />
+                          一键备份到网盘
+                        </button>
+                      </div>
                     )}
 
                     <button

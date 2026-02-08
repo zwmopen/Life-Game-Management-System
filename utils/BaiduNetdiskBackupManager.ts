@@ -1,9 +1,13 @@
 class BaiduNetdiskBackupManager {
-  private client: any = null;
   private initialized: boolean = false;
   private accessToken: string | null = null;
-  private refreshToken: string | null = null;
-  private expiresAt: number | null = null;
+  
+  // 配置信息
+  private config = {
+    clientId: "G5tdFv7bUtULL4JsJz6aLBJ98Gf3PTfv",
+    redirectUri: "https://zwmopen.github.io/Life-Game-Management-System/callback",
+    backupPath: "/人生游戏显化系统备份"
+  };
   
   constructor() {
     // 初始化百度网盘客户端
@@ -16,13 +20,9 @@ class BaiduNetdiskBackupManager {
   private async initialize() {
     try {
       // 尝试从本地存储获取token
-      this.accessToken = localStorage.getItem('baidu-netdisk-access-token');
-      this.refreshToken = localStorage.getItem('baidu-netdisk-refresh-token');
-      const expiresAtStr = localStorage.getItem('baidu-netdisk-expires-at');
-      this.expiresAt = expiresAtStr ? parseInt(expiresAtStr) : null;
+      this.accessToken = localStorage.getItem('bdpan_token');
       
-      // 检查token是否有效
-      if (this.accessToken && (!this.expiresAt || Date.now() < this.expiresAt)) {
+      if (this.accessToken) {
         this.initialized = true;
       }
     } catch (error) {
@@ -39,9 +39,11 @@ class BaiduNetdiskBackupManager {
         return false;
       }
       
-      // 这里应该调用百度网盘API测试连接
-      // 简化实现，返回true表示连接成功
-      return true;
+      // 调用百度网盘API测试连接
+      const response = await fetch(`https://pan.baidu.com/rest/2.0/pcs/user?method=info&access_token=${this.accessToken}`);
+      const data = await response.json();
+      
+      return !data.error_code;
     } catch (error) {
       console.error('百度网盘连接测试失败:', error);
       return false;
@@ -57,39 +59,77 @@ class BaiduNetdiskBackupManager {
         throw new Error('百度网盘未授权');
       }
       
-      // 生成备份文件名
-      const fileName = `life-game-backup-${backupId}.json`;
-      const filePath = `/apps/人生游戏管理系统/${fileName}`;
-      
-      // 计算文件大小
-      const fileSize = new Blob([backupData]).size;
-      
-      // 模拟上传过程
-      if (onProgress) {
-        for (let i = 0; i <= 100; i += 10) {
-          await new Promise(resolve => setTimeout(resolve, 200));
-          onProgress({
-            id: backupId,
-            progress: i,
-            status: 'uploading',
-            totalSize: fileSize,
-            uploadedSize: (fileSize * i) / 100
-          });
-        }
-      }
-      
-      // 存储备份信息到本地
+      // 准备备份数据
       const backupInfo = {
-        id: backupId,
-        fileName,
-        filePath,
-        timestamp: Date.now(),
-        size: fileSize
+        system_name: "人生游戏显化系统",
+        backup_time: new Date().toLocaleString(),
+        backup_id: backupId,
+        data: backupData
       };
       
-      const backups = JSON.parse(localStorage.getItem('baidu-netdisk-backups') || '[]');
-      backups.push(backupInfo);
-      localStorage.setItem('baidu-netdisk-backups', JSON.stringify(backups));
+      const fileName = `备份_${new Date().getTime()}.json`;
+      
+      if (onProgress) {
+        onProgress({
+          total: 100,
+          completed: 0,
+          currentFile: fileName,
+          percentage: 0,
+          status: 'uploading'
+        });
+      }
+      
+      // 1. 创建备份目录
+      if (onProgress) {
+        onProgress({
+          total: 100,
+          completed: 20,
+          currentFile: fileName,
+          percentage: 20,
+          status: 'uploading'
+        });
+      }
+      
+      const mkdirUrl = `https://d.pcs.baidu.com/rest/2.0/pcs/file?method=mkdir&access_token=${this.accessToken}&path=${encodeURIComponent(this.config.backupPath)}`;
+      await fetch(mkdirUrl, { method: "POST" });
+      
+      // 2. 上传文件
+      if (onProgress) {
+        onProgress({
+          total: 100,
+          completed: 50,
+          currentFile: fileName,
+          percentage: 50,
+          status: 'uploading'
+        });
+      }
+      
+      const uploadPath = `${this.config.backupPath}/${fileName}`;
+      const uploadUrl = `https://d.pcs.baidu.com/rest/2.0/pcs/file?method=upload&access_token=${this.accessToken}&path=${encodeURIComponent(uploadPath)}`;
+      
+      const formData = new FormData();
+      const blob = new Blob([JSON.stringify(backupInfo, null, 2)], { type: "application/json" });
+      formData.append("file", blob, fileName);
+      
+      const res = await fetch(uploadUrl, {
+        method: "POST",
+        body: formData,
+      });
+      
+      const json = await res.json();
+      if (json.error_code) {
+        throw new Error(json.error_msg || "上传失败");
+      }
+      
+      if (onProgress) {
+        onProgress({
+          total: 100,
+          completed: 100,
+          currentFile: fileName,
+          percentage: 100,
+          status: 'completed'
+        });
+      }
       
       console.log('百度网盘备份上传成功:', backupId);
     } catch (error) {
@@ -107,20 +147,29 @@ class BaiduNetdiskBackupManager {
         throw new Error('百度网盘未授权');
       }
       
-      // 查找备份信息
-      const backups = JSON.parse(localStorage.getItem('baidu-netdisk-backups') || '[]');
-      const backupInfo = backups.find((b: any) => b.id === backupId);
+      // 列出备份目录中的文件
+      const listUrl = `https://d.pcs.baidu.com/rest/2.0/pcs/file?method=list&access_token=${this.accessToken}&path=${encodeURIComponent(this.config.backupPath)}&limit=100`;
+      const response = await fetch(listUrl);
+      const data = await response.json();
       
-      if (!backupInfo) {
+      if (data.error_code) {
+        throw new Error(data.error_msg || "获取文件列表失败");
+      }
+      
+      // 查找匹配的备份文件
+      const fileInfo = data.list.find((file: any) => file.path.includes(backupId));
+      if (!fileInfo) {
         return null;
       }
       
-      // 模拟下载过程
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // 下载文件
+      const downloadUrl = `https://d.pcs.baidu.com/rest/2.0/pcs/file?method=download&access_token=${this.accessToken}&path=${encodeURIComponent(fileInfo.path)}`;
+      const downloadResponse = await fetch(downloadUrl);
+      const fileContent = await downloadResponse.text();
       
-      // 这里应该调用百度网盘API下载文件
-      // 简化实现，返回模拟数据
-      return '{}';
+      // 解析备份数据
+      const backupInfo = JSON.parse(fileContent);
+      return backupInfo.data;
     } catch (error) {
       console.error('百度网盘备份下载失败:', error);
       throw error;
@@ -136,10 +185,29 @@ class BaiduNetdiskBackupManager {
         throw new Error('百度网盘未授权');
       }
       
-      // 查找并删除备份信息
-      const backups = JSON.parse(localStorage.getItem('baidu-netdisk-backups') || '[]');
-      const filteredBackups = backups.filter((b: any) => b.id !== backupId);
-      localStorage.setItem('baidu-netdisk-backups', JSON.stringify(filteredBackups));
+      // 列出备份目录中的文件
+      const listUrl = `https://d.pcs.baidu.com/rest/2.0/pcs/file?method=list&access_token=${this.accessToken}&path=${encodeURIComponent(this.config.backupPath)}&limit=100`;
+      const response = await fetch(listUrl);
+      const data = await response.json();
+      
+      if (data.error_code) {
+        throw new Error(data.error_msg || "获取文件列表失败");
+      }
+      
+      // 查找匹配的备份文件
+      const fileInfo = data.list.find((file: any) => file.path.includes(backupId));
+      if (!fileInfo) {
+        return;
+      }
+      
+      // 删除文件
+      const deleteUrl = `https://d.pcs.baidu.com/rest/2.0/pcs/file?method=delete&access_token=${this.accessToken}&path=${encodeURIComponent(fileInfo.path)}`;
+      const deleteResponse = await fetch(deleteUrl, { method: "POST" });
+      const deleteData = await deleteResponse.json();
+      
+      if (deleteData.error_code) {
+        throw new Error(deleteData.error_msg || "删除文件失败");
+      }
       
       console.log('百度网盘备份删除成功:', backupId);
     } catch (error) {
@@ -153,12 +221,32 @@ class BaiduNetdiskBackupManager {
    */
   async listBackups(): Promise<Array<{ id: string; timestamp: Date; size: number }>> {
     try {
-      const backups = JSON.parse(localStorage.getItem('baidu-netdisk-backups') || '[]');
-      return backups.map((b: any) => ({
-        id: b.id,
-        timestamp: new Date(b.timestamp),
-        size: b.size
-      }));
+      if (!this.accessToken) {
+        return [];
+      }
+      
+      // 列出备份目录中的文件
+      const listUrl = `https://d.pcs.baidu.com/rest/2.0/pcs/file?method=list&access_token=${this.accessToken}&path=${encodeURIComponent(this.config.backupPath)}&limit=100`;
+      const response = await fetch(listUrl);
+      const data = await response.json();
+      
+      if (data.error_code) {
+        return [];
+      }
+      
+      return data.list
+        .filter((file: any) => file.isdir === 0 && file.path.endsWith('.json'))
+        .map((file: any) => {
+          // 从文件名中提取时间戳
+          const timestampMatch = file.path.match(/备份_(\d+)\.json/);
+          const timestamp = timestampMatch ? parseInt(timestampMatch[1]) : file.mtime * 1000;
+          
+          return {
+            id: file.path.split('/').pop()?.replace('.json', '') || '',
+            timestamp: new Date(timestamp),
+            size: file.size
+          };
+        });
     } catch (error) {
       console.error('获取百度网盘备份列表失败:', error);
       return [];
@@ -174,15 +262,15 @@ class BaiduNetdiskBackupManager {
     lastBackupDate?: Date;
   }> {
     try {
-      const backups = JSON.parse(localStorage.getItem('baidu-netdisk-backups') || '[]');
+      const backups = await this.listBackups();
       
       const totalSize = backups.reduce((sum: number, b: any) => sum + b.size, 0);
-      const lastBackup = backups.sort((a: any, b: any) => b.timestamp - a.timestamp)[0];
+      const lastBackup = backups.sort((a: any, b: any) => b.timestamp.getTime() - a.timestamp.getTime())[0];
       
       return {
         totalBackups: backups.length,
         totalSize,
-        lastBackupDate: lastBackup ? new Date(lastBackup.timestamp) : undefined
+        lastBackupDate: lastBackup ? lastBackup.timestamp : undefined
       };
     } catch (error) {
       console.error('获取百度网盘备份统计信息失败:', error);
@@ -220,14 +308,8 @@ class BaiduNetdiskBackupManager {
    * @returns 百度网盘授权页面的URL
    */
   getAuthorizationUrl(): string {
-    // 使用固定的AppKey
-    const clientId = 'G5tdFv7bUtULL4JsJz6aLBJ98Gf3PTfv';
-    // 使用GitHub Pages作为回调地址
-    const redirectUri = 'https://zwmopen.github.io/Life-Game-Management-System/callback';
-    // 对redirectUri进行URL编码
-    const encodedRedirectUri = encodeURIComponent(redirectUri);
-    // 使用百度网盘的授权地址和隐式授权模式
-    return `https://pan.baidu.com/oauth/2.0/authorize?client_id=${clientId}&response_type=token&redirect_uri=${encodedRedirectUri}&scope=basic,netdisk&display=page`;
+    // 使用正确的百度开放平台授权地址
+    return "https://openapi.baidu.com/oauth/2.0/authorize?client_id=G5tdFv7bUtULL4JsJz6aLBJ98Gf3PTfv&response_type=token&redirect_uri=https%3A%2F%2Fzwmopen.github.io%2FLife-Game-Management-System%2Fcallback&scope=basic%2Cnetdisk&display=page";
   }
   
   /**
@@ -235,7 +317,7 @@ class BaiduNetdiskBackupManager {
    * @returns 是否已授权
    */
   isAuthorized(): boolean {
-    return !!this.accessToken && (!this.expiresAt || Date.now() < this.expiresAt);
+    return !!this.accessToken;
   }
   
   /**
@@ -243,14 +325,9 @@ class BaiduNetdiskBackupManager {
    */
   clearAuthorization() {
     this.accessToken = null;
-    this.refreshToken = null;
-    this.expiresAt = null;
     this.initialized = false;
     
-    localStorage.removeItem('baidu-netdisk-access-token');
-    localStorage.removeItem('baidu-netdisk-refresh-token');
-    localStorage.removeItem('baidu-netdisk-expires-at');
-    localStorage.removeItem('baidu-netdisk-backups');
+    localStorage.removeItem('bdpan_token');
   }
 }
 

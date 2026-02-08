@@ -115,6 +115,7 @@ export class WebDAVClient {
       // 直接使用目标URL发送请求
       const requestHeaders: Record<string, string> = {
           'Authorization': this.getAuthHeader(),
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
           ...headers,
         };
         
@@ -136,12 +137,39 @@ export class WebDAVClient {
           requestHeaders['Depth'] = '1';
         }
         
+        // 坚果云特定配置
+        if (targetUrl.includes('jianguoyun.com')) {
+          // 坚果云需要额外的头信息
+          requestHeaders['Accept'] = '*/*';
+          requestHeaders['Accept-Encoding'] = 'gzip, deflate, br';
+          requestHeaders['Connection'] = 'keep-alive';
+        }
+        
+        console.log('发送WebDAV请求:', {
+          method,
+          url: targetUrl,
+          headers: Object.fromEntries(
+            Object.entries(requestHeaders).map(([key, value]) => 
+              key === 'Authorization' ? [key, '***'] : [key, value]
+            )
+          ),
+          body: body ? `[${typeof body}]` : 'null'
+        });
+        
         const response = await fetch(targetUrl, {
           method,
           headers: requestHeaders,
           body,
           credentials: 'omit', // 不发送cookies，避免不必要的安全问题
           mode: 'cors',
+          cache: 'no-cache',
+          redirect: 'follow',
+        });
+
+        console.log('WebDAV请求响应:', {
+          status: response.status,
+          statusText: response.statusText,
+          headers: Object.fromEntries(response.headers.entries())
         });
 
       // 处理特定的状态码
@@ -152,6 +180,12 @@ export class WebDAVClient {
           throw new Error('备份失败：权限不足。请检查账户权限。');
         } else if (response.status === 404) {
           throw new Error('备份失败：指定的路径不存在。请检查服务器地址和路径。');
+        } else if (response.status === 405) {
+          throw new Error('备份失败：方法不允许。请检查WebDAV服务器配置。');
+        } else if (response.status === 429) {
+          throw new Error('备份失败：请求过于频繁。请稍后再试。');
+        } else if (response.status >= 500) {
+          throw new Error('备份失败：服务器内部错误。请稍后再试。');
         } else {
           throw new Error(`备份失败：${response.status} ${response.statusText}`);
         }
@@ -162,9 +196,17 @@ export class WebDAVClient {
       console.error('WebDAV request failed:', error);
       // 检查错误类型并提供更详细的错误信息
       if (error instanceof TypeError && (error.message.includes('fetch') || error.message.includes('network'))) {
-        throw new Error('备份失败：网络连接问题。请检查服务器地址是否正确，以及网络连接是否正常。');
+        if (targetUrl.includes('jianguoyun.com')) {
+          throw new Error('备份失败：无法连接到坚果云服务器。请检查网络连接，确保坚果云WebDAV服务已启用。');
+        } else {
+          throw new Error('备份失败：网络连接问题。请检查服务器地址是否正确，以及网络连接是否正常。');
+        }
       } else if (error instanceof Error && error.message.includes('Failed to fetch')) {
-        throw new Error('备份失败：无法连接到WebDAV服务器。请检查服务器地址、用户名和密码是否正确。');
+        if (targetUrl.includes('jianguoyun.com')) {
+          throw new Error('备份失败：无法连接到坚果云服务器。请检查坚果云WebDAV URL是否正确，以及网络连接是否正常。');
+        } else {
+          throw new Error('备份失败：无法连接到WebDAV服务器。请检查服务器地址、用户名和密码是否正确。');
+        }
       }
       throw error;
     }

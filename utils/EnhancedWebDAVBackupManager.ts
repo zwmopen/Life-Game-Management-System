@@ -45,7 +45,8 @@ class EnhancedWebDAVBackupManager {
       basePath: config.basePath || '/'
     });
 
-    this.config = {
+    // 基础配置
+    const baseConfig = {
       url: config.url,
       username: config.username,
       password: config.password,
@@ -55,6 +56,29 @@ class EnhancedWebDAVBackupManager {
       retryAttempts: config.retryAttempts || 3,
       timeout: config.timeout || 30000, // 30 seconds default
     };
+
+    // 应用坚果云特定优化
+    if (config.url.includes('jianguoyun.com')) {
+      console.log('检测到坚果云服务器，应用特定优化配置');
+      this.config = {
+        ...baseConfig,
+        timeout: 60000, // 坚果云建议的超时时间：60秒
+        retryAttempts: 5, // 坚果云建议的重试次数：5次
+        chunkSize: 2 * 1024 * 1024, // 坚果云建议的分块大小：2MB
+        maxConcurrent: 1, // 坚果云建议的并发数：1
+      };
+    } else {
+      this.config = baseConfig;
+    }
+
+    console.log('EnhancedWebDAVBackupManager配置:', {
+      url: this.config.url,
+      basePath: this.config.basePath,
+      chunkSize: this.config.chunkSize,
+      maxConcurrent: this.config.maxConcurrent,
+      retryAttempts: this.config.retryAttempts,
+      timeout: this.config.timeout,
+    });
   }
 
   /**
@@ -217,6 +241,34 @@ class EnhancedWebDAVBackupManager {
     });
     
     return Promise.race([promise, timeoutPromise]);
+  }
+
+  /**
+   * 检查坚果云特定配置
+   */
+  private isJianguoYun(): boolean {
+    return this.config.url.includes('jianguoyun.com');
+  }
+
+  /**
+   * 获取优化的配置
+   */
+  private getOptimizedConfig() {
+    const baseConfig = {
+      ...this.config
+    };
+    
+    // 坚果云特定优化
+    if (this.isJianguoYun()) {
+      // 坚果云建议的超时时间
+      baseConfig.timeout = 60000; // 60秒
+      // 坚果云建议的重试次数
+      baseConfig.retryAttempts = 5;
+      // 坚果云建议的分块大小
+      baseConfig.chunkSize = 2 * 1024 * 1024; // 2MB
+    }
+    
+    return baseConfig;
   }
 
   /**
