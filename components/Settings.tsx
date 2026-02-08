@@ -1022,33 +1022,47 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
                         setWebdavStatus('正在打开百度网盘授权页面...');
                         
                         try {
-                          // 导入百度网盘备份管理器
-                          const { default: baiduNetdiskBackupManager } = await import('../utils/BaiduNetdiskBackupManager');
+                          // 检测是否为本地开发环境
+                          const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
                           
-                          // 生成授权URL
-                          const authUrl = baiduNetdiskBackupManager.getAuthorizationUrl();
-                          
-                          console.log('百度网盘授权URL:', authUrl);
-                          
-                          // 尝试打开授权页面
-                          const popup = window.open(authUrl, '_blank', 'width=800,height=600');
-                          
-                          if (popup) {
-                            console.log('授权窗口已打开');
-                            // 提示用户
-                            setWebdavStatus('请在新打开的页面中完成百度网盘授权，授权成功后会自动返回应用');
+                          if (isLocal) {
+                            // 本地开发环境：引导用户到GitHub Pages在线版本进行授权
+                            const onlineUrl = 'https://zwmopen.github.io/Life-Game-Management-System/';
+                            setWebdavStatus('本地环境授权可能会出现错误，请在GitHub Pages在线版本进行授权');
                             
-                            // 3秒后检查授权状态
-                            setTimeout(async () => {
-                              await checkBaiduNetdiskAuth();
-                            }, 3000);
+                            if (window.confirm('本地环境授权可能会出现referer错误，是否跳转到GitHub Pages在线版本进行授权？')) {
+                              window.open(onlineUrl, '_blank', 'width=1000,height=800');
+                            }
                           } else {
-                            console.error('授权窗口打开失败，可能被浏览器阻止');
-                            setWebdavStatus('授权窗口打开失败，请检查浏览器弹窗设置');
+                            // 在线环境：直接使用百度开放平台授权
+                            // 导入百度网盘备份管理器
+                            const { default: baiduNetdiskBackupManager } = await import('../utils/BaiduNetdiskBackupManager');
                             
-                            // 尝试使用location.href作为备选方案
-                            if (window.confirm('授权窗口打开失败，是否在当前标签页打开授权页面？')) {
-                              window.location.href = authUrl;
+                            // 生成授权URL
+                            const authUrl = baiduNetdiskBackupManager.getAuthorizationUrl();
+                            
+                            console.log('百度网盘授权URL:', authUrl);
+                            
+                            // 尝试打开授权页面
+                            const popup = window.open(authUrl, '_blank', 'width=800,height=600');
+                            
+                            if (popup) {
+                              console.log('授权窗口已打开');
+                              // 提示用户
+                              setWebdavStatus('请在新打开的页面中完成百度网盘授权，授权成功后会自动返回应用');
+                              
+                              // 3秒后检查授权状态
+                              setTimeout(async () => {
+                                await checkBaiduNetdiskAuth();
+                              }, 3000);
+                            } else {
+                              console.error('授权窗口打开失败，可能被浏览器阻止');
+                              setWebdavStatus('授权窗口打开失败，请检查浏览器弹窗设置');
+                              
+                              // 尝试使用location.href作为备选方案
+                              if (window.confirm('授权窗口打开失败，是否在当前标签页打开授权页面？')) {
+                                window.location.href = authUrl;
+                              }
                             }
                           }
                         } catch (error) {

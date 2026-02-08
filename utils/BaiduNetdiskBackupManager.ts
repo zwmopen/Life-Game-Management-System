@@ -308,9 +308,19 @@ class BaiduNetdiskBackupManager {
    * @returns 百度网盘授权页面的URL
    */
   getAuthorizationUrl(): string {
-    // 使用GitHub Pages上的授权页面，避免referer问题
-    // 这个页面会从GitHub Pages域名发起授权请求
-    return "https://zwmopen.github.io/Life-Game-Management-System/auth.html";
+    // 使用正确的百度开放平台授权地址
+    const baseUrl = "https://openapi.baidu.com/oauth/2.0/authorize";
+    const clientId = "G5tdFv7bUtULL4JsJz6aLBJ98Gf3PTfv";
+    const responseType = "token";
+    const scope = "basic,netdisk";
+    const display = "page";
+    
+    // 回调地址（使用GitHub Pages地址）
+    const redirectUri = "https://zwmopen.github.io/Life-Game-Management-System/callback";
+    const encodedRedirectUri = encodeURIComponent(redirectUri);
+    
+    // 构建完整的授权URL
+    return `${baseUrl}?client_id=${clientId}&response_type=${responseType}&redirect_uri=${encodedRedirectUri}&scope=${scope}&display=${display}`;
   }
   
   /**
