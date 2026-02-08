@@ -950,7 +950,7 @@ const SelfManifestation: React.FC<HighestVersionProps> = ({ onHelpClick }) => {
                       </span>
                     </th>
                     <th className={`py-4 px-6 font-semibold ${themeStyles.mutedText}`}>
-                      🚀 最高版本 ZWM Pro (V_Max) 
+                      🚀 新版本 ZWM Pro (V_Max) 
                       <span className={`inline-flex items-center ml-2 px-2 py-1 rounded-full text-xs font-bold ${themeStyles.secondaryBadgeBg} ${themeStyles.secondaryBadgeText}`}>
                         运行中
                       </span>
@@ -961,7 +961,7 @@ const SelfManifestation: React.FC<HighestVersionProps> = ({ onHelpClick }) => {
                   {versionComparisonData.map((row, index) => (
                     <tr key={index} className={`border-b ${theme === 'neomorphic-dark' ? 'border-[#2d2d3f] border' : 'border-[#b0b5bc] border'}`}>
                       <td className={`py-4 px-6 font-medium ${themeStyles.text} ${theme === 'neomorphic-dark' ? 'border-r border-[#2d2d3f]' : 'border-r border-[#b0b5bc]'}`}>{row.dimension}</td>
-                      <td className={`py-4 px-6 ${themeStyles.text} ${theme === 'neomorphic-dark' ? 'border-r border-[#2d2d3f]' : 'border-r border-[#b0b5bc]'}`} dangerouslySetInnerHTML={{ __html: row.oldVersion }} />
+                      <td className={`py-4 px-6 ${themeStyles.text} ${theme === 'neomorphic-dark' ? 'border-r border-[#2d2d3f]' : 'border-r border-[#b0b5bc]'} line-through`} dangerouslySetInnerHTML={{ __html: row.oldVersion }} />
                       <td className={`py-4 px-6 ${themeStyles.text}`} dangerouslySetInnerHTML={{ __html: row.newVersion }} />
                     </tr>
                   ))}

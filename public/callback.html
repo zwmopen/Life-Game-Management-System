@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>百度网盘授权回调</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #1e1e2e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background-color: #2a2d36;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+        h1 {
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+        p {
+            color: #b0b0b0;
+            margin-bottom: 30px;
+        }
+        .success {
+            color: #4caf50;
+            font-weight: bold;
+        }
+        .error {
+            color: #f44336;
+            font-weight: bold;
+        }
+        button {
+            background-color: #2196f3;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #1976d2;
+        }
+        .loading {
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.6;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>百度网盘授权</h1>
+        <p id="message" class="loading">正在处理授权...</p>
+        <button id="closeBtn" style="display: none;">关闭窗口</button>
+    </div>
+    
+    <script>
+        // 从URL中获取access_token
+        const urlParams = new URLSearchParams(window.location.hash.substring(1));
+        const accessToken = urlParams.get('access_token');
+        const expiresIn = urlParams.get('expires_in');
+        const refreshToken = urlParams.get('refresh_token');
+        const error = urlParams.get('error');
+        const errorDescription = urlParams.get('error_description');
+        
+        const messageElement = document.getElementById('message');
+        const closeBtn = document.getElementById('closeBtn');
+        
+        if (error) {
+            // 授权失败
+            messageElement.innerHTML = `<span class="error">授权失败：${errorDescription || error}</span>`;
+            closeBtn.style.display = 'block';
+        } else if (accessToken) {
+            // 授权成功，存储token
+            messageElement.innerHTML = '<span class="success">授权成功！正在保存token...</span>';
+            
+            try {
+                // 存储token到localStorage
+                localStorage.setItem('baidu-netdisk-access-token', accessToken);
+                if (refreshToken) {
+                    localStorage.setItem('baidu-netdisk-refresh-token', refreshToken);
+                }
+                if (expiresIn) {
+                    const expiresAt = Date.now() + parseInt(expiresIn) * 1000;
+                    localStorage.setItem('baidu-netdisk-expires-at', expiresAt.toString());
+                }
+                
+                messageElement.innerHTML = '<span class="success">授权成功！即将返回应用...</span>';
+                
+                // 2秒后自动跳转回应用首页
+                setTimeout(() => {
+                    window.location.href = '/Life-Game-Management-System/';
+                }, 2000);
+            } catch (e) {
+                messageElement.innerHTML = `<span class="error">保存token失败：${e.message}</span>`;
+                closeBtn.style.display = 'block';
+            }
+        } else {
+            messageElement.innerHTML = '<span class="error">授权失败：未获取到token</span>';
+            closeBtn.style.display = 'block';
+        }
+        
+        // 关闭按钮点击事件
+        closeBtn.addEventListener('click', () => {
+            window.location.href = '/Life-Game-Management-System/';
+        });
+    </script>
+</body>
+</html>

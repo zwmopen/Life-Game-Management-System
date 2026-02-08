@@ -1,10 +1,9 @@
 class BaiduNetdiskBackupManager {
   private client: any = null;
   private initialized: boolean = false;
-  private clientId: string | null = null;
-  private clientSecret: string | null = null;
   private accessToken: string | null = null;
   private refreshToken: string | null = null;
+  private expiresAt: number | null = null;
   
   constructor() {
     // 初始化百度网盘客户端
@@ -16,44 +15,19 @@ class BaiduNetdiskBackupManager {
    */
   private async initialize() {
     try {
-      // 尝试从本地存储获取token和API密钥
-      this.clientId = localStorage.getItem('baidu-netdisk-client-id');
-      this.clientSecret = localStorage.getItem('baidu-netdisk-client-secret');
+      // 尝试从本地存储获取token
       this.accessToken = localStorage.getItem('baidu-netdisk-access-token');
       this.refreshToken = localStorage.getItem('baidu-netdisk-refresh-token');
+      const expiresAtStr = localStorage.getItem('baidu-netdisk-expires-at');
+      this.expiresAt = expiresAtStr ? parseInt(expiresAtStr) : null;
       
       // 检查token是否有效
-      if (this.accessToken) {
+      if (this.accessToken && (!this.expiresAt || Date.now() < this.expiresAt)) {
         this.initialized = true;
       }
     } catch (error) {
       console.error('百度网盘客户端初始化失败:', error);
     }
-  }
-  
-  /**
-   * 设置百度网盘API密钥
-   * @param clientId 百度网盘开放平台的Client ID
-   * @param clientSecret 百度网盘开放平台的Client Secret
-   */
-  setApiKeys(clientId: string, clientSecret: string) {
-    this.clientId = clientId;
-    this.clientSecret = clientSecret;
-    
-    // 保存到本地存储
-    localStorage.setItem('baidu-netdisk-client-id', clientId);
-    localStorage.setItem('baidu-netdisk-client-secret', clientSecret);
-  }
-  
-  /**
-   * 获取当前设置的API密钥
-   * @returns 包含clientId和clientSecret的对象
-   */
-  getApiKeys() {
-    return {
-      clientId: this.clientId,
-      clientSecret: this.clientSecret
-    };
   }
   
   /**
@@ -246,60 +220,20 @@ class BaiduNetdiskBackupManager {
    * @returns 百度网盘授权页面的URL
    */
   getAuthorizationUrl(): string {
-    if (!this.clientId) {
-      throw new Error('百度网盘AppKey未设置');
-    }
-    // 使用本地开发服务器的回调地址，确保与百度开放平台中设置的一致
-    const redirectUri = 'http://localhost:3000/baidu-netdisk-callback';
-    return `https://openapi.baidu.com/oauth/2.0/authorize?client_id=${this.clientId}&response_type=code&redirect_uri=${redirectUri}&scope=basic,netdisk`;
+    // 使用固定的AppKey
+    const clientId = 'G5tdFv7bUtULL4JsJz6aLBJ98Gf3PTfv';
+    // 使用GitHub Pages作为回调地址
+    const redirectUri = 'https://zwmopen.github.io/Life-Game-Management-System/callback';
+    // 使用百度网盘的授权地址和隐式授权模式
+    return `https://pan.baidu.com/oauth/2.0/authorize?client_id=${clientId}&response_type=token&redirect_uri=${redirectUri}&scope=basic,netdisk&display=page`;
   }
   
   /**
-   * 处理授权回调
-   * @param code 百度网盘授权回调返回的授权码
-   * @returns 是否授权成功
+   * 检查是否已授权
+   * @returns 是否已授权
    */
-  async handleAuthorizationCallback(code: string): Promise<boolean> {
-    try {
-      if (!this.clientId || !this.clientSecret) {
-        throw new Error('百度网盘API密钥未设置');
-      }
-      
-      // 调用百度网盘API获取token
-      const redirectUri = 'http://localhost:3000/baidu-netdisk-callback';
-      const response = await fetch('https://openapi.baidu.com/oauth/2.0/token', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: new URLSearchParams({
-          client_id: this.clientId,
-          client_secret: this.clientSecret,
-          grant_type: 'authorization_code',
-          code: code,
-          redirect_uri: redirectUri
-        })
-      });
-      
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(`百度网盘授权失败: ${errorData.error_description || '未知错误'}`);
-      }
-      
-      const tokenData = await response.json();
-      this.accessToken = tokenData.access_token;
-      this.refreshToken = tokenData.refresh_token;
-      
-      // 保存token到本地存储
-      localStorage.setItem('baidu-netdisk-access-token', this.accessToken);
-      localStorage.setItem('baidu-netdisk-refresh-token', this.refreshToken);
-      
-      this.initialized = true;
-      return true;
-    } catch (error) {
-      console.error('百度网盘授权失败:', error);
-      return false;
-    }
+  isAuthorized(): boolean {
+    return !!this.accessToken && (!this.expiresAt || Date.now() < this.expiresAt);
   }
   
   /**
@@ -308,10 +242,12 @@ class BaiduNetdiskBackupManager {
   clearAuthorization() {
     this.accessToken = null;
     this.refreshToken = null;
+    this.expiresAt = null;
     this.initialized = false;
     
     localStorage.removeItem('baidu-netdisk-access-token');
     localStorage.removeItem('baidu-netdisk-refresh-token');
+    localStorage.removeItem('baidu-netdisk-expires-at');
     localStorage.removeItem('baidu-netdisk-backups');
   }
 }
