@@ -104,7 +104,7 @@ const TaskEditorModal: React.FC<TaskEditorModalProps> = ({
           </button>
         </div>
         
-        <div className="space-y-4">
+        <div className="space-y-3">
           <div>
             <label className={`text-[10px] uppercase font-bold ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>任务标题</label>
             <input autoFocus value={newTaskTitle} onChange={e => setNewTaskTitle(e.target.value)} className={`w-full border-b py-2 outline-none ${textMain} ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] border-none rounded-lg p-2' : 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-2') : (isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300')}`} placeholder="输入任务名称..." />
@@ -127,11 +127,11 @@ const TaskEditorModal: React.FC<TaskEditorModalProps> = ({
           
           {(newTaskType === 'daily' || newTaskType === 'main' || newTaskType === 'timebox' || newTaskType === 'random') && (
             <>
-              <div className="grid grid-cols-2 gap-4">
-                <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>经验奖励</label><input type="number" value={newTaskXP} onChange={e => setNewTaskXP(e.target.value)} className={`w-full border-b py-1 outline-none ${textMain} ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] border-none rounded-lg p-1' : 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-1') : (isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300')}`} /></div>
-                <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>金币奖励</label><input type="number" value={newTaskReward} onChange={e => setNewTaskReward(e.target.value)} className={`w-full border-b py-1 outline-none ${textMain} ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] border-none rounded-lg p-1' : 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-1') : (isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300')}`} /></div>
-                <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>预估时长(m)</label><input type="number" value={newTaskDuration} onChange={e => setNewTaskDuration(e.target.value)} className={`w-full border-b py-1 outline-none ${textMain} ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] border-none rounded-lg p-1' : 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-1') : (isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300')}`} /></div>
-                <div><label className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>优先级</label><select value={newTaskPriority} onChange={e => setNewTaskPriority(e.target.value as 'high' | 'medium' | 'low')} className={`w-full border-b py-1 outline-none ${textMain} ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] border-none rounded-lg p-1' : 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-1') : (isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300')}`}><option value="high">高</option><option value="medium">中</option><option value="low">低</option></select></div>
+              <div className="grid grid-cols-4 gap-2">
+                <div><label className={`text-[8px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>经验</label><input type="number" value={newTaskXP} onChange={e => setNewTaskXP(e.target.value)} className={`w-full border-b py-1 outline-none ${textMain} ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] border-none rounded-lg p-1' : 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-1') : (isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300')}`} /></div>
+                <div><label className={`text-[8px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>金币</label><input type="number" value={newTaskReward} onChange={e => setNewTaskReward(e.target.value)} className={`w-full border-b py-1 outline-none ${textMain} ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] border-none rounded-lg p-1' : 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-1') : (isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300')}`} /></div>
+                <div><label className={`text-[8px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>时长</label><input type="number" value={newTaskDuration} onChange={e => setNewTaskDuration(e.target.value)} className={`w-full border-b py-1 outline-none ${textMain} ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] border-none rounded-lg p-1' : 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-1') : (isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300')}`} /></div>
+                <div><label className={`text-[8px] ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>优先级</label><select value={newTaskPriority} onChange={e => setNewTaskPriority(e.target.value as 'high' | 'medium' | 'low')} className={`w-full border-b py-1 outline-none ${textMain} ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] border-none rounded-lg p-1' : 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg p-1') : (isDark ? 'bg-transparent border-zinc-700' : 'bg-transparent border-slate-300')}`}><option value="high">高</option><option value="medium">中</option><option value="low">低</option></select></div>
               </div>
 
               {/* 任务提醒设置 */}
@@ -149,55 +149,50 @@ const TaskEditorModal: React.FC<TaskEditorModalProps> = ({
                   </button>
                 </div>
                 
-                <div className="space-y-3 pt-2 animate-in fade-in slide-in-from-top-2 duration-300">
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <label className={`text-[8px] mb-1 block ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>提醒日期</label>
-                      <input 
-                        type="date" 
-                        value={reminderDate} 
-                        onChange={e => setReminderDate(e.target.value)}
-                        className={`w-full text-xs py-1.5 outline-none ${textMain} ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] border-none rounded-lg px-2' : 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg px-2') : 'bg-transparent border-b border-zinc-700'}`}
-                      />
-                    </div>
-                    <div>
-                      <label className={`text-[8px] mb-1 block ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>具体时间</label>
-                      <input 
-                        type="time" 
-                        value={reminderTime} 
-                        onChange={e => setReminderTime(e.target.value)}
-                        className={`w-full text-xs py-1.5 outline-none ${textMain} ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] border-none rounded-lg px-2' : 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg px-2') : 'bg-transparent border-b border-zinc-700'}`}
-                      />
-                    </div>
-                  </div>
-                  
+                <div className="grid grid-cols-3 gap-2 pt-2 animate-in fade-in slide-in-from-top-2 duration-300">
                   <div>
-                    <label className={`text-[8px] mb-1 block ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>重复模式</label>
-                    <div className="flex gap-2">
-                      <select 
-                        value={reminderRepeat} 
-                        onChange={e => setReminderRepeat(e.target.value as any)}
-                        className={`flex-1 text-xs py-1.5 outline-none ${textMain} ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] border-none rounded-lg px-2' : 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg px-2') : 'bg-transparent border-b border-zinc-700'}`}
-                      >
-                        <option value="none">不重复</option>
-                        <option value="daily">每天提醒</option>
-                        <option value="weekly">每周提醒</option>
-                        <option value="monthly">每月提醒</option>
-                        <option value="custom">间隔提醒</option>
-                      </select>
-                      {reminderRepeat === 'custom' && (
-                        <div className="flex items-center gap-1 animate-in slide-in-from-left-2">
-                          <input 
-                            type="number" 
-                            min="1"
-                            value={reminderInterval} 
-                            onChange={e => setReminderInterval(e.target.value)}
-                            className={`w-12 text-xs py-1.5 outline-none text-center ${textMain} ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] border-none rounded-lg' : 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg') : 'bg-transparent border-b border-zinc-700'}`}
-                          />
-                          <span className="text-[10px] text-zinc-500">天/次</span>
-                        </div>
-                      )}
-                    </div>
+                    <label className={`text-[8px] mb-1 block ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>日期</label>
+                    <input 
+                      type="date" 
+                      value={reminderDate} 
+                      onChange={e => setReminderDate(e.target.value)}
+                      className={`w-full text-xs py-1 outline-none ${textMain} ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] border-none rounded-lg px-2' : 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg px-2') : 'bg-transparent border-b border-zinc-700'}`}
+                    />
+                  </div>
+                  <div>
+                    <label className={`text-[8px] mb-1 block ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>时间</label>
+                    <input 
+                      type="time" 
+                      value={reminderTime} 
+                      onChange={e => setReminderTime(e.target.value)}
+                      className={`w-full text-xs py-1 outline-none ${textMain} ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] border-none rounded-lg px-2' : 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg px-2') : 'bg-transparent border-b border-zinc-700'}`}
+                    />
+                  </div>
+                  <div>
+                    <label className={`text-[8px] mb-1 block ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>重复</label>
+                    <select 
+                      value={reminderRepeat} 
+                      onChange={e => setReminderRepeat(e.target.value as any)}
+                      className={`w-full text-xs py-1 outline-none ${textMain} ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] border-none rounded-lg px-2' : 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg px-2') : 'bg-transparent border-b border-zinc-700'}`}
+                    >
+                      <option value="none">不重复</option>
+                      <option value="daily">每天</option>
+                      <option value="weekly">每周</option>
+                      <option value="monthly">每月</option>
+                      <option value="custom">间隔</option>
+                    </select>
+                    {reminderRepeat === 'custom' && (
+                      <div className="flex items-center gap-1 mt-1 animate-in slide-in-from-left-2">
+                        <input 
+                          type="number" 
+                          min="1"
+                          value={reminderInterval} 
+                          onChange={e => setReminderInterval(e.target.value)}
+                          className={`w-10 text-xs py-1 outline-none text-center ${textMain} ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] border-none rounded-lg' : 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg') : 'bg-transparent border-b border-zinc-700'}`}
+                        />
+                        <span className="text-[8px] text-zinc-500">天</span>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -268,7 +263,7 @@ const TaskEditorModal: React.FC<TaskEditorModalProps> = ({
                   value={newTaskNote} 
                   onChange={e => setNewTaskNote(e.target.value)}
                   placeholder="输入任务备注..." 
-                  className={`w-full min-h-[100px] p-3 outline-none ${textMain} ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] border-none rounded-lg resize-none' : 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg resize-none') : (isDark ? 'bg-zinc-900 border-zinc-700 rounded-lg resize-none' : 'bg-white border-slate-200 rounded-lg resize-none')}`}
+                  className={`w-full min-h-[200px] p-3 outline-none ${textMain} ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)] border-none rounded-lg resize-none' : 'bg-[#e0e5ec] shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)] border-none rounded-lg resize-none') : (isDark ? 'bg-zinc-900 border-zinc-700 rounded-lg resize-none' : 'bg-white border-slate-200 rounded-lg resize-none')}`}
                 />
               </div>
             </>

@@ -5,7 +5,7 @@ class BaiduNetdiskBackupManager {
   // 配置信息
   private config = {
     clientId: "G5tdFv7bUtULL4JsJz6aLBJ98Gf3PTfv",
-    redirectUri: "https://zwmopen.github.io/Life-Game-Management-System/callback",
+    redirectUri: "http://localhost:3004/Life-Game-Management-System/callback",
     backupPath: "/人生游戏显化系统备份"
   };
   
@@ -308,9 +308,11 @@ class BaiduNetdiskBackupManager {
    * @returns 百度网盘授权页面的URL
    */
   getAuthorizationUrl(): string {
-    // 使用GitHub Pages上的专门授权页面
-    // 这个页面会从GitHub Pages域名发起授权请求，避免referer错误
-    return "https://zwmopen.github.io/Life-Game-Management-System/baidu-auth.html";
+    // 直接返回百度网盘授权页面的URL，不使用本地重定向页面
+    // 这样可以避免referer错误
+    const clientId = this.config.clientId;
+    const redirectUri = encodeURIComponent(this.config.redirectUri);
+    return `https://openapi.baidu.com/oauth/2.0/authorize?client_id=${clientId}&response_type=token&redirect_uri=${redirectUri}&scope=basic,netdisk&display=page`;
   }
   
   /**

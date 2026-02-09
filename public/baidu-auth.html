@@ -65,8 +65,8 @@
     <h1>百度网盘授权</h1>
     <p>点击下方按钮授权百度网盘，授权成功后会自动返回应用</p>
     
-    <!-- 直接从GitHub Pages域名发起授权请求 -->
-    <a href="https://openapi.baidu.com/oauth/2.0/authorize?client_id=G5tdFv7bUtULL4JsJz6aLBJ98Gf3PTfv&response_type=token&redirect_uri=https%3A%2F%2Fzwmopen.github.io%2FLife-Game-Management-System%2Fcallback&scope=basic%2Cnetdisk&display=page" class="btn">
+    <!-- 直接从本地域名发起授权请求 -->
+    <a href="https://openapi.baidu.com/oauth/2.0/authorize?client_id=G5tdFv7bUtULL4JsJz6aLBJ98Gf3PTfv&response_type=token&redirect_uri=http%3A%2F%2Flocalhost%3A3004%2FLife-Game-Management-System%2Fcallback&scope=basic%2Cnetdisk&display=page" class="btn">
       授权百度网盘
     </a>
     
@@ -86,7 +86,7 @@
     // 自动跳转到授权页面
     setTimeout(function() {
       document.getElementById('loading').style.display = 'block';
-      window.location.href = 'https://openapi.baidu.com/oauth/2.0/authorize?client_id=G5tdFv7bUtULL4JsJz6aLBJ98Gf3PTfv&response_type=token&redirect_uri=https%3A%2F%2Fzwmopen.github.io%2FLife-Game-Management-System%2Fcallback&scope=basic%2Cnetdisk&display=page';
+      window.location.href = 'https://openapi.baidu.com/oauth/2.0/authorize?client_id=G5tdFv7bUtULL4JsJz6aLBJ98Gf3PTfv&response_type=token&redirect_uri=http%3A%2F%2Flocalhost%3A3004%2FLife-Game-Management-System%2Fcallback&scope=basic%2Cnetdisk&display=page';
     }, 2000);
   </script>
 </body>

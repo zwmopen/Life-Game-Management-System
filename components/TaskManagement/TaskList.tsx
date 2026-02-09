@@ -71,10 +71,10 @@ const TaskList: React.FC<TaskListProps> = memo(({
       onDragStart={() => onDragStart(task, index)} 
       onDragEnd={onDragEnd} 
       onDragOver={(e) => onDragOver(e, index)} 
-      onDoubleClick={() => onOpenEditTask(task)} 
+      onClick={() => onOpenEditTask(task)} 
       className={`relative group rounded-lg border transition-all overflow-hidden cursor-pointer ${task.completed ? 'opacity-50 grayscale ' + (isDark ? 'bg-zinc-950/50' : 'bg-slate-100') : task.isGivenUp ? 'opacity-70 ' + (isDark ? 'bg-red-950/10 border-red-900/30' : 'bg-red-50 border-red-200') : ''} ${cardBg} ${!task.completed && !task.isGivenUp ? 'hover:shadow-lg' : (isDark ? 'border-zinc-800' : 'border-slate-200')} ${draggedTask && draggedTask.id === task.id ? 'opacity-50 scale-95' : ''}`}
     >
-      <div className="p-2 sm:p-3 flex items-center gap-2 sm:gap-3">
+      <div className="p-2 sm:p-3 flex items-center gap-2 sm:gap-3 flex-wrap">
         <div className="text-zinc-600 cursor-grab active:cursor-grabbing hidden sm:flex"><GripVertical size={14}/></div>
         <button onClick={(e) => { e.stopPropagation(); onCompleteTask(task, e); }} className={`w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all shrink-0 ${task.completed ? 'bg-emerald-500 border-emerald-500 text-white' : task.isGivenUp ? 'border-red-900 text-red-900 cursor-not-allowed' : (isDark ? 'border-zinc-600 hover:border-emerald-500 text-transparent' : 'border-slate-300 hover:border-emerald-500 bg-white')}`} disabled={task.isGivenUp}>
           {task.completed && <Check size={16} strokeWidth={4} />}
@@ -82,7 +82,7 @@ const TaskList: React.FC<TaskListProps> = memo(({
         </button>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1 sm:gap-2">
-            <h3 className={`font-bold truncate min-w-0 ${task.completed || task.isGivenUp ? 'line-through text-zinc-500' : textMain}`}>
+            <h3 className={`font-bold truncate min-w-0 text-sm sm:text-base ${task.completed || task.isGivenUp ? 'line-through text-zinc-500' : textMain}`}>
               {task.text}
               {task.isGivenUp && <span className="ml-1 text-[9px] text-red-500 border border-red-900 bg-red-900/20 px-1 rounded font-bold whitespace-nowrap">已放弃</span>}
             </h3>
@@ -131,7 +131,7 @@ const TaskList: React.FC<TaskListProps> = memo(({
       onDragStart={() => onDragStart(task, index)} 
       onDragEnd={onDragEnd} 
       onDragOver={(e) => onDragOver(e, index)} 
-      onDoubleClick={() => onOpenEditTask(task)} 
+      onClick={() => onOpenEditTask(task)} 
       className={`relative group rounded-lg border transition-all overflow-hidden cursor-pointer ${task.completed ? 'opacity-50 grayscale ' + (isDark ? 'bg-zinc-950/50' : 'bg-slate-100') : ''} ${cardBg} ${!task.completed ? 'hover:shadow-lg' : (isDark ? 'border-zinc-800' : 'border-slate-200')} ${draggedTask && draggedTask.id === task.id ? 'opacity-50 scale-95' : ''}`}
     >
       <div className="p-3 flex flex-col gap-2">
@@ -156,7 +156,7 @@ const TaskList: React.FC<TaskListProps> = memo(({
                   </svg>
                 )}
               </button>
-              <h3 className={`font-bold ${task.completed ? 'line-through text-zinc-500' : textMain}`}>
+              <h3 className={`font-bold text-sm sm:text-base ${task.completed ? 'line-through text-zinc-500' : textMain}`}>
                 {task.text}
               </h3>
               <button onClick={() => onOpenEditTask(task)} className="opacity-0 group-hover:opacity-100 text-zinc-500 hover:text-blue-500 transition-opacity ml-1 p-1 rounded-full hover:bg-blue-900/10"><Edit3 size={12}/></button>
@@ -262,7 +262,7 @@ const TaskList: React.FC<TaskListProps> = memo(({
       onDragStart={() => onDragStart(task, index)} 
       onDragEnd={onDragEnd} 
       onDragOver={(e) => onDragOver(e, index)} 
-      onDoubleClick={() => onOpenEditTask(task)} 
+      onClick={() => onOpenEditTask(task)} 
       className={`flex items-center gap-2 p-2 border-b ${isDark ? 'border-zinc-800' : 'border-slate-200'} ${task.completed ? 'opacity-70' : ''} ${draggedTask && draggedTask.id === task.id ? 'opacity-50 bg-blue-100 dark:bg-blue-900/20' : ''}`}
     >
       <button onClick={(e) => { e.stopPropagation(); onCompleteTask(task, e); }} className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all shrink-0 ${task.completed ? 'bg-emerald-500 border-emerald-500 text-white' : task.isGivenUp ? 'border-red-900 text-red-900 cursor-not-allowed' : (isDark ? 'border-zinc-600 hover:border-emerald-500 text-transparent' : 'border-slate-300 hover:border-emerald-500 bg-white')}`} disabled={task.isGivenUp}>

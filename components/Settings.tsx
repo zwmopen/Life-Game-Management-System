@@ -867,26 +867,7 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
                 {/* WebDAV Configuration */}
                 {cloudProvider === 'webdav' && (
                   <div className="space-y-2">
-                    {/* 坚果云配置指南 */}
-                    <div className={[
-                      'p-2 rounded-lg',
-                      isNeomorphic
-                        ? isNeomorphicDark
-                          ? 'bg-[#1e1e2e] shadow-[8px_8px_16px_rgba(0,0,0,0.2),-8px_-8px_16px_rgba(30,30,46,0.8)]'
-                          : 'bg-[#e0e5ec] shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]'
-                        : isDark
-                        ? 'bg-zinc-900/50'
-                        : 'bg-slate-50'
-                    ].join(' ')}>
-                      <h4 className={['text-xs font-bold', textMain].join(' ')}>📁 坚果云配置指南</h4>
-                      <ul className={['text-[10px] space-y-1', textSub].join(' ')}>
-                        <li>1. 服务器地址：<code>https://dav.jianguoyun.com/dav/</code></li>
-                        <li>2. 用户名：坚果云账号（通常是邮箱）</li>
-                        <li>3. 密码：坚果云应用密码（不是登录密码）</li>
-                        <li>4. 如何获取应用密码：设置 → 安全选项 → 应用密码</li>
-                        <li>5. 确保已启用WebDAV服务</li>
-                      </ul>
-                    </div>
+    
 
                     <div className="space-y-1">
                       <label className={['text-xs font-bold', textMain].join(' ')}>WebDAV服务器地址</label>

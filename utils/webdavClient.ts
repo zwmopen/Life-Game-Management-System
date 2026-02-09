@@ -57,16 +57,9 @@ export class WebDAVClient {
    */
   private getAuthHeader(): string {
     const { username, password } = this.config;
-    // 使用更安全的编码方式处理用户名和密码中的特殊字符
-    const credentials = `${encodeURIComponent(username)}:${encodeURIComponent(password)}`;
-    // 使用TextEncoder和btoa处理UTF-8字符
-    const encoder = new TextEncoder();
-    const data = encoder.encode(credentials);
-    let binary = '';
-    for (let i = 0; i < data.byteLength; i++) {
-      binary += String.fromCharCode(data[i]);
-    }
-    return `Basic ${btoa(binary)}`;
+    // 使用简单直接的方式生成Basic认证头
+    // 这是坚果云WebDAV服务推荐的方式
+    return `Basic ${btoa(`${username}:${password}`)}`;
   }
 
   /**
@@ -75,23 +68,34 @@ export class WebDAVClient {
    * @returns 完整的WebDAV文件URL
    */
   private buildUrl(path: string): string {
-    // 直接使用完整的目标URL
-    const basePath = this.config.basePath?.replace(/^\/|\/$/g, '') || '';
+    // 构建完整的目标URL
     const filePath = path.replace(/^\//, '');
     
-    let fullPath;
-    if (!basePath) {
-      fullPath = `/${filePath}`;
-    } else {
-      fullPath = `/${basePath}/${filePath}`;
+    // 先解析基础URL
+    const baseUrl = new URL(this.config.url);
+    
+    // 构建路径部分
+    let pathParts = [];
+    
+    // 添加基础URL中的路径部分
+    if (baseUrl.pathname && baseUrl.pathname !== '/') {
+      pathParts.push(baseUrl.pathname.replace(/^\/|\/$/g, ''));
     }
     
-    // 确保路径以/开头
-    if (!fullPath.startsWith('/')) {
-      fullPath = '/' + fullPath;
+    // 添加文件路径，但去掉其中的目录部分，只使用文件名
+    // 这样可以避免坚果云对目录创建的限制
+    if (filePath) {
+      const fileName = filePath.split('/').pop() || filePath;
+      pathParts.push(fileName);
     }
     
-    return new URL(fullPath, this.config.url).href;
+    // 构建完整路径
+    const fullPath = '/' + pathParts.join('/');
+    
+    // 创建新的URL对象
+    const finalUrl = new URL(baseUrl.origin + fullPath);
+    
+    return finalUrl.href;
   }
 
   /**
@@ -112,65 +116,85 @@ export class WebDAVClient {
     const targetUrl = this.buildUrl(path);
     
     try {
-      // 直接使用目标URL发送请求
+      // 构建代理请求的URL（使用项目内置的代理服务器）
+      const proxyUrl = new URL('/webdav', window.location.origin);
+      
+      // 构建请求头
       const requestHeaders: Record<string, string> = {
-          'Authorization': this.getAuthHeader(),
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-          ...headers,
-        };
-        
-        // 根据请求方法设置适当的内容类型
-        if (body) {
-          if (method === 'PUT') {
-            // 上传文件时使用通用类型
-            requestHeaders['Content-Type'] = 'application/octet-stream';
-          } else if (method === 'PROPFIND') {
-            // PROPFIND请求需要特定的Content-Type
-            requestHeaders['Content-Type'] = 'application/xml';
-          } else {
-            requestHeaders['Content-Type'] = 'application/octet-stream';
+        'X-Target-Url': targetUrl, // 告诉代理服务器真实的目标URL
+        'Authorization': this.getAuthHeader(),
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+        ...headers,
+      };
+      
+      // 根据请求方法设置适当的内容类型和头信息
+      if (body) {
+        if (method === 'PUT') {
+          // 上传文件时使用JSON类型，因为我们上传的是JSON格式的备份数据
+          requestHeaders['Content-Type'] = 'application/json';
+          // 添加文件大小信息
+          if (typeof body === 'string') {
+            requestHeaders['Content-Length'] = body.length.toString();
+          } else if (body instanceof Blob) {
+            requestHeaders['Content-Length'] = body.size.toString();
           }
+          // 添加坚果云特定的头信息
+          if (targetUrl.includes('jianguoyun.com')) {
+            requestHeaders['Expect'] = '100-continue';
+            requestHeaders['Content-Transfer-Encoding'] = 'binary';
+          }
+        } else if (method === 'PROPFIND') {
+          // PROPFIND请求需要特定的Content-Type
+          requestHeaders['Content-Type'] = 'application/xml';
+        } else {
+          requestHeaders['Content-Type'] = 'application/octet-stream';
         }
-        
-        // 添加PROPFIND请求所需的Depth头
-        if (method === 'PROPFIND' && !headers?.Depth) {
-          requestHeaders['Depth'] = '1';
-        }
-        
-        // 坚果云特定配置
-        if (targetUrl.includes('jianguoyun.com')) {
-          // 坚果云需要额外的头信息
-          requestHeaders['Accept'] = '*/*';
-          requestHeaders['Accept-Encoding'] = 'gzip, deflate, br';
-          requestHeaders['Connection'] = 'keep-alive';
-        }
-        
-        console.log('发送WebDAV请求:', {
-          method,
-          url: targetUrl,
-          headers: Object.fromEntries(
-            Object.entries(requestHeaders).map(([key, value]) => 
-              key === 'Authorization' ? [key, '***'] : [key, value]
-            )
-          ),
-          body: body ? `[${typeof body}]` : 'null'
-        });
-        
-        const response = await fetch(targetUrl, {
-          method,
-          headers: requestHeaders,
-          body,
-          credentials: 'omit', // 不发送cookies，避免不必要的安全问题
-          mode: 'cors',
-          cache: 'no-cache',
-          redirect: 'follow',
-        });
+      }
+      
+      // 添加PROPFIND请求所需的Depth头
+      if (method === 'PROPFIND' && !headers?.Depth) {
+        requestHeaders['Depth'] = '1';
+      }
+      
+      // 坚果云特定配置
+      if (targetUrl.includes('jianguoyun.com')) {
+        // 坚果云需要额外的头信息
+        requestHeaders['Accept'] = '*/*';
+        requestHeaders['Accept-Encoding'] = 'gzip, deflate, br';
+        requestHeaders['Connection'] = 'keep-alive';
+        requestHeaders['Cache-Control'] = 'no-cache';
+        requestHeaders['Pragma'] = 'no-cache';
+        requestHeaders['X-Requested-With'] = 'XMLHttpRequest';
+      }
+      
+      console.log('发送WebDAV请求:', {
+        method,
+        url: proxyUrl.href,
+        targetUrl: targetUrl,
+        headers: Object.fromEntries(
+          Object.entries(requestHeaders).map(([key, value]) => 
+            key === 'Authorization' ? [key, '***'] : [key, value]
+          )
+        ),
+        body: body ? `[${typeof body}]` : 'null'
+      });
+      
+      // 通过代理服务器发送请求
+      const response = await fetch(proxyUrl.href, {
+        method,
+        headers: requestHeaders,
+        body,
+        credentials: 'omit', // 不发送cookies，避免不必要的安全问题
+        mode: 'cors',
+        cache: 'no-cache',
+        redirect: 'follow',
+      });
 
-        console.log('WebDAV请求响应:', {
-          status: response.status,
-          statusText: response.statusText,
-          headers: Object.fromEntries(response.headers.entries())
-        });
+      console.log('WebDAV请求响应:', {
+        status: response.status,
+        statusText: response.statusText,
+        headers: Object.fromEntries(response.headers.entries())
+      });
 
       // 处理特定的状态码
       if (!response.ok) {
@@ -281,6 +305,11 @@ export class WebDAVClient {
    * @param path 目录路径
    */
   async ensureDirectoryExists(path: string): Promise<void> {
+    // 处理空路径
+    if (!path || path === '/') {
+      return;
+    }
+    
     const pathParts = path.split('/').filter(Boolean);
     let currentPath = '';
     
@@ -290,6 +319,7 @@ export class WebDAVClient {
         await this.createDirectory(currentPath);
       } catch (error) {
         // 目录可能已存在，忽略错误
+        console.log(`目录${currentPath}可能已存在，继续处理`);
       }
     }
   }
@@ -301,12 +331,7 @@ export class WebDAVClient {
    */
   async uploadFile(path: string, content: string | Blob): Promise<void> {
     try {
-      // 确保父目录存在
-      const directoryPath = path.substring(0, path.lastIndexOf('/'));
-      if (directoryPath) {
-        await this.ensureDirectoryExists(directoryPath);
-      }
-      
+      // 直接上传文件，不创建目录，因为坚果云可能不允许
       await this.request('PUT', path, content);
     } catch (error) {
       console.error(`Failed to upload file ${path}:`, error);

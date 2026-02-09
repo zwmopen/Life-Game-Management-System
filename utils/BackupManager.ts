@@ -129,7 +129,7 @@ class BackupManager {
             url: webdavConfig.url,
             username: webdavConfig.username,
             password: webdavConfig.password,
-            basePath: '/人生游戏管理系统'
+            basePath: '/'
           });
           
           // 测试连接

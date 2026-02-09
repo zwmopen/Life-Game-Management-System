@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>简单备份工具</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin: 15px 0;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 12px 24px;
+            margin: 10px 5px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0069d9;
+        }
+        button:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+        .status {
+            margin: 15px 0;
+            padding: 15px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .backup-list {
+            margin: 15px 0;
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .backup-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .backup-item:hover {
+            background-color: #f8f9fa;
+        }
+        .backup-item:last-child {
+            border-bottom: none;
+        }
+        .backup-info {
+            flex: 1;
+        }
+        .backup-name {
+            font-weight: bold;
+        }
+        .backup-meta {
+            font-size: 12px;
+            color: #666;
+        }
+        .file-input {
+            border: none;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📁 简单备份工具</h1>
+        
+        <!-- 本地备份 -->
+        <div class="card">
+            <h2>💾 本地备份</h2>
+            <p>一键下载备份文件到本地</p>
+            <button onclick="createLocalBackup()">创建本地备份</button>
+            <button onclick="document.getElementById('localFile').click()">从本地文件恢复</button>
+            <input type="file" id="localFile" class="file-input" accept=".json" onchange="restoreFromLocalFile(event)">
+            <div class="status" id="localStatus"></div>
+        </div>
+        
+        <!-- WebDAV备份 -->
+        <div class="card">
+            <h2>☁️ WebDAV备份</h2>
+            
+            <!-- WebDAV配置 -->
+            <div class="form-group">
+                <label>WebDAV URL:</label>
+                <input type="text" id="webdavUrl" value="https://dav.jianguoyun.com/dav/%e4%ba%ba%e7%94%9f%e6%b8%b8%e6%88%8f%e7%ae%a1%e7%90%86%e7%b3%bb%e7%bb%9f/" placeholder="WebDAV服务器地址">
+            </div>
+            <div class="form-group">
+                <label>用户名:</label>
+                <input type="text" id="webdavUsername" placeholder="WebDAV账号">
+            </div>
+            <div class="form-group">
+                <label>密码:</label>
+                <input type="password" id="webdavPassword" placeholder="WebDAV密码">
+            </div>
+            <button onclick="testWebDAVConnection()">测试连接</button>
+            <button onclick="createWebDAVBackup()">创建WebDAV备份</button>
+            
+            <!-- WebDAV备份列表 -->
+            <h3>备份文件列表</h3>
+            <button onclick="listWebDAVBackups()">刷新列表</button>
+            <div class="backup-list" id="backupList">
+                <div style="padding: 20px; text-align: center; color: #666;">
+                    点击"刷新列表"查看备份文件
+                </div>
+            </div>
+            
+            <div class="status" id="webdavStatus"></div>
+        </div>
+        
+        <!-- 测试数据 -->
+        <div class="card">
+            <h2>🧪 测试数据</h2>
+            <p>生成测试数据用于备份测试</p>
+            <button onclick="generateTestData()">生成测试数据</button>
+            <button onclick="clearTestData()">清空测试数据</button>
+            <div class="status" id="dataStatus"></div>
+            <pre id="testData" style="background: #f8f9fa; padding: 10px; border-radius: 4px; font-size: 12px; max-height: 200px; overflow-y: auto;"></pre>
+        </div>
+    </div>
+    
+    <script>
+        // 测试数据生成
+        function generateTestData() {
+            const testData = {
+                settings: {
+                    bgMusicVolume: 0.5,
+                    soundEffectVolume: 0.7,
+                    enableBgMusic: true,
+                    enableSoundEffects: true
+                },
+                projects: [
+                    { id: 1, name: '测试项目1', progress: 50 },
+                    { id: 2, name: '测试项目2', progress: 25 }
+                ],
+                habits: [
+                    { id: 1, name: '测试习惯1', streak: 5 },
+                    { id: 2, name: '测试习惯2', streak: 10 }
+                ],
+                characters: [
+                    { id: 1, name: '测试角色1', level: 10 }
+                ],
+                achievements: [
+                    { id: 1, name: '测试成就1', unlocked: true }
+                ]
+            };
+            
+            localStorage.setItem('settings', JSON.stringify(testData.settings));
+            localStorage.setItem('projects', JSON.stringify(testData.projects));
+            localStorage.setItem('habits', JSON.stringify(testData.habits));
+            localStorage.setItem('characters', JSON.stringify(testData.characters));
+            localStorage.setItem('achievements', JSON.stringify(testData.achievements));
+            
+            document.getElementById('testData').textContent = JSON.stringify(testData, null, 2);
+            showStatus('dataStatus', 'success', '测试数据生成成功！');
+        }
+        
+        function clearTestData() {
+            localStorage.removeItem('settings');
+            localStorage.removeItem('projects');
+            localStorage.removeItem('habits');
+            localStorage.removeItem('characters');
+            localStorage.removeItem('achievements');
+            
+            document.getElementById('testData').textContent = '';
+            showStatus('dataStatus', 'info', '测试数据已清空');
+        }
+        
+        // 本地备份
+        function createLocalBackup() {
+            showStatus('localStatus', 'info', '正在创建本地备份...');
+            
+            try {
+                // 获取要备份的数据
+                const backupData = getAllData();
+                const backupJson = JSON.stringify(backupData, null, 2);
+                
+                // 创建备份文件名
+                const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+                const filename = `life-game-backup-${timestamp}.json`;
+                
+                // 创建并下载文件
+                const blob = new Blob([backupJson], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                showStatus('localStatus', 'success', `备份成功！文件已下载: ${filename}`);
+            } catch (error) {
+                showStatus('localStatus', 'error', `备份失败: ${error.message}`);
+            }
+        }
+        
+        // 从本地文件恢复
+        function restoreFromLocalFile(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            showStatus('localStatus', 'info', '正在从本地文件恢复...');
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const backupJson = e.target.result;
+                    const backupData = JSON.parse(backupJson);
+                    
+                    // 恢复数据
+                    restoreAllData(backupData);
+                    
+                    showStatus('localStatus', 'success', '恢复成功！页面将刷新以加载新数据');
+                    
+                    // 刷新页面
+                    setTimeout(() => {
+                        location.reload();
+                    }, 2000);
+                } catch (error) {
+                    showStatus('localStatus', 'error', `恢复失败: ${error.message}`);
+                }
+            };
+            reader.onerror = function() {
+                showStatus('localStatus', 'error', '读取文件失败');
+            };
+            reader.readAsText(file);
+        }
+        
+        // WebDAV备份
+        async function createWebDAVBackup() {
+            const config = getWebDAVConfig();
+            if (!isValidConfig(config)) {
+                showStatus('webdavStatus', 'error', '请先配置WebDAV参数');
+                return;
+            }
+            
+            showStatus('webdavStatus', 'info', '正在创建WebDAV备份...');
+            
+            try {
+                // 创建WebDAV客户端
+                const client = createWebDAVClient(config);
+                
+                // 获取要备份的数据
+                const backupData = getAllData();
+                const backupJson = JSON.stringify(backupData, null, 2);
+                
+                // 创建备份文件名
+                const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+                const filename = `life-game-backup-${timestamp}.json`;
+                
+                // 上传到WebDAV
+                await uploadToWebDAV(client, filename, backupJson);
+                
+                showStatus('webdavStatus', 'success', `备份成功！文件已上传到WebDAV: ${filename}`);
+                
+                // 刷新备份列表
+                await listWebDAVBackups();
+            } catch (error) {
+                showStatus('webdavStatus', 'error', `WebDAV备份失败: ${error.message}`);
+            }
+        }
+        
+        // 测试WebDAV连接
+        async function testWebDAVConnection() {
+            const config = getWebDAVConfig();
+            if (!isValidConfig(config)) {
+                showStatus('webdavStatus', 'error', '请先配置WebDAV参数');
+                return;
+            }
+            
+            showStatus('webdavStatus', 'info', '正在测试WebDAV连接...');
+            
+            try {
+                const client = createWebDAVClient(config);
+                const connected = await testConnection(client);
+                
+                if (connected) {
+                    showStatus('webdavStatus', 'success', 'WebDAV连接成功！');
+                } else {
+                    showStatus('webdavStatus', 'error', 'WebDAV连接失败，请检查配置');
+                }
+            } catch (error) {
+                showStatus('webdavStatus', 'error', `连接测试失败: ${error.message}`);
+            }
+        }
+        
+        // 列出WebDAV备份
+        async function listWebDAVBackups() {
+            const config = getWebDAVConfig();
+            if (!isValidConfig(config)) {
+                showStatus('webdavStatus', 'error', '请先配置WebDAV参数');
+                return;
+            }
+            
+            showStatus('webdavStatus', 'info', '正在获取备份列表...');
+            
+            try {
+                const client = createWebDAVClient(config);
+                const files = await listFiles(client);
+                
+                const backupFiles = files
+                    .filter(file => file.name.startsWith('life-game-backup-') && file.name.endsWith('.json'))
+                    .sort((a, b) => b.modified.getTime() - a.modified.getTime());
+                
+                renderBackupList(backupFiles);
+                showStatus('webdavStatus', 'success', `找到 ${backupFiles.length} 个备份文件`);
+            } catch (error) {
+                showStatus('webdavStatus', 'error', `获取备份列表失败: ${error.message}`);
+            }
+        }
+        
+        // 从WebDAV恢复
+        async function restoreFromWebDAV(filename) {
+            const config = getWebDAVConfig();
+            if (!isValidConfig(config)) {
+                showStatus('webdavStatus', 'error', '请先配置WebDAV参数');
+                return;
+            }
+            
+            showStatus('webdavStatus', 'info', `正在从WebDAV恢复: ${filename}...`);
+            
+            try {
+                const client = createWebDAVClient(config);
+                const backupJson = await downloadFromWebDAV(client, filename);
+                const backupData = JSON.parse(backupJson);
+                
+                // 恢复数据
+                restoreAllData(backupData);
+                
+                showStatus('webdavStatus', 'success', '恢复成功！页面将刷新以加载新数据');
+                
+                // 刷新页面
+                setTimeout(() => {
+                    location.reload();
+                }, 2000);
+            } catch (error) {
+                showStatus('webdavStatus', 'error', `恢复失败: ${error.message}`);
+            }
+        }
+        
+        // WebDAV客户端实现
+        function createWebDAVClient(config) {
+            return {
+                url: config.webdavUrl,
+                username: config.webdavUsername,
+                password: config.webdavPassword
+            };
+        }
+        
+        async function testConnection(client) {
+            try {
+                // 使用本地代理服务器
+                const response = await fetch('http://localhost:3002/webdav', {
+                    method: 'PROPFIND',
+                    headers: {
+                        'Authorization': 'Basic ' + btoa(client.username + ':' + client.password),
+                        'Depth': '1',
+                        'X-Target-Url': client.url
+                    }
+                });
+                return response.ok;
+            } catch {
+                return false;
+            }
+        }
+        
+        async function uploadToWebDAV(client, filename, content) {
+            // 使用本地代理服务器
+            const response = await fetch('http://localhost:3002/webdav/' + filename, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': 'Basic ' + btoa(client.username + ':' + client.password),
+                    'Content-Type': 'application/json',
+                    'X-Target-Url': client.url
+                },
+                body: content
+            });
+            
+            if (!response.ok) {
+                throw new Error(`上传失败: ${response.status} ${response.statusText}`);
+            }
+        }
+        
+        async function downloadFromWebDAV(client, filename) {
+            // 使用本地代理服务器
+            const response = await fetch('http://localhost:3002/webdav/' + filename, {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Basic ' + btoa(client.username + ':' + client.password),
+                    'X-Target-Url': client.url
+                }
+            });
+            
+            if (!response.ok) {
+                throw new Error(`下载失败: ${response.status} ${response.statusText}`);
+            }
+            
+            return await response.text();
+        }
+        
+        async function listFiles(client) {
+            try {
+                // 使用本地代理服务器
+                const response = await fetch('http://localhost:3002/webdav', {
+                    method: 'PROPFIND',
+                    headers: {
+                        'Authorization': 'Basic ' + btoa(client.username + ':' + client.password),
+                        'Depth': '1',
+                        'X-Target-Url': client.url
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`列出文件失败: ${response.status} ${response.statusText}`);
+                }
+                
+                const text = await response.text();
+                return parseWebDAVResponse(text);
+            } catch (error) {
+                throw new Error(`列出文件失败: ${error.message}`);
+            }
+        }
+        
+        function parseWebDAVResponse(xml) {
+            // 简单的XML解析
+            const files = [];
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(xml, 'application/xml');
+            
+            const responses = doc.getElementsByTagName('D:response');
+            for (let i = 0; i < responses.length; i++) {
+                const response = responses[i];
+                const href = response.getElementsByTagName('D:href')[0]?.textContent;
+                const propstat = response.getElementsByTagName('D:propstat')[0];
+                
+                if (href && propstat) {
+                    const filename = href.split('/').pop();
+                    if (filename && !filename.includes('/')) {
+                        files.push({
+                            name: filename,
+                            size: 0,
+                            modified: new Date()
+                        });
+                    }
+                }
+            }
+            
+            return files;
+        }
+        
+        // 辅助函数
+        function getWebDAVConfig() {
+            return {
+                webdavUrl: document.getElementById('webdavUrl').value,
+                webdavUsername: document.getElementById('webdavUsername').value,
+                webdavPassword: document.getElementById('webdavPassword').value
+            };
+        }
+        
+        function isValidConfig(config) {
+            return config.webdavUrl && config.webdavUsername && config.webdavPassword;
+        }
+        
+        function getAllData() {
+            return {
+                settings: JSON.parse(localStorage.getItem('settings') || '{}'),
+                projects: JSON.parse(localStorage.getItem('projects') || '[]'),
+                habits: JSON.parse(localStorage.getItem('habits') || '[]'),
+                characters: JSON.parse(localStorage.getItem('characters') || '[]'),
+                achievements: JSON.parse(localStorage.getItem('achievements') || '[]'),
+                timestamp: new Date().toISOString()
+            };
+        }
+        
+        function restoreAllData(data) {
+            if (data.settings) localStorage.setItem('settings', JSON.stringify(data.settings));
+            if (data.projects) localStorage.setItem('projects', JSON.stringify(data.projects));
+            if (data.habits) localStorage.setItem('habits', JSON.stringify(data.habits));
+            if (data.characters) localStorage.setItem('characters', JSON.stringify(data.characters));
+            if (data.achievements) localStorage.setItem('achievements', JSON.stringify(data.achievements));
+        }
+        
+        function renderBackupList(files) {
+            const listElement = document.getElementById('backupList');
+            
+            if (files.length === 0) {
+                listElement.innerHTML = '<div style="padding: 20px; text-align: center; color: #666;">没有找到备份文件</div>';
+                return;
+            }
+            
+            listElement.innerHTML = files.map(file => `
+                <div class="backup-item">
+                    <div class="backup-info">
+                        <div class="backup-name">${file.name}</div>
+                        <div class="backup-meta">
+                            ${file.modified.toLocaleString()} | ${(file.size / 1024).toFixed(2)} KB
+                        </div>
+                    </div>
+                    <button onclick="restoreFromWebDAV('${file.name}')">恢复</button>
+                </div>
+            `).join('');
+        }
+        
+        function showStatus(elementId, type, message) {
+            const element = document.getElementById(elementId);
+            element.className = `status ${type}`;
+            element.textContent = message;
+        }
+        
+        // 页面加载时生成测试数据
+        window.onload = function() {
+            generateTestData();
+        };
+    </script>
+</body>
+</html>

@@ -42,7 +42,7 @@ class EnhancedWebDAVBackupManager {
       url: config.url,
       username: config.username,
       password: config.password,
-      basePath: config.basePath || '/'
+      basePath: '/' // 直接使用根目录作为basePath，避免添加额外的目录
     });
 
     // 基础配置
@@ -50,7 +50,7 @@ class EnhancedWebDAVBackupManager {
       url: config.url,
       username: config.username,
       password: config.password,
-      basePath: config.basePath || '/',
+      basePath: '/', // 直接使用根目录作为basePath，避免添加额外的目录
       chunkSize: config.chunkSize || 5 * 1024 * 1024, // 5MB default
       maxConcurrent: config.maxConcurrent || 3,
       retryAttempts: config.retryAttempts || 3,
@@ -313,12 +313,6 @@ class EnhancedWebDAVBackupManager {
         }
 
         try {
-          const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-          const backupDir = `${this.config.basePath}/人生游戏管理系统/backup_${timestamp}`;
-          
-          // 创建备份目录
-          await this.client.ensureDirectoryExists(backupDir);
-          
           // 准备备份数据
           const dataToBackup = {
             timestamp: new Date().toISOString(),
@@ -326,8 +320,8 @@ class EnhancedWebDAVBackupManager {
             data: backup.data
           };
           
-          // 上传备份数据
-          const backupFilePath = `${backupDir}/${backup.id}.json`;
+          // 上传备份数据到根目录，避免创建子目录
+          const backupFilePath = `${backup.id}.json`;
           const jsonContent = JSON.stringify(dataToBackup, null, 2);
           
           await this.uploadChunked(
@@ -381,12 +375,6 @@ class EnhancedWebDAVBackupManager {
   ): Promise<void> {
     this.isCancelled = false;
     
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    const backupDir = `${this.config.basePath}/人生游戏管理系统/backup_${timestamp}`;
-    
-    // 创建备份目录
-    await this.client.ensureDirectoryExists(backupDir);
-    
     // 准备备份数据
     const dataToBackup = {
       timestamp: new Date().toISOString(),
@@ -394,8 +382,9 @@ class EnhancedWebDAVBackupManager {
       data: backupData
     };
     
-    // 上传备份数据
-    const backupFilePath = `${backupDir}/${backupId}.json`;
+    // 使用简单的文件名，避免在路径中使用目录，直接上传到根目录
+    // 这样可以避免坚果云对目录创建的限制
+    const backupFilePath = `${backupId}.json`;
     const jsonContent = JSON.stringify(dataToBackup, null, 2);
     
     await this.uploadChunked(backupFilePath, jsonContent, onProgress);
@@ -408,12 +397,12 @@ class EnhancedWebDAVBackupManager {
     this.isCancelled = false;
     
     try {
-      // 列出备份目录
-      const files = await this.client.listFiles(`${this.config.basePath}/人生游戏管理系统`);
+      // 列出根目录文件
+      const files = await this.client.listFiles('/');
       
       // 查找匹配的备份文件
       const backupFiles = files.filter(file => 
-        file.name.includes(backupId) && file.name.endsWith('.json')
+        !file.isDirectory && file.name.includes(backupId) && file.name.endsWith('.json')
       );
       
       if (backupFiles.length === 0) {
@@ -426,7 +415,7 @@ class EnhancedWebDAVBackupManager {
         current.mtime > latest.mtime ? current : latest
       );
       
-      const content = await this.client.downloadFile(latestBackup.url);
+      const content = await this.client.downloadFile(latestBackup.name);
       const backupData = JSON.parse(content);
       return backupData.data || content;
     } catch (error) {
@@ -440,23 +429,23 @@ class EnhancedWebDAVBackupManager {
    */
   async listBackups(): Promise<Array<{ id: string; timestamp: Date; size: number }>> {
     try {
-      const files = await this.client.listFiles(`${this.config.basePath}/人生游戏管理系统`);
-      const backupDirs = files.filter(file => file.isDirectory && file.name.startsWith('backup_'));
+      // 列出根目录文件
+      const files = await this.client.listFiles('/');
+      
+      // 过滤出备份文件
+      const backupFiles = files.filter(file => 
+        !file.isDirectory && file.name.endsWith('.json')
+      );
       
       const backups: Array<{ id: string; timestamp: Date; size: number }> = [];
       
-      for (const dir of backupDirs) {
-        const dirFiles = await this.client.listFiles(dir.url);
-        for (const file of dirFiles) {
-          if (file.name.endsWith('.json')) {
-            const id = file.name.replace('.json', '');
-            backups.push({
-              id,
-              timestamp: file.mtime,
-              size: file.size
-            });
-          }
-        }
+      for (const file of backupFiles) {
+        const id = file.name.replace('.json', '');
+        backups.push({
+          id,
+          timestamp: file.mtime,
+          size: file.size
+        });
       }
       
       return backups.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
@@ -479,26 +468,10 @@ class EnhancedWebDAVBackupManager {
         return;
       }
       
-      // 需要找到完整的路径来删除
-      const files = await this.client.listFiles(`${this.config.basePath}/人生游戏管理系统`);
-      const backupDirs = files.filter(file => file.isDirectory && file.name.startsWith('backup_'));
-      
-      for (const dir of backupDirs) {
-        const dirFiles = await this.client.listFiles(dir.url);
-        const targetFile = dirFiles.find(f => f.name.includes(backupId) && f.name.endsWith('.json'));
-        
-        if (targetFile) {
-          await this.client.deleteFile(targetFile.url);
-          console.log(`备份已删除: ${backupId}`);
-          
-          // 检查目录是否为空，如果为空则删除目录
-          const remainingFiles = await this.client.listFiles(dir.url);
-          if (remainingFiles.length === 0) {
-            await this.client.deleteFile(dir.url);
-          }
-          break;
-        }
-      }
+      // 直接使用文件名删除
+      const backupFileName = `${backupId}.json`;
+      await this.client.deleteFile(backupFileName);
+      console.log(`备份已删除: ${backupId}`);
     } catch (error) {
       console.error('删除备份失败:', error);
       throw error;
