@@ -772,7 +772,8 @@ const TimeBox: React.FC<TimeBoxProps> = ({ setModalState }) => {
             {tasks.map((task) => (
               <div 
                 key={task.id}
-                className={`${themeStyles.cardBg} rounded-xl ${themeStyles.cardShadow} p-6 border-l-4 border-blue-500 transition-all duration-300 hover:shadow-[8px_8px_16px_rgba(163,177,198,0.8),-8px_-8px_16px_rgba(255,255,255,1)] hover:translate-y-[-2px] ${
+                onClick={() => startEditing(task)}
+                className={`${themeStyles.cardBg} rounded-xl ${themeStyles.cardShadow} p-6 border-l-4 border-blue-500 transition-all duration-300 hover:shadow-[8px_8px_16px_rgba(163,177,198,0.8),-8px_-8px_16px_rgba(255,255,255,1)] hover:translate-y-[-2px] cursor-pointer ${
                   task.status === '已完成' ? 'opacity-70' : ''
                 }`}
               >
@@ -783,24 +784,33 @@ const TimeBox: React.FC<TimeBoxProps> = ({ setModalState }) => {
                       : theme.includes('dark') ? 'text-white' : 'text-zinc-800'
                   }`}>{task.title}</h3>
                   <div className="relative group">
-                    <button className={`p-1 rounded-full ${themeStyles.cardBg} ${themeStyles.buttonShadow}`}>
+                    <button onClick={(e) => e.stopPropagation()} className={`p-1 rounded-full ${themeStyles.cardBg} ${themeStyles.buttonShadow}`}>
                       <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={theme.includes('dark') ? 'currentColor' : 'currentColor'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
                     </button>
                     <div className={`absolute right-0 mt-1 w-28 ${themeStyles.modalBg} rounded-lg ${themeStyles.modalShadow} py-2 z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300`}>
                       <button
-                        onClick={() => startEditing(task)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          startEditing(task);
+                        }}
                         className={`block w-full text-left px-3 py-2 text-sm ${theme.includes('dark') ? 'text-zinc-300 hover:bg-zinc-700' : 'text-zinc-700 hover:bg-zinc-100'} transition-colors`}
                       >
                         编辑
                       </button>
                       <button
-                        onClick={() => toggleTaskStatus(task.id)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleTaskStatus(task.id);
+                        }}
                         className={`block w-full text-left px-3 py-2 text-sm ${theme.includes('dark') ? 'text-green-400 hover:bg-zinc-700' : 'text-green-600 hover:bg-zinc-100'} transition-colors`}
                       >
                         {task.status === '已完成' ? '标记为未完成' : '标记为已完成'}
                       </button>
                       <button
-                        onClick={() => deleteTask(task.id)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          deleteTask(task.id);
+                        }}
                         className={`block w-full text-left px-3 py-2 text-sm ${theme.includes('dark') ? 'text-red-400 hover:bg-zinc-700' : 'text-red-600 hover:bg-zinc-100'} transition-colors`}
                       >
                         删除
@@ -839,7 +849,9 @@ const TimeBox: React.FC<TimeBoxProps> = ({ setModalState }) => {
                 </div>
                 <div className="flex space-x-3">
                   <button
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      e.nativeEvent.stopImmediatePropagation();
                       if (window.confirm('确定要放弃这个任务吗？')) {
                         setTasks(prev => prev.map(t => 
                           t.id === task.id ? { ...t, status: '已放弃', isActive: false } : t
@@ -853,7 +865,11 @@ const TimeBox: React.FC<TimeBoxProps> = ({ setModalState }) => {
                     放弃任务
                   </button>
                   <button
-                    onClick={() => startFocus(task)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      e.nativeEvent.stopImmediatePropagation();
+                      startFocus(task);
+                    }}
                     className={`flex-1 py-3 rounded-lg text-sm font-medium flex items-center justify-center space-x-2 transition-all ${
                       task.isActive 
                         ? `${themeStyles.cardBg} text-red-500 ${themeStyles.buttonHoverShadow} hover:shadow-[inset_4px_4px_8px_rgba(163,177,198,0.8),inset_-4px_-4px_8px_rgba(255,255,255,1)]`
