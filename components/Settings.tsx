@@ -929,41 +929,33 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
                       />
                     </div>
 
-                    <div className="grid grid-cols-2 gap-2">
-                      <button
-                        onClick={testWebdavConnection}
-                        className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-full text-xs font-bold transition-all'].join(' ')}
-                      >
-                        <RefreshCw size={14} className="inline-block mr-1" />
-                        测试连接
-                      </button>
-
+                    <div className="flex flex-wrap gap-2">
                       <button
                         onClick={updateWebdavConfig}
-                        className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-full text-xs font-bold transition-all'].join(' ')}
+                        className={[getButtonStyle(false), 'flex-1 min-w-[120px] px-2 py-1 rounded-full text-xs font-bold transition-all'].join(' ')}
                       >
                         <Save size={14} className="inline-block mr-1" />
                         保存配置
                       </button>
+                      
+                      <button
+                        onClick={backupToWebDAV}
+                        disabled={isBackingUp}
+                        className={[getButtonStyle(false), 'flex-1 min-w-[120px] px-2 py-1 rounded-full text-xs font-bold transition-all'].join(' ')}
+                      >
+                        <Cloud size={12} className="inline-block mr-1" />
+                        {isBackingUp ? '备份中...' : '备份到WebDAV'}
+                      </button>
+                      
+                      <button
+                        onClick={restoreFromWebDAV}
+                        disabled={isRestoring}
+                        className={[getButtonStyle(false), 'flex-1 min-w-[120px] px-2 py-1 rounded-full text-xs font-bold transition-all'].join(' ')}
+                      >
+                        <Download size={12} className="inline-block mr-1" />
+                        {isRestoring ? '恢复中...' : '从WebDAV恢复'}
+                      </button>
                     </div>
-
-                    <button
-                      onClick={backupToWebDAV}
-                      disabled={isBackingUp}
-                      className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-full text-xs font-bold transition-all'].join(' ')}
-                    >
-                      <Cloud size={14} className="inline-block mr-1" />
-                      {isBackingUp ? '备份中...' : '备份到WebDAV'}
-                    </button>
-
-                    <button
-                      onClick={restoreFromWebDAV}
-                      disabled={isRestoring}
-                      className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-full text-xs font-bold transition-all'].join(' ')}
-                    >
-                      <Download size={14} className="inline-block mr-1" />
-                      {isRestoring ? '恢复中...' : '从WebDAV恢复'}
-                    </button>
 
                     {connectionTestStatus && (
                       <p className={[
@@ -998,69 +990,69 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
                       </p>
                     </div>
 
-                    <button
-                      onClick={async () => {
-                        setWebdavStatus('正在打开百度网盘授权页面...');
-                        
-                        try {
-                          // 检测是否为本地开发环境
-                          const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+                    <div className="flex flex-wrap gap-2">
+                      <button
+                        onClick={async () => {
+                          setWebdavStatus('正在打开百度网盘授权页面...');
                           
-                          if (isLocal) {
-                            // 本地开发环境：引导用户到GitHub Pages在线版本进行授权
-                            const onlineUrl = 'https://zwmopen.github.io/Life-Game-Management-System/';
-                            setWebdavStatus('本地环境授权可能会出现错误，请在GitHub Pages在线版本进行授权');
+                          try {
+                            // 检测是否为本地开发环境
+                            const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
                             
-                            if (window.confirm('本地环境授权可能会出现referer错误，是否跳转到GitHub Pages在线版本进行授权？')) {
-                              window.open(onlineUrl, '_blank', 'width=1000,height=800');
-                            }
-                          } else {
-                            // 在线环境：直接使用百度开放平台授权
-                            // 导入百度网盘备份管理器
-                            const { default: baiduNetdiskBackupManager } = await import('../utils/BaiduNetdiskBackupManager');
-                            
-                            // 生成授权URL
-                            const authUrl = baiduNetdiskBackupManager.getAuthorizationUrl();
-                            
-                            console.log('百度网盘授权URL:', authUrl);
-                            
-                            // 尝试打开授权页面
-                            const popup = window.open(authUrl, '_blank', 'width=800,height=600');
-                            
-                            if (popup) {
-                              console.log('授权窗口已打开');
-                              // 提示用户
-                              setWebdavStatus('请在新打开的页面中完成百度网盘授权，授权成功后会自动返回应用');
+                            if (isLocal) {
+                              // 本地开发环境：引导用户到GitHub Pages在线版本进行授权
+                              const onlineUrl = 'https://zwmopen.github.io/Life-Game-Management-System/';
+                              setWebdavStatus('本地环境授权可能会出现错误，请在GitHub Pages在线版本进行授权');
                               
-                              // 3秒后检查授权状态
-                              setTimeout(async () => {
-                                await checkBaiduNetdiskAuth();
-                              }, 3000);
+                              if (window.confirm('本地环境授权可能会出现referer错误，是否跳转到GitHub Pages在线版本进行授权？')) {
+                                window.open(onlineUrl, '_blank', 'width=1000,height=800');
+                              }
                             } else {
-                              console.error('授权窗口打开失败，可能被浏览器阻止');
-                              setWebdavStatus('授权窗口打开失败，请检查浏览器弹窗设置');
+                              // 在线环境：直接使用百度开放平台授权
+                              // 导入百度网盘备份管理器
+                              const { default: baiduNetdiskBackupManager } = await import('../utils/BaiduNetdiskBackupManager');
                               
-                              // 尝试使用location.href作为备选方案
-                              if (window.confirm('授权窗口打开失败，是否在当前标签页打开授权页面？')) {
-                                window.location.href = authUrl;
+                              // 生成授权URL
+                              const authUrl = baiduNetdiskBackupManager.getAuthorizationUrl();
+                              
+                              console.log('百度网盘授权URL:', authUrl);
+                              
+                              // 尝试打开授权页面
+                              const popup = window.open(authUrl, '_blank', 'width=800,height=600');
+                              
+                              if (popup) {
+                                console.log('授权窗口已打开');
+                                // 提示用户
+                                setWebdavStatus('请在新打开的页面中完成百度网盘授权，授权成功后会自动返回应用');
+                                
+                                // 3秒后检查授权状态
+                                setTimeout(async () => {
+                                  await checkBaiduNetdiskAuth();
+                                }, 3000);
+                              } else {
+                                console.error('授权窗口打开失败，可能被浏览器阻止');
+                                setWebdavStatus('授权窗口打开失败，请检查浏览器弹窗设置');
+                                
+                                // 尝试使用location.href作为备选方案
+                                if (window.confirm('授权窗口打开失败，是否在当前标签页打开授权页面？')) {
+                                  window.location.href = authUrl;
+                                }
                               }
                             }
+                          } catch (error) {
+                            console.error('百度网盘授权失败:', error);
+                            setWebdavStatus('百度网盘授权失败：' + (error as Error).message);
+                          } finally {
+                            setTimeout(() => setWebdavStatus(''), 8000);
                           }
-                        } catch (error) {
-                          console.error('百度网盘授权失败:', error);
-                          setWebdavStatus('百度网盘授权失败：' + (error as Error).message);
-                        } finally {
-                          setTimeout(() => setWebdavStatus(''), 8000);
-                        }
-                      }}
-                      className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-full text-xs font-bold transition-all'].join(' ')}
-                    >
-                      <Key size={14} className="inline-block mr-1" />
-                      {baiduConfig.accessToken ? '重新授权百度网盘' : '授权百度网盘'}
-                    </button>
+                        }}
+                        className={[getButtonStyle(false), 'flex-1 min-w-[120px] px-3 py-1.5 rounded-full text-xs font-bold transition-all'].join(' ')}
+                      >
+                        <Key size={14} className="inline-block mr-1" />
+                        {baiduConfig.accessToken ? '重新授权百度网盘' : '授权百度网盘'}
+                      </button>
 
-                    {baiduConfig.accessToken && (
-                      <div className="space-y-2">
+                      {baiduConfig.accessToken && (
                         <button
                           onClick={async () => {
                             if (window.confirm('确定要清除百度网盘授权吗？')) {
@@ -1086,177 +1078,103 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
                               }
                             }
                           }}
-                          className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-full text-xs font-bold transition-all'].join(' ')}
+                          className={[getButtonStyle(false), 'flex-1 min-w-[120px] px-3 py-1.5 rounded-full text-xs font-bold transition-all'].join(' ')}
                         >
                           <X size={14} className="inline-block mr-1" />
                           清除百度网盘授权
                         </button>
+                      )}
 
-                        <button
-                          onClick={async () => {
-                            setWebdavStatus('正在准备备份...');
+                      <button
+                        onClick={async () => {
+                          setWebdavStatus('正在准备备份...');
+                          
+                          try {
+                            // 导入百度网盘备份管理器
+                            const { default: baiduNetdiskBackupManager } = await import('../utils/BaiduNetdiskBackupManager');
                             
-                            try {
-                              // 导入百度网盘备份管理器
-                              const { default: baiduNetdiskBackupManager } = await import('../utils/BaiduNetdiskBackupManager');
-                              
-                              // 导入数据持久化管理器
-                              const { default: dataPersistenceManager } = await import('../utils/DataPersistenceManager');
-                              
-                              // 获取要备份的数据
-                              const backupData = dataPersistenceManager.exportAllData();
-                              
-                              // 执行备份
-                              await baiduNetdiskBackupManager.uploadBackup('manual-backup-' + Date.now(), backupData, (progress) => {
-                                console.log('备份进度:', progress);
-                                if (progress.percentage === 100) {
-                                  setWebdavStatus('✅ 备份成功！已保存到你的百度网盘');
-                                }
-                              });
-                              
-                              // 备份成功
-                              setWebdavStatus('✅ 备份成功！已保存到你的百度网盘');
-                            } catch (error) {
-                              console.error('百度网盘备份失败:', error);
-                              setWebdavStatus('❌ 备份失败：' + (error as Error).message);
-                            } finally {
-                              setTimeout(() => setWebdavStatus(''), 5000);
-                            }
-                          }}
-                          className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-full text-xs font-bold transition-all'].join(' ')}
-                        >
-                          <Cloud size={14} className="inline-block mr-1" />
-                          一键备份到网盘
-                        </button>
-                      </div>
-                    )}
-
-                    <button
-                      onClick={async () => {
-                        setWebdavStatus('正在测试百度网盘连接...');
-                        
-                        try {
-                          // 导入百度网盘备份管理器
-                          const { default: baiduNetdiskBackupManager } = await import('../utils/BaiduNetdiskBackupManager');
-                          
-                          // 测试连接
-                          const connected = await baiduNetdiskBackupManager.testConnection();
-                          
-                          if (connected) {
-                            setWebdavStatus('百度网盘连接测试成功！');
-                          } else {
-                            setWebdavStatus('百度网盘连接测试失败，请先授权');
-                          }
-                        } catch (error) {
-                          console.error('测试百度网盘连接失败:', error);
-                          setWebdavStatus('测试百度网盘连接失败：' + (error as Error).message);
-                        } finally {
-                          setTimeout(() => setWebdavStatus(''), 3000);
-                        }
-                      }}
-                      className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-full text-xs font-bold transition-all'].join(' ')}
-                    >
-                      <RefreshCw size={14} className="inline-block mr-1" />
-                      测试百度网盘连接
-                    </button>
-
-                    <button
-                      onClick={async () => {
-                        setWebdavStatus('正在备份到百度网盘...');
-                        setIsBackingUp(true);
-                        
-                        try {
-                          // 导入百度网盘备份管理器
-                          const { default: baiduNetdiskBackupManager } = await import('../utils/BaiduNetdiskBackupManager');
-                          
-                          // 检查是否已授权
-                          if (!baiduNetdiskBackupManager.isAuthorized()) {
-                            throw new Error('请先授权百度网盘');
-                          }
-                          
-                          // 创建备份数据
-                          const backupData = JSON.stringify({
-                            settings,
-                            projects: JSON.parse(localStorage.getItem('projects') || '[]'),
-                            habits: JSON.parse(localStorage.getItem('habits') || '[]'),
-                            characters: JSON.parse(localStorage.getItem('characters') || '[]'),
-                            achievements: JSON.parse(localStorage.getItem('achievements') || '[]'),
-                            timestamp: new Date().toISOString()
-                          });
-                          
-                          // 上传备份
-                          await baiduNetdiskBackupManager.uploadBackup(Date.now().toString(), backupData, (progress) => {
-                            console.log('备份进度:', progress);
-                          });
-                          
-                          setWebdavStatus('百度网盘备份成功！');
-                        } catch (error) {
-                          console.error('百度网盘备份失败:', error);
-                          setWebdavStatus('百度网盘备份失败：' + (error as Error).message);
-                        } finally {
-                          setIsBackingUp(false);
-                          setTimeout(() => setWebdavStatus(''), 3000);
-                        }
-                      }}
-                      disabled={isBackingUp}
-                      className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-full text-xs font-bold transition-all'].join(' ')}
-                    >
-                      <Cloud size={14} className="inline-block mr-1" />
-                      {isBackingUp ? '备份中...' : '备份到百度网盘'}
-                    </button>
-
-                    <button
-                      onClick={async () => {
-                        setWebdavStatus('正在从百度网盘恢复...');
-                        setIsRestoring(true);
-                        
-                        try {
-                          // 导入百度网盘备份管理器
-                          const { default: baiduNetdiskBackupManager } = await import('../utils/BaiduNetdiskBackupManager');
-                          
-                          // 检查是否已授权
-                          if (!baiduNetdiskBackupManager.isAuthorized()) {
-                            throw new Error('请先授权百度网盘');
-                          }
-                          
-                          // 获取备份列表
-                          const backups = await baiduNetdiskBackupManager.listBackups();
-                          
-                          if (backups.length === 0) {
-                            throw new Error('没有找到备份文件');
-                          }
-                          
-                          // 恢复最新的备份
-                          const latestBackup = backups.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime())[0];
-                          const backupData = await baiduNetdiskBackupManager.downloadBackup(latestBackup.id);
-                          
-                          if (backupData) {
-                            // 解析备份数据
-                            const backupJson = JSON.parse(backupData);
+                            // 导入数据持久化管理器
+                            const { default: dataPersistenceManager } = await import('../utils/DataPersistenceManager');
                             
-                            // 恢复数据
-                            if (backupJson.settings) {
-                              onUpdateSettings(backupJson.settings);
+                            // 获取要备份的数据
+                            const backupData = dataPersistenceManager.exportAllData();
+                            
+                            // 执行备份
+                            await baiduNetdiskBackupManager.uploadBackup('manual-backup-' + Date.now(), backupData, (progress) => {
+                              console.log('备份进度:', progress);
+                              if (progress.percentage === 100) {
+                                setWebdavStatus('✅ 备份成功！已保存到你的百度网盘');
+                              }
+                            });
+                            
+                            // 备份成功
+                            setWebdavStatus('✅ 备份成功！已保存到你的百度网盘');
+                          } catch (error) {
+                            console.error('百度网盘备份失败:', error);
+                            setWebdavStatus('❌ 备份失败：' + (error as Error).message);
+                          } finally {
+                            setTimeout(() => setWebdavStatus(''), 5000);
+                          }
+                        }}
+                        className={[getButtonStyle(false), 'flex-1 min-w-[120px] px-3 py-1.5 rounded-full text-xs font-bold transition-all'].join(' ')}
+                      >
+                        <Cloud size={14} className="inline-block mr-1" />
+                        一键备份到网盘
+                      </button>
+
+                      <button
+                        onClick={async () => {
+                          setWebdavStatus('正在从百度网盘恢复...');
+                          setIsRestoring(true);
+                          
+                          try {
+                            // 导入百度网盘备份管理器
+                            const { default: baiduNetdiskBackupManager } = await import('../utils/BaiduNetdiskBackupManager');
+                            
+                            // 检查是否已授权
+                            if (!baiduNetdiskBackupManager.isAuthorized()) {
+                              throw new Error('请先授权百度网盘');
                             }
                             
-                            setWebdavStatus('百度网盘恢复成功！');
-                          } else {
-                            throw new Error('恢复备份失败');
+                            // 获取备份列表
+                            const backups = await baiduNetdiskBackupManager.listBackups();
+                            
+                            if (backups.length === 0) {
+                              throw new Error('没有找到备份文件');
+                            }
+                            
+                            // 恢复最新的备份
+                            const latestBackup = backups.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime())[0];
+                            const backupData = await baiduNetdiskBackupManager.downloadBackup(latestBackup.id);
+                            
+                            if (backupData) {
+                              // 解析备份数据
+                              const backupJson = JSON.parse(backupData);
+                              
+                              // 恢复数据
+                              if (backupJson.settings) {
+                                onUpdateSettings(backupJson.settings);
+                              }
+                              
+                              setWebdavStatus('百度网盘恢复成功！');
+                            } else {
+                              throw new Error('恢复备份失败');
+                            }
+                          } catch (error) {
+                            console.error('百度网盘恢复失败:', error);
+                            setWebdavStatus('百度网盘恢复失败：' + (error as Error).message);
+                          } finally {
+                            setIsRestoring(false);
+                            setTimeout(() => setWebdavStatus(''), 3000);
                           }
-                        } catch (error) {
-                          console.error('百度网盘恢复失败:', error);
-                          setWebdavStatus('百度网盘恢复失败：' + (error as Error).message);
-                        } finally {
-                          setIsRestoring(false);
-                          setTimeout(() => setWebdavStatus(''), 3000);
-                        }
-                      }}
-                      disabled={isRestoring}
-                      className={[getButtonStyle(false), 'w-full px-3 py-1.5 rounded-full text-xs font-bold transition-all'].join(' ')}
-                    >
-                      <Download size={14} className="inline-block mr-1" />
-                      {isRestoring ? '恢复中...' : '从百度网盘恢复'}
-                    </button>
+                        }}
+                        disabled={isRestoring}
+                        className={[getButtonStyle(false), 'flex-1 min-w-[120px] px-3 py-1.5 rounded-full text-xs font-bold transition-all'].join(' ')}
+                      >
+                        <Download size={14} className="inline-block mr-1" />
+                        {isRestoring ? '恢复中...' : '从百度网盘恢复'}
+                      </button>
+                    </div>
 
                     {webdavStatus && (
                       <p className={['text-xs text-center', textSub].join(' ')}>{webdavStatus}</p>

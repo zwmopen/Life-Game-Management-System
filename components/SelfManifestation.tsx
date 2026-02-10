@@ -205,6 +205,7 @@ const SelfManifestation: React.FC<HighestVersionProps> = ({ onHelpClick }) => {
     { name: '哔哩哔哩', url: 'https://www.bilibili.com/' },
     { name: '小红书', url: 'https://www.xiaohongshu.com/' },
     { name: '推特', url: 'https://twitter.com/' },
+    { name: '高能补给站', url: 'https://applink.feishu.cn/client/docs/open?url=https://my.feishu.cn/wiki/BBuowKZaeiA06KkUJ9TcS0Exnke' },
   ];
 
   // 肯定语数据
@@ -1230,16 +1231,16 @@ const SelfManifestation: React.FC<HighestVersionProps> = ({ onHelpClick }) => {
               {/* sub bgm 模块 */}
               <div className={`mb-8 p-4 rounded-xl transition-all duration-500 hover:shadow-[15px_15px_30px_rgba(163,177,198,0.7),-15px_-15px_30px_rgba(255,255,255,1)] ${theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] hover:shadow-[15px_15px_30px_rgba(0,0,0,0.6),-15px_-15px_30px_rgba(30,30,46,1)]' : 'bg-[#e0e5ec] shadow-[10px_10px_20px_rgba(163,177,198,0.6),-10px_-10px_20px_rgba(255,255,255,1)]'}`}>
                 <h2 className={`text-lg font-bold mb-4 ${theme === 'neomorphic-dark' ? 'text-white' : 'text-zinc-700'}`}>
-                  音乐平台链接
+                  能量补充
                 </h2>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                <div className="flex flex-wrap gap-2">
                   {musicLinks.map((link, index) => (
                     <a
                       key={index}
                       href={link.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`px-3 py-2 rounded-full text-center text-sm transition-all duration-300 transform ${theme === 'neomorphic-dark'
+                      className={`flex-1 min-w-[100px] px-3 py-2 rounded-full text-center text-sm transition-all duration-300 transform ${theme === 'neomorphic-dark'
                         ? 'bg-[#1a1b1e] text-zinc-300 hover:bg-[#1e1e2e] hover:shadow-[12px_12px_24px_rgba(0,0,0,0.5),-12px_-12px_24px_rgba(30,30,46,1)] hover:scale-105'
                         : 'bg-[#e0e5ec] text-zinc-700 hover:shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)] hover:scale-105'
                       }`}
