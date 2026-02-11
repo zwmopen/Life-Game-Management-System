@@ -19,7 +19,7 @@ const SelfManifestation: React.FC<HighestVersionProps> = ({ onHelpClick }) => {
     '七、娱乐与多巴胺管理（理性克制，无成瘾内耗）': true,
     '八、学习与迭代升级（主动输入，即时落地）': true,
     '九、错误修正与边界管理（零重复犯错，精准筛选环境）': true,
-    '十、核心行为准则（ZWM Pro 底层逻辑）': true
+    '十、核心行为准则（ZWM 2.0 底层逻辑）': true
   });
   const [completedTasks, setCompletedTasks] = useState<Set<string>>(new Set());
   const [currentScript, setCurrentScript] = useState('');
@@ -776,9 +776,9 @@ const SelfManifestation: React.FC<HighestVersionProps> = ({ onHelpClick }) => {
   ];
 
   const avatarBlueprintData = {
-    title: 'ZWM Pro 像素级身份设定（最高版本·已拥有一切）',
+    title: 'ZWM 2.0 像素级身份设定（最高版本·已拥有一切）',
     sections: [
-      { title: '一、基础身份标识', content: [{ label: '角色名称', value: 'ZWM Pro' }, { label: '核心定位', value: '人生游戏唯一开发者、时间掌控者、持续迭代的高维玩家，身心合一、执行笃定、永不回滚的顶级版本自我' }] },
+      { title: '一、基础身份标识', content: [{ label: '角色名称', value: 'ZWM 2.0' }, { label: '核心定位', value: '人生游戏唯一开发者、时间掌控者、持续迭代的高维玩家，身心合一、执行笃定、永不回滚的顶级版本自我' }] },
       { title: '二、作息与时间管理（已固化为本能）', content: [{ label: '作息节律', value: '每日23点准时入睡，7点自然苏醒，睡眠充足，无熬夜、无赖床，身心始终处于满电修复状态' }, { label: '晨间启动', value: '第一时间打开滴答清单录入当日待办，分配时长并压缩10-20%，按四象限排序置顶Top 3，通过时间盒子完成任务框架搭建' }, { label: '专注执行', value: '启动倒计时后关闭所有通知。任务卡壳时，启动「马斯克三连击」5分钟内决策。时间盒结束即停止，记录完成度' }, { label: '复盘优化', value: '每日5分钟记录实际与预估耗时偏差，优化时间盒。每周复盘任务价值，剔除低价值事项' },] },
       { title: '三、体态与举止（刻入行为的掌控感）', content: [{ label: '体态', value: '站立时腰背笔直、脊柱挺拔，核心收紧，无含胸驼背，始终保持开发者的挺拔姿态' }, { label: '举止', value: '走路步幅稳健、带风前行，步伐坚定有力量，自带高维玩家的气场' }, { label: '表达', value: '声音洪亮有穿透力，吐字清晰，逻辑流畅，表述自信肯定，无迟疑、无冗余' },] },
       { title: '四、外在状态（健康精致，自带高光）', content: [{ label: '皮肤', value: '状态健康通透，无暗沉、无疲态，肤色均匀，呈现运动与规律作息带来的自然光泽' }, { label: '神态', value: '眼神坚定有神，目光专注有力量，无涣散、无迷茫，自带笃定与掌控的气场' }, { label: '发型', value: '帅气利落、干净清爽，无杂乱、无油腻，贴合自身气质，简约又有质感' }, { label: '穿搭', value: '衣物干净整洁、清爽舒适，搭配风格帅气耐看，简约高级且适配自身身份' },] },
@@ -787,7 +787,7 @@ const SelfManifestation: React.FC<HighestVersionProps> = ({ onHelpClick }) => {
       { title: '七、娱乐与多巴胺管理（理性克制，无成瘾内耗）', content: [{ label: '娱乐方式', value: '以音乐为核心娱乐载体，偶尔阅读小说，仅作为人生游戏的放松调剂，无过度沉迷' }, { label: '纪律底线', value: '绝不因小说、短视频等多巴胺刺激中断任务，彻底摆脱多巴胺绑架' }, { label: '精力分配', value: '所有娱乐行为均在规划的弹性时间内完成，不侵占核心任务时间' },] },
       { title: '八、学习与迭代升级（主动输入，即时落地）', content: [{ label: '信息输入', value: '每日固定进行新信息、新知识学习，保持持续输入的习惯，不断拓宽认知边界' }, { label: '践行原则', value: '遇到优质内容，绝不只收藏不行动，立即暂停、记录要点、马上践行' }, { label: '作品输出', value: '主动通过文字、视频形式制作作品，将所思所想打包成模块化插件、更新日志，全平台分享' }, { label: '版本更新', value: '优质认知、方法、插件立即更新至自身系统，覆盖旧版本，绝不回滚' },] },
       { title: '九、错误修正与边界管理（零重复犯错，精准筛选环境）', content: [{ label: '错误处理', value: '所有错误仅犯一次，踩过的坑绝不重复踏入，从每一次失误中提取迭代经验' }, { label: '信息筛选', value: '对信息输入极度吝啬，主动识别并屏蔽垃圾信息、低价值内容' }, { label: '人际边界', value: '果断拉黑切断消耗型、低质量人群，净化社交环境' }, { label: '迭代态度', value: '对所有能推动自身版本升级的事物，保持极致积极主动，投入全部热情与专注' },] },
-      { title: '十、核心行为准则（ZWM Pro 底层逻辑）', content: [{ label: '准则 1', value: '永远主动迭代，拒绝被动等待，旧版本直接覆盖，系统永不回滚' }, { label: '准则 2', value: '时间是核心资源，用时间盒子、压缩时长、倒计时三重机制牢牢掌控' }, { label: '准则 3', value: '专注单线程，用马斯克三连击破解所有卡壳，5分钟内完成决策' }, { label: '准则 4', value: '输入必践行，践行必输出，输出必迭代，形成认知-行动-升级的闭环' }, { label: '准则 5', value: '屏蔽垃圾信息与人，守住精力边界，把全部注意力投入自我升级' }, { label: '准则 6', value: '从容不焦虑，掌控每一个当下，享受人生游戏的推进过程与最终结果' },] }
+      { title: '十、核心行为准则（ZWM 2.0 底层逻辑）', content: [{ label: '准则 1', value: '永远主动迭代，拒绝被动等待，旧版本直接覆盖，系统永不回滚' }, { label: '准则 2', value: '时间是核心资源，用时间盒子、压缩时长、倒计时三重机制牢牢掌控' }, { label: '准则 3', value: '专注单线程，用马斯克三连击破解所有卡壳，5分钟内完成决策' }, { label: '准则 4', value: '输入必践行，践行必输出，输出必迭代，形成认知-行动-升级的闭环' }, { label: '准则 5', value: '屏蔽垃圾信息与人，守住精力边界，把全部注意力投入自我升级' }, { label: '准则 6', value: '从容不焦虑，掌控每一个当下，享受人生游戏的推进过程与最终结果' },] }
     ]
   };
 
@@ -898,7 +898,7 @@ const SelfManifestation: React.FC<HighestVersionProps> = ({ onHelpClick }) => {
     <div className="w-full max-w-6xl mx-auto px-4 py-8">
       <div className="text-center mb-8">
         <h1 className={`text-4xl font-bold mb-2 ${themeStyles.primaryText}`}>
-          最高版本构建(ZWM Pro)
+          最高版本构建(ZWM 2.0)
         </h1>
         <p className={`text-lg ${themeStyles.mutedText}`}>
           一个极致专注、知行合一、开源迭代的超级个体。绝不回滚（No Rollback）。
@@ -936,7 +936,7 @@ const SelfManifestation: React.FC<HighestVersionProps> = ({ onHelpClick }) => {
                 ZWM 系统版本迭代对照表
               </h2>
               <p className={`${themeStyles.mutedText}`}>
-                从 ZWM Legacy (v0.9) 到 ZWM Pro (V_Max) 的跃迁路径。
+                从 ZWM Legacy (v0.9) 到 ZWM 2.0 (V_Max) 的跃迁路径。
               </p>
             </div>
             <div className="p-6 overflow-x-auto">
@@ -951,7 +951,7 @@ const SelfManifestation: React.FC<HighestVersionProps> = ({ onHelpClick }) => {
                       </span>
                     </th>
                     <th className={`py-4 px-6 font-semibold ${themeStyles.mutedText}`}>
-                      🚀 新版本 ZWM Pro (V_Max) 
+                      🚀 新版本 ZWM 2.0 (V_Max) 
                       <span className={`inline-flex items-center ml-2 px-2 py-1 rounded-full text-xs font-bold ${themeStyles.secondaryBadgeBg} ${themeStyles.secondaryBadgeText}`}>
                         运行中
                       </span>

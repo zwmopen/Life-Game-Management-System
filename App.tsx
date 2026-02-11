@@ -264,7 +264,7 @@ const App: React.FC = () => {
 
     if(streakStr) setCheckInStreak(parseInt(streakStr));
 
-    // 强制使用新的 ZWM Pro 任务，忽略 localStorage 中的旧数据
+    // 强制使用新的 ZWM 2.0 日常显化任务，忽略 localStorage 中的旧数据
     setHabits(INITIAL_HABITS);
     setHabitOrder(INITIAL_HABITS.map(h => h.id));
     

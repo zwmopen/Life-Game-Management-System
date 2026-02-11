@@ -86,12 +86,12 @@ const TaskStats: React.FC<TaskStatsProps> = memo(({
     value: string | number;
     subValue?: string;
   }> = ({ icon, title, value, subValue }) => (
-    <div className={`p-4 rounded-lg ${getCardStyles()}`}>
-      <div className="flex items-center gap-3 mb-2">
+    <div className={`flex-shrink-0 w-32 p-3 rounded-lg ${getCardStyles()}`}>
+      <div className="flex items-center gap-2 mb-2">
         <div className={textSub}>{icon}</div>
-        <h3 className={`text-sm font-medium ${textSub}`}>{title}</h3>
+        <h3 className={`text-xs font-medium ${textSub}`}>{title}</h3>
       </div>
-      <div className={`text-2xl font-bold ${textMain}`}>{value}</div>
+      <div className={`text-xl font-bold ${textMain}`}>{value}</div>
       {subValue && <div className={`text-xs mt-1 ${textSub}`}>{subValue}</div>}
     </div>
   );
@@ -147,30 +147,32 @@ const TaskStats: React.FC<TaskStatsProps> = memo(({
   return (
     <div className="space-y-4">
       {/* 总体统计卡片 */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard
-          icon={<Target size={20} />}
-          title="总任务数"
-          value={totalTasks}
-        />
-        <StatCard
-          icon={<CheckCircle2 size={20} />}
-          title="已完成"
-          value={completedTasks}
-          subValue={`完成率 ${completionRate}%`}
-        />
-        <StatCard
-          icon={<Clock size={20} />}
-          title="今日完成"
-          value={dailyStats.todayCompleted}
-          subValue={`/${dailyStats.total} 任务`}
-        />
-        <StatCard
-          icon={<TrendingUp size={20} />}
-          title="进行中"
-          value={projectStats.inProgress}
-          subValue={`主线任务`}
-        />
+      <div className="overflow-x-auto pb-2 -mx-4 px-4">
+        <div className="flex gap-3 min-w-max">
+          <StatCard
+            icon={<Target size={16} />}
+            title="总任务数"
+            value={totalTasks}
+          />
+          <StatCard
+            icon={<CheckCircle2 size={16} />}
+            title="已完成"
+            value={completedTasks}
+            subValue={`完成率 ${completionRate}%`}
+          />
+          <StatCard
+            icon={<Clock size={16} />}
+            title="今日完成"
+            value={dailyStats.todayCompleted}
+            subValue={`/${dailyStats.total} 任务`}
+          />
+          <StatCard
+            icon={<TrendingUp size={16} />}
+            title="进行中"
+            value={projectStats.inProgress}
+            subValue={`主线任务`}
+          />
+        </div>
       </div>
 
       {/* 详细进度 */}
