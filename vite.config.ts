@@ -86,10 +86,9 @@ export default defineConfig(({ mode }) => {
         port: 3000,
         host: '0.0.0.0',
         // 减少开发服务器日志输出
-        logLevel: 'warn',
+        logLevel: 'info',
         // 启动时自动打开浏览器
         open: true,
-        // WebDAV代理由插件处理
       },
       plugins: [
         react(), 

@@ -65,8 +65,26 @@ class EnhancedWebDAVBackupManager {
       this.config = baseConfig;
     }
 
-    // 设置备份目录 - 如果用户指定了basePath，直接使用它作为备份目录
-    this.backupDir = this.config.basePath || 'life-game-backup';
+    // 检查 URL 是否已经包含了目录路径
+    // 例如：https://dav.jianguoyun.com/dav/人生游戏管理系统/
+    const urlObj = new URL(this.config.url);
+    const urlPath = urlObj.pathname.replace(/^\/|\/$/g, ''); // 移除首尾斜杠
+    
+    // 如果 URL 路径不只是 'dav'，说明用户已经在 URL 中指定了目录
+    const urlHasDirectory = urlPath && urlPath !== 'dav' && urlPath.includes('/');
+    
+    if (urlHasDirectory) {
+      // URL 已包含目录，backupDir 设为空，直接上传到 URL 指定的目录
+      this.backupDir = '';
+      console.log(`URL已包含目录路径，直接上传到: ${this.config.url}`);
+    } else if (this.config.basePath && this.config.basePath.trim() !== '') {
+      // 用户通过 basePath 指定了目录
+      this.backupDir = this.config.basePath;
+      console.log(`使用用户指定的备份目录: ${this.backupDir}`);
+    } else {
+      // 使用默认目录
+      this.backupDir = 'life-game-backup';
+    }
 
     // 初始化WebDAV客户端 - basePath 设为空，由 backupDir 控制路径
     this.client = new WebDAVClient({
