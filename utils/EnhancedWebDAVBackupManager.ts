@@ -92,12 +92,19 @@ class EnhancedWebDAVBackupManager {
    */
   private async ensureBackupDir(): Promise<void> {
     // 如果用户指定了basePath，假设目录已存在，不尝试创建
-    if (this.config.basePath) {
+    if (this.config.basePath && this.config.basePath.trim() !== '') {
       console.log(`使用用户指定的备份目录: ${this.backupDir}`);
       return;
     }
     
-    // 否则尝试创建默认备份目录
+    // 对于坚果云，不尝试创建目录，直接使用根目录
+    if (this.config.url.includes('jianguoyun.com')) {
+      console.log(`坚果云模式：直接使用应用目录根目录`);
+      this.backupDir = '';
+      return;
+    }
+    
+    // 其他服务尝试创建默认备份目录
     try {
       await this.client.ensureDirectoryExists(this.backupDir);
       console.log(`备份目录已确认: ${this.backupDir}`);
@@ -418,9 +425,15 @@ class EnhancedWebDAVBackupManager {
     };
     
     // 构建备份文件路径
-    // 如果 backupDir 是绝对路径（以/开头），直接使用；否则添加/前缀
-    const dir = this.backupDir.startsWith('/') ? this.backupDir : `/${this.backupDir}`;
-    const backupFilePath = `${dir}/${backupId}.json`;
+    let backupFilePath: string;
+    if (this.backupDir && this.backupDir.trim() !== '') {
+      // 有备份目录
+      const dir = this.backupDir.startsWith('/') ? this.backupDir : `/${this.backupDir}`;
+      backupFilePath = `${dir}/${backupId}.json`;
+    } else {
+      // 无备份目录，直接使用文件名
+      backupFilePath = `${backupId}.json`;
+    }
     const jsonContent = JSON.stringify(dataToBackup, null, 2);
     
     console.log(`准备上传备份文件: ${backupFilePath}`);
