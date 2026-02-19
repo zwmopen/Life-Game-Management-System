@@ -300,21 +300,9 @@ const LifeGame: React.FC<LifeGameProps> = ({
 
   // 处理编辑商品模态框的状态更新
   useEffect(() => {
-    if (isEditItemOpen) {
-      setModalState && setModalState(true);
-    } else {
-      setModalState && setModalState(false);
-    }
-  }, [isEditItemOpen]);
-
-  // 处理任务管理界面的状态更新
-  useEffect(() => {
-    if (isManageTasksOpen) {
-      setModalState && setModalState(true);
-    } else {
-      setModalState && setModalState(false);
-    }
-  }, [isManageTasksOpen]);
+    const hasOpenModal = isEditItemOpen || isManageTasksOpen || activeReminder;
+    setModalState && setModalState(hasOpenModal);
+  }, [isEditItemOpen, isManageTasksOpen, activeReminder]);
 
   // 监听initialTab变化，更新mainTab状态 - 修复：使用useRef避免Hook顺序问题
   const initialTabRef = useRef(initialTab);
