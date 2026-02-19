@@ -57,7 +57,7 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
       url: savedConfig.url,
       username: savedConfig.username,
       password: savedConfig.password,
-      basePath: '/人生游戏管理系统',
+      basePath: savedConfig.basePath || '',
     };
   });
   
@@ -409,6 +409,8 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
   // WebDAV restore function
   const restoreFromWebDAV = async () => {
     setWebdavStatus('正在保存配置并准备恢复...');
+    setIsRestoring(true);
+    
     try {
       // 验证WebDAV配置
       if (!webdavConfig.url || !webdavConfig.username || !webdavConfig.password) {
@@ -419,22 +421,48 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
       storeWebDAVConfig(webdavConfig);
       // 强制重置备份管理器实例
       await backupManager.initialize(true);
-
-      const client = new WebDAVClient(webdavConfig);
-      const path = `${webdavConfig.basePath || ''}/人生游戏备份_${new Date().toISOString().split('T')[0]}.json`;
-      const backupData = await client.downloadFile(path);
-      const gameData = JSON.parse(backupData as string);
-      if (gameData.settings) {
-        // In a real implementation, you would restore the data
-        setWebdavStatus('WebDAV恢复成功！');
+      
+      // 获取云端备份列表
+      const backups = await backupManager.getCloudBackupList();
+      
+      if (backups.length === 0) {
+        throw new Error('没有找到云端备份文件');
+      }
+      
+      // 使用最新的备份
+      const latestBackup = backups[0];
+      setWebdavStatus(`正在从云端恢复备份: ${latestBackup.id}`);
+      
+      // 执行恢复
+      const result = await backupManager.restoreFromCloudBackup(latestBackup.id);
+      
+      if (result.success) {
+        setWebdavStatus('WebDAV恢复成功！页面将在3秒后刷新...');
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
       } else {
-        throw new Error('无效的备份文件格式');
+        throw new Error(result.message);
       }
     } catch (error) {
       console.error('Failed to restore from WebDAV:', error);
-      setWebdavStatus('WebDAV恢复失败：' + (error as Error).message);
+      const errorMessage = error as Error;
+      let userMessage = 'WebDAV恢复失败：';
+      
+      if (errorMessage.message.includes('401')) {
+        userMessage += '认证失败，请检查用户名和密码';
+      } else if (errorMessage.message.includes('403')) {
+        userMessage += '权限不足，请检查账户权限';
+      } else if (errorMessage.message.includes('404')) {
+        userMessage += '备份文件不存在，请先执行备份';
+      } else {
+        userMessage += errorMessage.message;
+      }
+      
+      setWebdavStatus(userMessage);
     } finally {
-      setTimeout(() => setWebdavStatus(''), 3000);
+      setIsRestoring(false);
+      setTimeout(() => setWebdavStatus(''), 5000);
     }
   };
   
@@ -887,6 +915,28 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
                             : 'bg-white border border-slate-300 text-zinc-800'
                         ].join(' ')}
                       />
+                    </div>
+
+                    <div className="space-y-1">
+                      <label className={['text-xs font-bold', textMain].join(' ')}>备份目录路径（可选）</label>
+                      <input
+                        type="text"
+                        value={webdavConfig.basePath || ''}
+                        onChange={(e) => setWebdavConfig({ ...webdavConfig, basePath: e.target.value })}
+                        placeholder="如: /人生游戏备份（留空则自动创建）"
+                        className={[
+                          'w-full px-2 py-1 rounded text-xs',
+                          isNeomorphic
+                            ? isNeomorphicDark
+                              ? 'bg-[#1e1e2e] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-4px_-4px_8px_rgba(30,30,46,0.8)] text-zinc-200'
+                              : 'bg-[#e0e5ec] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,1)] text-zinc-800'
+                            : isDark
+                            ? 'bg-zinc-900 border border-zinc-800 text-zinc-200'
+                            : 'bg-white border border-slate-300 text-zinc-800'
+                        ].join(' ')}
+                      />
+                      <p className="text-[10px] text-zinc-500">坚果云用户请确保在坚果云中创建了对应的应用目录</p>
+                      <p className="text-[10px] text-zinc-500 mt-1">提示：坚果云需要先在"账户信息→安全选项"中添加应用并获取应用密码</p>
                     </div>
 
                     <div className="space-y-1">

@@ -69,7 +69,10 @@ export class WebDAVClient {
    */
   private buildUrl(path: string): string {
     // 构建完整的目标URL
-    const filePath = path.replace(/^\//, '');
+    // 如果路径已经是完整的URL，直接返回
+    if (path.startsWith('http://') || path.startsWith('https://')) {
+      return path;
+    }
     
     // 先解析基础URL
     const baseUrl = new URL(this.config.url);
@@ -82,11 +85,11 @@ export class WebDAVClient {
       pathParts.push(baseUrl.pathname.replace(/^\/|\/$/g, ''));
     }
     
-    // 添加文件路径，但去掉其中的目录部分，只使用文件名
-    // 这样可以避免坚果云对目录创建的限制
-    if (filePath) {
-      const fileName = filePath.split('/').pop() || filePath;
-      pathParts.push(fileName);
+    // 添加完整的文件路径（包括目录）
+    // 移除路径开头的斜杠，但保留目录结构
+    const normalizedPath = path.replace(/^\//, '');
+    if (normalizedPath) {
+      pathParts.push(normalizedPath);
     }
     
     // 构建完整路径
@@ -201,6 +204,9 @@ export class WebDAVClient {
         if (response.status === 401) {
           throw new Error('备份失败：认证失败。请检查用户名和密码是否正确。');
         } else if (response.status === 403) {
+          if (targetUrl.includes('jianguoyun.com')) {
+            throw new Error('备份失败：权限不足。请在坚果云中创建应用并获取应用密码：\n1. 登录坚果云 → 账户信息 → 安全选项\n2. 添加应用，名称如"人生游戏管理系统"\n3. 生成应用密码并复制\n4. 在设置中使用该应用密码\n5. 备份目录路径填写: /人生游戏管理系统');
+          }
           throw new Error('备份失败：权限不足。请检查账户权限。');
         } else if (response.status === 404) {
           throw new Error('备份失败：指定的路径不存在。请检查服务器地址和路径。');

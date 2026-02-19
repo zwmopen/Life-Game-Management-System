@@ -63,13 +63,15 @@ export const removeEncryptedItem = (key: string): void => {
  * 专门用于存储WebDAV配置的安全方法
  * @param config WebDAV配置对象
  */
-export const storeWebDAVConfig = (config: { url: string; username: string; password: string }): void => {
+export const storeWebDAVConfig = (config: { url: string; username: string; password: string; basePath?: string }): void => {
   // 对于WebDAV配置，我们将密码单独加密存储
   encryptAndStore('webdav-config', {
     url: config.url,
     username: config.username,
     // 密码会被加密存储
-    password: config.password
+    password: config.password,
+    // 备份目录路径
+    basePath: config.basePath || ''
   });
 };
 
@@ -77,11 +79,12 @@ export const storeWebDAVConfig = (config: { url: string; username: string; passw
  * 专门用于读取WebDAV配置的安全方法
  * @returns WebDAV配置对象
  */
-export const retrieveWebDAVConfig = (): { url: string; username: string; password: string } => {
+export const retrieveWebDAVConfig = (): { url: string; username: string; password: string; basePath: string } => {
   const defaultConfig = {
     url: 'https://dav.jianguoyun.com/dav/',
     username: '',
-    password: ''
+    password: '',
+    basePath: ''
   };
 
   try {
@@ -90,7 +93,8 @@ export const retrieveWebDAVConfig = (): { url: string; username: string; passwor
       return {
         url: config.url || defaultConfig.url,
         username: config.username || defaultConfig.username,
-        password: config.password || defaultConfig.password
+        password: config.password || defaultConfig.password,
+        basePath: config.basePath || defaultConfig.basePath
       };
     }
   } catch (error) {

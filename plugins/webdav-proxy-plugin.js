@@ -10,13 +10,14 @@ export const webdavProxyPlugin = () => {
       // 处理 OPTIONS 预检请求（在代理之前处理）
       server.middlewares.use('/webdav', (req, res, next) => {
         if (req.method === 'OPTIONS') {
-          res.header('Access-Control-Allow-Origin', '*');
-          res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PROPFIND, MKCOL');
-          res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, X-Target-Url, X-Target-Path, Depth');
-          res.sendStatus(200);
-        } else {
-          next();
+          res.setHeader('Access-Control-Allow-Origin', '*');
+          res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PROPFIND, MKCOL');
+          res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, X-Target-Url, X-Target-Path, Depth');
+          res.statusCode = 200;
+          res.end();
+          return;
         }
+        next();
       });
       
       // 添加代理中间件
@@ -53,14 +54,14 @@ export const webdavProxyPlugin = () => {
           }
         },
         onProxyRes: (proxyRes, req, res) => {
-          // 确保响应头允许 CORS
-          proxyRes.headers['Access-Control-Allow-Origin'] = '*';
-          proxyRes.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS, PROPFIND, MKCOL';
-          proxyRes.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization, X-Requested-With, X-Target-Url, X-Target-Path, Depth';
+          // 确保响应头允许 CORS - 使用 setHeader 确保正确设置
+          res.setHeader('Access-Control-Allow-Origin', '*');
+          res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PROPFIND, MKCOL');
+          res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, X-Target-Url, X-Target-Path, Depth');
           
           // 移除可能导致问题的头
-          delete proxyRes.headers['content-security-policy'];
-          delete proxyRes.headers['x-frame-options'];
+          res.removeHeader('content-security-policy');
+          res.removeHeader('x-frame-options');
         },
         onError: (err, req, res) => {
           console.error('WebDAV Proxy Error:', err);

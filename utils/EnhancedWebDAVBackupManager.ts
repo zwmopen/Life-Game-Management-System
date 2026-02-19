@@ -36,21 +36,15 @@ class EnhancedWebDAVBackupManager {
   private client: WebDAVClient;
   private config: Required<EnhancedWebDAVConfig>;
   private isCancelled: boolean = false;
+  private backupDir: string = ''; // 备份目录路径
 
   constructor(config: EnhancedWebDAVConfig) {
-    this.client = new WebDAVClient({
-      url: config.url,
-      username: config.username,
-      password: config.password,
-      basePath: '/' // 直接使用根目录作为basePath，避免添加额外的目录
-    });
-
     // 基础配置
     const baseConfig = {
       url: config.url,
       username: config.username,
       password: config.password,
-      basePath: '/', // 直接使用根目录作为basePath，避免添加额外的目录
+      basePath: config.basePath || '', 
       chunkSize: config.chunkSize || 5 * 1024 * 1024, // 5MB default
       maxConcurrent: config.maxConcurrent || 3,
       retryAttempts: config.retryAttempts || 3,
@@ -71,14 +65,46 @@ class EnhancedWebDAVBackupManager {
       this.config = baseConfig;
     }
 
+    // 设置备份目录 - 如果用户指定了basePath，直接使用它作为备份目录
+    this.backupDir = this.config.basePath || 'life-game-backup';
+
+    // 初始化WebDAV客户端 - basePath 设为空，由 backupDir 控制路径
+    this.client = new WebDAVClient({
+      url: this.config.url,
+      username: this.config.username,
+      password: this.config.password,
+      basePath: '' // 客户端basePath为空，由backupDir控制完整路径
+    });
+
     console.log('EnhancedWebDAVBackupManager配置:', {
       url: this.config.url,
       basePath: this.config.basePath,
+      backupDir: this.backupDir,
       chunkSize: this.config.chunkSize,
       maxConcurrent: this.config.maxConcurrent,
       retryAttempts: this.config.retryAttempts,
       timeout: this.config.timeout,
     });
+  }
+
+  /**
+   * 确保备份目录存在
+   */
+  private async ensureBackupDir(): Promise<void> {
+    // 如果用户指定了basePath，假设目录已存在，不尝试创建
+    if (this.config.basePath) {
+      console.log(`使用用户指定的备份目录: ${this.backupDir}`);
+      return;
+    }
+    
+    // 否则尝试创建默认备份目录
+    try {
+      await this.client.ensureDirectoryExists(this.backupDir);
+      console.log(`备份目录已确认: ${this.backupDir}`);
+    } catch (error) {
+      console.error('创建备份目录失败:', error);
+      throw new Error('无法创建备份目录，请检查WebDAV权限或手动指定备份目录路径');
+    }
   }
 
   /**
@@ -297,6 +323,12 @@ class EnhancedWebDAVBackupManager {
   ): Promise<{ success: number; failed: string[] }> {
     this.isCancelled = false;
     
+    // 确保备份目录存在
+    await this.ensureBackupDir();
+    
+    // 构建备份目录路径
+    const dir = this.backupDir.startsWith('/') ? this.backupDir : `/${this.backupDir}`;
+    
     const batchSize = options?.batchSize || 5;
     const results = { success: 0, failed: [] as string[] };
     
@@ -320,8 +352,8 @@ class EnhancedWebDAVBackupManager {
             data: backup.data
           };
           
-          // 上传备份数据到根目录，避免创建子目录
-          const backupFilePath = `${backup.id}.json`;
+          // 上传到备份目录
+          const backupFilePath = `${dir}/${backup.id}.json`;
           const jsonContent = JSON.stringify(dataToBackup, null, 2);
           
           await this.uploadChunked(
@@ -375,6 +407,9 @@ class EnhancedWebDAVBackupManager {
   ): Promise<void> {
     this.isCancelled = false;
     
+    // 确保备份目录存在
+    await this.ensureBackupDir();
+    
     // 准备备份数据
     const dataToBackup = {
       timestamp: new Date().toISOString(),
@@ -382,11 +417,13 @@ class EnhancedWebDAVBackupManager {
       data: backupData
     };
     
-    // 使用简单的文件名，避免在路径中使用目录，直接上传到根目录
-    // 这样可以避免坚果云对目录创建的限制
-    const backupFilePath = `${backupId}.json`;
+    // 构建备份文件路径
+    // 如果 backupDir 是绝对路径（以/开头），直接使用；否则添加/前缀
+    const dir = this.backupDir.startsWith('/') ? this.backupDir : `/${this.backupDir}`;
+    const backupFilePath = `${dir}/${backupId}.json`;
     const jsonContent = JSON.stringify(dataToBackup, null, 2);
     
+    console.log(`准备上传备份文件: ${backupFilePath}`);
     await this.uploadChunked(backupFilePath, jsonContent, onProgress);
   }
 
@@ -397,8 +434,11 @@ class EnhancedWebDAVBackupManager {
     this.isCancelled = false;
     
     try {
-      // 列出根目录文件
-      const files = await this.client.listFiles('/');
+      // 构建备份目录路径
+      const dir = this.backupDir.startsWith('/') ? this.backupDir : `/${this.backupDir}`;
+      
+      // 列出备份目录中的文件
+      const files = await this.client.listFiles(dir);
       
       // 查找匹配的备份文件
       const backupFiles = files.filter(file => 
@@ -415,7 +455,7 @@ class EnhancedWebDAVBackupManager {
         current.mtime > latest.mtime ? current : latest
       );
       
-      const content = await this.client.downloadFile(latestBackup.name);
+      const content = await this.client.downloadFile(`${dir}/${latestBackup.name}`);
       const backupData = JSON.parse(content);
       return backupData.data || content;
     } catch (error) {
@@ -429,8 +469,11 @@ class EnhancedWebDAVBackupManager {
    */
   async listBackups(): Promise<Array<{ id: string; timestamp: Date; size: number }>> {
     try {
-      // 列出根目录文件
-      const files = await this.client.listFiles('/');
+      // 构建备份目录路径
+      const dir = this.backupDir.startsWith('/') ? this.backupDir : `/${this.backupDir}`;
+      
+      // 列出备份目录中的文件
+      const files = await this.client.listFiles(dir);
       
       // 过滤出备份文件
       const backupFiles = files.filter(file => 

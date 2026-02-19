@@ -124,12 +124,12 @@ class BackupManager {
       try {
         if (webdavConfig.url && webdavConfig.username && webdavConfig.password) {
           console.log('检测到WebDAV完整配置，初始化增强版管理器');
-          // 尝试初始化增强版WebDAV备份
+          // 尝试初始化增强版WebDAV备份，使用用户配置的basePath
           this.enhancedWebDAVBackup = new EnhancedWebDAVBackupManager({
             url: webdavConfig.url,
             username: webdavConfig.username,
             password: webdavConfig.password,
-            basePath: '/'
+            basePath: webdavConfig.basePath || '' // 使用用户配置的basePath
           });
           
           // 测试连接
