@@ -73,10 +73,10 @@ class MemoryMonitor {
       // @ts-ignore - 只在支持的浏览器中可用
       const mem = performance.memory;
       return {
-        used: mem.usedJSHeapSize,
-        total: mem.totalJSHeapSize,
-        limit: mem.jsHeapSizeLimit,
-        percentage: (mem.usedJSHeapSize / mem.jsHeapSizeLimit) * 100
+        used: mem?.heapUsed || 0,
+        total: mem?.heapTotal || 0,
+        limit: mem?.jsHeapSizeLimit || 0,
+        percentage: mem ? (mem.heapUsed / mem.jsHeapSizeLimit) * 100 : 0
       };
     } catch (error) {
       console.warn('[Memory Monitor] Failed to get memory info:', error);

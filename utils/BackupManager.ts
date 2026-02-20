@@ -920,13 +920,14 @@ class BackupManager {
   /**
    * 删除备份
    */
-  async deleteBackup(backupId: string, type: 'local' | 'cloud'): Promise<void> {
+  async deleteBackup(backupId: string, type: 'local' | 'cloud' | 'hybrid'): Promise<void> {
     try {
-      if (type === 'local') {
+      if (type === 'local' || type === 'hybrid') {
         // 删除本地备份数据
         const backupKey = `backup_${backupId}`;
         dataPersistenceManager.removeItem(backupKey);
-      } else if (type === 'cloud') {
+      } 
+      if (type === 'cloud' || type === 'hybrid') {
         // 删除云端备份
         if (this.webDAVBackup || this.enhancedWebDAVBackup) {
           // 删除WebDAV备份（优先使用增强版）

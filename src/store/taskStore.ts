@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { Habit, Project, SubTask } from '../../types';
-import { INITIAL_HABITS, INITIAL_PROJECTS } from '../../constants';
+import { INITIAL_HABITS, INITIAL_PROJECTS } from '../../constants/index';
 
 interface TaskState {
   // 状态

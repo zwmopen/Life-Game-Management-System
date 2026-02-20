@@ -1,6 +1,18 @@
 // 统一音效管理库
 import audioManager from './audioManager';
 
+// Vite 环境类型声明
+interface ImportMetaEnv {
+  BASE_URL: string;
+  MODE: string;
+  DEV: boolean;
+  PROD: boolean;
+}
+
+interface ImportMeta {
+  env: ImportMetaEnv;
+}
+
 interface SoundEffect {
   id: string;
   url: string;
@@ -719,9 +731,9 @@ class SoundManager {
     if (currentUrl.includes('/Life-Game-Management-System/')) {
       // GitHub Pages环境
       basePath = '/Life-Game-Management-System';
-    } else if (import.meta.env && import.meta.env.BASE_URL) {
+    } else if ((import.meta as any).env && (import.meta as any).env.BASE_URL) {
       // Vite环境，使用配置的BASE_URL
-      basePath = import.meta.env.BASE_URL;
+      basePath = (import.meta as any).env.BASE_URL;
     }
     
     // 确保basePath格式正确

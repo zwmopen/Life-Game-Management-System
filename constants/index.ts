@@ -54,12 +54,12 @@ export const INITIAL_HABITS = [
     archived: false, 
     history: {}, 
     logs: {},
-    priority: 'low',
+    priority: 'low' as const,
     note: '1. 保持平躺闭眼，在脑海预演 ZWM 2.0 今日全流程：起床、任务推进、项目执行、输出分享，沉浸式感受「已完成目标」的从容与掌控感\n2. 默念肯定语：我是 ZWM 2.0，今日所有目标皆已显化，身心合一，能量满格，从容掌控人生游戏\n3. 执行要求：全程不碰手机，仅专注画面与情绪',
     reminder: {
       enabled: true,
       time: '07:00',
-      repeat: 'daily'
+      repeat: 'daily' as const
     }
   },
   {
@@ -74,12 +74,12 @@ export const INITIAL_HABITS = [
     archived: false, 
     history: {}, 
     logs: {},
-    priority: 'low',
+    priority: 'low' as const,
     note: '1. 站立调整体态：腰背笔直、核心收紧，做 3 次深呼吸\n2. 默念肯定语：我身姿挺拔，气场笃定，每一个动作都在显化最高版本的自己，自带掌控力\n3. 执行要求：对着镜子完成，强化肢体记忆',
     reminder: {
       enabled: true,
       time: '07:05',
-      repeat: 'daily'
+      repeat: 'daily' as const
     }
   },
   {
@@ -94,12 +94,12 @@ export const INITIAL_HABITS = [
     archived: false, 
     history: {}, 
     logs: {},
-    priority: 'low',
+    priority: 'low' as const,
     note: '1. 打开滴答清单，录入当日所有待办事项\n2. 为每个任务分配预估时长，主动压缩 10%-20% 制造良性时间压力\n3. 按重要紧急排序，置顶最重要最紧急的 3 件核心任务\n4. 进入人生游戏管理系统，用时间盒子批量添加任务，完成任务框架搭建\n5. 默念肯定语：我精准掌控时间，每一个任务规划都在显化高效执行的现实，日拱一卒，必达目标\n6. 执行要求：全程无干扰，专注完成任务搭建',
     reminder: {
       enabled: true,
       time: '07:07',
-      repeat: 'daily'
+      repeat: 'daily' as const
     }
   },
   {
@@ -114,12 +114,12 @@ export const INITIAL_HABITS = [
     archived: false, 
     history: {}, 
     logs: {},
-    priority: 'low',
+    priority: 'low' as const,
     note: '1. 大声朗读 ZWM 2.0 核心肯定语：我是 ZWM 2.0，人生游戏的唯一开发者，主动迭代，绝不回滚，所有愿望皆在行动中显化\n2. 调动「已拥有一切」的积极情绪，保持饱满状态\n3. 执行要求：声音洪亮，情绪饱满，完成后立即进入首个时间盒任务',
     reminder: {
       enabled: true,
       time: '07:25',
-      repeat: 'daily'
+      repeat: 'daily' as const
     }
   },
   {
@@ -134,12 +134,12 @@ export const INITIAL_HABITS = [
     archived: false, 
     history: {}, 
     logs: {},
-    priority: 'low',
+    priority: 'low' as const,
     note: '1. 立刻停下手头所有事务，调整为 ZWM 2.0 挺拔体态\n2. 默念肯定语：此刻我是 ZWM 2.0，单线程专注，拒绝内耗，每一次行动都在显化项目推进的成果\n3. 关闭手机所有通知，重启任务倒计时\n4. 执行要求：快速完成，无拖延，立即回归核心任务',
     reminder: {
       enabled: true,
       time: '09:00',
-      repeat: 'daily'
+      repeat: 'daily' as const
     }
   },
   {
@@ -154,12 +154,12 @@ export const INITIAL_HABITS = [
     archived: false, 
     history: {}, 
     logs: {},
-    priority: 'low',
+    priority: 'low' as const,
     note: '1. 快速查看上午时间盒完成度，记录预估时长与实际耗时的偏差\n2. 确认核心任务推进进度，标记已完成的显化小节点\n3. 默念肯定语：我稳步推进目标，每一次复盘都在优化显化路径，上午的执行已为成功显化奠定基础\n4. 执行要求：简单记录，不纠结未完成项，聚焦优化方向',
     reminder: {
       enabled: true,
       time: '12:00',
-      repeat: 'daily'
+      repeat: 'daily' as const
     }
   },
   {
@@ -174,12 +174,12 @@ export const INITIAL_HABITS = [
     archived: false, 
     history: {}, 
     logs: {},
-    priority: 'low',
+    priority: 'low' as const,
     note: '1. 播放 ZWM 2.0 专属音乐，闭眼放松，感受身心舒适的状态\n2. 回忆上午执行任务时的掌控感，强化积极情绪\n3. 默念肯定语：我能量充沛，身心舒适，从容应对下午任务，所有显化目标都在按节奏落地\n4. 执行要求：全身心放松，为下午执行储备能量',
     reminder: {
       enabled: true,
       time: '12:05',
-      repeat: 'daily'
+      repeat: 'daily' as const
     }
   },
   {
@@ -194,12 +194,12 @@ export const INITIAL_HABITS = [
     archived: false, 
     history: {}, 
     logs: {},
-    priority: 'low',
+    priority: 'low' as const,
     note: '1. 若遇任务卡壳：立即启动「马斯克三连击」—— 写下核心阻碍→核算解决成本→5 分钟内决策（立即执行或永久删除）\n2. 若无卡壳：重新聚焦核心任务，调整专注状态\n3. 默念肯定语：我用马斯克三连击破解所有阻碍，果断决策，绝不犹豫，每一次突破都在显化解决问题的能力\n4. 执行要求：快速处理卡点，重启时间盒倒计时',
     reminder: {
       enabled: true,
       time: '15:00',
-      repeat: 'daily'
+      repeat: 'daily' as const
     }
   },
   {
@@ -214,12 +214,12 @@ export const INITIAL_HABITS = [
     archived: false, 
     history: {}, 
     logs: {},
-    priority: 'low',
+    priority: 'low' as const,
     note: '1. 汇总当日所有时间盒完成度，统计核心任务推进情况\n2. 标记当日已显化的小成果（如完成 1 项核心任务、破解 1 个卡点）\n3. 默念肯定语：我今日一丝不苟完成所有规划，日拱一卒，每一个完成的任务都是目标显化的实证\n4. 执行要求：简单记录，肯定当日成果，不内耗、不自我否定',
     reminder: {
       enabled: true,
       time: '18:00',
-      repeat: 'daily'
+      repeat: 'daily' as const
     }
   },
   {
@@ -234,12 +234,12 @@ export const INITIAL_HABITS = [
     archived: false, 
     history: {}, 
     logs: {},
-    priority: 'low',
+    priority: 'low' as const,
     note: '1. 整理当日学习的优质内容、好方法、新认知\n2. 将所思所想打包成模块化插件 / 更新日志，准备全平台（抖音、小红书、B 站、公众号）分享\n3. 默念肯定语：我输入必践行，践行必输出，每一次分享都在显化个人影响力，优质认知绝不埋没\n4. 执行要求：完成内容整理，确定次日分享渠道与形式',
     reminder: {
       enabled: true,
       time: '21:00',
-      repeat: 'daily'
+      repeat: 'daily' as const
     }
   },
   {
@@ -254,12 +254,12 @@ export const INITIAL_HABITS = [
     archived: false, 
     history: {}, 
     logs: {},
-    priority: 'low',
+    priority: 'low' as const,
     note: '1. 躺在床上，闭眼预演 ZWM 2.0 明日任务推进的完整画面\n2. 感受「明日目标已显化」的从容、笃定情绪，调整为放松体态\n3. 默念肯定语：我今日已完成所有显化动作，旧版本已覆盖，绝不回滚，明日的 ZWM 2.0 将更高效，所有愿望皆会显化\n4. 执行要求：全程不碰手机，带着积极情绪入睡',
     reminder: {
       enabled: true,
       time: '22:55',
-      repeat: 'daily'
+      repeat: 'daily' as const
     }
   },
 ];
@@ -267,7 +267,7 @@ export const INITIAL_HABITS = [
 // --- Initial Projects ---
 export const INITIAL_PROJECTS: Project[] = [
   {
-    id: 'p1', name: '数码博主养成', startDate: '2025-12-23', description: '创建并运营第一个粉丝量达到1万的数码账号', status: 'active' as const, logs: [], dailyFocus: {}, todayFocusMinutes: 0, fears: [], attr: AttributeType.WEALTH,
+    id: 'p1', name: '数码博主养成', startDate: '2025-12-23', description: '创建并运营第一个粉丝量达到1万的数码账号', status: 'active' as const, logs: [], dailyFocus: {}, todayFocusMinutes: 0, fears: [], attr: AttributeType.WEALTH, priority: 'medium' as const,
     subTasks: [
       { id: 't1_1', title: '找爆款', duration: 5, completed: false, frequency: 'daily' as const },
       { id: 't1_2', title: '二创爆款', duration: 5, completed: false, frequency: 'daily' as const },
@@ -275,7 +275,7 @@ export const INITIAL_PROJECTS: Project[] = [
     ]
   },
   {
-    id: 'p3', name: '成长型博主养成', startDate: '2025-12-23', description: '成为一个拥有1000粉丝的成长型博主', status: 'active' as const, logs: [], dailyFocus: {}, todayFocusMinutes: 0, fears: [], attr: AttributeType.INTELLIGENCE,
+    id: 'p3', name: '成长型博主养成', startDate: '2025-12-23', description: '成为一个拥有1000粉丝的成长型博主', status: 'active' as const, logs: [], dailyFocus: {}, todayFocusMinutes: 0, fears: [], attr: AttributeType.INTELLIGENCE, priority: 'medium' as const,
     subTasks: [
       { id: 't3_1', title: '刷爆款选题', duration: 10, completed: false, frequency: 'daily' as const },
       { id: 't3_2', title: '全网搜集， AI梳理文案', duration: 20, completed: false, frequency: 'daily' as const },
@@ -285,7 +285,7 @@ export const INITIAL_PROJECTS: Project[] = [
     ]
   },
   {
-    id: 'p4', name: '小红书虚拟店铺运营', startDate: '2025-12-23', description: '运营虚拟资料店铺，销售虚拟资料产品', status: 'active' as const, logs: [], dailyFocus: {}, todayFocusMinutes: 0, fears: [], attr: AttributeType.WEALTH,
+    id: 'p4', name: '小红书虚拟店铺运营', startDate: '2025-12-23', description: '运营虚拟资料店铺，销售虚拟资料产品', status: 'active' as const, logs: [], dailyFocus: {}, todayFocusMinutes: 0, fears: [], attr: AttributeType.WEALTH, priority: 'medium' as const,
     subTasks: [
       { id: 't4_1', title: '找同行选品二创上架', duration: 5, completed: false, frequency: 'daily' as const },
       { id: 't4_2', title: '多平台搜索爆款笔记二创上架', duration: 5, completed: false, frequency: 'daily' as const },

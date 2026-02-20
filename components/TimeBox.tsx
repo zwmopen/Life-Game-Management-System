@@ -299,14 +299,14 @@ const TimeBox: React.FC<TimeBoxProps> = ({ setModalState }) => {
       return {
         bg: 'bg-[#1e1e2e]',
         text: 'text-zinc-100',
-        cardBg: 'bg-[#2a2d36]',
-        cardShadow: 'shadow-[5px_5px_10px_rgba(0,0,0,0.3),-5px_-5px_10px_rgba(42,45,54,0.8)]',
-        inputBg: 'bg-[#2a2d36]',
-        inputShadow: 'shadow-[inset_3px_3px_6px_rgba(0,0,0,0.3),inset_-3px_-3px_6px_rgba(42,45,54,0.8)]',
-        buttonShadow: 'shadow-[5px_5px_10px_rgba(0,0,0,0.3),-5px_-5px_10px_rgba(42,45,54,0.8)]',
-        buttonHoverShadow: 'shadow-[inset_3px_3px_6px_rgba(0,0,0,0.3),inset_-3px_-3px_6px_rgba(42,45,54,0.8)]',
-        modalBg: 'bg-[#2a2d36]',
-        modalShadow: 'shadow-[8px_8px_16px_rgba(0,0,0,0.4),-8px_-8px_16px_rgba(42,45,54,0.8)]'
+        cardBg: 'bg-[#1e1e2e]',
+        cardShadow: 'shadow-[5px_5px_10px_rgba(0,0,0,0.3),-5px_-5px_10px_rgba(30,30,46,0.8)]',
+        inputBg: 'bg-[#1e1e2e]',
+        inputShadow: 'shadow-[inset_3px_3px_6px_rgba(0,0,0,0.3),inset_-3px_-3px_6px_rgba(30,30,46,0.8)]',
+        buttonShadow: 'shadow-[5px_5px_10px_rgba(0,0,0,0.3),-5px_-5px_10px_rgba(30,30,46,0.8)]',
+        buttonHoverShadow: 'shadow-[inset_3px_3px_6px_rgba(0,0,0,0.3),inset_-3px_-3px_6px_rgba(30,30,46,0.8)]',
+        modalBg: 'bg-[#1e1e2e]',
+        modalShadow: 'shadow-[8px_8px_16px_rgba(0,0,0,0.4),-8px_-8px_16px_rgba(30,30,46,0.8)]'
       };
     } else {
       return {

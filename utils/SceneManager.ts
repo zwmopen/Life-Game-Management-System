@@ -364,7 +364,7 @@ export class SceneManager {
     
     // 减少不必要的事件监听器，提高性能
     let isUserInteracting = false;
-    let interactionTimeout: number | null = null;
+    let interactionTimeout: ReturnType<typeof setTimeout> | null = null;
     
     this.controls.addEventListener('start', () => {
       isUserInteracting = true;
@@ -385,7 +385,7 @@ export class SceneManager {
     });
     
     // 优化鼠标滚轮事件，支持缩放和旋转速度调整
-    let wheelTimeout: number | null = null;
+    let wheelTimeout: ReturnType<typeof setTimeout> | null = null;
     canvas.addEventListener('wheel', (event) => {
       // 允许浏览器默认处理缩放事件，这样OrbitControls可以正常响应缩放
       // event.preventDefault();  // 移除这个，允许缩放
@@ -484,7 +484,9 @@ export class SceneManager {
     if (!this.scene.background) {
       this.scene.background = new THREE.Color();
     }
-    this.scene.background.set(bgColor);
+    if (this.scene.background instanceof THREE.Color) {
+      this.scene.background.set(bgColor);
+    }
     this.scene.fog = null;
     
     // 更新渲染器清除颜色
@@ -500,7 +502,7 @@ export class SceneManager {
       // 更新草地颜色
       if (this.ground.children && this.ground.children.length > 0) {
         const grass = this.ground.children[0];
-        if (grass.material) {
+        if (grass instanceof THREE.Mesh && grass.material) {
           (grass.material as THREE.MeshStandardMaterial).color.set(colors.grassColor);
         }
       }
@@ -3476,7 +3478,7 @@ export class SceneManager {
     
     // 仅在必要时更新控制器
     if (this.controls) {
-      if (this.controls.autoRotate || this.controls.isDragging || this.controls.isZooming) {
+      if (this.controls.autoRotate) {
         this.controls.update();
       }
     }

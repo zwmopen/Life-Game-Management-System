@@ -1,5 +1,20 @@
 import { logInfo, logError, logWarn } from './logger';
 
+/**
+ * 扩展Performance接口以包含非标准的memory属性
+ * 注意：performance.memory仅在Chrome/Chromium浏览器中可用
+ */
+declare global {
+  interface Performance {
+    memory?: {
+      heapTotal: number;
+      heapUsed: number;
+      external: number;
+      jsHeapSizeLimit: number;
+    };
+  }
+}
+
 interface PerformanceMetric {
   name: string;
   value: number;

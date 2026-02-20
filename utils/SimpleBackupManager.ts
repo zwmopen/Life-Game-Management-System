@@ -195,7 +195,7 @@ class SimpleBackupManager {
         .map(file => ({
           name: file.name,
           size: file.size,
-          modified: new Date(file.modified)
+          modified: new Date(file.mtime)
         }))
         .sort((a, b) => b.modified.getTime() - a.modified.getTime());
     } catch (error) {
@@ -218,19 +218,11 @@ class SimpleBackupManager {
         };
       }
 
-      const connected = await this.webdavClient.testConnection();
-      if (connected) {
-        return {
-          success: true,
-          message: 'WebDAV连接成功！'
-        };
-      } else {
-        return {
-          success: false,
-          message: 'WebDAV连接失败',
-          error: '请检查WebDAV配置是否正确'
-        };
-      }
+      await this.webdavClient.testConnection();
+      return {
+        success: true,
+        message: 'WebDAV连接成功！'
+      };
     } catch (error) {
       return {
         success: false,
@@ -271,4 +263,5 @@ class SimpleBackupManager {
 // 创建单例实例
 const simpleBackupManager = new SimpleBackupManager();
 export default simpleBackupManager;
-export { SimpleBackupManager, SimpleBackupConfig, BackupStatus };
+export { SimpleBackupManager };
+export type { SimpleBackupConfig, BackupStatus };

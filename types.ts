@@ -261,6 +261,8 @@ export interface Habit {
   reward: number;
   /** 奖励经验值 */
   xp?: number;
+  /** 金币奖励 */
+  gold?: number;
   /** 习惯时长（分钟） */
   duration?: number;
   /** 连续天数 */
@@ -359,6 +361,12 @@ export interface Project {
     repeatInterval?: number; // 每隔 X 天
     lastTriggered?: string; // 上次提醒时间
   };
+  /** 完成日期 */
+  completedAt?: string;
+  /** 经验值奖励 */
+  xp?: number;
+  /** 金币奖励 */
+  gold?: number;
 }
 
 /**
@@ -616,6 +624,8 @@ export interface GuideCardConfig {
     borderRadius: 'small' | 'medium' | 'large';
     /** 阴影强度 */
     shadowIntensity: 'light' | 'medium' | 'strong';
+    /** 是否显示底层原理板块 */
+    showUnderlyingPrinciple: boolean;
 }
 
 /**
