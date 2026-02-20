@@ -242,11 +242,8 @@ npm start         # 完整启动（WebDAV + Vite）
 webdav服务器地址： https://dav.jianguoyun.com/dav/
 
 
-
-账户：2500597367@qq.com
-密码（应用密码）人生游戏管理系统:aen8zqig6yftq26t
-
-
+2594707308@qq.com
+aecne4vaypmn8zid
 
 ---
 
