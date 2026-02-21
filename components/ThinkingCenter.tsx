@@ -665,7 +665,7 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme = 'neomorphic-lig
                     {currentModel.deepAnalysis && (
                       <div>
                         <h3 className={`text-base font-semibold mb-2 ${textMain}`}>深度分析</h3>
-                        <p className={`text-sm ${textSub}`}>{currentModel.deepAnalysis}</p>
+                        <p className={`text-sm ${textSub} whitespace-pre-line`}>{currentModel.deepAnalysis}</p>
                       </div>
                     )}
                     
@@ -673,7 +673,7 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme = 'neomorphic-lig
                     {currentModel.principle && (
                       <div>
                         <h3 className={`text-base font-semibold mb-2 ${textMain}`}>核心原则</h3>
-                        <p className={`text-sm ${textSub}`}>{currentModel.principle}</p>
+                        <p className={`text-sm ${textSub} whitespace-pre-line`}>{currentModel.principle}</p>
                       </div>
                     )}
                     
@@ -681,7 +681,7 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme = 'neomorphic-lig
                     {currentModel.scope && (
                       <div>
                         <h3 className={`text-base font-semibold mb-2 ${textMain}`}>适用范围</h3>
-                        <p className={`text-sm ${textSub}`}>{currentModel.scope}</p>
+                        <p className={`text-sm ${textSub} whitespace-pre-line`}>{currentModel.scope}</p>
                       </div>
                     )}
                     
@@ -689,7 +689,7 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme = 'neomorphic-lig
                     {currentModel.tips && (
                       <div>
                         <h3 className={`text-base font-semibold mb-2 ${textMain}`}>使用技巧</h3>
-                        <p className={`text-sm ${textSub}`}>{currentModel.tips}</p>
+                        <p className={`text-sm ${textSub} whitespace-pre-line`}>{currentModel.tips}</p>
                       </div>
                     )}
                     
@@ -697,7 +697,7 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme = 'neomorphic-lig
                     {currentModel.practice && (
                       <div>
                         <h3 className={`text-base font-semibold mb-2 ${textMain}`}>实践建议</h3>
-                        <p className={`text-sm ${textSub}`}>{currentModel.practice}</p>
+                        <p className={`text-sm ${textSub} whitespace-pre-line`}>{currentModel.practice}</p>
                       </div>
                     )}
                     
@@ -705,7 +705,7 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme = 'neomorphic-lig
                     {currentModel.scenario && (
                       <div>
                         <h3 className={`text-base font-semibold mb-2 ${textMain}`}>应用场景</h3>
-                        <p className={`text-sm ${textSub}`}>{currentModel.scenario}</p>
+                        <p className={`text-sm ${textSub} whitespace-pre-line`}>{currentModel.scenario}</p>
                       </div>
                     )}
                   </div>
