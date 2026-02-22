@@ -1,0 +1,13 @@
+{
+  "id": "原子习惯",
+  "name": "原子习惯",
+  "label": "原子习惯",
+  "icon": "BrainCircuit",
+  "description": "詹姆斯·克利尔提出。习惯的本质不是意志力的大爆发，而是系统性的微调。每一个微小的动作，都是在为你想成为的那个人投票。",
+  "deepAnalysis": "原子习惯是由詹姆斯·克利尔（James Clear）提出的习惯养成系统，强调通过微小的、持续的改变来实现显著的长期结果。它基于习惯形成的科学原理，提供了一套实用的框架来培养良好习惯和打破不良习惯。",
+  "principle": "微小改变：关注1%的日常改进，而非一次性的巨大变化。; ;           习惯回路：提示、渴望、反应、奖赏的循环是习惯形成的基础。; ;           身份驱动：习惯的终极动力来自身份的改变，而不仅仅是结果。; ;           环境设计：通过改变环境来使良好习惯更容易，不良习惯更困难。",
+  "scope": "个人成长和自我提升, \n          健康和健身, \n          学习和教育, \n          职业发展, \n          财务管理",
+  "tips": "1. 两分钟规则：任何新习惯开始时都应在 2 分钟内完成（如：只跑两分钟）。先标准化，再最优化。; 2. 习惯堆叠：将新习惯锚定在已有的稳固习惯之后（如：刷完牙后，立刻冥想 1 分钟）。; 3. 环境设计：改变环境来使良好习惯更容易，不良习惯更困难。; 4. 身份认同：通过改变自我认同来强化习惯（如：不说\"我在减肥\"，而说\"我是一个健康的人\"）。",
+  "practice": "从小处开始，专注于每天1%的改进。; \n          建立明确的习惯触发点和奖励机制。; \n          通过可视化进展来保持动力。; \n          培养习惯的同时，关注身份的转变。; \n          在遇到挫折时，保持耐心，回到基本原理。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\n        <!-- 坐标轴 -->\n        <line x1=\"100\" y1=\"550\" x2=\"900\" y2=\"550\" stroke=\"var(--text-primary)\" stroke-width=\"2\" opacity=\"0.1\" />\n        \n        <!-- 衰减曲线 -->\n        <path d=\"M100,500 Q500,545 900,548\" fill=\"none\" stroke=\"var(--primary-color)\" stroke-width=\"4\" stroke-dasharray=\"5 5\" opacity=\"0.3\" />\n        <text x=\"500\" y=\"530\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 14px; font-weight: 900;\">每天退步 1% (0.99³⁶⁵ ≈ 0.03)</text>\n\n        <!-- 爆发曲线 (复利) -->\n        <path d=\"M100,500 Q300,500 500,450 T900,50\" fill=\"none\" stroke=\"var(--primary-color)\" stroke-width=\"12\" stroke-linecap=\"round\">\n          <animate attributeName=\"stroke-dasharray\" from=\"0,1500\" to=\"1500,0\" dur=\"5s\" fill=\"freeze\" />\n        </path>\n\n        <g transform=\"translate(900, 50)\">\n          <circle r=\"40\" fill=\"var(--primary-color)\" filter=\"drop-shadow(0 0 30px var(--primary-color))\" class=\"animate-pulse\" />\n          <text x=\"-60\" y=\"20\" text-anchor=\"end\" fill=\"var(--primary-color)\" style=\"font-size: 52px; font-weight: 900;\">37.78 倍</text>\n        </g>\n\n        <text x=\"120\" y=\"480\" fill=\"var(--primary-color)\" style=\"font-size: 24px; font-weight: 900;\">每天进步 1%</text>\n        <text x=\"500\" y=\"580\" text-anchor=\"middle\" fill=\"var(--text-secondary)\" opacity=\"0.3\" style=\"font-size: 16px; font-weight: 900; letter-spacing: 0.5em;\">习惯是自我提升的复利</text>\n      </svg>\n</div>"
+}

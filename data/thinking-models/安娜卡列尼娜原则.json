@@ -1,0 +1,13 @@
+{
+  "id": "安娜卡列尼娜原则",
+  "name": "安娜·卡列尼娜原则",
+  "label": "安娜·卡列尼娜原则",
+  "icon": "BrainCircuit",
+  "description": "\"幸福的家庭都是相似的，不幸的家庭各有各的不幸。\" 在复杂系统中，成功需要所有关键因素（资金、团队、时机、技术等）同时处于正确位置；而失败，只需要其中任意一个环节掉链子。",
+  "deepAnalysis": "安娜·卡列尼娜原则源自托尔斯泰的名言，描述了复杂系统的脆弱性：成功需要所有关键因素同时处于正确位置，而失败只需要其中任意一个环节出现问题。这一原则广泛应用于商业、项目管理、个人发展等领域。",
+  "principle": "非对称容错：对于极高难度的项目，容错率几乎为零。你可能做对了 99 件事，但最后 1 件事的疏忽会葬送全部努力。; ;           条件锁定：成功是\"合取\"逻辑（AND），失败是\"析取\"逻辑（OR）。; ;           系统脆弱性：复杂系统的稳定性依赖于所有组件的正常运行，任何一个组件的故障都可能导致整个系统崩溃。; ;           风险累积：每增加一个变量或环节，系统的风险就会增加一分。",
+  "scope": "创业和商业项目管理, \n          软件开发和系统工程, \n          投资和风险管理, \n          个人目标规划和执行, \n          团队协作和组织管理",
+  "tips": "1. 全因素审计：不要只盯着长板，要识别并加固最脆弱的\"单点故障\"源。; 2. 极简化策略：砍掉所有非必要的复杂性，缩短逻辑链条，降低失败风险。; 3. 优先级排序：识别并优先解决最关键的成功因素。; 4. 风险预案：为每个关键环节制定备用方案，降低系统崩溃的可能性。",
+  "practice": "在开始复杂项目前，列出所有必要的成功因素，并评估每个因素的风险。; \n          定期进行系统审计，识别潜在的脆弱环节并及时修复。; \n          培养\"全局思维\"，理解各个环节之间的相互依赖关系。; \n          在资源有限的情况下，集中精力确保最关键的因素得到满足。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\n        <g transform=\"translate(500, 325)\">\n          <!-- 成功的窄门 (重叠的多层滤镜) -->\n          <g opacity=\"0.3\" stroke=\"var(--primary-color)\" stroke-width=\"2\" fill=\"none\">\n            <circle r=\"200\" /><circle r=\"180\" /><circle r=\"160\" /><circle r=\"140\" />\n          </g>\n          \n          <!-- 失败的多样性 (向四周散射的红线) -->\n          <g stroke=\"var(--primary-color)\" stroke-width=\"4\" opacity=\"0.1\">\n            <line x1=\"0\" y1=\"0\" x2=\"300\" y2=\"200\" /><line x1=\"0\" y1=\"0\" x2=\"-350\" y2=\"50\" />\n            <line x1=\"0\" y1=\"0\" x2=\"100\" y2=\"-300\" /><line x1=\"0\" y1=\"0\" x2=\"-200\" y2=\"-250\" />\n          </g>\n\n          <!-- 核心稳态点 (所有条件满足) -->\n          <g>\n            <rect x=\"-100\" y=\"-100\" width=\"200\" height=\"200\" rx=\"40\" fill=\"var(--primary-color)\" filter=\"drop-shadow(0 0 40px var(--primary-color))\" />\n            <path d=\"M-40,0 L-10,30 L50,-40\" fill=\"none\" stroke=\"var(--text-primary)\" stroke-width=\"12\" stroke-linecap=\"round\" />\n            <text y=\"160\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 32px; font-weight: 900;\">唯一的成功路径</text>\n          </g>\n\n          <!-- 崩溃触发器 (一个小缺口) -->\n          <g transform=\"translate(140, -140)\">\n             <circle r=\"20\" fill=\"var(--primary-color)\" class=\"animate-ping\" />\n             <text x=\"30\" y=\"0\" fill=\"var(--primary-color)\" style=\"font-size: 14px; font-weight: 900;\">单一因素失败</text>\n          </g>\n\n          <text y=\"-250\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 42px; font-weight: 900;\">幸福是一致的 痛苦是千万种的</text>\n        </g>\n      </svg>\n</div>"
+}

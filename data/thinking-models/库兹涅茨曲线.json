@@ -1,0 +1,13 @@
+{
+  "id": "库兹涅茨曲线",
+  "name": "库兹涅茨曲线",
+  "label": "库兹涅茨曲线",
+  "icon": "BrainCircuit",
+  "description": "经济发展的残酷轨迹：在工业化初期，贫富差距会随着增长而剧烈扩大；只有当经济跨过某个临界点，不平等才会开始缓解。增长是有代价的。",
+  "deepAnalysis": "这是一个思维模型，展示了库兹涅茨曲线的核心概念和应用。",
+  "principle": "思维模型的核心原则：库兹涅茨曲线",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将库兹涅茨曲线应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <!-- 坐标轴 -->\r\n      <line x1=\"150\" y1=\"550\" x2=\"850\" y2=\"550\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n      <line x1=\"150\" y1=\"550\" x2=\"150\" y2=\"100\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n      \r\n      <!-- 倒 U 曲线 -->\r\n      <path d=\"M150,530 Q500,-100 850,530\" fill=\"none\" stroke=\"#fbbf24\" stroke-width=\"10\" stroke-linecap=\"round\">\r\n        <animate attributeName=\"stroke-dasharray\" from=\"0,1500\" to=\"1500,0\" dur=\"5s\" fill=\"freeze\" />\r\n      </path>\r\n\r\n      <!-- 峰值：最不平等时刻 -->\r\n      <g transform=\"translate(500, 120)\">\r\n        <circle r=\"15\" fill=\"#ef4444\" class=\"animate-ping\" />\r\n        <text y=\"-40\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 28px; font-weight: 900;\">阵痛峰值</text>\r\n        <text y=\"-5\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.5\" style=\"font-size: 12px;\">(增长初期的财富集中)</text>\r\n      </g>\r\n\r\n      <text x=\"850\" y=\"580\" text-anchor=\"end\" fill=\"#64748b\" opacity=\"0.4\" style=\"font-size: 16px; font-weight: 900;\">人均收入增长 →</text>\r\n      <text x=\"130\" y=\"100\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.4\" style=\"font-size: 16px; font-weight: 900;\" transform=\"rotate(-90 130 100)\">社会不平等程度 ↑</text>\r\n    </svg>\n</div>"
+}

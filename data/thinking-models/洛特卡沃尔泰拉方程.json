@@ -1,0 +1,13 @@
+{
+  "id": "洛特卡沃尔泰拉方程",
+  "name": "洛特卡-沃尔泰拉方程",
+  "label": "捕食者-被捕食者模型",
+  "icon": "BrainCircuit",
+  "description": "生态系统的数学灵魂：猎物的增长为捕食者提供了繁衍的燃料；捕食者的扩张又反过来抑制了猎物的数量。两者在相位差的影响下，自发形成永恒的、此起彼伏的振荡循环。",
+  "deepAnalysis": "这是一个思维模型，展示了洛特卡-沃尔泰拉方程的核心概念和应用。",
+  "principle": "思维模型的核心原则：洛特卡-沃尔泰拉方程",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将洛特卡-沃尔泰拉方程应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(100, 325)\">\r\n        <!-- 被捕食者曲线 (绿) -->\r\n        <path d=\"M0,0 Q100,-250 200,0 T400,0 T600,0 T800,0\" fill=\"none\" stroke=\"#10b981\" stroke-width=\"8\" stroke-linecap=\"round\">\r\n          <animate attributeName=\"stroke-dasharray\" from=\"0,1500\" to=\"1500,0\" dur=\"5s\" repeatCount=\"indefinite\" />\r\n        </path>\r\n        \r\n        <!-- 捕食者曲线 (红 - 滞后) -->\r\n        <g transform=\"translate(50, 0)\">\r\n          <path d=\"M0,0 Q100,-250 200,0 T400,0 T600,0 T800,0\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"8\" stroke-linecap=\"round\" opacity=\"0.6\">\r\n            <animate attributeName=\"stroke-dasharray\" from=\"0,1500\" to=\"1500,0\" dur=\"5s\" repeatCount=\"indefinite\" />\r\n          </path>\r\n        </g>\r\n\r\n        <!-- 标注 -->\r\n        <text x=\"100\" y=\"-180\" fill=\"#10b981\" style=\"font-size: 24px; font-weight: 900;\">猎物 (能量源)</text>\r\n        <text x=\"180\" y=\"50\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">捕食者 (熵减者)</text>\r\n      </g>\r\n      <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">动态平衡：没有永远的赢家</text>\r\n    </svg>\n</div>"
+}

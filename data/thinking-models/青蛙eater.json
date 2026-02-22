@@ -1,0 +1,13 @@
+{
+  "id": "青蛙eater",
+  "name": "青蛙 eater",
+  "label": "吃掉那只青蛙",
+  "icon": "BrainCircuit",
+  "description": "博恩·崔西提出。如果你的任务清单里有一只活青蛙，你最好在早晨起床后第一件事就把它吃掉。如果你要吃掉两只，先吃那只大的。",
+  "deepAnalysis": "这是一个思维模型，展示了青蛙 eater的核心概念和应用。",
+  "principle": "思维模型的核心原则：青蛙 eater",
+  "scope": "个人时间管理和工作计划, \n          项目管理和任务优先级排序, \n          克服拖延症和提高生产力, \n          学习计划和考试准备, \n          创业和自我管理, \n          任何需要提高效率和减少拖延的场景",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "任务清单规划：使用纸笔或数字工具创建每日任务清单，明确识别“青蛙”任务; \n          时间块安排：为“青蛙”任务分配专门的时间块，确保有足够的时间完成; \n          环境优化：创建有利于专注的工作环境，减少干扰; \n           accountability：向他人公开你的“青蛙”任务，增加完成的动力; \n          记录进展：跟踪完成“青蛙”任务的情况，分析模式和改进空间; \n          持续调整：根据实际情况调整策略，找到最适合自己的方式",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\n          <!-- 巨大的青蛙 (最难任务) -->\n          <g transform=\"translate(500, 300)\">\n            <circle r=\"180\" fill=\"var(--success-color)\" fill-opacity=\"0.1\" stroke=\"var(--success-color)\" stroke-width=\"4\" stroke-dasharray=\"15 10\" />\n            <g class=\"animate-bounce\">\n              <circle r=\"80\" fill=\"var(--success-color)\" />\n              <circle cx=\"-30\" cy=\"-20\" r=\"10\" fill=\"white\" /><circle cx=\"30\" cy=\"-20\" r=\"10\" fill=\"white\" />\n            </g>\n            <text y=\"140\" text-anchor=\"middle\" fill=\"var(--success-color)\" style=\"font-size: 42px; font-weight: 900;\">那只大青蛙</text>\n            <text y=\"175\" text-anchor=\"middle\" fill=\"var(--text-secondary)\" opacity=\"0.6\" style=\"font-size: 16px;\">(最难、最重要、最想拖延的任务)</text>\n          </g>\n          \n          <!-- 清单序列 -->\n          <g transform=\"translate(150, 100)\">\n            <rect width=\"200\" height=\"20\" rx=\"10\" fill=\"var(--primary-color)\" />\n            <text x=\"220\" y=\"15\" fill=\"var(--primary-color)\" style=\"font-size: 14px; font-weight: 900;\">第一件事：吃掉它!</text>\n          </g>\n\n          <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.1em; opacity: 0.1;\">DO THE HARD THINGS FIRST</text>\n        </svg>\n</div>"
+}

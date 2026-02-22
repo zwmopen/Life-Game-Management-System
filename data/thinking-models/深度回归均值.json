@@ -1,0 +1,13 @@
+{
+  "id": "深度回归均值",
+  "name": "深度回归均值",
+  "label": "均值回归",
+  "icon": "BrainCircuit",
+  "description": "在复杂的随机系统中，任何极端的表现（神作或惨败）通常是统计误差与运气的叠加。时间是唯一的审判官，它会剥离掉不稳定的运气波动，将一切拉回它本该属于的位置。",
+  "deepAnalysis": "这是一个思维模型，展示了深度回归均值的核心概念和应用。",
+  "principle": "思维模型的核心原则：深度回归均值",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将深度回归均值应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <!-- 均值水平面 -->\r\n      <line x1=\"100\" y1=\"300\" x2=\"900\" y2=\"300\" stroke=\"#ef4444\" stroke-width=\"2\" stroke-dasharray=\"10 20\" opacity=\"0.3\" />\r\n      <text x=\"500\" y=\"280\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 12px; font-weight: 900; letter-spacing: 0.2em;\">THE TRUTH (MEaN)</text>\r\n      \r\n      <!-- 波动曲线 -->\r\n      <path d=\"M100,300 L200,50 L350,500 L500,200 L650,400 L800,300\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"1\" opacity=\"0.1\" />\r\n      \r\n      <!-- 极值点 a (虚假神话) -->\r\n      <g transform=\"translate(200, 50)\">\r\n        <circle r=\"15\" fill=\"#ef4444\" class=\"animate-ping\" />\r\n        <path d=\"M0,20 L0,230\" stroke=\"#ef4444\" stroke-width=\"2\" stroke-dasharray=\"5 5\" marker-end=\"url(#redarrow)\" />\r\n        <text y=\"-30\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">极度运气 (Outlier)</text>\r\n      </g>\r\n\r\n      <!-- 极值点 B (极度厄运) -->\r\n      <g transform=\"translate(350, 500)\">\r\n        <circle r=\"10\" fill=\"#10b981\" />\r\n        <path d=\"M0,-20 L0,-180\" stroke=\"#10b981\" stroke-width=\"2\" stroke-dasharray=\"5 5\" marker-end=\"url(#greenarrow)\" />\r\n      </g>\r\n\r\n      <defs>\r\n        <marker id=\"redarrow\" markerWidth=\"10\" markerHeight=\"10\" refX=\"5\" refY=\"5\" orient=\"auto\"><path d=\"M0,0 L10,5 L0,10 Z\" fill=\"#ef4444\"/></marker>\r\n        <marker id=\"greenarrow\" markerWidth=\"10\" markerHeight=\"10\" refX=\"5\" refY=\"5\" orient=\"auto\" rotate=\"180\"><path d=\"M0,0 L10,5 L0,10 Z\" fill=\"#10b981\"/></marker>\r\n      </defs>\r\n\r\n      <text x=\"500\" y=\"550\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 12px; font-weight: 900; letter-spacing: 0.5em;\">STaT我ST我CaL GRaV我TY: NO ONE STaYS aT THE EdGE</text>\r\n    </svg>\n</div>"
+}

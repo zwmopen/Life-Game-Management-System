@@ -1,0 +1,14 @@
+{
+  "id": "认知隧道",
+  "name": "认知隧道",
+  "label": "认知隧道",
+  "icon": "BrainCircuit",
+  "description": "当压力攀升，大脑会为了生存而强行关闭 90% 的外部感官，只盯着那个跳动的红灯。",
+  "deepAnalysis": "认知隧道（Cognitive Tunneling）揭示了压力下的认知窄化。核心洞见：当压力攀升，大脑会为了生存而强行关闭90%的外部感官，只盯着那个跳动的红灯。这是一种生存机制，但在现代社会中往往导致视野狭窄、决策失误。我们需要学会在压力下保持全局视野。",
+  "principle": "1. 注意力窄化：压力下注意力窄化\n2. 信息过滤：过滤大量外部信息\n3. 视野受限：决策视野受限\n4. 生存机制：原始的生存机制\n5. 全局丧失：丧失全局视野",
+  "scope": "压力管理、决策分析、危机处理、高压力职业、项目管理、风险管理",
+  "tips": "1. 全局检查：定期进行全局检查\n2. 外部反馈：寻求外部反馈\n3. 压力管理：管理压力水平\n4. 检查清单：使用检查清单\n5. 元认知：培养元认知能力",
+  "practice": "1. 识别隧道：识别认知隧道状态\n2. 暂停检查：暂停进行全局检查\n3. 寻求反馈：寻求外部反馈\n4. 管理压力：管理压力水平\n5. 恢复视野：恢复全局视野",
+  "scenario": "1. 高压力职业：管理高压工作\n2. 危机处理：处理危机决策\n3. 项目管理：管理项目压力\n4. 投资决策：避免投资隧道\n5. 人际关系：处理关系压力",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\n        <defs>\n          <radialGradient id=\"tunnelGlow\" cx=\"50%\" cy=\"50%\" r=\"50%\">\n            <stop offset=\"0%\" stop-color=\"var(--primary-color)\" stop-opacity=\"0.5\" />\n            <stop offset=\"100%\" stop-color=\"var(--primary-color)\" stop-opacity=\"0\" />\n          </radialGradient>\n          <filter id=\"strongGlow\">\n            <feGaussianBlur stddeviation=\"12\" result=\"blur\" />\n            <feMerge><feMergeNode in=\"blur\" /><feMergeNode in=\"SourceGraphic\" /></feMerge>\n          </filter>\n        </defs>\n        \n        <g transform=\"translate(500, 300)\">\n          <path d=\"M-50,0 L250,-180 L250,180 Z\" fill=\"url(#tunnelGlow)\" opacity=\"0.6\" />\n          <g class=\"animate-spin\" style=\"animation-duration: 15s;\">\n            <circle r=\"150\" fill=\"none\" stroke=\"var(--primary-color)\" stroke-width=\"2\" stroke-dasharray=\"10 40\" opacity=\"0.4\" />\n            <path d=\"M0,-140 L0,-120 M0,120 L140,0 M-140,0 L-120,0\" stroke=\"var(--primary-color)\" stroke-width=\"6\" stroke-linecap=\"round\" />\n          </g>\n          <circle r=\"30\" fill=\"var(--primary-color)\" filter=\"url(#strongGlow)\" />\n          <text y=\"200\" text-anchor=\"middle\" fill=\"var(--text-primary)\" style=\"font-size: 72px; font-weight: 900; letter-spacing: 0.1em;\">隧道锁定</text>\n          <text y=\"240\" text-anchor=\"middle\" fill=\"var(--secondary-color)\" style=\"font-size: 18px; font-weight: 900; opacity: 0.6;\">认知带宽已耗尽</text>\n        </g>\n      </svg>\n</div>"
+}

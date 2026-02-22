@@ -1,0 +1,13 @@
+{
+  "id": "勒布定理",
+  "name": "勒布定理",
+  "label": "洛伯定理",
+  "icon": "BrainCircuit",
+  "description": "对于一个经理人来说，最要紧的不是你在场时发生了什么，而是你不在场时发生了什么。真正的管理是通过“不管理”来实现的。",
+  "deepAnalysis": "勒布定理（Leibniz's Law）是同一性原则的核心。核心洞见：如果两个事物完全相同，那么它们的所有属性都必须相同。反之，如果存在任何一个属性不同，则两个事物不同。这个原则在逻辑推理和身份识别中至关重要。",
+  "principle": "1. 同一性原则：相同事物具有所有相同属性\n2. 不可区分性：不可区分的事物是相同的\n3. 属性对比：通过属性对比确定同一性\n4. 逻辑推理：用于身份识别和逻辑推理\n5. 排除法：通过差异排除不同事物",
+  "scope": "逻辑推理、身份识别、法律判断、科学验证、数据分析、人工智能",
+  "tips": "1. 列举属性：列举所有相关属性\n2. 逐一对比：逐一对比属性\n3. 寻找差异：寻找任何差异\n4. 确定同一性：确定是否同一\n5. 记录结论：记录对比结论",
+  "practice": "1. 确定对比对象：确定需要对比的对象\n2. 列举属性：列举所有相关属性\n3. 逐一对比：逐一对比每个属性\n4. 分析差异：分析发现的差异\n5. 得出结论：得出同一性结论",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 自动运行的齿轮组 (背景) -->\r\n        <g opacity=\"0.05\">\r\n           <circle r=\"280\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"40\" stroke-dasharray=\"10 30\" class=\"animate-spin\" style=\"animation-duration: 20s\" />\r\n        </g>\r\n        \r\n        <!-- 洛伯核心：放手 -->\r\n        <g>\r\n          <rect x=\"-250\" y=\"-120\" width=\"500\" height=\"240\" rx=\"40\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 50px #ef4444)\" />\r\n          <text text-anchor=\"middle\" y=\"20\" fill=\"white\" style=\"font-size: 72px; font-weight: 900;\">别管太多</text>\r\n          <circle r=\"150\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"2\" stroke-dasharray=\"5 20\" class=\"animate-spin\" />\r\n        </g>\r\n\r\n        <text y=\"240\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 28px; font-weight: 900; letter-spacing: 0.2em;\">管理不在场时的系统表现</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

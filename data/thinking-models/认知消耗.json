@@ -1,0 +1,14 @@
+{
+  "id": "认知消耗",
+  "name": "认知消耗",
+  "label": "认知磨损",
+  "icon": "BrainCircuit",
+  "description": "居家办公最大的挑战是环境的模糊。当你从深度代码/写作中跳出来回一条微信，大脑需要至少 15-20 分钟才能重新建立之前的逻辑上下文。频繁的微小干扰不仅是浪费时间，更是在物理上磨损你的决策深度。",
+  "deepAnalysis": "认知消耗（Cognitive Depletion）揭示了注意力的成本。核心洞见：当你从深度工作中跳出来处理琐事，大脑需要15-20分钟才能重新建立之前的逻辑上下文。频繁的微小干扰不仅是浪费时间，更是在物理上磨损你的决策深度。保护深度工作时间至关重要。",
+  "principle": "1. 切换成本：任务切换有成本\n2. 重建时间：需要重建上下文\n3. 干扰磨损：干扰磨损决策深度\n4. 深度保护：保护深度工作时间\n5. 批量处理：批量处理琐事",
+  "scope": "时间管理、工作效率、注意力管理、深度工作、知识工作、个人效能",
+  "tips": "1. 保护深度：保护深度工作时间\n2. 减少干扰：减少外部干扰\n3. 批量处理：批量处理琐事\n4. 设定时段：设定专注时段\n5. 关闭通知：关闭无关通知",
+  "practice": "1. 识别干扰：识别干扰源\n2. 消除干扰：消除干扰源\n3. 设定时段：设定专注时段\n4. 批量处理：批量处理琐事\n5. 恢复深度：恢复深度工作",
+  "scenario": "1. 时间管理：管理深度时间\n2. 工作效率：提升工作效率\n3. 注意力管理：管理注意力\n4. 深度工作：保护深度工作\n5. 个人效能：提升个人效能",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\n          <g transform=\"translate(500, 325)\">\n            <!-- 完美的专注力晶格 (背景) -->\n            <g opacity=\"0.05\" stroke=\"var(--text-primary)\" stroke-width=\"1\">\n              <rect x=\"-300\" y=\"-200\" width=\"600\" height=\"400\" rx=\"20\" fill=\"none\" />\n              <line x1=\"-300\" y1=\"0\" x2=\"300\" y2=\"0\" /><line x1=\"0\" y1=\"-200\" x2=\"0\" y2=\"200\" />\n            </g>\n            \n            <!-- 核心逻辑流 (蓝色激光) -->\n            <g>\n              <path d=\"M-400,0 L400,0\" stroke=\"var(--primary-color)\" stroke-width=\"20\" stroke-linecap=\"round\" opacity=\"0.6\">\n                <animate attributeName=\"stroke-dasharray\" from=\"0,800\" to=\"800,0\" dur=\"2s\" repeatCount=\"indefinite\" />\n              </path>\n              <text y=\"-40\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 24px; font-weight: 900;\">深度逻辑流 (Deep Work)</text>\n            </g>\n\n            <!-- 磨损点 (红色的锯齿) -->\n            <g transform=\"translate(0, 0)\">\n              <path d=\"M-20,-100 L0,-10 L20,-100\" fill=\"var(--primary-color)\" opacity=\"0.8\">\n                 <animate attributeName=\"transform\" type=\"translate\" values=\"0,0; 50,0; -50,0\" dur=\"0.1s\" repeatCount=\"indefinite\" />\n              </path>\n              <text y=\"-140\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 20px; font-weight: 900;\">上下文切换 (Interrupt)</text>\n            </g>\n\n            <text y=\"240\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 32px; font-weight: 900;\">每一次分心 都在物理削减智商</text>\n          </g>\n        </svg>\n</div>"
+}

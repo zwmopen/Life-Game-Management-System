@@ -1,0 +1,13 @@
+{
+  "id": "刻板印象",
+  "name": "刻板印象",
+  "label": "刻板印象",
+  "icon": "BrainCircuit",
+  "description": "人类为了节省认知带宽，会自动将复杂的个体或群体归入简单的标签盒。虽然加速了判断，却导致了深刻的误解和歧视。",
+  "deepAnalysis": "刻板印象（Stereotype）是人类为了节省认知带宽而形成的认知捷径。核心洞见：人类会自动将复杂的个体或群体归入简单的标签盒。虽然加速了判断，却导致了深刻的误解和歧视。",
+  "principle": "1. 认知节能：用简单标签替代复杂判断\n2. 分类思维：将个体归入群体类别\n3. 确认偏误：只看支持标签的证据\n4. 自我实现：刻板印象影响行为\n5. 个体差异：个体差异远大于群体差异",
+  "scope": "人际交往、招聘管理、市场营销、社会沟通、教育培养、跨文化交流",
+  "tips": "1. 意识偏见：意识到自己的刻板印象\n2. 个体化：关注个体而非群体\n3. 寻找反例：主动寻找反例\n4. 延迟判断：延迟对人的判断\n5. 接触交流：增加与不同群体的接触",
+  "practice": "1. 识别偏见：识别自己的刻板印象\n2. 个体化对待：将每个人视为个体\n3. 主动学习：学习不同群体的真实情况\n4. 挑战偏见：挑战自己的偏见\n5. 建立多元视角：建立多元视角",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 800 600\">\r\n      <!-- 刻板模具 (硬边框) -->\r\n      <g transform=\"translate(400, 300)\">\r\n        <rect x=\"-150\" y=\"-100\" width=\"300\" height=\"200\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"8\" />\r\n        <text y=\"-120\" text-anchor=\"middle\" fill=\"#1e293b\" style=\"font-size: 14px; font-weight: 900;\">刻板印象标签</text>\r\n      </g>\r\n      \r\n      <!-- 复杂的真实个体 (流动的有机形态) -->\r\n      <g transform=\"translate(400, 300)\">\r\n        <path d=\"M-180,-50 Q-100,-150 50,-120 T180,50 T0,180 T-180,-50\" fill=\"#ef4444\" fill-opacity=\"0.2\" stroke=\"#ef4444\" stroke-width=\"3\">\r\n           <animate attributeName=\"d\" \r\n             values=\"M-180,-50 Q-100,-150 50,-120 T180,50 T0,180 T-180,-50;\r\n                     M-150,0 Q-80,-100 80,-80 T150,0 T80,100 T-150,0;\r\n                     M-180,-50 Q-100,-150 50,-120 T180,50 T0,180 T-180,-50\"\r\n             dur=\"5s\" repeatCount=\"indefinite\" />\r\n        </path>\r\n        <text text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">REaL我TY</text>\r\n      </g>\r\n\r\n      <!-- 冲突标注 -->\r\n      <g transform=\"translate(600, 450)\">\r\n        <circle r=\"40\" fill=\"#ef4444\" fill-opacity=\"0.1\" />\r\n        <text text-anchor=\"middle\" y=\"5\" fill=\"#ef4444\" style=\"font-size: 10px; font-weight: 900;\">削足适履</text>\r\n      </g>\r\n\r\n      <text x=\"400\" y=\"550\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 10px; font-weight: 900; letter-spacing: 0.5em;\">THE TRa计划 OF CaTEGOR我ZaT我ON</text>\r\n    </svg>\n</div>"
+}

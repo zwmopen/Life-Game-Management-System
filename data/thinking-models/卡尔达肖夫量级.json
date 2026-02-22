@@ -1,0 +1,13 @@
+{
+  "id": "卡尔达肖夫量级",
+  "name": "卡尔达肖夫量级",
+  "label": "卡尔达肖夫等级",
+  "icon": "BrainCircuit",
+  "description": "衡量文明进化程度的终极物理指标：能量。随着文明等级的提升，其可支配能量呈指数级跃迁，其生存韧性也从局部脆弱走向宇宙永恒。",
+  "deepAnalysis": "卡尔达肖夫量级（Kardashev Scale）由苏联天文学家尼古拉·卡尔达肖夫提出，用于衡量文明的技术发展水平。核心洞见：文明的发展取决于其利用能源的能力。从行星文明到恒星文明再到星系文明，能源利用能力决定了文明的高度。",
+  "principle": "1. 能源决定：能源利用能力决定文明高度\n2. 三个等级：行星、恒星、星系三个等级\n3. 指数增长：能源消耗呈指数增长\n4. 技术跃迁：技术跃迁需要能源跃迁\n5. 文明进化：文明进化是能源利用的进化",
+  "scope": "天体物理学、未来学、能源战略、技术预测、文明研究、科幻创作",
+  "tips": "1. 评估能源：评估当前能源利用水平\n2. 规划跃迁：规划能源利用跃迁\n3. 技术创新：推动能源技术创新\n4. 可持续发展：确保能源可持续\n5. 长远规划：制定长远发展规划",
+  "practice": "1. 分析现状：分析当前能源利用状况\n2. 设定目标：设定能源利用目标\n3. 制定规划：制定能源发展规划\n4. 技术创新：推动能源技术创新\n5. 持续监测：持续监测能源利用",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 宇宙深空背景 -->\r\n        <circle r=\"300\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"1\" opacity=\"0.05\" />\r\n        \r\n        <!-- 我 型文明: A级 (地球) -->\r\n        <g transform=\"translate(-300, 150)\">\r\n          <circle r=\"60\" fill=\"#10b981\" fill-opacity=\"0.2\" stroke=\"#10b981\" stroke-width=\"2\" />\r\n          <text y=\"90\" text-anchor=\"middle\" fill=\"#10b981\" style=\"font-size: 14px; font-weight: 900;\">Type 我: 行星级</text>\r\n        </g>\r\n        \r\n        <!-- 我我 型文明: 戴森球级 (恒星) -->\r\n        <g transform=\"translate(0, 0)\">\r\n          <circle r=\"120\" fill=\"#fbbf24\" fill-opacity=\"0.1\" stroke=\"#fbbf24\" stroke-width=\"4\" stroke-dasharray=\"10 5\" class=\"animate-spin\" style=\"animation-duration: 20s\" />\r\n          <circle r=\"40\" fill=\"#fbbf24\" filter=\"drop-shadow(0 0 30px #fbbf24)\" />\r\n          <text y=\"160\" text-anchor=\"middle\" fill=\"#fbbf24\" style=\"font-size: 18px; font-weight: 900;\">Type 我我: 恒星级</text>\r\n        </g>\r\n\r\n        <!-- 我我我 型文明: 星系级 (银河) -->\r\n        <g transform=\"translate(300, -150)\">\r\n          <path d=\"M-80,0 Q0,-80 80,0 T0,80 Z\" fill=\"#3b82f6\" opacity=\"0.2\" class=\"animate-ping\" />\r\n          <text y=\"100\" text-anchor=\"middle\" fill=\"#3b82f6\" style=\"font-size: 14px; font-weight: 900;\">Type 我我我: 星系级</text>\r\n        </g>\r\n\r\n        <path d=\"M-220,100 L220,-100\" stroke=\"#1e293b\" stroke-width=\"1\" stroke-dasharray=\"5 5\" opacity=\"0.1\" />\r\n      </g>\r\n    </svg>\n</div>"
+}

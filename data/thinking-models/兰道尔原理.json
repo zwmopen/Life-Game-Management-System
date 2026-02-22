@@ -1,0 +1,13 @@
+{
+  "id": "兰道尔原理",
+  "name": "兰道尔原理",
+  "label": "兰道尔原理",
+  "icon": "BrainCircuit",
+  "description": "计算机科学最沉重的定律：在计算过程中，只要你“抹除”了 1 比特的信息（使状态从不确定变为确定，或丢失历史），物理上就必须向环境排放至少 kT ln 2 的热量。计算是有物理成本的。",
+  "deepAnalysis": "兰道尔原理（Landauer's Principle）是计算机科学最沉重的定律。核心洞见：在计算过程中，只要你'抹除'了1比特的信息，物理上就必须向环境排放至少kT ln 2的热量。计算是有物理成本的。\n\n核心公式：E_min = kT ln 2 ≈ 2.87 × 10⁻²¹ 焦耳（室温下）\n\n物理意义：\n- 信息是物理的：信息处理有物理成本\n- 遗忘有代价：抹除信息必然产生热量\n- 计算有极限：存在计算能耗的物理下限\n\n认知启示：\n- 认知能耗：每一次否定旧观念都会消耗'心智动能'\n- 保护历史：不轻易丢弃历史数据，通过变换重组逻辑",
+  "principle": "1. 信息是物理的：信息处理有物理成本\n2. 遗忘有代价：抹除信息必然产生热量\n3. 计算有极限：存在计算能耗的物理下限\n4. 认知能耗：认知过程也有能量消耗\n5. 可逆计算：高级系统采用可逆计算降低成本",
+  "scope": "计算机科学、信息论、热力学、认知科学、知识管理、决策科学",
+  "tips": "1. 减少抹除：减少不必要的信息抹除\n2. 保护历史：保留重要的历史数据\n3. 可逆思维：采用可逆的思维方式\n4. 能效优化：优化认知和计算的能效\n5. 熵减意识：意识到信息处理的熵增代价",
+  "practice": "将兰道尔原理应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 计算存储位 -->\r\n        <rect x=\"-200\" y=\"-100\" width=\"150\" height=\"150\" rx=\"20\" fill=\"#ef4444\" />\r\n        <text x=\"-125\" y=\"-15\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 64px; font-weight: 900;\">1</text>\r\n        \r\n        <!-- 抹除动作 (物理压力) -->\r\n        <g transform=\"translate(0, 0)\">\r\n          <path d=\"M-40,0 L40,0\" stroke=\"#ef4444\" stroke-width=\"12\" stroke-linecap=\"round\">\r\n             <animate attributeName=\"opacity\" values=\"0;1;0\" dur=\"2s\" repeatCount=\"indefinite\" />\r\n          </path>\r\n          <text text-anchor=\"middle\" y=\"-20\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">ERaSE (抹除)</text>\r\n        </g>\r\n\r\n        <!-- 释放的热能 (火焰) -->\r\n        <g transform=\"translate(200, 0)\">\r\n          <path d=\"M-30,40 Q0,-60 30,40 Z\" fill=\"#f59e0b\">\r\n             <animate attributeName=\"d\" values=\"M-30,40 Q0,-60 30,40 Z; M-40,40 Q0,-120 40,40 Z; M-30,40 Q0,-60 30,40 Z\" dur=\"1s\" repeatCount=\"indefinite\" />\r\n          </path>\r\n          <text y=\"80\" text-anchor=\"middle\" fill=\"#f59e0b\" style=\"font-size: 18px; font-weight: 900;\">释放热量 (kT ln 2)</text>\r\n        </g>\r\n\r\n        <text y=\"240\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.1em;\">逻辑抹除 = 物理熵增</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

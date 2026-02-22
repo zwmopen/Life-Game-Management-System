@@ -1,0 +1,14 @@
+{
+  "id": "谈判诅咒",
+  "name": "谈判诅咒",
+  "label": "赢家诅咒",
+  "icon": "BrainCircuit",
+  "description": "在信息不对称的竞拍或竞争中，最后获胜的人往往是出价最高的人。由于人们在情绪激动时容易高估标的价值，获胜的代价通常是支付了超过其真实价值的溢价，导致“赢了比赛，赔了本金”。",
+  "deepAnalysis": "赢家诅咒（Winner's Curse）揭示了竞拍中的系统性陷阱。核心洞见：在信息不对称的竞拍或竞争中，最后获胜的人往往是出价最高的人。由于人们在情绪激动时容易高估标的价值，获胜的代价通常是支付了超过其真实价值的溢价，导致赢了比赛赔了本金。",
+  "principle": "1. 信息不对称：竞拍者信息不对称\n2. 情绪高估：情绪导致价值高估\n3. 赢家溢价：赢家支付溢价\n4. 系统性陷阱：竞拍的系统性陷阱\n5. 理性边界：理性的边界",
+  "scope": "投资决策、并购交易、竞拍策略、风险管理、谈判策略、决策分析",
+  "tips": "1. 理性估值：理性评估价值\n2. 设置上限：设置价格上限\n3. 避免情绪：避免情绪干扰\n4. 信息收集：充分收集信息\n5. 保守出价：保守出价策略",
+  "practice": "1. 评估价值：理性评估标的\n2. 设定上限：设定价格上限\n3. 收集信息：充分收集信息\n4. 控制情绪：控制竞拍情绪\n5. 保守出价：采取保守策略",
+  "scenario": "1. 投资决策：避免高估投资\n2. 并购交易：避免并购溢价\n3. 竞拍策略：制定竞拍策略\n4. 风险管理：管理竞拍风险\n5. 谈判策略：制定谈判策略",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 公允价值 (水平线) -->\r\n        <line x1=\"-400\" y1=\"50\" x2=\"400\" y2=\"50\" stroke=\"#1e293b\" stroke-width=\"2\" stroke-dasharray=\"10 5\" opacity=\"0.3\" />\r\n        <text x=\"-400\" y=\"40\" fill=\"#64748b\" opacity=\"0.5\" style=\"font-size: 14px;\">公允市场价值</text>\r\n\r\n        <!-- 非理性竞价 (红色阶梯) -->\r\n        <g stroke=\"#ef4444\" stroke-width=\"4\" fill=\"none\">\r\n          <path d=\"M-300,50 L-250,-50 L-150,-100 L-50,-250 L0,-400\" />\r\n          <animate attributeName=\"stroke-dasharray\" from=\"0,600\" to=\"600,0\" dur=\"2s\" fill=\"freeze\" />\r\n        </g>\r\n        \r\n        <!-- 赢家获胜时刻 (却是灾难开始) -->\r\n        <g transform=\"translate(0, -400)\">\r\n          <circle r=\"40\" fill=\"#ef4444\" class=\"animate-ping\" />\r\n          <rect x=\"-80\" y=\"-30\" width=\"160\" height=\"60\" rx=\"30\" fill=\"#ef4444\" />\r\n          <text text-anchor=\"middle\" y=\"10\" fill=\"white\" style=\"font-size: 24px; font-weight: 900;\">中标!</text>\r\n        </g>\r\n\r\n        <!-- 产生的亏损黑洞 -->\r\n        <path d=\"M0,-400 L0,50\" stroke=\"#ef4444\" stroke-width=\"20\" opacity=\"0.1\" stroke-linecap=\"round\" />\r\n        <text x=\"20\" y=\"-180\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">赢家的诅咒</text>\r\n        <text x=\"20\" y=\"-140\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">(溢价部分 = 亏损净值)</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

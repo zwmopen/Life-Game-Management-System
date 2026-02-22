@@ -1,0 +1,13 @@
+{
+  "id": "粒度收缩",
+  "name": "粒度收缩",
+  "label": "颗粒度缩减算法",
+  "icon": "BrainCircuit",
+  "description": "如果你还在拖延，说明任务的“颗粒度”依然太粗。大脑拒绝搬运巨石。启动此算法，直到把任务缩减到即使你处于半睡半醒状态也能顺手完成的程度（如：不是写一篇文章，而是只写一个标题）。",
+  "deepAnalysis": "这是一个思维模型，展示了粒度收缩的核心概念和应用。",
+  "principle": "思维模型的核心原则：粒度收缩",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将粒度收缩应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 沉重的任务 (左 - 无法搬动) -->\r\n        <g transform=\"translate(-300, 0)\">\r\n          <rect x=\"-100\" y=\"-100\" width=\"200\" height=\"200\" rx=\"30\" fill=\"#475569\" opacity=\"0.3\" />\r\n          <text text-anchor=\"middle\" y=\"10\" fill=\"#475569\" style=\"font-size: 20px; font-weight: 900;\">宏大目标 (重物)</text>\r\n          <path d=\"M-40,60 L40,60\" stroke=\"#ef4444\" stroke-width=\"8\" stroke-linecap=\"round\" />\r\n        </g>\r\n        \r\n        <!-- 切割器 (算法中心) -->\r\n        <g>\r\n          <circle r=\"60\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"10 5\" class=\"animate-spin\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"#ef4444\" style=\"font-size: 48px; font-weight: 900;\">/</text>\r\n        </g>\r\n\r\n        <!-- 极小颗粒流 (右 - 顺滑移动) -->\r\n        <g transform=\"translate(250, 0)\">\r\n          <circle r=\"10\" cx=\"-100\" fill=\"#ef4444\"><animate attributeName=\"cx\" from=\"-100\" to=\"200\" dur=\"2s\" repeatCount=\"indefinite\" /></circle>\r\n          <circle r=\"10\" cx=\"-50\" fill=\"#ef4444\" style=\"animation-delay: 0.5s\"><animate attributeName=\"cx\" from=\"-100\" to=\"200\" dur=\"2s\" repeatCount=\"indefinite\" /></circle>\r\n          <circle r=\"10\" cx=\"0\" fill=\"#ef4444\" style=\"animation-delay: 1s\"><animate attributeName=\"cx\" from=\"-100\" to=\"200\" dur=\"2s\" repeatCount=\"indefinite\" /></circle>\r\n          <text x=\"50\" y=\"80\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">原子动作流 (Easy!)</text>\r\n        </g>\r\n\r\n        <text y=\"-220\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.1em;\">重物搬不动，那就把它切成粉末</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

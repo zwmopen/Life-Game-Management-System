@@ -1,0 +1,13 @@
+{
+  "id": "营销4p",
+  "name": "营销4P",
+  "label": "营销4P",
+  "icon": "BrainCircuit",
+  "description": "经典的商业D框架。通过对产品、价格、渠道和推广四个维度的优化组合，构建一个能高效获客并产生利润的商业闭环。",
+  "deepAnalysis": "这是一个思维模型，展示了营销4P的核心概念和应用。",
+  "principle": "思维模型的核心原则：营销4P",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将营销4P应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 700\">\r\n      <g transform=\"translate(500, 350)\">\r\n        <!-- 产品 -->\r\n        <g transform=\"translate(-160, -160)\">\r\n          <rect x=\"-140\" y=\"-140\" width=\"280\" height=\"280\" rx=\"40\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"4\" />\r\n          <text text-anchor=\"middle\" y=\"0\" fill=\"#ef4444\" style=\"font-size: 42px; font-weight: 900;\">产品</text>\r\n          <text text-anchor=\"middle\" y=\"40\" fill=\"#ef4444\" style=\"font-size: 16px; opacity: 0.6;\">(核心价值)</text>\r\n        </g>\r\n        <!-- 价格 -->\r\n        <g transform=\"translate(160, -160)\">\r\n          <rect x=\"-140\" y=\"-140\" width=\"280\" height=\"280\" rx=\"40\" fill=\"#10b981\" fill-opacity=\"0.1\" stroke=\"#10b981\" stroke-width=\"4\" />\r\n          <text text-anchor=\"middle\" y=\"0\" fill=\"#10b981\" style=\"font-size: 42px; font-weight: 900;\">价格</text>\r\n          <text text-anchor=\"middle\" y=\"40\" fill=\"#10b981\" style=\"font-size: 16px; opacity: 0.6;\">(博弈策略)</text>\r\n        </g>\r\n        <!-- 渠道 -->\r\n        <g transform=\"translate(-160, 160)\">\r\n          <rect x=\"-140\" y=\"-140\" width=\"280\" height=\"280\" rx=\"40\" fill=\"#f59e0b\" fill-opacity=\"0.1\" stroke=\"#f59e0b\" stroke-width=\"4\" />\r\n          <text text-anchor=\"middle\" y=\"0\" fill=\"#f59e0b\" style=\"font-size: 42px; font-weight: 900;\">渠道</text>\r\n          <text text-anchor=\"middle\" y=\"40\" fill=\"#f59e0b\" style=\"font-size: 16px; opacity: 0.6;\">(触达效率)</text>\r\n        </g>\r\n        <!-- 推广 -->\r\n        <g transform=\"translate(160, 160)\">\r\n          <rect x=\"-140\" y=\"-140\" width=\"280\" height=\"280\" rx=\"40\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"4\" />\r\n          <text text-anchor=\"middle\" y=\"0\" fill=\"#ef4444\" style=\"font-size: 42px; font-weight: 900;\">推广</text>\r\n          <text text-anchor=\"middle\" y=\"40\" fill=\"#ef4444\" style=\"font-size: 16px; opacity: 0.6;\">(心智穿透)</text>\r\n        </g>\r\n      </g>\r\n      <text x=\"500\" y=\"50\" text-anchor=\"middle\" fill=\"#64748b\" style=\"font-size: 24px; font-weight: 900; letter-spacing: 0.5em; opacity: 0.1;\">战术层面的全要素扫描</text>\r\n    </svg>\n</div>"
+}

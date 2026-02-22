@@ -1,0 +1,13 @@
+{
+  "id": "刺猬概念",
+  "name": "刺猬概念",
+  "label": "刺猬理念",
+  "icon": "BrainCircuit",
+  "description": "“狐狸知道很多事，但刺猬只知道一件大事。” 伟大的组织不追逐每一个风口，它们只深耕三个圆圈的交集——那个最纯粹、最持久的卓越区域。",
+  "deepAnalysis": "刺猬概念（Hedgehog Concept）由吉姆·柯林斯在《从优秀到卓越》中提出。核心洞见：狐狸知道很多事，但刺猬只知道一件大事。伟大的组织不追逐每一个风口，它们只深耕三个圆圈的交集——那个最纯粹、最持久的卓越区域。",
+  "principle": "1. 三圆交集：三个圆圈的交集是卓越之芯\n2. 热情驱动：找到你热爱的事业\n3. 世界最佳：找到你能做到世界第一的领域\n4. 经济引擎：找到可持续的盈利模式\n5. 战略纪律：拒绝所有不在交集内的诱惑",
+  "scope": "企业战略、职业规划、个人发展、产品定位、品牌建设、组织变革",
+  "tips": "1. 绘制三圆：绘制你的三个圆圈\n2. 寻找交集：找到三个圆圈的交集\n3. 战略聚焦：聚焦于交集区域\n4. 拒绝诱惑：拒绝所有不在交集内的诱惑\n5. 持续深耕：在交集区域持续深耕",
+  "practice": "1. 自我分析：分析自己的热情、优势和经济模式\n2. 绘制三圆：绘制三个圆圈\n3. 找到交集：找到三圆交集\n4. 制定战略：制定聚焦战略\n5. 持续执行：持续执行聚焦战略",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 700\">\r\n      <g transform=\"translate(500, 350)\">\r\n        <!-- 三圆交集 -->\r\n        <circle cx=\"0\" cy=\"-140\" r=\"220\" fill=\"#3b82f6\" fill-opacity=\"0.1\" stroke=\"#3b82f6\" stroke-width=\"2\" />\r\n        <circle cx=\"-130\" cy=\"80\" r=\"220\" fill=\"#10b981\" fill-opacity=\"0.1\" stroke=\"#10b981\" stroke-width=\"2\" />\r\n        <circle cx=\"130\" cy=\"80\" r=\"220\" fill=\"#f59e0b\" fill-opacity=\"0.1\" stroke=\"#f59e0b\" stroke-width=\"2\" />\r\n\r\n        <!-- 核心点 -->\r\n        <g>\r\n          <circle r=\"60\" fill=\"#fbbf24\" filter=\"drop-shadow(0 0 40px #fbbf24)\" />\r\n          <text text-anchor=\"middle\" y=\"10\" fill=\"#451a03\" style=\"font-size: 32px; font-weight: 900;\">卓越之芯</text>\r\n        </g>\r\n\r\n        <!-- 标注 -->\r\n        <text x=\"0\" y=\"-220\" text-anchor=\"middle\" fill=\"#3b82f6\" style=\"font-size: 24px; font-weight: 900;\">你热爱什么?</text>\r\n        <text x=\"-250\" y=\"180\" text-anchor=\"middle\" fill=\"#10b981\" style=\"font-size: 24px; font-weight: 900;\">你能做到世界第一吗?</text>\r\n        <text x=\"250\" y=\"180\" text-anchor=\"middle\" fill=\"#f59e0b\" style=\"font-size: 24px; font-weight: 900;\">你的盈利引擎是什么?</text>\r\n      </g>\r\n      <text x=\"500\" y=\"50\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 16px; font-weight: 900; letter-spacing: 0.5em;\">THE HEdGEHOG STRaTEGY</text>\r\n    </svg>\n</div>"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "番茄工作法",
+  "name": "番茄工作法",
+  "label": "番茄工作法",
+  "icon": "BrainCircuit",
+  "description": "一种微观时间管理技术。通过 25 分钟的极度专注和 5 分钟的强制休息，将大脑维持在最佳的能耗水平，有效解决“启动困难”和“认知疲劳”。",
+  "deepAnalysis": "番茄工作法（Pomodoro Technique）由弗朗西斯科·西里洛于1992年发明。核心方法：25分钟极度专注 + 5分钟强制休息，循环往复，将大脑维持在最佳能耗水平。\n\n核心机制：\n- 时间盒：固定的时间段，减少决策疲劳\n- 专注力：短时高强度专注，避免疲劳\n- 休息：强制休息，恢复认知资源\n- 节奏：建立工作节奏，形成习惯\n\n适用场景：\n- 启动困难：降低启动门槛\n- 分心频繁：强制专注\n- 疲劳积累：定期休息\n- 效率低下：量化产出",
+  "principle": "1. 时间盒原则：固定25分钟，减少决策疲劳\n2. 专注原则：短时高强度专注，避免疲劳\n3. 休息原则：强制休息，恢复认知资源\n4. 节奏原则：建立工作节奏，形成习惯\n5. 量化原则：记录番茄数，量化产出",
+  "scope": "个人效率、学习备考、写作创作、编程开发、远程办公、任务管理",
+  "tips": "1. 设定任务：明确25分钟要完成什么\n2. 消除干扰：关闭通知，创造专注环境\n3. 严格执行：25分钟不中断\n4. 强制休息：5分钟完全放松\n5. 记录复盘：记录番茄数，分析效率",
+  "practice": "将番茄工作法应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 进度环 -->\r\n        <circle r=\"250\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"4\" opacity=\"0.05\" />\r\n        <path d=\"M0,-250 A250,250 0 0,1 216,125\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"15\" stroke-linecap=\"round\">\r\n          <animate attributeName=\"stroke-dasharray\" from=\"0,1570\" to=\"650,1570\" dur=\"5s\" repeatCount=\"indefinite\" />\r\n        </path>\r\n        \r\n        <!-- 核心番茄 -->\r\n        <g class=\"animate-bounce\" style=\"animation-duration: 4s;\">\r\n          <circle r=\"100\" fill=\"#ef4444\" filter=\"drop-shadow(0 20px 40px rgba(239, 68, 68, 0.2))\" />\r\n          <path d=\"M-20,-120 Q0,-80 20,-120\" fill=\"#10b981\" />\r\n          <text text-anchor=\"middle\" y=\"15\" fill=\"white\" style=\"font-size: 42px; font-weight: 900;\">25'</text>\r\n        </g>\r\n\r\n        <!-- 休息标识 -->\r\n        <g transform=\"translate(300, 0)\">\r\n          <circle r=\"40\" fill=\"#10b981\" fill-opacity=\"0.1\" stroke=\"#10b981\" stroke-width=\"2\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"#10b981\" style=\"font-size: 14px; font-weight: 900;\">5' REST</text>\r\n        </g>\r\n      </g>\r\n      <text x=\"500\" y=\"50\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.5em; opacity: 0.1;\">FOc我们, REST, RE计划EAT</text>\r\n    </svg>\n</div>"
+}

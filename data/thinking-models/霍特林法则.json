@@ -1,0 +1,14 @@
+{
+  "id": "霍特林法则",
+  "name": "霍特林法则",
+  "label": "霍特林定律",
+  "icon": "BrainCircuit",
+  "description": "解释了为什么两家竞争的快餐店总是开在街角对面。为了捕捉最多的边缘客户，竞争者会自发地向地理或产品特性的“中心点”靠拢，最终导致严重的同质化。",
+  "deepAnalysis": "霍特林法则（Hotelling's Law）揭示了竞争中的趋同现象。核心洞见：为了捕捉最多的边缘客户，竞争者会自发地向地理或产品特性的中心点靠拢，最终导致严重的同质化。这就是为什么两家竞争的快餐店总是开在街角对面，也是为什么政治候选人会向中间立场靠拢。",
+  "principle": "1. 中心聚集：竞争者向中心靠拢\n2. 同质化：竞争导致产品同质化\n3. 边缘捕获：向中心移动捕获更多客户\n4. 纳什均衡：最终形成纳什均衡\n5. 差异化机会：差异化是突破同质化的机会",
+  "scope": "市场竞争、产品定位、政治选举、商业选址、品牌策略、差异化竞争",
+  "tips": "1. 认识趋同：认识竞争中的趋同现象\n2. 差异化：通过差异化突破同质化\n3. 细分市场：寻找细分市场机会\n4. 避免中心：避免陷入中心竞争\n5. 创新定位：创新产品定位",
+  "practice": "1. 分析竞争：分析竞争对手的定位\n2. 识别中心：识别市场的中心点\n3. 选择策略：选择趋同或差异化\n4. 差异化定位：进行差异化定位\n5. 持续创新：持续创新避免同质化",
+  "scenario": "1. 产品定位：选择差异化产品定位\n2. 商业选址：选择商业选址策略\n3. 品牌策略：制定差异化品牌策略\n4. 政治选举：理解政治趋同现象\n5. 市场竞争：分析市场竞争格局",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <!-- 市场沙滩线 -->\r\n      <line x1=\"100\" y1=\"325\" x2=\"900\" y2=\"325\" stroke=\"#1e293b\" stroke-width=\"4\" opacity=\"0.1\" />\r\n      \r\n      <!-- 玩家 A (蓝色) -->\r\n      <g transform=\"translate(480, 325)\">\r\n        <rect x=\"-40\" y=\"-80\" width=\"80\" height=\"80\" rx=\"10\" fill=\"#ef4444\" />\r\n        <animateTransform attributeName=\"transform\" type=\"translate\" from=\"150,325\" to=\"480,325\" dur=\"4s\" fill=\"freeze\" />\r\n        <text y=\"-100\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 20px; font-weight: 900;\">品牌 A</text>\r\n      </g>\r\n\r\n      <!-- 玩家 B (红色) -->\r\n      <g transform=\"translate(520, 325)\">\r\n        <rect x=\"-40\" y=\"-80\" width=\"80\" height=\"80\" rx=\"10\" fill=\"#ef4444\" />\r\n        <animateTransform attributeName=\"transform\" type=\"translate\" from=\"850,325\" to=\"520,325\" dur=\"4s\" fill=\"freeze\" />\r\n        <text y=\"-100\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 20px; font-weight: 900;\">品牌 B</text>\r\n      </g>\r\n\r\n      <!-- 中间点吸引子 -->\r\n      <g transform=\"translate(500, 325)\">\r\n        <circle r=\"150\" fill=\"none\" stroke=\"#fbbf24\" stroke-width=\"1\" stroke-dasharray=\"5 5\" class=\"animate-spin\" />\r\n        <text y=\"150\" text-anchor=\"middle\" fill=\"#fbbf24\" style=\"font-size: 32px; font-weight: 900;\">中位值聚集</text>\r\n        <text y=\"185\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.5\" style=\"font-size: 14px;\">(竞争导致了极致的相似性)</text>\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900; letter-spacing: 0.5em; opacity: 0.1;\">THE 计划R我Nc我计划LE OF M我N我MUM D我FFERENT我AT我ON</text>\r\n    </svg>\n</div>"
+}

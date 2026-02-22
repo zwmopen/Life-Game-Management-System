@@ -1,0 +1,13 @@
+{
+  "id": "操作性条件反射",
+  "name": "操作性条件反射",
+  "label": "操作性条件反射",
+  "icon": "BrainCircuit",
+  "description": "个体的行为后果（奖励或惩罚）决定了该行为在未来发生的频率。我们是通过不断试错并获得反馈来“塑造”自己的。",
+  "deepAnalysis": "这是一个思维模型，展示了操作性条件反射的核心概念和应用。",
+  "principle": "思维模型的核心原则：操作性条件反射",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将操作性条件反射应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <!-- 斯金纳箱 -->\r\n      <rect x=\"200\" y=\"100\" width=\"600\" height=\"400\" rx=\"40\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"4\" opacity=\"0.1\" />\r\n      \r\n      <!-- 杠杆 -->\r\n      <g transform=\"translate(300, 350)\">\r\n        <rect x=\"-10\" y=\"-60\" width=\"20\" height=\"120\" rx=\"10\" fill=\"#ef4444\" />\r\n        <animateTransform attributeName=\"transform\" type=\"rotate\" values=\"0,300,350; -20,300,350; 0,300,350\" dur=\"2s\" repeatCount=\"indefinite\" />\r\n        <text x=\"40\" y=\"10\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">主动操作</text>\r\n      </g>\r\n\r\n      <!-- 奖励喷发 -->\r\n      <g transform=\"translate(700, 300)\">\r\n        <circle r=\"15\" fill=\"#10b981\" opacity=\"0.8\">\r\n           <animate attributeName=\"cy\" from=\"0\" to=\"-200\" dur=\"1s\" repeatCount=\"indefinite\" />\r\n           <animate attributeName=\"opacity\" values=\"1;0\" dur=\"1s\" repeatCount=\"indefinite\" />\r\n        </circle>\r\n        <text y=\"60\" text-anchor=\"middle\" fill=\"#10b981\" style=\"font-size: 42px; font-weight: 900;\">奖励 (REWaRd)</text>\r\n        <text y=\"100\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.5\" style=\"font-size: 14px;\">行为频率 ↑</text>\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"550\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 20px; font-weight: 900; letter-spacing: 0.5em;\">BEHaV我OR 我S SHa计划Ed BY CONSEQUENCES</text>\r\n    </svg>\n</div>"
+}

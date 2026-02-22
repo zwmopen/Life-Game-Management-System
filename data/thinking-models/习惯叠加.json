@@ -1,0 +1,14 @@
+{
+  "id": "习惯叠加",
+  "name": "习惯叠加",
+  "label": "习惯堆叠",
+  "icon": "BrainCircuit",
+  "description": "借力使力。将你想养成的新习惯，锚定在一个已经非常牢固的旧习惯之后。利用旧习惯产生的惯性动能，带过新习惯最难的起步期。",
+  "deepAnalysis": "习惯叠加（Habit Stacking）是詹姆斯·克利尔在《原子习惯》中提出的行为改变策略。核心思想是：将新习惯锚定在已有的稳固习惯之后，利用现有习惯作为触发器，降低建立新习惯的认知负担。公式为：'在[现有习惯]之后，我将[新习惯]'。这种方法利用了大脑的神经回路，让新习惯更容易被记住和执行。",
+  "principle": "1. 锚定效应：利用已有习惯作为新习惯的触发器，减少决策负担\n2. 神经回路：已有习惯已经形成稳定的神经连接，新习惯可以'搭便车'\n3. 具体化：明确指定触发条件和行为，比模糊的意图更有效\n4. 渐进叠加：一次只添加一个新习惯，避免认知过载\n5. 环境提示：已有习惯本身就是强大的环境提示。",
+  "scope": "习惯养成、个人成长、健康生活、学习效率、时间管理、行为改变",
+  "tips": "1. 选择稳固锚点：选择已经稳定执行的习惯作为锚点，如'刷牙后'、'起床后'\n2. 具体化公式：使用'在[现有习惯]之后，我将[新习惯]'的格式\n3. 从小开始：新习惯应该足够小，能在2分钟内完成\n4. 一次一个：不要同时叠加多个新习惯，等一个稳定后再添加下一个\n5. 追踪记录：使用习惯追踪器记录执行情况，增强反馈。",
+  "practice": "1. 晨间例程：起床后→喝水→冥想5分钟→写日记\n2. 工作例程：到办公室后→整理桌面→列出今日任务→开始第一个任务\n3. 健康习惯：午餐后→散步10分钟→做5个深蹲\n4. 学习习惯：晚饭后→阅读20页书→写读书笔记\n5. 睡前例程：洗澡后→护肤→冥想→放下手机。",
+  "scenario": "1. 健身习惯：在'换好运动服后'，做5个俯卧撑\n2. 阅读习惯：在'喝早咖啡时'，阅读10页书\n3. 冥想习惯：在'刷牙后'，冥想2分钟\n4. 学习习惯：在'打开电脑后'，先学习30分钟再处理邮件\n5. 健康饮食：在'盛饭前'，先盛一半蔬菜。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 已有习惯 (巨大的动力轮) -->\r\n        <g transform=\"translate(-150, 0)\">\r\n          <circle r=\"120\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"10 10\" class=\"animate-spin\" style=\"animation-duration: 15s\" />\r\n          <circle r=\"80\" fill=\"#ef4444\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"white\" style=\"font-size: 16px; font-weight: 900;\">已有强习惯</text>\r\n          <text y=\"30\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 10px;\">(如：刷牙、下班)</text>\r\n        </g>\r\n        \r\n        <!-- 新习惯 (被带动的小轮) -->\r\n        <g transform=\"translate(140, 0)\">\r\n          <circle r=\"80\" fill=\"#10b981\" fill-opacity=\"0.1\" stroke=\"#10b981\" stroke-width=\"4\" class=\"animate-spin\" style=\"animation-duration: 5s; animation-direction: reverse;\" />\r\n          <circle r=\"40\" fill=\"#10b981\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"white\" style=\"font-size: 14px; font-weight: 900;\">新习惯</text>\r\n          <animateTransform attributeName=\"transform\" type=\"translate\" values=\"140,0; 120,0; 140,0\" dur=\"2s\" repeatCount=\"indefinite\" />\r\n        </g>\r\n\r\n        <!-- 动力传递链 -->\r\n        <path d=\"M-30,0 L60,0\" stroke=\"#fbbf24\" stroke-width=\"8\" stroke-dasharray=\"10 5\" opacity=\"0.4\" />\r\n        \r\n        <text y=\"180\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">在“...之后”，我将“...”</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

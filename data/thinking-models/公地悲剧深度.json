@@ -1,0 +1,13 @@
+{
+  "id": "公地悲剧深度",
+  "name": "公地悲剧深度",
+  "label": "公地悲剧",
+  "icon": "BrainCircuit",
+  "description": "在一个没有外部制约的封闭系统中，个体的短期最优解（多吃一点）会直接推导至集体的长期最差解（毁灭）。这是理性产生的非理性黑洞。",
+  "deepAnalysis": "公地悲剧深度版（Tragedy of the Commons Deep Dive）是对经典公地悲剧模型的深入分析。在一个没有外部制约的封闭系统中，个体的短期最优解（多吃一点）会直接推导至集体的长期最差解（毁灭）。这是理性产生的非理性黑洞。\n\n核心机制：\n- 理性陷阱：个体理性导致集体非理性\n- 时间错位：短期收益vs长期代价\n- 外部性：个体行为的外部成本未被内部化\n\n典型案例：\n- 过度捕捞：每艘船都想多捕，最终鱼群枯竭\n- 碳排放：每个国家都想发展，最终气候崩溃\n- 办公资源：每个人都想多用，最终资源耗尽",
+  "principle": "1. 理性陷阱：个体理性导致集体非理性\n2. 时间错位：短期收益与长期代价的错位\n3. 外部性问题：个体行为的外部成本未被内部化\n4. 博弈结构：博弈结构决定行为结果\n5. 制度干预：需要制度干预改变博弈结构",
+  "scope": "环境治理、资源管理、组织管理、公共政策、国际合作、社区治理",
+  "tips": "1. 建立反馈墙：将消耗量与个人成本挂钩\n2. 元治理结构：重塑博弈结构，让保护资源者获得奖励\n3. 产权界定：明确产权，将外部性内部化\n4. 配额制度：建立合理的配额和交易制度\n5. 社区自治：建立有效的社区自治机制",
+  "practice": "将公地悲剧深度应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 正在坍缩的核心 -->\r\n        <circle r=\"120\" fill=\"#10b981\" fill-opacity=\"0.1\">\r\n          <animate attributeName=\"r\" values=\"120;20;120\" dur=\"5s\" repeatCount=\"indefinite\" />\r\n          <animate attributeName=\"fill\" values=\"#10b981;#ef4444;#10b981\" dur=\"5s\" repeatCount=\"indefinite\" />\r\n        </circle>\r\n        \r\n        <!-- 四方吸管 -->\r\n        <g stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"10 5\">\r\n          <line x1=\"-300\" y1=\"-200\" x2=\"-50\" y2=\"-40\" />\r\n          <line x1=\"300\" y1=\"-200\" x2=\"50\" y2=\"-40\" />\r\n          <line x1=\"-300\" y1=\"200\" x2=\"-50\" y2=\"40\" />\r\n          <line x1=\"300\" y1=\"200\" x2=\"50\" y2=\"40\" />\r\n          <animate attributeName=\"stroke-dashoffset\" from=\"0\" to=\"100\" dur=\"1s\" repeatCount=\"indefinite\" />\r\n        </g>\r\n\r\n        <!-- 攫取者的私利扩张 -->\r\n        <g fill=\"#ef4444\" opacity=\"0.8\">\r\n           <circle cx=\"-320\" cy=\"-220\" r=\"30\"><animate attributeName=\"r\" values=\"30;60;30\" dur=\"5s\" repeatCount=\"indefinite\" /></circle>\r\n           <circle cx=\"320\" cy=\"-220\" r=\"30\"><animate attributeName=\"r\" values=\"30;60;30\" dur=\"5s\" repeatCount=\"indefinite\" /></circle>\r\n        </g>\r\n\r\n        <text y=\"200\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 42px; font-weight: 900;\">资源正在枯竭</text>\r\n        <text y=\"235\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.4\" style=\"font-size: 14px;\">(因为没有人需要为消耗付费)</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

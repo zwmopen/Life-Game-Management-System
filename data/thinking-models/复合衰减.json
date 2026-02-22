@@ -1,0 +1,13 @@
+{
+  "id": "复合衰减",
+  "name": "复合衰减",
+  "label": "复利折旧",
+  "icon": "BrainCircuit",
+  "description": "知识是有保质期的。在互联网行业，很多具体的“技巧”半年就会失效。如果你学习的速度赶不上现有知识折旧的速度，你所谓的“复利增长”实际上是在由于系统摩擦而不断倒退。",
+  "deepAnalysis": "这是一个思维模型，展示了复合衰减的核心概念和应用。",
+  "principle": "知识半衰期：不同领域的知识都有其半衰期，即知识价值减少一半所需的时间。; \r;           折旧率差异：具体技能和工具的折旧率远高于底层原理和基础学科。; \r;           林迪效应：已经存在很长时间的知识，往往会继续存在更长时间（负折旧）。; \r;           平台依赖性：依赖特定平台或技术的知识，其折旧率与平台的生命周期高度相关。; \r;           更新成本：知识更新需要持续投入时间和精力，这是应对复利折旧的必要成本。",
+  "scope": "个人学习：学习规划、知识管理、技能发展等方面，帮助个人建立可持续的知识体系。, \r\n          职业发展：职业规划、技能投资、行业选择等，指导个人在快速变化的职场中保持竞争力。, \r\n          教育领域：课程设计、教学方法、教育内容更新等，提高教育的时效性和实用性。, \r\n          企业培训：员工培训、知识管理系统、技术更新等，帮助企业应对知识折旧的挑战。, \r\n          投资决策：技术投资、研发方向、人才招聘等，评估不同领域的知识折旧风险。",
+  "tips": "1. 知识分层：将知识分为核心层（慢知识）、中间层（中速知识）和外围层（快知识），分别采用不同的学习和更新策略。; 2. 80/20 原则：将 80% 的学习时间投入到低折旧率的慢知识上，20% 的时间用于更新高折旧率的快知识。; 3. 定期审查：定期评估自己的知识体系，识别并更新已经折旧的知识。; 4. 跨领域学习：通过跨领域学习，建立多元化的知识结构，减少对单一领域知识的依赖。; 5. 元学习能力：培养快速学习和适应的能力，提高应对知识快速折旧的能力。; 6. 知识网络化：将新知识与已有知识建立联系，提高知识的留存率和应用价值。",
+  "practice": "将复合衰减应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n        <g transform=\"translate(500, 325)\">\r\n          <!-- 背景时间漏斗 -->\r\n          <path d=\"M-300,-250 L300,-250 L50,250 L-50,250 Z\" fill=\"none\" stroke=\"var(--text-primary)\" stroke-width=\"1\" opacity=\"0.1\" />\r\n          \r\n          <!-- 正在折旧的技能 (红色碎片) -->\r\n          <g opacity=\"0.3\">\r\n            <rect x=\"-150\" y=\"-100\" width=\"100\" height=\"40\" rx=\"5\" fill=\"var(--primary-color)\"><animate attributeName=\"opacity\" values=\"1;0;1\" dur=\"2s\" repeatCount=\"indefinite\" /></rect>\r\n            <text x=\"-100\" y=\"-120\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 10px;\">平台规则</text>\r\n          </g>\r\n          \r\n          <!-- 具有林迪效应的核心 (蓝色基石) -->\r\n          <g>\r\n            <rect x=\"-100\" y=\"50\" width=\"200\" height=\"150\" rx=\"20\" fill=\"var(--primary-color)\" filter=\"drop-shadow(0 0 40px var(--primary-color))\" />\r\n            <text text-anchor=\"middle\" y=\"130\" fill=\"white\" style=\"font-size: 24px; font-weight: 900;\">底层通识</text>\r\n            <circle r=\"120\" fill=\"none\" stroke=\"var(--primary-color)\" stroke-width=\"2\" class=\"animate-ping\" />\r\n          </g>\r\n\r\n          <text y=\"-200\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 36px; font-weight: 900;\">警惕：知识正在悄悄腐烂</text>\r\n        </g>\r\n      </svg>\n</div>"
+}

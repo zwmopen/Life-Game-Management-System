@@ -1,0 +1,13 @@
+{
+  "id": "结构洞",
+  "name": "结构洞",
+  "label": "结构性空洞",
+  "icon": "BrainCircuit",
+  "description": "罗纳德·伯特提出。在一个网络中，当两个群体之间没有直接联系（即存在空洞）时，那个能连接这两个群体的人，就拥有非对称的信息优势和资源整合力。谁是桥梁，谁就掌握权力。",
+  "deepAnalysis": "这是一个思维模型，展示了结构洞的核心概念和应用。",
+  "principle": "思维模型的核心原则：结构洞",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将结构洞应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 社交圈 A (左) -->\r\n        <g transform=\"translate(-300, 0)\">\r\n          <circle r=\"120\" fill=\"none\" stroke=\"#94a3b8\" stroke-width=\"2\" stroke-dasharray=\"5 15\" opacity=\"0.3\" />\r\n          <g fill=\"#94a3b8\">\r\n             <circle cx=\"-50\" cy=\"-50\" r=\"10\" /><circle cx=\"50\" cy=\"50\" r=\"10\" /><circle cx=\"0\" cy=\"80\" r=\"10\" />\r\n          </g>\r\n          <text y=\"-140\" text-anchor=\"middle\" fill=\"#94a3b8\" style=\"font-size: 14px;\">学术圈/技术派</text>\r\n        </g>\r\n        \r\n        <!-- 社交圈 B (右) -->\r\n        <g transform=\"translate(300, 0)\">\r\n          <circle r=\"120\" fill=\"none\" stroke=\"#94a3b8\" stroke-width=\"2\" stroke-dasharray=\"5 15\" opacity=\"0.3\" />\r\n          <g fill=\"#94a3b8\">\r\n             <circle cx=\"-50\" cy=\"50\" r=\"10\" /><circle cx=\"50\" cy=\"-50\" r=\"10\" /><circle cx=\"80\" cy=\"0\" r=\"10\" />\r\n          </g>\r\n          <text y=\"-140\" text-anchor=\"middle\" fill=\"#94a3b8\" style=\"font-size: 14px;\">市场圈/资本派</text>\r\n        </g>\r\n\r\n        <!-- 结构性空洞中的你 (桥梁) -->\r\n        <g>\r\n          <circle r=\"50\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 40px #ef4444)\" />\r\n          <path d=\"M-50,0 L-180,0 M50,0 L180,0\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"10 10\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"white\" style=\"font-size: 16px; font-weight: 900;\">你</text>\r\n          <text y=\"80\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">信息的经纪人</text>\r\n        </g>\r\n\r\n        <text y=\"-250\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.1em;\">填补空白，套利世界</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

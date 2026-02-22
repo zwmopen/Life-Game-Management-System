@@ -1,0 +1,14 @@
+{
+  "id": "退化压力",
+  "name": "退化压力",
+  "label": "中子简并压",
+  "icon": "BrainCircuit",
+  "description": "天体物理学模型：当中子星在重力下坍缩到极致，泡利不相容原理会产生一种极其巨大的斥力，阻止系统进一步坍缩。这是物质拒绝消失的物理底线。",
+  "deepAnalysis": "退化压力（Degeneracy Pressure）来自天体物理学。核心洞见：当中子星在重力下坍缩到极致，泡利不相容原理会产生一种极其巨大的斥力，阻止系统进一步坍缩。这是物质拒绝消失的物理底线。系统在极端压力下会产生抵抗坍缩的力量。",
+  "principle": "1. 极端压力：系统面临极端压力\n2. 不相容原理：泡利不相容原理\n3. 抵抗坍缩：系统抵抗坍缩\n4. 物理底线：系统的物理底线\n5. 韧性机制：系统的韧性机制",
+  "scope": "组织管理、系统韧性、危机管理、压力管理、系统设计、风险管理",
+  "tips": "1. 识别底线：识别系统的底线\n2. 保护底线：保护系统的底线\n3. 建立韧性：建立系统的韧性\n4. 压力测试：进行压力测试\n5. 多层防御：建立多层防御",
+  "practice": "1. 识别底线：识别系统的底线\n2. 压力测试：进行压力测试\n3. 建立韧性：建立系统的韧性\n4. 保护底线：保护系统的底线\n5. 多层防御：建立多层防御",
+  "scenario": "1. 组织管理：保护组织的底线\n2. 系统韧性：建立系统的韧性\n3. 危机管理：管理危机压力\n4. 风险管理：管理风险压力\n5. 系统设计：设计有韧性的系统",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\n      <g transform=\"translate(500, 325)\">\n        <!-- 坍缩引力 (蓝色向内) -->\n        <g stroke=\"var(--primary-color)\" stroke-width=\"4\" opacity=\"0.3\">\n          <line x1=\"-350\" y1=\"0\" x2=\"-100\" y2=\"0\" marker-end=\"url(#bluearrow)\" />\n          <line x1=\"350\" y1=\"0\" x2=\"100\" y2=\"0\" marker-end=\"url(#bluearrow)\" />\n          <animateTransform attributeName=\"transform\" type=\"scale\" values=\"1;1.2;1\" dur=\"2s\" repeatCount=\"indefinite\" />\n        </g>\n        \n        <!-- 简并压 (红色向外 - 坚固核心) -->\n        <g>\n          <circle r=\"100\" fill=\"var(--text-primary)\" stroke=\"var(--primary-color)\" stroke-width=\"12\" filter=\"drop-shadow(0 0 30px var(--primary-color))\" />\n          <text text-anchor=\"middle\" y=\"10\" fill=\"var(--primary-color)\" style=\"font-size: 32px; font-weight: 900;\">简并压</text>\n          <path d=\"M-80,0 L-150,0 M80,0 L150,0\" stroke=\"var(--primary-color)\" stroke-width=\"8\" stroke-linecap=\"round\" />\n        </g>\n\n        <text y=\"240\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 42px; font-weight: 900; letter-spacing: 0.1em;\">不可被逾越的最后防线</text>\n      </g>\n      <defs>\n        <marker id=\"bluearrow\" markerWidth=\"10\" markerHeight=\"10\" refX=\"5\" refY=\"5\" orient=\"auto\"><path d=\"M0,0 L10,5 L0,10 Z\" fill=\"var(--primary-color)\"/></marker>\n      </defs>\n    </svg>\n</div>"
+}

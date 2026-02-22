@@ -1,0 +1,14 @@
+{
+  "id": "101010法则",
+  "name": "10-10-10法则",
+  "label": "10/10/10 法则",
+  "icon": "BrainCircuit",
+  "description": "当身陷情绪、难以决断时，将视角拉远，通过三层时间维度来审视当前的决策。",
+  "deepAnalysis": "10-10-10法则是一种时间透视思维工具，通过从三个不同的时间维度（10分钟后、10个月后、10年后）来评估决策的影响，帮助人们跳出当前情绪的干扰，做出更理性、更长远的选择。这一法则强调通过时间视角的转换，获得更全面的决策视角。",
+  "principle": "1. 时间透视：通过不同时间维度的思考，突破当前情绪和认知的局限\n2. 理性决策：减少即时情绪对决策的影响，提高决策的客观性\n3. 长远价值：关注决策对未来的长期影响，而非短期利益\n4. 全面评估：从多个角度评估决策的后果，降低决策风险。",
+  "scope": "个人决策、职业规划、投资决策、人际关系处理、健康管理、教育选择",
+  "tips": "1. 情绪冲动时使用：当感到情绪激动难以决策时，立即应用10-10-10法则\n2. 结构化思考：按照10分钟→10个月→10年的顺序进行思考\n3. 记录分析过程：将不同时间维度的思考结果记录下来，便于对比分析\n4. 定期复盘：对使用该法则做出的决策进行复盘，评估效果\n5. 分享给他人：教会身边的人使用这一法则，共同提高决策质量。",
+  "practice": "1. 日常决策练习：在日常生活中遇到小决策时，有意识地使用10-10-10法则进行思考\n2. 重大决策应用：在面临职业选择、投资决策等重大问题时，详细分析三个时间维度的影响\n3. 团队决策：在团队决策中引入10-10-10法则，促进更全面的思考\n4. 决策记录：建立决策日记，记录使用该法则的过程和结果\n5. 定期回顾：每月回顾一次使用该法则做出的决策，总结经验教训。",
+  "scenario": "1. 职业选择：当面临是否接受一份新工作时，使用10-10-10法则分析其对短期、中期和长期职业发展的影响\n2. 投资决策：在考虑大额投资时，评估10分钟后（情绪反应）、10个月后（市场变化）和10年后（长期回报）的情况\n3. 人际关系：在处理人际冲突时，思考不同时间维度下的后果，避免冲动行为\n4. 健康管理：在面对健康相关决策时，考虑长期健康影响\n5. 教育选择：为子女或自己选择教育路径时，评估不同时间维度的收益。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <!-- 时间透镜 -->\r\n      <g transform=\"translate(500, 300)\">\r\n        <g transform=\"translate(-300, 0)\">\r\n          <circle r=\"80\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"2\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">10 分钟后</text>\r\n          <text y=\"30\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 9px; opacity: 0.6;\">情绪的冲动期</text>\r\n        </g>\r\n        \r\n        <g transform=\"translate(0, 0)\">\r\n          <circle r=\"100\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"4\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">10 个月后</text>\r\n          <text y=\"30\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 9px; opacity: 0.6;\">价值的阵痛期</text>\r\n          <circle r=\"120\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"1\" stroke-dasharray=\"5 5\" class=\"animate-spin\" style=\"animation-duration: 20s;\" />\r\n        </g>\r\n\r\n        <g transform=\"translate(300, 0)\">\r\n          <circle r=\"80\" fill=\"none\" stroke=\"#10b981\" stroke-width=\"2\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"#10b981\" style=\"font-size: 14px; font-weight: 900;\">10 年后</text>\r\n          <text y=\"30\" text-anchor=\"middle\" fill=\"#10b981\" style=\"font-size: 9px; opacity: 0.6;\">长远的生命价值</text>\r\n        </g>\r\n\r\n        <path d=\"M-400,0 L-380,0 M380,0 L400,0\" stroke=\"#1e293b\" stroke-width=\"1\" opacity=\"0.1\" />\r\n      </g>\r\n      <text x=\"500\" y=\"520\" text-anchor=\"middle\" fill=\"#1e293b\" style=\"font-size: 14px; font-weight: 900; letter-spacing: 0.5em; opacity: 0.3;\">DEc我S我ON F我LTER THROUGH T我ME</text>\r\n    </svg>\n</div>"
+}

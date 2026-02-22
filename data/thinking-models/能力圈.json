@@ -1,0 +1,13 @@
+{
+  "id": "能力圈",
+  "name": "能力圈",
+  "label": "能力圈",
+  "icon": "BrainCircuit",
+  "description": "\"看清自己的边界，比拥有广博的知识更具生存价值。\" 这个由巴菲特提出的模型强调了在认知边缘保持诚实的重要性。",
+  "deepAnalysis": "能力圈（Circle of Competence）是沃伦·巴菲特和查理·芒格投资哲学的核心概念。核心洞见：看清自己的边界，比拥有广博的知识更具生存价值。\n\n核心原则：\n- 知道自己知道什么\n- 知道自己不知道什么\n- 只在自己懂的领域做决策\n\n能力圈的边界：\n- 内圈：完全精通，可以自信决策\n- 边缘：部分了解，需要更多研究\n- 外圈：完全不懂，坚决避免\n\n巴菲特名言：'投资并不需要你通晓万物，只需要你对自己认知的边界有清醒的认识。'",
+  "principle": "1. 边界意识：清楚知道自己能力的边界\n2. 诚实面对：对自己不知道的事情保持诚实\n3. 专注深耕：在能力圈内深耕而非扩张\n4. 持续学习：有意识地扩展能力圈\n5. 避免越界：不在能力圈外做重大决策",
+  "scope": "投资决策、职业规划、创业选择、技能发展、战略制定、风险管理",
+  "tips": "1. 绘制边界：明确列出自己真正懂的领域\n2. 诚实面对：承认自己不懂的领域\n3. 专注深耕：在能力圈内做深做精\n4. 谨慎扩展：有意识地扩展能力圈\n5. 寻求帮助：在圈外寻求专家意见",
+  "practice": "将能力圈应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\n        <defs>\n          <radialGradient id=\"competenceGlow\"><stop offset=\"0%\" stop-color=\"var(--primary-color)\" stop-opacity=\"0.3\" /><stop offset=\"100%\" stop-color=\"var(--primary-color)\" stop-opacity=\"0\" /></radialGradient>\n        </defs>\n        \n        <!-- 知识荒野 -->\n        <circle cx=\"500\" cy=\"300\" r=\"280\" fill=\"none\" stroke=\"var(--text-primary)\" stroke-width=\"1\" stroke-dasharray=\"2 10\" opacity=\"0.1\" />\n        <text x=\"500\" y=\"60\" text-anchor=\"middle\" fill=\"var(--text-secondary)\" opacity=\"0.2\" style=\"font-size: 12px; font-weight: 900; letter-spacing: 0.3em;\">UNKNOWN / ILLUSION</text>\n\n        <!-- 核心能力圈 -->\n        <g transform=\"translate(500, 300)\">\n          <circle r=\"120\" fill=\"url(#competenceGlow)\" class=\"animate-pulse\" />\n          <circle r=\"120\" fill=\"none\" stroke=\"var(--primary-color)\" stroke-width=\"4\" stroke-dasharray=\"10 5\" />\n          <circle r=\"40\" fill=\"var(--primary-color)\" />\n          <text text-anchor=\"middle\" y=\"5\" fill=\"white\" style=\"font-size: 16px; font-weight: 900;\">核心</text>\n          \n          <!-- 边界雷达 -->\n          <line x1=\"0\" y1=\"0\" x2=\"0\" y2=\"-120\" stroke=\"var(--primary-color)\" stroke-width=\"2\">\n             <animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0\" to=\"360\" dur=\"5s\" repeatCount=\"indefinite\" />\n          </line>\n        </g>\n\n        <text x=\"500\" y=\"560\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 14px; font-weight: 900; letter-spacing: 0.5em;\">KNOW YOUR BOUNDARIES</text>\n      </svg>\n</div>"
+}

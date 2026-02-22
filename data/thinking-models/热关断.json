@@ -1,0 +1,13 @@
+{
+  "id": "热关断",
+  "name": "热关断",
+  "label": "散热止损机制",
+  "icon": "BrainCircuit",
+  "description": "当你陷入“想不通”、“极度焦虑”或“完美主义死循环”时，说明你的大脑 C计划U 已经过热降频了。此时继续思考只会产生更多的认知垃圾。立刻停止所有高阶逻辑运作，切换到低阶的、纯粹物理的、甚至不需要大脑参与的“散热模式”。",
+  "deepAnalysis": "这是一个思维模型，展示了热关断的核心概念和应用。",
+  "principle": "思维模型的核心原则：热关断",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将热关断应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 过热核心 -->\r\n        <circle r=\"120\" fill=\"#ef4444\" fill-opacity=\"0.1\">\r\n           <animate attributeName=\"fill-opacity\" values=\"0.1;0.4;0.1\" dur=\"1s\" repeatCount=\"indefinite\" />\r\n        </circle>\r\n        <text text-anchor=\"middle\" y=\"5\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">情绪过热 (THROTTL我NG)</text>\r\n        \r\n        <!-- 散热片: 机械性动作 -->\r\n        <g>\r\n          <rect x=\"-300\" y=\"-30\" width=\"150\" height=\"60\" rx=\"30\" fill=\"#ef4444\" />\r\n          <text x=\"-225\" y=\"10\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 14px; font-weight: 900;\">洗碗/拖地</text>\r\n          \r\n          <rect x=\"150\" y=\"-30\" width=\"150\" height=\"60\" rx=\"30\" fill=\"#ef4444\" />\r\n          <text x=\"225\" y=\"10\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 14px; font-weight: 900;\">整理文件夹</text>\r\n\r\n          <rect x=\"-75\" y=\"150\" width=\"150\" height=\"60\" rx=\"30\" fill=\"#ef4444\" />\r\n          <text x=\"0\" y=\"190\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 14px; font-weight: 900;\">强制静坐 10min</text>\r\n        </g>\r\n\r\n        <!-- 能量排出线 -->\r\n        <g stroke=\"#ef4444\" stroke-width=\"4\" opacity=\"0.4\">\r\n          <line x1=\"-120\" y1=\"0\" x2=\"-150\" y2=\"0\" /><line x1=\"120\" y1=\"0\" x2=\"150\" y2=\"0\" />\r\n        </g>\r\n\r\n        <text y=\"-250\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">逻辑不通？先物理散热</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

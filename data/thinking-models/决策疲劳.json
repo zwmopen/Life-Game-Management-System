@@ -1,0 +1,13 @@
+{
+  "id": "决策疲劳",
+  "name": "决策疲劳",
+  "label": "决策疲劳",
+  "icon": "BrainCircuit",
+  "description": "意志力是稀缺的生理资源。一天中你做的决定越多（哪怕是选午饭这种琐事），你大脑的“控制泵”就越无力，最终导致你在重大问题上选择阻力最小的平庸路径。",
+  "deepAnalysis": "决策疲劳（Decision Fatigue）揭示了意志力的稀缺性。核心洞见：意志力是稀缺的生理资源。一天中你做的决定越多（哪怕是选午饭这种琐事），你大脑的'控制泵'就越无力，最终导致你在重大问题上选择阻力最小的平庸路径。\n\n核心机制：\n- 意志力消耗：每个决策消耗意志力\n- 累积效应：决策越多，意志力越弱\n- 质量下降：疲劳导致决策质量下降\n- 默认选择：疲劳时倾向于默认选择\n\n典型表现：\n- 晚间决策：晚上做决策质量较差\n- 购物决策：购物后决策能力下降\n- 重要决策：在疲劳时做重要决策容易出错",
+  "principle": "1. 意志力有限：意志力是稀缺的生理资源\n2. 累积消耗：每个决策都会消耗意志力\n3. 质量下降：疲劳导致决策质量下降\n4. 默认选择：疲劳时倾向于默认选择\n5. 时机重要：在意志力充沛时做重要决策",
+  "scope": "时间管理、决策优化、工作效率、健康管理、购物消费、领导力",
+  "tips": "1. 重要决策优先：在意志力充沛时做重要决策\n2. 减少决策：减少不必要的日常决策\n3. 建立习惯：用习惯替代决策\n4. 休息恢复：定期休息恢复意志力\n5. 简化选择：简化选择减少决策负担",
+  "practice": "将决策疲劳应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\n          <!-- 意志力能量槽 -->\n          <g transform=\"translate(150, 100)\">\n            <rect width=\"700\" height=\"40\" rx=\"20\" fill=\"none\" stroke=\"var(--text-primary)\" stroke-width=\"2\" opacity=\"0.1\" />\n            <rect width=\"700\" height=\"40\" rx=\"20\" fill=\"var(--success-color)\">\n              <animate attributeName=\"width\" values=\"700;50;700\" dur=\"10s\" repeatCount=\"indefinite\" />\n              <animate attributeName=\"fill\" values=\"var(--success-color);var(--primary-color);var(--success-color)\" dur=\"10s\" repeatCount=\"indefinite\" />\n            </rect>\n            <text x=\"350\" y=\"25\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 16px; font-weight: 900;\">脑力能量 (EGO ENERGY)</text>\n          </g>\n          \n          <!-- 决策消耗路径 -->\n          <g transform=\"translate(150, 450)\">\n            <path d=\"M0,0 L150,-50 L300,0 L450,-80 L600,0 L750,-120\" fill=\"none\" stroke=\"var(--primary-color)\" stroke-width=\"8\" stroke-linecap=\"round\" opacity=\"0.3\" />\n            <g fill=\"var(--primary-color)\">\n               <circle cx=\"0\" cy=\"0\" r=\"10\" /><circle cx=\"150\" cy=\"-50\" r=\"10\" />\n               <circle cx=\"300\" cy=\"0\" r=\"10\" /><circle cx=\"450\" cy=\"-80\" r=\"10\" />\n               <circle cx=\"600\" cy=\"0\" r=\"10\" />\n               <g transform=\"translate(750, -120)\">\n                  <circle r=\"40\" fill=\"var(--primary-color)\" class=\"animate-ping\" />\n                  <text y=\"70\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 24px; font-weight: 900;\">选择默认选项 (逃避)</text>\n               </g>\n            </g>\n          </g>\n\n          <text x=\"500\" y=\"550\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.1em;\">每一次选择都在磨损你的IQ</text>\n        </svg>\n</div>"
+}

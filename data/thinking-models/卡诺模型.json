@@ -1,0 +1,14 @@
+{
+  "id": "卡诺模型",
+  "name": "卡诺模型",
+  "label": "卡诺模型",
+  "icon": "BrainCircuit",
+  "description": "并非所有功能都能带来同样的愉悦。Kano 模型通过解构功能实现度与用户满意度的关系，为优先级排布提供物理坐标。",
+  "deepAnalysis": "卡诺模型（Kano Model）由日本学者狩野纪昭提出，用于分析产品功能与用户满意度的关系。核心洞见：并非所有功能都能带来同样的愉悦。产品功能分为五类：基本型需求（必须有）、期望型需求（越多越好）、兴奋型需求（惊喜）、无差异需求（无所谓）、反向需求（越少越好）。这为产品优先级排布提供了科学框架。",
+  "principle": "1. 基本型需求：必须满足的基础需求，不满足会极度不满\n2. 期望型需求：用户明确期望的需求，满足程度与满意度成正比\n3. 兴奋型需求：超出期望的惊喜，能带来极高满意度\n4. 无差异需求：用户不在意的功能，投入产出比低\n5. 反向需求：用户不想要的功能，会降低满意度",
+  "scope": "产品管理、用户体验、功能优先级、需求分析、服务设计、市场竞争",
+  "tips": "1. 识别需求类型：通过用户调研识别需求类型\n2. 优先满足基本型：确保基本型需求不出问题\n3. 持续优化期望型：持续提升期望型需求的满足度\n4. 创造兴奋型：投入资源创造惊喜功能\n5. 避免反向需求：避免开发用户不想要的功能",
+  "practice": "1. 用户调研：通过问卷和访谈收集用户需求\n2. 分类整理：将需求按卡诺模型分类\n3. 优先级排序：按需求类型确定开发优先级\n4. 资源分配：合理分配开发资源\n5. 持续监测：定期重新评估需求类型",
+  "scenario": "1. 产品规划：确定产品功能的开发优先级\n2. 版本迭代：决定哪些功能优先开发\n3. 竞争分析：分析竞争对手的产品功能\n4. 用户调研：设计问卷识别需求类型\n5. 资源分配：合理分配有限的开发资源",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 800\">\r\n      <line x1=\"150\" y1=\"400\" x2=\"850\" y2=\"400\" stroke=\"#1e293b\" stroke-width=\"4\" opacity=\"0.1\" />\r\n      <line x1=\"500\" y1=\"100\" x2=\"500\" y2=\"700\" stroke=\"#1e293b\" stroke-width=\"4\" opacity=\"0.1\" />\r\n      \r\n      <!-- 期望型 -->\r\n      <line x1=\"200\" y1=\"650\" x2=\"800\" y2=\"150\" stroke=\"#3b82f6\" stroke-width=\"6\" stroke-dasharray=\"15 10\" opacity=\"0.4\" />\r\n      <text x=\"810\" y=\"140\" fill=\"#3b82f6\" style=\"font-size: 28px; font-weight: 900;\">期望型</text>\r\n      \r\n      <!-- 兴奋型 (核心) -->\r\n      <path d=\"M200,380 Q500,360 850,50\" fill=\"none\" stroke=\"#f59e0b\" stroke-width=\"12\" stroke-linecap=\"round\">\r\n         <animate attributeName=\"stroke-dasharray\" from=\"0,1000\" to=\"1000,0\" dur=\"4s\" repeatCount=\"indefinite\" />\r\n      </path>\r\n      <text x=\"860\" y=\"40\" fill=\"#f59e0b\" style=\"font-size: 36px; font-weight: 900;\">兴奋型!</text>\r\n      \r\n      <!-- 基本型 -->\r\n      <path d=\"M200,480 Q500,420 850,410\" fill=\"none\" stroke=\"#94a3b8\" stroke-width=\"6\" />\r\n      <text x=\"860\" y=\"420\" fill=\"#94a3b8\" style=\"font-size: 24px; font-weight: 900;\">基本型</text>\r\n      \r\n      <text x=\"900\" y=\"440\" text-anchor=\"end\" fill=\"#64748b\" style=\"font-size: 16px; font-weight: 900; opacity: 0.2;\">功能实现程度 →</text>\r\n      <text x=\"470\" y=\"120\" text-anchor=\"middle\" fill=\"#64748b\" style=\"font-size: 16px; font-weight: 900; opacity: 0.2;\" transform=\"rotate(-90 470 120)\">用户满意度 ↑</text>\r\n    </svg>\n</div>"
+}

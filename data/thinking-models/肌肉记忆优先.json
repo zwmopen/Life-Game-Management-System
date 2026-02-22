@@ -1,0 +1,13 @@
+{
+  "id": "肌肉记忆优先",
+  "name": "肌肉记忆优先",
+  "label": "肌肉记忆优先律",
+  "icon": "BrainCircuit",
+  "description": "所谓大师，就是把复杂的决策“硬核化”到脊髓里的人。居家工作的终极境界是：你不需要“想”怎么剪视频，你的手看到素材会自动开始切。当你把产出降级为一种生理性的肌肉运动，你便消灭了所有的决策成本。",
+  "deepAnalysis": "这是一个思维模型，展示了肌肉记忆优先的核心概念和应用。",
+  "principle": "思维模型的核心原则：肌肉记忆优先",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将肌肉记忆优先应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 逻辑层 (上 - 慢、耗能) -->\r\n        <g transform=\"translate(0, -180)\">\r\n          <path d=\"M-150,0 Q0,-50 150,0\" fill=\"none\" stroke=\"#94a3b8\" stroke-width=\"2\" stroke-dasharray=\"5 5\" opacity=\"0.2\" />\r\n          <text text-anchor=\"middle\" y=\"0\" fill=\"#94a3b8\" style=\"font-size: 14px; font-weight: 900;\">逻辑决策 (系统 2)</text>\r\n          <text y=\"25\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 10px;\">耗时 5 分钟、痛苦</text>\r\n        </g>\r\n        \r\n        <!-- 转换漏斗 -->\r\n        <path d=\"M-50,-130 L-20,-50 M50,-130 L20,-50\" stroke=\"#ef4444\" stroke-width=\"2\" opacity=\"0.3\" />\r\n\r\n        <!-- 肌肉层 (下 - 快、本能) -->\r\n        <g>\r\n          <circle r=\"100\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 40px #ef4444)\" />\r\n          <path d=\"M-40,0 L0,40 L60,-40\" fill=\"none\" stroke=\"white\" stroke-width=\"12\" stroke-linecap=\"round\" />\r\n          <text y=\"150\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">肌肉反射 (系统 1)</text>\r\n          <text y=\"180\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">耗时 0.1 秒、无感</text>\r\n        </g>\r\n\r\n        <circle r=\"180\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"1\" class=\"animate-ping\" />\r\n        <text y=\"-280\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 36px; font-weight: 900;\">让产出成为一种生理排泄</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "福格行为模型",
+  "name": "福格行为模型",
+  "label": "福格行为模型",
+  "icon": "BrainCircuit",
+  "description": "行为的产生需要：动机 (Motivation)、能力 (Ability) 和 触发 (计划rompt) 三者在同一瞬间协同作用。",
+  "deepAnalysis": "这是一个思维模型，展示了福格行为模型的核心概念和应用。",
+  "principle": "思维模型的核心原则：福格行为模型",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将福格行为模型应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <!-- 坐标轴 -->\r\n      <line x1=\"150\" y1=\"500\" x2=\"850\" y2=\"500\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n      <line x1=\"150\" y1=\"500\" x2=\"150\" y2=\"100\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n      <text x=\"850\" y=\"530\" text-anchor=\"end\" fill=\"#64748b\" opacity=\"0.4\" style=\"font-size: 10px; font-weight: 900;\">能力 (简单度) →</text>\r\n      <text x=\"130\" y=\"100\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.4\" style=\"font-size: 10px; font-weight: 900;\" transform=\"rotate(-90 130 100)\">动机 (渴望度) ↑</text>\r\n\r\n      <!-- 行为阈值线 -->\r\n      <path d=\"M150,500 Q150,150 850,150\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"2\" stroke-dasharray=\"10 5\" opacity=\"0.3\" />\r\n      <text x=\"350\" y=\"300\" fill=\"#ef4444\" opacity=\"0.2\" style=\"font-size: 14px; font-weight: 900; letter-spacing: 1em;\" transform=\"rotate(-30 350 300)\">ACT我ON THRESHOLd</text>\r\n\r\n      <!-- 行为发生点 (火箭) -->\r\n      <g transform=\"translate(600, 250)\">\r\n        <animateTransform attributeName=\"transform\" type=\"translate\" values=\"600,250; 600,240; 600,250\" dur=\"2s\" repeatCount=\"indefinite\" />\r\n        <circle r=\"50\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 20px #ef4444)\" />\r\n        <text text-anchor=\"middle\" y=\"5\" fill=\"white\" style=\"font-size: 14px; font-weight: 900;\">B=MA计划</text>\r\n        <circle r=\"70\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"1\" class=\"animate-ping\" />\r\n      </g>\r\n      \r\n      <!-- 提示点 -->\r\n      <g transform=\"translate(600, 250)\">\r\n        <circle r=\"5\" cy=\"80\" fill=\"#fbbf24\" class=\"animate-bounce\" />\r\n        <text y=\"105\" text-anchor=\"middle\" fill=\"#fbbf24\" style=\"font-size: 10px; font-weight: 900;\">计划ROM计划T (提示)</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

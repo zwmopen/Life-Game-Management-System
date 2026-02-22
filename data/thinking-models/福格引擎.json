@@ -1,0 +1,13 @@
+{
+  "id": "福格引擎",
+  "name": "福格引擎",
+  "label": "福格行为引擎",
+  "icon": "BrainCircuit",
+  "description": "解决“启动难”的终极诊断工具。如果你没去洗澡或没做视频，不要责怪意志力。去看：是不是动机（M）太弱？是不是能力门槛（A）太高？还是根本没有触发信号（T）？",
+  "deepAnalysis": "这是一个思维模型，展示了福格引擎的核心概念和应用。",
+  "principle": "思维模型的核心原则：福格引擎",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将福格引擎应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 动机仪表 (Motivation) -->\r\n        <g transform=\"translate(-250, 0)\">\r\n          <circle r=\"80\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"8\" opacity=\"0.2\" />\r\n          <path d=\"M-80,0 A80,80 0 0,1 0,-80\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"8\" />\r\n          <text y=\"120\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">动机 (LOW)</text>\r\n          <text y=\"145\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.5\" style=\"font-size: 10px;\">不想动、怕困难</text>\r\n        </g>\r\n        \r\n        <!-- 能力仪表 (Ability) -->\r\n        <g transform=\"translate(0, 0)\">\r\n          <circle r=\"80\" fill=\"none\" stroke=\"#3b82f6\" stroke-width=\"8\" opacity=\"0.2\" />\r\n          <path d=\"M-80,0 A80,80 0 1,1 80,0\" fill=\"none\" stroke=\"#3b82f6\" stroke-width=\"8\" />\r\n          <text y=\"120\" text-anchor=\"middle\" fill=\"#3b82f6\" style=\"font-size: 24px; font-weight: 900;\">能力 (MEd)</text>\r\n          <text y=\"145\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.5\" style=\"font-size: 10px;\">任务太重、颗粒度粗</text>\r\n        </g>\r\n\r\n        <!-- 触发器 (Trigger) -->\r\n        <g transform=\"translate(250, 0)\">\r\n          <rect x=\"-40\" y=\"-40\" width=\"80\" height=\"80\" rx=\"10\" fill=\"#fbbf24\" class=\"animate-ping\" />\r\n          <text y=\"120\" text-anchor=\"middle\" fill=\"#fbbf24\" style=\"font-size: 24px; font-weight: 900;\">触发 (OFF)</text>\r\n          <text y=\"145\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.5\" style=\"font-size: 10px;\">缺乏启动信号</text>\r\n        </g>\r\n\r\n        <text y=\"-220\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">行为没发生？请C参数</text>\r\n        <text y=\"-180\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.4\" style=\"font-size: 48px; font-weight: 900;\">B = MA计划</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

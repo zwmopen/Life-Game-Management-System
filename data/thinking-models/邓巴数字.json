@@ -1,0 +1,14 @@
+{
+  "id": "邓巴数字",
+  "name": "邓巴数字",
+  "label": "邓巴数字",
+  "icon": "BrainCircuit",
+  "description": "你可以拥有一万个粉丝，但你的大脑新皮层只够支撑 150 段真实的社交关系。这是认知的物理天花板。",
+  "deepAnalysis": "邓巴数字（Dunbar's Number）揭示了人类社交的认知极限。核心洞见：你可以拥有一万个粉丝，但你的大脑新皮层只够支撑150段真实的社交关系。这是认知的物理天花板。超过这个数字，关系就会从真实变为虚假，从深度变为浅层。",
+  "principle": "1. 认知极限：大脑社交处理能力有限\n2. 150人上限：真实社交关系上限\n3. 质量优先：质量比数量重要\n4. 深度关系：深度关系需要投入\n5. 认知资源：社交需要认知资源",
+  "scope": "社交管理、团队建设、组织设计、人际关系、社区运营、社交网络",
+  "tips": "1. 认识极限：认识社交认知极限\n2. 质量优先：优先维护深度关系\n3. 分层管理：分层管理社交关系\n4. 投入资源：投入认知资源维护关系\n5. 定期清理：定期清理无效关系",
+  "practice": "1. 盘点关系：盘点现有社交关系\n2. 分层管理：按邓巴层级分层管理\n3. 优先核心：优先维护核心关系\n4. 投入资源：投入资源维护关系\n5. 定期清理：定期清理无效关系",
+  "scenario": "1. 社交管理：管理个人社交关系\n2. 团队建设：设计团队规模\n3. 组织设计：设计组织结构\n4. 社区运营：运营社区关系\n5. 社交网络：设计社交网络",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 700\">\r\n      <g transform=\"translate(500, 350)\">\r\n        <circle r=\"320\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"1\" stroke-dasharray=\"10 20\" opacity=\"0.1\" />\r\n        <circle r=\"220\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"1\" stroke-dasharray=\"10 20\" opacity=\"0.2\" />\r\n        <circle r=\"120\" fill=\"none\" stroke=\"#f43f5e\" stroke-width=\"2\" opacity=\"0.1\" />\r\n        <circle r=\"50\" fill=\"none\" stroke=\"#f43f5e\" stroke-width=\"4\" />\r\n\r\n        <circle r=\"15\" fill=\"#f43f5e\" class=\"animate-pulse\" />\r\n        \r\n        <g fill=\"#1e293b\" font-weight=\"900\" style=\"letter-spacing: 0.1em;\">\r\n           <text y=\"40\" text-anchor=\"middle\" style=\"font-size: 28px;\">5 (亲密)</text>\r\n           <text y=\"140\" text-anchor=\"middle\" opacity=\"0.6\" style=\"font-size: 32px;\">15 (挚友)</text>\r\n           <text y=\"240\" text-anchor=\"middle\" opacity=\"0.4\" style=\"font-size: 36px;\">50 (熟人)</text>\r\n           <text y=\"340\" text-anchor=\"middle\" fill=\"#f43f5e\" style=\"font-size: 48px;\">150 (极限)</text>\r\n        </g>\r\n      </g>\r\n      <text x=\"500\" y=\"50\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.2\" style=\"font-size: 20px; font-weight: 900; letter-spacing: 0.5em;\">THE COGN我T我VE L我M我T OF SOC我AL CONNECT我ONS</text>\r\n    </svg>\n</div>"
+}

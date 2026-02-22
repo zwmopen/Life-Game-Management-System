@@ -1,0 +1,14 @@
+{
+  "id": "许可营销",
+  "name": "许可营销",
+  "label": "许可营销",
+  "icon": "BrainCircuit",
+  "description": "赛斯·高汀认为：现代营销的本质是引导。通过尊重用户，先获得其“关注并接收更多信息”的明确许可，从而将原本对立的“推销关系”转化为共赢的“朋友关系”。",
+  "deepAnalysis": "许可营销（Permission Marketing）由赛斯·高汀提出。核心洞见：传统的打扰式营销已经失效。真正的营销应该先获得潜在客户的许可，然后通过持续提供价值来建立信任关系。许可营销将陌生人转化为朋友，将朋友转化为终身客户。",
+  "principle": "1. 获得许可：先获得客户许可\n2. 提供价值：持续提供价值\n3. 建立信任：建立信任关系\n4. 逐步深入：逐步加深关系\n5. 终身客户：转化为终身客户",
+  "scope": "营销策略、品牌建设、客户关系、内容营销、社交媒体、电子邮件营销",
+  "tips": "1. 请求许可：请求客户许可\n2. 提供价值：持续提供价值\n3. 尊重信任：尊重客户信任\n4. 逐步深入：逐步加深关系\n5. 长期视角：用长期视角做营销",
+  "practice": "1. 设计诱饵：设计获取许可的诱饵\n2. 获得许可：获得客户许可\n3. 提供价值：持续提供价值\n4. 建立关系：建立信任关系\n5. 转化销售：适时转化销售",
+  "scenario": "1. 内容营销：建立内容订阅\n2. 电子邮件：建立邮件列表\n3. 社交媒体：建立粉丝关系\n4. 品牌建设：建立品牌信任\n5. 客户关系：维护客户关系",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 漏斗各层级 (深度转化) -->\r\n        <g opacity=\"0.1\" fill=\"#1e293b\">\r\n          <path d=\"M-400,-250 L400,-250 L100,250 L-100,250 Z\" />\r\n        </g>\r\n        \r\n        <!-- 陌生人区 (中断式营销) -->\r\n        <g transform=\"translate(0, -200)\" opacity=\"0.3\">\r\n          <text text-anchor=\"middle\" style=\"font-size: 14px;\">陌生人 (噪音干扰)</text>\r\n        </g>\r\n\r\n        <!-- 许可建立时刻 -->\r\n        <g transform=\"translate(0, -50)\">\r\n          <path d=\"M-150,0 L150,0\" stroke=\"#fbbf24\" stroke-width=\"4\" stroke-dasharray=\"10 5\" />\r\n          <circle r=\"40\" fill=\"#fbbf24\" filter=\"drop-shadow(0 0 25px #fbbf24)\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"#451a03\" style=\"font-size: 12px; font-weight: 900;\">获得许可</text>\r\n          <text y=\"70\" text-anchor=\"middle\" fill=\"#fbbf24\" style=\"font-size: 18px; font-weight: 900;\">从“狩猎”转向“约会”</text>\r\n        </g>\r\n\r\n        <!-- 朋友与忠粉 (深层连接) -->\r\n        <g transform=\"translate(0, 180)\">\r\n          <circle r=\"100\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"2\" />\r\n          <path d=\"M-30,0 Q0,40 30,0\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"8\" stroke-linecap=\"round\" />\r\n          <text text-anchor=\"middle\" y=\"50\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">资产化粉丝 (Assets)</text>\r\n        </g>\r\n\r\n        <text y=\"-280\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 28px; font-weight: 900; letter-spacing: 0.2em;\">不请自来是骚扰，被期待是资产</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

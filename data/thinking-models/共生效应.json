@@ -1,0 +1,13 @@
+{
+  "id": "共生效应",
+  "name": "共生效应",
+  "label": "共生效应",
+  "icon": "BrainCircuit",
+  "description": "指两个及以上的系统或个体在一起时，由于相互吸引、相互激励，其整体效能会远高于个体效能的简单加总。",
+  "deepAnalysis": "共生效应（Symbiosis Effect）指两个及以上的系统或个体在一起时，由于相互吸引、相互激励，其整体效能会远高于个体效能的简单加总。核心洞见：合作不是简单的1+1=2，而是通过互补和协同创造更大的价值。",
+  "principle": "1. 互补协同：通过互补创造价值\n2. 相互促进：相互激励共同成长\n3. 整体大于部分：整体效能高于个体总和\n4. 长期稳定：建立长期稳定的合作关系\n5. 互利共赢：确保各方都能获益",
+  "scope": "商业合作、组织管理、团队建设、个人发展、生态系统、国际关系",
+  "tips": "1. 寻找互补：寻找互补的合作伙伴\n2. 建立信任：建立深厚的信任关系\n3. 明确分工：明确各自的职责\n4. 互利共赢：确保各方都能获益\n5. 长期维护：长期维护合作关系",
+  "practice": "1. 识别互补：识别互补的伙伴\n2. 建立关系：建立合作关系\n3. 明确分工：明确分工和责任\n4. 协同行动：协同行动\n5. 持续优化：持续优化合作模式",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 800 600\">\r\n      <!-- 齿轮 A (旋转) -->\r\n      <g transform=\"translate(300, 300)\" class=\"animate-spin\" style=\"animation-duration: 10s;\">\r\n        <circle r=\"80\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"2\" stroke-dasharray=\"20 10\" />\r\n        <circle r=\"60\" fill=\"#1e293b\" opacity=\"0.1\" />\r\n        <text text-anchor=\"middle\" y=\"5\" fill=\"#1e293b\" style=\"font-size: 10px; font-weight: 900;\">个体 A</text>\r\n      </g>\r\n\r\n      <!-- 齿轮 B (反向旋转) -->\r\n      <g transform=\"translate(455, 300)\" class=\"animate-spin\" style=\"animation-duration: 10s; animation-direction: reverse;\">\r\n        <circle r=\"80\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"2\" stroke-dasharray=\"20 10\" />\r\n        <circle r=\"60\" fill=\"#ef4444\" opacity=\"0.1\" />\r\n        <text text-anchor=\"middle\" y=\"5\" fill=\"#ef4444\" style=\"font-size: 10px; font-weight: 900;\">个体 B</text>\r\n      </g>\r\n\r\n      <!-- 共生产生的巨大能量球 -->\r\n      <g transform=\"translate(377, 300)\">\r\n        <circle r=\"120\" fill=\"#ef4444\" fill-opacity=\"0.05\" class=\"animate-pulse\" />\r\n        <path d=\"M-50,0 L50,0 M0,-50 L0,50\" stroke=\"white\" stroke-width=\"4\" opacity=\"0.2\" />\r\n        <text y=\"160\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 20px; font-weight: 900;\">1 + 1 > 2</text>\r\n      </g>\r\n\r\n      <text x=\"400\" y=\"550\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 10px; font-weight: 900; letter-spacing: 0.5em;\">相互放大系统</text>\r\n    </svg>\n</div>"
+}

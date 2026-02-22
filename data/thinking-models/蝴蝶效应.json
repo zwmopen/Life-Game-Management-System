@@ -1,0 +1,13 @@
+{
+  "id": "蝴蝶效应",
+  "name": "蝴蝶效应",
+  "label": "蝴蝶效应",
+  "icon": "BrainCircuit",
+  "description": "指在一个动态系统中，初始条件的微小变化，经过系统的不断放大，长期来看可能导致极其巨大的连锁反应。世界是混沌且敏感的。",
+  "deepAnalysis": "蝴蝶效应（Butterfly Effect）是混沌理论的核心概念，由气象学家爱德华·洛伦兹于1963年提出。核心洞见：在一个动态系统中，初始条件的微小变化，经过系统的不断放大，长期来看可能导致极其巨大的连锁反应。\n\n经典比喻：一只南美洲的蝴蝶扇动翅膀，可能两周后在美国德克萨斯引起一场龙卷风。\n\n核心机制：\n- 敏感依赖：系统对初始条件极度敏感\n- 非线性放大：微小变化被非线性系统放大\n- 不可预测：长期预测变得不可能\n\n应用价值：\n- 决策谨慎：小决策可能有大影响\n- 系统思维：关注系统整体而非局部\n- 拥抱不确定性：接受长期预测的局限",
+  "principle": "1. 敏感依赖：系统对初始条件极度敏感\n2. 非线性放大：微小变化可能被无限放大\n3. 不可预测性：长期预测变得不可能\n4. 系统互联：万物互联，牵一发而动全身\n5. 谨慎决策：小决策可能有大影响",
+  "scope": "战略规划、风险管理、系统设计、天气预报、经济预测、社会分析",
+  "tips": "1. 关注细节：小细节可能有大影响\n2. 系统思维：从系统角度思考问题\n3. 短期预测：专注于短期可预测的范围\n4. 情景规划：为多种可能性做准备\n5. 敏捷调整：根据变化快速调整",
+  "practice": "将蝴蝶效应应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 800 600\">\n        <!-- 蝴蝶 (微小波动源) -->\n        <g transform=\"translate(100, 300)\">\n          <path d=\"M-20,-20 Q0,-40 20,-20 Q40,0 20,20 Q0,40 -20,20 Z\" fill=\"var(--primary-color)\" fill-opacity=\"0.6\">\n             <animateTransform attributeName=\"transform\" type=\"scale\" values=\"1;1.2;1\" dur=\"0.2s\" repeatCount=\"indefinite\" />\n          </path>\n          <text y=\"50\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 10px; font-weight: 900;\">0.0001% 误差</text>\n        </g>\n        \n        <!-- 能量放大链 -->\n        <path d=\"M140,300 Q250,280 400,300 T700,100\" fill=\"none\" stroke=\"var(--primary-color)\" stroke-width=\"2\" stroke-dasharray=\"10 5\" opacity=\"0.3\" />\n        \n        <!-- 最终风暴 (巨大的旋涡) -->\n        <g transform=\"translate(600, 300)\">\n          <circle r=\"150\" fill=\"none\" stroke=\"var(--primary-color)\" stroke-width=\"1\" class=\"animate-spin\" style=\"animation-duration: 3s;\" />\n          <circle r=\"100\" fill=\"none\" stroke=\"var(--primary-color)\" stroke-width=\"2\" stroke-dasharray=\"20 10\" class=\"animate-spin\" style=\"animation-duration: 2s;\" />\n          <circle r=\"50\" fill=\"var(--primary-color)\" fill-opacity=\"0.1\" />\n          <text y=\"180\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 24px; font-weight: 900;\">GLOBAL STORM</text>\n        </g>\n\n        <text x=\"400\" y=\"550\" text-anchor=\"middle\" fill=\"var(--text-secondary)\" opacity=\"0.3\" style=\"font-size: 10px; font-weight: 900; letter-spacing: 0.5em;\">NON-LINEAR CHAOS SYSTEM</text>\n      </svg>\n</div>"
+}

@@ -1,0 +1,14 @@
+{
+  "id": "图灵图案",
+  "name": "图灵图案",
+  "label": "图灵模式",
+  "icon": "BrainCircuit",
+  "description": "计算机之父阿兰·图灵在生命科学领域的最后巅峰：形态发生。他用纯数学证明了两种简单的化学物质（激活剂与抑制剂）在空间中的相互扩散，能自发打破平衡，形成精美的周期性图案。复杂的美感源于极简的规则。",
+  "deepAnalysis": "图灵图案（Turing Pattern）由艾伦·图灵提出，解释了自然界中斑纹图案的形成机制。核心洞见：简单的化学反应规则可以产生复杂的图案。两种化学物质（激活剂和抑制剂）的扩散和反应，能够自发形成豹纹、斑马纹等复杂图案。这揭示了复杂系统如何从简单规则中涌现出秩序。",
+  "principle": "1. 激活与抑制：激活剂促进自身和抑制剂产生\n2. 扩散差异：抑制剂扩散更快\n3. 自发秩序：简单规则产生复杂图案\n4. 涌现特性：整体特性不能从局部推导\n5. 稳定模式：系统自发形成稳定的空间模式",
+  "scope": "生物学、复杂系统、模式识别、人工智能、系统设计、组织管理",
+  "tips": "1. 寻找简单规则：复杂现象背后可能有简单规则\n2. 理解激活抑制：理解系统的激活和抑制机制\n3. 关注涌现：关注从简单规则涌现的复杂特性\n4. 利用自组织：利用系统的自组织能力\n5. 设计规则：设计能产生期望结果的简单规则",
+  "practice": "1. 分析系统：分析系统的激活和抑制机制\n2. 识别规则：识别产生复杂现象的简单规则\n3. 设计干预：设计干预点影响系统行为\n4. 观察涌现：观察从规则涌现的特性\n5. 迭代优化：迭代优化规则",
+  "scenario": "1. 生物形态：理解生物斑纹的形成\n2. 组织设计：设计能自发形成秩序的组织\n3. 市场分析：理解市场模式的形成\n4. 人工智能：设计能产生复杂行为的简单规则\n5. 社会系统：理解社会模式的涌现",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 模拟反应-扩散点阵 -->\r\n        <g opacity=\"0.8\">\r\n          <circle cx=\"-150\" cy=\"-150\" r=\"40\" fill=\"#ef4444\" class=\"animate-pulse\" />\r\n          <circle cx=\"-250\" cy=\"50\" r=\"25\" fill=\"#ef4444\" style=\"animation-delay: 0.5s\" class=\"animate-pulse\" />\r\n          <circle cx=\"100\" cy=\"180\" r=\"50\" fill=\"#ef4444\" style=\"animation-delay: 1s\" class=\"animate-pulse\" />\r\n          <circle cx=\"280\" cy=\"-100\" r=\"30\" fill=\"#ef4444\" style=\"animation-delay: 1.5s\" class=\"animate-pulse\" />\r\n          <circle cx=\"0\" cy=\"0\" r=\"60\" fill=\"#ef4444\" />\r\n        </g>\r\n        \r\n        <!-- 扩散场线 -->\r\n        <g stroke=\"#1e293b\" stroke-width=\"1\" opacity=\"0.1\">\r\n          <circle r=\"300\" fill=\"none\" />\r\n          <line x1=\"-300\" y1=\"0\" x2=\"300\" y2=\"0\" /><line x1=\"0\" y1=\"-300\" x2=\"0\" y2=\"300\" />\r\n        </g>\r\n\r\n        <text y=\"280\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 42px; font-weight: 900; letter-spacing: 0.1em;\">形态发生：数学的画笔</text>\r\n        <text y=\"315\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.5\" style=\"font-size: 14px;\">简单反应 + 空间扩散 = 豹点与条纹</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

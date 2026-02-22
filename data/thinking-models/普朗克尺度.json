@@ -1,0 +1,13 @@
+{
+  "id": "普朗克尺度",
+  "name": "普朗克尺度",
+  "label": "普朗克尺度思维",
+  "icon": "BrainCircuit",
+  "description": "宇宙不是无限可分的。当空间缩小到 10⁻³⁵ 米（普朗克长度），时间缩小到 10⁻⁴³ 秒（普朗克时间），我们熟悉的物理定律和“连续性”概念会彻底崩溃。世界在最底层是由不可分割的、离散的“像素点”构成的。",
+  "deepAnalysis": "这是一个思维模型，展示了普朗克尺度的核心概念和应用。",
+  "principle": "思维模型的核心原则：普朗克尺度",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将普朗克尺度应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 缩放漏斗 -->\r\n        <path d=\"M-450,-200 L-50,0 M450,-200 L50,0\" stroke=\"#1e293b\" stroke-width=\"1\" opacity=\"0.1\" stroke-dasharray=\"5 5\" />\r\n        \r\n        <!-- 宏观世界 (平滑感) -->\r\n        <g transform=\"translate(0, -200)\" opacity=\"0.2\">\r\n           <path d=\"M-300,0 Q0,50 300,0\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"4\" />\r\n           <text y=\"-30\" text-anchor=\"middle\" style=\"font-size: 14px;\">宏观世界：平滑、连续、可分</text>\r\n        </g>\r\n\r\n        <!-- 普朗克极限 (离散网格) -->\r\n        <g transform=\"translate(0, 50)\">\r\n          <rect x=\"-100\" y=\"-100\" width=\"200\" height=\"200\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"2\" opacity=\"0.3\" />\r\n          <g fill=\"#ef4444\">\r\n            <rect x=\"-80\" y=\"-80\" width=\"20\" height=\"20\" rx=\"2\" class=\"animate-pulse\" />\r\n            <rect x=\"60\" y=\"60\" width=\"20\" height=\"20\" rx=\"2\" class=\"animate-pulse\" style=\"animation-delay: 0.5s\" />\r\n            <rect x=\"-20\" y=\"-20\" width=\"40\" height=\"40\" rx=\"5\" filter=\"drop-shadow(0 0 20px #ef4444)\" />\r\n          </g>\r\n          <text y=\"140\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">量子像素 (计划LaNcK)</text>\r\n          <text y=\"170\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">1.616 × 10⁻³⁵ m</text>\r\n        </g>\r\n\r\n        <text y=\"-280\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900; letter-spacing: 0.5em;\">世界的本质是颗粒状的</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

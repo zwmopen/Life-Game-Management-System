@@ -1,0 +1,13 @@
+{
+  "id": "科尔布循环",
+  "name": "科尔布循环",
+  "label": "库伯学习圈",
+  "icon": "BrainCircuit",
+  "description": "学习不是单纯的输入，而是经验的“炼金术”。唯有通过反思和实践的闭环，知识才能从短期记忆转化为本能能力。",
+  "deepAnalysis": "这是一个思维模型，展示了科尔布循环的核心概念和应用。",
+  "principle": "思维模型的核心原则：科尔布循环",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将科尔布循环应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <circle cx=\"500\" cy=\"300\" r=\"220\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"3\" stroke-dasharray=\"10 5\" opacity=\"0.2\">\r\n        <animate attributeName=\"stroke-dashoffset\" from=\"0\" to=\"100\" dur=\"10s\" repeatCount=\"indefinite\" />\r\n      </circle>\r\n      \r\n      <g transform=\"translate(500, 100)\">\r\n        <rect x=\"-100\" y=\"-40\" width=\"200\" height=\"80\" rx=\"15\" fill=\"#ef4444\" />\r\n        <text y=\"5\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 22px; font-weight: 900;\">1. 亲身体验</text>\r\n      </g>\r\n      <g transform=\"translate(750, 300)\">\r\n        <rect x=\"-100\" y=\"-40\" width=\"200\" height=\"80\" rx=\"15\" fill=\"#ef4444\" fill-opacity=\"0.8\" />\r\n        <text y=\"5\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 22px; font-weight: 900;\">2. 反思观察</text>\r\n      </g>\r\n      <g transform=\"translate(500, 500)\">\r\n        <rect x=\"-100\" y=\"-40\" width=\"200\" height=\"80\" rx=\"15\" fill=\"#ef4444\" fill-opacity=\"0.6\" />\r\n        <text y=\"5\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 22px; font-weight: 900;\">3. 抽象理论</text>\r\n      </g>\r\n      <g transform=\"translate(250, 300)\">\r\n        <rect x=\"-100\" y=\"-40\" width=\"200\" height=\"80\" rx=\"15\" fill=\"#10b981\" />\r\n        <text y=\"5\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 22px; font-weight: 900;\">4. 积极实践</text>\r\n      </g>\r\n      \r\n      <text x=\"500\" y=\"300\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.05\" style=\"font-size: 96px; font-weight: 900;\">LEaRN</text>\r\n    </svg>\n</div>"
+}

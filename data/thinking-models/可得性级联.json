@@ -1,0 +1,13 @@
+{
+  "id": "可得性级联",
+  "name": "可得性级联",
+  "label": "可用性级联",
+  "icon": "BrainCircuit",
+  "description": "谎言重复一千遍即成真理。一个简单的概念通过在公共对话中不断高频重复，会变得越来越“可得”，最终被社会集体自发认定为无可置疑的常识。",
+  "deepAnalysis": "可用性级联是一种社会现象，指一个观念或信念通过在公共话语中不断重复和传播，逐渐变得越来越容易被想起（可用），最终被广泛接受为真理，即使它可能没有事实依据。这种现象在社交媒体时代尤为明显。",
+  "principle": "可得性启发：人们倾向于根据信息的可得性（容易想起的程度）来判断其真实性和重要性。; ;           信息级联：一旦足够多的人开始相信某个观念，其他人会跟随这一趋势，形成自我强化的信息瀑布。; ;           社交认同：当看到其他人都相信某事时，个人会感到压力去认同，以避免社交排斥。; ;           声誉压力：公开质疑流行观念会带来社交成本，进一步强化了集体信念。",
+  "scope": "社交媒体和网络舆论, \n          政治宣传和公共关系, \n          市场营销和品牌建设, \n          新闻媒体和信息传播, \n          社会运动和集体行为, \n          认知心理学研究",
+  "tips": "1. 溯源思维：对于广泛传播的信息，尝试找到其原始来源和事实依据。; 2. 热度校准：意识到信息的流行度并不等同于其真实性。; 3. 多元信息源：从不同角度和来源获取信息，避免陷入单一视角。; 4. 延迟判断：在形成观点前，给予自己时间思考和验证信息。",
+  "practice": "在社交媒体上，对 viral 内容保持警惕，尤其是那些缺乏可靠来源的信息。; \n          培养批判性思维能力，学会区分事实、观点和谣言。; \n          在组织和团队中，鼓励多元视角和建设性质疑，避免群体思维。; \n          作为信息传播者，确保所分享的信息有可靠的事实依据。; \n          教育他人认识可用性级联现象，提高整个社会的媒体素养。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\" class=\"w-full h-auto\">\n        <g transform=\"translate(500, 300)\">\n          <circle r=\"50\" fill=\"var(--primary-color)\" />\n          <text y=\"10\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 16px; font-weight: 900;\">初始信号</text>\n          <circle r=\"50\" fill=\"none\" stroke=\"var(--primary-color)\" stroke-width=\"4\" opacity=\"0.5\">\n            <animate attributeName=\"r\" from=\"50\" to=\"450\" dur=\"4s\" repeatCount=\"indefinite\" />\n            <animate attributeName=\"opacity\" from=\"0.5\" to=\"0\" dur=\"4s\" repeatCount=\"indefinite\" />\n          </circle>\n          <circle r=\"50\" fill=\"none\" stroke=\"var(--primary-color)\" stroke-width=\"4\" opacity=\"0.5\" style=\"animation-delay: 2s\">\n            <animate attributeName=\"r\" from=\"50\" to=\"450\" dur=\"4s\" begin=\"2s\" repeatCount=\"indefinite\" />\n            <animate attributeName=\"opacity\" from=\"0.5\" to=\"0\" dur=\"4s\" begin=\"2s\" repeatCount=\"indefinite\" />\n          </circle>\n        </g>\n        <g opacity=\"0.3\" fill=\"var(--text-primary)\" font-weight=\"900\" style=\"font-size: 22px;\">\n          <text x=\"200\" y=\"150\" text-anchor=\"middle\">重复即真理</text>\n          <text x=\"800\" y=\"150\" text-anchor=\"middle\">社交认同</text>\n          <text x=\"200\" y=\"450\" text-anchor=\"middle\">舆论核爆</text>\n          <text x=\"800\" y=\"450\" text-anchor=\"middle\">认知蚕房</text>\n        </g>\n        <text x=\"500\" y=\"560\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 24px; font-weight: 900; letter-spacing: 0.3em;\">自我强化的集体信念体系</text>\n      </svg>\n</div>"
+}

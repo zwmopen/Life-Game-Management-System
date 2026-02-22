@@ -1,0 +1,13 @@
+{
+  "id": "沉默士兵",
+  "name": "沉默士兵",
+  "label": "哑巴士兵模式",
+  "icon": "BrainCircuit",
+  "description": "高认知者的通病是“想得太多”。在 09:00 - 22:00 之间，强行切断你的智力。你是没有名字、没有情绪、没有“为什么”的D机器。你的所有价值仅体现在清单的勾选速度上。",
+  "deepAnalysis": "这是一个思维模型，展示了沉默士兵的核心概念和应用。",
+  "principle": "思维模型的核心原则：沉默士兵",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将沉默士兵应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 思考大脑 (OFF) -->\r\n        <g transform=\"translate(-250, 0)\">\r\n          <path d=\"M-80,0 Q-80,-120 0,-120 T80,0 T0,120 T-80,0\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"5 5\" opacity=\"0.3\" />\r\n          <text y=\"5\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">逻辑脑 (已禁用)</text>\r\n          <path d=\"M-40,40 L40,-40 M-40,-40 L40,40\" stroke=\"#ef4444\" stroke-width=\"12\" stroke-linecap=\"round\" />\r\n        </g>\r\n        \r\n        <!-- 士兵身躯 (ON) -->\r\n        <g transform=\"translate(200, 0)\">\r\n          <rect x=\"-100\" y=\"-150\" width=\"200\" height=\"300\" rx=\"20\" fill=\"#1e293b\" />\r\n          <path d=\"M0,0 L0,250\" stroke=\"#10b981\" stroke-width=\"20\" opacity=\"0.1\" />\r\n          <text text-anchor=\"middle\" y=\"10\" fill=\"white\" style=\"font-size: 32px; font-weight: 900;\">哑巴士兵</text>\r\n          <text y=\"50\" text-anchor=\"middle\" fill=\"white\" opacity=\"0.6\" style=\"font-size: 12px;\">(只管开火，不问意义)</text>\r\n          <circle r=\"120\" fill=\"none\" stroke=\"#10b981\" stroke-width=\"2\" class=\"animate-ping\" />\r\n        </g>\r\n\r\n        <!-- 任务清单流 -->\r\n        <g transform=\"translate(-50, 0)\">\r\n          <rect x=\"-40\" y=\"-100\" width=\"80\" height=\"20\" rx=\"5\" fill=\"#10b981\" />\r\n          <rect x=\"-40\" y=\"-50\" width=\"80\" height=\"20\" rx=\"5\" fill=\"#10b981\" />\r\n          <rect x=\"-40\" y=\"0\" width=\"80\" height=\"20\" rx=\"5\" fill=\"#10b981\" />\r\n          <animateTransform attributeName=\"transform\" type=\"translate\" values=\"-50,0; 150,0\" dur=\"1s\" repeatCount=\"indefinite\" />\r\n        </g>\r\n\r\n        <text y=\"-250\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">白天不做决策，只管机械移动</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "破窗理论",
+  "name": "破窗理论",
+  "label": "破窗效应",
+  "icon": "BrainCircuit",
+  "description": "如果一扇窗户被打碎了而不及时修补，这种暗示“无人管理”的信号会诱导更多人去打碎剩下的窗户，最终导致环境的彻底崩坏。",
+  "deepAnalysis": "破窗理论（Broken Windows Theory）由犯罪学家詹姆斯·威尔逊和乔治·凯林于1982年提出。核心洞见：如果一扇窗户被打碎了而不及时修补，这种暗示'无人管理'的信号会诱导更多人去打碎剩下的窗户，最终导致环境的彻底崩坏。\n\n核心机制：\n- 信号传递：破窗传递'无人管理'的信号\n- 规范崩塌：小问题不处理，大问题会接踵而至\n- 恶性循环：环境恶化导致更多人破坏环境\n\n应用场景：\n- 城市管理：及时修复公共设施\n- 企业管理：及时处理小问题\n- 个人习惯：及时纠正坏习惯",
+  "principle": "1. 信号传递：破窗传递无人管理的信号\n2. 规范崩塌：小问题不处理会导致大问题\n3. 恶性循环：环境恶化导致更多破坏\n4. 及时修复：小问题要及时处理\n5. 零容忍：对违规行为零容忍",
+  "scope": "城市管理、企业管理、团队管理、个人习惯、社区治理、安全防范",
+  "tips": "1. 及时修复：发现小问题立即处理\n2. 零容忍：对违规行为零容忍\n3. 环境维护：保持环境的整洁有序\n4. 信号管理：传递正确的管理信号\n5. 定期检查：定期检查和修复问题",
+  "practice": "将破窗理论应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\n        <!-- 完整的秩序网格 -->\n        <g opacity=\"0.1\" stroke=\"var(--text-primary)\" stroke-width=\"1\">\n          <line x1=\"100\" y1=\"100\" x2=\"900\" y2=\"100\" /><line x1=\"100\" y1=\"200\" x2=\"900\" y2=\"200\" />\n          <line x1=\"100\" y1=\"300\" x2=\"900\" y2=\"300\" /><line x1=\"100\" y1=\"400\" x2=\"900\" y2=\"400\" />\n          <line x1=\"100\" y1=\"500\" x2=\"900\" y2=\"500\" />\n          <line x1=\"100\" y1=\"100\" x2=\"100\" y2=\"500\" /><line x1=\"300\" y1=\"100\" x2=\"300\" y2=\"500\" />\n          <line x1=\"500\" y1=\"100\" x2=\"500\" y2=\"500\" /><line x1=\"700\" y1=\"100\" x2=\"700\" y2=\"500\" />\n          <line x1=\"900\" y1=\"100\" x2=\"900\" y2=\"500\" />\n        </g>\n        \n        <!-- 裂纹中心 (破窗点) -->\n        <g transform=\"translate(500, 300)\">\n          <circle r=\"10\" fill=\"var(--primary-color)\" class=\"animate-ping\" />\n          <path d=\"M0,0 L-50,-80 M0,0 L60,-40 M0,0 L40,90 M0,0 L-100,20\" stroke=\"var(--primary-color)\" stroke-width=\"3\" stroke-linecap=\"round\">\n            <animate attributeName=\"stroke-dasharray\" from=\"0,200\" to=\"200,0\" dur=\"2s\" fill=\"freeze\" />\n          </path>\n          <text y=\"130\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 14px; font-weight: 900;\">第一道裂纹</text>\n        </g>\n\n        <!-- 产生的蝴蝶效应提示 -->\n        <g opacity=\"0.4\">\n          <text x=\"200\" y=\"200\" fill=\"var(--text-secondary)\" style=\"font-size: 10px;\">\"反正没人管\"</text>\n          <text x=\"800\" y=\"450\" fill=\"var(--text-secondary)\" style=\"font-size: 10px;\">秩序崩塌开始...</text>\n        </g>\n\n        <text x=\"500\" y=\"550\" text-anchor=\"middle\" fill=\"var(--text-secondary)\" opacity=\"0.3\" style=\"font-size: 12px; font-weight: 900; letter-spacing: 0.5em;\">ENVIRONMENT SHAPES BEHAVIOR</text>\n      </svg>\n</div>"
+}

@@ -1,0 +1,14 @@
+{
+  "id": "非标资产",
+  "name": "非标资产",
+  "label": "非标资产",
+  "icon": "BrainCircuit",
+  "description": "在这个生产力过剩的时代，所有能被标准化的东西（翻译、基础代码、初级绘图）都在迅速贬值。超级个体的生存之本是那些无法被规模化复刻的非标资产：你的个人声誉、你的真实经历、以及你与粉丝之间的深度情感链接。",
+  "deepAnalysis": "非标资产（Non-standard Assets）揭示了AI时代的生存之道。核心洞见：在这个生产力过剩的时代，所有能被标准化的东西（翻译、基础代码、初级绘图）都在迅速贬值。超级个体的生存之本是那些无法被规模化复刻的非标资产：你的个人声誉、你的真实经历、以及你与粉丝之间的深度情感链接。",
+  "principle": "1. 标准化贬值：标准化技能快速贬值\n2. 非标稀缺：非标资产越来越稀缺\n3. 个人声誉：声誉是不可复制的资产\n4. 真实经历：经历是独特的非标资产\n5. 情感链接：深度链接是核心壁垒",
+  "scope": "个人发展、职业规划、创业战略、品牌建设、内容创作、知识付费",
+  "tips": "1. 投资非标：投资非标资产建设\n2. 建立声誉：建立个人声誉\n3. 积累经历：积累独特经历\n4. 深度链接：建立深度情感链接\n5. 避免同质：避免同质化竞争",
+  "practice": "1. 盘点资产：盘点自己的非标资产\n2. 识别优势：识别独特的非标优势\n3. 持续投资：持续投资非标资产\n4. 建立壁垒：建立非标壁垒\n5. 价值变现：将非标资产变现",
+  "scenario": "1. 职业规划：发展非标核心能力\n2. 个人品牌：建设不可替代的品牌\n3. 内容创作：创作独特的内容\n4. 创业战略：建立非标竞争壁垒\n5. 知识付费：提供非标知识服务",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 标准资产 (灰色的规则堆叠 - 易被A我取代) -->\r\n        <g transform=\"translate(-300, 50)\" opacity=\"0.3\">\r\n          <rect x=\"-60\" y=\"-120\" width=\"120\" height=\"120\" fill=\"#94a3b8\" />\r\n          <text y=\"30\" text-anchor=\"middle\" style=\"font-size: 14px;\">标准化技能</text>\r\n        </g>\r\n        \r\n        <!-- 非标资产 (彩色的有机形态 - 核心壁垒) -->\r\n        <g transform=\"translate(150, 0)\">\r\n          <path d=\"M-120,-80 Q-60,-180 50,-120 T150,50 T0,180 T-150,0 Z\" fill=\"url(#nonStdGrad)\" filter=\"drop-shadow(0 0 50px #8b5cf6)\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"white\" style=\"font-size: 28px; font-weight: 900;\">非标资产</text>\r\n          <text y=\"50\" text-anchor=\"middle\" fill=\"white\" opacity=\"0.6\" style=\"font-size: 12px;\">(人格、信任、独特审美)</text>\r\n          <circle r=\"180\" fill=\"none\" stroke=\"#8b5cf6\" stroke-width=\"2\" stroke-dasharray=\"10 20\" class=\"animate-spin\" />\r\n        </g>\r\n\r\n        <text x=\"-400\" y=\"-220\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">A我 无法复制的 才是资产</text>\r\n      </g>\r\n      <defs>\r\n        <linearGradient id=\"nonStdGrad\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#8b5cf6\" /><stop offset=\"100%\" stop-color=\"#ec4899\" /></linearGradient>\r\n      </defs>\r\n    </svg>\n</div>"
+}

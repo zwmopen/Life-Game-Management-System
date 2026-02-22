@@ -1,0 +1,14 @@
+{
+  "id": "先开火再瞄准",
+  "name": "先开火再瞄准",
+  "label": "开枪先行律",
+  "icon": "BrainCircuit",
+  "description": "在不确定的迷雾中，通过“瞄准”获得的精度是虚假的，因为风向和猎物在变。通过“开枪”获得的精度是真实的，因为第一发子弹的落点，就是你修正弹道的唯一坐标。不要等待完美，现在就开枪。",
+  "deepAnalysis": "先开火再瞄准是一种反完美主义的执行策略，源于军事射击训练。核心洞见：在不确定环境中，过度准备是最大的风险。第一发子弹的落点，就是你修正弹道的唯一坐标。\n\n核心逻辑：\n- 瞄准获得的精度是虚假的（环境在变）\n- 开枪获得的精度是真实的（有反馈）\n- 迭代比完美更重要\n\n这一模型揭示了完美主义的本质：它是恐惧的避难所。真实世界的反馈远比闭门造车的完美蓝图更有价值。",
+  "principle": "1. 行动优先：在不确定环境中，行动比计划更有价值\n2. 反馈驱动：第一发子弹提供真实的反馈数据\n3. 迭代速度：迭代速度比初始精度更重要\n4. 完美主义陷阱：完美主义是行动的最大敌人\n5. 小步快跑：小步快跑优于大步慢走",
+  "scope": "创业验证、产品开发、技能学习、决策执行、项目管理、个人成长",
+  "tips": "1. 设定最小可行行动：明确什么是'足够好'的启动标准\n2. 快速执行获取反馈：第一版可以粗糙，但必须能跑通核心流程\n3. 根据反馈调整方向：用真实数据指导迭代\n4. 保持迭代节奏：持续小步改进\n5. 接受初期的不完美：完美是迭代的结果，不是开始的条件",
+  "practice": "1. 将大目标拆解为最小可行步骤\n2. 立即执行第一步，不等待完美条件\n3. 收集反馈并记录\n4. 根据反馈调整计划\n5. 重复迭代直到达成目标",
+  "scenario": "1. 产品发布：先发布MVP版本，收集用户反馈后再迭代\n2. 内容创作：完成初稿就发布，通过读者反馈来优化\n3. 创业启动：有了商业想法，先用最小成本验证\n4. 技能学习：边学边练，在实践中修正\n5. 决策执行：有了基本方案就开始执行，边做边调整",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(100, 325)\">\r\n        <!-- 完美的瞄准 (左 - 滞后) -->\r\n        <g transform=\"translate(100, -150)\" opacity=\"0.3\">\r\n          <circle r=\"80\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"2\" stroke-dasharray=\"10 5\" />\r\n          <path d=\"M-80,0 L80,0 M0,-80 L0,80\" stroke=\"#1e293b\" />\r\n          <text y=\"110\" text-anchor=\"middle\" style=\"font-size: 14px;\">等待 100% 准备好</text>\r\n          <text y=\"130\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 18px; font-weight: 900;\">结果：永远没开枪</text>\r\n        </g>\r\n        \r\n        <!-- 先开枪后修正 (下 - 核心) -->\r\n        <g transform=\"translate(0, 100)\">\r\n          <!-- 初始子弹 -->\r\n          <circle r=\"15\" fill=\"#ef4444\">\r\n            <animate attributeName=\"cx\" from=\"0\" to=\"800\" dur=\"3s\" fill=\"freeze\" id=\"bullet\" />\r\n          </circle>\r\n          <!-- 在飞行中修正的弹道 -->\r\n          <path d=\"M0,0 L300,50 L600,-20 L800,0\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"10 5\" opacity=\"0.5\" />\r\n          <text x=\"400\" y=\"80\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">在飞行中修正 (Aiming while flying)</text>\r\n          \r\n          <!-- 击中点 -->\r\n          <g transform=\"translate(800, 0)\">\r\n            <circle r=\"40\" fill=\"#10b981\" fill-opacity=\"0.1\" class=\"animate-ping\" />\r\n            <text x=\"60\" y=\"5\" fill=\"#10b981\" style=\"font-size: 24px; font-weight: 900;\">命中！</text>\r\n          </g>\r\n        </g>\r\n\r\n        <text x=\"400\" y=\"-220\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 42px; font-weight: 900;\">子弹必须先出膛</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

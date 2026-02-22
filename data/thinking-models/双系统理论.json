@@ -1,0 +1,14 @@
+{
+  "id": "双系统理论",
+  "name": "双系统理论",
+  "label": "快慢双系统",
+  "icon": "BrainCircuit",
+  "description": "丹尼尔·卡尼曼揭示的大脑运行机制：我们的大脑总是倾向于用最少的能量做决定，这正是所有认知偏误的温床。",
+  "deepAnalysis": "双系统理论（Dual Process Theory）由诺贝尔奖得主丹尼尔·卡尼曼在《思考，快与慢》中系统阐述。核心洞见：人类思维有两个系统——系统1快速、自动、直觉、无意识；系统2缓慢、费力、理性、有意识。大多数日常决策由系统1自动完成，但重要决策需要系统2介入。认知偏误主要源于系统1的直觉判断。",
+  "principle": "1. 系统1特性：快速、自动、直觉、无意识、节能\n2. 系统2特性：缓慢、费力、理性、有意识、耗能\n3. 默认模式：大脑默认使用系统1节省能量\n4. 介入条件：复杂、重要、异常情况触发系统2\n5. 偏误来源：系统1是认知偏误的主要来源",
+  "scope": "决策分析、行为经济学、心理学、投资决策、消费行为、管理决策",
+  "tips": "1. 识别系统：识别当前使用哪个系统\n2. 重要决策启用系统2：重要决策强制启用系统2\n3. 警惕直觉：警惕系统1的直觉判断\n4. 建立检查清单：用检查清单辅助系统2\n5. 培养元认知：培养对思维过程的认知",
+  "practice": "1. 识别决策类型：识别决策是否重要\n2. 启用系统2：重要决策启用系统2\n3. 收集信息：充分收集信息\n4. 理性分析：进行理性分析\n5. 延迟判断：延迟直觉判断",
+  "scenario": "1. 投资决策：重要投资决策启用系统2理性分析\n2. 消费决策：大额消费前启用系统2\n3. 招聘决策：重要招聘启用系统2\n4. 战略决策：企业战略决策启用系统2\n5. 人际决策：重要人际决策启用系统2",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <!-- 能量桥 -->\r\n      <path d=\"M350,300 L650,300\" stroke=\"#1e293b\" stroke-width=\"1\" stroke-dasharray=\"2 10\" opacity=\"0.1\" />\r\n\r\n      <!-- 系统 1 (快) -->\r\n      <g transform=\"translate(300, 300)\">\r\n        <circle r=\"120\" fill=\"#ef4444\" fill-opacity=\"0.05\" class=\"animate-pulse\" />\r\n        <circle r=\"80\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"2\" stroke-dasharray=\"5 5\" />\r\n        <text text-anchor=\"middle\" y=\"-20\" fill=\"#ef4444\" style=\"font-size: 20px; font-weight: 900;\">系统 1 (快)</text>\r\n        <text text-anchor=\"middle\" y=\"20\" fill=\"#ef4444\" style=\"font-size: 10px; font-weight: 900;\">直觉 / 情绪 / 自动</text>\r\n        <path d=\"M-30,60 L30,60\" stroke=\"#ef4444\" stroke-width=\"8\" stroke-linecap=\"round\" />\r\n      </g>\r\n\r\n      <!-- 系统 2 (慢) -->\r\n      <g transform=\"translate(700, 300)\">\r\n        <rect x=\"-100\" y=\"-100\" width=\"200\" height=\"200\" rx=\"20\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"2\" />\r\n        <text text-anchor=\"middle\" y=\"-20\" fill=\"#ef4444\" style=\"font-size: 20px; font-weight: 900;\">系统 2 (慢)</text>\r\n        <text text-anchor=\"middle\" y=\"20\" fill=\"#ef4444\" style=\"font-size: 10px; font-weight: 900;\">理性 / 逻辑 / 监控</text>\r\n        <circle r=\"10\" cy=\"60\" fill=\"#ef4444\" class=\"animate-bounce\" />\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"550\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 12px; font-weight: 900; letter-spacing: 0.5em;\">TH我NK我NG, FaST aNd SLOW</text>\r\n    </svg>\n</div>"
+}

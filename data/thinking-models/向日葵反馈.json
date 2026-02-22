@@ -1,0 +1,14 @@
+{
+  "id": "向日葵反馈",
+  "name": "向日葵反馈",
+  "label": "瓜子反馈理论",
+  "icon": "BrainCircuit",
+  "description": "解决“动力不足”的生理级方案。吃瓜子之所以上瘾，是因为从“投入劳动（剥开）”到“获得奖励（吃到）”的时间差极短。通过将宏大任务切碎，并人为插入即时的小奖励，你可以利用多巴胺惯性推过任何难关。",
+  "deepAnalysis": "向日葵反馈（Sunflower Feedback）揭示了即时反馈的魔力。核心洞见：为什么吃瓜子停不下来？因为从'剥开'到'吃到仁'的时间差极短，大脑获得即时多巴胺奖励。将宏大任务切碎，人为插入即时小奖励，可以利用多巴胺惯性推过任何难关。这就是游戏化设计的核心原理。",
+  "principle": "1. 即时反馈：行动和奖励的时间差要短\n2. 小步快跑：将大任务切分为小任务\n3. 多巴胺奖励：每个小任务完成后给予奖励\n4. 循环强化：形成行动-奖励的循环\n5. 可视化进度：让进度可视化增强反馈",
+  "scope": "任务管理、习惯养成、游戏设计、学习激励、团队管理、产品设计",
+  "tips": "1. 切分任务：将大任务切分为小任务\n2. 设置奖励：每个小任务设置小奖励\n3. 可视化进度：让进度可视化\n4. 即时反馈：缩短行动和反馈的时间差\n5. 循环设计：设计行动-奖励循环",
+  "practice": "1. 切分任务：将大任务切分为可快速完成的小任务\n2. 设置奖励：为每个小任务设置即时奖励\n3. 可视化进度：用进度条等方式可视化进度\n4. 即时庆祝：完成小任务后即时庆祝\n5. 循环迭代：持续优化反馈循环",
+  "scenario": "1. 学习计划：将学习目标切分为小目标\n2. 健身计划：设置阶段性小奖励\n3. 工作任务：用番茄钟切分工作时间\n4. 产品设计：设计即时反馈机制\n5. 团队管理：设置即时认可机制",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 动作：剥开瓜子 -->\r\n        <g transform=\"translate(-200, 0)\">\r\n          <path d=\"M-30,-50 Q0,-80 30,-50 T0,50 T-30,-50\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"4\" />\r\n          <text y=\"100\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 18px; font-weight: 900;\">动作 (剥开)</text>\r\n          <path d=\"M50,0 L150,0\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"10 5\" marker-end=\"url(#bluearrow)\" />\r\n        </g>\r\n        \r\n        <!-- 反馈：吃到仁 (即时) -->\r\n        <g>\r\n          <circle r=\"40\" fill=\"#fbbf24\" filter=\"drop-shadow(0 0 20px #fbbf24)\" />\r\n          <text text-anchor=\"middle\" y=\"8\" fill=\"#451a03\" style=\"font-size: 12px; font-weight: 900;\">多巴胺</text>\r\n          <circle r=\"60\" fill=\"none\" stroke=\"#fbbf24\" stroke-width=\"1\" class=\"animate-ping\" />\r\n        </g>\r\n\r\n        <!-- 循环流 -->\r\n        <g transform=\"translate(200, 0)\">\r\n          <path d=\"M0,0 Q100,100 0,200 T-400,0\" fill=\"none\" stroke=\"#10b981\" stroke-width=\"2\" opacity=\"0.2\" />\r\n          <text x=\"50\" y=\"0\" fill=\"#10b981\" style=\"font-size: 18px; font-weight: 900;\">自发成瘾循环</text>\r\n        </g>\r\n\r\n        <text y=\"-220\" text-anchor=\"middle\" fill=\"#fbbf24\" style=\"font-size: 42px; font-weight: 900;\">为什么吃瓜子停不下来？</text>\r\n      </g>\r\n      <defs>\r\n        <marker id=\"bluearrow\" markerWidth=\"10\" markerHeight=\"10\" refX=\"5\" refY=\"5\" orient=\"auto\"><path d=\"M0,0 L10,5 L0,10 Z\" fill=\"#ef4444\"/></marker>\r\n      </defs>\r\n    </svg>\n</div>"
+}

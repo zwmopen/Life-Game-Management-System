@@ -1,0 +1,13 @@
+{
+  "id": "自我效能感",
+  "name": "自我效能感",
+  "label": "自我效能感",
+  "icon": "BrainCircuit",
+  "description": "由阿尔伯特·班杜拉提出。它不是自大，而是一种理性的信念：相信自己具备组织并D特定任务以达到预期目标的能力。它是A的最强引擎。",
+  "deepAnalysis": "这是一个思维模型，展示了自我效能感的核心概念和应用。",
+  "principle": "思维模型的核心原则：自我效能感",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将自我效能感应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 700\">\r\n      <g transform=\"translate(500, 350)\">\r\n        <!-- 螺旋上升路径 -->\r\n        <path d=\"M0,250 A250,250 0 0,1 -216,-125 T0,-250 T216,125 T0,250\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"8\" stroke-dasharray=\"20 10\">\r\n          <animate attributeName=\"stroke-dashoffset\" from=\"0\" to=\"200\" dur=\"4s\" repeatCount=\"indefinite\" />\r\n        </path>\r\n        \r\n        <!-- 核心引擎 -->\r\n        <g>\r\n          <circle r=\"100\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 50px #ef4444)\" />\r\n          <text text-anchor=\"middle\" y=\"10\" fill=\"white\" style=\"font-size: 32px; font-weight: 900;\">自我效能感</text>\r\n        </g>\r\n\r\n        <!-- 四大动力源 -->\r\n        <g fill=\"#ef4444\" font-weight=\"900\" style=\"font-size: 20px;\">\r\n          <text x=\"-320\" y=\"-150\" text-anchor=\"middle\">成功体验</text>\r\n          <text x=\"320\" y=\"-150\" text-anchor=\"middle\">替代经验</text>\r\n          <text x=\"-320\" y=\"180\" text-anchor=\"middle\">言语说服</text>\r\n          <text x=\"320\" y=\"180\" text-anchor=\"middle\">情绪调节</text>\r\n        </g>\r\n\r\n        <circle r=\"15\" cy=\"-250\" fill=\"#fbbf24\" class=\"animate-ping\" />\r\n      </g>\r\n      <text x=\"500\" y=\"60\" text-anchor=\"middle\" fill=\"#fbbf24\" style=\"font-size: 36px; font-weight: 900; letter-spacing: 0.2em;\">相信自己能做到的能力</text>\r\n    </svg>\n</div>"
+}

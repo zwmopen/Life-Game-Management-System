@@ -1,0 +1,13 @@
+{
+  "id": "彼得原理",
+  "name": "彼得原理",
+  "label": "彼得原理",
+  "icon": "BrainCircuit",
+  "description": "组织内部的致命死结：因为奖励过去的成功（如优秀的程序员），而将其晋升到陌生的层级（如平庸的经理），直到他无法胜任为止。",
+  "deepAnalysis": "这是一个思维模型，展示了彼得原理的核心概念和应用。",
+  "principle": "思维模型的核心原则：彼得原理",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将彼得原理应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <g stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\">\r\n        <path d=\"M100,500 L300,500 L300,400 L500,400 L500,300 L700,300 L700,200 L900,200\" fill=\"none\" />\r\n      </g>\r\n      <g>\r\n        <circle r=\"30\" fill=\"#ef4444\">\r\n          <animateMotion path=\"M200,480 L300,480 L300,380 L500,380 L500,280 L700,280\" dur=\"5s\" repeatCount=\"indefinite\" />\r\n        </circle>\r\n        <rect x=\"180\" y=\"440\" width=\"50\" height=\"6\" fill=\"#10b981\" opacity=\"0.6\" />\r\n      </g>\r\n      <g transform=\"translate(700, 280)\">\r\n        <circle r=\"80\" fill=\"#ef4444\" fill-opacity=\"0.1\" class=\"animate-ping\" />\r\n        <circle r=\"45\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"6\" stroke-dasharray=\"10 5\" />\r\n        <text y=\"-80\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">不胜任点 (L我M我T)</text>\r\n        <text y=\"10\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 800;\">晋升的终结</text>\r\n      </g>\r\n      <text x=\"500\" y=\"550\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 24px; font-weight: 900; letter-spacing: 0.5em;\">每个职位终将被不胜任的人占据</text>\r\n    </svg>\n</div>"
+}

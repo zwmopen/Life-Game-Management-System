@@ -1,0 +1,14 @@
+{
+  "id": "跨越鸿沟",
+  "name": "跨越鸿沟",
+  "label": "低谷效应",
+  "icon": "BrainCircuit",
+  "description": "赛斯·高汀提出：任何值得追求的目标都会经历一段漫长且痛苦的低谷期。成功者在低谷中坚持，而在“走不通的胡同”里果断放弃。",
+  "deepAnalysis": "跨越鸿沟（The Dip）由赛斯·高汀提出。核心洞见：任何值得追求的目标都会经历一段漫长且痛苦的低谷期。成功者在低谷中坚持，而在走不通的胡同里果断放弃。关键在于区分低谷（坚持就能成功）和胡同（坚持只会浪费），在低谷中坚持，在胡同里放弃。",
+  "principle": "1. 低谷期：成功前必经的低谷期\n2. 坚持价值：低谷后是巨大成功\n3. 胡同陷阱：有些路是死胡同\n4. 区分关键：区分低谷和胡同\n5. 战略放弃：在胡同里果断放弃",
+  "scope": "创业战略、职业发展、技能学习、项目管理、个人成长、决策分析",
+  "tips": "1. 识别低谷：识别是否在低谷期\n2. 评估前景：评估坚持的价值\n3. 区分胡同：区分低谷和胡同\n4. 战略坚持：在低谷中坚持\n5. 战略放弃：在胡同里放弃",
+  "practice": "1. 评估目标：评估目标的价值\n2. 识别阶段：识别当前阶段\n3. 分析前景：分析坚持的前景\n4. 做出决策：坚持或放弃\n5. 执行决策：执行决策",
+  "scenario": "1. 创业战略：评估创业项目\n2. 职业发展：评估职业选择\n3. 技能学习：评估学习方向\n4. 项目管理：评估项目前景\n5. 个人成长：评估成长路径",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <!-- 曲线 -->\r\n      <path d=\"M100,200 Q200,180 300,450 T500,480 T850,50\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"12\" stroke-linecap=\"round\">\r\n        <animate attributeName=\"stroke-dasharray\" from=\"0,1500\" to=\"1500,0\" dur=\"4s\" fill=\"freeze\" />\r\n      </path>\r\n      \r\n      <!-- 低谷区 -->\r\n      <g transform=\"translate(400, 520)\">\r\n        <rect x=\"-120\" y=\"-40\" width=\"240\" height=\"60\" rx=\"30\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"2\" stroke-dasharray=\"5 5\" />\r\n        <text text-anchor=\"middle\" y=\"0\" fill=\"#ef4444\" style=\"font-size: 28px; font-weight: 900;\">低谷 (The Dip)</text>\r\n        <text y=\"25\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.6\" style=\"font-size: 10px;\">(平庸者的终点，冠军的起跑线)</text>\r\n      </g>\r\n\r\n      <!-- 终点：世界第一 -->\r\n      <g transform=\"translate(850, 50)\">\r\n        <circle r=\"40\" fill=\"#fbbf24\" class=\"animate-ping\" />\r\n        <text y=\"-60\" text-anchor=\"middle\" fill=\"#fbbf24\" style=\"font-size: 32px; font-weight: 900;\">稀缺的奖励</text>\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 20px; font-weight: 900; letter-spacing: 0.5em; opacity: 0.1;\">退出 THE WRONG TH我NGS, ST我CK TO THE R我GHT ONES</text>\r\n    </svg>\n</div>"
+}

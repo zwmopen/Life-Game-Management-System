@@ -1,0 +1,13 @@
+{
+  "id": "兰彻斯特平方律",
+  "name": "兰彻斯特平方律",
+  "label": "兰切斯特平方律",
+  "icon": "BrainCircuit",
+  "description": "在现代对抗（如商业市场、现代战争）中，整体战斗力不等于个体的累加，而是与数量的平方成正比。数量多出一倍，战力将多出四倍。",
+  "deepAnalysis": "兰彻斯特平方律（Lanchester's Square Law）是描述现代战争中兵力与战斗力关系的数学模型。核心洞见：在现代对抗中，整体战斗力不等于个体的累加，而是与数量的平方成正比。数量多出一倍，战力将多出四倍。\n\n核心公式：战斗力 = 数量² × 单兵战斗力\n\n应用场景：\n- 商业竞争：市场份额的竞争\n- 军事战略：兵力部署\n- 游戏设计：平衡性调整\n\n弱者对策：\n- 分而治之：在细分领域形成局部优势\n- 降维打击：改变竞争维度\n- 游击战术：避免正面决战",
+  "principle": "1. 平方效应：战斗力与数量的平方成正比\n2. 集中优势：集中兵力比分散兵力更有效\n3. 弱者策略：弱者应避免正面决战\n4. 细分战场：在细分领域形成局部优势\n5. 数量优势：数量优势会被平方放大",
+  "scope": "商业竞争、军事战略、市场竞争、资源分配、游戏设计、谈判策略",
+  "tips": "1. 评估实力：评估双方的实力对比\n2. 集中资源：集中资源于关键战场\n3. 避免正面：弱者避免正面决战\n4. 细分市场：在细分市场形成局部优势\n5. 快速扩张：利用平方效应快速扩张",
+  "practice": "将兰彻斯特平方律应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 弱方 (A) - 2 人 -->\r\n        <g transform=\"translate(-300, 0)\">\r\n          <circle r=\"40\" cy=\"-60\" fill=\"#94a3b8\" /><circle r=\"40\" cy=\"60\" fill=\"#94a3b8\" />\r\n          <text y=\"140\" text-anchor=\"middle\" fill=\"#94a3b8\" style=\"font-size: 24px; font-weight: 900;\">数量: 2</text>\r\n          <text y=\"170\" text-anchor=\"middle\" fill=\"#94a3b8\" style=\"font-size: 14px;\">战力: 2² = 4</text>\r\n        </g>\r\n        \r\n        <!-- 强方 (B) - 4 人 -->\r\n        <g transform=\"translate(300, 0)\">\r\n          <circle r=\"40\" cx=\"-50\" cy=\"-60\" fill=\"#ef4444\" /><circle r=\"40\" cx=\"50\" cy=\"-60\" fill=\"#ef4444\" />\r\n          <circle r=\"40\" cx=\"-50\" cy=\"60\" fill=\"#ef4444\" /><circle r=\"40\" cx=\"50\" cy=\"60\" fill=\"#ef4444\" />\r\n          <circle r=\"180\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"2\" class=\"animate-ping\" />\r\n          <text y=\"140\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">数量: 4</text>\r\n          <text y=\"170\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">战力: 4² = 16</text>\r\n        </g>\r\n\r\n        <!-- 非线性压制线 -->\r\n        <path d=\"M-150,0 L50,0\" stroke=\"#ef4444\" stroke-width=\"12\" marker-end=\"url(#redArrow)\" />\r\n        <text y=\"-50\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 48px; font-weight: 900;\">4 倍压制!</text>\r\n      </g>\r\n      <defs>\r\n        <marker id=\"redArrow\" markerWidth=\"10\" markerHeight=\"10\" refX=\"5\" refY=\"5\" orient=\"auto\"><path d=\"M0,0 L10,5 L0,10 Z\" fill=\"#ef4444\"/></marker>\r\n      </defs>\r\n    </svg>\n</div>"
+}

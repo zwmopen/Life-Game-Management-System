@@ -1,0 +1,13 @@
+{
+  "id": "生活游戏化",
+  "name": "生活游戏化",
+  "label": "人生游戏化",
+  "icon": "BrainCircuit",
+  "description": "破解“缺乏即时反馈”的绝药。长期项目之所以难熬，是因为大脑得不到奖励。通过人为设计“积分-等级-勋章”体系，将每一个枯燥的小动作（如整理选题）转化为可见的 EX计划，诱导多巴胺持续工作。",
+  "deepAnalysis": "这是一个思维模型，展示了生活游戏化的核心概念和应用。",
+  "principle": "思维模型的核心原则：生活游戏化",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将生活游戏化应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 经验条外框 -->\r\n        <rect x=\"-300\" y=\"-30\" width=\"600\" height=\"60\" rx=\"30\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n        \r\n        <!-- 动态经验条 -->\r\n        <rect x=\"-295\" y=\"-25\" width=\"400\" height=\"50\" rx=\"25\" fill=\"#ef4444\" fill-opacity=\"0.8\">\r\n           <animate attributeName=\"width\" values=\"100;550;100\" dur=\"4s\" repeatCount=\"indefinite\" />\r\n        </rect>\r\n        <text text-anchor=\"middle\" y=\"10\" fill=\"white\" style=\"font-size: 20px; font-weight: 900;\">EX计划: 850 / 1000</text>\r\n        \r\n        <!-- 等级与勋章 -->\r\n        <g transform=\"translate(-350, 0)\">\r\n          <circle r=\"60\" fill=\"#fbbf24\" filter=\"drop-shadow(0 0 30px #fbbf24)\" />\r\n          <text text-anchor=\"middle\" y=\"10\" fill=\"#451a03\" style=\"font-size: 32px; font-weight: 900;\">LV.9</text>\r\n          <text y=\"90\" text-anchor=\"middle\" fill=\"#fbbf24\" style=\"font-size: 18px; font-weight: 900;\">我计划 创作者</text>\r\n        </g>\r\n\r\n        <!-- 掉落物品 -->\r\n        <g transform=\"translate(350, 0)\">\r\n           <rect x=\"-40\" y=\"-40\" width=\"80\" height=\"80\" rx=\"15\" fill=\"#10b981\" class=\"animate-bounce\" />\r\n           <text y=\"70\" text-anchor=\"middle\" fill=\"#10b981\" style=\"font-size: 14px; font-weight: 900;\">掉落：自由时间</text>\r\n        </g>\r\n\r\n        <text y=\"-200\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 42px; font-weight: 900;\">把项目当成一场闯关游戏</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

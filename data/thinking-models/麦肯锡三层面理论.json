@@ -1,0 +1,14 @@
+{
+  "id": "麦肯锡三层面理论",
+  "name": "麦肯锡三层面理论",
+  "label": "麦肯锡三增长曲线",
+  "icon": "BrainCircuit",
+  "description": "企业长青的秘诀在于“多频共振”。不能只守着现在的现金牛，必须在当前业绩最好的时候，开始播种下一代甚至下下代的增长引擎。",
+  "deepAnalysis": "麦肯锡三层面理论（McKinsey Three Horizons）揭示了企业持续增长的秘诀。核心洞见：企业长青的秘诀在于多频共振——不能只守着现在的现金牛，必须在当前业绩最好的时候，开始播种下一代甚至下下代的增长引擎。三个层面分别是：核心业务、新兴业务、种子业务。",
+  "principle": "1. 第一层面：核心业务，确保当前现金流\n2. 第二层面：新兴业务，培育增长引擎\n3. 第三层面：种子业务，探索未来机会\n4. 同步投资：三个层面同时投资\n5. 动态平衡：业务成熟后向左移动",
+  "scope": "企业战略、产品规划、投资组合、个人发展、职业规划、创新管理",
+  "tips": "1. 保护核心：确保核心业务稳定\n2. 培育新兴：投资新兴业务\n3. 探索种子：探索未来机会\n4. 资源分配：合理分配三个层面资源\n5. 动态调整：定期调整业务组合",
+  "practice": "1. 盘点业务：盘点现有业务组合\n2. 分类评估：按三层面分类评估\n3. 资源配置：配置三个层面资源\n4. 培育孵化：培育新兴和种子业务\n5. 动态调整：定期调整业务组合",
+  "scenario": "1. 企业战略：规划企业增长路径\n2. 产品组合：管理产品生命周期\n3. 投资决策：平衡短期和长期投资\n4. 个人发展：规划职业发展路径\n5. 创新管理：管理创新项目组合",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <g transform=\"translate(100, 500)\">\r\n        <!-- 坐标轴 -->\r\n        <line x1=\"0\" y1=\"0\" x2=\"800\" y2=\"0\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n        <line x1=\"0\" y1=\"0\" x2=\"0\" y2=\"-450\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n        \r\n        <!-- Horizon 1 (成熟业务) -->\r\n        <path d=\"M0,-50 Q100,-250 300,-300\" fill=\"none\" stroke=\"#3b82f6\" stroke-width=\"8\" stroke-linecap=\"round\" />\r\n        <text x=\"150\" y=\"-320\" fill=\"#3b82f6\" style=\"font-size: 20px; font-weight: 900;\">地平线 1: 核心业务</text>\r\n\r\n        <!-- Horizon 2 (成长业务) -->\r\n        <path d=\"M150,-20 Q350,-40 550,-350\" fill=\"none\" stroke=\"#10b981\" stroke-width=\"8\" stroke-linecap=\"round\" opacity=\"0.6\">\r\n           <animate attributeName=\"stroke-dasharray\" from=\"0,1000\" to=\"1000,0\" dur=\"4s\" repeatCount=\"indefinite\" />\r\n        </path>\r\n        <text x=\"450\" y=\"-380\" fill=\"#10b981\" style=\"font-size: 20px; font-weight: 900;\">地平线 2: 新兴增长点</text>\r\n\r\n        <!-- Horizon 3 (未来业务) -->\r\n        <path d=\"M400,0 Q600,0 800,-400\" fill=\"none\" stroke=\"#f59e0b\" stroke-width=\"8\" stroke-dasharray=\"10 5\" />\r\n        <text x=\"750\" y=\"-420\" text-anchor=\"end\" fill=\"#f59e0b\" style=\"font-size: 20px; font-weight: 900;\">地平线 3: 种子与未来</text>\r\n\r\n        <text x=\"800\" y=\"40\" text-anchor=\"end\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 12px; font-weight: 900;\">时间 →</text>\r\n        <text x=\"-40\" y=\"-450\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 12px; font-weight: 900;\" transform=\"rotate(-90 -40 -450)\">价值/利润 ↑</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

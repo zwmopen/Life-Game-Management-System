@@ -1,0 +1,13 @@
+{
+  "id": "不可能三角",
+  "name": "不可能三角",
+  "label": "不可能三角",
+  "icon": "BrainCircuit",
+  "description": "金融主权的客观死结：任何国家都无法同时实现资本自由流动、汇率稳定和独立的货币政策。你必须且只能选择其中的两个目标。",
+  "deepAnalysis": "不可能三角，又称蒙代尔-弗莱明模型或三元悖论，是由罗伯特·蒙代尔和马库斯·弗莱明提出的国际经济学理论。该理论指出，任何国家都无法同时实现资本自由流动、汇率稳定和独立的货币政策这三个目标，只能选择其中的两个。这一理论揭示了开放经济条件下宏观经济政策制定的内在矛盾和约束条件。",
+  "principle": "1. 三难选择：三个目标之间存在内在冲突，无法同时实现\n2. 政策权衡：各国必须根据自身情况权衡利弊，选择适合的政策组合\n3. 动态调整：随着经济环境变化，政策选择可能需要调整\n4. 外部约束：开放经济条件下，一国的政策选择会受到国际环境的影响\n5. 理论与实践结合：理论模型需要结合实际情况灵活应用。",
+  "scope": "国际经济学, 货币政策制定, 汇率制度选择, 资本流动管理, 金融市场监管, 宏观经济分析, 国际贸易政策",
+  "tips": "1. 理解三个目标之间的内在关系和冲突\n2. 结合国家的经济发展阶段和战略目标选择政策组合\n3. 关注国际经济环境变化对政策选择的影响\n4. 考虑政策选择的长期影响，避免短期行为\n5. 灵活调整政策，适应经济环境变化。",
+  "practice": "1. 分析国家的经济状况和发展目标\n2. 评估三个目标的重要性和优先级\n3. 选择适合的政策组合，如选择资本自由流动和独立货币政策，则必须放弃汇率稳定\n4. 监测政策实施效果，关注经济指标变化\n5. 根据经济环境变化，灵活调整政策组合。例如，美国选择了资本自由流动和独立货币政策，放弃了汇率稳定；中国选择了汇率稳定和独立货币政策，对资本流动进行一定程度的管理。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 700\">\r\n      <g transform=\"translate(500, 350)\">\r\n        <animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0\" to=\"360\" dur=\"40s\" repeatCount=\"indefinite\" />\r\n        <!-- 三角形骨架 -->\r\n        <polygon points=\"0,-250 216,125 -216,125\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"2\" stroke-dasharray=\"10 20\" opacity=\"0.1\" />\r\n        \r\n        <!-- 核心约束节点 (全量汉化) -->\r\n        <g transform=\"translate(0, -250)\">\r\n          <circle r=\"70\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 30px #ef4444)\" />\r\n          <text text-anchor=\"middle\" y=\"10\" fill=\"white\" style=\"font-size: 28px; font-weight: 900;\">独立货币政策</text>\r\n        </g>\r\n        <g transform=\"translate(216, 125)\">\r\n          <circle r=\"70\" fill=\"#3b82f6\" fill-opacity=\"0.8\" />\r\n          <text text-anchor=\"middle\" y=\"10\" fill=\"white\" style=\"font-size: 28px; font-weight: 900;\">汇率稳定</text>\r\n        </g>\r\n        <g transform=\"translate(-216, 125)\">\r\n          <circle r=\"70\" fill=\"#10b981\" fill-opacity=\"0.8\" />\r\n          <text text-anchor=\"middle\" y=\"10\" fill=\"white\" style=\"font-size: 28px; font-weight: 900;\">资本自由流动</text>\r\n        </g>\r\n\r\n        <!-- 冲突指示 -->\r\n        <path d=\"M0,0 L0,-120\" stroke=\"#ef4444\" stroke-width=\"4\" opacity=\"0.3\" stroke-dasharray=\"5 5\" />\r\n        <text y=\"20\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 42px; font-weight: 900;\">三选其二</text>\r\n      </g>\r\n      <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.2\" style=\"font-size: 24px; font-weight: 900; letter-spacing: 0.5em;\">THE TR我LEMMa EcONOM我cS</text>\r\n    </svg>\n</div>"
+}

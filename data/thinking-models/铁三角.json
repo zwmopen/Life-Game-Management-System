@@ -1,0 +1,14 @@
+{
+  "id": "铁三角",
+  "name": "铁三角",
+  "label": "项目铁三角",
+  "icon": "BrainCircuit",
+  "description": "项目管理的客观真理。时间、成本、范围构成了互相关联的约束，任何一角的改变都必须以牺牲其他角为代价。",
+  "deepAnalysis": "铁三角（Iron Triangle）是项目管理的客观真理。核心洞见：时间、成本、范围构成了互相关联的约束，任何一角的改变都必须以牺牲其他角为代价。想要更快？就要增加成本或减少范围。想要更便宜？就要延长时间或减少范围。想要更多功能？就要增加时间或成本。",
+  "principle": "1. 时间约束：项目完成时间\n2. 成本约束：项目预算资源\n3. 范围约束：项目功能范围\n4. 相互制约：三角相互制约\n5. 权衡取舍：必须做出权衡取舍",
+  "scope": "项目管理、产品开发、工程管理、资源分配、时间管理、决策分析",
+  "tips": "1. 明确优先级：明确三角中哪个最重要\n2. 合理权衡：合理权衡三角关系\n3. 管理预期：管理利益相关者预期\n4. 灵活调整：根据情况灵活调整\n5. 持续监控：持续监控三角平衡",
+  "practice": "1. 定义三角：定义项目的铁三角\n2. 设定优先级：设定三角优先级\n3. 制定计划：制定项目计划\n4. 监控执行：监控项目执行\n5. 调整平衡：调整三角平衡",
+  "scenario": "1. 项目管理：管理项目约束\n2. 产品开发：平衡产品开发约束\n3. 资源分配：合理分配资源\n4. 时间管理：管理项目时间\n5. 决策分析：分析决策约束",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <!-- 填充区 -->\r\n      <path d=\"M500,100 L850,500 L150,500 Z\" fill=\"#ef4444\" fill-opacity=\"0.05\" class=\"animate-pulse\" />\r\n      \r\n      <!-- 铁三角 -->\r\n      <g stroke=\"#1e293b\" stroke-width=\"6\" stroke-linejoin=\"round\" fill=\"none\">\r\n        <path d=\"M500,100 L850,500 L150,500 Z\" />\r\n      </g>\r\n\r\n      <!-- 核心标签 -->\r\n      <g transform=\"translate(500, 100)\">\r\n        <circle r=\"60\" fill=\"#ef4444\" />\r\n        <text text-anchor=\"middle\" y=\"10\" fill=\"white\" style=\"font-size: 32px; font-weight: 900;\">时间</text>\r\n      </g>\r\n      <g transform=\"translate(850, 500)\">\r\n        <circle r=\"60\" fill=\"#3b82f6\" />\r\n        <text text-anchor=\"middle\" y=\"10\" fill=\"white\" style=\"font-size: 32px; font-weight: 900;\">成本</text>\r\n      </g>\r\n      <g transform=\"translate(150, 500)\">\r\n        <circle r=\"60\" fill=\"#10b981\" />\r\n        <text text-anchor=\"middle\" y=\"10\" fill=\"white\" style=\"font-size: 32px; font-weight: 900;\">范围</text>\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"380\" text-anchor=\"middle\" fill=\"#1e293b\" style=\"font-size: 64px; font-weight: 900; letter-spacing: 0.3em; opacity: 0.6;\">品质</text>\r\n      <text x=\"500\" y=\"580\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 20px; font-weight: 900;\">不可打破的物理约束</text>\r\n    </svg>\n</div>"
+}

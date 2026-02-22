@@ -1,0 +1,13 @@
+{
+  "id": "宜家效应",
+  "name": "宜家效应",
+  "label": "宜家效应",
+  "icon": "BrainCircuit",
+  "description": "人们倾向于高估他们参与创造或组装的产品价值。劳动过程不仅产生了商品，更在劳动者心中产生了深刻的情感依恋。",
+  "deepAnalysis": "这是一个思维模型，展示了宜家效应的核心概念和应用。",
+  "principle": "思维模型的核心原则：宜家效应",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将宜家效应应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <!-- 待组装的零件 (边缘) -->\r\n      <g opacity=\"0.2\" fill=\"#1e293b\">\r\n        <rect x=\"150\" y=\"450\" width=\"80\" height=\"20\" rx=\"5\" />\r\n        <circle cx=\"200\" cy=\"150\" r=\"20\" />\r\n        <path d=\"M800,450 L840,500 L760,500 Z\" />\r\n      </g>\r\n      \r\n      <!-- 组装过程 -->\r\n      <g transform=\"translate(500, 300)\">\r\n        <!-- 核心作品 -->\r\n        <rect x=\"-100\" y=\"-100\" width=\"200\" height=\"200\" rx=\"30\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"10 5\">\r\n          <animate attributeName=\"stroke-dashoffset\" from=\"0\" to=\"100\" dur=\"3s\" repeatCount=\"indefinite\" />\r\n        </rect>\r\n        \r\n        <!-- 注入的“爱/劳动” -->\r\n        <path d=\"M0,0 Q-40,-40 -80,0 Q-80,40 0,80 Q80,40 80,0 Q40,-40 0,0\" fill=\"#ef4444\" opacity=\"0.6\">\r\n           <animate attributeName=\"transform\" type=\"scale\" values=\"0.5;1.2;0.5\" dur=\"3s\" repeatCount=\"indefinite\" />\r\n        </path>\r\n        \r\n        <text y=\"-130\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">MY CREaT我ON</text>\r\n        <text y=\"-110\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 10px; font-weight: 900;\">(包含 3 小时汗水)</text>\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"550\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 12px; font-weight: 900; letter-spacing: 0.5em;\">LaBOR BREEdS aTTaCHMENT</text>\r\n    </svg>\n</div>"
+}

@@ -1,0 +1,14 @@
+{
+  "id": "虚假共识",
+  "name": "虚假共识",
+  "label": "虚假一致性",
+  "icon": "BrainCircuit",
+  "description": "人们倾向于高估他人与自己观点、偏好及行为的一致性。我们下意识地认为，既然我这么想，大多数人肯定也这么想。",
+  "deepAnalysis": "虚假共识效应（False Consensus Effect）揭示了认知的自我中心偏差。核心洞见：人们倾向于高估他人与自己观点、偏好及行为的一致性。我们下意识地认为，既然我这么想，大多数人肯定也这么想。这导致我们误判他人的想法和行为。",
+  "principle": "1. 自我中心：以自我为中心判断\n2. 高估一致：高估他人一致性\n3. 投射偏见：投射自己的观点\n4. 误判他人：误判他人想法\n5. 回音室：容易陷入回音室",
+  "scope": "人际沟通、市场营销、团队协作、决策分析、政治参与、社会认知",
+  "tips": "1. 寻求反馈：主动寻求他人反馈\n2. 多元视角：考虑多元视角\n3. 避免假设：避免假设他人想法\n4. 调研验证：通过调研验证假设\n5. 保持开放：保持开放心态",
+  "practice": "1. 识别偏见：识别虚假共识偏见\n2. 寻求反馈：寻求他人反馈\n3. 多元视角：考虑多元视角\n4. 调研验证：调研验证假设\n5. 调整认知：调整认知偏差",
+  "scenario": "1. 人际沟通：理解他人观点\n2. 市场营销：理解消费者需求\n3. 团队协作：理解团队成员\n4. 决策分析：分析他人立场\n5. 政治参与：理解选民观点",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <!-- 真实的多元背景 (各种形状颜色) -->\r\n      <g opacity=\"0.1\" fill=\"#1e293b\">\r\n        <rect x=\"200\" y=\"150\" width=\"30\" height=\"30\" rx=\"5\" />\r\n        <path d=\"M800,150 L830,200 L770,200 Z\" />\r\n        <circle cx=\"200\" cy=\"450\" r=\"20\" />\r\n        <rect x=\"780\" y=\"430\" width=\"40\" height=\"15\" rx=\"2\" />\r\n      </g>\r\n      \r\n      <!-- 投影场 -->\r\n      <circle cx=\"500\" cy=\"300\" r=\"280\" fill=\"#ef4444\" fill-opacity=\"0.03\" class=\"animate-pulse\" />\r\n      \r\n      <!-- 中心自我 (投影源) -->\r\n      <g transform=\"translate(500, 300)\">\r\n        <circle r=\"60\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 30px #ef4444)\" />\r\n        <text text-anchor=\"middle\" y=\"5\" fill=\"white\" style=\"font-size: 14px; font-weight: 900;\">我的偏好</text>\r\n        \r\n        <!-- 向四周投射的虚影 -->\r\n        <g opacity=\"0.4\">\r\n          <circle cx=\"-250\" cy=\"-150\" r=\"30\" fill=\"#ef4444\" stroke=\"white\" stroke-width=\"2\" />\r\n          <circle cx=\"250\" cy=\"-150\" r=\"30\" fill=\"#ef4444\" stroke=\"white\" stroke-width=\"2\" />\r\n          <circle cx=\"-250\" cy=\"150\" r=\"30\" fill=\"#ef4444\" stroke=\"white\" stroke-width=\"2\" />\r\n          <circle cx=\"250\" cy=\"150\" r=\"30\" fill=\"#ef4444\" stroke=\"white\" stroke-width=\"2\" />\r\n          <text x=\"-250\" y=\"-100\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 10px; font-weight: 900;\">“别人也这样想”</text>\r\n          <text x=\"250\" y=\"-100\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 10px; font-weight: 900;\">“这是常识”</text>\r\n        </g>\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"50\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 12px; font-weight: 900; letter-spacing: 0.5em;\">计划ROJEcT我ON OF THE EGO</text>\r\n    </svg>\n</div>"
+}

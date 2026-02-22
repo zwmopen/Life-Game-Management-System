@@ -1,0 +1,13 @@
+{
+  "id": "斯坦纳定律",
+  "name": "斯坦纳定律",
+  "label": "斯坦纳定理",
+  "icon": "BrainCircuit",
+  "description": "在哪儿说得越少，在哪儿听到的就越多。只有当你闭上嘴巴，外界最真实、最敏锐的信号才有可能穿透噪音进入你的大脑。",
+  "deepAnalysis": "这是一个思维模型，展示了斯坦纳定律的核心概念和应用。",
+  "principle": "思维模型的核心原则：斯坦纳定律",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将斯坦纳定律应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <!-- 说的洪水 -->\r\n      <g transform=\"translate(200, 300)\">\r\n        <path d=\"M0,-80 Q100,0 0,80\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"12\" stroke-linecap=\"round\" opacity=\"0.3\" />\r\n        <text y=\"120\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 16px; font-weight: 900;\">喋喋不休</text>\r\n      </g>\r\n      \r\n      <!-- 听的深海 -->\r\n      <g transform=\"translate(600, 300)\">\r\n        <rect x=\"-150\" y=\"-150\" width=\"300\" height=\"300\" rx=\"30\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"10 5\" />\r\n        <circle r=\"40\" fill=\"#ef4444\" class=\"animate-pulse\" />\r\n        <text y=\"180\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">深度倾听</text>\r\n        <text y=\"210\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.5\" style=\"font-size: 12px;\">“听得越多，说得越有分量”</text>\r\n      </g>\r\n\r\n      <!-- 连接流 -->\r\n      <path d=\"M300,300 L450,300\" stroke=\"#ef4444\" stroke-width=\"2\" stroke-dasharray=\"5 5\" opacity=\"0.2\" />\r\n    </svg>\n</div>"
+}

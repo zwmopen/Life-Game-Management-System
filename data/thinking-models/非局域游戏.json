@@ -1,0 +1,14 @@
+{
+  "id": "非局域游戏",
+  "name": "非局域游戏",
+  "label": "非定域博弈",
+  "icon": "BrainCircuit",
+  "description": "量子力学的惊人推论：共享纠缠态的玩家，在即使被物理隔绝、无法通信的情况下，也能在某些博弈中达成远超传统逻辑上限的协作胜率。它是“完美共识”的终极隐喻。",
+  "deepAnalysis": "非局域游戏（Non-local Game）来自量子力学的惊人推论。核心洞见：共享纠缠态的玩家，在即使被物理隔绝、无法通信的情况下，也能在某些博弈中达成远超传统逻辑上限的协作胜率。这是完美共识的终极隐喻——当两个系统共享同一底层逻辑时，即使没有通信也能达成完美协作。",
+  "principle": "1. 量子纠缠：共享纠缠态的粒子\n2. 非局域关联：超越空间距离的关联\n3. 完美协作：无需通信的完美协作\n4. 共识隐喻：共享底层逻辑的隐喻\n5. 突破限制：突破经典逻辑限制",
+  "scope": "团队协作、组织管理、战略共识、量子计算、博弈论、系统设计",
+  "tips": "1. 建立共识：建立深层的共享共识\n2. 共享价值观：共享底层价值观\n3. 信任机制：建立深度信任机制\n4. 减少沟通：减少不必要的沟通\n5. 同步行动：实现无需沟通的同步",
+  "practice": "1. 建立共识：建立团队的深层共识\n2. 共享价值观：共享底层价值观\n3. 建立信任：建立深度信任\n4. 减少沟通成本：减少不必要的沟通\n5. 同步行动：实现同步行动",
+  "scenario": "1. 团队协作：建立高效协作团队\n2. 组织管理：建立共识驱动的组织\n3. 战略共识：建立战略共识\n4. 分布式团队：管理分布式团队\n5. 危机应对：危机中的快速响应",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 绝对的物理隔绝 -->\r\n        <rect x=\"-10\" y=\"-250\" width=\"20\" height=\"500\" fill=\"#ef4444\" opacity=\"0.3\" />\r\n        <text x=\"0\" y=\"-270\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">无法通信的屏障</text>\r\n        \r\n        <!-- 纠缠的玩家 A -->\r\n        <g transform=\"translate(-250, 0)\">\r\n          <circle r=\"80\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"5 5\" />\r\n          <path d=\"M-30,0 L30,0\" stroke=\"white\" stroke-width=\"12\" stroke-linecap=\"round\" />\r\n          <text y=\"120\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">玩家 A (分布式)</text>\r\n        </g>\r\n\r\n        <!-- 纠缠的玩家 B -->\r\n        <g transform=\"translate(250, 0)\">\r\n          <circle r=\"80\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"5 5\" />\r\n          <path d=\"M-30,0 L30,0\" stroke=\"white\" stroke-width=\"12\" stroke-linecap=\"round\" />\r\n          <text y=\"120\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">玩家 B (分布式)</text>\r\n        </g>\r\n\r\n        <!-- 跨时空的关联光束 -->\r\n        <path d=\"M-170,0 Q0,-150 170,0\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"2\" opacity=\"0.4\" class=\"animate-pulse\" />\r\n        <text y=\"-180\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">超经典协同：共享价值观</text>\r\n\r\n        <text y=\"240\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.5\" style=\"font-size: 14px;\">在无指令状态下 达成100%胜率</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

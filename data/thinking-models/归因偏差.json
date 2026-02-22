@@ -1,0 +1,13 @@
+{
+  "id": "归因偏差",
+  "name": "归因偏差",
+  "label": "基本归因偏差",
+  "icon": "BrainCircuit",
+  "description": "人类天生是“双标”的：当我们观察他人时，会过度放大其内在性格（忽略外部压力）；而当我们审视自己时，会过度放大外部环境（忽略内在责任）。",
+  "deepAnalysis": "基本归因偏差是一种认知偏见，指人们在解释他人行为时，倾向于过度归因于个人特质和性格，而忽视外部情境因素；而在解释自己行为时，则倾向于强调外部情境因素，而忽视个人特质和性格因素。",
+  "principle": "双标认知：对他人和自己的行为解释采用不同的标准。; ;           情境忽视：观察他人时，容易忽视外部情境的影响。; ;           自我防御：解释自己行为时，倾向于保护自我形象。; ;           聚光灯效应：观察他人时，对方成为注意力的焦点，而情境背景被淡化。",
+  "scope": "人际关系和沟通, \n          团队管理和协作, \n          领导力和决策制定, \n          冲突解决, \n          自我认知和个人成长, \n          社会心理学研究",
+  "tips": "1. 换位思考：在评价他人行为前，尝试代入对方的情境进行思考。; 2. 自我反思：在解释自己行为时，也要考虑个人因素的影响。; 3. 情境分析：系统分析影响行为的外部因素，避免简单归因。; 4. 反馈文化：建立开放的反馈机制，帮助他人和自己更全面地认识行为原因。",
+  "practice": "在团队管理中，当员工表现不佳时，先了解外部情境因素，再考虑个人因素。; \n          在冲突解决中，避免过快地对他人动机做出负面判断。; \n          培养自我觉察能力，当遇到挫折时，平衡分析外部因素和个人责任。; \n          在沟通中，使用“我”语句表达感受，避免指责性的“你”语句。; \n          定期进行自我反思，审视自己的归因模式是否存在偏差。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\" class=\"w-full h-auto\">\n        <line x1=\"500\" y1=\"100\" x2=\"500\" y2=\"500\" stroke=\"var(--text-primary)\" opacity=\"0.1\" stroke-width=\"2\" stroke-dasharray=\"10 5\" />\n        <g transform=\"translate(250, 300)\">\n          <rect x=\"-160\" y=\"-160\" width=\"320\" height=\"320\" rx=\"30\" fill=\"none\" stroke=\"var(--primary-color)\" stroke-width=\"4\" opacity=\"0.2\" />\n          <circle r=\"60\" fill=\"var(--primary-color)\" />\n          <text y=\"100\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 24px; font-weight: 900;\">他人犯错 = 人品/能力差</text>\n          <text y=\"135\" text-anchor=\"middle\" fill=\"var(--text-secondary)\" opacity=\"0.5\" style=\"font-size: 14px;\">(完全忽视了复杂的外部环境)</text>\n        </g>\n        <g transform=\"translate(750, 300)\">\n          <rect x=\"-160\" y=\"-160\" width=\"320\" height=\"320\" rx=\"30\" fill=\"var(--primary-color)\" fill-opacity=\"0.05\" />\n          <g stroke=\"var(--primary-color)\" stroke-width=\"8\" fill=\"none\" opacity=\"0.5\">\n             <path d=\"M-80,-80 L80,80 M80,-80 L-80,80\" />\n             <circle r=\"30\" stroke-dasharray=\"10 5\" />\n          </g>\n          <text y=\"100\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 24px; font-weight: 900;\">我犯错 = 环境太糟糕</text>\n          <text y=\"135\" text-anchor=\"middle\" fill=\"var(--text-secondary)\" opacity=\"0.5\" style=\"font-size: 14px;\">(完全忽视了自己的主观疏忽)</text>\n        </g>\n        <text x=\"500\" y=\"550\" text-anchor=\"middle\" fill=\"var(--text-secondary)\" opacity=\"0.3\" style=\"font-size: 24px; font-weight: 900; letter-spacing: 0.5em;\">认知的先天性双标</text>\n      </svg>\n</div>"
+}

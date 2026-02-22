@@ -1,0 +1,13 @@
+{
+  "id": "环境设计",
+  "name": "环境设计",
+  "label": "环境诱导设计",
+  "icon": "BrainCircuit",
+  "description": "不要考验你的意志力，它非常不靠谱。通过物理空间的改造，让“坏习惯”变得极端繁琐（如：把手机锁进柜子），让“好习惯”变得极其顺滑（如：睡前把剪映打开）。环境会自动替你做出最优选择。",
+  "deepAnalysis": "这是一个思维模型，展示了环境设计的核心概念和应用。",
+  "principle": "思维模型的核心原则：环境设计",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将环境设计应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 错误路径 (高阻力) -->\r\n        <g transform=\"translate(-250, 0)\">\r\n          <path d=\"M0,200 L0,-150\" stroke=\"#ef4444\" stroke-width=\"40\" stroke-linecap=\"round\" opacity=\"0.1\" />\r\n          <g>\r\n            <rect x=\"-30\" y=\"50\" width=\"60\" height=\"10\" fill=\"#ef4444\" />\r\n            <rect x=\"-30\" y=\"0\" width=\"60\" height=\"10\" fill=\"#ef4444\" />\r\n            <rect x=\"-30\" y=\"-50\" width=\"60\" height=\"10\" fill=\"#ef4444\" />\r\n          </g>\r\n          <text y=\"180\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">娱乐/诱惑 (高门槛)</text>\r\n          <text y=\"210\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 10px;\">手机在客厅</text>\r\n        </g>\r\n        \r\n        <!-- 正确路径 (负阻力 - 滑梯) -->\r\n        <g transform=\"translate(250, 0)\">\r\n          <path d=\"M0,-200 L0,200\" stroke=\"#10b981\" stroke-width=\"40\" stroke-linecap=\"round\" opacity=\"0.1\" />\r\n          <path d=\"M0,-200 L0,150\" stroke=\"#10b981\" stroke-width=\"4\" stroke-dasharray=\"10 20\">\r\n            <animate attributeName=\"stroke-dashoffset\" from=\"0\" to=\"100\" dur=\"1s\" repeatCount=\"indefinite\" />\r\n          </path>\r\n          <circle r=\"40\" fill=\"#10b981\" filter=\"drop-shadow(0 0 30px #10b981)\" />\r\n          <text y=\"180\" text-anchor=\"middle\" fill=\"#10b981\" style=\"font-size: 14px; font-weight: 900;\">工作/成长 (滑道)</text>\r\n          <text y=\"210\" text-anchor=\"middle\" fill=\"#10b981\" style=\"font-size: 10px;\">取暖器已开，工作区舒适</text>\r\n        </g>\r\n\r\n        <text y=\"-260\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">环境是第一生产力</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

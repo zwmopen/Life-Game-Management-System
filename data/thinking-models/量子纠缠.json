@@ -1,0 +1,14 @@
+{
+  "id": "量子纠缠",
+  "name": "量子纠缠",
+  "label": "量子纠缠",
+  "icon": "BrainCircuit",
+  "description": "爱因斯坦称之为“幽灵般的超距作用”。当两个粒子发生纠缠，无论相隔多远，改变其中一个的状态，另一个会瞬间发生相应的改变。它揭示了系统整体性超越了局部的空间限制。",
+  "deepAnalysis": "量子纠缠（Quantum Entanglement）是量子力学最神奇的现象。核心洞见：当两个粒子发生纠缠，无论相隔多远，改变其中一个的状态，另一个会瞬间发生相应的改变。爱因斯坦称之为幽灵般的超距作用。这揭示了系统整体性超越了局部的空间限制，深层连接超越物理距离。",
+  "principle": "1. 瞬间关联：纠缠粒子瞬间关联\n2. 超距作用：超越空间距离\n3. 整体性：系统整体性\n4. 不可分割：纠缠系统不可分割\n5. 非局域：非局域关联",
+  "scope": "量子物理、系统思维、组织管理、人际关系、团队协作、整体论",
+  "tips": "1. 认识连接：认识深层连接\n2. 整体思维：用整体思维看问题\n3. 超越距离：超越物理距离限制\n4. 同步效应：利用同步效应\n5. 深层关联：关注深层关联",
+  "practice": "1. 识别纠缠：识别系统的纠缠关系\n2. 整体思维：用整体思维分析\n3. 利用同步：利用同步效应\n4. 建立连接：建立深层连接\n5. 系统优化：优化系统整体",
+  "scenario": "1. 系统设计：设计纠缠系统\n2. 组织管理：理解组织的纠缠关系\n3. 团队协作：建立团队的深层连接\n4. 人际关系：理解深层的人际连接\n5. 整体决策：用整体思维做决策",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 纠缠波纹 -->\r\n        <circle r=\"250\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"1\" stroke-dasharray=\"5 15\" opacity=\"0.1\" />\r\n        \r\n        <!-- 粒子 A -->\r\n        <g transform=\"translate(-250, 0)\">\r\n          <circle r=\"50\" fill=\"#ef4444\" />\r\n          <path d=\"M-20,-20 L20,20 M20,-20 L-20,20\" stroke=\"white\" stroke-width=\"2\" />\r\n          <animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0 -250 0\" to=\"360 -250 0\" dur=\"4s\" repeatCount=\"indefinite\" />\r\n        </g>\r\n\r\n        <!-- 粒子 B (同步动作) -->\r\n        <g transform=\"translate(250, 0)\">\r\n          <circle r=\"50\" fill=\"#ef4444\" />\r\n          <path d=\"M-20,-20 L20,20 M20,-20 L-20,20\" stroke=\"white\" stroke-width=\"2\" />\r\n          <animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0 250 0\" to=\"360 250 0\" dur=\"4s\" repeatCount=\"indefinite\" />\r\n        </g>\r\n\r\n        <!-- 瞬间关联线 (幽灵般的超距作用) -->\r\n        <line x1=\"-200\" y1=\"0\" x2=\"200\" y2=\"0\" stroke=\"#ef4444\" stroke-width=\"2\" stroke-dasharray=\"10 5\" opacity=\"0.4\">\r\n           <animate attributeName=\"stroke-dashoffset\" from=\"0\" to=\"100\" dur=\"1s\" repeatCount=\"indefinite\" />\r\n        </line>\r\n\r\n        <text y=\"-260\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.1em;\">非定域性：全局的一致性</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

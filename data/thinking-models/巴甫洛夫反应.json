@@ -1,0 +1,13 @@
+{
+  "id": "巴甫洛夫反应",
+  "name": "巴甫洛夫反应",
+  "label": "巴甫洛夫反应",
+  "icon": "BrainCircuit",
+  "description": "人类大脑会将无关的信号（如手机消息提示音）与特定的情感或奖励强行绑定。这种“条件反射”完全绕过了理性，成为了生理本能的一部分。",
+  "deepAnalysis": "这是一个思维模型，展示了巴甫洛夫反应的核心概念和应用。",
+  "principle": "思维模型的核心原则：巴甫洛夫反应",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将巴甫洛夫反应应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <!-- 铃铛 (中性刺激) -->\r\n      <g transform=\"translate(300, 200)\">\r\n        <path d=\"M-40,40 Q0,-60 40,40 Z\" fill=\"#fbbf24\" />\r\n        <circle cy=\"45\" r=\"8\" fill=\"#fbbf24\" />\r\n        <animateTransform attributeName=\"transform\" type=\"rotate\" values=\"-10,300,200; 10,300,200; -10,300,200\" dur=\"0.5s\" repeatCount=\"indefinite\" />\r\n        <text y=\"100\" text-anchor=\"middle\" fill=\"#fbbf24\" style=\"font-size: 24px; font-weight: 900;\">铃声 (信号)</text>\r\n      </g>\r\n      \r\n      <!-- 自动关联路径 -->\r\n      <path d=\"M400,200 Q500,200 600,400\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"6\" stroke-dasharray=\"10 5\" opacity=\"0.3\">\r\n        <animate attributeName=\"stroke-dashoffset\" from=\"100\" to=\"0\" dur=\"1s\" repeatCount=\"indefinite\" />\r\n      </path>\r\n\r\n      <!-- 反应点 -->\r\n      <g transform=\"translate(700, 450)\">\r\n        <circle r=\"100\" fill=\"#ef4444\" fill-opacity=\"0.1\" class=\"animate-pulse\" />\r\n        <circle r=\"40\" fill=\"#ef4444\" />\r\n        <text y=\"80\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">生理性反射</text>\r\n        <text y=\"110\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.5\" style=\"font-size: 14px;\">(非理性的自动触发)</text>\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 48px; font-weight: 900; letter-spacing: 0.2em; opacity: 0.1;\">CONd我T我ONEd REFLEX</text>\r\n    </svg>\n</div>"
+}

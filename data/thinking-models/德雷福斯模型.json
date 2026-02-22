@@ -1,0 +1,13 @@
+{
+  "id": "德雷福斯模型",
+  "name": "德雷福斯模型",
+  "label": "德雷福斯技能模型",
+  "icon": "BrainCircuit",
+  "description": "揭示了人类习得复杂技能的物理过程：初级阶段依赖死板的“规则书”，而顶级阶段依赖一种无法言说的、身体化的“直觉”。",
+  "deepAnalysis": "这是一个思维模型，展示了德雷福斯模型的核心概念和应用。",
+  "principle": "思维模型的核心原则：德雷福斯模型",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将德雷福斯模型应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 700\">\r\n      <g transform=\"translate(150, 600)\">\r\n        <!-- 阶梯 A-E (全量汉化) -->\r\n        <g>\r\n          <rect x=\"0\" y=\"-100\" width=\"140\" height=\"100\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" />\r\n          <text x=\"70\" y=\"-40\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">1. 新手</text>\r\n          \r\n          <rect x=\"140\" y=\"-200\" width=\"140\" height=\"200\" fill=\"#ef4444\" fill-opacity=\"0.2\" />\r\n          <text x=\"210\" y=\"-140\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">2. 进阶者</text>\r\n\r\n          <rect x=\"280\" y=\"-300\" width=\"140\" height=\"300\" fill=\"#ef4444\" fill-opacity=\"0.4\" />\r\n          <text x=\"350\" y=\"-240\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 24px; font-weight: 900;\">3. 胜任者</text>\r\n\r\n          <rect x=\"420\" y=\"-400\" width=\"140\" height=\"400\" fill=\"#ef4444\" fill-opacity=\"0.6\" />\r\n          <text x=\"490\" y=\"-340\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 24px; font-weight: 900;\">4. 精通者</text>\r\n\r\n          <rect x=\"560\" y=\"-550\" width=\"140\" height=\"550\" fill=\"#ef4444\" />\r\n          <text x=\"630\" y=\"-490\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 32px; font-weight: 900;\">5. 专家</text>\r\n          <circle cx=\"630\" cy=\"-550\" r=\"15\" fill=\"#fbbf24\" class=\"animate-ping\" />\r\n        </g>\r\n        \r\n        <!-- 规则与直觉的位移线 -->\r\n        <path d=\"M70,-110 Q350,-150 630,-580\" fill=\"none\" stroke=\"#fbbf24\" stroke-width=\"4\" stroke-dasharray=\"10 5\" />\r\n        <text x=\"350\" y=\"-550\" text-anchor=\"middle\" fill=\"#fbbf24\" style=\"font-size: 16px; font-weight: 900;\">从依赖规则 到 依赖直觉</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

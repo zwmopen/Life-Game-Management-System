@@ -1,0 +1,14 @@
+{
+  "id": "坎尼金法则",
+  "name": "坎尼金法则",
+  "label": "木桶定律",
+  "icon": "BrainCircuit",
+  "description": "木桶定律（Cannikin Law）是指一个水桶能装多少水，并不取决于最长的那块木板，而是取决于最短的那块。整体的水平受限于系统内的薄弱环节。这一原理广泛应用于系统管理、个人发展、团队建设等多个领域。",
+  "deepAnalysis": "坎尼金法则（Cannikin Law）又称木桶理论，揭示了系统整体性能的决定因素。核心洞见：一个木桶能装多少水，取决于最短的那块木板。系统的整体性能受限于最薄弱的环节，而非最强的环节。找到并改进短板，是提升整体性能最有效的方法。",
+  "principle": "1. 短板决定：整体性能由最薄弱环节决定\n2. 识别短板：找到系统中最薄弱的环节\n3. 优先改进：优先改进短板获得最大效益\n4. 动态变化：短板会随时间和环境变化\n5. 系统思维：从整体视角看待问题",
+  "scope": "个人发展、团队管理、企业运营、产品开发、项目管理、系统优化",
+  "tips": "1. 识别短板：系统分析找出薄弱环节\n2. 优先改进：资源优先投入短板改进\n3. 动态监控：定期评估发现新短板\n4. 协同优化：改进短板同时保持长板\n5. 资源整合：通过合作互补短板",
+  "practice": "1. 分析系统：全面分析系统各环节\n2. 识别短板：找出最薄弱的环节\n3. 制定计划：制定改进短板的计划\n4. 优先执行：优先执行短板改进\n5. 持续监控：持续监控并调整",
+  "scenario": "1. 个人成长：识别并提升最薄弱的技能\n2. 团队建设：提升团队中最弱的环节\n3. 产品优化：改进产品最影响体验的功能\n4. 流程改进：优化流程中的瓶颈环节\n5. 企业运营：提升企业最薄弱的业务能力",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 800 600\">\n        <!-- 木桶结构 -->\n        <g transform=\"translate(400, 300)\">\n          <!-- 正常木板 -->\n          <rect x=\"-150\" y=\"-150\" width=\"40\" height=\"300\" fill=\"var(--text-secondary)\" />\n          <rect x=\"-100\" y=\"-150\" width=\"40\" height=\"300\" fill=\"var(--text-secondary)\" />\n          <rect x=\"0\" y=\"-150\" width=\"40\" height=\"300\" fill=\"var(--text-secondary)\" />\n          <rect x=\"50\" y=\"-150\" width=\"40\" height=\"300\" fill=\"var(--text-secondary)\" />\n          <rect x=\"100\" y=\"-150\" width=\"40\" height=\"300\" fill=\"var(--text-secondary)\" />\n          \n          <!-- 短板 (决定水位的关键) -->\n          <g>\n            <rect x=\"-50\" y=\"50\" width=\"40\" height=\"100\" fill=\"var(--primary-color)\" />\n            <text x=\"-30\" y=\"40\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 10px; font-weight: 900;\">SHORTEST LINK</text>\n          </g>\n          \n          <!-- 水位 (受限于短板) -->\n          <rect x=\"-150\" y=\"50\" width=\"300\" height=\"100\" fill=\"var(--primary-color)\" fill-opacity=\"0.3\">\n            <animate attributeName=\"height\" values=\"100;95;100\" dur=\"2s\" repeatCount=\"indefinite\" />\n          </rect>\n          \n          <!-- 漏水点 -->\n          <path d=\"M-30,150 L-30,220\" stroke=\"var(--primary-color)\" stroke-width=\"4\" stroke-dasharray=\"10 5\" opacity=\"0.6\">\n            <animate attributeName=\"stroke-dashoffset\" from=\"0\" to=\"20\" dur=\"1s\" repeatCount=\"indefinite\" />\n          </path>\n        </g>\n\n        <text x=\"400\" y=\"550\" text-anchor=\"middle\" fill=\"var(--text-secondary)\" opacity=\"0.3\" style=\"font-size: 10px; font-weight: 900; letter-spacing: 0.5em;\">THE CAPACITY OF THE WHOLE IS THE CAPACITY OF THE WEAKEST</text>\n      </svg>\n</div>"
+}

@@ -1,0 +1,14 @@
+{
+  "id": "运气表面积",
+  "name": "运气表面积",
+  "label": "运气表面积",
+  "icon": "BrainCircuit",
+  "description": "运气不是纯粹的随机。你在这个世界上做的每一件事，和你分享这件事的每一个动作，都在扩大你与意外好运发生碰撞的物理截面积。好运是可以通过A规模化生产的。",
+  "deepAnalysis": "运气表面积（Luck Surface Area）揭示了运气的可生产性。核心洞见：运气不是纯粹的随机。你在这个世界上做的每一件事，和你分享这件事的每一个动作，都在扩大你与意外好运发生碰撞的物理截面积。好运是可以通过行动规模化生产的。",
+  "principle": "1. 行动扩大：行动扩大运气表面积\n2. 分享放大：分享放大运气表面积\n3. 碰撞概率：增加与好运碰撞的概率\n4. 规模生产：好运可以规模化生产\n5. 主动创造：主动创造好运机会",
+  "scope": "个人发展、职业规划、创业战略、社交网络、机会管理、创新实践",
+  "tips": "1. 多做事情：多做事扩大表面积\n2. 多分享：分享扩大表面积\n3. 保持开放：保持对机会的开放\n4. 主动出击：主动创造机会\n5. 持续行动：持续行动扩大表面积",
+  "practice": "1. 增加行动：增加行动的数量\n2. 扩大分享：扩大分享的范围\n3. 保持开放：保持对机会的开放\n4. 主动出击：主动创造机会\n5. 持续行动：持续行动扩大表面积",
+  "scenario": "1. 职业发展：扩大职业运气表面积\n2. 创业战略：扩大创业运气表面积\n3. 社交网络：扩大社交运气表面积\n4. 机会管理：管理机会表面积\n5. 创新实践：扩大创新运气表面积",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 随机飞行的好运粒子 -->\r\n        <g fill=\"#fbbf24\" opacity=\"0.6\">\r\n           <circle r=\"8\"><animateMotion path=\"M-500,-100 Q-200,0 500,200\" dur=\"4s\" repeatCount=\"indefinite\" /></circle>\r\n           <circle r=\"5\"><animateMotion path=\"M500,-300 Q0,0 -500,300\" dur=\"6s\" repeatCount=\"indefinite\" /></circle>\r\n           <circle r=\"12\" class=\"animate-ping\" style=\"animation-duration: 0.5s\"><animateMotion path=\"M0,400 Q0,0 0,-400\" dur=\"5s\" repeatCount=\"indefinite\" /></circle>\r\n        </g>\r\n        \r\n        <!-- 你的运气接收器 -->\r\n        <g>\r\n          <!-- 窄小的接收器 (不A) -->\r\n          <g transform=\"translate(-300, 0)\" opacity=\"0.2\">\r\n             <rect x=\"-10\" y=\"-100\" width=\"20\" height=\"200\" fill=\"#1e293b\" />\r\n             <text y=\"150\" text-anchor=\"middle\" style=\"font-size: 14px;\">不A：接触面极小</text>\r\n          </g>\r\n\r\n          <!-- 巨大的接收器 (高频A+分享) -->\r\n          <g transform=\"translate(150, 0)\">\r\n             <rect x=\"-150\" y=\"-150\" width=\"300\" height=\"300\" rx=\"40\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"10 5\">\r\n                <animate attributeName=\"stroke-dashoffset\" from=\"0\" to=\"50\" dur=\"1s\" repeatCount=\"indefinite\" />\r\n             </rect>\r\n             <circle r=\"40\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 30px #ef4444)\" />\r\n             <text text-anchor=\"middle\" y=\"8\" fill=\"white\" style=\"font-size: 24px; font-weight: 900;\">高运气表面积</text>\r\n             <text y=\"200\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 28px; font-weight: 900;\">好运 = A × 分享</text>\r\n          </g>\r\n        </g>\r\n      </g>\r\n      <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"#fbbf24\" style=\"font-size: 24px; font-weight: 900; letter-spacing: 0.5em;\">LUcK = DO我NG × TELL我NG</text>\r\n    </svg>\n</div>"
+}

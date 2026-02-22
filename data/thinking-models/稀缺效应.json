@@ -1,0 +1,13 @@
+{
+  "id": "稀缺效应",
+  "name": "稀缺效应",
+  "label": "稀缺效应",
+  "icon": "BrainCircuit",
+  "description": "当人处于金钱或时间极度匮乏（稀缺）的状态时，大脑会自动征用所有带宽去应付当前的危机，导致长远规划和决策能力的丧失。",
+  "deepAnalysis": "这是一个思维模型，展示了稀缺效应的核心概念和应用。",
+  "principle": "思维模型的核心原则：稀缺效应",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将稀缺效应应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <!-- 正常带宽流 -->\r\n      <g opacity=\"0.05\">\r\n        <rect x=\"100\" y=\"100\" width=\"800\" height=\"400\" rx=\"40\" fill=\"#1e293b\" />\r\n      </g>\r\n      \r\n      <!-- 稀缺导致的隧道视野 (漏斗) -->\r\n      <path d=\"M100,100 L900,100 L550,300 L550,500 L450,500 L450,300 Z\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"2\" stroke-dasharray=\"10 10\" opacity=\"0.1\" />\r\n      \r\n      <!-- 被卡住的认知资源 -->\r\n      <g>\r\n        <circle cx=\"500\" cy=\"150\" r=\"40\" fill=\"#f59e0b\" opacity=\"0.8\">\r\n           <animate attributeName=\"cy\" from=\"150\" to=\"280\" dur=\"2s\" repeatCount=\"indefinite\" />\r\n           <animate attributeName=\"r\" from=\"40\" to=\"20\" dur=\"2s\" repeatCount=\"indefinite\" />\r\n        </circle>\r\n        <text x=\"500\" y=\"350\" text-anchor=\"middle\" fill=\"#f59e0b\" style=\"font-size: 24px; font-weight: 900;\">隧道视野 (TUNNEL我NG)</text>\r\n      </g>\r\n\r\n      <!-- 流出的微量决策 -->\r\n      <rect x=\"490\" y=\"450\" width=\"20\" height=\"20\" rx=\"4\" fill=\"#ef4444\" opacity=\"0.5\">\r\n         <animate attributeName=\"y\" from=\"450\" to=\"550\" dur=\"1s\" repeatCount=\"indefinite\" />\r\n         <animate attributeName=\"opacity\" values=\"1;0\" dur=\"1s\" repeatCount=\"indefinite\" />\r\n      </rect>\r\n\r\n      <text x=\"500\" y=\"50\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 14px; font-weight: 900; letter-spacing: 0.5em;\">COGN我T我VE BaNdW我dTH TaX</text>\r\n    </svg>\n</div>"
+}

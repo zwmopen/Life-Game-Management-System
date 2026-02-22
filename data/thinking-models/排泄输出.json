@@ -1,0 +1,13 @@
+{
+  "id": "排泄输出",
+  "name": "排泄输出",
+  "label": "生理性产出协议",
+  "icon": "BrainCircuit",
+  "description": "破解“创作焦虑”的特效药。不要把发笔记、录视频当成神圣的“艺术创作”，那会增加你的心理负重。要把产出视为一种生理性的“排泄”——是你消化了大量信息后自然而然的结果。不准停，不准等完美。",
+  "deepAnalysis": "这是一个思维模型，展示了排泄输出的核心概念和应用。",
+  "principle": "思维模型的核心原则：排泄输出",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将排泄输出应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 传送带 (生理节律) -->\r\n        <rect x=\"-400\" y=\"50\" width=\"800\" height=\"20\" rx=\"10\" fill=\"#1e293b\" opacity=\"0.1\" />\r\n        <g>\r\n          <animateTransform attributeName=\"transform\" type=\"translate\" values=\"0,0; 100,0; 0,0\" dur=\"2s\" repeatCount=\"indefinite\" />\r\n          <line x1=\"-350\" y1=\"60\" x2=\"350\" y2=\"60\" stroke=\"#1e293b\" stroke-width=\"2\" stroke-dasharray=\"20 10\" opacity=\"0.2\" />\r\n        </g>\r\n        \r\n        <!-- 60 分的产品 (排队落下) -->\r\n        <g>\r\n          <rect x=\"-50\" y=\"-80\" width=\"100\" height=\"100\" rx=\"10\" fill=\"#ef4444\" opacity=\"0.8\">\r\n            <animateMotion path=\"M-400,0 L400,0\" dur=\"4s\" repeatCount=\"indefinite\" />\r\n          </rect>\r\n          <text y=\"-100\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">\r\n             <animateMotion path=\"M-400,0 L400,0\" dur=\"4s\" repeatCount=\"indefinite\" />\r\n             60分产出\r\n          </text>\r\n        </g>\r\n\r\n        <!-- 阻断神圣感 (碎纸机/过滤器) -->\r\n        <g transform=\"translate(0, -150)\">\r\n          <path d=\"M-120,0 L120,0\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"5 5\" />\r\n          <text text-anchor=\"middle\" y=\"-20\" fill=\"#ef4444\" style=\"font-size: 18px; font-weight: 900;\">去神圣化：它只是每天的排泄物</text>\r\n        </g>\r\n\r\n        <text y=\"240\" text-anchor=\"middle\" fill=\"#10b981\" style=\"font-size: 42px; font-weight: 900;\">像吃饭一样生产，不准间断</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

@@ -1,0 +1,14 @@
+{
+  "id": "费斯廷格法则",
+  "name": "费斯廷格法则",
+  "label": "费斯汀格法则",
+  "icon": "BrainCircuit",
+  "description": "生活中的 10% 是由发生在你身上的事情组成的，而剩下的 90% 则是由你对所发生的事情如何反应所决定的。",
+  "deepAnalysis": "费斯廷格法则（Festinger's Rule）揭示了态度决定结果。核心洞见：生活中的10%是由发生在你身上的事情组成的，而剩下的90%则是由你对所发生的事情如何反应所决定的。我们无法控制发生什么，但可以控制如何反应。态度比事件本身更重要。",
+  "principle": "1. 10%事件：发生的事情只占10%\n2. 90%反应：反应决定了90%\n3. 态度主导：态度决定结果\n4. 可控反应：反应是可以控制的\n5. 选择权力：拥有选择的权力",
+  "scope": "情绪管理、心理健康、人际关系、压力管理、职业发展、个人成长",
+  "tips": "1. 接受事件：接受发生的事件\n2. 控制反应：控制自己的反应\n3. 积极态度：保持积极态度\n4. 选择权力：运用选择的权力\n5. 关注可控：关注可控的部分",
+  "practice": "1. 识别事件：识别发生的事件\n2. 接受现实：接受不可控的现实\n3. 选择反应：选择积极的反应\n4. 采取行动：采取积极行动\n5. 反思总结：反思和总结",
+  "scenario": "1. 情绪管理：管理情绪反应\n2. 压力管理：管理压力反应\n3. 人际关系：处理人际冲突\n4. 职业发展：应对职业挑战\n5. 个人成长：促进个人成长",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <!-- 10% 客观事件 (火花) -->\r\n      <g transform=\"translate(200, 300)\">\r\n        <rect x=\"-50\" y=\"-50\" width=\"100\" height=\"100\" rx=\"15\" fill=\"#ef4444\" />\r\n        <text text-anchor=\"middle\" y=\"10\" fill=\"white\" style=\"font-size: 32px; font-weight: 900;\">10%</text>\r\n        <text y=\"85\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 18px; font-weight: 900;\">客观发生 (不可控)</text>\r\n      </g>\r\n      \r\n      <!-- 放大镜效应线 -->\r\n      <path d=\"M250,300 L450,300\" stroke=\"#1e293b\" stroke-width=\"1\" stroke-dasharray=\"5 5\" opacity=\"0.1\" />\r\n\r\n      <!-- 90% 心理反应 (主战场) -->\r\n      <g transform=\"translate(650, 300)\">\r\n        <rect x=\"-160\" y=\"-160\" width=\"320\" height=\"320\" rx=\"40\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"10 5\" />\r\n        <text text-anchor=\"middle\" y=\"25\" fill=\"#ef4444\" style=\"font-size: 96px; font-weight: 900;\">90%</text>\r\n        <text y=\"95\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 20px; font-weight: 900;\">你的反应 (绝对主权区)</text>\r\n        <circle r=\"60\" fill=\"#ef4444\" fill-opacity=\"0.15\" class=\"animate-ping\" />\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"550\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.4\" style=\"font-size: 18px; font-weight: 900; letter-spacing: 0.1em;\">人生 10% 取决于遭遇，90% 取决于你的反应</text>\r\n    </svg>\n</div>"
+}

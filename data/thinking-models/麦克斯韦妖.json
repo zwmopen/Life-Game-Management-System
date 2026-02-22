@@ -1,0 +1,14 @@
+{
+  "id": "麦克斯韦妖",
+  "name": "麦克斯韦妖",
+  "label": "麦克斯韦妖",
+  "icon": "BrainCircuit",
+  "description": "物理学史上著名的思想实验：一个小妖守在两个容器的通道口，通过观察粒子的速度（信息），只允许快粒子去左边，慢粒子去右边。这违背了熵增定律吗？兰道尔揭示了真相：小妖抹除脑中信息的过程会产生热量。这意味着：秩序是有代价的，代价就是对信息的消耗。",
+  "deepAnalysis": "麦克斯韦妖（Maxwell's Demon）是物理学史上著名的思想实验。核心洞见：一个小妖守在两个容器的通道口，通过观察粒子的速度（信息），只允许快粒子去左边、慢粒子去右边，看似违背了熵增定律。兰道尔揭示了真相：小妖抹除脑中信息的过程会产生热量。这意味着秩序是有代价的，代价就是对信息的消耗。",
+  "principle": "1. 信息即能量：信息处理消耗能量\n2. 秩序代价：建立秩序需要消耗信息\n3. 熵增定律：封闭系统趋向无序\n4. 观察成本：观察和处理信息有成本\n5. 信息热力学：信息与热力学的关系",
+  "scope": "物理学、信息论、热力学、认知科学、系统管理、决策理论",
+  "tips": "1. 认识成本：认识到信息处理有成本\n2. 秩序投资：建立秩序需要投入资源\n3. 信息管理：有效管理信息资源\n4. 系统开放：保持系统开放性\n5. 能量守恒：理解能量和信息的关系",
+  "practice": "1. 评估成本：评估信息处理的成本\n2. 优化流程：优化信息处理流程\n3. 建立秩序：投入资源建立秩序\n4. 管理信息：有效管理信息资源\n5. 持续改进：持续改进系统效率",
+  "scenario": "1. 信息管理：理解信息处理的成本\n2. 系统设计：设计高效的信息系统\n3. 组织管理：理解组织秩序的成本\n4. 决策优化：优化决策信息流\n5. 知识管理：理解知识管理的成本",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 容器分割线 -->\r\n        <rect x=\"-400\" y=\"-200\" width=\"800\" height=\"400\" rx=\"40\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n        <line x1=\"0\" y1=\"-200\" x2=\"0\" y2=\"200\" stroke=\"#1e293b\" stroke-width=\"4\" stroke-dasharray=\"10 20\" opacity=\"0.2\" />\r\n        \r\n        <!-- 小妖 (信息处理者) -->\r\n        <g transform=\"translate(0, 0)\">\r\n          <circle r=\"40\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 20px #ef4444)\" />\r\n          <path d=\"M-15,10 Q0,30 15,10\" stroke=\"white\" stroke-width=\"2\" fill=\"none\" />\r\n          <circle cx=\"-15\" cy=\"-5\" r=\"4\" fill=\"white\" /><circle cx=\"15\" cy=\"-5\" r=\"4\" fill=\"white\" />\r\n          <text y=\"-60\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">认知过滤器</text>\r\n        </g>\r\n\r\n        <!-- 粒子分拣 (信息换取秩序) -->\r\n        <g>\r\n          <!-- 快速粒子 -> 左侧 -->\r\n          <circle r=\"8\" fill=\"#ef4444\">\r\n             <animate attributeName=\"cx\" from=\"50\" to=\"-350\" dur=\"2s\" repeatCount=\"indefinite\" />\r\n             <animate attributeName=\"cy\" from=\"0\" to=\"-100\" dur=\"2s\" repeatCount=\"indefinite\" />\r\n          </circle>\r\n          <!-- 慢速粒子 -> 右侧 -->\r\n          <circle r=\"8\" fill=\"#3b82f6\">\r\n             <animate attributeName=\"cx\" from=\"-50\" to=\"350\" dur=\"3s\" repeatCount=\"indefinite\" />\r\n             <animate attributeName=\"cy\" from=\"0\" to=\"100\" dur=\"3s\" repeatCount=\"indefinite\" />\r\n          </circle>\r\n        </g>\r\n\r\n        <text y=\"260\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">信息 = 秩序的源泉</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

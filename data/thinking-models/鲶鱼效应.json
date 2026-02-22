@@ -1,0 +1,13 @@
+{
+  "id": "鲶鱼效应",
+  "name": "鲶鱼效应",
+  "label": "鲶鱼效应",
+  "icon": "BrainCircuit",
+  "description": "鲶鱼效应（Catfish Effect）源自挪威渔民的故事：为了保持沙丁鱼在运输过程中的活力，渔民会在鱼舱中放入几条鲶鱼。鲶鱼的搅动使得沙丁鱼不得不保持游动，从而提高了成活率。这一现象后来被引申为一种管理策略，通过引入外部竞争者或刺激因素，来激活原本沉闷、停滞的系统或团队。",
+  "deepAnalysis": "鲶鱼效应（Catfish Effect）源自挪威渔民的故事：为了保持沙丁鱼在运输过程中的活力，渔民会在鱼舱中放入几条鲶鱼。鲶鱼的搅动使得沙丁鱼不得不保持游动，从而提高了成活率。这一现象后来被引申为一种管理策略，通过引入外部竞争者或刺激因素，来激活原本沉闷、停滞的系统或团队。\n\n核心机制：\n- 外部刺激：引入外部竞争者打破平衡\n- 压力转化：压力转化为动力\n- 活力激发：激发系统内部的活力\n\n应用场景：\n- 企业管理：引入新员工激活团队\n- 市场竞争：新进入者激活市场\n- 个人发展：主动寻求挑战",
+  "principle": "1. 外部刺激：引入外部竞争者打破平衡\n2. 压力转化：将压力转化为动力\n3. 活力激发：激发系统内部的活力\n4. 适度原则：刺激要适度，避免过度\n5. 目标导向：引入刺激要有明确目标",
+  "scope": "企业管理、团队建设、个人发展、市场竞争、教育领域、组织变革",
+  "tips": "1. 适度引入：鲶鱼的引入要适度，避免过度刺激\n2. 明确目标：引入前要明确目标\n3. 引导适应：引导成员适应新的竞争环境\n4. 持续监控：密切关注系统的反应\n5. 平衡激励：保持适当的合作和激励机制",
+  "practice": "将鲶鱼效应应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 800 600\">\n        <!-- 鱼群 (沙丁鱼 - 缓慢、灰暗) -->\n        <g>\n          <circle cx=\"300\" cy=\"200\" r=\"10\" fill=\"var(--text-secondary)\"><animate attributeName=\"cx\" values=\"300;320;300\" dur=\"4s\" repeatCount=\"indefinite\" /></circle>\n          <circle cx=\"350\" cy=\"250\" r=\"10\" fill=\"var(--text-secondary)\"><animate attributeName=\"cy\" values=\"250;270;250\" dur=\"3s\" repeatCount=\"indefinite\" /></circle>\n          <circle cx=\"250\" cy=\"300\" r=\"10\" fill=\"var(--text-secondary)\" opacity=\"0.5\" />\n          <circle cx=\"450\" cy=\"350\" r=\"10\" fill=\"var(--text-secondary)\" opacity=\"0.3\" />\n        </g>\n        \n        <!-- 鲶鱼 (搅局者 - 快速、鲜亮) -->\n        <g transform=\"translate(100, 300)\">\n          <path d=\"M-40,-10 Q0,-40 60,0 T-40,40\" fill=\"var(--primary-color)\">\n            <animateTransform attributeName=\"transform\" type=\"translate\" from=\"-200,0\" to=\"800,0\" dur=\"2s\" repeatCount=\"indefinite\" />\n          </path>\n          <circle r=\"50\" fill=\"var(--primary-color)\" fill-opacity=\"0.1\" class=\"animate-ping\">\n             <animateTransform attributeName=\"transform\" type=\"translate\" from=\"-200,0\" to=\"800,0\" dur=\"2s\" repeatCount=\"indefinite\" />\n          </circle>\n        </g>\n\n        <text x=\"400\" y=\"500\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 14px; font-weight: 900;\">CATFISH: EXTERNAL STRESSOR</text>\n        <text x=\"400\" y=\"530\" text-anchor=\"middle\" fill=\"var(--text-secondary)\" opacity=\"0.4\" style=\"font-size: 10px;\">促使整个系统重新活跃</text>\n\n        <text x=\"400\" y=\"580\" text-anchor=\"middle\" fill=\"var(--text-secondary)\" opacity=\"0.3\" style=\"font-size: 10px; font-weight: 900; letter-spacing: 0.5em;\">SURVIVAL THROUGH COMPETITION</text>\n      </svg>\n</div>"
+}

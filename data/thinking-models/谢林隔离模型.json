@@ -1,0 +1,14 @@
+{
+  "id": "谢林隔离模型",
+  "name": "谢林隔离模型",
+  "label": "谢林隔离模型",
+  "icon": "BrainCircuit",
+  "description": "由诺奖得主托马斯·谢林提出。即使每个个体只是希望“邻居中不至于全是异类”（如希望 30% 是同类），在长期的互动和移动中，整个系统也会自发演化成 100% 的彻底隔离。中庸的偏好产生了极端的结果。",
+  "deepAnalysis": "谢林隔离模型（Schelling Segregation Model）由诺奖得主托马斯·谢林提出。核心洞见：即使每个个体只是希望邻居中不至于全是异类（如希望30%是同类），在长期的互动和移动中，整个系统也会自发演化成100%的彻底隔离。中庸的偏好产生了极端的结果。",
+  "principle": "1. 微观偏好：个体只有微弱的同类偏好\n2. 宏观极端：系统演化成极端隔离\n3. 自发演化：无需强制自发形成\n4. 非预期结果：结果超出个体意图\n5. 涌现现象：宏观涌现微观不具备的特征",
+  "scope": "社会学、城市规划、组织管理、社区设计、公共政策、系统思维",
+  "tips": "1. 认识涌现：认识微观行为的宏观后果\n2. 设计干预：设计有效的干预措施\n3. 避免极端：避免偏好导致的极端结果\n4. 系统思维：用系统思维分析问题\n5. 政策设计：设计合理的公共政策",
+  "practice": "1. 分析偏好：分析个体的偏好\n2. 模拟演化：模拟系统演化\n3. 识别风险：识别极端结果风险\n4. 设计干预：设计干预措施\n5. 监测结果：监测系统结果",
+  "scenario": "1. 城市规划：规划多元社区\n2. 组织管理：管理组织多样性\n3. 公共政策：设计融合政策\n4. 社区设计：设计多元社区\n5. 系统分析：分析涌现现象",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 初始混乱网格 -->\r\n        <rect x=\"-300\" y=\"-200\" width=\"600\" height=\"400\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"1\" opacity=\"0.1\" />\r\n        \r\n        <!-- 演化后的隔离板块 -->\r\n        <g>\r\n          <!-- 蓝色阵营 -->\r\n          <rect x=\"-280\" y=\"-180\" width=\"250\" height=\"360\" rx=\"20\" fill=\"#ef4444\" fill-opacity=\"0.2\" stroke=\"#ef4444\" stroke-width=\"2\" />\r\n          <g fill=\"#ef4444\">\r\n            <circle cx=\"-150\" cy=\"-80\" r=\"10\" /><circle cx=\"-200\" cy=\"50\" r=\"10\" />\r\n            <circle cx=\"-100\" cy=\"120\" r=\"10\" />\r\n          </g>\r\n          \r\n          <!-- 红色阵营 -->\r\n          <rect x=\"30\" y=\"-180\" width=\"250\" height=\"360\" rx=\"20\" fill=\"#ef4444\" fill-opacity=\"0.2\" stroke=\"#ef4444\" stroke-width=\"2\" />\r\n          <g fill=\"#ef4444\">\r\n            <circle cx=\"150\" cy=\"-80\" r=\"10\" /><circle cx=\"200\" cy=\"50\" r=\"10\" />\r\n            <circle cx=\"100\" cy=\"120\" r=\"10\" />\r\n          </g>\r\n        </g>\r\n\r\n        <!-- 移动的粒子 (寻找同类) -->\r\n        <circle r=\"15\" fill=\"#fbbf24\" class=\"animate-pulse\">\r\n          <animateMotion path=\"M0,0 L-200,0 M0,0 L200,0\" dur=\"4s\" repeatCount=\"indefinite\" />\r\n        </circle>\r\n\r\n        <text y=\"240\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.6\" style=\"font-size: 24px; font-weight: 900;\">微小偏好 → 极端隔离</text>\r\n      </g>\r\n      <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.1\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.5em;\">SOc我OLOG我caL EMERGENcE</text>\r\n    </svg>\n</div>"
+}

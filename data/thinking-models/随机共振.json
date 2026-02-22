@@ -1,0 +1,14 @@
+{
+  "id": "随机共振",
+  "name": "随机共振",
+  "label": "随机共振",
+  "icon": "BrainCircuit",
+  "description": "反直觉的物理现象：在某些非线性系统中，给微弱的、低于检测阈值的信号添加适度的背景“噪音”，反而能使信号得到增强并被检测到。噪音在这一刻变成了协助者。",
+  "deepAnalysis": "随机共振（Stochastic Resonance）是一个反直觉的物理现象。核心洞见：在某些非线性系统中，给微弱的、低于检测阈值的信号添加适度的背景噪音，反而能使信号得到增强并被检测到。噪音在这一刻变成了协助者。这揭示了噪音和混乱在特定条件下可以成为有用的资源。",
+  "principle": "1. 噪音增强：适度噪音可以增强信号\n2. 阈值突破：噪音帮助突破检测阈值\n3. 非线性系统：只存在于非线性系统\n4. 最优噪音：存在最优噪音水平\n5. 反直觉：噪音不总是有害的",
+  "scope": "信号处理、神经科学、决策理论、创新思维、系统设计、风险管理",
+  "tips": "1. 利用噪音：适度噪音可能有益\n2. 寻找最优：寻找最优噪音水平\n3. 打破阈值：利用噪音突破阈值\n4. 非线性思维：用非线性思维看问题\n5. 混沌利用：利用混沌和不确定性",
+  "practice": "1. 识别系统：识别系统的非线性特征\n2. 分析信号：分析信号的强度和阈值\n3. 添加噪音：适度添加噪音\n4. 寻找最优：寻找最优噪音水平\n5. 验证效果：验证信号增强效果",
+  "scenario": "1. 信号处理：增强微弱信号\n2. 决策优化：利用不确定性\n3. 创新思维：利用混乱激发创意\n4. 系统设计：设计抗噪系统\n5. 神经科学：理解大脑信号处理",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 阈值水平线 -->\r\n        <line x1=\"-400\" y1=\"-50\" x2=\"400\" y2=\"-50\" stroke=\"#ef4444\" stroke-width=\"2\" stroke-dasharray=\"10 5\" opacity=\"0.3\" />\r\n        <text x=\"410\" y=\"-45\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">检测阈值</text>\r\n        \r\n        <!-- 微弱信号 (低于阈值，看不见) -->\r\n        <path d=\"M-400,50 Q-200,40 0,50 T400,50\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"4\" opacity=\"0.2\" />\r\n        \r\n        <!-- 背景噪音 (随机闪动的小点) -->\r\n        <g opacity=\"0.4\" fill=\"#ef4444\">\r\n           <circle r=\"2\"><animate attributeName=\"cx\" values=\"-400;400\" dur=\"0.1s\" repeatCount=\"indefinite\" /><animate attributeName=\"cy\" values=\"-100;100\" dur=\"0.05s\" repeatCount=\"indefinite\" /></circle>\r\n        </g>\r\n\r\n        <!-- 叠加后的有效信号 (突破阈值) -->\r\n        <g>\r\n          <path d=\"M-400,50 Q-200,-150 0,50 T400,-150\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"12\" stroke-linecap=\"round\">\r\n             <animate attributeName=\"stroke-dasharray\" from=\"0,1200\" to=\"1200,0\" dur=\"4s\" repeatCount=\"indefinite\" />\r\n          </path>\r\n          <circle cx=\"200\" cy=\"-150\" r=\"30\" fill=\"#ef4444\" class=\"animate-ping\" />\r\n          <text x=\"200\" y=\"-200\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">信号被捕获!</text>\r\n        </g>\r\n\r\n        <text y=\"240\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.1em;\">噪音：弱信号的垫脚石</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

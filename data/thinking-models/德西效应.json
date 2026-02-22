@@ -1,0 +1,13 @@
+{
+  "id": "德西效应",
+  "name": "德西效应",
+  "label": "德西效应",
+  "icon": "BrainCircuit",
+  "description": "当一个人正在享受一项活动带来的纯粹乐趣时，如果给予外部物质奖励，反而会削弱其内在动机。一旦奖励停止，原有的兴趣也会随之消失。",
+  "deepAnalysis": "这是一个思维模型，展示了德西效应的核心概念和应用。",
+  "principle": "思维模型的核心原则：德西效应",
+  "scope": "教育领域（学生学习动机的培养）, \n          企业管理（员工激励和团队建设）, \n          个人发展（自我激励和习惯养成）, \n          儿童教育（兴趣培养和行为引导）, \n          创意工作（艺术、设计、写作等领域）, \n          体育训练（内在动力的保持）, \n          任何需要长期坚持和创造力的活动",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "为创造性工作提供更多自主权和决策空间; \n          设置挑战性但可实现的目标，激发内在的成就感; \n          给予及时、具体的反馈和认可; \n          建立内在满足感的文化，强调工作的意义和价值; \n          创造支持性的环境，鼓励探索和创新; \n          平衡外部奖励和内在动机，避免过度依赖任何一种",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\n          <!-- 内在动力场 (核心) -->\n          <g transform=\"translate(500, 300)\">\n            <circle r=\"120\" fill=\"var(--primary-color)\" fill-opacity=\"0.1\" class=\"animate-pulse\" />\n            <circle r=\"60\" fill=\"var(--primary-color)\" filter=\"drop-shadow(0 0 20px var(--primary-color))\" />\n            <text text-anchor=\"middle\" y=\"8\" fill=\"white\" style=\"font-size: 20px; font-weight: 900;\">内在兴趣</text>\n          </g>\n          \n          <!-- 外部奖赏注入 (金币流) -->\n          <g>\n            <circle cx=\"200\" cy=\"100\" r=\"15\" fill=\"var(--reward-color)\">\n               <animate attributeName=\"cx\" from=\"200\" to=\"500\" dur=\"2s\" repeatCount=\"indefinite\" />\n               <animate attributeName=\"cy\" from=\"100\" to=\"300\" dur=\"2s\" repeatCount=\"indefinite\" />\n               <animate attributeName=\"opacity\" values=\"1;0\" dur=\"2s\" repeatCount=\"indefinite\" />\n            </circle>\n            <text x=\"200\" y=\"80\" text-anchor=\"middle\" fill=\"var(--reward-color)\" style=\"font-size: 18px; font-weight: 900;\">外部奖励 ($)</text>\n          </g>\n\n          <!-- 产生的侵蚀效果 -->\n          <g transform=\"translate(500, 300)\">\n            <path d=\"M-80,-80 L80,80 M80,-80 L-80,80\" stroke=\"var(--primary-color)\" stroke-width=\"4\" opacity=\"0.3\" stroke-dasharray=\"10 5\" />\n            <text y=\"160\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 20px; font-weight: 900;\">动机位移：兴趣 → 任务</text>\n          </g>\n\n          <text x=\"500\" y=\"550\" text-anchor=\"middle\" fill=\"var(--text-secondary)\" opacity=\"0.4\" style=\"font-size: 18px; font-weight: 900; letter-spacing: 0.2em;\">外部奖赏正在侵蚀内在乐趣</text>\n        </svg>\n</div>"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "南风效应",
+  "name": "南风效应",
+  "label": "南风法则",
+  "icon": "BrainCircuit",
+  "description": "也称“温暖法则”。源于拉封丹寓言：北风狂吹试图脱掉路人的大衣，结果路人越裹越紧；南风徐徐吹过，路人因温暖而自发脱掉了大衣。在管理中，温暖的力量往往大于强制。",
+  "deepAnalysis": "南风效应（South Wind Effect）源于伊索寓言《北风与太阳》。核心洞见：温暖比强硬更有效。北风用尽全力吹不脱行人的大衣，而太阳温暖地照耀，行人主动脱下了大衣。在人际交往和管理中，温和的方式往往比强硬的方式更有效。",
+  "principle": "1. 温和优于强硬：温和的方式更有效\n2. 主动配合：让人主动配合而非被迫\n3. 情感共鸣：建立情感共鸣\n4. 尊重对方：尊重对方的自主性\n5. 持久影响：温和方式影响更持久",
+  "scope": "人际交往、管理沟通、教育培训、销售谈判、家庭教育、领导力",
+  "tips": "1. 以理服人：用道理而非强制\n2. 以情动人：用情感打动对方\n3. 尊重对方：尊重对方的选择\n4. 循序渐进：循序渐进地引导\n5. 正面激励：用正面激励代替惩罚",
+  "practice": "1. 了解对方：了解对方的需求和想法\n2. 建立信任：建立信任关系\n3. 温和沟通：用温和的方式沟通\n4. 引导而非强制：引导而非强制\n5. 持续关怀：持续关怀和支持",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <!-- 场景 A: 北风 (寒冷压迫) -->\r\n      <g transform=\"translate(250, 300)\">\r\n        <rect x=\"-110\" y=\"-160\" width=\"220\" height=\"320\" rx=\"30\" fill=\"none\" stroke=\"#3b82f6\" stroke-width=\"1\" opacity=\"0.2\" />\r\n        <!-- 紧闭的外壳 -->\r\n        <circle r=\"60\" fill=\"#3b82f6\" opacity=\"0.8\" />\r\n        <path d=\"M-90,-20 Q0,-50 90,-20\" stroke=\"white\" stroke-width=\"3\" fill=\"none\" opacity=\"0.5\" />\r\n        <text y=\"100\" text-anchor=\"middle\" fill=\"#3b82f6\" style=\"font-size: 20px; font-weight: 900;\">北风：强硬管制</text>\r\n        <text y=\"130\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.5\" style=\"font-size: 12px;\">(防御增强，心门紧闭)</text>\r\n      </g>\r\n      \r\n      <!-- 场景 B: 南风 (温暖引导) -->\r\n      <g transform=\"translate(750, 300)\">\r\n        <rect x=\"-110\" y=\"-160\" width=\"220\" height=\"320\" rx=\"30\" fill=\"#fbbf24\" fill-opacity=\"0.05\" stroke=\"#fbbf24\" stroke-width=\"1\" />\r\n        <!-- 开启的外壳 -->\r\n        <circle r=\"100\" fill=\"#fbbf24\" fill-opacity=\"0.1\" class=\"animate-pulse\" />\r\n        <circle r=\"50\" fill=\"#fbbf24\" />\r\n        <path d=\"M-40,-20 L0,25 L40,-20\" stroke=\"white\" stroke-width=\"6\" fill=\"none\" />\r\n        <text y=\"130\" text-anchor=\"middle\" fill=\"#fbbf24\" style=\"font-size: 20px; font-weight: 900;\">南风：理解与温情</text>\r\n        <text y=\"160\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.5\" style=\"font-size: 12px;\">(自发卸甲，真诚协作)</text>\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"100\" text-anchor=\"middle\" fill=\"#fbbf24\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.2em; opacity: 0.2;\">温暖胜过强制力量</text>\r\n    </svg>\n</div>"
+}

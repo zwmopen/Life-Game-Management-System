@@ -1,0 +1,14 @@
+{
+  "id": "零和博弈",
+  "name": "零和博弈",
+  "label": "零和博弈",
+  "icon": "BrainCircuit",
+  "description": "博弈方的利益之和始终为零。在这种“存量竞争”中，没有共赢的可能性，只有通过剥夺对手来实现自己的增长。",
+  "deepAnalysis": "零和博弈（Zero-sum Game）揭示了存量竞争的本质。核心洞见：博弈方的利益之和始终为零，一方的收益必然意味着另一方的损失。在这种存量竞争中，没有共赢的可能性，只有通过剥夺对手来实现自己的增长。理解零和博弈有助于识别竞争的本质，寻找正和博弈的机会。",
+  "principle": "1. 利益总和为零：一赢一输\n2. 存量竞争：争夺有限的资源\n3. 无共赢：没有双赢可能\n4. 激烈竞争：竞争往往很激烈\n5. 寻找正和：寻找正和博弈的机会",
+  "scope": "竞争战略、博弈论、谈判策略、资源分配、市场竞争、体育竞技",
+  "tips": "1. 识别博弈类型：识别是否为零和博弈\n2. 避免零和：尽量避免零和博弈\n3. 寻找正和：寻找正和博弈的机会\n4. 扩大蛋糕：尝试扩大总利益\n5. 策略选择：选择合适的竞争策略",
+  "practice": "1. 分析博弈：分析博弈的性质\n2. 识别利益：识别各方利益\n3. 评估策略：评估不同策略\n4. 寻找突破：寻找正和博弈的机会\n5. 制定策略：制定竞争策略",
+  "scenario": "1. 市场竞争：分析市场竞争的性质\n2. 谈判策略：制定谈判策略\n3. 资源分配：分配有限资源\n4. 体育竞技：理解竞技的本质\n5. 投资决策：分析投资博弈",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <!-- 资源饼图 (固定存量) -->\r\n      <g transform=\"translate(500, 300)\">\r\n        <circle r=\"220\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"1\" stroke-dasharray=\"5 15\" opacity=\"0.1\" />\r\n        \r\n        <!-- 玩家 A 的份额 -->\r\n        <path d=\"M0,0 L0,-200 A200,200 0 0,1 173,100 Z\" fill=\"#ef4444\" fill-opacity=\"0.8\">\r\n           <animate attributeName=\"d\" \r\n             values=\"M0,0 L0,-200 A200,200 0 0,1 173,100 Z; \r\n                     M0,0 L0,-200 A200,200 0 0,1 -100,173 Z; \r\n                     M0,0 L0,-200 A200,200 0 0,1 173,100 Z\" \r\n             dur=\"4s\" repeatCount=\"indefinite\" />\r\n        </path>\r\n        <text x=\"80\" y=\"-80\" fill=\"white\" style=\"font-size: 24px; font-weight: 900;\">玩家 A</text>\r\n\r\n        <!-- 玩家 B 的份额 (随着 A 的挤压而变动) -->\r\n        <path d=\"M0,0 L173,100 A200,200 0 1,1 0,-200 Z\" fill=\"#ef4444\" fill-opacity=\"0.2\" stroke=\"#ef4444\" stroke-width=\"2\">\r\n           <animate attributeName=\"d\" \r\n             values=\"M0,0 L173,100 A200,200 0 1,1 0,-200 Z; \r\n                     M0,0 L-100,173 A200,200 0 1,1 0,-200 Z; \r\n                     M0,0 L173,100 A200,200 0 1,1 0,-200 Z\" \r\n             dur=\"4s\" repeatCount=\"indefinite\" />\r\n        </path>\r\n        <text x=\"-80\" y=\"80\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">玩家 B</text>\r\n\r\n        <circle r=\"20\" fill=\"white\" />\r\n      </g>\r\n      <text x=\"500\" y=\"550\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.1em;\">你赢 1 块，我必输 1 块</text>\r\n    </svg>\n</div>"
+}

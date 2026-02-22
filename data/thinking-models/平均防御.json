@@ -1,0 +1,13 @@
+{
+  "id": "平均防御",
+  "name": "平均防御",
+  "label": "均值回归防御",
+  "icon": "BrainCircuit",
+  "description": "在单人作战中，你会频繁遭遇“极端波段”。有时候你发个烂段子爆了（运气上行），有时候呕心沥血的干货没人看（运气下行）。防御协议要求你：在爆红时意识到这只是统计误差，不要盲目扩张；在低谷时意识到这只是暂时的偏离，不要轻易改道。重心永远锚定在你的“单位价值产出能力”上。",
+  "deepAnalysis": "这是一个思维模型，展示了平均防御的核心概念和应用。",
+  "principle": "思维模型的核心原则：平均防御",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将平均防御应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 均值基准线 (坚实的水平) -->\r\n        <line x1=\"-450\" y1=\"50\" x2=\"450\" y2=\"50\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"10 5\" opacity=\"0.3\" />\r\n        <text x=\"460\" y=\"55\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">真实能力均值</text>\r\n        \r\n        <!-- 波动路径 (外部偶然) -->\r\n        <path d=\"M-450,50 L-300,-200 L-100,50 L100,200 L300,50\" fill=\"none\" stroke=\"#94a3b8\" stroke-width=\"2\" opacity=\"0.2\" />\r\n        \r\n        <!-- 核心重锤 (你的重心) -->\r\n        <g>\r\n          <animateTransform attributeName=\"transform\" type=\"translate\" values=\"0,0; 0,-10; 0,0\" dur=\"2s\" repeatCount=\"indefinite\" />\r\n          <path d=\"M0,50 L0,200\" stroke=\"#ef4444\" stroke-width=\"8\" stroke-linecap=\"round\" />\r\n          <rect x=\"-100\" y=\"150\" width=\"200\" height=\"80\" rx=\"40\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 30px #ef4444)\" />\r\n          <text text-anchor=\"middle\" y=\"200\" fill=\"white\" style=\"font-size: 24px; font-weight: 900;\">逻辑重心</text>\r\n        </g>\r\n\r\n        <!-- 极点标注 -->\r\n        <g transform=\"translate(-300, -200)\">\r\n          <circle r=\"40\" fill=\"#fbbf24\" fill-opacity=\"0.1\" class=\"animate-ping\" />\r\n          <text y=\"-50\" text-anchor=\"middle\" fill=\"#fbbf24\" style=\"font-size: 18px; font-weight: 900;\">爆款：保持冷酷 (防止膨胀)</text>\r\n        </g>\r\n        <g transform=\"translate(100, 200)\">\r\n          <circle r=\"40\" fill=\"#ef4444\" fill-opacity=\"0.1\" class=\"animate-ping\" />\r\n          <text y=\"70\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 18px; font-weight: 900;\">惨淡：保持耐心 (相信回归)</text>\r\n        </g>\r\n\r\n        <text y=\"-280\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 42px; font-weight: 900; letter-spacing: 0.1em;\">不奖赏运气，不惩罚随机</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

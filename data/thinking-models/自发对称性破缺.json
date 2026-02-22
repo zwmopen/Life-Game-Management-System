@@ -1,0 +1,13 @@
+{
+  "id": "自发对称性破缺",
+  "name": "自发对称性破缺",
+  "label": "突发对称破缺",
+  "icon": "BrainCircuit",
+  "description": "当系统面对多种完全等价的成功路径时，由于内部的一个极微小随机涨落，系统被迫选择其中一个方向并锁定。正是这种“不公平”的选择，让原本均匀的世界诞生了万物，让同质化的企业诞生了独特的灵魂。",
+  "deepAnalysis": "这是一个思维模型，展示了自发对称性破缺的核心概念和应用。",
+  "principle": "思维模型的核心原则：自发对称性破缺",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将自发对称性破缺应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 完美的对称势能面 -->\r\n        <circle r=\"250\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"1\" opacity=\"0.1\" />\r\n        <circle r=\"150\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"1\" opacity=\"0.1\" />\r\n        \r\n        <!-- 初始的对称平衡点 -->\r\n        <g id=\"ball\">\r\n          <circle r=\"30\" fill=\"#ef4444\" class=\"animate-pulse\" />\r\n          <animateTransform attributeName=\"transform\" type=\"translate\" values=\"0,0; 5,5; 0,0\" dur=\"0.1s\" repeatCount=\"indefinite\" />\r\n        </g>\r\n\r\n        <!-- 破缺发生的路径 -->\r\n        <path d=\"M0,0 L200,100\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"10 5\" opacity=\"0\">\r\n           <animate attributeName=\"opacity\" from=\"0\" to=\"1\" dur=\"1s\" begin=\"3s\" fill=\"freeze\" />\r\n        </path>\r\n\r\n        <!-- 坍缩后的稳态 -->\r\n        <g transform=\"translate(200, 100)\" opacity=\"0\">\r\n          <animate attributeName=\"opacity\" from=\"0\" to=\"1\" dur=\"1s\" begin=\"4s\" fill=\"freeze\" />\r\n          <circle r=\"60\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 30px #ef4444)\" />\r\n          <text y=\"100\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">独一无二的战略位置</text>\r\n        </g>\r\n\r\n        <text y=\"-260\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">选择即破缺：平庸的终结</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

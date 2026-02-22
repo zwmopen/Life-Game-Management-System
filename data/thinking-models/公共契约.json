@@ -1,0 +1,14 @@
+{
+  "id": "公共契约",
+  "name": "公共契约",
+  "label": "公开承诺协议",
+  "icon": "BrainCircuit",
+  "description": "人类是极度厌恶在群体中丧失声誉的生物。当你一个人在家无法管理自己时，通过公开承诺（如：发朋友圈挑战 30 天打卡）或设定违约惩罚（没完成给朋友发红包），你强行把“私人懒惰”变成了“公众挑战”。",
+  "deepAnalysis": "公共契约（Public Commitment）是一种利用社会压力克服个人惰性的策略。人类是极度厌恶在群体中丧失声誉的生物，这一心理机制可以被用来增强执行力。\n\n核心机制：\n- 私人承诺 → 公众监督\n- 懒惰成本 → 声誉风险\n- 内部动力 → 外部压力\n\n心理学基础：\n- 损失厌恶：失去声誉的痛苦远大于获得的快乐\n- 社会认同：我们希望被群体接纳和尊重\n- 一致性需求：人们倾向于与公开承诺保持一致",
+  "principle": "1. 公开承诺：公开承诺比私下决心更有效\n2. 声誉压力：声誉损失是强大的行为驱动力\n3. 社交监督：社交监督可以克服个人惰性\n4. 违约代价：明确的违约代价增强执行力\n5. 进度透明：进度透明化促进持续行动",
+  "scope": "目标管理、习惯养成、团队协作、健身减肥、学习打卡、戒烟戒酒",
+  "tips": "1. 选择平台：选择合适的公开平台（朋友圈、社群、博客）\n2. 目标具体：设定具体可衡量的目标\n3. 代价明确：明确违约的代价（发红包、公开道歉）\n4. 定期更新：定期公开进度\n5. 寻找伙伴：寻找监督伙伴互相督促",
+  "practice": "1. 在朋友圈宣布30天挑战目标\n2. 设定失败发红包的惩罚金额\n3. 每天打卡记录进度\n4. 邀请朋友监督和互动\n5. 完成后公开总结和庆祝",
+  "scenario": "1. 健身打卡：在朋友圈宣布30天健身计划，每天晒图\n2. 读书挑战：在读书群宣布每月读4本书，没完成发红包\n3. 写作习惯：公开承诺每天写1000字，断更发红包\n4. 学习计划：在社群宣布学习目标，定期汇报进度\n5. 戒烟戒酒：公开宣布戒烟，让朋友监督",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 聚光灯场 -->\r\n        <circle r=\"300\" fill=\"#ef4444\" fill-opacity=\"0.03\" />\r\n        \r\n        <!-- 观察者之眼 -->\r\n        <g opacity=\"0.2\">\r\n          <circle cx=\"-250\" cy=\"-150\" r=\"10\" fill=\"#1e293b\" /><circle cx=\"250\" cy=\"-150\" r=\"10\" fill=\"#1e293b\" />\r\n          <circle cx=\"0\" cy=\"-280\" r=\"10\" fill=\"#1e293b\" />\r\n        </g>\r\n\r\n        <!-- 承诺契约 (中心) -->\r\n        <g>\r\n          <rect x=\"-180\" y=\"-100\" width=\"360\" height=\"200\" rx=\"40\" fill=\"#ef4444\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"white\" style=\"font-size: 24px; font-weight: 900;\">今日必更：数码视频</text>\r\n          <text y=\"40\" text-anchor=\"middle\" fill=\"white\" opacity=\"0.6\" style=\"font-size: 12px;\">(已在朋友圈/社群打卡)</text>\r\n        </g>\r\n        \r\n        <!-- 违约代价 (红色警示) -->\r\n        <g transform=\"translate(0, 150)\">\r\n          <path d=\"M-100,0 L100,0\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"10 5\" />\r\n          <text y=\"40\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 20px; font-weight: 900;\">违约成本：红包 ￥200 / 丢脸</text>\r\n        </g>\r\n\r\n        <circle r=\"220\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"1\" class=\"animate-ping\" />\r\n        <text y=\"-240\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">社会监督：最强外挂</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

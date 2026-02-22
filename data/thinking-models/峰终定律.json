@@ -1,0 +1,13 @@
+{
+  "id": "峰终定律",
+  "name": "峰终定律",
+  "label": "峰终定律",
+  "icon": "BrainCircuit",
+  "description": "人类对一项经历的记忆不是各时刻感受的平均，而是由“高峰时刻”和“结尾时刻”这两个关键点决定的。",
+  "deepAnalysis": "峰终定律（Peak-End Rule）由诺贝尔经济学奖得主丹尼尔·卡尼曼提出。核心发现：人类对一项经历的记忆不是各时刻感受的平均，而是由'高峰时刻'和'结尾时刻'这两个关键点决定的。\n\n核心机制：\n- 峰值记忆：最强烈体验时刻决定整体印象\n- 终值记忆：结尾时刻的体验决定最终印象\n- 忽略时长：过程时长对记忆影响很小\n\n典型应用：\n- 旅行体验：最精彩的景点和返程体验决定整体印象\n- 医疗检查：最痛苦时刻和结束时的体验决定评价\n- 客户服务：问题解决的高峰和最终结果决定满意度",
+  "principle": "1. 峰值决定：最强烈体验时刻决定整体印象\n2. 终值决定：结尾时刻的体验决定最终印象\n3. 时长忽略：过程时长对记忆影响很小\n4. 负面放大：负面峰值比正面峰值影响更大\n5. 可设计性：高峰和结尾可以主动设计",
+  "scope": "客户体验、产品设计、服务设计、活动策划、医疗体验、旅行规划",
+  "tips": "1. 设计高峰：创造令人难忘的高峰体验\n2. 优化结尾：确保结尾体验是积极的\n3. 减少负面：避免负面峰值的出现\n4. 简化流程：减少不必要的时长\n5. 持续监测：监测高峰和结尾的体验质量",
+  "practice": "将峰终定律应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <!-- 坐标轴 -->\r\n      <line x1=\"100\" y1=\"500\" x2=\"900\" y2=\"500\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n      <text x=\"900\" y=\"530\" text-anchor=\"end\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 10px;\">体验时间 →</text>\r\n\r\n      <!-- 体验曲线 -->\r\n      <path d=\"M100,450 Q200,450 300,100 T500,400 T700,150 T900,150\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"2\" stroke-dasharray=\"10 5\" opacity=\"0.2\" />\r\n      \r\n      <!-- 峰值 (计划EaK) -->\r\n      <g transform=\"translate(300, 100)\">\r\n        <circle r=\"40\" fill=\"#ef4444\" fill-opacity=\"0.1\" class=\"animate-ping\" />\r\n        <circle r=\"15\" fill=\"#ef4444\" />\r\n        <text y=\"-30\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">峰值 (计划EaK)</text>\r\n      </g>\r\n\r\n      <!-- 结尾 (ENd) -->\r\n      <g transform=\"translate(900, 150)\">\r\n        <circle r=\"40\" fill=\"#10b981\" fill-opacity=\"0.1\" class=\"animate-ping\" />\r\n        <circle r=\"15\" fill=\"#10b981\" />\r\n        <text x=\"-40\" y=\"-30\" text-anchor=\"end\" fill=\"#10b981\" style=\"font-size: 14px; font-weight: 900;\">终点 (ENd)</text>\r\n      </g>\r\n\r\n      <!-- 记忆平均线 -->\r\n      <line x1=\"300\" y1=\"125\" x2=\"900\" y2=\"150\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-linecap=\"round\">\r\n        <animate attributeName=\"stroke-dasharray\" from=\"0,600\" to=\"600,0\" dur=\"2s\" fill=\"freeze\" />\r\n      </line>\r\n      <text x=\"600\" y=\"120\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 16px; font-weight: 900;\">主观记忆 = (峰 + 终) / 2</text>\r\n    </svg>\n</div>"
+}

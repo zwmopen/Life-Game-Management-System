@@ -1,0 +1,14 @@
+{
+  "id": "双重钻石",
+  "name": "双重钻石",
+  "label": "双钻石模型",
+  "icon": "BrainCircuit",
+  "description": "设计思维的黄金标准。通过“发散-收敛”的两次循环，确保我们不仅解决了正确的问题，还用最优的方式解决了它。",
+  "deepAnalysis": "双重钻石（Double Diamond）是英国设计委员会提出的创新流程模型。核心洞见：创新需要两次发散和收敛——第一次发散收敛找到正确的问题，第二次发散收敛找到正确的解决方案。许多创新失败的原因是跳过了第一颗钻石，直接进入解决方案设计。",
+  "principle": "1. 第一钻石发现问题：发散探索问题空间，收敛定义核心问题\n2. 第二钻石解决问题：发散探索解决方案，收敛交付最终方案\n3. 发散思维：广泛探索，不设限制\n4. 收敛思维：聚焦筛选，做出决策\n5. 问题优先：先确保解决正确的问题",
+  "scope": "产品设计、服务设计、商业模式创新、组织变革、用户体验设计、创新管理",
+  "tips": "1. 不要跳过第一钻石：先确保解决正确的问题\n2. 发散时开放：发散阶段不设限制\n3. 收敛时聚焦：收敛阶段果断决策\n4. 用户参与：全程邀请用户参与\n5. 迭代优化：允许回溯和迭代",
+  "practice": "1. 发散探索：广泛探索问题空间\n2. 收敛定义：定义核心问题\n3. 发散构思：广泛探索解决方案\n4. 收敛交付：交付最终方案\n5. 验证迭代：验证效果并迭代",
+  "scenario": "1. 产品设计：从用户需求到产品上线\n2. 服务设计：从痛点到服务方案\n3. 商业创新：从机会到商业模式\n4. 组织变革：从问题到变革方案\n5. 用户体验：从痛点到体验优化",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\n      <!-- 钻石 1: 发现/定义 -->\n      <g transform=\"translate(250, 300)\">\n        <polygon points=\"-200,0 0,-150 200,0 0,150\" fill=\"var(--primary-color)\" fill-opacity=\"0.1\" stroke=\"var(--primary-color)\" stroke-width=\"4\" />\n        <text text-anchor=\"middle\" y=\"5\" fill=\"var(--primary-color)\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.1em;\">发现与定义</text>\n        <path d=\"M-200,0 L-50,-110 M200,0 L50,110\" stroke=\"var(--primary-color)\" stroke-width=\"2\" stroke-dasharray=\"5 5\" opacity=\"0.3\" />\n        <text y=\"-180\" text-anchor=\"middle\" fill=\"var(--text-secondary)\" style=\"font-size: 16px; font-weight: 900; opacity: 0.4;\">(做正确的事)</text>\n      </g>\n      \n      <!-- 钻石 2: 开发/交付 -->\n      <g transform=\"translate(720, 300)\">\n        <polygon points=\"-200,0 0,-150 200,0 0,150\" fill=\"var(--primary-color)\" fill-opacity=\"0.3\" stroke=\"var(--primary-color)\" stroke-width=\"4\">\n           <animate attributeName=\"fill-opacity\" values=\"0.1;0.4;0.1\" dur=\"4s\" repeatCount=\"indefinite\" />\n        </polygon>\n        <text text-anchor=\"middle\" y=\"5\" fill=\"white\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.1em;\">开发与交付</text>\n        <text y=\"-180\" text-anchor=\"middle\" fill=\"var(--text-secondary)\" style=\"font-size: 16px; font-weight: 900; opacity: 0.4;\">(正确的做事)</text>\n      </g>\n\n      <path d=\"M450,300 L520,300\" stroke=\"var(--text-primary)\" stroke-width=\"4\" stroke-dasharray=\"8 8\" opacity=\"0.2\" />\n      <text x=\"500\" y=\"520\" text-anchor=\"middle\" fill=\"var(--text-secondary)\" style=\"font-size: 24px; font-weight: 900; letter-spacing: 0.2em; opacity: 0.2;\">设计思维的终极路线图</text>\n    </svg>\n</div>"
+}

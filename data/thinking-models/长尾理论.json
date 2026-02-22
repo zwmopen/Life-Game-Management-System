@@ -1,0 +1,13 @@
+{
+  "id": "长尾理论",
+  "name": "长尾理论",
+  "label": "长尾理论",
+  "icon": "BrainCircuit",
+  "description": "在互联网时代，非主流、小众的市场需求（长尾）累积起来，其价值不仅可以与主流热门市场抗衡，甚至可能更具商业潜力。",
+  "deepAnalysis": "长尾理论（Long Tail Theory）由克里斯·安德森于2004年提出。核心洞见：在互联网时代，非主流、小众的市场需求（长尾）累积起来，其价值不仅可以与主流热门市场抗衡，甚至可能更具商业潜力。\n\n核心机制：\n- 仓储成本趋零：数字化产品边际成本趋零\n- 搜索成本趋零：互联网让用户能找到小众产品\n- 推荐算法：算法帮助用户发现长尾产品\n\n典型表现：\n- 亚马逊：长尾书籍贡献大部分利润\n- Netflix：小众电影有稳定受众\n- Spotify：非热门音乐有巨大市场",
+  "principle": "1. 长尾价值：小众市场累积价值可观\n2. 成本革命：数字化降低仓储和搜索成本\n3. 算法推荐：推荐算法帮助发现长尾\n4. 个性化需求：用户需求越来越个性化\n5. 长尾聚合：聚合长尾可以创造巨大价值",
+  "scope": "电商运营、内容创作、媒体分发、产品策略、市场定位、创业方向",
+  "tips": "1. 关注长尾：关注小众市场的机会\n2. 聚合长尾：聚合多个小众需求\n3. 降低成本：利用数字化降低成本\n4. 算法推荐：利用算法帮助用户发现\n5. 个性化服务：提供个性化产品和服务",
+  "practice": "将长尾理论应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <!-- 坐标轴 -->\r\n      <line x1=\"100\" y1=\"500\" x2=\"900\" y2=\"500\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n      <line x1=\"100\" y1=\"500\" x2=\"100\" y2=\"100\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n      \r\n      <!-- 长尾曲线 -->\r\n      <path d=\"M110,120 Q120,480 300,485 T900,495\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"6\" stroke-linecap=\"round\">\r\n        <animate attributeName=\"stroke-dasharray\" from=\"0,1000\" to=\"1000,0\" dur=\"3s\" fill=\"freeze\" />\r\n      </path>\r\n      <path d=\"M110,120 Q120,480 300,485 T900,495 L900,500 L110,500 Z\" fill=\"#ef4444\" fill-opacity=\"0.05\" />\r\n\r\n      <!-- 头部标识 -->\r\n      <g transform=\"translate(130, 200)\">\r\n        <rect x=\"-20\" y=\"-80\" width=\"40\" height=\"150\" fill=\"#ef4444\" fill-opacity=\"0.2\" />\r\n        <text transform=\"rotate(-90)\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 12px; font-weight: 900; letter-spacing: 0.2em;\">HEaD (热门)</text>\r\n      </g>\r\n\r\n      <!-- 尾部粒子 -->\r\n      <g opacity=\"0.4\">\r\n        <circle cx=\"400\" cy=\"490\" r=\"3\" fill=\"#ef4444\"><animate attributeName=\"opacity\" values=\"1;0.2;1\" dur=\"2s\" repeatCount=\"indefinite\" /></circle>\r\n        <circle cx=\"600\" cy=\"493\" r=\"3\" fill=\"#ef4444\" style=\"animation-delay: 0.5s\"><animate attributeName=\"opacity\" values=\"1;0.2;1\" dur=\"2s\" repeatCount=\"indefinite\" /></circle>\r\n        <circle cx=\"800\" cy=\"495\" r=\"3\" fill=\"#ef4444\" style=\"animation-delay: 1s\"><animate attributeName=\"opacity\" values=\"1;0.2;1\" dur=\"2s\" repeatCount=\"indefinite\" /></circle>\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"550\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 12px; font-weight: 900; letter-spacing: 0.8em;\">THE 我NF我N我TE N我CHE ECONOMY</text>\r\n    </svg>\n</div>"
+}

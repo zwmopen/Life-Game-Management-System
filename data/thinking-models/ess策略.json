@@ -1,0 +1,14 @@
+{
+  "id": "ess策略",
+  "name": "ESS策略",
+  "label": "进化稳定策略",
+  "icon": "BrainCircuit",
+  "description": "由约翰·梅纳德·史密斯提出。在一个群体中，如果绝大多数成员都采取某种策略，而任何少数突变者都无法通过改变策略获得更高收益，那么该策略就是“进化稳定”的。",
+  "deepAnalysis": "ESS策略（进化稳定策略）是由进化生物学家约翰·梅纳德·史密斯提出的概念，描述了在生物进化和社会互动中一种稳定的策略状态。当一个策略成为ESS时，它在群体中占据主导地位，并且任何偏离该策略的突变者都无法获得更高的适应性收益，因此该策略能够在进化过程中保持稳定。这一概念不仅适用于生物学领域，也广泛应用于经济学、社会学和博弈论等多个领域。",
+  "principle": "1. 稳定性：一旦ESS在群体中确立，任何单个个体偏离该策略都无法获得优势\n2. 入侵抗性：ESS能够抵抗其他策略的入侵\n3. 群体适应性：ESS通常能最大化群体的整体适应性\n4. 动态平衡：ESS是一种动态的平衡状态，而非静态的最优解。",
+  "scope": "生物学进化、经济学博弈、社会学行为、组织管理、战略决策、市场竞争",
+  "tips": "1. 识别稳定状态：在复杂系统中识别出可能的ESS状态\n2. 分析入侵抗性：评估现有策略对新策略的抵抗能力\n3. 动态视角：理解ESS是动态平衡而非静态最优\n4. 长期思维：从长期进化的角度考虑策略选择\n5. 环境适应：认识到ESS会随环境变化而变化。",
+  "practice": "1. 识别现状：分析当前系统中是否存在ESS，以及它的具体表现形式\n2. 评估稳定性：评估现有策略的稳定性和入侵抗性\n3. 设计策略：基于ESS原理设计具有长期稳定性的策略\n4. 模拟验证：通过模拟或小范围试验验证策略的有效性\n5. 持续监测：定期监测策略的执行情况和环境变化，及时调整。",
+  "scenario": "1. 市场竞争：分析市场中占主导地位的商业模式，评估其作为ESS的稳定性\n2. 组织管理：设计能够在组织中稳定存在的管理策略和文化\n3. 博弈论应用：在各种博弈场景中识别和应用ESS策略\n4. 社会行为：理解社会规范和行为模式的形成与稳定机制\n5. 进化生物学：分析生物种群中各种行为策略的进化稳定性。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 种群背景 -->\r\n        <circle r=\"300\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"1\" opacity=\"0.05\" />\r\n        \r\n        <!-- 稳定种群 (蓝色) -->\r\n        <g fill=\"#ef4444\" opacity=\"0.2\">\r\n          <circle cx=\"-150\" cy=\"-100\" r=\"15\" /><circle cx=\"120\" cy=\"180\" r=\"15\" />\r\n          <circle cx=\"200\" cy=\"-50\" r=\"15\" /><circle cx=\"-80\" cy=\"220\" r=\"15\" />\r\n          <animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0\" to=\"360\" dur=\"20s\" repeatCount=\"indefinite\" />\r\n        </g>\r\n\r\n        <!-- 核心稳态 -->\r\n        <g>\r\n          <circle r=\"120\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"10 5\" class=\"animate-spin\" style=\"animation-duration: 8s;\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">ESS 稳态</text>\r\n        </g>\r\n        \r\n        <!-- 突变者 (红色 - 试图入侵但被挤出) -->\r\n        <g transform=\"translate(400, 0)\">\r\n           <circle r=\"20\" fill=\"#ef4444\" class=\"animate-pulse\" />\r\n           <path d=\"M0,0 L-100,0\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"5 5\" marker-end=\"url(#redarrow)\" />\r\n           <text y=\"50\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">变异者 (无法入侵)</text>\r\n        </g>\r\n\r\n        <text y=\"280\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 36px; font-weight: 900; letter-spacing: 0.1em;\">不可被取代的系统均衡</text>\r\n      </g>\r\n      <defs>\r\n        <marker id=\"redarrow\" markerWidth=\"10\" markerHeight=\"10\" refX=\"5\" refY=\"5\" orient=\"auto\"><path d=\"M0,0 L10,5 L0,10 Z\" fill=\"#ef4444\"/></marker>\r\n      </defs>\r\n    </svg>\n</div>"
+}

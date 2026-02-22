@@ -1,0 +1,13 @@
+{
+  "id": "杜根定律",
+  "name": "杜根定律",
+  "label": "杜根定律",
+  "icon": "BrainCircuit",
+  "description": "强者不一定是胜利者，但胜利者往往是强者。在博弈开始前，由于“信心”带来的初始势能和心理场效应，决定了最终结果的极大偏差。",
+  "deepAnalysis": "这是一个思维模型，展示了杜根定律的核心概念和应用。",
+  "principle": "思维模型的核心原则：杜根定律",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将杜根定律应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <!-- 轨迹背景 -->\r\n      <path d=\"M100,550 Q200,540 400,200 T850,50\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"1\" opacity=\"0.1\" />\r\n      \r\n      <!-- 信心爆发轨道 -->\r\n      <g transform=\"translate(100, 550)\">\r\n        <path d=\"M0,0 Q100,-10 300,-150 T750,-500\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"12\" stroke-linecap=\"round\">\r\n           <animate attributeName=\"stroke-dasharray\" from=\"0,1500\" to=\"1500,0\" dur=\"4s\" fill=\"freeze\" />\r\n        </path>\r\n        <circle cx=\"750\" cy=\"-500\" r=\"30\" fill=\"#ef4444\" class=\"animate-ping\" />\r\n        <text x=\"700\" y=\"-550\" text-anchor=\"end\" fill=\"#ef4444\" style=\"font-size: 64px; font-weight: 900;\">最终成就</text>\r\n      </g>\r\n      \r\n      <!-- 初始动力源: 信心 -->\r\n      <g transform=\"translate(100, 550)\">\r\n        <rect x=\"-50\" y=\"-50\" width=\"100\" height=\"100\" rx=\"25\" fill=\"#fbbf24\" filter=\"drop-shadow(0 0 30px #fbbf24)\" />\r\n        <text text-anchor=\"middle\" y=\"10\" fill=\"#451a03\" style=\"font-size: 24px; font-weight: 900;\">信心</text>\r\n        <text y=\"100\" text-anchor=\"middle\" fill=\"#fbbf24\" style=\"font-size: 48px; font-weight: 900;\">初始速度</text>\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.1\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.8em;\">CONF我DENCE 我S DEST我NY</text>\r\n    </svg>\n</div>"
+}

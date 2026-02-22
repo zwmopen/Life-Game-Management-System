@@ -1,0 +1,14 @@
+{
+  "id": "价值锚定",
+  "name": "价值锚定",
+  "label": "价值锚点",
+  "icon": "BrainCircuit",
+  "description": "自媒体和咨询服务的定价不是基于“成本”，而是基于“对比”。如果你直接报价，用户会锚定在廉价的网课上；如果你先展示你解决的问题能省下几百万的学费，你的服务定价将获得心理层面的物理支撑。",
+  "deepAnalysis": "价值锚定（Value Anchoring）是心理学中的锚定效应在定价和谈判中的应用。人们在做判断时，会过度依赖首先获得的信息（锚点），后续的判断会围绕这个锚点进行调整。在商业中，通过设定合适的锚点，可以影响客户对价值的感知和购买决策。",
+  "principle": "1. 首因效应：最先呈现的信息会成为锚点，影响后续判断\n2. 调整不足：人们围绕锚点进行调整，但调整往往不够充分\n3. 锚点选择：锚点可以是价格、质量、时间等任何可量化的维度\n4. 对比效应：通过设置高锚点，使实际价格显得更合理\n5. 语境依赖：锚点的有效性取决于语境和可信度。",
+  "scope": "定价策略、销售谈判、市场营销、薪资谈判、投资决策、消费者行为",
+  "tips": "1. 先发制人：在谈判中先提出价格，设定有利于自己的锚点\n2. 多层锚点：展示多个价格选项，引导客户选择中间选项\n3. 原价对比：展示原价和折扣价，让折扣价显得更优惠\n4. 高端锚点：先展示高端产品，再展示中端产品，使中端产品显得更实惠\n5. 避免负面锚点：不要让客户先看到低价选项，否则高价选项会显得昂贵。",
+  "practice": "1. 产品定价：设置高、中、低三档价格，引导客户选择中档\n2. 销售谈判：先报高价，为后续谈判留出空间\n3. 薪资谈判：先提出期望薪资的上限，设定有利锚点\n4. 投资展示：展示高回报案例，提升客户对项目的价值预期\n5. 服务报价：先展示全功能版本价格，再展示基础版本，使基础版本显得更实惠。",
+  "scenario": "1. 餐厅菜单：菜单上设置高价菜品，使其他菜品显得更实惠\n2. 房地产：中介先带看高价房源，再带看目标房源\n3. 电商平台：显示原价划线，突出折扣力度\n4. SaaS定价：展示企业版高价，引导用户选择专业版\n5. 咨询服务：先报高价项目，再推荐低价替代方案。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 参考锚点 (巨大的铁锚) -->\r\n        <g transform=\"translate(-250, 0)\">\r\n          <path d=\"M-15,-200 L15,-200 L15,50 L-15,50 Z\" fill=\"#94a3b8\" />\r\n          <path d=\"M-80,0 Q0,120 80,0\" fill=\"none\" stroke=\"#94a3b8\" stroke-width=\"15\" stroke-linecap=\"round\" />\r\n          <text y=\"150\" text-anchor=\"middle\" fill=\"#94a3b8\" style=\"font-size: 24px; font-weight: 900;\">市场平均锚点</text>\r\n          <text y=\"180\" text-anchor=\"middle\" fill=\"#94a3b8\" style=\"font-size: 14px;\">(¥ 9.9 垃圾信息)</text>\r\n        </g>\r\n        \r\n        <!-- 你的价值位置 (向上的气球) -->\r\n        <g transform=\"translate(200, 0)\">\r\n          <animateTransform attributeName=\"transform\" type=\"translate\" values=\"200,0; 200,-150; 200,0\" dur=\"4s\" repeatCount=\"indefinite\" />\r\n          <circle r=\"80\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 40px #ef4444)\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"white\" style=\"font-size: 32px; font-weight: 900;\">你的定价</text>\r\n          <line x1=\"0\" y1=\"80\" x2=\"0\" y2=\"200\" stroke=\"#ef4444\" stroke-width=\"2\" stroke-dasharray=\"5 5\" />\r\n          <text y=\"240\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 20px; font-weight: 900;\">溢价源：稀缺逻辑</text>\r\n        </g>\r\n\r\n        <path d=\"M-150,0 L100,0\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"10 10\" opacity=\"0.3\" />\r\n        <text y=\"-250\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">别在低价区 玩平庸的游戏</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

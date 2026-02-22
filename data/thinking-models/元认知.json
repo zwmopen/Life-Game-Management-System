@@ -1,0 +1,14 @@
+{
+  "id": "元认知",
+  "name": "元认知",
+  "label": "元认知循环",
+  "icon": "BrainCircuit",
+  "description": "人类智慧的皇冠。不仅是思考，而是“对思考的思考”。它像一个悬浮在头顶的监控摄像头，时刻校准你的决策偏差、情绪波动和效率质量。当你拥有元认知时，你不再是情绪的奴隶，而是心智的操盘手。",
+  "deepAnalysis": "元认知（Metacognition）是'关于思考的思考'，指个体对自己的认知过程进行监控、评估和调节的能力。它包括元认知知识（了解自己的认知特点）、元认知监控（监控自己的认知过程）和元认知调节（调整自己的认知策略）。元认知能力是高效学习和问题解决的核心能力。",
+  "principle": "1. 元认知知识：了解自己的认知优势、劣势、学习风格和策略\n2. 元认知监控：在学习过程中监控自己的理解程度和进度\n3. 元认知调节：根据监控结果调整学习策略和方法\n4. 自我提问：通过自我提问来激活元认知，如'我理解了吗？''我需要改变策略吗？'\n5. 反思循环：计划→执行→监控→调整→反思的循环过程。",
+  "scope": "学习效率、问题解决、自我调节、教学设计、认知训练、心理治疗",
+  "tips": "1. 自我提问：在学习过程中定期问自己'我理解了吗？''我的方法有效吗？'\n2. 出声思考：将思考过程说出来，更容易监控和调整\n3. 学习日志：记录学习过程和策略，便于反思和改进\n4. 预测检验：在阅读前预测内容，阅读后检验预测，评估理解程度\n5. 教授他人：尝试教授他人，检验自己的理解程度。",
+  "practice": "1. 学习规划：在学习前制定计划，包括目标、策略、时间安排\n2. 过程监控：在学习过程中定期检查理解程度和进度\n3. 策略调整：发现策略无效时，及时调整学习方法\n4. 复盘反思：学习后回顾整个过程，总结有效和无效的策略\n5. 持续改进：将反思结果应用到下一次学习中，持续优化学习策略。",
+  "scenario": "1. 考试学习：学生使用元认知策略监控自己的学习进度和理解程度\n2. 技能训练：运动员通过元认知监控自己的训练效果，调整训练方法\n3. 问题解决：工程师使用元认知监控自己的问题解决过程，避免陷入死胡同\n4. 阅读理解：读者使用元认知监控自己的理解程度，必要时重读或查阅资料\n5. 决策制定：管理者使用元认知反思自己的决策过程，避免认知偏差。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 观察层 (外环) -->\r\n        <circle r=\"250\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"8\" stroke-dasharray=\"10 30\" opacity=\"0.2\">\r\n          <animate attributeName=\"stroke-dashoffset\" from=\"0\" to=\"100\" dur=\"5s\" repeatCount=\"indefinite\" />\r\n        </circle>\r\n        <text y=\"-260\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">元认知：观察者的视角</text>\r\n\r\n        <!-- 被观察的自我 (内环) -->\r\n        <g>\r\n          <circle r=\"120\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"2\" />\r\n          <path d=\"M-40,0 Q0,-80 40,0\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"4\" opacity=\"0.3\" />\r\n          <text text-anchor=\"middle\" y=\"20\" fill=\"#ef4444\" style=\"font-size: 16px; font-weight: 900;\">D层 (Thinking)</text>\r\n        </g>\r\n\r\n        <!-- 递归校准线 -->\r\n        <g>\r\n          <animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0\" to=\"360\" dur=\"10s\" repeatCount=\"indefinite\" />\r\n          <line x1=\"0\" y1=\"-250\" x2=\"0\" y2=\"-120\" stroke=\"#ef4444\" stroke-width=\"4\" marker-end=\"url(#redarrow)\" />\r\n          <circle r=\"10\" cy=\"-250\" fill=\"#ef4444\" class=\"animate-ping\" />\r\n        </g>\r\n\r\n        <text y=\"320\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">意识到“我在想什么”</text>\r\n      </g>\r\n      <defs>\r\n        <marker id=\"redarrow\" markerWidth=\"10\" markerHeight=\"10\" refX=\"5\" refY=\"5\" orient=\"auto\"><path d=\"M0,0 L10,5 L0,10 Z\" fill=\"#ef4444\"/></marker>\r\n      </defs>\r\n    </svg>\n</div>"
+}

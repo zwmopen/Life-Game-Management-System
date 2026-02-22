@@ -1,0 +1,14 @@
+{
+  "id": "负熵流",
+  "name": "负熵流",
+  "label": "负熵流",
+  "icon": "BrainCircuit",
+  "description": "薛定谔提出：生命靠负熵为生。一个系统想要维持高度的组织和秩序，必须时刻不停地从外部汲取有序性，并将内部产生的混乱（正熵）强行排向环境。管理，本质上就是一套负熵泵。",
+  "deepAnalysis": "负熵流（Negative Entropy Flow）由薛定谔提出。核心洞见：生命靠负熵为生。一个系统想要维持高度的组织和秩序，必须时刻不停地从外部汲取有序性，并将内部产生的混乱（正熵）强行排向环境。管理本质上就是一套负熵泵，持续从环境汲取有序性。",
+  "principle": "1. 负熵输入：从外部汲取有序性\n2. 正熵排出：将混乱排向环境\n3. 持续流动：熵流必须持续不断\n4. 开放系统：必须是开放系统\n5. 管理本质：管理就是负熵泵",
+  "scope": "组织管理、系统设计、生命科学、企业管理、个人成长、信息管理",
+  "tips": "1. 保持开放：保持系统开放性\n2. 持续输入：持续输入有序性\n3. 及时排出：及时排出混乱\n4. 建立机制：建立负熵机制\n5. 监测平衡：监测熵的平衡",
+  "practice": "1. 评估系统：评估系统的熵状态\n2. 建立输入：建立有序性输入渠道\n3. 建立排出：建立混乱排出机制\n4. 持续监测：持续监测系统状态\n5. 动态调整：动态调整负熵流",
+  "scenario": "1. 组织管理：建立组织的负熵机制\n2. 企业管理：管理企业的有序性\n3. 个人成长：管理个人的有序性\n4. 信息管理：管理信息的有序性\n5. 系统设计：设计负熵系统",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 核心有序系统 (晶格) -->\r\n        <g id=\"ordercore\">\r\n          <rect x=\"-100\" y=\"-100\" width=\"200\" height=\"200\" rx=\"20\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"4\" />\r\n          <circle r=\"10\" cx=\"-50\" cy=\"-50\" fill=\"#ef4444\" />\r\n          <circle r=\"10\" cx=\"50\" cy=\"50\" fill=\"#ef4444\" />\r\n          <circle r=\"15\" fill=\"#ef4444\" class=\"animate-pulse\" />\r\n        </g>\r\n        \r\n        <!-- 持续注入的负熵 (高能粒子流) -->\r\n        <g>\r\n          <path d=\"M-500,0 L-150,0\" stroke=\"#10b981\" stroke-width=\"20\" opacity=\"0.1\" stroke-linecap=\"round\" />\r\n          <circle r=\"8\" fill=\"#10b981\">\r\n            <animateMotion path=\"M-500,0 L-100,0\" dur=\"1s\" repeatCount=\"indefinite\" />\r\n          </circle>\r\n          <text x=\"-320\" y=\"-30\" text-anchor=\"middle\" fill=\"#10b981\" style=\"font-size: 24px; font-weight: 900;\">NEGENTRO计划Y (负熵)</text>\r\n        </g>\r\n\r\n        <!-- 被排出的正熵 (红色烟雾) -->\r\n        <g opacity=\"0.3\">\r\n          <circle r=\"5\" fill=\"#ef4444\"><animate attributeName=\"cx\" from=\"100\" to=\"400\" dur=\"2s\" repeatCount=\"indefinite\" /><animate attributeName=\"cy\" from=\"0\" to=\"-200\" dur=\"2s\" repeatCount=\"indefinite\" /></circle>\r\n          <text x=\"350\" y=\"-150\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 18px; font-weight: 900;\">熵增排放 (废热)</text>\r\n        </g>\r\n\r\n        <text y=\"240\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.2em;\">生命 = 汲取有序，排放无序</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

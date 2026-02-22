@@ -1,0 +1,13 @@
+{
+  "id": "冈珀茨曲线",
+  "name": "冈珀茨曲线",
+  "label": "戈珀特曲线",
+  "icon": "BrainCircuit",
+  "description": "非对称的 S 型增长模型。它描述了那些具有“生理属性”的系统（如人口、肿瘤、成熟行业）：初期以爆炸式速度增长，但由于内部复杂性的自我磨损和环境承载力的压制，后期会突然减速并陷入无可挽回的衰老。",
+  "deepAnalysis": "冈珀茨曲线（Gompertz Curve）是非对称的S型增长模型。它描述了那些具有'生理属性'的系统（如人口、肿瘤、成熟行业）：初期以爆炸式速度增长，但由于内部复杂性的自我磨损和环境承载力的压制，后期会突然减速并陷入无可挽回的衰老。\n\n核心特征：\n- 非对称S型：增长和衰减速度不对称\n- 爆发初期：初期增长速度极快\n- 突然衰老：后期突然减速并衰老\n- 承载力限制：受环境承载力限制\n\n典型应用：\n- 人口增长：预测人口增长和老龄化\n- 肿瘤生长：预测肿瘤的生长规律\n- 行业周期：预测行业的成熟和衰退",
+  "principle": "1. 非对称增长：增长和衰减速度不对称\n2. 爆发初期：初期增长速度极快\n3. 突然衰老：后期突然减速\n4. 承载力限制：受环境承载力限制\n5. 第二曲线：衰老期需要第二增长曲线",
+  "scope": "人口预测、医学研究、行业分析、产品生命周期、企业战略、技术扩散",
+  "tips": "1. 识别拐点：识别曲线的斜率拐点\n2. 第二曲线：在衰老期启动第二增长曲线\n3. 管理债务：减少内部协调债务\n4. 保持极简：保持系统极简延缓衰老\n5. 跨维切换：通过跨维度切换突破限制",
+  "practice": "将冈珀茨曲线应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <!-- 坐标轴 -->\r\n      <line x1=\"100\" y1=\"550\" x2=\"900\" y2=\"550\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n      <line x1=\"100\" y1=\"550\" x2=\"100\" y2=\"100\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n      \r\n      <!-- 戈珀特 S 曲线 -->\r\n      <path d=\"M100,530 Q250,520 400,250 T800,100\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"12\" stroke-linecap=\"round\">\r\n        <animate attributeName=\"stroke-dasharray\" from=\"0,1500\" to=\"1500,0\" dur=\"5s\" fill=\"freeze\" />\r\n      </path>\r\n\r\n      <!-- 衰老引力 (向下的箭头) -->\r\n      <g transform=\"translate(600, 100)\" opacity=\"0.4\">\r\n        <path d=\"M0,0 Q100,50 150,200\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"10 5\" marker-end=\"url(#redarrow)\" />\r\n        <text x=\"50\" y=\"240\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 18px; font-weight: 900;\">边际报酬/生命力骤降</text>\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"580\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.4\" style=\"font-size: 16px; font-weight: 900; letter-spacing: 0.5em;\">THE LaW OF MaTUR我TY aNd dEcaY</text>\r\n      <defs>\r\n        <marker id=\"redarrow\" markerWidth=\"10\" markerHeight=\"10\" refX=\"5\" refY=\"5\" orient=\"auto\"><path d=\"M0,0 L10,5 L0,10 Z\" fill=\"#ef4444\"/></marker>\r\n      </defs>\r\n    </svg>\n</div>"
+}

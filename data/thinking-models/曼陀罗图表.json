@@ -1,0 +1,13 @@
+{
+  "id": "曼陀罗图表",
+  "name": "曼陀罗图表",
+  "label": "曼陀罗思考法",
+  "icon": "BrainCircuit",
+  "description": "将碎片化的灵感锁定在几何秩序中。通过 3x3 的九宫格，实现从单一目标到全方位细节的深度演化。",
+  "deepAnalysis": "这是一个思维模型，展示了曼陀罗图表的核心概念和应用。",
+  "principle": "思维模型的核心原则：曼陀罗图表",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将曼陀罗图表应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 700\">\r\n      <g transform=\"translate(500, 350)\">\r\n        <!-- 装饰背景 -->\r\n        <circle r=\"340\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"1\" opacity=\"0.1\" stroke-dasharray=\"10 20\" />\r\n        \r\n        <!-- 九宫格 -->\r\n        <g stroke=\"#1e293b\" stroke-width=\"2\" stroke-opacity=\"0.1\">\r\n          <!-- Row 1 -->\r\n          <rect x=\"-240\" y=\"-240\" width=\"150\" height=\"150\" rx=\"20\" fill=\"#1e293b\" fill-opacity=\"0.03\" />\r\n          <rect x=\"-75\" y=\"-240\" width=\"150\" height=\"150\" rx=\"20\" fill=\"#1e293b\" fill-opacity=\"0.03\" />\r\n          <rect x=\"90\" y=\"-240\" width=\"150\" height=\"150\" rx=\"20\" fill=\"#1e293b\" fill-opacity=\"0.03\" />\r\n          <!-- Row 2 -->\r\n          <rect x=\"-240\" y=\"-75\" width=\"150\" height=\"150\" rx=\"20\" fill=\"#1e293b\" fill-opacity=\"0.03\" />\r\n          <rect x=\"-90\" y=\"-90\" width=\"180\" height=\"180\" rx=\"35\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 40px #ef4444)\" />\r\n          <rect x=\"90\" y=\"-75\" width=\"150\" height=\"150\" rx=\"20\" fill=\"#1e293b\" fill-opacity=\"0.03\" />\r\n          <!-- Row 3 -->\r\n          <rect x=\"-240\" y=\"90\" width=\"150\" height=\"150\" rx=\"20\" fill=\"#1e293b\" fill-opacity=\"0.03\" />\r\n          <rect x=\"-75\" y=\"90\" width=\"150\" height=\"150\" rx=\"20\" fill=\"#1e293b\" fill-opacity=\"0.03\" />\r\n          <rect x=\"90\" y=\"90\" width=\"150\" height=\"150\" rx=\"20\" fill=\"#1e293b\" fill-opacity=\"0.03\" />\r\n        </g>\r\n        \r\n        <text text-anchor=\"middle\" y=\"15\" fill=\"white\" style=\"font-size: 36px; font-weight: 900; letter-spacing: 0.2em;\">核心</text>\r\n      </g>\r\n      <text x=\"500\" y=\"50\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 16px; font-weight: 900; letter-spacing: 0.5em;\">GEOMETR我C THOUGHT EX计划ANS我ON</text>\r\n    </svg>\n</div>"
+}

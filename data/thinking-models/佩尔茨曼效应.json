@@ -1,0 +1,14 @@
+{
+  "id": "佩尔茨曼效应",
+  "name": "佩尔茨曼效应",
+  "label": "佩兹曼效应",
+  "icon": "BrainCircuit",
+  "description": "又称“风险补偿理论”。人们会根据感知到的风险水平来调整自己的行为。当安全措施增加时，人们倾向于采取更具风险的举动，从而抵消掉原本的安全收益。",
+  "deepAnalysis": "佩尔茨曼效应（Peltzman Effect）是风险补偿理论的一个例子，指当安全措施实施后，人们会因为感觉更安全而采取更冒险的行为，从而抵消甚至逆转安全措施的预期效果。例如，系安全带的司机可能开得更快，戴头盔的滑雪者可能尝试更危险的动作。这揭示了人类行为与安全措施之间的复杂互动。",
+  "principle": "1. 风险补偿：当感知风险降低时，人们会调整行为以维持原有的风险水平\n2. 风险恒定假说：人们有一个'目标风险水平'，会调整行为来维持这个水平\n3. 安全错觉：安全措施可能产生虚假的安全感，导致更冒险的行为\n4. 部分抵消：风险补偿通常只抵消部分安全效益，而非全部\n5. 个体差异：不同人的风险补偿程度不同，受性格和情境影响。",
+  "scope": "交通安全、工作安全、产品设计、公共政策、保险行业、体育安全",
+  "tips": "1. 预期补偿：在实施安全措施时，预期人们可能的风险补偿行为\n2. 多重防护：采用多重安全措施，而非依赖单一措施\n3. 行为干预：除了物理安全措施，还需要行为教育和规范\n4. 监测反馈：实施安全措施后，监测实际安全效果，而非假设有效\n5. 系统思维：从系统角度考虑安全，包括人、技术、环境三个维度。",
+  "practice": "1. 交通安全：除了安全带，还需要限速、交通法规等配套措施\n2. 工作安全：安全设备配合安全培训和监督，避免冒险行为\n3. 产品设计：设计时考虑用户可能的冒险使用方式\n4. 公共政策：政策制定时考虑公众可能的补偿行为\n5. 体育安全：安全装备配合技术训练和风险意识教育。",
+  "scenario": "1. 汽车安全：安全带和气囊可能导致司机开得更快，需要配合限速和执法\n2. 滑雪运动：头盔可能导致滑雪者尝试更危险的动作，需要技术训练\n3. 金融安全：存款保险可能导致银行承担更多风险，需要监管配套\n4. 工业安全：安全设备可能导致工人放松警惕，需要安全文化培养\n5. 网络安全：防火墙可能导致用户忽视密码安全，需要综合防护。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 支点 -->\r\n        <path d=\"M-20,0 L20,0 L0,-40 Z\" fill=\"#1e293b\" opacity=\"0.2\" transform=\"translate(0, 150)\" />\r\n        \r\n        <!-- 天平 (补偿博弈) -->\r\n        <g transform=\"translate(0, 110)\">\r\n          <animateTransform attributeName=\"transform\" type=\"rotate\" values=\"-10,0,0; 10,0,0; -10,0,0\" dur=\"4s\" repeatCount=\"indefinite\" />\r\n          <rect x=\"-400\" y=\"-5\" width=\"800\" height=\"10\" rx=\"5\" fill=\"#1e293b\" />\r\n          \r\n          <!-- 安全设施 A (变重) -->\r\n          <g transform=\"translate(-250, -80)\">\r\n             <rect x=\"-80\" y=\"0\" width=\"160\" height=\"80\" rx=\"20\" fill=\"#10b981\" />\r\n             <text text-anchor=\"middle\" y=\"45\" fill=\"white\" style=\"font-size: 20px; font-weight: 900;\">安全带/头盔</text>\r\n             <text y=\"100\" text-anchor=\"middle\" fill=\"#10b981\" style=\"font-size: 14px; font-weight: 900;\">(风险感知 ↓)</text>\r\n          </g>\r\n\r\n          <!-- 风险行为 B (自发变重) -->\r\n          <g transform=\"translate(250, -100)\">\r\n             <rect x=\"-80\" y=\"0\" width=\"160\" height=\"100\" rx=\"20\" fill=\"#ef4444\" />\r\n             <text text-anchor=\"middle\" y=\"55\" fill=\"white\" style=\"font-size: 20px; font-weight: 900;\">更快的车速</text>\r\n             <text y=\"120\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">(冒险倾向 ↑)</text>\r\n          </g>\r\n        </g>\r\n\r\n        <text y=\"-220\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 42px; font-weight: 900;\">风险补偿：系统内的风险守恒</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

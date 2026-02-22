@@ -1,0 +1,14 @@
+{
+  "id": "黄金圈",
+  "name": "黄金圈",
+  "label": "黄金圈法则",
+  "icon": "BrainCircuit",
+  "description": "“人们买的不是你做的产品，而是你为什么做它。” 由西蒙·斯涅克提出，揭示了顶级影响力的核心秘诀。",
+  "deepAnalysis": "黄金圈法则（Golden Circle）由西蒙·斯涅克提出。核心洞见：伟大的领导者都以从内到外的方式思考和沟通——先说为什么（Why），再说怎么做（How），最后说做什么（What）。大多数人从外到内沟通，但真正打动人心的是从内到外。人们买的不是你做的产品，而是你为什么做它。",
+  "principle": "1. Why（为什么）：信念、目的、使命\n2. How（怎么做）：实现信念的方法\n3. What（做什么）：具体的产品或服务\n4. 从内到外：先说Why再说How最后What\n5. 情感连接：Why打动人心而非What",
+  "scope": "领导力、品牌营销、演讲沟通、产品定位、企业文化、个人发展",
+  "tips": "1. 找到Why：明确你的信念和使命\n2. 从内到外：沟通时先说Why\n3. 情感连接：用Why打动人心\n4. 保持一致：What和How要服务于Why\n5. 持续传播：持续传播你的Why",
+  "practice": "1. 明确Why：找到你的信念和使命\n2. 定义How：确定实现信念的方法\n3. 设计What：设计体现信念的产品\n4. 从内到外：调整沟通顺序\n5. 持续传播：持续传播你的信念",
+  "scenario": "1. 品牌定位：用Why定义品牌价值\n2. 产品设计：设计体现信念的产品\n3. 演讲沟通：从内到外打动听众\n4. 团队建设：用信念凝聚团队\n5. 个人发展：明确人生使命",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 800\">\r\n      <!-- 引力波纹 -->\r\n      <g transform=\"translate(500, 400)\">\r\n        <circle r=\"380\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"1\" opacity=\"0.05\" />\r\n        <circle r=\"260\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"1\" opacity=\"0.1\" />\r\n        <circle r=\"140\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"1\" opacity=\"0.2\" />\r\n        \r\n        <!-- WHY -->\r\n        <circle r=\"100\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 50px #ef4444)\" />\r\n        <text text-anchor=\"middle\" y=\"20\" fill=\"white\" style=\"font-size: 64px; font-weight: 900; font-style: italic;\">为什么</text>\r\n        <text y=\"70\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 12px; font-weight: 800; opacity: 0.6;\">(WHY)</text>\r\n\r\n        <!-- HOW -->\r\n        <text y=\"210\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">怎么做</text>\r\n        <text y=\"240\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 14px; opacity: 0.6;\">(HOW)</text>\r\n\r\n        <!-- WHaT -->\r\n        <text y=\"330\" text-anchor=\"middle\" fill=\"#64748b\" style=\"font-size: 32px; font-weight: 900; opacity: 0.3;\">做什么</text>\r\n        <text y=\"360\" text-anchor=\"middle\" fill=\"#64748b\" style=\"font-size: 14px; opacity: 0.2;\">(WHaT)</text>\r\n      </g>\r\n      <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"#64748b\" style=\"font-size: 24px; font-weight: 900; letter-spacing: 0.3em; opacity: 0.2;\">STaRT W我TH WHY</text>\r\n    </svg>\n</div>"
+}

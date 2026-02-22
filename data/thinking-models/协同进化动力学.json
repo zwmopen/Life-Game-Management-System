@@ -1,0 +1,13 @@
+{
+  "id": "协同进化动力学",
+  "name": "协同进化动力学",
+  "label": "共演化动力学",
+  "icon": "BrainCircuit",
+  "description": "没有孤立的进化。猎豹跑得快是因为羚羊跑得快，而羚羊跑得快是因为猎豹在后面追。主体与客体通过反馈闭环，在博弈中共同推高系统的复杂度天花板。",
+  "deepAnalysis": "协同进化动力学（Co-evolution）揭示了主体与环境的共同演化规律。核心洞见：没有孤立的进化。猎豹跑得快是因为羚羊跑得快，而羚羊跑得快是因为猎豹在后面追。主体与客体通过反馈闭环，在博弈中共同推高系统的复杂度天花板。",
+  "principle": "1. 相互影响：主体与环境相互影响\n2. 反馈闭环：通过反馈机制共同演化\n3. 博弈推动：竞争推动双方进化\n4. 系统协同：系统各部分协同进化\n5. 复杂度提升：共同推高系统复杂度",
+  "scope": "生态学、商业竞争、技术创新、组织发展、社会系统、个人成长",
+  "tips": "1. 塑造对手：输出高质量协作标准\n2. 同步进化：比环境平均速度快半步\n3. 生态系统思维：将自己视为系统一部分\n4. 适应性创新：保持核心竞争力同时适应变化\n5. 建立反馈：定期收集环境反馈",
+  "practice": "1. 分析环境：分析当前环境状态\n2. 建立反馈：建立环境反馈机制\n3. 同步进化：与环境同步进化\n4. 塑造环境：通过行为塑造环境\n5. 持续迭代：持续迭代优化",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\n          <g transform=\"translate(500, 325)\">\n            <!-- 演化双螺旋 -->\n            <path d=\"M-300,-100 Q-150,200 0,0 T300,100\" fill=\"none\" stroke=\"var(--primary-color)\" stroke-width=\"8\" stroke-linecap=\"round\">\n               <animate attributeName=\"stroke-dasharray\" from=\"0,1000\" to=\"1000,0\" dur=\"5s\" repeatCount=\"indefinite\" />\n            </path>\n            <path d=\"M-300,100 Q-150,-200 0,0 T300,-100\" fill=\"none\" stroke=\"var(--secondary-color)\" stroke-width=\"8\" stroke-linecap=\"round\" opacity=\"0.6\">\n               <animate attributeName=\"stroke-dasharray\" from=\"0,1000\" to=\"1000,0\" dur=\"5s\" repeatCount=\"indefinite\" />\n            </path>\n            \n            <!-- 交互粒子 -->\n            <g>\n              <circle r=\"15\" fill=\"var(--primary-color)\"><animateMotion path=\"M-300,-100 Q-150,200 0,0 T300,100\" dur=\"5s\" repeatCount=\"indefinite\" /></circle>\n              <circle r=\"15\" fill=\"var(--secondary-color)\"><animateMotion path=\"M-300,100 Q-150,-200 0,0 T300,-100\" dur=\"5s\" repeatCount=\"indefinite\" /></circle>\n            </g>\n\n            <!-- 标注 -->\n            <text x=\"-250\" y=\"-150\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 24px; font-weight: 900;\">你的进化</text>\n            <text x=\"250\" y=\"-150\" text-anchor=\"middle\" fill=\"var(--secondary-color)\" style=\"font-size: 24px; font-weight: 900;\">环境的重塑</text>\n            \n            <text y=\"280\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 36px; font-weight: 900; letter-spacing: 0.1em;\">你就是环境，环境就是你</text>\n          </g>\n        </svg>\n</div>"
+}

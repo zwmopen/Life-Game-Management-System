@@ -1,0 +1,13 @@
+{
+  "id": "霍桑效应",
+  "name": "霍桑效应",
+  "label": "霍桑效应",
+  "icon": "BrainCircuit",
+  "description": "当人们意识到自己正在被关注或观察时，会由于心理上的暗示而改变行为倾向，往往表现得比平时更加出色。",
+  "deepAnalysis": "霍桑效应（Hawthorne Effect）源于1920年代芝加哥西方电气公司霍桑工厂的一系列实验。核心发现：当人们意识到自己正在被关注或观察时，会由于心理上的暗示而改变行为倾向，往往表现得比平时更加出色。\n\n核心机制：\n- 关注效应：被关注本身就是一种激励\n- 期望效应：被观察者会猜测观察者的期望\n- 表现动机：人们希望在他人面前表现良好\n\n应用场景：\n- 员工管理：关注员工可以提升绩效\n- 教育教学：关注学生可以提升学习效果\n- 产品测试：用户测试时用户行为会改变",
+  "principle": "1. 关注即激励：被关注本身就是一种激励\n2. 期望传递：观察者的期望会传递给被观察者\n3. 行为改变：被观察者会改变行为以符合期望\n4. 短期效应：霍桑效应通常是短期的\n5. 伦理考量：利用霍桑效应需考虑伦理问题",
+  "scope": "员工管理、教育教学、用户研究、医疗护理、心理咨询、社会调查",
+  "tips": "1. 适度关注：适度关注可以激励，过度关注可能造成压力\n2. 真诚关注：真诚的关注比形式化的关注更有效\n3. 持续关注：持续关注可以延长效应持续时间\n4. 隐性关注：隐性关注可以减少表演性行为\n5. 反馈机制：配合反馈机制效果更好",
+  "practice": "将霍桑效应应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <defs>\r\n        <radialGradient id=\"spotlightGrad\" cx=\"50%\" cy=\"50%\" r=\"50%\">\r\n          <stop offset=\"0%\" stop-color=\"#fbbf24\" stop-opacity=\"0.3\" />\r\n          <stop offset=\"100%\" stop-color=\"#fbbf24\" stop-opacity=\"0\" />\r\n        </radialGradient>\r\n      </defs>\r\n      \r\n      <!-- 模拟环境 -->\r\n      <g opacity=\"0.05\" stroke=\"#1e293b\" stroke-width=\"1\">\r\n        <line x1=\"200\" y1=\"100\" x2=\"200\" y2=\"500\" />\r\n        <line x1=\"400\" y1=\"100\" x2=\"400\" y2=\"500\" />\r\n        <line x1=\"600\" y1=\"100\" x2=\"600\" y2=\"500\" />\r\n        <line x1=\"800\" y1=\"100\" x2=\"800\" y2=\"500\" />\r\n      </g>\r\n\r\n      <!-- 观察者视野 (聚光灯) -->\r\n      <g transform=\"translate(500, 300)\">\r\n        <circle r=\"250\" fill=\"url(#spotlightGrad)\" class=\"animate-pulse\" />\r\n        <path d=\"M0,-250 L-100,-400 L100,-400 Z\" fill=\"#fbbf24\" opacity=\"0.1\" />\r\n      </g>\r\n\r\n      <!-- 被观察的主体 -->\r\n      <g transform=\"translate(500, 300)\">\r\n        <circle r=\"60\" fill=\"#ef4444\" />\r\n        <text text-anchor=\"middle\" y=\"5\" fill=\"white\" style=\"font-size: 16px; font-weight: 900;\">D者</text>\r\n        <circle r=\"80\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"1\" class=\"animate-ping\" />\r\n        <text y=\"100\" text-anchor=\"middle\" fill=\"#fbbf24\" style=\"font-size: 12px; font-weight: 900; letter-spacing: 0.2em;\">被关注触发绩效提升</text>\r\n      </g>\r\n      \r\n      <text x=\"500\" y=\"550\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 12px; font-weight: 900; letter-spacing: 0.5em;\">THE 计划OWER OF ATTENT我ON</text>\r\n    </svg>\n</div>"
+}

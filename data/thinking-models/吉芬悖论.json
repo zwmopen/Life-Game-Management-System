@@ -1,0 +1,14 @@
+{
+  "id": "吉芬悖论",
+  "name": "吉芬悖论",
+  "label": "吉芬悖论",
+  "icon": "BrainCircuit",
+  "description": "经济学的异类：对于某些极端廉价的必需品（如爱尔兰大饥荒中的土豆），价格上涨反而导致需求量增加。因为价格上涨剥夺了穷人的所有闲钱，导致他们不得不放弃肉类，转而购买更多土豆充饥。",
+  "deepAnalysis": "吉芬悖论（Giffen Paradox）是经济学中的经典反常现象。核心洞见：在某些特殊情况下，价格上涨反而导致需求增加。这违背了基本的需求定律，但在低收入群体的必需品消费中确实存在。当土豆价格上涨时，穷人买不起肉，反而需要买更多土豆来填饱肚子。这揭示了经济行为的复杂性——简单的规律在特定条件下可能反转。",
+  "principle": "1. 需求反转：价格上涨反而导致需求增加\n2. 收入效应：价格上涨导致实际收入下降\n3. 替代效应：无法替代更贵的商品\n4. 必需品特征：商品是必需品且无可替代\n5. 低收入群体：主要发生在低收入群体中",
+  "scope": "经济学、消费行为、市场分析、政策制定、社会福利、价格策略",
+  "tips": "1. 识别条件：识别吉芬商品的特殊条件\n2. 关注必需品：关注低收入群体的必需品\n3. 考虑收入效应：考虑价格变化的收入效应\n4. 避免简单化：避免简单的需求分析\n5. 政策审慎：制定价格政策时审慎考虑",
+  "practice": "1. 分析商品：分析商品是否具备吉芬商品特征\n2. 评估收入效应：评估价格变化的收入效应\n3. 考虑替代品：考虑是否存在替代品\n4. 预测需求：预测价格变化的需求影响\n5. 制定策略：制定相应的价格策略",
+  "scenario": "1. 基本生活保障：分析基本生活必需品的需求\n2. 价格政策：制定价格调控政策\n3. 社会福利：评估社会福利政策效果\n4. 市场预测：预测特殊商品的市场需求\n5. 企业定价：制定特殊商品的定价策略",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <!-- 坐标轴 -->\r\n      <line x1=\"150\" y1=\"550\" x2=\"850\" y2=\"550\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n      <line x1=\"150\" y1=\"550\" x2=\"150\" y2=\"100\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n      \r\n      <!-- 正常需求 (降) -->\r\n      <line x1=\"200\" y1=\"200\" x2=\"700\" y2=\"500\" stroke=\"#94a3b8\" stroke-width=\"2\" stroke-dasharray=\"5 5\" />\r\n      <text x=\"600\" y=\"530\" fill=\"#94a3b8\" style=\"font-size: 12px;\">正常商品需求</text>\r\n\r\n      <!-- 吉芬需求 (升) -->\r\n      <path d=\"M200,500 Q400,450 750,100\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"12\" stroke-linecap=\"round\">\r\n        <animate attributeName=\"stroke-dasharray\" from=\"0,1000\" to=\"1000,0\" dur=\"3s\" fill=\"freeze\" />\r\n      </path>\r\n      \r\n      <g transform=\"translate(750, 100)\">\r\n        <circle r=\"30\" fill=\"#ef4444\" class=\"animate-ping\" />\r\n        <text x=\"40\" y=\"0\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">吉芬奇观!</text>\r\n        <text x=\"40\" y=\"30\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">(价格涨，需求更涨)</text>\r\n      </g>\r\n\r\n      <text x=\"850\" y=\"580\" text-anchor=\"end\" fill=\"#64748b\" opacity=\"0.4\" style=\"font-size: 16px; font-weight: 900;\">价格 (计划rice) →</text>\r\n      <text x=\"130\" y=\"100\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.4\" style=\"font-size: 16px; font-weight: 900;\" transform=\"rotate(-90 130 100)\">需求 (Quantity) ↑</text>\r\n    </svg>\n</div>"
+}

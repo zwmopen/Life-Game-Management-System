@@ -1,0 +1,14 @@
+{
+  "id": "赌徒谬误",
+  "name": "赌徒谬误",
+  "label": "赌徒谬误",
+  "icon": "BrainCircuit",
+  "description": "大脑的一种平衡幻觉：错误地认为如果一个随机事件在过去频繁发生，那么在未来它发生的概率就会降低。实际上，物理法则在每一秒都是重新加载的。",
+  "deepAnalysis": "赌徒谬误（Gambler's Fallacy）揭示了大脑的平衡幻觉。核心洞见：错误地认为如果一个随机事件在过去频繁发生，那么在未来它发生的概率就会降低。实际上，物理法则在每一秒都是重新加载的。硬币没有记忆，每一次抛掷都是独立事件，概率永远不变。",
+  "principle": "1. 独立事件：每次事件相互独立\n2. 概率恒定：概率不因历史改变\n3. 无记忆性：随机事件没有记忆\n4. 平衡幻觉：大脑追求平衡的幻觉\n5. 样本误判：误判样本大小",
+  "scope": "投资决策、赌博心理、概率判断、风险管理、决策分析、心理认知",
+  "tips": "1. 认识独立：认识事件的独立性\n2. 概率思维：用概率思维思考\n3. 避免幻觉：避免平衡幻觉\n4. 样本意识：注意样本大小\n5. 理性判断：理性判断概率",
+  "practice": "1. 识别谬误：识别赌徒谬误思维\n2. 分析事件：分析事件的独立性\n3. 计算概率：计算真实概率\n4. 理性判断：理性做出判断\n5. 避免陷阱：避免概率陷阱",
+  "scenario": "1. 投资决策：避免追涨杀跌\n2. 赌博心理：理解赌博本质\n3. 概率判断：正确判断概率\n4. 风险管理：管理风险决策\n5. 决策分析：理性分析决策",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <g transform=\"translate(150, 300)\">\r\n        <circle cx=\"0\" cy=\"0\" r=\"40\" fill=\"#ef4444\" opacity=\"0.8\" />\r\n        <circle cx=\"100\" cy=\"0\" r=\"40\" fill=\"#ef4444\" opacity=\"0.8\" />\r\n        <circle cx=\"200\" cy=\"0\" r=\"40\" fill=\"#ef4444\" opacity=\"0.8\" />\r\n        <circle cx=\"300\" cy=\"0\" r=\"40\" fill=\"#ef4444\" opacity=\"0.8\" />\r\n        <text x=\"150\" y=\"80\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 18px; font-weight: 900;\">连续 5 次反面</text>\r\n      </g>\r\n      <g transform=\"translate(700, 300)\">\r\n        <circle r=\"150\" fill=\"#ef4444\" fill-opacity=\"0.05\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"15 10\" class=\"animate-pulse\" />\r\n        <text text-anchor=\"middle\" y=\"10\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">“下次该出正面了!”</text>\r\n        <path d=\"M0,100 L0,180\" stroke=\"#ef4444\" stroke-width=\"4\" marker-end=\"url(#bluearrow)\" />\r\n      </g>\r\n      <g transform=\"translate(900, 300)\">\r\n        <rect x=\"-50\" y=\"-50\" width=\"100\" height=\"100\" rx=\"15\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"2\" />\r\n        <text text-anchor=\"middle\" y=\"15\" fill=\"#1e293b\" style=\"font-size: 42px; font-weight: 900;\">50%</text>\r\n        <text y=\"80\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.4\" style=\"font-size: 14px;\">物理真相</text>\r\n      </g>\r\n      <defs>\r\n        <marker id=\"bluearrow\" markerWidth=\"10\" markerHeight=\"10\" refX=\"5\" refY=\"5\" orient=\"auto\"><path d=\"M0,0 L10,5 L0,10 Z\" fill=\"#ef4444\"/></marker>\r\n      </defs>\r\n      <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 24px; font-weight: 900; letter-spacing: 0.5em;\">概率不记得历史</text>\r\n    </svg>\n</div>"
+}

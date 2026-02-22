@@ -1,0 +1,14 @@
+{
+  "id": "信息几何",
+  "name": "信息几何",
+  "label": "信息几何",
+  "icon": "BrainCircuit",
+  "description": "将概率论与微分几何结合。它告诉我们，从一种信念状态转换到另一种状态，其难度不取决于数值差异，而取决于“信息流形”上的曲率。有些观点的转变在物理上就是比另一些更费力。",
+  "deepAnalysis": "信息几何（Information Geometry）是由日本数学家甘利俊一提出的跨学科理论，将概率分布视为流形上的点，用微分几何的方法研究统计推断。核心洞见：信念状态的转换难度取决于信息流形的曲率，而非简单的数值差异。\n\n关键概念：\n- 统计流形：概率分布构成的空间\n- Fisher信息矩阵：衡量参数估计的精度\n- 测地线距离：两个分布间的最短路径\n- 曲率：决定信念转变的难度\n\n应用价值：帮助我们理解为什么某些观点转变比其他更困难，以及如何更有效地改变信念。",
+  "principle": "1. 曲率决定难度：信息流形的曲率决定了信念转变的难易程度，曲率大的区域转变更困难\n2. 测地线最优：沿着测地线路径更新信念是最有效率的方式\n3. Fisher信息度量：用Fisher信息矩阵衡量认知的不确定性\n4. 局部欧氏近似：在小范围内可以用欧氏几何近似，大范围需要考虑曲率\n5. 对偶几何结构：概率分布空间具有对偶的仿射连接",
+  "scope": "统计推断、机器学习、信念更新、认知科学、决策理论、贝叶斯分析",
+  "tips": "1. 识别信念空间：将你的信念系统可视化为一个流形\n2. 评估曲率：判断哪些观点转变需要更多努力\n3. 选择最优路径：沿着测地线方向逐步更新信念\n4. 量化不确定性：用信息熵衡量认知的模糊程度\n5. 避免陡峭跳跃：在曲率大的区域，小步迭代更有效",
+  "practice": "1. 学习新知识时，评估从当前信念到目标信念的'距离'\n2. 在机器学习中，用自然梯度下降替代普通梯度下降\n3. 在决策时，考虑信息流形的结构来优化学习策略\n4. 研究概率分布的几何性质，理解模型参数的影响\n5. 应用于贝叶斯推断，优化后验分布的更新过程",
+  "scenario": "1. 品牌重塑：改变消费者对品牌的认知需要考虑认知空间的曲率\n2. 团队共识：量化不同背景成员的认知距离，优化沟通策略\n3. 教育设计：根据知识点的几何关系设计学习路径\n4. 投资决策：评估市场情绪转变的难度和所需时间\n5. AI模型训练：使用自然梯度优化神经网络的训练效率",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 弯曲的流形背景 -->\r\n        <path d=\"M-400,200 Q0,-400 400,200\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"2\" opacity=\"0.1\" />\r\n        <path d=\"M-400,100 Q0,-300 400,100\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"1\" opacity=\"0.1\" />\r\n        \r\n        <!-- 概率分布 A (窄而高) -->\r\n        <g transform=\"translate(-200, 100)\">\r\n          <path d=\"M-50,0 Q0,-200 50,0\" fill=\"#ef4444\" fill-opacity=\"0.2\" stroke=\"#ef4444\" stroke-width=\"2\" />\r\n          <text y=\"30\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">信念分布 A</text>\r\n        </g>\r\n\r\n        <!-- 概率分布 B (宽而扁) -->\r\n        <g transform=\"translate(200, 100)\">\r\n          <path d=\"M-80,0 Q0,-80 80,0\" fill=\"#ef4444\" fill-opacity=\"0.2\" stroke=\"#ef4444\" stroke-width=\"2\" />\r\n          <text y=\"30\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">信念分布 B</text>\r\n        </g>\r\n\r\n        <!-- 测地线 (最短路径) -->\r\n        <path d=\"M-200,100 Q0,-50 200,100\" fill=\"none\" stroke=\"#fbbf24\" stroke-width=\"4\" stroke-dasharray=\"10 5\">\r\n          <animate attributeName=\"stroke-dashoffset\" from=\"0\" to=\"100\" dur=\"2s\" repeatCount=\"indefinite\" />\r\n        </path>\r\n        <text x=\"0\" y=\"-20\" text-anchor=\"middle\" fill=\"#fbbf24\" style=\"font-size: 24px; font-weight: 900;\">费希尔信息度规 (认知距离)</text>\r\n\r\n        <text y=\"-250\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">认知空间是有曲率的</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

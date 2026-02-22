@@ -1,0 +1,13 @@
+{
+  "id": "库里肖夫效应",
+  "name": "库里肖夫效应",
+  "label": "库里肖夫效应",
+  "icon": "BrainCircuit",
+  "description": "电影剪辑之父库里肖夫发现：观众对一个特写镜头（如中性表情）的解读，完全取决于该镜头前后的环境图像。意义不是在信号中产生的，而是在联系中涌现的。",
+  "deepAnalysis": "这是一个思维模型，展示了库里肖夫效应的核心概念和应用。",
+  "principle": "思维模型的核心原则：库里肖夫效应",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将库里肖夫效应应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 恒定的面部表情 (中性) -->\r\n        <g id=\"face\">\r\n          <circle r=\"100\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"4\" />\r\n          <circle cx=\"-35\" cy=\"-20\" r=\"8\" fill=\"#1e293b\" />\r\n          <circle cx=\"35\" cy=\"-20\" r=\"8\" fill=\"#1e293b\" />\r\n          <line x1=\"-30\" y1=\"40\" x2=\"30\" y2=\"40\" stroke=\"#1e293b\" stroke-width=\"4\" stroke-linecap=\"round\" />\r\n        </g>\r\n        \r\n        <!-- 环境 A: 丰盛的食物 -->\r\n        <g transform=\"translate(-350, 0)\" opacity=\"0.3\">\r\n          <rect x=\"-80\" y=\"-80\" width=\"160\" height=\"160\" rx=\"20\" fill=\"#10b981\" fill-opacity=\"0.1\" stroke=\"#10b981\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"#10b981\" style=\"font-size: 14px; font-weight: 900;\">背景 A: 美食</text>\r\n          <text y=\"120\" text-anchor=\"middle\" fill=\"#10b981\" style=\"font-size: 24px; font-weight: 900;\">解读：渴望</text>\r\n        </g>\r\n\r\n        <!-- 环境 B: 肃穆的葬礼 -->\r\n        <g transform=\"translate(350, 0)\" opacity=\"0.3\">\r\n          <rect x=\"-80\" y=\"-80\" width=\"160\" height=\"160\" rx=\"20\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">背景 B: 棺材</text>\r\n          <text y=\"120\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">解读：悲伤</text>\r\n        </g>\r\n\r\n        <path d=\"M-250,0 L-120,0 M120,0 L250,0\" stroke=\"#1e293b\" stroke-width=\"1\" stroke-dasharray=\"5 5\" opacity=\"0.2\" />\r\n        <text y=\"-180\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.1em;\">同一个信号，不同的意义</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

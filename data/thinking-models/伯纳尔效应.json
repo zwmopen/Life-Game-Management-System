@@ -1,0 +1,14 @@
+{
+  "id": "伯纳尔效应",
+  "name": "伯纳尔效应",
+  "label": "贝尔纳效应",
+  "icon": "BrainCircuit",
+  "description": "很多重大的原创发现是由某些人提出的，但由于他们缺乏将其系统化、产业化的能力，最终的声誉和利益往往被后来的“完善者”获得。",
+  "deepAnalysis": "伯纳尔效应（Barnum Effect），又称福勒效应，是一种心理现象，指人们倾向于认为模糊、笼统的人格描述是专门为自己量身定制的。这就是为什么星座运势、算命、性格测试等内容看起来'很准'的原因。理解伯纳尔效应有助于我们识别伪科学，提高批判性思维能力。",
+  "principle": "1. 模糊性：描述越模糊，适用范围越广，人们越容易对号入座\n2. 主观验证：人们会主动寻找符合描述的证据，忽略不符合的部分\n3. 自我参照：人们倾向于将信息与自身联系起来，产生'这就是在说我'的感觉\n4. 确认偏误：人们更容易记住'准确'的预测，忘记不准确的\n5. 渴望被理解：人们有被理解和被认可的心理需求。",
+  "scope": "心理咨询、市场营销、消费者行为、伪科学识别、性格测试、媒体传播",
+  "tips": "1. 检验特异性：问自己'这个描述是否适用于大多数人？'\n2. 反向验证：将描述反过来读，看是否同样'准确'\n3. 寻找证据：要求对方提供具体的预测和证据，而非模糊的描述\n4. 保持怀疑：对过于笼统的描述保持警惕，不要轻易对号入座\n5. 理性分析：用逻辑和证据检验信息的准确性。",
+  "practice": "1. 星座运势：阅读星座运势时，意识到它适用于所有人，不是专门为你写的\n2. 性格测试：参加性格测试时，判断结果是否足够具体，还是只是模糊描述\n3. 消费决策：面对'专为你定制'的营销信息，保持理性判断\n4. 人际沟通：在沟通中使用具体描述而非模糊表达，提高沟通效率\n5. 批判思维：培养批判性思维，识别和避免伯纳尔效应的影响。",
+  "scenario": "1. 星座运势：星座运势使用模糊描述，让每个人都觉得'很准'\n2. 算命预测：算命先生使用笼统语言，让求测者对号入座\n3. 性格测试：某些性格测试结果过于笼统，适用于大多数人\n4. 营销文案：'你是独特的'等笼统描述让消费者产生共鸣\n5. 心理咨询：某些心理咨询使用模糊描述，让来访者产生被理解的感觉。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\n        <!-- 创意火花 A (原创) -->\n        <g transform=\"translate(300, 325)\">\n          <circle r=\"60\" fill=\"var(--accent-color)\" fill-opacity=\"0.1\" stroke=\"var(--accent-color)\" stroke-width=\"4\" stroke-dasharray=\"10 5\" />\n          <path d=\"M-40,0 L40,0 M0,-40 L0,40\" stroke=\"var(--accent-color)\" stroke-width=\"6\" stroke-linecap=\"round\" />\n          <text y=\"120\" text-anchor=\"middle\" fill=\"var(--accent-color)\" style=\"font-size: 36px; font-weight: 900;\">原创火花</text>\n          <text y=\"150\" text-anchor=\"middle\" fill=\"var(--secondary-text)\" opacity=\"0.5\" style=\"font-size: 14px;\">(只有想法，没有系统)</text>\n        </g>\n        \n        <!-- 能量传输箭头 -->\n        <path d=\"M420,325 L580,325\" stroke=\"var(--text-color)\" stroke-width=\"4\" stroke-dasharray=\"15 10\" opacity=\"0.1\" />\n\n        <!-- 价值收割者 B (工程化) -->\n        <g transform=\"translate(700, 325)\">\n          <rect x=\"-150\" y=\"-120\" width=\"300\" height=\"240\" rx=\"40\" fill=\"var(--accent-color)\" filter=\"drop-shadow(0 0 40px var(--accent-color))\" />\n          <path d=\"M-40,0 L-10,30 L50,-40\" fill=\"none\" stroke=\"white\" stroke-width=\"12\" stroke-linecap=\"round\" />\n          <text y=\"180\" text-anchor=\"middle\" fill=\"var(--accent-color)\" style=\"font-size: 42px; font-weight: 900;\">后来者收割</text>\n          <circle r=\"180\" fill=\"none\" stroke=\"var(--accent-color)\" stroke-width=\"1\" class=\"animate-ping\" />\n        </g>\n        <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"var(--secondary-text)\" opacity=\"0.2\" style=\"font-size: 24px; font-weight: 900; letter-spacing: 0.5em;\">原创性与实现</text>\n      </svg>\n</div>"
+}

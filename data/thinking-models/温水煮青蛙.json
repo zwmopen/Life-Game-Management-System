@@ -1,0 +1,13 @@
+{
+  "id": "温水煮青蛙",
+  "name": "温水煮青蛙",
+  "label": "青蛙现象",
+  "icon": "BrainCircuit",
+  "description": "如果把青蛙扔进开水里，它会立刻跳出；但如果把它放进冷水并缓慢加热，它会因为逐渐适应环境的微调，直到失去跳出的能力而被煮死。",
+  "deepAnalysis": "这是一个思维模型，展示了温水煮青蛙的核心概念和应用。",
+  "principle": "思维模型的核心原则：温水煮青蛙",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将温水煮青蛙应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 800 600\">\n          <!-- 容器 -->\n          <rect x=\"200\" y=\"100\" width=\"400\" height=\"400\" rx=\"30\" fill=\"none\" stroke=\"var(--svg-color-primary)\" stroke-width=\"2\" opacity=\"0.1\" />\n          \n          <!-- 温度计/液位 -->\n          <rect x=\"200\" y=\"300\" width=\"400\" height=\"200\" rx=\"0 0 30 30\" fill=\"url(#heatGrad)\">\n            <animate attributeName=\"y\" values=\"300;150;300\" dur=\"10s\" repeatCount=\"indefinite\" />\n            <animate attributeName=\"height\" values=\"200;350;200\" dur=\"10s\" repeatCount=\"indefinite\" />\n          </rect>\n\n          <!-- 青蛙 (静止点) -->\n          <g transform=\"translate(400, 350)\">\n            <circle r=\"40\" fill=\"var(--svg-color-green)\" />\n            <circle cx=\"-15\" cy=\"-10\" r=\"5\" fill=\"white\" /><circle cx=\"15\" cy=\"-10\" r=\"5\" fill=\"white\" />\n            <text y=\"70\" text-anchor=\"middle\" fill=\"var(--svg-color-green)\" style=\"font-size: 14px; font-weight: 900;\">舒适中</text>\n          </g>\n\n          <!-- 危险线 -->\n          <line x1=\"200\" y1=\"200\" x2=\"600\" y2=\"200\" stroke=\"var(--svg-color-danger)\" stroke-width=\"2\" stroke-dasharray=\"10 5\" />\n          <text x=\"620\" y=\"205\" fill=\"var(--svg-color-danger)\" style=\"font-size: 10px; font-weight: 900;\">致命阈值</text>\n\n          <defs>\n            <linearGradient id=\"heatGrad\" x1=\"0\" y1=\"1\" x2=\"0\" y2=\"0\">\n              <stop offset=\"0%\" stop-color=\"var(--svg-color-blue)\" /><stop offset=\"100%\" stop-color=\"var(--svg-color-danger)\" />\n            </linearGradient>\n          </defs>\n\n          <text x=\"400\" y=\"550\" text-anchor=\"middle\" fill=\"var(--svg-color-secondary)\" opacity=\"0.3\" style=\"font-size: 10px; font-weight: 900; letter-spacing: 0.5em;\">对灾难的感官适应</text>\n        </svg>\n</div>"
+}

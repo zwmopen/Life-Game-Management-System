@@ -1,0 +1,13 @@
+{
+  "id": "专家邓宁克鲁格效应",
+  "name": "专家邓宁-克鲁格效应",
+  "label": "邓宁-克鲁格",
+  "icon": "BrainCircuit",
+  "description": "真正的专家并不是无所不知，而是清晰地知道自己知识的边界。在越过“绝望之谷”后，每一步的提升都伴随着对未知的敬畏。",
+  "deepAnalysis": "专家邓宁-克鲁格效应是对经典邓宁-克鲁格效应的延伸和深化，由社会心理学家大卫·邓宁和贾斯汀·克鲁格提出。该理论指出，真正的专家并不是无所不知，而是清晰地知道自己知识的边界。在越过'绝望之谷'后，专家会进入'持续进化的坡道'，每一步的提升都伴随着对未知的敬畏。这一理论揭示了认知能力发展的不同阶段，帮助人们正确认识自己的能力水平。",
+  "principle": "1. 认知偏差：能力欠缺者往往高估自己的能力，而专家则能更准确地评估自己\n2. 知识边界：专家的标志是知道自己不知道什么\n3. 持续学习：真正的专家永远保持学习的态度\n4. 敬畏之心：对未知保持敬畏，是持续进步的动力\n5. 认知成长：认知能力的发展是一个从无知到有知，再到知道自己无知的过程。",
+  "scope": "心理学研究, 教育与培训, 职业发展, 团队管理, 决策制定, 自我认知, 领导力培养",
+  "tips": "1. 保持谦逊：永远记住自己还有很多不知道的东西\n2. 主动学习：持续学习，拓展自己的知识边界\n3. 寻求反馈：定期寻求他人的反馈，了解自己的不足\n4. 反思自省：定期反思自己的认知和行为\n5. 尊重专家：尊重真正有知识和经验的专家，向他们学习。",
+  "practice": "1. 自我评估：定期评估自己的能力水平，识别自己的知识边界\n2. 制定学习计划：根据自己的知识边界，制定有针对性的学习计划\n3. 寻求反馈：向同事、导师或行业专家寻求反馈\n4. 反思总结：定期反思自己的工作和学习，总结经验教训\n5. 保持好奇心：对新事物保持好奇心，持续学习和探索。例如，在工作中遇到问题时，不要轻易认为自己已经知道答案，而是先进行深入研究和咨询专家，再做出决策。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <!-- 绝望之谷后的漫长坡道 -->\r\n      <path d=\"M100,500 Q150,100 250,150 T450,550 Q600,530 900,450\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n      \r\n      <!-- 聚焦专家区 (大师平原) -->\r\n      <g transform=\"translate(600, 500)\">\r\n        <path d=\"M0,0 Q150,-20 350,-80\" fill=\"none\" stroke=\"#10b981\" stroke-width=\"12\" stroke-linecap=\"round\">\r\n           <animate attributeName=\"stroke-dasharray\" from=\"0,500\" to=\"500,0\" dur=\"5s\" fill=\"freeze\" />\r\n        </path>\r\n        <text x=\"175\" y=\"40\" text-anchor=\"middle\" fill=\"#10b981\" style=\"font-size: 36px; font-weight: 900;\">持续进化的坡道</text>\r\n        <text x=\"175\" y=\"75\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.5\" style=\"font-size: 14px;\">(每前进一步都需要付出指数级努力)</text>\r\n      </g>\r\n\r\n      <!-- 专家心态 -->\r\n      <g transform=\"translate(850, 420)\">\r\n        <circle r=\"60\" fill=\"#10b981\" fill-opacity=\"0.1\" class=\"animate-pulse\" />\r\n        <path d=\"M-30,-20 L0,10 L30,-20\" fill=\"none\" stroke=\"#10b981\" stroke-width=\"8\" stroke-linecap=\"round\" />\r\n        <text y=\"90\" text-anchor=\"middle\" fill=\"#10b981\" style=\"font-size: 20px; font-weight: 900;\">真知灼见</text>\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"100\" text-anchor=\"middle\" fill=\"#94a3b8\" style=\"font-size: 24px; font-weight: 900; letter-spacing: 0.5em;\">THE 计划LaTEaU OF S我们Ta我NaB我L我TY</text>\r\n    </svg>\n</div>"
+}

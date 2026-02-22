@@ -1,0 +1,13 @@
+{
+  "id": "科斯定理",
+  "name": "科斯定理",
+  "label": "科斯定理",
+  "icon": "BrainCircuit",
+  "description": "只要财产权是明确的，并且交易成本为零或很低，那么无论初始权利如何分配，市场最终都能通过自发交易达到资源的最优配置。",
+  "deepAnalysis": "这是一个思维模型，展示了科斯定理的核心概念和应用。",
+  "principle": "思维模型的核心原则：科斯定理",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将科斯定理应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\n          <defs>\n            <marker id=\"arrow-blue\" markerWidth=\"10\" markerHeight=\"10\" refX=\"5\" refY=\"5\" orient=\"auto\"><path d=\"M0,0 L10,5 L0,10 Z\" fill=\"var(--primary-color)\"/></marker>\n          </defs>\n          <!-- 背景：交易成本障碍 -->\n          <g transform=\"translate(500, 325)\">\n            <rect x=\"-300\" y=\"-10\" width=\"600\" height=\"20\" rx=\"10\" fill=\"var(--text-primary)\" opacity=\"0.1\" />\n            <text y=\"-40\" text-anchor=\"middle\" fill=\"var(--text-secondary)\" opacity=\"0.5\" style=\"font-size: 14px; font-weight: 900; letter-spacing: 0.2em;\">TRANSACTION COSTS</text>\n          </g>\n          \n          <!-- 产权 a -->\n          <g transform=\"translate(250, 325)\">\n            <circle r=\"100\" fill=\"var(--primary-color)\" fill-opacity=\"0.1\" stroke=\"var(--primary-color)\" stroke-width=\"4\" stroke-dasharray=\"10 5\" />\n            <text text-anchor=\"middle\" y=\"5\" fill=\"var(--primary-color)\" style=\"font-size: 32px; font-weight: 900;\">产权 a</text>\n          </g>\n\n          <!-- 资源流动：产权清晰后的自发优化 -->\n          <g>\n            <path d=\"M350,325 L650,325\" stroke=\"var(--primary-color)\" stroke-width=\"8\" stroke-dasharray=\"15 15\" marker-end=\"url(#arrow-blue)\">\n               <animate attributeName=\"stroke-dashoffset\" from=\"0\" to=\"100\" dur=\"2s\" repeatCount=\"indefinite\" />\n            </path>\n            <text x=\"500\" y=\"280\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 24px; font-weight: 900;\">自发交易 (产权清晰)</text>\n          </g>\n\n          <!-- 产权 B -->\n          <g transform=\"translate(750, 325)\">\n            <circle r=\"100\" fill=\"var(--primary-color)\" fill-opacity=\"0.1\" stroke=\"var(--primary-color)\" stroke-width=\"4\" />\n            <text text-anchor=\"middle\" y=\"5\" fill=\"var(--primary-color)\" style=\"font-size: 32px; font-weight: 900;\">最优配置</text>\n          </g>\n\n          <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 42px; font-weight: 900; letter-spacing: 0.1em; opacity: 0.1;\">THE PROBLEM OF SOCIAL COST</text>\n        </svg>\n</div>"
+}

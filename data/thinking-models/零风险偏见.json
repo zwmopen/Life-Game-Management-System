@@ -1,0 +1,14 @@
+{
+  "id": "零风险偏见",
+  "name": "零风险偏见",
+  "label": "零风险偏差",
+  "icon": "BrainCircuit",
+  "description": "人们倾向于彻底消除一个微小的风险，而不愿意大幅降低一个巨大的风险。我们追求的是“绝对安全”的心理慰藉，而非效用的最大化。",
+  "deepAnalysis": "零风险偏见（Zero-risk Bias）揭示了人类决策的非理性特征。核心洞见：人们倾向于彻底消除一个微小的风险，而不愿意大幅降低一个巨大的风险。我们追求的是绝对安全的心理慰藉，而非效用的最大化。这导致资源被浪费在消除微不足道的风险上，而忽视了真正重大的风险。",
+  "principle": "1. 心理慰藉：追求绝对安全的心理满足\n2. 非理性分配：资源被错误分配\n3. 忽视大局：忽视更大的风险\n4. 边际效用：忽视边际效用递减\n5. 决策偏差：系统性决策偏差",
+  "scope": "风险管理、公共政策、投资决策、健康决策、安全管理、心理决策",
+  "tips": "1. 量化风险：量化不同风险的大小\n2. 边际分析：分析边际效用\n3. 资源优化：优化资源配置\n4. 避免绝对：避免追求绝对安全\n5. 关注大局：关注整体风险",
+  "practice": "1. 识别风险：识别所有风险\n2. 量化评估：量化评估风险大小\n3. 边际分析：分析消除风险的边际效用\n4. 优化配置：优化资源配置\n5. 持续评估：持续评估决策效果",
+  "scenario": "1. 公共政策：合理分配公共资源\n2. 投资决策：平衡风险和收益\n3. 健康决策：关注主要健康风险\n4. 安全管理：合理分配安全资源\n5. 企业决策：平衡风险和成本",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <!-- 决策 A: 追求局部完美 (清零) -->\r\n      <g transform=\"translate(250, 300)\">\r\n        <circle r=\"120\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"1\" opacity=\"0.1\" />\r\n        <rect x=\"-80\" y=\"-120\" width=\"160\" height=\"240\" rx=\"20\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"2\" />\r\n        <path d=\"M-30,-20 L-10,0 L30,-40\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"8\" stroke-linecap=\"round\" />\r\n        <text y=\"60\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 16px; font-weight: 900;\">1% 风险 → 0%</text>\r\n        <text y=\"90\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.5\" style=\"font-size: 10px;\">心理收益极大，实际收益极微</text>\r\n      </g>\r\n      \r\n      <!-- 决策 B: 追求全局最优 (大幅降低) -->\r\n      <g transform=\"translate(750, 300)\">\r\n        <rect x=\"-80\" y=\"-120\" width=\"160\" height=\"240\" rx=\"20\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"2\" stroke-dasharray=\"10 5\" />\r\n        <text y=\"5\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">-60%</text>\r\n        <text y=\"60\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 16px; font-weight: 900;\">80% 风险 → 20%</text>\r\n        <text y=\"90\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.5\" style=\"font-size: 10px;\">实际收益巨大，但“不完美”</text>\r\n        <circle r=\"40\" fill=\"#ef4444\" fill-opacity=\"0.2\" class=\"animate-ping\" />\r\n      </g>\r\n\r\n      <path d=\"M400,300 L600,300\" stroke=\"#1e293b\" stroke-width=\"1\" stroke-dasharray=\"5 10\" opacity=\"0.1\" />\r\n      <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900; opacity: 0.1;\">伪确定性效应</text>\r\n    </svg>\n</div>"
+}

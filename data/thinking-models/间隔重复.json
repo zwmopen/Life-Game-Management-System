@@ -1,0 +1,14 @@
+{
+  "id": "间隔重复",
+  "name": "间隔重复",
+  "label": "间隔复习",
+  "icon": "BrainCircuit",
+  "description": "记忆不是一蹴而就的，而是在即将遗忘的瞬间通过“强行提取”实现的加固。间隔时间越长，记忆的生物连接就越稳固。",
+  "deepAnalysis": "间隔重复（Spaced Repetition）是记忆科学的核心方法。核心洞见：记忆不是一蹴而就的，而是在即将遗忘的瞬间通过强行提取实现的加固。间隔时间越长，记忆的生物连接就越稳固。艾宾浩斯遗忘曲线揭示了记忆衰退的规律，而间隔重复是对抗遗忘的最有效方法。",
+  "principle": "1. 遗忘曲线：记忆随时间衰退\n2. 间隔复习：在即将遗忘时复习\n3. 提取练习：主动提取强化记忆\n4. 递增间隔：间隔时间逐渐增加\n5. 长期记忆：形成稳固的长期记忆",
+  "scope": "学习成长、知识管理、语言学习、技能培训、考试备考、记忆训练",
+  "tips": "1. 即将遗忘时复习：在快要忘记时复习效果最好\n2. 主动提取：主动回忆而非被动阅读\n3. 递增间隔：间隔时间逐渐增加\n4. 使用工具：使用Anki等间隔重复工具\n5. 持续复习：长期坚持复习",
+  "practice": "1. 学习新知识：学习新知识\n2. 短期复习：1天后复习\n3. 中期复习：3天后复习\n4. 长期复习：7天后复习\n5. 持续复习：按间隔持续复习",
+  "scenario": "1. 语言学习：记忆单词和语法\n2. 考试备考：记忆考试内容\n3. 技能学习：记忆技能知识\n4. 知识管理：长期记忆重要知识\n5. 专业学习：记忆专业知识",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <!-- 原始遗忘曲线 (灰色) -->\r\n      <path d=\"M100,100 Q150,550 900,580\" fill=\"none\" stroke=\"#94a3b8\" stroke-width=\"4\" stroke-dasharray=\"5 5\" opacity=\"0.2\" />\r\n      \r\n      <!-- 间隔复习路径 (阶梯) -->\r\n      <g stroke=\"#ef4444\" stroke-width=\"6\" fill=\"none\" stroke-linecap=\"round\">\r\n        <path d=\"M100,100 Q120,400 200,450\" /> <!-- 第一次学习 -->\r\n        <path d=\"M200,450 L200,100 Q250,350 400,400\" stroke-opacity=\"0.8\" /> <!-- 第一次复习 -->\r\n        <path d=\"M400,400 L400,100 Q500,250 700,280\" stroke-opacity=\"0.6\" /> <!-- 第二次复习 -->\r\n        <path d=\"M700,280 L700,100 Q850,150 950,150\" stroke-opacity=\"0.4\" /> <!-- 第三次复习 -->\r\n      </g>\r\n\r\n      <!-- 复习点标注 -->\r\n      <g fill=\"#ef4444\" font-weight=\"900\">\r\n        <circle cx=\"200\" cy=\"100\" r=\"10\" /><text x=\"200\" y=\"80\" text-anchor=\"middle\">1d</text>\r\n        <circle cx=\"400\" cy=\"100\" r=\"10\" /><text x=\"400\" y=\"80\" text-anchor=\"middle\">7d</text>\r\n        <circle cx=\"700\" cy=\"100\" r=\"10\" /><text x=\"700\" y=\"80\" text-anchor=\"middle\">30d</text>\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"50\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.2em;\">阶梯式永久记忆</text>\r\n    </svg>\n</div>"
+}

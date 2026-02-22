@@ -1,0 +1,13 @@
+{
+  "id": "帕累托前沿",
+  "name": "帕累托前沿",
+  "label": "帕累托前沿",
+  "icon": "BrainCircuit",
+  "description": "多目标决策的“物理墙”。在这一边界上，任何想要提升 A 指标的尝试，都物理性地必然导致 B 指标的下降。这是效率与取舍的终极红线。",
+  "deepAnalysis": "这是一个思维模型，展示了帕累托前沿的核心概念和应用。",
+  "principle": "思维模型的核心原则：帕累托前沿",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将帕累托前沿应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <!-- 坐标轴 -->\r\n      <line x1=\"150\" y1=\"550\" x2=\"150\" y2=\"100\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n      <line x1=\"150\" y1=\"550\" x2=\"850\" y2=\"550\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n      \r\n      <!-- 低效区 (点集) -->\r\n      <g fill=\"#1e293b\" opacity=\"0.1\">\r\n        <circle cx=\"250\" cy=\"450\" r=\"10\" /><circle cx=\"400\" cy=\"400\" r=\"10\" />\r\n        <circle cx=\"300\" cy=\"500\" r=\"10\" /><circle cx=\"500\" cy=\"350\" r=\"10\" />\r\n      </g>\r\n\r\n      <!-- 帕累托前沿曲线 -->\r\n      <path d=\"M200,100 Q850,100 850,500\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"12\" stroke-linecap=\"round\" opacity=\"0.8\">\r\n        <animate attributeName=\"stroke-dasharray\" from=\"0,1500\" to=\"1500,0\" dur=\"4s\" fill=\"freeze\" />\r\n      </path>\r\n      \r\n      <!-- 动态平衡点 -->\r\n      <g>\r\n        <circle r=\"25\" fill=\"#10b981\" class=\"animate-pulse\">\r\n           <animateMotion path=\"M200,100 Q850,100 850,500\" dur=\"10s\" repeatCount=\"indefinite\" />\r\n        </circle>\r\n        <text y=\"-40\" text-anchor=\"middle\" fill=\"#10b981\" style=\"font-size: 24px; font-weight: 900;\">\r\n           <animateMotion path=\"M200,100 Q850,100 850,500\" dur=\"10s\" repeatCount=\"indefinite\" />\r\n           帕累托最优\r\n        </text>\r\n      </g>\r\n\r\n      <text x=\"850\" y=\"580\" text-anchor=\"end\" fill=\"#64748b\" opacity=\"0.4\" style=\"font-size: 14px; font-weight: 900;\">指标 B (如: 低价格) →</text>\r\n      <text x=\"130\" y=\"100\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.4\" style=\"font-size: 14px; font-weight: 900;\" transform=\"rotate(-90 130 100)\">指标 A (如: 高性能) ↑</text>\r\n    </svg>\n</div>"
+}

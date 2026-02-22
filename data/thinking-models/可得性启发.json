@@ -1,0 +1,13 @@
+{
+  "id": "可得性启发",
+  "name": "可得性启发",
+  "label": "可得性启发",
+  "icon": "BrainCircuit",
+  "description": "大脑的认知捷径：它会根据信息在脑中被检索出的容易程度（近期发生的、情感鲜活的），来评估该事件发生的频率和概率。这导致了对罕见灾难的过度恐惧和对日常风险的无视。",
+  "deepAnalysis": "可得性启发是一种认知偏差，指人们在评估事件发生的概率或频率时，倾向于根据信息在记忆中被检索到的容易程度（可得性）来判断，而不是基于实际的统计数据。近期发生的、情感鲜明的或媒体频繁报道的事件会被认为更可能发生。",
+  "principle": "可得性优先级：大脑优先使用容易获取的信息，而非全面分析所有相关数据。; ;           鲜活性效应：情感鲜明、具体生动的事件在记忆中更易获取，因此被认为更常见。; ;           媒体影响：媒体报道的频率会显著影响人们对事件概率的判断。; ;           认知节能：使用可得性启发是大脑节省认知资源的一种方式。",
+  "scope": "风险评估和决策制定, \n          媒体和新闻影响, \n          市场营销和广告, \n          投资决策, \n          健康行为和医疗决策, \n          公共政策制定",
+  "tips": "1. 数据驱动：在做重要决策时，强制查阅实际的统计数据，而非依赖直觉判断。; 2. 多角度思考：主动考虑那些不容易想起的信息和因素。; 3. 延迟判断：给自己时间思考，避免基于第一反应做出决策。; 4. 清单思维：使用清单来确保考虑所有相关因素，而不仅仅是容易想起的那些。",
+  "practice": "在投资决策前，研究历史数据和统计概率，而不是被近期市场波动或新闻报道所左右。; \n          在评估风险时，参考官方统计数据，而非依赖个人经验或媒体报道。; \n          在制定个人健康计划时，关注科学研究和统计数据，而非个别案例或传闻。; \n          培养媒体素养，意识到媒体报道可能存在的选择性和偏见。; \n          在团队决策中，鼓励成员分享不同视角，避免群体思维和可得性偏差的影响。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\" class=\"w-full h-auto\">\n        <g opacity=\"0.05\" fill=\"var(--text-primary)\">\n          <circle cx=\"100\" cy=\"100\" r=\"6\" /><circle cx=\"200\" cy=\"150\" r=\"6\" /><circle cx=\"300\" cy=\"120\" r=\"6\" />\n          <circle cx=\"500\" cy=\"450\" r=\"6\" /><circle cx=\"600\" cy=\"380\" r=\"6\" /><circle cx=\"150\" cy=\"500\" r=\"6\" />\n        </g>\n        <g transform=\"translate(500, 500)\">\n          <path d=\"M0,0 L-300,-450 L300,-450 Z\" fill=\"var(--primary-color)\" fill-opacity=\"0.1\">\n            <animateTransform attributeName=\"transform\" type=\"rotate\" values=\"-20,0,0; 20,0,0; -20,0,0\" dur=\"8s\" repeatCount=\"indefinite\" />\n          </path>\n          <circle r=\"50\" fill=\"var(--text-primary)\" opacity=\"0.1\" />\n        </g>\n        <g transform=\"translate(500, 180)\">\n          <circle r=\"100\" fill=\"var(--primary-color)\" fill-opacity=\"0.1\" class=\"animate-ping\" />\n          <circle r=\"50\" fill=\"var(--primary-color)\" />\n          <text y=\"100\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 28px; font-weight: 900;\">鲜活记忆 (近期新闻)</text>\n          <text y=\"135\" text-anchor=\"middle\" fill=\"var(--text-secondary)\" opacity=\"0.5\" style=\"font-size: 14px;\">\"我想得起来的一定就是普遍的\"</text>\n        </g>\n        <text x=\"500\" y=\"560\" text-anchor=\"middle\" fill=\"var(--text-secondary)\" opacity=\"0.3\" style=\"font-size: 20px; font-weight: 900; letter-spacing: 0.5em;\">你的回忆正在欺骗你的决策</text>\n      </svg>\n</div>"
+}

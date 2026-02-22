@@ -1,0 +1,13 @@
+{
+  "id": "对比效应",
+  "name": "对比效应",
+  "label": "对比效应",
+  "icon": "BrainCircuit",
+  "description": "人们对事物的感官或价值评估，往往不是基于其绝对值，而是基于它与前后出现或周围事物的比较。差异性是认知的驱动器。",
+  "deepAnalysis": "这是一个思维模型，展示了对比效应的核心概念和应用。",
+  "principle": "思维模型的核心原则：对比效应",
+  "scope": "市场营销：产品定价、促销策略、品牌定位, \n          谈判协商：价格谈判、条件协商、合同签订, \n          人力资源：招聘面试、绩效评估、薪酬设计, \n          消费决策：产品选择、服务评估、价值判断, \n          人际关系：印象形成、情感表达、冲突解决",
+  "tips": "1. 设置合理锚点：在提出要求或展示产品时，先设置一个合理的参考点。; 2. 创造对比情境：通过对比来突出优势，增强说服力。; 3. 控制信息顺序：合理安排信息的呈现顺序，影响他人的判断。; 4. 避免极端对比：过度的对比可能导致反效果，应保持适度。",
+  "practice": "市场营销：在产品线中设置不同档次的产品，突出主推产品的优势。; \n          谈判策略：先提出较高的要求，再逐步调整，使最终结果更容易被接受。; \n          个人沟通：在表达观点时，通过对比来增强说服力和感染力。; \n          自我提升：通过与他人的对比来激励自己，但避免过度比较导致的焦虑。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\n        <!-- 场景 A: 被巨物包围 -->\n        <g transform=\"translate(250, 300)\">\n          <circle r=\"120\" fill=\"var(--text-primary)\" opacity=\"0.05\" />\n          <circle cx=\"0\" cy=\"-100\" r=\"40\" fill=\"var(--text-primary)\" opacity=\"0.1\" />\n          <circle cx=\"85\" cy=\"50\" r=\"40\" fill=\"var(--text-primary)\" opacity=\"0.1\" />\n          <circle cx=\"-85\" cy=\"50\" r=\"40\" fill=\"var(--text-primary)\" opacity=\"0.1\" />\n          \n          <!-- 核心圆 (看上去很小) -->\n          <circle r=\"20\" fill=\"var(--primary-color)\">\n             <animate attributeName=\"r\" values=\"20;18;20\" dur=\"2s\" repeatCount=\"indefinite\" />\n          </circle>\n          <text y=\"160\" text-anchor=\"middle\" fill=\"var(--text-secondary)\" opacity=\"0.5\" style=\"font-size: 12px;\">显得很小 (Small)</text>\n        </g>\n\n        <!-- 场景 B: 被微物包围 (核心圆物理大小一致) -->\n        <g transform=\"translate(750, 300)\">\n          <circle cx=\"0\" cy=\"-40\" r=\"5\" fill=\"var(--text-primary)\" opacity=\"0.2\" />\n          <circle cx=\"35\" cy=\"20\" r=\"5\" fill=\"var(--text-primary)\" opacity=\"0.2\" />\n          <circle cx=\"-35\" cy=\"20\" r=\"5\" fill=\"var(--text-primary)\" opacity=\"0.2\" />\n          \n          <!-- 核心圆 (看上去很大) -->\n          <circle r=\"20\" fill=\"var(--primary-color)\" />\n          <text y=\"160\" text-anchor=\"middle\" fill=\"var(--text-secondary)\" opacity=\"0.5\" style=\"font-size: 12px;\">显得很大 (Large)</text>\n        </g>\n\n        <path d=\"M400,300 L600,300\" stroke=\"var(--text-primary)\" stroke-width=\"1\" stroke-dasharray=\"5 10\" opacity=\"0.1\" />\n        <text x=\"500\" y=\"550\" text-anchor=\"middle\" fill=\"var(--text-secondary)\" opacity=\"0.3\" style=\"font-size: 12px; font-weight: 900; letter-spacing: 0.5em;\">EVERYTHING IS RELATIVE</text>\n      </svg>\n</div>"
+}

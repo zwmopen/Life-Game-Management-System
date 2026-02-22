@@ -1,0 +1,13 @@
+{
+  "id": "混合策略",
+  "name": "混合策略",
+  "label": "混合策略",
+  "icon": "BrainCircuit",
+  "description": "博弈论核心。当没有唯一的“纯策略”能获胜时，最优解是按照特定概率随机选择不同策略。你的不可预测性，就是你最强的防御盾牌。",
+  "deepAnalysis": "这是一个思维模型，展示了混合策略的核心概念和应用。",
+  "principle": "思维模型的核心原则：混合策略",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将混合策略应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 随机选择矩阵背景 -->\r\n        <rect x=\"-300\" y=\"-200\" width=\"600\" height=\"400\" rx=\"40\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"1\" opacity=\"0.1\" />\r\n        \r\n        <!-- 动态随机跳动的光标 -->\r\n        <g>\r\n          <rect x=\"-280\" y=\"-180\" width=\"120\" height=\"120\" rx=\"20\" fill=\"#ef4444\" opacity=\"0.1\">\r\n             <animate attributeName=\"opacity\" values=\"0.1;0.8;0.1\" dur=\"1s\" repeatCount=\"indefinite\" />\r\n          </rect>\r\n          <rect x=\"160\" y=\"60\" width=\"120\" height=\"120\" rx=\"20\" fill=\"#ef4444\" opacity=\"0.1\">\r\n             <animate attributeName=\"opacity\" values=\"0.1;0.8;0.1\" dur=\"1s\" begin=\"0.5s\" repeatCount=\"indefinite\" />\r\n          </rect>\r\n          <rect x=\"-80\" y=\"-40\" width=\"160\" height=\"80\" rx=\"40\" fill=\"#ef4444\" />\r\n          <text text-anchor=\"middle\" y=\"10\" fill=\"white\" style=\"font-size: 24px; font-weight: 900;\">随机最优解</text>\r\n        </g>\r\n\r\n        <text y=\"260\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.1em;\">不可被预测的防御</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

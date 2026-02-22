@@ -1,0 +1,13 @@
+{
+  "id": "撇脂定价",
+  "name": "撇脂定价",
+  "label": "撇脂定价",
+  "icon": "BrainCircuit",
+  "description": "新品上市初期设定极端高价。像撇取牛奶表层的奶油一样，先从那群对价格不敏感、追求极致创新的高端客户手中榨取最大利润。",
+  "deepAnalysis": "这是一个思维模型，展示了撇脂定价的核心概念和应用。",
+  "principle": "思维模型的核心原则：撇脂定价",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将撇脂定价应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <g transform=\"translate(500, 300)\">\r\n        <path d=\"M0,-250 L350,250 L-350,250 Z\" fill=\"#1e293b\" opacity=\"0.05\" stroke=\"#1e293b\" stroke-width=\"2\" />\r\n        <path d=\"M-280,150 L280,150 L350,250 L-350,250 Z\" fill=\"#ef4444\" fill-opacity=\"0.1\" />\r\n        <g>\r\n          <path d=\"M0,-250 L140,-50 L-140,-50 Z\" fill=\"#fbbf24\" filter=\"drop-shadow(0 0 30px #fbbf24)\">\r\n            <animateTransform attributeName=\"transform\" type=\"translate\" values=\"0,0; 0,-40; 0,0\" dur=\"4s\" repeatCount=\"indefinite\" />\r\n          </path>\r\n          <text y=\"-110\" text-anchor=\"middle\" fill=\"#451a03\" style=\"font-size: 32px; font-weight: 900;\">顶级高利层</text>\r\n          <text y=\"-75\" text-anchor=\"middle\" fill=\"#451a03\" style=\"font-size: 14px; font-weight: 900;\">(收割初期极高溢价)</text>\r\n        </g>\r\n      </g>\r\n      <text x=\"500\" y=\"550\" text-anchor=\"middle\" fill=\"#fbbf24\" style=\"font-size: 28px; font-weight: 900; letter-spacing: 0.3em;\">在竞争者入场前 撇走表面的奶油</text>\r\n    </svg>\n</div>"
+}

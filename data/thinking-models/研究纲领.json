@@ -1,0 +1,13 @@
+{
+  "id": "研究纲领",
+  "name": "研究纲领",
+  "label": "科学研究纲领",
+  "icon": "BrainCircuit",
+  "description": "拉卡托斯提出。成功的理论不仅仅是一条公式，它是一个由“硬核”和“保护带”构成的防御系统。当遇到相反事实时，科学家不会放弃核心，而是通过修改周边的辅助假设来保护系统。",
+  "deepAnalysis": "这是一个思维模型，展示了研究纲领的核心概念和应用。",
+  "principle": "思维模型的核心原则：研究纲领",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将研究纲领应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 辅助假设防御带 (计划rotective Belt) -->\r\n        <circle r=\"250\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"12\" stroke-dasharray=\"20 10\" opacity=\"0.2\">\r\n          <animate attributeName=\"stroke-dashoffset\" from=\"0\" to=\"100\" dur=\"5s\" repeatCount=\"indefinite\" />\r\n        </circle>\r\n        <circle r=\"180\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"8\" opacity=\"0.4\" />\r\n        \r\n        <!-- 硬核 (Hard Core) -->\r\n        <g>\r\n          <circle r=\"100\" fill=\"#1e293b\" stroke=\"#ef4444\" stroke-width=\"4\" filter=\"drop-shadow(0 0 30px #ef4444)\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"white\" style=\"font-size: 32px; font-weight: 900;\">硬核</text>\r\n          <text y=\"40\" text-anchor=\"middle\" fill=\"white\" opacity=\"0.6\" style=\"font-size: 10px;\">(不可放弃的信念)</text>\r\n        </g>\r\n\r\n        <!-- 外部反证 (被防御带吸收) -->\r\n        <g transform=\"translate(-300, -200)\">\r\n           <circle r=\"10\" fill=\"#ef4444\" class=\"animate-ping\" />\r\n           <path d=\"M0,0 L80,80\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"5 5\" marker-end=\"url(#redarrow)\" />\r\n        </g>\r\n\r\n        <text y=\"320\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 36px; font-weight: 900;\">保护带吸收了一切反常</text>\r\n      </g>\r\n      <defs>\r\n        <marker id=\"redarrow\" markerWidth=\"10\" markerHeight=\"10\" refX=\"5\" refY=\"5\" orient=\"auto\"><path d=\"M0,0 L10,5 L0,10 Z\" fill=\"#ef4444\"/></marker>\r\n      </defs>\r\n    </svg>\n</div>"
+}

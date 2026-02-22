@@ -1,0 +1,14 @@
+{
+  "id": "龙虾效应",
+  "name": "龙虾效应",
+  "label": "多重叠加效应",
+  "icon": "BrainCircuit",
+  "description": "查理·芒格提出。当两三种、甚至更多的心理倾向（思维模型）在同一时间朝同一个方向发生作用时，产生的力量将不是 1+1=2，而是剧烈的化学反应或系统核爆。",
+  "deepAnalysis": "龙虾效应（Lollapalooza Effect）由查理·芒格提出，又称多重叠加效应。核心洞见：当多个心理倾向在同一时间朝同一方向作用时，产生的力量不是简单的加法，而是剧烈的化学反应或核爆级效应。这就是为什么某些营销活动能产生惊人效果——它们同时触发了多种心理机制。",
+  "principle": "1. 多重叠加：多个心理倾向同时作用产生放大效应\n2. 非线性放大：效果远超简单相加\n3. 同向协同：各因素朝同一方向作用\n4. 化学反应：产生质变而非量变\n5. 核爆效应：能量呈指数级释放",
+  "scope": "营销策略、投资决策、行为设计、产品运营、说服沟通、风险管理",
+  "tips": "1. 寻找多重确认：顶级机会通常是5个以上模型的共同指向\n2. 反向预防：感到强烈冲动时检查是否有多个心理钩子\n3. 正向利用：设计产品时触发多种心理机制\n4. 警惕陷阱：避免被多重心理操控\n5. 系统思考：从多维度分析问题",
+  "practice": "1. 识别因素：识别影响决策的所有心理因素\n2. 分析方向：分析各因素的作用方向\n3. 评估叠加：评估叠加效应的强度\n4. 正向利用：利用正向叠加效应\n5. 反向预防：预防负向叠加效应",
+  "scenario": "1. 营销活动：同时触发稀缺、社会认同、锚定等多种心理\n2. 投资决策：多个思维模型共同指向同一机会\n3. 产品设计：设计能触发多种心理机制的功能\n4. 风险评估：识别可能导致灾难的多重因素\n5. 说服沟通：用多种论据支持同一观点",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 汇聚的光束 -->\r\n        <g stroke=\"#ef4444\" stroke-width=\"4\" opacity=\"0.3\">\r\n          <line x1=\"-400\" y1=\"-200\" x2=\"-50\" y2=\"-20\" />\r\n          <line x1=\"400\" y1=\"-200\" x2=\"50\" y2=\"-20\" />\r\n          <line x1=\"0\" y1=\"-300\" x2=\"0\" y2=\"-80\" />\r\n          <line x1=\"-300\" y1=\"250\" x2=\"-40\" y2=\"40\" />\r\n          <line x1=\"300\" y1=\"250\" x2=\"40\" y2=\"40\" />\r\n        </g>\r\n        \r\n        <!-- 核心核爆点 -->\r\n        <g>\r\n          <circle r=\"120\" fill=\"#ef4444\" fill-opacity=\"0.1\" class=\"animate-ping\" />\r\n          <rect x=\"-150\" y=\"-80\" width=\"300\" height=\"160\" rx=\"40\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 60px #ef4444)\" />\r\n          <text text-anchor=\"middle\" y=\"20\" fill=\"white\" style=\"font-size: 52px; font-weight: 900; letter-spacing: 0.1em;\">超级共振</text>\r\n        </g>\r\n\r\n        <!-- 标注模型名称 -->\r\n        <g fill=\"#ef4444\" font-weight=\"900\" style=\"font-size: 18px;\">\r\n          <text x=\"-350\" y=\"-220\" text-anchor=\"middle\">社会认同</text>\r\n          <text x=\"350\" y=\"-220\" text-anchor=\"middle\">禀赋效应</text>\r\n          <text x=\"0\" y=\"-320\" text-anchor=\"middle\">稀缺性</text>\r\n          <text x=\"-250\" y=\"280\" text-anchor=\"middle\">奖励倾向</text>\r\n          <text x=\"250\" y=\"280\" text-anchor=\"middle\">一致性</text>\r\n        </g>\r\n      </g>\r\n      <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 18px; font-weight: 900; letter-spacing: 0.8em; opacity: 0.2;\">THE LOLLa计划aLOOZa EFFEcT</text>\r\n    </svg>\n</div>"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "梅特卡夫定律",
+  "name": "梅特卡夫定律",
+  "label": "曼陀罗思考法",
+  "icon": "BrainCircuit",
+  "description": "“一个网络的价值与用户数量的平方成正比。”",
+  "deepAnalysis": "这是一个思维模型，展示了梅特卡夫定律的核心概念和应用。",
+  "principle": "思维模型的核心原则：梅特卡夫定律",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将梅特卡夫定律应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 400\" class=\"w-full h-full\">\r\n      <!-- 网络连接线 -->\r\n      <g stroke=\"#ef4444\" stroke-width=\"1.5\" opacity=\"0.3\" class=\"conn\">\r\n        <line x1=\"200\" y1=\"100\" x2=\"400\" y2=\"100\" /><line x1=\"200\" y1=\"100\" x2=\"300\" y2=\"300\" />\r\n        <line x1=\"200\" y1=\"100\" x2=\"600\" y2=\"100\" /><line x1=\"200\" y1=\"100\" x2=\"700\" y2=\"300\" />\r\n        <line x1=\"400\" y1=\"100\" x2=\"300\" y2=\"300\" /><line x1=\"400\" y1=\"100\" x2=\"600\" y2=\"100\" />\r\n        <line x1=\"400\" y1=\"100\" x2=\"700\" y2=\"300\" /><line x1=\"300\" y1=\"300\" x2=\"600\" y2=\"100\" />\r\n        <line x1=\"300\" y1=\"300\" x2=\"700\" y2=\"300\" /><line x1=\"600\" y1=\"100\" x2=\"700\" y2=\"300\" />\r\n        <line x1=\"300\" y1=\"300\" x2=\"500\" y2=\"200\" /><line x1=\"400\" y1=\"100\" x2=\"500\" y2=\"200\" />\r\n      </g>\r\n      \r\n      <!-- 节点 -->\r\n      <circle cx=\"200\" cy=\"100\" r=\"15\" fill=\"#1e293b\" class=\"node\" />\r\n      <circle cx=\"400\" cy=\"100\" r=\"15\" fill=\"#1e293b\" class=\"node\" />\r\n      <circle cx=\"600\" cy=\"100\" r=\"15\" fill=\"#1e293b\" class=\"node\" />\r\n      <circle cx=\"300\" cy=\"300\" r=\"15\" fill=\"#1e293b\" class=\"node\" />\r\n      <circle cx=\"700\" cy=\"300\" r=\"15\" fill=\"#1e293b\" class=\"node\" />\r\n      <circle cx=\"500\" cy=\"200\" r=\"25\" fill=\"#ef4444\" class=\"node shadow-lg\" />\r\n\r\n      <text x=\"500\" y=\"380\" text-anchor=\"middle\" fill=\"#94a3b8\" class=\"font-black text-[10px] uppercase tracking-[1.5em] opacity-40\">Value = Nodes²</text>\r\n    </svg>\n</div>"
+}

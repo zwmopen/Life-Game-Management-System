@@ -12,7 +12,10 @@
     "server": "node server.js",
     "start": "concurrently \"npm run server\" \"npm run dev\"",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "models:split": "node scripts/splitThinkingModels.js",
+    "models:merge": "node scripts/mergeThinkingModels.js",
+    "models:watch": "node scripts/watchThinkingModels.js"
   },
   "dependencies": {
     "@capacitor-community/electron": "^5.0.1",

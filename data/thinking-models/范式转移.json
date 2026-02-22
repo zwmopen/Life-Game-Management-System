@@ -1,0 +1,13 @@
+{
+  "id": "范式转移",
+  "name": "范式转移",
+  "label": "范式转移",
+  "icon": "BrainCircuit",
+  "description": "托马斯·库恩提出。进步不是通过微调实现的，而是通过“摧毁”。当旧的理论体系（范式）无法处理日益堆积的观测异常时，系统会进入危机，最终被一套全新的、不可调和的逻辑底座所取代。",
+  "deepAnalysis": "这是一个思维模型，展示了范式转移的核心概念和应用。",
+  "principle": "思维模型的核心原则：范式转移",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将范式转移应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 旧范式基座 (平稳上升后遇到墙) -->\r\n        <g transform=\"translate(-400, 150)\">\r\n          <path d=\"M0,0 L250,-100\" stroke=\"#94a3b8\" stroke-width=\"8\" stroke-linecap=\"round\" />\r\n          <rect x=\"250\" y=\"-150\" width=\"10\" height=\"200\" fill=\"#ef4444\" opacity=\"0.3\" />\r\n          <text y=\"50\" fill=\"#94a3b8\" style=\"font-size: 18px; font-weight: 900;\">常规科学阶段</text>\r\n        </g>\r\n        \r\n        <!-- 危机与异常 (闪动的雷电) -->\r\n        <g transform=\"translate(-100, 0)\">\r\n          <path d=\"M0,-50 L20,0 L-20,0 L0,50\" fill=\"#fbbf24\" class=\"animate-pulse\" />\r\n          <text y=\"-80\" text-anchor=\"middle\" fill=\"#fbbf24\" style=\"font-size: 24px; font-weight: 900;\">异常 (Anomalies)</text>\r\n        </g>\r\n\r\n        <!-- 新范式 (高维飞跃) -->\r\n        <g transform=\"translate(100, -100)\">\r\n          <path d=\"M0,150 L350,-150\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"15\" stroke-linecap=\"round\">\r\n            <animate attributeName=\"stroke-dasharray\" from=\"0,1000\" to=\"1000,0\" dur=\"3s\" fill=\"freeze\" />\r\n          </path>\r\n          <circle cx=\"350\" cy=\"-150\" r=\"40\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 40px #ef4444)\" class=\"animate-ping\" />\r\n          <text x=\"350\" y=\"-220\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 48px; font-weight: 900;\">范式转移</text>\r\n        </g>\r\n\r\n        <text y=\"280\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 20px; font-weight: 900; letter-spacing: 0.5em;\">Sc我ENT我F我c REVOLUT我ONS</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

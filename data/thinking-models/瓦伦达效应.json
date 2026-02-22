@@ -1,0 +1,13 @@
+{
+  "id": "瓦伦达效应",
+  "name": "瓦伦达效应",
+  "label": "瓦伦达效应",
+  "icon": "BrainCircuit",
+  "description": "为了达到目的而过分担忧失败，反而会导致失败。这种心理压力导致的D失准，源于走钢丝表演者卡尔·瓦伦达的悲剧。",
+  "deepAnalysis": "这是一个思维模型，展示了瓦伦达效应的核心概念和应用。",
+  "principle": "思维模型的核心原则：瓦伦达效应",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将瓦伦达效应应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <!-- 悬崖/支点 -->\r\n      <rect x=\"200\" y=\"450\" width=\"600\" height=\"20\" rx=\"10\" fill=\"#1e293b\" opacity=\"0.1\" />\r\n      \r\n      <!-- 走钢丝的人 -->\r\n      <g transform=\"translate(500, 450)\">\r\n        <animateTransform attributeName=\"transform\" type=\"rotate\" values=\"-5,500,450; 5,500,450; -5,500,450\" dur=\"0.5s\" repeatCount=\"indefinite\" />\r\n        <!-- 身体 -->\r\n        <circle cy=\"-80\" r=\"25\" fill=\"#1e293b\" />\r\n        <rect x=\"-5\" y=\"-60\" width=\"10\" height=\"60\" fill=\"#1e293b\" />\r\n        <!-- 平衡杆 -->\r\n        <line x1=\"-200\" y1=\"-30\" x2=\"200\" y2=\"-30\" stroke=\"#ef4444\" stroke-width=\"6\" stroke-linecap=\"round\" />\r\n        \r\n        <!-- 巨大的心理包袱 (悬浮在他头顶) -->\r\n        <g transform=\"translate(0, -200)\">\r\n           <circle r=\"60\" fill=\"#ef4444\" fill-opacity=\"0.1\" class=\"animate-ping\" />\r\n           <path d=\"M-40,0 L40,0\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"5 5\" />\r\n           <text text-anchor=\"middle\" y=\"5\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">对结果的恐惧</text>\r\n           <text y=\"25\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 8px;\">\"万一输了怎么办?\"</text>\r\n        </g>\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"100\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.1em; opacity: 0.05;\">专注失败</text>\r\n    </svg>\n</div>"
+}

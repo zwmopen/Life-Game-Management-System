@@ -1,0 +1,14 @@
+{
+  "id": "反馈极化",
+  "name": "反馈极化",
+  "label": "反馈极化",
+  "icon": "BrainCircuit",
+  "description": "自媒体时代的物理规律：算法不喜欢中立，只喜欢“明确”。越是极致、越是有争议、越是带有鲜明人格色彩的内容，越容易触发算法的正向反馈。想要获得流量，你必须主动进行“认知破缺”。",
+  "deepAnalysis": "反馈极化（Feedback Polarization）揭示了反馈机制的双刃剑效应。核心洞见：反馈不仅能强化正确行为，也能强化错误行为。当错误的反馈被误认为是正确的，系统就会沿着错误方向加速，最终导致灾难性后果。这就是为什么有些组织越努力越糟糕——他们在错误的反馈循环中不断强化错误行为。",
+  "principle": "1. 正向强化：正确的反馈强化正确行为\n2. 负向强化：错误的反馈强化错误行为\n3. 自我加速：反馈循环会自我加速\n4. 路径依赖：一旦进入错误循环难以退出\n5. 验证机制：需要验证反馈的正确性",
+  "scope": "组织管理、个人成长、投资决策、产品设计、学习反馈、绩效管理",
+  "tips": "1. 验证反馈：验证反馈的正确性\n2. 多源反馈：从多个来源获取反馈\n3. 延迟判断：不要急于根据反馈行动\n4. 逆向思考：思考反馈可能错在哪里\n5. 定期复盘：定期复盘反馈机制",
+  "practice": "1. 收集反馈：从多个渠道收集反馈\n2. 验证反馈：验证反馈的准确性和代表性\n3. 分析模式：分析反馈的模式和趋势\n4. 谨慎行动：谨慎地根据反馈调整行为\n5. 持续监测：持续监测调整后的效果",
+  "scenario": "1. 产品迭代：验证用户反馈的代表性\n2. 绩效管理：验证绩效指标的合理性\n3. 投资决策：验证市场信号的有效性\n4. 个人成长：验证学习反馈的准确性\n5. 组织变革：验证变革效果的评估方式",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 初始中性状态 -->\r\n        <circle r=\"40\" fill=\"#94a3b8\" />\r\n        <text text-anchor=\"middle\" y=\"5\" fill=\"white\" style=\"font-size: 10px;\">初始内容</text>\r\n        \r\n        <!-- 算法放大镜 -->\r\n        <g transform=\"translate(0, 0)\">\r\n          <path d=\"M50,0 Q150,-200 350,0\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"8\" opacity=\"0.3\" marker-end=\"url(#bluearrow)\" />\r\n          <path d=\"M-50,0 Q-150,200 -350,0\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"8\" opacity=\"0.3\" marker-end=\"url(#redarrow)\" />\r\n        </g>\r\n\r\n        <!-- 极化后的两极 -->\r\n        <g transform=\"translate(350, 0)\">\r\n          <circle r=\"100\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"10 5\" class=\"animate-pulse\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">极度偏好者</text>\r\n        </g>\r\n        <g transform=\"translate(-350, 0)\">\r\n          <circle r=\"100\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"10 5\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">极度厌恶者</text>\r\n        </g>\r\n\r\n        <text y=\"-250\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">平庸的终点是算法的死亡</text>\r\n      </g>\r\n      <defs>\r\n        <marker id=\"bluearrow\" markerWidth=\"10\" markerHeight=\"10\" refX=\"5\" refY=\"5\" orient=\"auto\"><path d=\"M0,0 L10,5 L0,10 Z\" fill=\"#ef4444\"/></marker>\r\n        <marker id=\"redarrow\" markerWidth=\"10\" markerHeight=\"10\" refX=\"5\" refY=\"5\" orient=\"auto\" rotate=\"180\"><path d=\"M0,0 L10,5 L0,10 Z\" fill=\"#ef4444\"/></marker>\r\n      </defs>\r\n    </svg>\n</div>"
+}

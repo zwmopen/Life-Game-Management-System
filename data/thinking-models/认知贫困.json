@@ -1,0 +1,14 @@
+{
+  "id": "认知贫困",
+  "name": "认知贫困",
+  "label": "高认知穷人镜像",
+  "icon": "BrainCircuit",
+  "description": "最危险的成瘾不是药物，而是“认知高潮”。你习惯了用“想通了”替代“做到了”，用设计系统替代肉身行动。在大脑看来，你已经赢了（分泌了多巴胺），但在现实世界，你的资产是负数。",
+  "deepAnalysis": "认知贫困（Cognitive Poverty）揭示了思考与行动的陷阱。核心洞见：最危险的成瘾不是药物，而是认知高潮。你习惯了用想通了替代做到了，用设计系统替代肉身行动。在大脑看来，你已经赢了（分泌了多巴胺），但在现实世界，你的资产是负数。思考不能替代行动。",
+  "principle": "1. 认知高潮：思考带来的虚假满足\n2. 替代行动：用思考替代行动\n3. 多巴胺陷阱：大脑误以为成功\n4. 现实脱节：与现实世界脱节\n5. 行动缺失：缺乏真实行动",
+  "scope": "个人成长、创业实践、学习成长、知识管理、行动管理、自我提升",
+  "tips": "1. 行动优先：行动优于思考\n2. 输出倒逼：用输出倒逼输入\n3. 小步快跑：小步快跑验证\n4. 减少规划：减少过度规划\n5. 即时行动：立即采取行动",
+  "practice": "1. 识别陷阱：识别认知贫困陷阱\n2. 停止空想：停止过度思考\n3. 立即行动：立即采取行动\n4. 小步验证：小步验证想法\n5. 持续迭代：持续迭代改进",
+  "scenario": "1. 创业实践：避免空想创业\n2. 学习成长：避免只学不练\n3. 个人成长：避免成长空想\n4. 知识管理：避免知识囤积\n5. 自我提升：避免提升幻觉",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\n          <g transform=\"translate(500, 325)\">\n            <!-- 认知的虚假繁荣 (巨大的光晕) -->\n            <g transform=\"translate(0, -100)\">\n              <circle r=\"220\" fill=\"var(--primary-color)\" fill-opacity=\"0.05\" stroke=\"var(--primary-color)\" stroke-width=\"1\" stroke-dasharray=\"10 30\">\n                <animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0\" to=\"360\" dur=\"30s\" repeatCount=\"indefinite\" />\n              </circle>\n              <text text-anchor=\"middle\" y=\"0\" fill=\"var(--primary-color)\" style=\"font-size: 48px; font-weight: 900;\">高维认知</text>\n              <text y=\"40\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 14px; font-weight: 900;\">(懂贝叶斯、懂第一性原理、懂A我)</text>\n            </g>\n            \n            <!-- 巨大的断裂层 -->\n            <line x1=\"-400\" y1=\"50\" x2=\"400\" y2=\"50\" stroke=\"var(--primary-color)\" stroke-width=\"12\" stroke-dasharray=\"20 10\" />\n            <text x=\"350\" y=\"30\" fill=\"var(--primary-color)\" style=\"font-size: 14px; font-weight: 900;\">D力断层 (GAP)</text>\n\n            <!-- 苍白的物理现实 -->\n            <g transform=\"translate(0, 150)\">\n              <rect x=\"-80\" y=\"-30\" width=\"160\" height=\"60\" rx=\"15\" fill=\"var(--primary-color)\" opacity=\"0.2\" />\n              <text text-anchor=\"middle\" y=\"10\" fill=\"var(--primary-color)\" style=\"font-size: 32px; font-weight: 900;\">收入: ￥0</text>\n              <text y=\"50\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 12px; font-weight: 900;\">(脑内高潮的代价)</text>\n            </g>\n\n            <text y=\"-280\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 36px; font-weight: 900; letter-spacing: 0.1em;\">你陷入了“懂得太多”的贫困</text>\n          </g>\n        </svg>\n</div>"
+}

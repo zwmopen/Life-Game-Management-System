@@ -1,0 +1,14 @@
+{
+  "id": "高级费曼技巧",
+  "name": "高级费曼技巧",
+  "label": "费曼技巧",
+  "icon": "BrainCircuit",
+  "description": "不仅是学习，更是“认知的提纯”。如果你不能用极其朴素的语言解释清楚，说明你还没有真正掌握。真正的深刻，外表总是极其简单的。",
+  "deepAnalysis": "高级费曼技巧（Advanced Feynman Technique）不仅是学习方法，更是认知的提纯过程。核心洞见：如果你不能用极其朴素的语言解释清楚，说明你还没有真正掌握。真正的深刻，外表总是极其简单的。费曼技巧要求你用小学生能听懂的语言解释复杂概念，这迫使你剥离术语和黑话，直达本质。",
+  "principle": "1. 简化表达：用朴素语言解释复杂概念\n2. 发现盲区：解释不清的地方就是盲区\n3. 回归本质：剥离术语直达本质\n4. 教学相长：教是最好的学\n5. 迭代优化：不断简化直到清晰",
+  "scope": "学习成长、知识管理、沟通表达、培训教学、思维训练、专业精进",
+  "tips": "1. 假想教学：假想向小学生解释\n2. 发现卡点：发现解释不清的地方\n3. 回归学习：回到原始材料学习\n4. 简化表达：用更简单的语言表达\n5. 持续迭代：持续简化直到清晰",
+  "practice": "1. 选择概念：选择要掌握的概念\n2. 尝试解释：用朴素语言解释\n3. 发现盲区：发现解释不清的地方\n4. 深入学习：深入学习盲区\n5. 重新解释：用更简单的语言重新解释",
+  "scenario": "1. 学习新知：快速掌握新领域知识\n2. 知识沉淀：将知识转化为可传播的形式\n3. 沟通表达：让复杂概念易于理解\n4. 培训教学：高效传授知识\n5. 思维训练：提升思维的清晰度",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <!-- 复杂输入 -->\r\n      <g transform=\"translate(150, 325)\">\r\n        <rect x=\"-80\" y=\"-120\" width=\"160\" height=\"240\" rx=\"20\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"1\" opacity=\"0.2\" />\r\n        <text text-anchor=\"middle\" y=\"5\" fill=\"#64748b\" opacity=\"0.4\" style=\"font-size: 14px;\">术语、黑话、复杂公式</text>\r\n      </g>\r\n      \r\n      <!-- 费曼过滤器 -->\r\n      <g transform=\"translate(500, 325)\">\r\n        <path d=\"M-100,-250 L100,-250 L50,0 L-50,0 Z\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"4\" />\r\n        <text text-anchor=\"middle\" y=\"-120\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">教学过滤器</text>\r\n        <circle r=\"20\" cy=\"50\" fill=\"#ef4444\" class=\"animate-bounce\" />\r\n      </g>\r\n\r\n      <!-- 原子级真相 -->\r\n      <g transform=\"translate(850, 325)\">\r\n        <circle r=\"100\" fill=\"#ef4444\" fill-opacity=\"0.05\" class=\"animate-pulse\" />\r\n        <circle r=\"40\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 30px #ef4444)\" />\r\n        <text y=\"80\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">原子真相</text>\r\n        <text y=\"110\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.6\" style=\"font-size: 12px;\">(连 8 岁小孩都能懂)</text>\r\n      </g>\r\n\r\n      <path d=\"M230,325 L400,325\" stroke=\"#1e293b\" stroke-width=\"2\" stroke-dasharray=\"5 5\" opacity=\"0.1\" />\r\n      <path d=\"M550,325 L750,325\" stroke=\"#ef4444\" stroke-width=\"4\" marker-end=\"url(#bluearrow)\" />\r\n      \r\n      <defs>\r\n        <marker id=\"bluearrow\" markerWidth=\"10\" markerHeight=\"10\" refX=\"5\" refY=\"5\" orient=\"auto\"><path d=\"M0,0 L10,5 L0,10 Z\" fill=\"#ef4444\"/></marker>\r\n      </defs>\r\n    </svg>\n</div>"
+}

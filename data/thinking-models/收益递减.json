@@ -1,0 +1,13 @@
+{
+  "id": "收益递减",
+  "name": "收益递减",
+  "label": "边际效用递减",
+  "icon": "BrainCircuit",
+  "description": "当持续增加某一种资源的投入时，其产生的单位额外收益会逐渐降低。这意味着，单纯的堆砌资源（如加人、加钱）并不能解决所有效率问题。",
+  "deepAnalysis": "这是一个思维模型，展示了收益递减的核心概念和应用。",
+  "principle": "思维模型的核心原则：收益递减",
+  "scope": "资源分配和项目管理, \n        时间管理和个人效率, \n        团队管理和组织规模控制, \n        产品设计和功能规划, \n        市场营销和广告投放, \n        学习和技能培养, \n        投资决策和风险管理, \n        任何涉及资源投入和产出评估的领域",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "设定明确目标：在开始投入资源前，明确预期的产出目标，避免盲目投入; \n        小步试错：通过小批量投入测试效果，根据反馈调整投入规模; \n        数据驱动决策：建立数据收集和分析机制，用数据指导资源分配决策; \n        关注瓶颈：识别系统中的瓶颈，将资源集中投入到瓶颈环节，提高整体效率; \n        适时止损：当边际收益为负时，及时停止投入，避免进一步损失; \n        资源多元化：在不同领域和项目之间合理分配资源，平衡风险和收益; \n        定期复盘：定期回顾资源投入的效果，总结经验教训",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\n      <!-- 坐标轴 -->\n      <line x1=\"150\" y1=\"550\" x2=\"850\" y2=\"550\" stroke=\"var(--text-primary)\" stroke-width=\"2\" opacity=\"0.1\" />\n      <line x1=\"150\" y1=\"550\" x2=\"150\" y2=\"100\" stroke=\"var(--text-primary)\" stroke-width=\"2\" opacity=\"0.1\" />\n      \n      <!-- 效用曲线 -->\n      <path d=\"M150,550 Q160,100 850,80\" fill=\"none\" stroke=\"#fbbf24\" stroke-width=\"10\" stroke-linecap=\"round\">\n        <animate attributeName=\"stroke-dasharray\" from=\"0,1200\" to=\"1200,0\" dur=\"5s\" fill=\"freeze\" />\n      </path>\n\n      <!-- 饱和点 -->\n      <g transform=\"translate(600, 100)\">\n        <circle r=\"20\" fill=\"var(--primary-color)\" class=\"animate-ping\" />\n        <text y=\"-40\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 24px; font-weight: 900;\">饱和点 (LIMIT)</text>\n        <text y=\"10\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 12px; font-weight: 800;\">投入越多，回报越微</text>\n      </g>\n\n      <text x=\"500\" y=\"580\" text-anchor=\"middle\" fill=\"var(--text-secondary)\" opacity=\"0.3\" style=\"font-size: 16px; font-weight: 900;\">每一份新增投入产生的价值正在物理性减少</text>\n    </svg>\n</div>"
+}

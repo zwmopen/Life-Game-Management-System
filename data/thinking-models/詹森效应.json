@@ -1,0 +1,14 @@
+{
+  "id": "詹森效应",
+  "name": "詹森效应",
+  "label": "詹森效应",
+  "icon": "BrainCircuit",
+  "description": "指平时表现优秀、实力雄厚的人，在关键的比赛或考试中，由于由于过度紧张或巨大的外部心理压力，导致原本的实力无法发挥。这就是俗称的“掉链子”。",
+  "deepAnalysis": "詹森效应（Jansen Effect）揭示了压力下的表现失常。核心洞见：平时表现优秀、实力雄厚的人，在关键的比赛或考试中，由于过度紧张或巨大的外部心理压力，导致原本的实力无法发挥。这就是俗称的掉链子。关键在于管理压力而非提升能力。",
+  "principle": "1. 压力失常：压力下表现失常\n2. 过度紧张：过度紧张影响发挥\n3. 心理压力：外部心理压力\n4. 实力无法发挥：实力无法正常发挥\n5. 压力管理：需要管理压力",
+  "scope": "体育竞技、考试备考、演讲表达、面试求职、关键决策、压力管理",
+  "tips": "1. 压力管理：管理心理压力\n2. 平常心态：保持平常心态\n3. 模拟训练：进行模拟训练\n4. 专注过程：专注过程而非结果\n5. 建立信心：建立自信心",
+  "practice": "1. 识别压力：识别压力来源\n2. 管理压力：管理心理压力\n3. 模拟训练：进行模拟训练\n4. 调整心态：调整心态\n5. 专注过程：专注过程",
+  "scenario": "1. 体育竞技：管理比赛压力\n2. 考试备考：管理考试压力\n3. 演讲表达：管理演讲压力\n4. 面试求职：管理面试压力\n5. 关键决策：管理决策压力",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <!-- 实力背景 (原本的宽广潜力) -->\r\n      <circle cx=\"500\" cy=\"300\" r=\"200\" fill=\"#ef4444\" fill-opacity=\"0.03\" stroke=\"#ef4444\" stroke-width=\"1\" stroke-dasharray=\"10 20\" />\r\n      \r\n      <!-- 压力围城 -->\r\n      <g opacity=\"0.2\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"2\">\r\n        <circle cx=\"500\" cy=\"300\" r=\"280\" />\r\n        <circle cx=\"500\" cy=\"300\" r=\"240\" />\r\n        <path d=\"M500,20 L500,100 M500,580 L500,500 M220,300 L300,300 M780,300 L700,300\" stroke-linecap=\"round\" />\r\n      </g>\r\n\r\n      <!-- 被压缩的真实表现 -->\r\n      <g transform=\"translate(500, 300)\">\r\n        <circle r=\"40\" fill=\"#ef4444\" fill-opacity=\"0.8\">\r\n           <animate attributeName=\"r\" values=\"40;20;40\" dur=\"1s\" repeatCount=\"indefinite\" />\r\n        </circle>\r\n        <text y=\"100\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 18px; font-weight: 900;\">实力失灵 (CHOK我NG)</text>\r\n        <text y=\"125\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.5\" style=\"font-size: 10px;\">关键时刻，产出仅剩 20%</text>\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"550\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 12px; font-weight: 900; letter-spacing: 0.5em;\">计划OTENT我AL VS REAL我TY UNdER STRESS</text>\r\n    </svg>\n</div>"
+}

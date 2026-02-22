@@ -1,0 +1,14 @@
+{
+  "id": "认知负荷",
+  "name": "认知负荷",
+  "label": "认知负荷理论",
+  "icon": "BrainCircuit",
+  "description": "人类的工作记忆带宽极其有限。当输入的信息量超过处理上限，大脑会因为“溢出”而停止深度思考，只能进行碎片化的条件反射。",
+  "deepAnalysis": "认知负荷（Cognitive Load）揭示了大脑处理能力的极限。核心洞见：人类的工作记忆带宽极其有限。当输入的信息量超过处理上限，大脑会因为溢出而停止深度思考，只能进行碎片化的条件反射。理解认知负荷有助于设计更有效的学习和工作方式。",
+  "principle": "1. 工作记忆：工作记忆容量有限\n2. 信息溢出：超载导致溢出\n3. 深度思考停止：超载停止深度思考\n4. 碎片反应：只能进行碎片反应\n5. 负荷管理：需要管理认知负荷",
+  "scope": "学习设计、信息设计、用户体验、培训教育、工作管理、知识管理",
+  "tips": "1. 分块处理：将信息分块处理\n2. 减少干扰：减少外部干扰\n3. 循序渐进：循序渐进学习\n4. 外化记忆：使用工具外化记忆\n5. 休息恢复：定期休息恢复",
+  "practice": "1. 评估负荷：评估当前认知负荷\n2. 分块处理：将任务分块处理\n3. 减少干扰：减少外部干扰\n4. 外化记忆：使用工具记录\n5. 休息恢复：定期休息",
+  "scenario": "1. 学习设计：设计高效学习\n2. 信息设计：设计清晰信息\n3. 用户体验：设计低负荷体验\n4. 培训教育：设计有效培训\n5. 工作管理：管理工作负荷",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\n          <!-- 处理器容器 -->\n          <path d=\"M350,50 L650,50 L600,250 L600,450 L400,450 L400,250 Z\" fill=\"var(--primary-color)\" fill-opacity=\"0.05\" stroke=\"var(--text-primary)\" stroke-width=\"2\" opacity=\"0.1\" />\n          \n          <!-- 过载报警 -->\n          <g transform=\"translate(500, 280)\">\n            <circle r=\"80\" fill=\"var(--primary-color)\" fill-opacity=\"0.1\">\n              <animate attributeName=\"r\" values=\"80; 100; 80\" dur=\"2s\" repeatCount=\"indefinite\" />\n              <animate attributeName=\"opacity\" values=\"0.1; 0.2; 0.1\" dur=\"2s\" repeatCount=\"indefinite\" />\n            </circle>\n            <rect x=\"-100\" y=\"-30\" width=\"200\" height=\"60\" rx=\"30\" fill=\"var(--primary-color)\" />\n            <text text-anchor=\"middle\" y=\"10\" fill=\"white\" style=\"font-size: 24px; font-weight: 900; letter-spacing: 0.1em;\">认知过载!</text>\n          </g>\n\n          <!-- 涌入的数据碎片 -->\n          <g>\n            <circle cx=\"420\" cy=\"80\" r=\"15\" fill=\"var(--primary-color)\" opacity=\"0.4\"><animate attributeName=\"cy\" from=\"80\" to=\"400\" dur=\"1s\" repeatCount=\"indefinite\" /></circle>\n            <circle cx=\"580\" cy=\"100\" r=\"12\" fill=\"var(--primary-color)\" opacity=\"0.4\"><animate attributeName=\"cy\" from=\"100\" to=\"400\" dur=\"1.5s\" repeatCount=\"indefinite\" /></circle>\n          </g>\n\n          <text x=\"500\" y=\"540\" text-anchor=\"middle\" fill=\"var(--text-secondary)\" opacity=\"0.4\" style=\"font-size: 18px; font-weight: 900; letter-spacing: 0.3em;\">工作记忆带宽 (7±2)</text>\n        </svg>\n</div>"
+}

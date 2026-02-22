@@ -1,0 +1,13 @@
+{
+  "id": "热力学第三定律",
+  "name": "热力学第三定律",
+  "label": "热力学第三定律",
+  "icon": "BrainCircuit",
+  "description": "完美是禁区。随着温度趋于绝对零度，纯物质完美晶体的熵趋于零。但定律宣告：通过有限次的物理过程，绝对零度是不可抵达的。系统永远会保留最后的、无法消除的随机性。",
+  "deepAnalysis": "这是一个思维模型，展示了热力学第三定律的核心概念和应用。",
+  "principle": "思维模型的核心原则：热力学第三定律",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将热力学第三定律应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 绝对零度边界 (冰封墙) -->\r\n        <rect x=\"-350\" y=\"-200\" width=\"700\" height=\"400\" rx=\"40\" fill=\"#f0f9ff\" stroke=\"#3b82f6\" stroke-width=\"4\" stroke-dasharray=\"15 5\" opacity=\"0.1\" />\r\n        \r\n        <!-- 核心点: 0 Kelvin (不可逾越) -->\r\n        <g>\r\n          <circle r=\"80\" fill=\"#3b82f6\" fill-opacity=\"0.2\" stroke=\"#3b82f6\" stroke-width=\"2\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"#3b82f6\" style=\"font-size: 52px; font-weight: 900;\">0 K</text>\r\n        </g>\r\n\r\n        <!-- 挡回来的探测器 (无法抵达) -->\r\n        <g>\r\n          <animateTransform attributeName=\"transform\" type=\"translate\" values=\"0,0; -150,0; 0,0\" dur=\"4s\" repeatCount=\"indefinite\" />\r\n          <path d=\"M400,0 L150,0\" stroke=\"#ef4444\" stroke-width=\"8\" stroke-dasharray=\"10 10\" marker-end=\"url(#redarrow)\" />\r\n          <text x=\"350\" y=\"-30\" fill=\"#ef4444\" style=\"font-size: 18px; font-weight: 900;\">有限步骤无法抵达</text>\r\n        </g>\r\n\r\n        <!-- 完美晶格 (在中心闪烁) -->\r\n        <g opacity=\"0.1\">\r\n          <rect x=\"-40\" y=\"-40\" width=\"20\" height=\"20\" fill=\"#3b82f6\" />\r\n          <rect x=\"20\" y=\"20\" width=\"20\" height=\"20\" fill=\"#3b82f6\" />\r\n          <text y=\"150\" text-anchor=\"middle\" fill=\"#3b82f6\" style=\"font-size: 24px; font-weight: 900;\">S = 0 (完美秩序)</text>\r\n        </g>\r\n\r\n        <text y=\"-250\" text-anchor=\"middle\" fill=\"#1e293b\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.2em;\">绝热不可达原理</text>\r\n      </g>\r\n      <defs>\r\n        <marker id=\"redarrow\" markerWidth=\"10\" markerHeight=\"10\" refX=\"5\" refY=\"5\" orient=\"auto\"><path d=\"M0,0 L10,5 L0,10 Z\" fill=\"#ef4444\"/></marker>\r\n      </defs>\r\n    </svg>\n</div>"
+}

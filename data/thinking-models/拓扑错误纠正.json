@@ -1,0 +1,13 @@
+{
+  "id": "拓扑错误纠正",
+  "name": "拓扑错误纠正",
+  "label": "拓扑量子纠错",
+  "icon": "BrainCircuit",
+  "description": "量子计算的核心挑战是脆弱性。拓扑纠错通过将信息存储在全局的、环绕的几何特征中，而非单个物理比特上。这意味着局部的单个错误（噪音）无法改写全局的信息，实现了物理级别的绝对鲁棒性。",
+  "deepAnalysis": "这是一个思维模型，展示了拓扑错误纠正的核心概念和应用。",
+  "principle": "思维模型的核心原则：拓扑错误纠正",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将拓扑错误纠正应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 晶格背景 -->\r\n        <g stroke=\"#1e293b\" stroke-width=\"1\" opacity=\"0.1\">\r\n          <line x1=\"-300\" y1=\"-200\" x2=\"300\" y2=\"-200\" /><line x1=\"-300\" y1=\"-100\" x2=\"300\" y2=\"-100\" />\r\n          <line x1=\"-300\" y1=\"0\" x2=\"300\" y2=\"0\" /><line x1=\"-300\" y1=\"100\" x2=\"300\" y2=\"100\" />\r\n          <line x1=\"-300\" y1=\"200\" x2=\"300\" y2=\"200\" />\r\n          <line x1=\"-300\" y1=\"-200\" x2=\"-300\" y2=\"200\" /><line x1=\"-200\" y1=\"-200\" x2=\"-200\" y2=\"200\" />\r\n          <line x1=\"-100\" y1=\"-200\" x2=\"-100\" y2=\"200\" /><line x1=\"0\" y1=\"-200\" x2=\"0\" y2=\"200\" />\r\n          <line x1=\"100\" y1=\"-200\" x2=\"100\" y2=\"200\" /><line x1=\"200\" y1=\"-200\" x2=\"200\" y2=\"200\" />\r\n          <line x1=\"300\" y1=\"-200\" x2=\"300\" y2=\"200\" />\r\n        </g>\r\n        \r\n        <!-- 局部错误 (红点) -->\r\n        <g transform=\"translate(-100, -100)\">\r\n          <circle r=\"15\" fill=\"#ef4444\" class=\"animate-pulse\" />\r\n          <text y=\"35\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 12px; font-weight: 900;\">局部噪音</text>\r\n        </g>\r\n\r\n        <!-- 纠错环 (拓扑连接) -->\r\n        <g fill=\"none\" stroke=\"#ef4444\" stroke-width=\"4\">\r\n          <rect x=\"-150\" y=\"-150\" width=\"100\" height=\"100\" rx=\"10\" stroke-dasharray=\"10 5\">\r\n            <animate attributeName=\"stroke-dashoffset\" from=\"0\" to=\"30\" dur=\"1s\" repeatCount=\"indefinite\" />\r\n          </rect>\r\n          <text x=\"-100\" y=\"-170\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">检错算子</text>\r\n        </g>\r\n\r\n        <!-- 整体稳定性输出 -->\r\n        <g transform=\"translate(0, 0)\">\r\n          <circle r=\"200\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"2\" opacity=\"0.1\" />\r\n          <text y=\"280\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">逻辑量子比特：绝对稳定</text>\r\n        </g>\r\n      </g>\r\n    </svg>\n</div>"
+}

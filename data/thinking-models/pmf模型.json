@@ -1,0 +1,13 @@
+{
+  "id": "pmf模型",
+  "name": "PMF模型",
+  "label": "PMF模型",
+  "icon": "BrainCircuit",
+  "description": "创业公司唯一的任务：就是在资源耗尽之前，让产品（钥匙）与市场（锁）达成那个能产生自发增长的完美契合点。",
+  "deepAnalysis": "PMF（Product-Market Fit）模型，即产品-市场匹配，是由马克·安德森（Marc Andreessen）提出的创业核心概念。PMF指的是产品与市场需求之间的完美契合，当产品能够满足市场的核心需求，解决用户的真实痛点，并且用户愿意为之付费时，就达到了PMF状态。PMF是创业成功的关键里程碑，是企业实现持续增长的基础。",
+  "principle": "1. 用户中心：以用户需求为核心，而非技术或创意\n2. 痛点解决：产品必须解决用户的真实痛点\n3. 价值传递：清晰传达产品价值，让用户理解产品能带来什么\n4. 迭代优化：通过持续迭代，不断提升产品与市场的匹配度\n5. 数据驱动：基于用户反馈和数据进行产品调整。",
+  "scope": "创业管理、产品开发、市场定位、用户研究、投资决策、企业增长",
+  "tips": "1. 早期聚焦：早期产品应聚焦于解决核心痛点，避免功能过度\n2. 快速验证：通过MVP（最小可行产品）快速验证PMF\n3. 倾听用户：深入理解用户需求，而非猜测\n4. 衡量指标：建立PMF衡量指标，如用户留存率、NPS、付费转化率等\n5. 持续优化：即使达到PMF，仍需持续优化产品。",
+  "practice": "1. 市场调研：深入了解目标市场和用户需求\n2. 产品开发：基于市场调研开发MVP\n3. 用户测试：将MVP推向市场，收集用户反馈\n4. 数据分析：分析用户行为数据，评估PMF状态\n5. 迭代优化：根据反馈和数据调整产品，直至达到PMF。例如，创业公司可以通过用户访谈、问卷调查、产品使用数据等方式评估产品与市场的匹配度，不断优化产品。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(650, 325)\">\r\n        <!-- 锁孔 (市场需求) -->\r\n        <rect x=\"-100\" y=\"-150\" width=\"200\" height=\"300\" rx=\"40\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"15 10\" />\r\n        <circle cx=\"0\" cy=\"-30\" r=\"30\" fill=\"#ffffff\" stroke=\"#ef4444\" stroke-width=\"4\" />\r\n        <rect x=\"-10\" y=\"0\" width=\"20\" height=\"80\" fill=\"#ef4444\" rx=\"5\" />\r\n        <text y=\"220\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 42px; font-weight: 900;\">市场痛点 (锁)</text>\r\n      </g>\r\n      <g transform=\"translate(150, 325)\">\r\n        <animateTransform attributeName=\"transform\" type=\"translate\" values=\"150,325; 550,325; 150,325\" dur=\"4s\" repeatCount=\"indefinite\" />\r\n        <!-- 钥匙 (产品方案) -->\r\n        <circle r=\"50\" fill=\"none\" stroke=\"#fbbf24\" stroke-width=\"15\" />\r\n        <rect x=\"50\" y=\"-10\" width=\"220\" height=\"20\" fill=\"#fbbf24\" />\r\n        <rect x=\"180\" y=\"10\" width=\"20\" height=\"40\" fill=\"#fbbf24\" rx=\"4\" />\r\n        <rect x=\"230\" y=\"10\" width=\"20\" height=\"25\" fill=\"#fbbf24\" rx=\"4\" />\r\n        <text x=\"110\" y=\"110\" text-anchor=\"middle\" fill=\"#fbbf24\" style=\"font-size: 32px; font-weight: 900;\">产品方案 (钥匙)</text>\r\n      </g>\r\n      <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 48px; font-weight: 900; letter-spacing: 0.2em; opacity: 0.1;\">计划ROdUcT MaRKET F我T</text>\r\n    </svg>\n</div>"
+}

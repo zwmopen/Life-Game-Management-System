@@ -1,0 +1,13 @@
+{
+  "id": "奇点思维",
+  "name": "奇点思维",
+  "label": "奇异点思维",
+  "icon": "BrainCircuit",
+  "description": "当系统中的某个参数（如算力、连接数、密度）趋向无穷大时，原有的线性预测模型将彻底失效。这里是新物种诞生的地方，也是旧逻辑被撕碎的坟墓。你需要一种适应“无限大”的全新认知架构。",
+  "deepAnalysis": "这是一个思维模型，展示了奇点思维的核心概念和应用。",
+  "principle": "思维模型的核心原则：奇点思维",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将奇点思维应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 视界线 -->\r\n        <circle r=\"200\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"2\" stroke-dasharray=\"5 15\" opacity=\"0.3\" class=\"animate-spin\" style=\"animation-duration: 60s\" />\r\n        \r\n        <!-- 坍缩的能量流 -->\r\n        <g fill=\"#ef4444\" opacity=\"0.5\">\r\n           <circle r=\"5\"><animateMotion path=\"M-400,-300 Q-100,-100 0,0\" dur=\"2s\" repeatCount=\"indefinite\" /></circle>\r\n           <circle r=\"4\"><animateMotion path=\"M400,300 Q100,100 0,0\" dur=\"1.5s\" repeatCount=\"indefinite\" /></circle>\r\n        </g>\r\n\r\n        <!-- 奇异点核心 (无限密度) -->\r\n        <g>\r\n          <circle r=\"30\" fill=\"white\" filter=\"drop-shadow(0 0 50px #ef4444)\" />\r\n          <circle r=\"5\" fill=\"black\" />\r\n          <text y=\"100\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 42px; font-weight: 900; letter-spacing: 0.3em;\">S我NGULaR我TY</text>\r\n        </g>\r\n\r\n        <!-- 物理定律失效的警告 -->\r\n        <g transform=\"translate(0, -220)\">\r\n           <path d=\"M-150,0 L150,0\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"5 5\" />\r\n           <text text-anchor=\"middle\" y=\"-20\" fill=\"#ef4444\" style=\"font-size: 18px; font-weight: 900;\">旧有规则失效边界 (EVENT HOR我ZON)</text>\r\n        </g>\r\n      </g>\r\n    </svg>\n</div>"
+}

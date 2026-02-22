@@ -1,0 +1,13 @@
+{
+  "id": "布朗搜索",
+  "name": "布朗搜索",
+  "label": "布朗运动搜索",
+  "icon": "BrainCircuit",
+  "description": "统计物理证明：在广阔且资源分布不均的未知空间中，纯粹随机的布朗运动往往比有明确目标但信息错误的搜索更具鲁棒性。随机性提供了打破局部最优陷阱的必要动力。",
+  "deepAnalysis": "这是一个思维模型，展示了布朗搜索的核心概念和应用。",
+  "principle": "思维模型的核心原则：布朗搜索",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将布朗搜索应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\n        <g transform=\"translate(500, 325)\">\n          <!-- 搜索背景 -->\n          <rect x=\"-450\" y=\"-280\" width=\"900\" height=\"560\" fill=\"none\" stroke=\"var(--text-primary)\" stroke-width=\"1\" opacity=\"0.05\" />\n          \n          <!-- 随机游走的路径 (模拟布朗运动) -->\n          <path d=\"M0,0 L20,30 L-10,50 L50,80 L80,20 L120,60 L90,110 L150,140 L200,80 L180,20\" fill=\"none\" stroke=\"var(--primary-color)\" stroke-width=\"4\" stroke-linecap=\"round\">\n             <animate attributeName=\"stroke-dasharray\" from=\"0,1000\" to=\"1000,0\" dur=\"4s\" repeatCount=\"indefinite\" />\n          </path>\n\n          <!-- 探测头 -->\n          <circle r=\"15\" fill=\"var(--primary-color)\">\n            <animateMotion path=\"M0,0 L20,30 L-10,50 L50,80 L80,20 L120,60 L90,110 L150,140 L200,80 L180,20\" dur=\"4s\" repeatCount=\"indefinite\" />\n          </circle>\n\n          <!-- 发现的目标点 (在随机处闪烁) -->\n          <circle cx=\"180\" cy=\"20\" r=\"30\" fill=\"var(--secondary-color)\" fill-opacity=\"0.2\" class=\"animate-ping\" />\n          <text x=\"180\" y=\"-30\" text-anchor=\"middle\" fill=\"var(--secondary-color)\" style=\"font-size: 24px; font-weight: 900;\">意外发现!</text>\n\n          <text y=\"280\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 32px; font-weight: 900;\">随机性：遍历未知的钥匙</text>\n        </g>\n      </svg>\n</div>"
+}

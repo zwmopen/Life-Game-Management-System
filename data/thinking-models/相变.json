@@ -1,0 +1,13 @@
+{
+  "id": "相变",
+  "name": "相变",
+  "label": "相变临界",
+  "icon": "BrainCircuit",
+  "description": "当外部环境参数（如温度、密度、甚至社会压力）达到一个极窄的阈值时，系统的微观相互作用会突然发生质变，导致宏观特性在瞬间重组。这是从有序到混沌、或从沉寂到爆发的物理红线。",
+  "deepAnalysis": "这是一个思维模型，展示了相变的核心概念和应用。",
+  "principle": "思维模型的核心原则：相变",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将相变应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 能量轴 -->\r\n        <line x1=\"-400\" y1=\"200\" x2=\"400\" y2=\"200\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n        \r\n        <!-- 固态 (有序 - 左) -->\r\n        <g transform=\"translate(-250, 0)\" opacity=\"0.8\">\r\n           <rect x=\"-60\" y=\"-60\" width=\"120\" height=\"120\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"4\" />\r\n           <g fill=\"#ef4444\">\r\n             <circle cx=\"-30\" cy=\"-30\" r=\"5\" /><circle cx=\"30\" cy=\"-30\" r=\"5\" />\r\n             <circle cx=\"-30\" cy=\"30\" r=\"5\" /><circle cx=\"30\" cy=\"30\" r=\"5\" />\r\n           </g>\r\n           <text y=\"100\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">有序态 (秩序)</text>\r\n        </g>\r\n\r\n        <!-- 气态 (混乱 - 右) -->\r\n        <g transform=\"translate(250, 0)\" opacity=\"0.3\">\r\n           <circle r=\"100\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"2\" stroke-dasharray=\"2 10\" />\r\n           <g fill=\"#ef4444\">\r\n             <circle cx=\"-20\" cy=\"30\" r=\"4\"><animate attributeName=\"cx\" values=\"-20;40;-20\" dur=\"0.2s\" repeatCount=\"indefinite\" /></circle>\r\n             <circle cx=\"50\" cy=\"-40\" r=\"3\"><animate attributeName=\"cy\" values=\"-40;50;-40\" dur=\"0.3s\" repeatCount=\"indefinite\" /></circle>\r\n           </g>\r\n           <text y=\"100\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">混乱态 (自由)</text>\r\n        </g>\r\n\r\n        <!-- 临界点 (闪电击穿) -->\r\n        <g>\r\n          <circle r=\"40\" fill=\"#fbbf24\" class=\"animate-ping\" />\r\n          <path d=\"M0,-150 L0,150\" stroke=\"#fbbf24\" stroke-width=\"8\" stroke-dasharray=\"10 5\" />\r\n          <text y=\"-180\" text-anchor=\"middle\" fill=\"#fbbf24\" style=\"font-size: 42px; font-weight: 900;\">计划HaSE TRaNS我T我ON</text>\r\n        </g>\r\n\r\n        <text y=\"260\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.6\" style=\"font-size: 18px; font-weight: 900;\">微小参数改变 -> 整体结构崩塌</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

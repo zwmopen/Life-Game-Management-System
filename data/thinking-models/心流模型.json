@@ -1,0 +1,13 @@
+{
+  "id": "心流模型",
+  "name": "心流模型",
+  "label": "心流模型",
+  "icon": "BrainCircuit",
+  "description": "当挑战的难度与个人的技能水平达到精确的平衡时，人会进入一种物我两忘、极度专注的状态。这是人类效能的最高峰。",
+  "deepAnalysis": "这是一个思维模型，展示了心流模型的核心概念和应用。",
+  "principle": "思维模型的核心原则：心流模型",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将心流模型应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <!-- 坐标轴 -->\r\n      <line x1=\"150\" y1=\"500\" x2=\"850\" y2=\"500\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n      <line x1=\"150\" y1=\"500\" x2=\"150\" y2=\"50\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n      \r\n      <!-- 心流通道 -->\r\n      <path d=\"M150,500 L850,50 L850,200 L300,500 Z\" fill=\"#ef4444\" fill-opacity=\"0.1\" class=\"animate-pulse\" />\r\n      <line x1=\"150\" y1=\"500\" x2=\"850\" y2=\"50\" stroke=\"#ef4444\" stroke-width=\"6\" stroke-dasharray=\"15 10\">\r\n         <animate attributeName=\"stroke-dashoffset\" from=\"100\" to=\"0\" dur=\"2s\" repeatCount=\"indefinite\" />\r\n      </line>\r\n\r\n      <!-- 核心文字 -->\r\n      <g font-weight=\"900\">\r\n        <text x=\"350\" y=\"200\" fill=\"#ef4444\" style=\"font-size: 28px;\">焦虑区 (挑战过载)</text>\r\n        <text x=\"650\" y=\"450\" fill=\"#94a3b8\" style=\"font-size: 28px;\">无聊区 (技能过剩)</text>\r\n        <text x=\"500\" y=\"320\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 72px; letter-spacing: 0.3em; opacity: 0.8;\">心流 (心流)</text>\r\n      </g>\r\n      \r\n      <text x=\"850\" y=\"530\" text-anchor=\"end\" fill=\"#64748b\" opacity=\"0.4\" style=\"font-size: 14px;\">技能水平 →</text>\r\n      <text x=\"130\" y=\"50\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.4\" style=\"font-size: 14px;\" transform=\"rotate(-90 130 50)\">挑战难度 ↑</text>\r\n    </svg>\n</div>"
+}

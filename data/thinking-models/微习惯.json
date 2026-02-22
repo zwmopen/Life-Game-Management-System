@@ -1,0 +1,13 @@
+{
+  "id": "微习惯",
+  "name": "微习惯",
+  "label": "微习惯",
+  "icon": "BrainCircuit",
+  "description": "斯蒂芬·盖斯提出。将目标大幅削减到“不可能失败”的程度。通过零难度的坚持，绕过大脑对变化的防御机制，利用惯性最终达成惊人目标。",
+  "deepAnalysis": "这是一个思维模型，展示了微习惯的核心概念和应用。",
+  "principle": "思维模型的核心原则：微习惯",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将微习惯应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 核心小点 -->\r\n        <circle r=\"10\" fill=\"#10b981\" class=\"animate-ping\" />\r\n        <circle r=\"6\" fill=\"#10b981\" />\r\n        \r\n        <!-- 放射状生长的能量 -->\r\n        <g stroke=\"#10b981\" stroke-width=\"1\" opacity=\"0.2\">\r\n          <line x1=\"0\" y1=\"0\" x2=\"300\" y2=\"0\" /><line x1=\"0\" y1=\"0\" x2=\"-300\" y2=\"0\" />\r\n          <line x1=\"0\" y1=\"0\" x2=\"212\" y2=\"212\" /><line x1=\"0\" y1=\"0\" x2=\"-212\" y2=\"-212\" />\r\n        </g>\r\n\r\n        <!-- 标签 -->\r\n        <g transform=\"translate(0, 80)\">\r\n           <rect x=\"-120\" y=\"-30\" width=\"240\" height=\"60\" rx=\"30\" fill=\"#10b981\" />\r\n           <text text-anchor=\"middle\" y=\"8\" fill=\"white\" style=\"font-size: 24px; font-weight: 900;\">每天一个俯卧撑</text>\r\n           <text y=\"60\" text-anchor=\"middle\" fill=\"#10b981\" style=\"font-size: 14px; font-weight: 800;\">(完全没有心理阻力)</text>\r\n        </g>\r\n        \r\n        <!-- 最终的森林 (淡影) -->\r\n        <g opacity=\"0.05\" fill=\"#10b981\">\r\n          <path d=\"M-400,200 L-350,100 L-300,200 Z\" /><path d=\"M300,200 L350,50 L400,200 Z\" />\r\n        </g>\r\n      </g>\r\n      <text x=\"500\" y=\"520\" text-anchor=\"middle\" fill=\"#10b981\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.1em;\">TOO SMaLL TO Fa我L</text>\r\n    </svg>\n</div>"
+}

@@ -1,0 +1,14 @@
+{
+  "id": "重正化",
+  "name": "重正化",
+  "label": "重整化思维",
+  "icon": "BrainCircuit",
+  "description": "量子场论的核武：面对理论中出现的“无穷大”细节，通过尺度变换将那些细碎的、不影响大局的噪音强行吸收或剔除。它告诉我们，真正的规律是跨尺度的“不变性”。",
+  "deepAnalysis": "重正化（Renormalization）是量子场论的核武器。核心洞见：面对理论中出现的无穷大细节，通过尺度变换将那些细碎的、不影响大局的噪音强行吸收或剔除。它告诉我们，真正的规律是跨尺度的不变性。在不同尺度下，关键变量保持不变，噪音被过滤。",
+  "principle": "1. 尺度变换：改变观察尺度\n2. 噪音过滤：过滤不重要细节\n3. 不变性：关键变量跨尺度不变\n4. 简化问题：简化复杂问题\n5. 核心规律：找到核心规律",
+  "scope": "物理学、系统科学、决策分析、问题解决、战略规划、认知科学",
+  "tips": "1. 改变尺度：改变观察问题的尺度\n2. 过滤噪音：过滤不重要细节\n3. 找不变量：找到跨尺度不变量\n4. 简化问题：简化复杂问题\n5. 抓核心：抓住核心规律",
+  "practice": "1. 识别尺度：识别问题的尺度\n2. 改变尺度：改变观察尺度\n3. 过滤噪音：过滤不重要细节\n4. 找不变量：找到跨尺度不变量\n5. 提取规律：提取核心规律",
+  "scenario": "1. 问题分析：分析复杂问题\n2. 战略规划：规划长期战略\n3. 科学研究：研究复杂系统\n4. 决策分析：分析复杂决策\n5. 系统设计：设计复杂系统",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 复杂微观层 (细碎粒子) -->\r\n        <g opacity=\"0.1\">\r\n          <circle cx=\"-10\" cy=\"-10\" r=\"2\" /><circle cx=\"10\" cy=\"10\" r=\"2\" />\r\n          <circle cx=\"20\" cy=\"-20\" r=\"2\" /><circle cx=\"-20\" cy=\"20\" r=\"2\" />\r\n          <animateTransform attributeName=\"transform\" type=\"scale\" values=\"1;2;1\" dur=\"4s\" repeatCount=\"indefinite\" />\r\n        </g>\r\n        \r\n        <!-- 尺度变换漏斗 -->\r\n        <path d=\"M-400,-250 L-100,-50 M400,-250 L100,-50\" stroke=\"#1e293b\" stroke-width=\"2\" stroke-dasharray=\"5 10\" opacity=\"0.2\" />\r\n\r\n        <!-- 宏观核心 (重整化后的常数) -->\r\n        <g>\r\n          <circle r=\"120\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"1\" stroke-dasharray=\"10 20\" />\r\n          <rect x=\"-80\" y=\"-40\" width=\"160\" height=\"80\" rx=\"40\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 40px #ef4444)\" />\r\n          <text text-anchor=\"middle\" y=\"10\" fill=\"white\" style=\"font-size: 24px; font-weight: 900;\">不变性核心</text>\r\n        </g>\r\n\r\n        <!-- 剔除的无限细节 (向外飘散) -->\r\n        <g fill=\"#94a3b8\" opacity=\"0.2\">\r\n           <circle r=\"5\" cx=\"0\" cy=\"0\"><animate attributeName=\"cx\" from=\"0\" to=\"450\" dur=\"2s\" repeatCount=\"indefinite\" /><animate attributeName=\"cy\" from=\"0\" to=\"-300\" dur=\"2s\" repeatCount=\"indefinite\" /></circle>\r\n        </g>\r\n\r\n        <text y=\"240\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.1em;\">重整化：剥离无穷，直达本质</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

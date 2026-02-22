@@ -1,0 +1,13 @@
+{
+  "id": "滞后现象",
+  "name": "滞后现象",
+  "label": "滞后现象",
+  "icon": "BrainCircuit",
+  "description": "物理学术语，指系统的输出不仅取决于当前的输入，还取决于它的“历史路径”。撤销导致改变的原因，系统并不会自发回到原始状态。历史留下了永久的刻痕。",
+  "deepAnalysis": "这是一个思维模型，展示了滞后现象的核心概念和应用。",
+  "principle": "思维模型的核心原则：滞后现象",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将滞后现象应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 滞后环曲线 -->\r\n        <path d=\"M-300,150 Q-300,-150 0,-150 T300,-150 T300,150 T0,150 T-300,150\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"8\" stroke-dasharray=\"15 5\" opacity=\"0.3\" />\r\n        \r\n        <!-- 路径 A: 上升路径 (蓝色) -->\r\n        <path d=\"M-300,150 Q-300,-150 300,-150\" fill=\"none\" stroke=\"#3b82f6\" stroke-width=\"8\" stroke-linecap=\"round\">\r\n          <animate attributeName=\"stroke-dasharray\" from=\"0,800\" to=\"800,0\" dur=\"4s\" repeatCount=\"indefinite\" />\r\n        </path>\r\n        \r\n        <!-- 路径 B: 下降路径 (红色 - 无法原路返回) -->\r\n        <path d=\"M300,-150 Q300,150 -300,150\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"8\" stroke-linecap=\"round\">\r\n          <animate attributeName=\"stroke-dasharray\" from=\"0,800\" to=\"800,0\" dur=\"4s\" begin=\"2s\" repeatCount=\"indefinite\" />\r\n        </path>\r\n\r\n        <circle r=\"15\" cx=\"-300\" cy=\"150\" fill=\"#3b82f6\" />\r\n        <circle r=\"15\" cx=\"300\" cy=\"-150\" fill=\"#ef4444\" />\r\n\r\n        <text y=\"240\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">系统具有“记忆”</text>\r\n      </g>\r\n      <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.2\" style=\"font-size: 24px; font-weight: 900; letter-spacing: 0.5em;\">HYSTERES我S: H我STORY MATTERS</text>\r\n    </svg>\n</div>"
+}

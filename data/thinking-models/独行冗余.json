@@ -1,0 +1,13 @@
+{
+  "id": "独行冗余",
+  "name": "独行冗余",
+  "label": "单兵作战冗余",
+  "icon": "BrainCircuit",
+  "description": "没有冗余，就没有自由。如果你只有一个获客渠道（如某个平台），你只是这个平台的奴隶。如果你只有一种变现方式，你只是金钱的奴隶。冗余不是浪费，是超级个体对抗波动、维持“战略定力”的唯一物理保险。",
+  "deepAnalysis": "这是一个思维模型，展示了独行冗余的核心概念和应用。",
+  "principle": "思维模型的核心原则：独行冗余",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将独行冗余应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 极致精简的核心 (脆弱) -->\r\n        <g transform=\"translate(-250, 0)\" opacity=\"0.3\">\r\n          <circle r=\"60\" fill=\"#ef4444\" />\r\n          <path d=\"M-40,0 L40,0\" stroke=\"white\" stroke-width=\"4\" />\r\n          <text y=\"100\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 14px;\">单点依赖</text>\r\n        </g>\r\n        \r\n        <!-- 具有冗余的防线 -->\r\n        <g transform=\"translate(250, 0)\">\r\n          <!-- 垫片 1: 多平台备份 -->\r\n          <circle r=\"120\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"10 30\" class=\"animate-spin\" style=\"animation-duration: 20s\" />\r\n          <!-- 垫片 2: 现金流储备 -->\r\n          <circle r=\"100\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"2\" />\r\n          <!-- 核心资产 -->\r\n          <rect x=\"-60\" y=\"-60\" width=\"120\" height=\"120\" rx=\"20\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 40px #ef4444)\" />\r\n          <text text-anchor=\"middle\" y=\"10\" fill=\"white\" style=\"font-size: 24px; font-weight: 900;\">核</text>\r\n          \r\n          <text y=\"180\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">生存冗余</text>\r\n        </g>\r\n\r\n        <path d=\"M-150,0 L50,0\" stroke=\"#1e293b\" stroke-width=\"2\" stroke-dasharray=\"5 5\" opacity=\"0.1\" />\r\n        <text y=\"-250\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.1em;\">你必须有两个以上的备选，才有说不的权利</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

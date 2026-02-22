@@ -1,0 +1,13 @@
+{
+  "id": "阿伦森效应",
+  "name": "阿伦森效应",
+  "label": "阿伦森效应",
+  "icon": "BrainCircuit",
+  "description": "人们最喜欢那些对自己的喜欢、奖励、赞扬不断增加的人，最讨厌那些对自己的奖励不断减少的人。人际关系的价值由\"变化的斜率\"决定。",
+  "deepAnalysis": "阿伦森效应是由心理学家埃利奥特·阿伦森（Elliott Aronson）提出的心理现象，指人们最喜欢那些对自己的喜欢、奖励、赞扬不断增加的人，最讨厌那些对自己的奖励不断减少的人。这一效应揭示了人际关系中\"变化的斜率\"比\"总量\"更重要的心理机制。",
+  "principle": "变化的重要性：评价的变化趋势比评价的绝对水平更能影响人的感受。; ;           损失厌恶：失去已有的积极评价比从未得到更令人痛苦。; ;           成就感需求：通过努力获得的认可比不劳而获的认可更有价值。; ;           期望管理：合理的期望设置能增强后续积极反馈的效果。",
+  "scope": "人际关系和沟通技巧, \n          员工管理和激励, \n          教育和培训, \n          销售和客户服务, \n          个人品牌建设",
+  "tips": "1. 先抑后扬：在沟通中先客观指出不足，再逐步给予肯定和激励，效果远好于一开始就过度吹捧。; 2. 期望管理：不要在第一天就给员工满分的评价，要留出让他们通过努力去\"赚取\"更高评分的空间。; 3. 持续进步：保持对他人的评价呈上升趋势，即使整体评价水平不是最高的。; 4. 真诚度：评价的变化应该基于真实的观察和反馈，而不是刻意操纵。",
+  "practice": "在团队管理中，采用渐进式的反馈机制，随着员工的进步逐渐提高评价。; \n          在销售过程中，先了解客户的需求和痛点，再逐步展示产品的价值，避免一开始就过度承诺。; \n          在人际关系中，保持适度的神秘感和成长空间，让关系呈现上升趋势。; \n          在自我提升中，设定合理的阶段性目标，通过不断达成目标来获得持续的成就感。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 800 600\">\n        <!-- 路径 A: 递增评价 (极度喜爱) -->\n        <g>\n          <path d=\"M100,450 L300,400 L500,200 L700,50\" fill=\"none\" stroke=\"var(--primary-color)\" stroke-width=\"6\" class=\"animate-flow\">\n             <animate attributeName=\"stroke-dasharray\" from=\"0,1000\" to=\"1000,0\" dur=\"4s\" fill=\"freeze\" />\n          </path>\n          <text x=\"600\" y=\"150\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 16px; font-weight: 900;\">越来越喜欢 (↑)</text>\n        </g>\n\n        <!-- 路径 B: 递减评价 (极度反感) -->\n        <g opacity=\"0.3\">\n          <path d=\"M100,100 L300,150 L500,350 L700,480\" fill=\"none\" stroke=\"var(--primary-color)\" stroke-width=\"3\" stroke-dasharray=\"10 5\" />\n          <text x=\"600\" y=\"400\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 16px; font-weight: 900;\">先甜后苦 (↓)</text>\n        </g>\n\n        <text x=\"400\" y=\"550\" text-anchor=\"middle\" fill=\"var(--text-secondary)\" opacity=\"0.3\" style=\"font-size: 10px; font-weight: 900; letter-spacing: 0.5em;\">REWARD GRADIENTS MATTER MORE THAN TOTALS</text>\n      </svg>\n</div>"
+}

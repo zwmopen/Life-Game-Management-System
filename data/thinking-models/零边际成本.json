@@ -1,0 +1,14 @@
+{
+  "id": "零边际成本",
+  "name": "零边际成本",
+  "label": "零边际成本",
+  "icon": "BrainCircuit",
+  "description": "由杰里米·里夫金提出。在数字文明中，生产第一个软件/视频的成本极高，但复制并分发给第 1 亿个用户的成本几乎为零。这彻底颠覆了工业时代的商业逻辑。",
+  "deepAnalysis": "零边际成本（Zero Marginal Cost）由杰里米·里夫金提出。核心洞见：在数字文明中，生产第一个软件或视频的成本极高，但复制并分发给第1亿个用户的成本几乎为零。这彻底颠覆了工业时代的商业逻辑，创造了前所未有的规模效应和财富积累模式。",
+  "principle": "1. 固定成本高：初始生产成本高\n2. 边际成本零：复制成本几乎为零\n3. 规模效应：规模越大优势越明显\n4. 赢家通吃：容易形成垄断\n5. 商业模式：颠覆传统商业模式",
+  "scope": "数字经济、商业模式、内容创作、软件行业、知识付费、平台经济",
+  "tips": "1. 投资固定成本：投资高固定成本的资产\n2. 追求规模：追求规模效应\n3. 降低边际成本：降低复制和分发成本\n4. 建立平台：建立平台型业务\n5. 保护知识产权：保护核心资产",
+  "practice": "1. 识别机会：识别零边际成本的机会\n2. 投资建设：投资高固定成本的资产\n3. 优化分发：优化复制和分发流程\n4. 追求规模：追求用户规模\n5. 建立壁垒：建立竞争壁垒",
+  "scenario": "1. 软件开发：开发可无限复制的软件\n2. 内容创作：创作可无限分发的内容\n3. 知识付费：开发可无限销售的课程\n4. 平台经济：建立平台型业务\n5. 数字产品：开发数字产品",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <!-- 坐标轴 -->\r\n      <line x1=\"150\" y1=\"550\" x2=\"900\" y2=\"550\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n      <line x1=\"150\" y1=\"550\" x2=\"150\" y2=\"100\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n      \r\n      <!-- 物理世界成本 (线性) -->\r\n      <line x1=\"150\" y1=\"450\" x2=\"850\" y2=\"250\" stroke=\"#94a3b8\" stroke-width=\"2\" stroke-dasharray=\"5 5\" opacity=\"0.4\" />\r\n      <text x=\"800\" y=\"230\" fill=\"#94a3b8\" style=\"font-size: 14px; font-weight: 800;\">物理成本 (累加)</text>\r\n\r\n      <!-- 数字世界成本 (L 型) -->\r\n      <path d=\"M150,150 Q160,500 850,510\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"12\" stroke-linecap=\"round\">\r\n         <animate attributeName=\"stroke-dasharray\" from=\"0,1200\" to=\"1200,0\" dur=\"4s\" fill=\"freeze\" />\r\n      </path>\r\n\r\n      <g transform=\"translate(500, 500)\">\r\n        <circle r=\"20\" fill=\"#ef4444\" class=\"animate-ping\" />\r\n        <text y=\"-40\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">边际成本 → 0</text>\r\n        <text y=\"5\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.5\" style=\"font-size: 12px;\">(无限复制，利润无上限)</text>\r\n      </g>\r\n\r\n      <text x=\"850\" y=\"580\" text-anchor=\"end\" fill=\"#64748b\" opacity=\"0.4\" style=\"font-size: 14px; font-weight: 900;\">生产规模 →</text>\r\n    </svg>\n</div>"
+}

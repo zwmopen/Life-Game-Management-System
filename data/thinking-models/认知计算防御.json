@@ -1,0 +1,14 @@
+{
+  "id": "认知计算防御",
+  "name": "认知计算防御",
+  "label": "认知代偿防火墙",
+  "icon": "BrainCircuit",
+  "description": "超级个体最隐秘的漏洞。当你面临困难的D（如：第一天去拉客）时，大脑会产生巨大的抗拒，并诱导你去学习“更高级的方法论”来缓解焦虑。你以为是在进取，其实是在逃避。这种“知识代偿”会吸干你所有的A燃料。",
+  "deepAnalysis": "认知计算防御（Cognitive Defense）揭示了大脑的逃避机制。核心洞见：当你面临困难的任务时，大脑会产生巨大的抗拒，并诱导你去学习更高级的方法论来缓解焦虑。你以为是在进取，其实是在逃避。这种知识代偿会吸干你所有的行动燃料。",
+  "principle": "1. 任务抗拒：大脑抗拒困难任务\n2. 知识代偿：用学习替代行动\n3. 虚假进取：虚假的进取感\n4. 行动逃避：逃避真实行动\n5. 燃料消耗：消耗行动燃料",
+  "scope": "自我管理、行动管理、学习成长、创业实践、个人发展、认知升级",
+  "tips": "1. 识别逃避：识别知识代偿逃避\n2. 直面困难：直面困难任务\n3. 行动优先：行动优于学习\n4. 减少学习：减少逃避式学习\n5. 立即行动：立即采取行动",
+  "practice": "1. 识别逃避：识别知识代偿行为\n2. 停止学习：停止逃避式学习\n3. 直面困难：直面困难任务\n4. 立即行动：立即采取行动\n5. 持续实践：持续实践验证",
+  "scenario": "1. 创业实践：避免学习逃避\n2. 行动管理：管理行动逃避\n3. 学习成长：避免成长逃避\n4. 个人发展：避免发展逃避\n5. 自我管理：管理自我逃避",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\n          <g transform=\"translate(500, 325)\">\n            <!-- 被掩盖的\"D\" (核心) -->\n            <g transform=\"translate(0, 50)\">\n              <rect x=\"-100\" y=\"-30\" width=\"200\" height=\"60\" rx=\"30\" fill=\"var(--primary-color)\" />\n              <text text-anchor=\"middle\" y=\"10\" fill=\"white\" style=\"font-size: 24px; font-weight: 900;\">真·苦累活</text>\n              <text y=\"60\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 12px;\">(剪辑、回复、冷启动、被拒绝)</text>\n            </g>\n            \n            <!-- 华丽的\"学习\"外壳 (代偿层) -->\n            <g>\n              <circle r=\"180\" fill=\"none\" stroke=\"var(--primary-color)\" stroke-width=\"8\" stroke-dasharray=\"10 20\" opacity=\"0.3\" class=\"animate-spin\" />\n              <circle r=\"150\" fill=\"var(--primary-color)\" fill-opacity=\"0.1\" stroke=\"var(--primary-color)\" stroke-width=\"2\" />\n              <text y=\"-100\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 28px; font-weight: 900;\">高级代偿：深度学习中</text>\n              <text y=\"-70\" text-anchor=\"middle\" fill=\"var(--text-secondary)\" opacity=\"0.5\" style=\"font-size: 10px;\">(研究模型、听课、脑暴、上帝视角)</text>\n            </g>\n\n            <!-- 警报灯 -->\n            <g transform=\"translate(0, -180)\">\n               <circle r=\"20\" fill=\"var(--primary-color)\" class=\"animate-ping\" />\n               <text y=\"-30\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 14px; font-weight: 900;\">警告：由于害怕A而产生的求知欲</text>\n            </g>\n\n            <text y=\"260\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 32px; font-weight: 900;\">学得越多，做得越少？</text>\n          </g>\n        </svg>\n</div>"
+}

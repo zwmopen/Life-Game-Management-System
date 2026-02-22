@@ -1,0 +1,14 @@
+{
+  "id": "认知杠杆",
+  "name": "认知杠杆",
+  "label": "认知杠杆",
+  "icon": "BrainCircuit",
+  "description": "在这个劳动力价值衰减的时代，财富与成就源于杠杆。所谓杠杆，就是通过极小的初始投入（想法、代码、媒体），获取成百上千倍的回报收益。",
+  "deepAnalysis": "认知杠杆（Cognitive Leverage）揭示了放大效应的秘密。核心洞见：在这个劳动力价值衰减的时代，财富与成就源于杠杆。所谓杠杆，就是通过极小的初始投入（想法、代码、媒体），获取成百上千倍的回报收益。认知杠杆是超级个体的核心能力。",
+  "principle": "1. 小投入：极小的初始投入\n2. 大回报：成百上千倍回报\n3. 可复制：可无限复制\n4. 边际成本：边际成本趋零\n5. 放大效应：产生放大效应",
+  "scope": "创业战略、财富积累、个人发展、知识变现、内容创作、投资决策",
+  "tips": "1. 寻找杠杆：寻找认知杠杆\n2. 投资资产：投资可复制资产\n3. 降低边际：降低边际成本\n4. 放大效应：利用放大效应\n5. 持续积累：持续积累杠杆",
+  "practice": "1. 识别杠杆：识别认知杠杆机会\n2. 投资建设：投资杠杆资产\n3. 优化复制：优化复制能力\n4. 降低成本：降低边际成本\n5. 持续积累：持续积累杠杆",
+  "scenario": "1. 创业战略：建立创业杠杆\n2. 财富积累：积累财富杠杆\n3. 个人发展：发展个人杠杆\n4. 知识变现：变现知识杠杆\n5. 内容创作：创作内容杠杆",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\n          <g transform=\"translate(500, 450)\">\n            <!-- 支点 -->\n            <path d=\"M-40,0 L40,0 L0,-70 Z\" fill=\"var(--text-primary)\" />\n            <text y=\"40\" text-anchor=\"middle\" fill=\"var(--text-secondary)\" style=\"font-size: 14px; font-weight: 900;\">支点 (思维模型)</text>\n            \n            <!-- 杠杆 -->\n            <g>\n              <rect x=\"-600\" y=\"-80\" width=\"800\" height=\"15\" rx=\"5\" fill=\"var(--text-primary)\" transform=\"rotate(-15 0,-70)\" />\n              \n              <!-- 投入端 (极小) -->\n              <g transform=\"translate(-550, -220)\">\n                 <circle r=\"20\" fill=\"var(--primary-color)\">\n                   <animate attributeName=\"cy\" values=\"-220; -240; -220\" dur=\"2s\" repeatCount=\"indefinite\" />\n                 </circle>\n                 <text y=\"50\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 18px; font-weight: 900;\">微小投入</text>\n              </g>\n\n              <!-- 产出端 (巨大) -->\n              <g transform=\"translate(180, -150)\">\n                 <rect x=\"-80\" y=\"-80\" width=\"160\" height=\"160\" rx=\"30\" fill=\"var(--primary-color)\" filter=\"drop-shadow(0 0 40px var(--primary-color))\" />\n                 <text text-anchor=\"middle\" y=\"5\" fill=\"white\" style=\"font-size: 24px; font-weight: 900;\">指数级产出</text>\n                 <circle r=\"120\" fill=\"none\" stroke=\"var(--primary-color)\" stroke-width=\"2\">\n                   <animate attributeName=\"r\" values=\"120; 150; 120\" dur=\"3s\" repeatCount=\"indefinite\" />\n                   <animate attributeName=\"opacity\" values=\"1; 0; 1\" dur=\"3s\" repeatCount=\"indefinite\" />\n                 </circle>\n              </g>\n            </g>\n          </g>\n          <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 42px; font-weight: 900; letter-spacing: 0.1em;\">给我一个支点，我能撬动地球</text>\n        </svg>\n</div>"
+}

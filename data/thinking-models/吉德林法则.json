@@ -1,0 +1,13 @@
+{
+  "id": "吉德林法则",
+  "name": "吉德林法则",
+  "label": "吉德林法则",
+  "icon": "BrainCircuit",
+  "description": "把问题清清楚楚地写出来，便已经解决了一半。模糊的描述是D力最大的阻碍。",
+  "deepAnalysis": "吉德林法则（Gidell's Law）由美国作家吉德林提出。核心洞见：把难题清清楚楚地写出来，便已经解决了一半。许多问题之所以难以解决，是因为我们没有清楚地定义问题。清晰地描述问题，往往能找到解决的方向。",
+  "principle": "1. 问题定义：清晰定义问题是解决的一半\n2. 书写思考：书写促进思考\n3. 结构化：结构化问题分析\n4. 显性化：将隐性思维显性化\n5. 焦点集中：聚焦于真正的问题",
+  "scope": "问题解决、决策分析、项目管理、创新思维、战略规划、学习成长",
+  "tips": "1. 写下问题：把问题写下来\n2. 清晰描述：清晰描述问题\n3. 结构分析：结构化分析问题\n4. 寻找根因：寻找问题根源\n5. 制定方案：制定解决方案",
+  "practice": "1. 识别问题：识别需要解决的问题\n2. 书写问题：清晰地写下问题\n3. 分析问题：结构化分析问题\n4. 寻找方案：寻找解决方案\n5. 实施验证：实施并验证效果",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <!-- 混沌的问题 (左) -->\r\n      <g transform=\"translate(250, 300)\">\r\n        <path d=\"M-50,0 Q-30,-80 0,-10 T30,-60 T60,0\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"4\" opacity=\"0.4\" />\r\n        <circle r=\"70\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"2\" stroke-dasharray=\"2 5\" class=\"animate-spin\" />\r\n        <text y=\"110\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 20px; font-weight: 900;\">混沌的问题</text>\r\n      </g>\r\n      \r\n      <!-- 定义的滤镜 (中) -->\r\n      <g transform=\"translate(500, 300)\">\r\n        <rect x=\"-40\" y=\"-140\" width=\"80\" height=\"280\" rx=\"40\" fill=\"#ef4444\" />\r\n        <text x=\"0\" y=\"0\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 18px; font-weight: 900;\" transform=\"rotate(-90)\">清晰的问题定义</text>\r\n      </g>\r\n\r\n      <!-- 解决的一半 (右) -->\r\n      <g transform=\"translate(750, 300)\">\r\n        <rect x=\"-110\" y=\"-110\" width=\"220\" height=\"220\" rx=\"30\" fill=\"#10b981\" fill-opacity=\"0.1\" stroke=\"#10b981\" stroke-width=\"3\" stroke-dasharray=\"10 5\" />\r\n        <path d=\"M-40,0 L-10,30 L60,-40\" fill=\"none\" stroke=\"#10b981\" stroke-width=\"10\" stroke-linecap=\"round\" />\r\n        <text y=\"140\" text-anchor=\"middle\" fill=\"#10b981\" style=\"font-size: 24px; font-weight: 900;\">已自动解决 50%</text>\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"550\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.4\" style=\"font-size: 18px; font-weight: 900; letter-spacing: 0.1em;\">定义清晰的问题，已经解决了一半</text>\r\n    </svg>\n</div>"
+}

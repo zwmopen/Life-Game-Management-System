@@ -1,0 +1,13 @@
+{
+  "id": "近因效应",
+  "name": "近因效应",
+  "label": "近因效应",
+  "icon": "BrainCircuit",
+  "description": "与首因效应相反，指在印象形成的过程中，最新获得的信息比早期获得的信息具有更大的影响力。特别是在长期的互动中。",
+  "deepAnalysis": "近因效应（Recency Effect）与首因效应相反，指在印象形成的过程中，最新获得的信息比早期获得的信息具有更大的影响力。特别是在长期的互动中，最近的表现往往决定了整体评价。\n\n核心机制：\n- 记忆优势：最新信息更容易被提取\n- 更新效应：新信息会更新旧印象\n- 时间衰减：早期信息随时间衰减\n\n典型表现：\n- 绩效评估：最近的表现影响年度评价\n- 人际关系：最近的互动影响关系评价\n- 产品评价：最近的使用体验影响整体评价",
+  "principle": "1. 最新优势：最新信息更容易被记住和使用\n2. 印象更新：新信息会更新旧印象\n3. 时间衰减：早期信息随时间衰减\n4. 长期互动：长期关系中近因效应更明显\n5. 可利用性：最近的信息更容易被提取",
+  "scope": "绩效评估、人际关系、产品评价、品牌管理、演讲表达、面试表现",
+  "tips": "1. 保持后期表现：在长期项目中保持后期的良好表现\n2. 强化结尾：在演讲或汇报中强化结尾\n3. 及时更新：及时更新他人对你的印象\n4. 利用时机：在关键时刻展示最佳表现\n5. 持续维护：持续维护重要关系",
+  "practice": "将近因效应应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 800 600\">\r\n      <!-- 遗忘的过去 (逐渐透明消失) -->\r\n      <g>\r\n        <rect x=\"100\" y=\"300\" width=\"80\" height=\"80\" rx=\"10\" fill=\"#1e293b\" opacity=\"0.05\" />\r\n        <rect x=\"220\" y=\"300\" width=\"80\" height=\"80\" rx=\"10\" fill=\"#1e293b\" opacity=\"0.1\" />\r\n        <rect x=\"340\" y=\"300\" width=\"80\" height=\"80\" rx=\"10\" fill=\"#1e293b\" opacity=\"0.2\" />\r\n        <rect x=\"460\" y=\"300\" width=\"80\" height=\"80\" rx=\"10\" fill=\"#1e293b\" opacity=\"0.4\" />\r\n      </g>\r\n      \r\n      <!-- 最新信息 (明亮、锐利、统治) -->\r\n      <g transform=\"translate(650, 340)\">\r\n        <rect x=\"-60\" y=\"-80\" width=\"120\" height=\"160\" rx=\"20\" fill=\"#10b981\" filter=\"drop-shadow(0 0 30px #10b981)\" />\r\n        <text y=\"5\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 18px; font-weight: 900;\">最新信息</text>\r\n        <circle r=\"100\" fill=\"none\" stroke=\"#10b981\" stroke-width=\"1\" class=\"animate-ping\" />\r\n      </g>\r\n\r\n      <text x=\"400\" y=\"550\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 10px; font-weight: 900; letter-spacing: 0.5em;\">THE LaST TH我NG YOU HEaRd 我S THE LOUdEST</text>\r\n    </svg>\n</div>"
+}

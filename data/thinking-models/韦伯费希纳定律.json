@@ -1,0 +1,14 @@
+{
+  "id": "韦伯费希纳定律",
+  "name": "韦伯-费希纳定律",
+  "label": "韦伯-费希纳定律",
+  "icon": "BrainCircuit",
+  "description": "心理量的增加落后于物理量的增加。感觉的差别阈限与初始刺激量成正比。简言之：基础越大，你需要越剧烈的改变才能“感觉到”差异。",
+  "deepAnalysis": "韦伯-费希纳定律（Weber-Fechner Law）揭示了感知与刺激的关系。核心洞见：心理量的增加落后于物理量的增加。感觉的差别阈限与初始刺激量成正比。简言之：基础越大，你需要越剧烈的改变才能感觉到差异。这解释了为什么富人需要更多财富才能感到快乐。",
+  "principle": "1. 差别阈限：感知变化需要最小差异\n2. 正比关系：阈限与初始刺激成正比\n3. 边际递减：感知增长呈对数关系\n4. 适应效应：持续刺激降低敏感度\n5. 相对感知：感知是相对而非绝对",
+  "scope": "产品设计、定价策略、用户体验、感官营销、薪酬设计、幸福感研究",
+  "tips": "1. 相对思维：用相对变化而非绝对值\n2. 惊喜设计：设计超出预期的惊喜\n3. 阶梯定价：按感知设计定价\n4. 避免适应：避免用户产生适应\n5. 持续创新：持续提供新鲜感",
+  "practice": "1. 测量阈限：测量用户的感知阈限\n2. 设计刺激：设计能被感知的刺激\n3. 评估效果：评估刺激的感知效果\n4. 优化方案：优化刺激方案\n5. 持续创新：持续创新避免适应",
+  "scenario": "1. 产品设计：设计用户能感知的改进\n2. 定价策略：设计感知合理的定价\n3. 薪酬激励：设计有感知的激励\n4. 用户体验：设计有感知的体验\n5. 营销传播：设计有感知的传播",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <!-- 坐标轴 -->\r\n      <line x1=\"150\" y1=\"550\" x2=\"850\" y2=\"550\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n      <line x1=\"150\" y1=\"550\" x2=\"150\" y2=\"100\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n      \r\n      <!-- 对数增长曲线 -->\r\n      <path d=\"M150,550 Q200,200 850,150\" fill=\"none\" stroke=\"#8b5cf6\" stroke-width=\"10\" stroke-linecap=\"round\">\r\n        <animate attributeName=\"stroke-dasharray\" from=\"0,1500\" to=\"1500,0\" dur=\"4s\" fill=\"freeze\" />\r\n      </path>\r\n\r\n      <!-- 标注：边际感觉 -->\r\n      <g transform=\"translate(250, 400)\">\r\n        <circle r=\"10\" fill=\"#ef4444\" />\r\n        <text x=\"20\" y=\"5\" fill=\"#ef4444\" style=\"font-size: 16px; font-weight: 900;\">初始刺激：感受剧烈</text>\r\n      </g>\r\n      <g transform=\"translate(700, 180)\">\r\n        <circle r=\"10\" fill=\"#ef4444\" opacity=\"0.3\" />\r\n        <text x=\"20\" y=\"5\" fill=\"#ef4444\" opacity=\"0.4\" style=\"font-size: 16px; font-weight: 900;\">持续增加：感受钝化</text>\r\n      </g>\r\n\r\n      <text x=\"850\" y=\"580\" text-anchor=\"end\" fill=\"#64748b\" opacity=\"0.4\" style=\"font-size: 16px; font-weight: 900;\">物理刺激量 (我) →</text>\r\n      <text x=\"130\" y=\"100\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.4\" style=\"font-size: 16px; font-weight: 900;\" transform=\"rotate(-90 130 100)\">主观心理感受 (S) ↑</text>\r\n    </svg>\n</div>"
+}

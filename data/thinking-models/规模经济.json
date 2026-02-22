@@ -1,0 +1,14 @@
+{
+  "id": "规模经济",
+  "name": "规模经济",
+  "label": "规模效应",
+  "icon": "BrainCircuit",
+  "description": "工业文明与互联网平台的最强杀手锏。随着产量的扩大，巨额的固定研发与基建成本被海量分摊，平均单位成本随之骤降，形成降维打击。",
+  "deepAnalysis": "规模经济（Economies of Scale）揭示了工业文明与互联网平台的最强杀手锏。核心洞见：随着产量的扩大，巨额的固定研发与基建成本被海量分摊，平均单位成本随之骤降，形成降维打击。规模越大，成本越低，竞争优势越强。",
+  "principle": "1. 固定成本分摊：固定成本被分摊\n2. 单位成本下降：单位成本下降\n3. 规模优势：规模创造优势\n4. 降维打击：形成降维打击\n5. 竞争壁垒：建立竞争壁垒",
+  "scope": "企业战略、商业模式、生产管理、定价策略、竞争分析、投资决策",
+  "tips": "1. 扩大规模：扩大生产规模\n2. 分摊成本：分摊固定成本\n3. 降低成本：降低单位成本\n4. 建立壁垒：建立竞争壁垒\n5. 规模优势：利用规模优势",
+  "practice": "1. 分析成本：分析成本结构\n2. 扩大规模：扩大生产规模\n3. 分摊成本：分摊固定成本\n4. 降低成本：降低单位成本\n5. 建立壁垒：建立竞争壁垒",
+  "scenario": "1. 企业战略：制定规模战略\n2. 商业模式：设计规模模式\n3. 生产管理：优化生产规模\n4. 定价策略：制定规模定价\n5. 竞争分析：分析规模竞争",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <line x1=\"100\" y1=\"480\" x2=\"900\" y2=\"480\" stroke=\"#1e293b\" stroke-width=\"4\" opacity=\"0.1\" stroke-dasharray=\"10 20\" />\r\n      <g transform=\"translate(500, 250)\">\r\n        <rect x=\"-180\" y=\"-120\" width=\"360\" height=\"240\" rx=\"40\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n        <path d=\"M-100,-180 L100,-180 L120,-120 L-120,-120 Z\" fill=\"#ef4444\" opacity=\"0.8\">\r\n           <animateTransform attributeName=\"transform\" type=\"translate\" values=\"0,0; 0,30; 0,0\" dur=\"0.25s\" repeatCount=\"indefinite\" />\r\n        </path>\r\n        <text y=\"10\" text-anchor=\"middle\" fill=\"#1e293b\" style=\"font-size: 36px; font-weight: 900;\">暴力增产</text>\r\n      </g>\r\n      <g>\r\n        <circle cx=\"200\" cy=\"480\" r=\"50\" fill=\"#ef4444\" opacity=\"0.2\"><animate attributeName=\"cx\" from=\"200\" to=\"850\" dur=\"2s\" repeatCount=\"indefinite\" /></circle>\r\n        <rect x=\"175\" y=\"380\" width=\"50\" height=\"25\" fill=\"#ef4444\" rx=\"8\"><animate attributeName=\"x\" from=\"175\" to=\"825\" dur=\"2s\" repeatCount=\"indefinite\" /></rect>\r\n        <text x=\"200\" y=\"360\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 16px; font-weight: 900;\">单位成本: ¥5000\r\n           <animate attributeName=\"x\" from=\"200\" to=\"850\" dur=\"2s\" repeatCount=\"indefinite\" />\r\n           <animate attributeName=\"opacity\" values=\"1;0\" dur=\"2s\" repeatCount=\"indefinite\" />\r\n        </text>\r\n      </g>\r\n      <text x=\"500\" y=\"560\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900; letter-spacing: 0.5em;\">固定成本随产量激增而物理性消失</text>\r\n    </svg>\n</div>"
+}

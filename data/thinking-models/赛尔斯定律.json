@@ -1,0 +1,14 @@
+{
+  "id": "赛尔斯定律",
+  "name": "赛尔斯定律",
+  "label": "塞瑞定律",
+  "icon": "BrainCircuit",
+  "description": "“学术界的争论之所以如此激烈，正是因为其涉及的利益如此微不足道。” 揭示了在低收益、高内卷环境下的极端内耗逻辑。",
+  "deepAnalysis": "赛尔斯定律（Sayre's Law）揭示了低收益环境下的极端内耗。核心洞见：学术界的争论之所以如此激烈，正是因为其涉及的利益如此微不足道。在低收益、高内卷的环境下，人们会为了微不足道的利益进行极端的争夺。这提醒我们要避免陷入低收益的内耗陷阱。",
+  "principle": "1. 利益微小：涉及利益微不足道\n2. 争论激烈：争论却异常激烈\n3. 内卷陷阱：高内卷低收益陷阱\n4. 资源浪费：浪费大量资源\n5. 避免内耗：避免低收益内耗",
+  "scope": "组织管理、职业规划、竞争战略、资源分配、决策分析、个人发展",
+  "tips": "1. 识别内耗：识别低收益内耗\n2. 避免陷阱：避免内卷陷阱\n3. 寻找高收益：寻找高收益领域\n4. 资源转移：转移资源到高收益区\n5. 保持理性：保持理性判断",
+  "practice": "1. 评估收益：评估争论的收益\n2. 识别内耗：识别是否陷入内耗\n3. 避免陷阱：避免内卷陷阱\n4. 寻找机会：寻找高收益机会\n5. 转移资源：转移资源到高收益区",
+  "scenario": "1. 组织管理：避免组织内耗\n2. 职业规划：避免职业内卷\n3. 竞争战略：避免低收益竞争\n4. 资源分配：优化资源分配\n5. 决策分析：理性分析决策",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 极小的核心利益 -->\r\n        <circle r=\"10\" fill=\"#1e293b\" opacity=\"0.2\" />\r\n        <text y=\"30\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.5\" style=\"font-size: 10px;\">微不足道的利益点</text>\r\n        \r\n        <!-- 剧烈的斗争场 (旋涡) -->\r\n        <g stroke=\"#ef4444\" stroke-width=\"2\" fill=\"none\">\r\n          <circle r=\"120\" stroke-dasharray=\"5 15\" class=\"animate-spin\" style=\"animation-duration: 3s\" />\r\n          <circle r=\"200\" stroke-dasharray=\"10 30\" class=\"animate-spin\" style=\"animation-duration: 2s; animation-direction: reverse;\" />\r\n          <circle r=\"280\" stroke-dasharray=\"2 10\" class=\"animate-spin\" style=\"animation-duration: 1s\" />\r\n        </g>\r\n\r\n        <!-- 冲突粒子 -->\r\n        <circle cx=\"-150\" cy=\"-150\" r=\"30\" fill=\"#ef4444\" opacity=\"0.8\" class=\"animate-bounce\" />\r\n        <circle cx=\"150\" cy=\"150\" r=\"30\" fill=\"#ef4444\" opacity=\"0.8\" class=\"animate-bounce\" style=\"animation-delay: 0.5s\" />\r\n\r\n        <text y=\"-220\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 42px; font-weight: 900;\">斗争强度 ∝ 1 / 利益价值</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

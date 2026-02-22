@@ -1,0 +1,13 @@
+{
+  "id": "纳什均衡",
+  "name": "纳什均衡",
+  "label": "纳什均衡",
+  "icon": "BrainCircuit",
+  "description": "博弈陷入了“死锁”。在已知对手策略的情况下，任何一方单方面改变自己的策略，处境都不会变得更好。",
+  "deepAnalysis": "这是一个思维模型，展示了纳什均衡的核心概念和应用。",
+  "principle": "思维模型的核心原则：纳什均衡",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将纳什均衡应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <path d=\"M150,150 Q500,700 850,150\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"4\" opacity=\"0.1\" />\r\n      \r\n      <!-- 动态扰动 -->\r\n      <g>\r\n        <circle r=\"12\" fill=\"#ef4444\" opacity=\"0.6\">\r\n          <animateMotion path=\"M300,250 Q500,450 500,450 Q500,450 480,400\" dur=\"4s\" repeatCount=\"indefinite\" />\r\n        </circle>\r\n        <circle r=\"12\" fill=\"#3b82f6\" opacity=\"0.6\">\r\n          <animateMotion path=\"M700,250 Q500,450 500,450 Q500,450 520,400\" dur=\"5s\" repeatCount=\"indefinite\" />\r\n        </circle>\r\n      </g>\r\n\r\n      <!-- 稳态核心 -->\r\n      <g transform=\"translate(500, 450)\">\r\n        <circle r=\"60\" fill=\"#ef4444\" fill-opacity=\"0.1\" class=\"animate-ping\" />\r\n        <circle r=\"30\" fill=\"#ef4444\" />\r\n        <text y=\"80\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 36px; font-weight: 900;\">纳什均衡点</text>\r\n        <text y=\"115\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.6\" style=\"font-size: 14px;\">(单方面改变现状将受损)</text>\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900; letter-spacing: 0.5em; opacity: 0.1;\">NON-COO计划ERaT我VE STaB我L我TY</text>\r\n    </svg>\n</div>"
+}

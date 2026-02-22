@@ -1,0 +1,13 @@
+{
+  "id": "平方反比",
+  "name": "平方反比",
+  "label": "平方反比定律",
+  "icon": "BrainCircuit",
+  "description": "物理世界的铁律：能量（光、引力、声音）的强度随距离的平方而迅速衰减。在管理和个人影响力中，距离同样是致命的。",
+  "deepAnalysis": "这是一个思维模型，展示了平方反比的核心概念和应用。",
+  "principle": "思维模型的核心原则：平方反比",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将平方反比应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <defs>\r\n        <radialGradient id=\"energyGrad\"><stop offset=\"0%\" stop-color=\"#fbbf24\" /><stop offset=\"100%\" stop-color=\"transparent\" /></radialGradient>\r\n      </defs>\r\n      <g transform=\"translate(200, 325)\">\r\n        <!-- 能源源 -->\r\n        <circle r=\"60\" fill=\"url(#energyGrad)\" class=\"animate-pulse\" />\r\n        <circle r=\"20\" fill=\"#fbbf24\" />\r\n        \r\n        <!-- 衰减扇面 -->\r\n        <path d=\"M40,0 L600,-200 L600,200 Z\" fill=\"#ef4444\" fill-opacity=\"0.05\" stroke=\"#ef4444\" stroke-width=\"1\" stroke-dasharray=\"5 5\" />\r\n        \r\n        <!-- 距离 1 -->\r\n        <g transform=\"translate(150, 0)\">\r\n          <rect x=\"-10\" y=\"-30\" width=\"20\" height=\"60\" fill=\"#ef4444\" />\r\n          <text y=\"60\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">强度 1</text>\r\n        </g>\r\n\r\n        <!-- 距离 2 -->\r\n        <g transform=\"translate(300, 0)\">\r\n          <rect x=\"-10\" y=\"-60\" width=\"20\" height=\"120\" rx=\"5\" fill=\"#ef4444\" opacity=\"0.4\" />\r\n          <text y=\"90\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">强度 1/4</text>\r\n        </g>\r\n\r\n        <!-- 距离 3 -->\r\n        <g transform=\"translate(600, 0)\">\r\n          <rect x=\"-10\" y=\"-120\" width=\"20\" height=\"240\" rx=\"10\" fill=\"#ef4444\" opacity=\"0.1\" />\r\n          <text y=\"150\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">强度 1/16</text>\r\n        </g>\r\n\r\n        <text x=\"300\" y=\"-200\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 18px; font-weight: 900; letter-spacing: 0.5em;\">我NVERSE SQUaRE LaW</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

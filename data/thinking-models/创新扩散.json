@@ -1,0 +1,13 @@
+{
+  "id": "创新扩散",
+  "name": "创新扩散",
+  "label": "创新扩散定律",
+  "icon": "BrainCircuit",
+  "description": "新事物的普及不是线性的。在极客（创新者）的狂热与普通人（早期大众）的实用主义之间，存在一条足以让 90% 创业公司夭折的“致命鸿沟”。",
+  "deepAnalysis": "创新扩散理论（Diffusion of Innovations）由埃弗雷特·罗杰斯提出。核心洞见：新事物在人群中扩散遵循一条可预测的S型曲线。从创新者到早期采用者，再到早期大众、晚期大众，最后是落后者。最关键的挑战是跨越鸿沟——从早期采用者到早期大众的过渡。",
+  "principle": "1. S型曲线：创新扩散遵循S型曲线\n2. 五类采用者：不同群体有不同特征\n3. 鸿沟挑战：早期采用者和早期大众之间的鸿沟\n4. 策略差异：不同阶段需要不同策略\n5. 临界规模：达到临界规模后加速扩散",
+  "scope": "产品营销、技术推广、社会创新、教育改革、组织变革、市场营销",
+  "tips": "1. 识别群体：识别目标用户属于哪类采用者\n2. 针对策略：针对不同群体制定不同策略\n3. 跨越鸿沟：重点关注跨越鸿沟的策略\n4. 培养意见领袖：培养早期采用者成为代言人\n5. 建立社会证明：收集用户案例增强信心",
+  "practice": "1. 分析目标市场：识别创新者和早期采用者\n2. 制定跨越策略：设计从早期采用者到早期大众的过渡方案\n3. 建立口碑：培养意见领袖和代言人\n4. 简化采用：降低采用门槛\n5. 监测扩散：跟踪扩散进度并调整策略",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\n      <!-- 正态扩散曲线 -->\n      <path d=\"M50,550 Q150,540 250,150 T500,200 T950,550\" fill=\"none\" stroke=\"var(--primary-color)\" stroke-width=\"8\" stroke-linecap=\"round\" opacity=\"0.3\" />\n      \n      <!-- 鸿沟区 -->\n      <g transform=\"translate(240, 100)\">\n        <rect x=\"-20\" y=\"0\" width=\"40\" height=\"450\" fill=\"var(--primary-color)\" fill-opacity=\"0.1\" stroke=\"var(--primary-color)\" stroke-width=\"2\" stroke-dasharray=\"10 5\" />\n        <text x=\"0\" y=\"250\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 42px; font-weight: 900;\" transform=\"rotate(-90 0 250)\">致命鸿沟 (THE CHASM)</text>\n      </g>\n\n      <g font-weight=\"900\" style=\"font-size: 24px;\">\n        <text x=\"120\" y=\"580\" text-anchor=\"middle\" fill=\"#6366f1\">1. 创新者</text>\n        <text x=\"450\" y=\"580\" text-anchor=\"middle\" fill=\"#3b82f6\">2. 早期大众</text>\n        <text x=\"800\" y=\"580\" text-anchor=\"middle\" fill=\"var(--text-secondary)\">3. 晚期大众</text>\n      </g>\n\n      <circle cx=\"240\" cy=\"550\" r=\"15\" fill=\"var(--primary-color)\" class=\"animate-ping\" />\n      <text x=\"500\" y=\"60\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.5em; opacity: 0.1;\">16% ADOPTION THRESHOLD</text>\n    </svg>\n</div>"
+}

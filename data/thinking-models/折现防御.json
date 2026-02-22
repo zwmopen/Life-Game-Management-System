@@ -1,0 +1,13 @@
+{
+  "id": "折现防御",
+  "name": "折现防御",
+  "label": "双曲贴现防御",
+  "icon": "BrainCircuit",
+  "description": "人类天生是短视的。大脑会极度贬低远期利益（如财富自由），而无限放大即时利益（如再看一集小说）。这种认知偏误是所有平庸的物理根源。你需要通过算法强行“拉平”这条斜率。",
+  "deepAnalysis": "这是一个思维模型，展示了折现防御的核心概念和应用。",
+  "principle": "思维模型的核心原则：折现防御",
+  "scope": "个人理财：抵抗即时消费的诱惑，坚持长期储蓄和投资。, \n          职业发展：抵制短期舒适，投入时间和精力进行长期技能提升。, \n          健康管理：拒绝不健康的即时享受，坚持长期的健康习惯。, \n          学习教育：克服即时娱乐的诱惑，专注于长期的知识积累。",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "10分钟规则：当面临即时诱惑时，承诺等待10分钟再决定，这能有效降低冲动决策的概率。; \n          建立视觉提醒：在显眼位置放置长期目标的视觉提醒，如梦想板、目标清单等。; \n          使用未来自我视角：想象未来的自己会如何评价当前的决策，增强长期导向。; \n          设置预承诺：通过预先设置的规则和约束，限制自己的即时选择，如自动储蓄计划。; \n          奖励系统：为长期行为设置阶段性奖励，在等待长期回报的过程中获得即时反馈。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\n      <g transform=\"translate(500, 325)\">\n        <!-- 贴现曲线 (向下坠落) -->\n        <path d=\"M-400,-200 Q-100,-180 0,150 T400,200\" fill=\"none\" stroke=\"var(--text-secondary)\" stroke-width=\"4\" stroke-dasharray=\"10 5\" opacity=\"0.3\" />\n        \n        <!-- 即时诱惑 (小而亮) -->\n        <g transform=\"translate(50, 100)\">\n          <circle r=\"40\" fill=\"var(--primary-color)\" filter=\"drop-shadow(0 0 20px var(--primary-color))\" />\n          <text text-anchor=\"middle\" y=\"5\" fill=\"white\" style=\"font-size: 14px; font-weight: 900;\">短剧/小说</text>\n          <text y=\"70\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 18px; font-weight: 900;\">即时满足</text>\n        </g>\n        \n        <!-- 长期收益 (巨大但遥远) -->\n        <g transform=\"translate(350, -200)\">\n          <circle r=\"120\" fill=\"var(--primary-color)\" fill-opacity=\"0.1\" stroke=\"var(--primary-color)\" stroke-width=\"4\" />\n          <text text-anchor=\"middle\" y=\"5\" fill=\"var(--primary-color)\" style=\"font-size: 32px; font-weight: 900;\">项目成功</text>\n          <text y=\"45\" text-anchor=\"middle\" fill=\"var(--text-secondary)\" opacity=\"0.6\" style=\"font-size: 14px;\">(3个月后)</text>\n        </g>\n\n        <!-- 10分钟冷静屏障 -->\n        <g transform=\"translate(-100, 100)\">\n          <rect x=\"-80\" y=\"-30\" width=\"160\" height=\"60\" rx=\"30\" fill=\"#10b981\" />\n          <text text-anchor=\"middle\" y=\"8\" fill=\"white\" style=\"font-size: 14px; font-weight: 900;\">10分钟等待协议</text>\n          <circle r=\"60\" fill=\"none\" stroke=\"#10b981\" stroke-width=\"1\" class=\"animate-ping\" />\n        </g>\n\n        <text y=\"-250\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 36px; font-weight: 900;\">别让当下的舒服 谋杀了未来的卓越</text>\n      </g>\n    </svg>\n</div>"
+}

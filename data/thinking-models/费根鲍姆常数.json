@@ -1,0 +1,14 @@
+{
+  "id": "费根鲍姆常数",
+  "name": "费根鲍姆常数",
+  "label": "费根鲍姆常数",
+  "icon": "BrainCircuit",
+  "description": "大自然的混沌指纹：无论系统是人口波动还是电路振荡，其分叉的速率总是遵循同一个常数：4.669。它揭示了从有序走向混乱的过程具有某种不分学科的、“绝对”的数学节奏。",
+  "deepAnalysis": "费根鲍姆常数（Feigenbaum Constant）揭示了大自然的混沌指纹。核心洞见：无论系统是人口波动还是电路振荡，其分叉的速率总是遵循同一个常数：4.669。它揭示了从有序走向混乱的过程具有某种不分学科的、绝对的数学节奏。混沌不是随机的，而是有规律的。",
+  "principle": "1. 普适常数：4.669是普适常数\n2. 分叉规律：分叉遵循固定规律\n3. 混沌有序：混沌中有秩序\n4. 跨学科：适用于多个学科\n5. 预测临界：预测混沌临界点",
+  "scope": "系统科学、混沌理论、预测分析、复杂系统、自然科学、决策分析",
+  "tips": "1. 认识混沌：认识混沌的规律性\n2. 识别临界：识别系统临界点\n3. 预测转变：预测系统转变\n4. 跨学科思维：跨学科应用\n5. 接受不确定性：接受系统不确定性",
+  "practice": "1. 分析系统：分析系统的状态\n2. 识别分叉：识别分叉点\n3. 预测临界：预测临界点\n4. 准备转变：准备系统转变\n5. 管理混沌：管理系统混沌",
+  "scenario": "1. 系统分析：分析复杂系统\n2. 预测分析：预测系统转变\n3. 风险管理：管理系统风险\n4. 科学研究：研究混沌系统\n5. 决策分析：分析决策临界点",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(100, 325)\">\r\n        <!-- 分叉图背景 (大字号汉化) -->\r\n        <path d=\"M0,0 L200,0 M200,0 L400,-100 M200,0 L400,100\" stroke=\"#ef4444\" stroke-width=\"4\" fill=\"none\" />\r\n        <path d=\"M400,-100 L600,-150 M400,-100 L600,-50 M400,100 L600,50 M400,100 L600,150\" stroke=\"#ef4444\" stroke-width=\"2\" fill=\"none\" opacity=\"0.6\" />\r\n        \r\n        <!-- 混沌区 (噪声云) -->\r\n        <g transform=\"translate(700, 0)\" opacity=\"0.3\">\r\n          <circle cx=\"50\" cy=\"-100\" r=\"80\" fill=\"#ef4444\" />\r\n          <circle cx=\"50\" cy=\"100\" r=\"80\" fill=\"#ef4444\" />\r\n          <animateTransform attributeName=\"transform\" type=\"translate\" values=\"700,0; 710,10; 700,0\" dur=\"0.1s\" repeatCount=\"indefinite\" />\r\n        </g>\r\n\r\n        <!-- 比例标注 -->\r\n        <line x1=\"200\" y1=\"120\" x2=\"400\" y2=\"120\" stroke=\"#fbbf24\" stroke-width=\"2\" stroke-dasharray=\"5 5\" />\r\n        <text x=\"300\" y=\"150\" text-anchor=\"middle\" fill=\"#fbbf24\" style=\"font-size: 24px; font-weight: 900;\">δ ≈ 4.669</text>\r\n\r\n        <text x=\"400\" y=\"280\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">倍周期分叉：秩序的瓦解节奏</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

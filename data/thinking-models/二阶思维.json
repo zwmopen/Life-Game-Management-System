@@ -1,0 +1,14 @@
+{
+  "id": "二阶思维",
+  "name": "二阶思维",
+  "label": "二阶思维",
+  "icon": "BrainCircuit",
+  "description": "\"不要问：现在发生了什么？要问：在那之后，会发生什么？\"",
+  "deepAnalysis": "二阶思维（Second-Order Thinking）是一种深度思考方法，要求我们不仅考虑行动的直接结果（一阶效应），还要考虑结果的后续影响（二阶、三阶效应）。许多决策看似正确，但如果只考虑一阶效应，往往会带来意想不到的负面后果。二阶思维帮助我们避免短视，做出更明智的长期决策。",
+  "principle": "1. 多阶推演：每个行动都会引发连锁反应，需要推演至少两到三步\n2. 长期视角：一阶效应往往是短期的，二阶效应才是长期影响\n3. 系统思维：行动在复杂系统中会产生非线性反馈\n4. 意外后果：好意可能带来坏结果，需要预判潜在风险\n5. 决策质量：二阶思维是区分平庸决策者和优秀决策者的关键能力。",
+  "scope": "战略规划、投资决策、政策制定、产品设计、个人选择、风险管理",
+  "tips": "1. 多问'然后呢'：对每个决策结果追问'然后会发生什么？'至少两次\n2. 列出后果矩阵：画出决策的一阶、二阶、三阶后果表格\n3. 寻找反例：问自己'这个决策在什么情况下会带来负面后果？'\n4. 时间跨度：考虑决策在1年、5年、10年后的影响\n5. 利益相关者视角：考虑决策对不同群体的连锁影响。",
+  "practice": "1. 投资决策：买入股票前，不仅考虑涨跌，还要考虑涨跌后的操作策略\n2. 产品设计：添加功能前，考虑对用户体验、维护成本、系统复杂度的连锁影响\n3. 政策制定：制定政策前，推演政策实施后的市场反应和副作用\n4. 职业选择：选择工作时，不仅看薪资，还要考虑职业发展路径和行业趋势\n5. 健康决策：节食减肥前，考虑对代谢、心理、社交的影响。",
+  "scenario": "1. 价格战：降价可能带来销量增长（一阶），但会引发竞争对手降价，最终利润下降（二阶）\n2. 促销活动：促销带来短期销量（一阶），但可能培养用户等待促销的习惯（二阶）\n3. 加班文化：加班提高短期产出（一阶），但导致员工倦怠和离职（二阶）\n4. 社交媒体：点赞带来即时满足（一阶），但可能导致注意力分散和焦虑（二阶）\n5. 快速扩张：扩张带来市场份额（一阶），但可能导致管理混乱和质量下降（二阶）。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 600 600\" class=\"w-full h-auto\">\r\n        {/* Ripples */}\r\n        <circle cx=\"300\" cy=\"300\" r=\"100\" fill=\"none\" stroke=\"#38bdf8\" stroke-width=\"2\" class=\"ripple\" />\r\n        <circle cx=\"300\" cy=\"300\" r=\"100\" fill=\"none\" stroke=\"#38bdf8\" stroke-width=\"1.5\" class=\"ripple\" style=\"animation-delay: 2s\" />\r\n        <circle cx=\"300\" cy=\"300\" r=\"100\" fill=\"none\" stroke=\"#38bdf8\" stroke-width=\"1\" class=\"ripple\" style=\"animation-delay: 4s\" />\r\n        \r\n        {/* Core Node */}\r\n        <circle cx=\"300\" cy=\"300\" r=\"60\" fill=\"#0ea5e9\" />\r\n        <text x=\"300\" y=\"305\" text-anchor=\"middle\" fill=\"white\" class=\"font-black text-xs uppercase tracking-widest\">初始决策</text>\r\n        \r\n        {/* Secondary Labels */}\r\n        <g opacity=\"0.4\">\r\n          <text x=\"300\" y=\"150\" text-anchor=\"middle\" fill=\"#38bdf8\" class=\"font-bold text-[8px] uppercase\">然后呢？</text>\r\n          <text x=\"450\" y=\"300\" text-anchor=\"middle\" fill=\"#38bdf8\" class=\"font-bold text-[8px] uppercase\" transform=\"rotate(90 450 300)\">长期影响</text>\r\n          <text x=\"150\" y=\"300\" text-anchor=\"middle\" fill=\"#38bdf8\" class=\"font-bold text-[8px] uppercase\" transform=\"rotate(-90 150 300)\">反馈</text>\r\n        </g>\r\n      </svg>\n</div>"
+}

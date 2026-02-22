@@ -1,0 +1,14 @@
+{
+  "id": "高原耐受",
+  "name": "高原耐受",
+  "label": "中间态耐受性",
+  "icon": "BrainCircuit",
+  "description": "针对“中间态过敏”。所有的复利增长都有一段漫长、平庸且看起来毫无进展的“平原期”。这不仅是进化的必经之路，更是社会筛选掉弱者的物理机制。你能忍受多久的“毫无反馈”，决定了你最终能获得多大的“非线性溢价”。",
+  "deepAnalysis": "高原耐受（Plateau Tolerance）揭示了成长的非线性特征。核心洞见：所有的复利增长都有一段漫长、平庸且看起来毫无进展的平原期。这不仅是进化的必经之路，更是社会筛选掉弱者的物理机制。你能忍受多久的毫无反馈，决定了你最终能获得多大的非线性溢价。",
+  "principle": "1. 平原期必然：所有成长都有平原期\n2. 非线性增长：平原期后是指数增长\n3. 筛选机制：平原期筛选掉弱者\n4. 耐受能力：耐受时间决定最终高度\n5. 信念支撑：需要信念支撑度过平原期",
+  "scope": "个人成长、技能学习、投资理财、创业发展、健身塑形、习惯养成",
+  "tips": "1. 认识规律：认识平原期的必然性\n2. 设定预期：设定合理的预期\n3. 建立反馈：建立中间反馈机制\n4. 保持信念：保持对终局的信念\n5. 耐心等待：耐心等待突破",
+  "practice": "1. 识别平原：识别自己是否在平原期\n2. 调整心态：接受平原期的必然性\n3. 持续行动：在平原期持续行动\n4. 寻找反馈：寻找中间反馈\n5. 等待突破：等待非线性突破",
+  "scenario": "1. 技能学习：学习新技能的瓶颈期\n2. 投资理财：复利增长前的积累期\n3. 创业发展：创业初期的艰难期\n4. 健身塑形：健身效果不明显期\n5. 习惯养成：习惯养成的初期",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(100, 550)\">\r\n        <!-- 指数曲线 -->\r\n        <path d=\"M0,0 L400,0 Q600,0 800,-500\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"12\" stroke-linecap=\"round\" opacity=\"0.2\" />\r\n        \r\n        <!-- 重点：中间态平原 (耐受区) -->\r\n        <g>\r\n          <rect x=\"0\" y=\"-20\" width=\"450\" height=\"20\" fill=\"#fbbf24\" fill-opacity=\"0.1\" />\r\n          <path d=\"M0,0 L450,0\" stroke=\"#fbbf24\" stroke-width=\"8\" stroke-linecap=\"round\">\r\n             <animate attributeName=\"stroke-dasharray\" from=\"0,450\" to=\"450,0\" dur=\"6s\" repeatCount=\"indefinite\" />\r\n          </path>\r\n          <text x=\"225\" y=\"40\" text-anchor=\"middle\" fill=\"#fbbf24\" style=\"font-size: 24px; font-weight: 900;\">中间态：笨拙、平庸、缓慢累积</text>\r\n          <text x=\"225\" y=\"65\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.5\" style=\"font-size: 12px;\">(绝大多数人在此处产生“虚无感”并退出)</text>\r\n        </g>\r\n\r\n        <!-- 爆发前夜的粒子蓄力 -->\r\n        <g transform=\"translate(450, 0)\">\r\n           <circle r=\"40\" fill=\"#fbbf24\" fill-opacity=\"0.2\" class=\"animate-ping\" />\r\n           <text x=\"50\" y=\"-50\" fill=\"#ef4444\" style=\"font-size: 18px; font-weight: 900;\">拐点 (我nflection)</text>\r\n        </g>\r\n\r\n        <text x=\"400\" y=\"-450\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">耐受性 = 最终的溢价</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

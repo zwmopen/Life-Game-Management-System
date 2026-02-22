@@ -1,0 +1,14 @@
+{
+  "id": "非局域性",
+  "name": "非局域性",
+  "label": "非定域感应",
+  "icon": "BrainCircuit",
+  "description": "量子世界的物理事实：两个纠缠的系统即使相隔亿万光年，改变其中一个的状态，另一个会“瞬间”响应，中间没有任何信号传导过程。这打破了经典物理中“接触即因果”的底层逻辑。",
+  "deepAnalysis": "非局域性（Non-locality）是量子世界的物理事实。核心洞见：两个纠缠的系统即使相隔亿万光年，改变其中一个的状态，另一个会瞬间响应，中间没有任何信号传导过程。这打破了经典物理中接触即因果的底层逻辑。非局域性揭示了世界更深层的连接——某些关联超越空间距离。",
+  "principle": "1. 瞬间关联：超越空间距离的关联\n2. 量子纠缠：纠缠粒子的非局域性\n3. 无信号传递：无需信号传递\n4. 打破局域：打破局域因果律\n5. 深层连接：揭示深层连接",
+  "scope": "量子物理、系统思维、组织管理、人际关系、网络效应、整体论",
+  "tips": "1. 认识连接：认识深层连接\n2. 超越距离：超越物理距离限制\n3. 整体思维：用整体思维看问题\n4. 隐性关联：关注隐性关联\n5. 同步效应：利用同步效应",
+  "practice": "1. 识别关联：识别系统的隐性关联\n2. 整体思维：用整体思维分析\n3. 利用同步：利用同步效应\n4. 超越距离：超越距离限制\n5. 深层连接：建立深层连接",
+  "scenario": "1. 系统设计：设计非局域关联系统\n2. 组织管理：理解组织的非局域关联\n3. 人际关系：理解深层的人际连接\n4. 网络效应：利用网络效应\n5. 整体决策：用整体思维做决策",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 核心脉冲源 -->\r\n        <circle r=\"20\" fill=\"white\" filter=\"drop-shadow(0 0 30px #ef4444)\" class=\"animate-ping\" />\r\n        \r\n        <!-- 全局瞬间相关的节点组 -->\r\n        <g fill=\"#ef4444\">\r\n          <circle cx=\"-300\" cy=\"-200\" r=\"15\">\r\n            <animate attributeName=\"fill\" values=\"#3b82f6;#ef4444;#3b82f6\" dur=\"0.5s\" repeatCount=\"indefinite\" />\r\n          </circle>\r\n          <circle cx=\"350\" cy=\"150\" r=\"15\">\r\n            <animate attributeName=\"fill\" values=\"#3b82f6;#ef4444;#3b82f6\" dur=\"0.5s\" repeatCount=\"indefinite\" />\r\n          </circle>\r\n          <circle cx=\"-200\" cy=\"220\" r=\"15\">\r\n            <animate attributeName=\"fill\" values=\"#3b82f6;#ef4444;#3b82f6\" dur=\"0.5s\" repeatCount=\"indefinite\" />\r\n          </circle>\r\n          <circle cx=\"280\" cy=\"-180\" r=\"15\">\r\n            <animate attributeName=\"fill\" values=\"#3b82f6;#ef4444;#3b82f6\" dur=\"0.5s\" repeatCount=\"indefinite\" />\r\n          </circle>\r\n        </g>\r\n\r\n        <!-- 瞬间连接的虚线网 (无接触传导) -->\r\n        <g stroke=\"#ef4444\" stroke-width=\"1\" opacity=\"0.1\">\r\n          <line x1=\"-300\" y1=\"-200\" x2=\"350\" y2=\"150\" />\r\n          <line x1=\"-200\" y1=\"220\" x2=\"280\" y2=\"-180\" />\r\n        </g>\r\n\r\n        <text y=\"280\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.1em;\">感应：无需传导的同步</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

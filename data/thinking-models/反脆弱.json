@@ -1,0 +1,13 @@
+{
+  "id": "反脆弱",
+  "name": "反脆弱",
+  "label": "反脆弱性",
+  "icon": "BrainCircuit",
+  "description": "风能吹灭蜡烛，却能使火越烧越旺。反脆弱是指在波动、压力和不确定性中不仅能生存，反而能变得更强的特质。",
+  "deepAnalysis": "反脆弱性概念由纳西姆·尼古拉斯·塔勒布（Nassim Nicholas Taleb）在《反脆弱》一书中提出，指的是系统或个体在面对波动、压力、不确定性和混乱时，不仅能够适应和生存，反而能够从中受益并变得更强大的特性。与脆弱性（因压力而受损）和鲁棒性（能抵抗压力）不同，反脆弱性是一种更高级的状态。",
+  "principle": "非线性受益：在一定范围内，压力和波动越大，收益越高。; ;           冗余设计：通过多元化和冗余来增强系统的反脆弱性。; ;           试错学习：通过小范围的失败和反馈来优化系统。; ;           杠铃策略：在极度安全和极度冒险之间取得平衡。",
+  "scope": "个人成长和职业发展, \n          企业管理和战略规划, \n          投资和风险管理, \n          健康和健身, \n          技术系统设计",
+  "tips": "1. 杠铃策略：将 90% 的资源用于极度安全以保障底线，10% 用于极度冒险以捕捉暴利。; 2. 试错红利：通过低成本的小失败来构建系统的\"免疫力\"，换取非线性的巨大成功。; 3. 拥抱波动：主动寻求适度的挑战和压力，避免过度保护。; 4. 简化系统：减少系统的复杂性，提高其适应性和恢复能力。",
+  "practice": "在个人成长中，定期挑战自己的舒适区，通过小失败来学习和成长。; \n          在投资中，采用杠铃策略，将大部分资金放在安全资产中，小部分用于高风险高回报的投资。; \n          在企业管理中，建立灵活的组织结构，鼓励创新和试错。; \n          在健康管理中，通过适度的运动和压力来增强身体的抵抗力。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\n        <g stroke=\"var(--text-primary)\" stroke-width=\"1\" opacity=\"0.1\">\n          <line x1=\"100\" y1=\"200\" x2=\"900\" y2=\"200\" stroke-dasharray=\"10 10\"><animate attributeName=\"stroke-dashoffset\" from=\"0\" to=\"100\" dur=\"2s\" repeatCount=\"indefinite\" /></line>\n          <line x1=\"100\" y1=\"400\" x2=\"900\" y2=\"400\" stroke-dasharray=\"10 10\"><animate attributeName=\"stroke-dashoffset\" from=\"0\" to=\"100\" dur=\"3s\" repeatCount=\"indefinite\" /></line>\n        </g>\n        <g transform=\"translate(500, 300)\">\n          <circle r=\"140\" fill=\"var(--primary-color)\" fill-opacity=\"0.1\" class=\"animate-pulse\" />\n          <path d=\"M-80,0 Q0,-220 80,0 T0,220 Z\" fill=\"var(--primary-color)\" opacity=\"0.8\">\n             <animate attributeName=\"d\" values=\"M-80,0 Q0,-220 80,0 T0,220 Z; M-100,0 Q0,-280 100,0 T0,260 Z; M-80,0 Q0,-220 80,0 T0,220 Z\" dur=\"2s\" repeatCount=\"indefinite\" />\n          </path>\n          <text text-anchor=\"middle\" y=\"10\" fill=\"var(--text-primary)\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.1em;\">反脆弱 (GROWING)</text>\n        </g>\n        <text x=\"500\" y=\"550\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 24px; font-weight: 900; letter-spacing: 0.5em;\">波动是我的养分</text>\n      </svg>\n</div>"
+}

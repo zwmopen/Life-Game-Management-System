@@ -1,0 +1,14 @@
+{
+  "id": "反向传播",
+  "name": "反向传播",
+  "label": "错误反向传播",
+  "icon": "BrainCircuit",
+  "description": "源自深度学习算法。系统的进步不是靠完美的初始设计，而是靠结果反馈。当预测与现实产生误差，沿着逻辑路径往回走，修正那个导致错误的初始权重。",
+  "deepAnalysis": "反向传播（Backpropagation）是神经网络训练的核心算法，也是一种强大的思维模型。核心洞见：学习发生在错误被反向追踪的时候。当我们犯错时，不要只看结果，要从结果逆向追溯每一个决策节点，找出错误产生的根源。这种从结果到原因的反向推理，是深度学习的本质。",
+  "principle": "1. 错误信号：从输出层向前传播错误信号\n2. 梯度下降：沿着梯度方向调整参数\n3. 链式法则：逐层计算每个节点的贡献\n4. 迭代优化：反复迭代直到误差最小\n5. 学习本质：学习是错误的反向追踪",
+  "scope": "机器学习、错误分析、决策复盘、学习成长、问题诊断、流程优化",
+  "tips": "1. 记录决策链：记录每个决策节点\n2. 追溯错误：从结果逆向追溯错误来源\n3. 找出根因：找出导致错误的关键节点\n4. 调整策略：针对根因调整策略\n5. 持续迭代：反复迭代优化",
+  "practice": "1. 记录结果：记录最终结果和预期差距\n2. 逆向追溯：从结果逆向追溯决策链\n3. 识别节点：识别关键决策节点\n4. 分析贡献：分析每个节点的贡献\n5. 优化调整：针对关键节点优化调整",
+  "scenario": "1. 项目复盘：从项目结果逆向追溯问题\n2. 学习反思：从考试成绩逆向追溯学习漏洞\n3. 产品迭代：从用户反馈逆向追溯产品问题\n4. 流程优化：从错误结果逆向追溯流程缺陷\n5. 个人成长：从失败经历逆向追溯成长机会",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(100, 325)\">\r\n        <!-- 神经元网络节点 -->\r\n        <circle cx=\"0\" cy=\"0\" r=\"30\" fill=\"#1e293b\" opacity=\"0.1\" />\r\n        <circle cx=\"200\" cy=\"-100\" r=\"30\" fill=\"#1e293b\" opacity=\"0.1\" />\r\n        <circle cx=\"200\" cy=\"100\" r=\"30\" fill=\"#1e293b\" opacity=\"0.1\" />\r\n        <circle cx=\"450\" cy=\"0\" r=\"50\" fill=\"#ef4444\" fill-opacity=\"0.8\" />\r\n        <text x=\"450\" y=\"5\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 14px; font-weight: 900;\">输出结果 (误差)</text>\r\n        \r\n        <!-- 正向预测流 -->\r\n        <path d=\"M30,0 L400,0\" stroke=\"#1e293b\" stroke-width=\"1\" stroke-dasharray=\"5 5\" opacity=\"0.2\" />\r\n\r\n        <!-- 反向传播流 (核心) -->\r\n        <g stroke=\"#ef4444\" stroke-width=\"4\" fill=\"none\">\r\n          <path d=\"M400,0 Q300,50 200,100\" marker-end=\"url(#redarrow)\" />\r\n          <path d=\"M400,0 Q300,-50 200,-100\" marker-end=\"url(#redarrow)\" />\r\n          <path d=\"M200,100 Q100,50 30,0\" marker-end=\"url(#redarrow)\" />\r\n          <path d=\"M200,-100 Q100,-50 30,0\" marker-end=\"url(#redarrow)\" />\r\n          <animate attributeName=\"stroke-dasharray\" from=\"0,500\" to=\"500,0\" dur=\"3s\" repeatCount=\"indefinite\" />\r\n        </g>\r\n        \r\n        <text x=\"220\" y=\"200\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">反向传播</text>\r\n        <text x=\"220\" y=\"235\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 16px; font-weight: 800;\">(通过失败，重新校准初始参数)</text>\r\n      </g>\r\n      <defs>\r\n        <marker id=\"redarrow\" markerWidth=\"10\" markerHeight=\"10\" refX=\"5\" refY=\"5\" orient=\"auto\"><path d=\"M0,0 L10,5 L0,10 Z\" fill=\"#ef4444\"/></marker>\r\n      </defs>\r\n    </svg>\n</div>"
+}

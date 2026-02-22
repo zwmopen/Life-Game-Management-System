@@ -1,0 +1,14 @@
+{
+  "id": "过滤气泡",
+  "name": "过滤气泡",
+  "label": "信息茧房",
+  "icon": "BrainCircuit",
+  "description": "由埃利·帕里泽提出。算法通过记录你的偏好，源源不断地向你推送你“喜欢”的内容。长此以往，你会生活在一个精心编织的认知孤岛中，丧失对真实世界复杂性的理解能力。",
+  "deepAnalysis": "过滤气泡（Filter Bubble）由埃利·帕里泽提出。核心洞见：算法通过记录你的偏好，源源不断地向你推送你喜欢的内容。长此以往，你会生活在一个精心编织的认知孤岛中，丧失对真实世界复杂性的理解能力。算法在喂养你想要的信息，而不是你需要的信息。",
+  "principle": "1. 算法推荐：算法根据偏好推荐内容\n2. 信息茧房：形成信息茧房\n3. 认知孤岛：生活在认知孤岛中\n4. 偏见强化：不断强化既有偏见\n5. 复杂性丧失：丧失对复杂性的理解",
+  "scope": "信息管理、认知科学、媒体素养、决策分析、社交网络、政治参与",
+  "tips": "1. 主动破壁：主动寻找不同观点\n2. 多元信息：接触多元信息源\n3. 批判思维：保持批判性思维\n4. 算法意识：意识到算法的影响\n5. 信息多样：追求信息多样性",
+  "practice": "1. 识别气泡：识别自己的信息气泡\n2. 主动破壁：主动寻找不同观点\n3. 多元信息：接触多元信息源\n4. 批判思维：保持批判性思维\n5. 持续反思：持续反思信息来源",
+  "scenario": "1. 信息管理：管理信息来源\n2. 认知升级：突破认知局限\n3. 决策分析：获取多元观点\n4. 媒体素养：提升媒体素养\n5. 社交网络：扩大信息来源",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 真实的多元世界 (背景) -->\r\n        <g opacity=\"0.05\">\r\n           <circle cx=\"-300\" cy=\"-200\" r=\"150\" fill=\"#3b82f6\" /><circle cx=\"350\" cy=\"-100\" r=\"120\" fill=\"#ef4444\" />\r\n           <rect x=\"-400\" y=\"100\" width=\"200\" height=\"200\" fill=\"#10b981\" rx=\"40\" />\r\n           <text x=\"0\" y=\"280\" text-anchor=\"middle\" style=\"font-size: 80px; font-weight: 900;\">多元真相 (REaL我TY)</text>\r\n        </g>\r\n        \r\n        <!-- 算法气泡 (茧房) -->\r\n        <g>\r\n          <circle r=\"180\" fill=\"#ffffff\" stroke=\"#ef4444\" stroke-width=\"8\" stroke-dasharray=\"20 10\">\r\n            <animate attributeName=\"stroke-dashoffset\" from=\"0\" to=\"100\" dur=\"5s\" repeatCount=\"indefinite\" />\r\n          </circle>\r\n          <circle r=\"220\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"1\" opacity=\"0.2\" class=\"animate-ping\" />\r\n          \r\n          <!-- 投喂的信息 (单一形状颜色) -->\r\n          <g fill=\"#ef4444\">\r\n            <circle cx=\"-60\" cy=\"-50\" r=\"15\" /><circle cx=\"70\" cy=\"40\" r=\"18\" />\r\n            <circle cx=\"-10\" cy=\"80\" r=\"12\" /><circle cx=\"80\" cy=\"-70\" r=\"14\" />\r\n            <animateTransform attributeName=\"transform\" type=\"translate\" values=\"0,0; 5,5; 0,0\" dur=\"1s\" repeatCount=\"indefinite\" />\r\n          </g>\r\n          \r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">认知茧房</text>\r\n          <text y=\"40\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.6\" style=\"font-size: 12px;\">(算法投喂产生的“世界共识”)</text>\r\n        </g>\r\n      </g>\r\n    </svg>\n</div>"
+}

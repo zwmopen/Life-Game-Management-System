@@ -1,0 +1,13 @@
+{
+  "id": "冗余",
+  "name": "冗余",
+  "label": "冗余与弹性",
+  "icon": "BrainCircuit",
+  "description": "大自然从不追求极致的效率，它追求极致的生存。你的身体有两个肾，飞机有两个引擎。在充满噪声的现实中，冗余是唯一能对抗“意外错误”的物理杠杆。",
+  "deepAnalysis": "冗余（Redundancy）是大自然的生存智慧。大自然从不追求极致的效率，它追求极致的生存。你的身体有两个肾，飞机有两个引擎。在充满噪声的现实中，冗余是唯一能对抗'意外错误'的物理杠杆。\n\n核心机制：\n- 容错能力：冗余提供容错能力\n- 鲁棒性：冗余增强系统的鲁棒性\n- 生存优先：生存比效率更重要\n\n典型表现：\n- 生物系统：双肾、双肺、双耳\n- 工程系统：双引擎、备用电源\n- 组织系统：人才储备、资金储备",
+  "principle": "1. 容错能力：冗余提供容错能力\n2. 鲁棒性：冗余增强系统的鲁棒性\n3. 生存优先：生存比效率更重要\n4. 适度冗余：冗余要适度，过多是浪费\n5. 关键冗余：在关键节点增加冗余",
+  "scope": "工程设计、系统架构、风险管理、组织管理、个人发展、财务规划",
+  "tips": "1. 识别关键节点：识别系统中的关键节点\n2. 增加冗余：在关键节点增加冗余\n3. 适度冗余：冗余要适度，避免过度\n4. 定期检查：定期检查冗余是否有效\n5. 动态调整：根据变化调整冗余水平",
+  "practice": "将冗余应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 极致优化的脆弱系统 (单线) -->\r\n        <g transform=\"translate(-250, 0)\">\r\n          <rect x=\"-10\" y=\"-150\" width=\"20\" height=\"300\" fill=\"#ef4444\" opacity=\"0.2\" />\r\n          <circle r=\"40\" fill=\"#ef4444\" />\r\n          <path d=\"M-20,-20 L20,20 M20,-20 L-20,20\" stroke=\"white\" stroke-width=\"4\" />\r\n          <text y=\"200\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">极度优化</text>\r\n          <text y=\"230\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.5\" style=\"font-size: 10px;\">(单点失效 = 彻底崩溃)</text>\r\n        </g>\r\n        \r\n        <!-- 具有冗余的弹性系统 (多线并行) -->\r\n        <g transform=\"translate(250, 0)\">\r\n          <g stroke=\"#ef4444\" stroke-width=\"4\" opacity=\"0.3\">\r\n            <line x1=\"-80\" y1=\"-150\" x2=\"-80\" y2=\"150\" /><line x1=\"80\" y1=\"-150\" x2=\"80\" y2=\"150\" />\r\n            <line x1=\"0\" y1=\"-150\" x2=\"0\" y2=\"150\" />\r\n          </g>\r\n          <circle r=\"60\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 30px #ef4444)\" />\r\n          <path d=\"M-20,0 L0,20 L30,-20\" fill=\"none\" stroke=\"white\" stroke-width=\"8\" stroke-linecap=\"round\" />\r\n          <text y=\"200\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">系统冗余</text>\r\n          <text y=\"230\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.5\" style=\"font-size: 10px;\">(多重保障 = 极端稳健)</text>\r\n        </g>\r\n\r\n        <path d=\"M-80,0 L80,0\" stroke=\"#1e293b\" stroke-width=\"1\" stroke-dasharray=\"5 5\" opacity=\"0.1\" />\r\n      </g>\r\n      <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 42px; font-weight: 900; letter-spacing: 0.1em; opacity: 0.1;\">RES我L我ENcE OVER EFF我c我ENcY</text>\r\n    </svg>\n</div>"
+}

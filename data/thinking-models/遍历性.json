@@ -1,0 +1,14 @@
+{
+  "id": "遍历性",
+  "name": "遍历性",
+  "label": "遍历性",
+  "icon": "BrainCircuit",
+  "description": "如果一个个体在漫长的时间线中，只要遇到一次“爆仓”风险（无论概率多低）就会彻底出局，那么群体的平均成功率对他而言毫无意义。生存是概率论的第一驱动力。",
+  "deepAnalysis": "遍历性（Ergodicity）揭示了时间平均与群体平均的关键差异。核心洞见：如果一个个体在漫长的时间线中，只要遇到一次爆仓风险（无论概率多低）就会彻底出局，那么群体的平均成功率对他而言毫无意义。生存是概率论的第一驱动力。非遍历系统中，时间平均不等于群体平均。",
+  "principle": "1. 时间平均：个体在时间上的平均\n2. 群体平均：群体在同一时刻的平均\n3. 非遍历性：时间平均不等于群体平均\n4. 爆仓风险：一次爆仓永久出局\n5. 生存优先：生存是第一优先级",
+  "scope": "投资决策、风险管理、概率论、生存策略、决策分析、金融工程",
+  "tips": "1. 识别非遍历：识别非遍历系统\n2. 避免爆仓：避免爆仓风险\n3. 生存优先：生存优先于收益\n4. 理解差异：理解时间平均与群体平均差异\n5. 谨慎决策：在非遍历系统中谨慎决策",
+  "practice": "1. 识别系统：识别系统是否遍历\n2. 评估风险：评估爆仓风险\n3. 生存优先：优先考虑生存\n4. 谨慎决策：谨慎做出决策\n5. 持续监控：持续监控风险",
+  "scenario": "1. 投资决策：避免爆仓风险\n2. 风险管理：管理生存风险\n3. 创业决策：避免创业失败\n4. 职业规划：避免职业风险\n5. 资产配置：合理配置资产",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <!-- 路径 A: 均值幻觉 (群体路径) -->\r\n      <g transform=\"translate(100, 150)\">\r\n        <path d=\"M0,0 L150,20 L300,-10 L450,30 L600,0 L800,20\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n        <text x=\"0\" y=\"-30\" fill=\"#64748b\" opacity=\"0.4\" style=\"font-size: 14px; font-weight: 900;\">群体均值 (Ensemble Average)</text>\r\n      </g>\r\n      \r\n      <!-- 路径 B: 遍历性失效 (个体路径 - 爆仓) -->\r\n      <g transform=\"translate(100, 450)\">\r\n        <path d=\"M0,0 L150,-20 L300,50 L450,0\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"8\" stroke-linecap=\"round\" />\r\n        <path d=\"M450,0 L500,100\" stroke=\"#ef4444\" stroke-width=\"8\" stroke-dasharray=\"10 5\" />\r\n        <circle cx=\"500\" cy=\"100\" r=\"30\" fill=\"#ef4444\" class=\"animate-ping\" />\r\n        <text x=\"500\" y=\"160\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 48px; font-weight: 900;\">RU我N (爆仓/出局)</text>\r\n        <text x=\"0\" y=\"60\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">时间路径 (Time Average)</text>\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 52px; font-weight: 900; letter-spacing: 0.1em;\">概率不等于遍历性</text>\r\n      <text x=\"500\" y=\"580\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 18px; font-weight: 900;\">一旦出局，所有的未来概率都等于零</text>\r\n    </svg>\n</div>"
+}

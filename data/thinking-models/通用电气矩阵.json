@@ -1,0 +1,14 @@
+{
+  "id": "通用电气矩阵",
+  "name": "通用电气矩阵",
+  "label": "GE 矩阵",
+  "icon": "BrainCircuit",
+  "description": "比波士顿矩阵更精密的业务组合分析工具。通过“行业吸引力”和“业务竞争力”两个多指标维度，决定资源的投入优先级。",
+  "deepAnalysis": "通用电气矩阵（GE Matrix）是比波士顿矩阵更精密的业务组合分析工具。核心洞见：通过行业吸引力和业务竞争力两个多指标维度，决定资源的投入优先级。九宫格分析帮助企业在不同业务间做出投资、维持或退出的决策，优化资源配置。",
+  "principle": "1. 行业吸引力：评估行业吸引力\n2. 业务竞争力：评估业务竞争力\n3. 九宫格：九宫格分析框架\n4. 资源配置：优化资源配置\n5. 战略决策：投资、维持或退出",
+  "scope": "企业战略、业务组合、投资决策、资源配置、战略规划、竞争分析",
+  "tips": "1. 评估吸引力：评估行业吸引力\n2. 评估竞争力：评估业务竞争力\n3. 定位业务：定位业务在矩阵中位置\n4. 制定策略：制定相应策略\n5. 动态调整：动态调整业务组合",
+  "practice": "1. 评估行业：评估行业吸引力\n2. 评估业务：评估业务竞争力\n3. 定位分析：定位业务在矩阵中\n4. 制定策略：制定投资策略\n5. 动态调整：动态调整业务组合",
+  "scenario": "1. 企业战略：制定企业战略\n2. 业务组合：优化业务组合\n3. 投资决策：做出投资决策\n4. 资源配置：优化资源配置\n5. 竞争分析：分析竞争地位",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(200, 100)\">\r\n        <!-- 9 宫格背景 -->\r\n        <g stroke=\"#1e293b\" stroke-width=\"1\" opacity=\"0.1\">\r\n          <rect width=\"600\" height=\"450\" fill=\"none\" />\r\n          <line x1=\"200\" y1=\"0\" x2=\"200\" y2=\"450\" /><line x1=\"400\" y1=\"0\" x2=\"400\" y2=\"450\" />\r\n          <line x1=\"0\" y1=\"150\" x2=\"600\" y2=\"150\" /><line x1=\"0\" y1=\"300\" x2=\"600\" y2=\"300\" />\r\n        </g>\r\n        \r\n        <!-- 区域着色 -->\r\n        <rect width=\"200\" height=\"150\" fill=\"#10b981\" fill-opacity=\"0.2\" /> <!-- 增长区 -->\r\n        <rect x=\"400\" y=\"300\" width=\"200\" height=\"150\" fill=\"#ef4444\" fill-opacity=\"0.2\" /> <!-- 退出区 -->\r\n\r\n        <!-- 动态业务单元 (气泡) -->\r\n        <g transform=\"translate(100, 75)\">\r\n          <circle r=\"40\" fill=\"#10b981\" class=\"animate-pulse\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"white\" style=\"font-size: 14px; font-weight: 900;\">主力业务</text>\r\n        </g>\r\n        <g transform=\"translate(500, 375)\">\r\n          <circle r=\"30\" fill=\"#ef4444\" opacity=\"0.6\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"white\" style=\"font-size: 14px; font-weight: 900;\">边缘业务</text>\r\n        </g>\r\n\r\n        <!-- 轴标签 -->\r\n        <text x=\"300\" y=\"480\" text-anchor=\"middle\" fill=\"#64748b\" style=\"font-size: 14px; font-weight: 900;\">竞争实力 (弱 → 强)</text>\r\n        <text x=\"-30\" y=\"225\" text-anchor=\"middle\" fill=\"#64748b\" style=\"font-size: 14px; font-weight: 900;\" transform=\"rotate(-90 -30 225)\">行业吸引力 (低 → 高)</text>\r\n      </g>\r\n      <text x=\"500\" y=\"50\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.2\" style=\"font-size: 24px; font-weight: 900; letter-spacing: 0.5em;\">GE/McK我NSEY MaTR我X</text>\r\n    </svg>\n</div>"
+}

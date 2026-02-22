@@ -1,0 +1,14 @@
+{
+  "id": "虚拟工资",
+  "name": "虚拟工资",
+  "label": "虚拟工资系统",
+  "icon": "BrainCircuit",
+  "description": "人类的大脑依然保留着原始的反馈机制。不要指望通过“三个月后的成功”来驱动今天的身体。你必须建立一个“动作-奖励”的极速闭环。每完成一个小动作，立刻结算“虚拟工资”，将这种快感与你的正向行为强制锁定。",
+  "deepAnalysis": "虚拟工资（Virtual Wage）揭示了即时反馈的重要性。核心洞见：人类的大脑依然保留着原始的反馈机制。不要指望通过三个月后的成功来驱动今天的身体。你必须建立一个动作-奖励的极速闭环。每完成一个小动作，立刻结算虚拟工资，将这种快感与你的正向行为强制锁定。",
+  "principle": "1. 即时反馈：即时反馈驱动行为\n2. 动作奖励：动作与奖励绑定\n3. 极速闭环：建立极速闭环\n4. 快感锁定：将快感与行为锁定\n5. 小步奖励：小步快跑小步奖励",
+  "scope": "习惯养成、自我激励、行为改变、目标管理、学习成长、个人效能",
+  "tips": "1. 即时奖励：完成动作即时奖励\n2. 小步快跑：小步快跑小步奖励\n3. 建立闭环：建立动作奖励闭环\n4. 可视化：可视化奖励进度\n5. 持续强化：持续强化正向行为",
+  "practice": "1. 设定动作：设定小动作目标\n2. 设定奖励：设定即时奖励\n3. 完成动作：完成动作\n4. 即时奖励：即时给予奖励\n5. 持续强化：持续强化行为",
+  "scenario": "1. 习惯养成：养成好习惯\n2. 自我激励：自我激励系统\n3. 行为改变：改变不良行为\n4. 目标管理：管理目标进度\n5. 学习成长：激励学习成长",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 动作容器 -->\r\n        <rect x=\"-350\" y=\"-100\" width=\"300\" height=\"200\" rx=\"30\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"4\" />\r\n        <text x=\"-200\" y=\"5\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">发完 1 条动态</text>\r\n        \r\n        <!-- 连接链条 -->\r\n        <path d=\"M-50,0 L150,0\" stroke=\"#fbbf24\" stroke-width=\"4\" stroke-dasharray=\"10 5\" marker-end=\"url(#goldarrow)\" />\r\n\r\n        <!-- 奖励发放 (硬币) -->\r\n        <g transform=\"translate(300, 0)\">\r\n          <circle r=\"80\" fill=\"#fbbf24\" filter=\"drop-shadow(0 0 30px #fbbf24)\" />\r\n          <text text-anchor=\"middle\" y=\"10\" fill=\"#451a03\" style=\"font-size: 32px; font-weight: 900;\">￥5.00</text>\r\n          <text y=\"120\" text-anchor=\"middle\" fill=\"#fbbf24\" style=\"font-size: 24px; font-weight: 900;\">即时结算</text>\r\n          <circle r=\"100\" fill=\"none\" stroke=\"#fbbf24\" stroke-width=\"2\" class=\"animate-ping\" />\r\n        </g>\r\n\r\n        <text y=\"-250\" text-anchor=\"middle\" fill=\"#fbbf24\" style=\"font-size: 42px; font-weight: 900;\">像喂猪一样奖励你的行为</text>\r\n      </g>\r\n      <defs>\r\n        <marker id=\"goldarrow\" markerWidth=\"10\" markerHeight=\"10\" refX=\"5\" refY=\"5\" orient=\"auto\"><path d=\"M0,0 L10,5 L0,10 Z\" fill=\"#fbbf24\"/></marker>\r\n      </defs>\r\n    </svg>\n</div>"
+}

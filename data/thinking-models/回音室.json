@@ -1,0 +1,13 @@
+{
+  "id": "回音室",
+  "name": "回音室",
+  "label": "回声室效应",
+  "icon": "BrainCircuit",
+  "description": "算法只喂给你想吃的东西。在社交媒体的闭环系统中，你的观点会被成千上万个相似的声音所不断重复并加强，直到你丧失对真实世界的触觉，加剧社会撕裂。",
+  "deepAnalysis": "回音室效应（Echo Chamber）是社交媒体时代最危险的认知陷阱。算法只喂给你想吃的东西，你的观点会被相似的声音不断重复并加强，直到丧失对真实世界的触觉。\n\n核心机制：\n- 算法推荐：根据你的偏好推送相似内容\n- 信息茧房：只接触认同的观点\n- 观点极化：极端观点被不断强化\n- 社会撕裂：不同群体之间失去共识基础",
+  "principle": "1. 算法陷阱：算法会强化你的既有偏见\n2. 信息茧房：只接触认同的观点导致认知封闭\n3. 观点极化：相似声音的重复会强化极端观点\n4. 共识瓦解：回音室导致社会共识瓦解\n5. 破茧需求：主动打破回音室是必要的",
+  "scope": "社交媒体、新闻消费、政治讨论、投资决策、消费者行为、舆论分析",
+  "tips": "1. 主动破茧：主动关注不同观点的信息源\n2. 多元信息：从多个渠道获取信息\n3. 批判思考：对算法推荐保持警惕\n4. 线下交流：增加线下真实社交\n5. 延迟判断：在充分了解后再下结论",
+  "practice": "将回音室应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 茧房边缘 -->\r\n        <circle r=\"260\" fill=\"none\" stroke=\"#8b5cf6\" stroke-width=\"8\" stroke-dasharray=\"10 5\" opacity=\"0.2\">\r\n          <animate attributeName=\"stroke-dashoffset\" from=\"0\" to=\"100\" dur=\"5s\" repeatCount=\"indefinite\" />\r\n        </circle>\r\n        \r\n        <!-- 反弹的信息流 -->\r\n        <g>\r\n          <circle r=\"15\" fill=\"#8b5cf6\" filter=\"drop-shadow(0 0 15px #8b5cf6)\">\r\n            <animateMotion path=\"M0,0 L200,100 L0,220 L-200,50 L0,0\" dur=\"4s\" repeatCount=\"indefinite\" />\r\n          </circle>\r\n          <circle r=\"10\" fill=\"#a78bfa\" opacity=\"0.6\">\r\n            <animateMotion path=\"M-150,-50 L100,-200 L220,0 L-100,150 L-150,-50\" dur=\"6s\" repeatCount=\"indefinite\" />\r\n          </circle>\r\n        </g>\r\n\r\n        <!-- 中心自我 -->\r\n        <g>\r\n          <circle r=\"60\" fill=\"#1e293b\" stroke=\"#8b5cf6\" stroke-width=\"4\" />\r\n          <text text-anchor=\"middle\" y=\"8\" fill=\"white\" style=\"font-size: 28px; font-weight: 900;\">自我</text>\r\n        </g>\r\n        \r\n        <text y=\"340\" text-anchor=\"middle\" fill=\"#8b5cf6\" style=\"font-size: 42px; font-weight: 900; letter-spacing: 0.1em;\">只听自己想听的</text>\r\n      </g>\r\n      <text x=\"500\" y=\"60\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 16px; font-weight: 900; letter-spacing: 0.5em;\">THE ALGOR我THM我C COCOON</text>\r\n    </svg>\n</div>"
+}

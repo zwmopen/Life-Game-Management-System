@@ -1,0 +1,14 @@
+{
+  "id": "飞轮效应",
+  "name": "飞轮效应",
+  "label": "飞轮效应",
+  "icon": "BrainCircuit",
+  "description": "起步时极其沉重，但随着每一圈循环的闭合，系统开始自发地以惊人的速度旋转。飞轮的强大在于环路互为因果。",
+  "deepAnalysis": "飞轮效应（Flywheel Effect）揭示了系统增长的奥秘。核心洞见：起步时极其沉重，但随着每一圈循环的闭合，系统开始自发地以惊人的速度旋转。飞轮的强大在于环路互为因果——每个环节的输出都成为下一个环节的输入，形成自我强化的正反馈循环。",
+  "principle": "1. 初始艰难：起步时需要大量投入\n2. 循环闭合：每个环节形成闭环\n3. 自我强化：输出成为下一轮输入\n4. 动量积累：动量不断积累\n5. 自动运转：最终自动高速运转",
+  "scope": "企业战略、商业模式、个人成长、习惯养成、系统设计、产品运营",
+  "tips": "1. 识别闭环：识别业务或成长的闭环\n2. 持续推动：初期持续推动飞轮\n3. 优化环节：优化每个环节效率\n4. 耐心积累：耐心等待动量积累\n5. 享受飞轮：享受飞轮自动运转",
+  "practice": "1. 设计闭环：设计自我强化的闭环\n2. 识别关键：识别关键推动点\n3. 持续投入：初期持续投入推动\n4. 监测动量：监测飞轮动量\n5. 优化加速：优化环节加速飞轮",
+  "scenario": "1. 企业战略：设计企业增长飞轮\n2. 产品运营：设计产品增长闭环\n3. 个人成长：设计个人成长飞轮\n4. 习惯养成：建立习惯的正反馈\n5. 商业模式：设计自我强化的商业模式",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 700\">\r\n      <g transform=\"translate(500, 350)\">\r\n        <!-- 转动主体 -->\r\n        <g>\r\n          <animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0\" to=\"360\" dur=\"20s\" repeatCount=\"indefinite\" />\r\n          <circle r=\"220\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"60\" stroke-opacity=\"0.05\" />\r\n          <circle r=\"220\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"2\" stroke-dasharray=\"2 15\" />\r\n          \r\n          <!-- 汉化节点 -->\r\n          <g transform=\"translate(0, -220)\"><circle r=\"50\" fill=\"#ef4444\" /><text text-anchor=\"middle\" y=\"8\" fill=\"white\" style=\"font-size: 22px; font-weight: 900;\">优质体验</text></g>\r\n          <g transform=\"translate(220, 0)\"><circle r=\"50\" fill=\"#ef4444\" /><text text-anchor=\"middle\" y=\"8\" fill=\"white\" style=\"font-size: 22px; font-weight: 900;\">流量增长</text></g>\r\n          <g transform=\"translate(0, 220)\"><circle r=\"50\" fill=\"#ef4444\" /><text text-anchor=\"middle\" y=\"8\" fill=\"white\" style=\"font-size: 22px; font-weight: 900;\">商家入驻</text></g>\r\n          <g transform=\"translate(-220, 0)\"><circle r=\"50\" fill=\"#ef4444\" /><text text-anchor=\"middle\" y=\"8\" fill=\"white\" style=\"font-size: 22px; font-weight: 900;\">成本降低</text></g>\r\n        </g>\r\n        \r\n        <text text-anchor=\"middle\" y=\"15\" fill=\"#ef4444\" style=\"font-size: 72px; font-weight: 900; opacity: 0.1; letter-spacing: 0.2em;\">惯性动能</text>\r\n      </g>\r\n      <text x=\"500\" y=\"50\" text-anchor=\"middle\" fill=\"#64748b\" style=\"font-size: 24px; font-weight: 900; letter-spacing: 0.5em; opacity: 0.2;\">由内而外的自发性增长引擎</text>\r\n    </svg>\n</div>"
+}

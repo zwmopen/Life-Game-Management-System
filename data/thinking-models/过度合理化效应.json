@@ -1,0 +1,14 @@
+{
+  "id": "过度合理化效应",
+  "name": "过度合理化效应",
+  "label": "过度辩护效应",
+  "icon": "BrainCircuit",
+  "description": "当人们原本就喜欢做某事时，如果给予过度的外部奖励，他们会将其行为归因为奖励而非兴趣。一旦奖励停止，原有的内在动力将永久受损。",
+  "deepAnalysis": "过度合理化效应（Overjustification Effect）揭示了外部奖励对内在动机的破坏。核心洞见：当人们原本就喜欢做某事时，如果给予过度的外部奖励，他们会将行为归因为奖励而非兴趣。一旦奖励停止，原有的内在动力将永久受损。外部奖励可能杀死内在动机。",
+  "principle": "1. 内在动机：源于兴趣的动机\n2. 外部奖励：外部给予的奖励\n3. 归因转移：归因从兴趣转向奖励\n4. 动机破坏：外部奖励破坏内在动机\n5. 永久受损：动机可能永久受损",
+  "scope": "教育激励、员工管理、自我激励、育儿教育、动机设计、行为管理",
+  "tips": "1. 保护内在：保护内在动机\n2. 谨慎奖励：谨慎使用外部奖励\n3. 关注兴趣：关注内在兴趣\n4. 适度激励：适度使用激励\n5. 避免过度：避免过度奖励",
+  "practice": "1. 识别动机：识别行为的动机来源\n2. 保护内在：保护内在动机\n3. 谨慎奖励：谨慎使用外部奖励\n4. 关注兴趣：关注内在兴趣\n5. 持续观察：观察动机变化",
+  "scenario": "1. 教育激励：设计教育激励机制\n2. 员工管理：设计员工激励\n3. 自我激励：保护自我激励\n4. 育儿教育：设计育儿激励\n5. 行为管理：管理行为动机",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <defs>\r\n        <marker id=\"arrow\" markerWidth=\"10\" markerHeight=\"10\" refX=\"5\" refY=\"5\" orient=\"auto\"><path d=\"M0,0 L10,5 L0,10 Z\" fill=\"#ef4444\"/></marker>\r\n      </defs>\r\n      <!-- 初始轻盈的内在驱动 -->\r\n      <g transform=\"translate(300, 300)\">\r\n        <circle r=\"80\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"2\" stroke-dasharray=\"5 5\" />\r\n        <text text-anchor=\"middle\" y=\"5\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">内在动机</text>\r\n        <text y=\"35\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 12px; font-weight: 800;\">(自发、快乐、纯粹)</text>\r\n      </g>\r\n      \r\n      <!-- 沉重的外部奖励注入 -->\r\n      <g transform=\"translate(700, 300)\">\r\n        <rect x=\"-100\" y=\"-100\" width=\"200\" height=\"200\" rx=\"20\" fill=\"#fbbf24\" filter=\"drop-shadow(0 0 30px #fbbf24)\" />\r\n        <text text-anchor=\"middle\" y=\"5\" fill=\"#451a03\" style=\"font-size: 24px; font-weight: 900;\">外部奖赏</text>\r\n        <text y=\"40\" text-anchor=\"middle\" fill=\"#451a03\" style=\"font-size: 12px; font-weight: 800;\">(金钱、名声、K计划我)</text>\r\n        <animateTransform attributeName=\"transform\" type=\"translate\" values=\"700,300; 700,320; 700,300\" dur=\"2s\" repeatCount=\"indefinite\" />\r\n      </g>\r\n\r\n      <!-- 产生的压制路径 -->\r\n      <path d=\"M600,300 L400,300\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"10 5\" marker-end=\"url(#arrow)\" />\r\n      <text x=\"500\" y=\"270\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 20px; font-weight: 900;\">辩护位移：为了奖赏而做</text>\r\n    </svg>\n</div>"
+}

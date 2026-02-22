@@ -1,0 +1,13 @@
+{
+  "id": "汉隆剃刀",
+  "name": "汉隆剃刀",
+  "label": "汉隆剃刀",
+  "icon": "BrainCircuit",
+  "description": "“能解释为愚蠢的，就不要解释为恶意。”这不仅是逻辑工具，更是避免无效内耗与人际冲突的情感解药。",
+  "deepAnalysis": "汉隆剃刀（Hanlon's Razor）是一句著名的格言：'能解释为愚蠢的，就不要解释为恶意。'这不仅是逻辑工具，更是避免无效内耗与人际冲突的情感解药。\n\n核心洞见：\n- 大多数人没有你想象的那么聪明，也没有你想象的那么坏\n- 愚蠢、无知、疏忽比恶意更常见\n- 归因于恶意会带来不必要的冲突\n\n典型场景：\n- 同事没回消息：不是针对你，可能是太忙或忘了\n- 别人插队：不是恶意，可能没注意\n- 服务态度差：不是针对你，可能只是累了\n\n心理学基础：基本归因错误——我们倾向于将他人行为归因于性格，而非情境。",
+  "principle": "1. 愚蠢优先：能解释为愚蠢的，就不要解释为恶意\n2. 罕见恶意：真正的恶意比我们想象的罕见\n3. 情境因素：大多数行为可以用情境解释\n4. 避免冲突：归因于恶意会带来不必要的冲突\n5. 心理健康：善意归因有助于心理健康",
+  "scope": "人际关系、团队协作、冲突解决、客户服务、家庭关系、职场沟通",
+  "tips": "1. 暂停判断：遇到负面行为时暂停判断\n2. 寻找替代：寻找非恶意的替代解释\n3. 假设善意：假设对方是善意的或无意的\n4. 沟通确认：通过沟通确认真实原因\n5. 放下怨恨：放下不必要的怨恨",
+  "practice": "将汉隆剃刀应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <!-- 负面流 -->\r\n      <g transform=\"translate(150, 325)\">\r\n        <rect x=\"-100\" y=\"-100\" width=\"200\" height=\"200\" rx=\"30\" fill=\"#1e293b\" opacity=\"0.05\" />\r\n        <text text-anchor=\"middle\" y=\"5\" fill=\"#64748b\" style=\"font-size: 20px; font-weight: 900;\">负面反馈</text>\r\n      </g>\r\n      \r\n      <!-- 剃刀 -->\r\n      <g transform=\"translate(500, 325)\">\r\n        <rect x=\"-25\" y=\"-180\" width=\"50\" height=\"360\" rx=\"25\" fill=\"#ef4444\" />\r\n        <text x=\"0\" y=\"-200\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 18px; font-weight: 900; letter-spacing: 0.3em;\">THE RaZOR</text>\r\n      </g>\r\n\r\n      <!-- 过滤后的真相 -->\r\n      <g transform=\"translate(780, 180)\" opacity=\"0.1\">\r\n        <circle r=\"50\" fill=\"#ef4444\" />\r\n        <text y=\"75\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">精心谋划的恶意</text>\r\n      </g>\r\n      \r\n      <g transform=\"translate(780, 480)\">\r\n        <circle r=\"80\" fill=\"#10b981\" filter=\"drop-shadow(0 0 30px #10b981)\" />\r\n        <text y=\"10\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 24px; font-weight: 900;\">无知的疏忽</text>\r\n        <text y=\"110\" text-anchor=\"middle\" fill=\"#10b981\" style=\"font-size: 32px; font-weight: 900;\">更接近真相</text>\r\n      </g>\r\n\r\n      <path d=\"M250,325 L450,325\" stroke=\"#1e293b\" stroke-width=\"4\" stroke-dasharray=\"10 5\" opacity=\"0.1\" />\r\n    </svg>\n</div>"
+}

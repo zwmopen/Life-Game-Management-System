@@ -1,0 +1,14 @@
+{
+  "id": "设计思维",
+  "name": "设计思维",
+  "label": "设计思维",
+  "icon": "BrainCircuit",
+  "description": "一种以人为本的创新方法论。它不是为了发明而发明，而是通过深度理解用户，在模糊中通过快速迭代寻找最优解。",
+  "deepAnalysis": "设计思维（Design Thinking）是一种以人为本的创新方法论。核心洞见：通过同理心洞察用户真实需求，通过快速原型和迭代测试来验证假设。设计思维强调行动优于计划，通过快速试错来找到最佳解决方案。它将复杂问题分解为可操作的小步骤。",
+  "principle": "1. 同理心：深入理解用户需求\n2. 定义问题：明确要解决的问题\n3. 创意发散：产生大量创意\n4. 快速原型：快速制作原型\n5. 测试迭代：测试并迭代改进",
+  "scope": "产品设计、服务设计、创新管理、问题解决、用户体验、战略规划",
+  "tips": "1. 以人为本：始终以用户为中心\n2. 快速原型：快速制作原型验证\n3. 迭代测试：持续测试和改进\n4. 发散收敛：先发散后收敛\n5. 行动优先：行动优于计划",
+  "practice": "1. 同理心调研：深入理解用户\n2. 定义问题：明确问题陈述\n3. 创意发散：产生大量创意\n4. 制作原型：快速制作原型\n5. 测试迭代：测试并改进",
+  "scenario": "1. 产品设计：设计用户喜爱的产品\n2. 服务设计：设计优质服务体验\n3. 创新管理：管理创新项目\n4. 问题解决：解决复杂问题\n5. 战略规划：制定创新战略",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\n      <!-- 迭代循环路径 -->\n      <path d=\"M150,300 Q150,50 500,300 T850,300\" fill=\"none\" stroke=\"var(--primary-color)\" stroke-width=\"4\" stroke-dasharray=\"15 10\" opacity=\"0.1\" />\n      \n      <g transform=\"translate(500, 300)\">\n        <!-- 共情 -->\n        <g transform=\"translate(-380, 0)\">\n          <circle r=\"70\" fill=\"var(--primary-color)\" fill-opacity=\"0.1\" stroke=\"var(--primary-color)\" stroke-width=\"4\" />\n          <text text-anchor=\"middle\" y=\"10\" fill=\"var(--primary-color)\" style=\"font-size: 28px; font-weight: 900;\">1. 共情</text>\n        </g>\n        <!-- 定义 -->\n        <g transform=\"translate(-190, -120)\">\n          <circle r=\"70\" fill=\"var(--primary-color)\" fill-opacity=\"0.3\" stroke=\"var(--primary-color)\" stroke-width=\"4\" />\n          <text text-anchor=\"middle\" y=\"10\" fill=\"var(--primary-color)\" style=\"font-size: 28px; font-weight: 900;\">2. 定义</text>\n        </g>\n        <!-- 创意 -->\n        <g transform=\"translate(0, 0)\">\n          <circle r=\"90\" fill=\"var(--primary-color)\" filter=\"drop-shadow(0 0 40px var(--primary-color))\" />\n          <text text-anchor=\"middle\" y=\"12\" fill=\"white\" style=\"font-size: 32px; font-weight: 900;\">3. 创意</text>\n          <circle r=\"110\" fill=\"none\" stroke=\"var(--primary-color)\" stroke-width=\"2\" class=\"animate-ping\" />\n        </g>\n        <!-- 原型 -->\n        <g transform=\"translate(190, 120)\">\n          <circle r=\"70\" fill=\"var(--primary-color)\" fill-opacity=\"0.6\" />\n          <text text-anchor=\"middle\" y=\"10\" fill=\"white\" style=\"font-size: 28px; font-weight: 900;\">4. 原型</text>\n        </g>\n        <!-- 测试 -->\n        <g transform=\"translate(380, 0)\">\n          <circle r=\"70\" fill=\"#10b981\" />\n          <text text-anchor=\"middle\" y=\"10\" fill=\"white\" style=\"font-size: 28px; font-weight: 900;\">5. 测试</text>\n        </g>\n      </g>\n      \n      <text x=\"500\" y=\"550\" text-anchor=\"middle\" fill=\"var(--text-secondary)\" style=\"font-size: 24px; font-weight: 900; letter-spacing: 0.3em; opacity: 0.2;\">非线性的持续迭代循环</text>\n    </svg>\n</div>"
+}

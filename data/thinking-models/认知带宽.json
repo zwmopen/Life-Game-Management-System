@@ -1,0 +1,14 @@
+{
+  "id": "认知带宽",
+  "name": "认知带宽",
+  "label": "认知带宽",
+  "icon": "BrainCircuit",
+  "description": "大脑的处理器每秒只能处理有限的信息。任何杂念、未完成的任务或外界噪音，都会物理性地占据你的 CPU。带宽被占满了，智商就会下降。",
+  "deepAnalysis": "认知带宽（Cognitive Bandwidth）揭示了大脑处理能力的极限。核心洞见：大脑的处理器每秒只能处理有限的信息。任何杂念、未完成的任务或外界噪音，都会物理性地占据你的CPU。带宽被占满了，智商就会下降。保护认知带宽是高效思考的前提。",
+  "principle": "1. 处理能力有限：大脑处理能力有限\n2. 带宽占用：杂念占用带宽\n3. 智商下降：带宽满载智商下降\n4. 保护带宽：保护认知带宽\n5. 释放空间：释放带宽空间",
+  "scope": "时间管理、工作效率、注意力管理、决策分析、学习成长、个人效能",
+  "tips": "1. 清理杂念：清理占用带宽的杂念\n2. 完成任务：完成未完成的任务\n3. 减少干扰：减少外部干扰\n4. 保护带宽：保护认知带宽\n5. 释放空间：释放带宽空间",
+  "practice": "1. 识别占用：识别占用带宽的事项\n2. 清理杂念：清理杂念\n3. 完成任务：完成未完成任务\n4. 减少干扰：减少外部干扰\n5. 释放带宽：释放带宽空间",
+  "scenario": "1. 时间管理：管理认知带宽\n2. 工作效率：提升工作效率\n3. 注意力管理：管理注意力\n4. 决策分析：理性分析决策\n5. 学习成长：高效学习成长",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\n          <g transform=\"translate(500, 325)\">\n            <!-- 处理器外框 -->\n            <rect x=\"-350\" y=\"-80\" width=\"700\" height=\"160\" rx=\"30\" fill=\"none\" stroke=\"var(--text-primary)\" stroke-width=\"2\" opacity=\"0.1\" />\n            \n            <!-- 核心计算条 -->\n            <g>\n               <rect x=\"-340\" y=\"-70\" width=\"300\" height=\"140\" rx=\"15\" fill=\"var(--primary-color)\" />\n               <text x=\"-190\" y=\"10\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 24px; font-weight: 900;\">深度思考</text>\n            </g>\n            \n            <g>\n               <rect x=\"-30\" y=\"-70\" width=\"200\" height=\"140\" rx=\"15\" fill=\"var(--secondary-color)\" fill-opacity=\"0.6\" />\n               <text x=\"70\" y=\"10\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 18px; font-weight: 900;\">琐碎决策</text>\n            </g>\n\n            <g>\n               <rect x=\"180\" y=\"-70\" width=\"160\" height=\"140\" rx=\"15\" fill=\"var(--primary-color)\" fill-opacity=\"0.8\">\n                  <animate attributeName=\"fill-opacity\" values=\"0.8;0.3;0.8\" dur=\"1s\" repeatCount=\"indefinite\" />\n               </rect>\n               <text x=\"260\" y=\"10\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 18px; font-weight: 900;\">情绪内耗</text>\n            </g>\n\n            <!-- 溢出警告 -->\n            <circle cx=\"350\" cy=\"0\" r=\"10\" fill=\"var(--primary-color)\">\n              <animate attributeName=\"r\" values=\"10;15;10\" dur=\"1s\" repeatCount=\"indefinite\" />\n              <animate attributeName=\"opacity\" values=\"1;0.5;1\" dur=\"1s\" repeatCount=\"indefinite\" />\n            </circle>\n          </g>\n          <text x=\"500\" y=\"500\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.1em;\">认知资源是绝对有限的</text>\n        </svg>\n</div>"
+}

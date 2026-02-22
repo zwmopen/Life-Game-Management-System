@@ -1,0 +1,13 @@
+{
+  "id": "强化马太效应",
+  "name": "强化马太效应",
+  "label": "马太效应",
+  "icon": "BrainCircuit",
+  "description": "当系统越过临界点后，马太效应将不再依赖外部干预。优势方会产生类似黑洞的引力，自发地吸纳周边资源，使差距呈非线性扩张。",
+  "deepAnalysis": "这是一个思维模型，展示了强化马太效应的核心概念和应用。",
+  "principle": "思维模型的核心原则：强化马太效应",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将强化马太效应应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <defs>\r\n        <radialGradient id=\"vortexGrad\"><stop offset=\"0%\" stop-color=\"#ef4444\" /><stop offset=\"100%\" stop-color=\"transparent\" /></radialGradient>\r\n      </defs>\r\n      \r\n      <!-- 旋转旋涡背景 -->\r\n      <g transform=\"translate(500, 300)\" opacity=\"0.1\">\r\n         <circle r=\"250\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"1\" stroke-dasharray=\"10 20\" class=\"animate-spin\" style=\"animation-duration: 10s;\" />\r\n         <circle r=\"150\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"1\" stroke-dasharray=\"2 10\" class=\"animate-spin\" style=\"animation-duration: 5s;\" />\r\n      </g>\r\n\r\n      <!-- 强化核心：自发吞噬 -->\r\n      <g transform=\"translate(500, 300)\">\r\n        <circle r=\"80\" fill=\"url(#vortexGrad)\" class=\"animate-pulse\" />\r\n        <circle r=\"30\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 30px #ef4444)\" />\r\n        <text y=\"140\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">强化引力场</text>\r\n        <text y=\"165\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.5\" style=\"font-size: 10px;\">(正反馈回路已锁定)</text>\r\n      </g>\r\n\r\n      <!-- 快速飞入的碎片 -->\r\n      <g fill=\"#ef4444\">\r\n        <circle r=\"3\"><animateMotion path=\"M100,100 Q300,300 500,300\" dur=\"1s\" repeatCount=\"indefinite\" /></circle>\r\n        <circle r=\"4\"><animateMotion path=\"M900,500 Q700,300 500,300\" dur=\"1.2s\" repeatCount=\"indefinite\" /></circle>\r\n        <circle r=\"2\"><animateMotion path=\"M800,100 Q600,300 500,300\" dur=\"0.8s\" repeatCount=\"indefinite\" /></circle>\r\n        <circle r=\"5\"><animateMotion path=\"M100,500 Q300,300 500,300\" dur=\"1.5s\" repeatCount=\"indefinite\" /></circle>\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"50\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 14px; font-weight: 900; letter-spacing: 0.5em;\">ACCELERATEd CONCENTRAT我ON</text>\r\n    </svg>\n</div>"
+}

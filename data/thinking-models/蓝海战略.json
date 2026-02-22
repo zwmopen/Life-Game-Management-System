@@ -1,0 +1,13 @@
+{
+  "id": "蓝海战略",
+  "name": "蓝海战略",
+  "label": "蓝海战略",
+  "icon": "BrainCircuit",
+  "description": "<animateTransform attributeName=\"transform\" type=\"translate\" values=\"0,0; 20,-10; 0,0\" dur=\"6s\" repeatCount=\"indefinite\" />\n            </path>\n            <circle cx=\"120\" cy=\"-25\" r=\"6\" fill=\"white\" />\n            <text y=\"-180\" text-anchor=\"middle\" fill=\"var(--svg-color-blue)\" style=\"font-size: 72px; font-weight: 900; letter-spacing: 0.1em;\">蓝海：价值创新</text>\n          </g>\n\n          <text x=\"500\" y=\"50\" text-anchor=\"middle\" fill=\"var(--svg-color-secondary)\" style=\"font-size: 20px; font-weight: 900; letter-spacing: 0.5em; opacity: 0.1;\">让竞争变得无关紧要</text>\n        </svg>\n      </div>\n\n      <div class=\"text-content\">\n        <p>与其在现有的红海中惨烈厮杀，不如通过“价值创新”，开辟无人竞争的蓝色海洋。蓝海的核心不是打败对手，而是让竞争变得无关紧要。",
+  "deepAnalysis": "蓝海战略（Blue Ocean Strategy）由W.钱·金和勒妮·莫博涅提出。核心洞见：与其在现有的红海中惨烈厮杀，不如通过'价值创新'，开辟无人竞争的蓝色海洋。蓝海的核心不是打败对手，而是让竞争变得无关紧要。\n\n核心方法：\n- 剔除：剔除行业习以为常但用户不需要的元素\n- 减少：减少低于行业标准的元素\n- 增加：增加高于行业标准的元素\n- 创造：创造行业从未提供的元素\n\n典型案例：\n- 太阳马戏团：剔除动物表演，增加艺术元素\n- 西南航空：剔除餐饮座位，增加速度便捷\n- 任天堂Wii：剔除高性能，增加互动性",
+  "principle": "1. 价值创新：同时追求差异化和低成本\n2. 重建边界：重新定义行业边界\n3. 关注非客户：关注不购买的人群\n4. 战略定价：确保价格能吸引大众\n5. 执行战略：确保战略能落地执行",
+  "scope": "企业战略、产品创新、市场定位、创业规划、品牌建设、竞争策略",
+  "tips": "1. 绘制战略画布：绘制行业战略画布\n2. 四步动作：剔除、减少、增加、创造\n3. 关注非客户：研究不购买的原因\n4. 价值创新：追求差异化和低成本\n5. 快速测试：快速测试市场反应",
+  "practice": "将蓝海战略应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\n          <!-- 底部红海 -->\n          <rect x=\"0\" y=\"450\" width=\"1000\" height=\"200\" fill=\"var(--svg-color-primary)\" fill-opacity=\"0.1\" />\n          <text x=\"500\" y=\"580\" text-anchor=\"middle\" fill=\"var(--svg-color-primary)\" style=\"font-size: 64px; font-weight: 900; letter-spacing: 0.2em;\">红海：激烈竞争</text>\n\n          <!-- 蓝海 -->\n          <g transform=\"translate(500, 250)\">\n            <path d=\"M-180,30 Q-60,-180 180,-30 Q250,0 200,80 Q100,150 -180,30\" fill=\"var(--svg-color-blue)\">\n               <animateTransform attributeName=\"transform\" type=\"translate\" values=\"0,0; 20,-10; 0,0\" dur=\"6s\" repeatCount=\"indefinite\" />\n            </path>\n            <circle cx=\"120\" cy=\"-25\" r=\"6\" fill=\"white\" />\n            <text y=\"-180\" text-anchor=\"middle\" fill=\"var(--svg-color-blue)\" style=\"font-size: 72px; font-weight: 900; letter-spacing: 0.1em;\">蓝海：价值创新</text>\n          </g>\n\n          <text x=\"500\" y=\"50\" text-anchor=\"middle\" fill=\"var(--svg-color-secondary)\" style=\"font-size: 20px; font-weight: 900; letter-spacing: 0.5em; opacity: 0.1;\">让竞争变得无关紧要</text>\n        </svg>\n</div>"
+}

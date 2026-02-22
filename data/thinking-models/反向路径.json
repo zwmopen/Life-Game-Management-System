@@ -1,0 +1,14 @@
+{
+  "id": "反向路径",
+  "name": "反向路径",
+  "label": "减法思维",
+  "icon": "BrainCircuit",
+  "description": "通过“不知道什么”来定义“知道什么”。在极其复杂的系统中，增加一个好主意往往不如减去一个愚蠢的行为更有效。智慧在于持续的剔除。",
+  "deepAnalysis": "反向路径（Inversion）是一种强大的思考方法，由查理·芒格极力推崇。核心洞见：与其思考如何成功，不如思考如何避免失败。把问题倒过来想——想清楚什么会导致失败，然后避免这些情况。这种逆向思维往往比正向思维更清晰、更有效。",
+  "principle": "1. 逆向思考：从目标倒推，而非从现状正推\n2. 避免失败：先想清楚如何失败，然后避免\n3. 否定法：通过排除错误选项找到正确答案\n4. 减法思维：减少负面比增加正面更有效\n5. 安全边际：为错误预留空间",
+  "scope": "决策分析、风险管理、投资决策、战略规划、问题解决、个人成长",
+  "tips": "1. 倒过来想：把问题倒过来思考\n2. 列出失败原因：列出所有可能导致失败的原因\n3. 避免失败原因：制定策略避免这些原因\n4. 减法优先：先做减法再做加法\n5. 保持安全边际：为错误预留空间",
+  "practice": "1. 设定目标：明确想要达成的目标\n2. 逆向思考：思考什么会导致失败\n3. 列出风险：列出所有风险因素\n4. 制定对策：制定避免风险的策略\n5. 执行验证：执行并验证效果",
+  "scenario": "1. 投资决策：先思考什么会导致亏损\n2. 项目管理：先思考什么会导致项目失败\n3. 职业规划：先思考什么会阻碍职业发展\n4. 健康管理：先思考什么会损害健康\n5. 关系维护：先思考什么会破坏关系",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 外层噪音 (逐渐脱落) -->\r\n        <g opacity=\"0.1\">\r\n          <circle r=\"300\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"2\" stroke-dasharray=\"10 20\" />\r\n          <path d=\"M-280,-100 L280,100\" stroke=\"#1e293b\" />\r\n          <animateTransform attributeName=\"transform\" type=\"scale\" values=\"1;1.2;1\" dur=\"10s\" repeatCount=\"indefinite\" />\r\n        </g>\r\n        \r\n        <!-- 正在被剥离的干扰项 -->\r\n        <g fill=\"#ef4444\" opacity=\"0.3\">\r\n           <circle cx=\"-150\" cy=\"-150\" r=\"20\"><animate attributeName=\"opacity\" values=\"0.3;0;0.3\" dur=\"2s\" repeatCount=\"indefinite\" /></circle>\r\n           <rect x=\"180\" y=\"120\" width=\"40\" height=\"40\" rx=\"10\"><animate attributeName=\"x\" from=\"180\" to=\"400\" dur=\"3s\" repeatCount=\"indefinite\" /></rect>\r\n        </g>\r\n\r\n        <!-- 核心真相 -->\r\n        <g>\r\n          <circle r=\"80\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 50px #ef4444)\" />\r\n          <text text-anchor=\"middle\" y=\"10\" fill=\"white\" style=\"font-size: 52px; font-weight: 900;\">真理</text>\r\n          <circle r=\"120\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"2\" class=\"animate-ping\" />\r\n        </g>\r\n\r\n        <text y=\"240\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">少即是多</text>\r\n      </g>\r\n      <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.1\" style=\"font-size: 24px; font-weight: 900; letter-spacing: 0.5em;\">V我A NEGAT我VA: KNOWLEdGE BY OM我SS我ON</text>\r\n    </svg>\n</div>"
+}

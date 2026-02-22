@@ -1,0 +1,14 @@
+{
+  "id": "非标溢价",
+  "name": "非标溢价",
+  "label": "非标资产",
+  "icon": "BrainCircuit",
+  "description": "在这个生产力过剩、标准化知识贬值的时代，你唯一的出路是积累非标资产。凡是能被说明书描述的，都将被 A我 毁灭；凡是带有你独特瑕疵、历史、性格和私人关系的，都将获得极高的溢价。真实性，是唯一的奢侈品。",
+  "deepAnalysis": "非标溢价（Non-standard Premium）揭示了AI时代的价值规律。核心洞见：在这个生产力过剩、标准化知识贬值的时代，你唯一的出路是积累非标资产。凡是能被说明书描述的，都将被AI毁灭；凡是带有你独特瑕疵、历史、性格和私人关系的，都将获得极高的溢价。真实性，是唯一的奢侈品。",
+  "principle": "1. 标准化贬值：标准化产品陷入价格战\n2. 非标稀缺：非标资产越来越稀缺\n3. 真实溢价：真实性获得高溢价\n4. 独特性：独特性是核心壁垒\n5. 情感价值：情感链接创造价值",
+  "scope": "个人品牌、内容创作、产品定价、职业发展、创业战略、知识付费",
+  "tips": "1. 投资真实：投资真实的自我表达\n2. 建立独特：建立独特的个人风格\n3. 深度链接：建立深度情感链接\n4. 避免同质：避免同质化竞争\n5. 溢价定价：为非标价值定价",
+  "practice": "1. 识别非标：识别自己的非标资产\n2. 强化独特：强化独特性\n3. 建立链接：建立深度链接\n4. 溢价定价：为非标价值定价\n5. 持续投资：持续投资非标资产",
+  "scenario": "1. 个人品牌：建立真实的个人品牌\n2. 内容创作：创作独特的内容\n3. 产品定价：为独特价值定价\n4. 职业发展：发展非标核心能力\n5. 创业战略：建立非标竞争壁垒",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 标准化洪水 (灰色) -->\r\n        <rect x=\"-500\" y=\"50\" width=\"1000\" height=\"250\" fill=\"#94a3b8\" opacity=\"0.1\" />\r\n        <g fill=\"#94a3b8\" opacity=\"0.3\">\r\n           <rect x=\"-400\" y=\"100\" width=\"80\" height=\"80\" rx=\"5\" />\r\n           <rect x=\"0\" y=\"150\" width=\"80\" height=\"80\" rx=\"5\" />\r\n           <rect x=\"300\" y=\"80\" width=\"80\" height=\"80\" rx=\"5\" />\r\n           <text x=\"0\" y=\"240\" text-anchor=\"middle\" style=\"font-size: 14px;\">标准化产品 (价格战区)</text>\r\n        </g>\r\n        \r\n        <!-- 非标孤岛 (个人主权资产) -->\r\n        <g transform=\"translate(0, -100)\">\r\n          <path d=\"M-120,-80 Q-60,-180 50,-120 T150,50 T0,180 T-150,0 Z\" fill=\"url(#brandGrad)\" filter=\"drop-shadow(0 0 50px rgba(59, 130, 246, 0.4))\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"white\" style=\"font-size: 28px; font-weight: 900;\">非标溢价</text>\r\n          <text y=\"50\" text-anchor=\"middle\" fill=\"white\" opacity=\"0.6\" style=\"font-size: 12px;\">(不可被 A我 或流水线替代)</text>\r\n          <circle r=\"180\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"2\" stroke-dasharray=\"10 20\" class=\"animate-spin\" />\r\n        </g>\r\n\r\n        <text y=\"-250\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.1em;\">在机器时代，做那个唯一的变量</text>\r\n      </g>\r\n      <defs>\r\n        <linearGradient id=\"brandGrad\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#3b82f6\" /><stop offset=\"100%\" stop-color=\"#8b5cf6\" /></linearGradient>\r\n      </defs>\r\n    </svg>\n</div>"
+}

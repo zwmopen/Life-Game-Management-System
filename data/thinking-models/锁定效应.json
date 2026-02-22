@@ -1,0 +1,14 @@
+{
+  "id": "锁定效应",
+  "name": "锁定效应",
+  "label": "锁定效应",
+  "icon": "BrainCircuit",
+  "description": "由于巨大的转移成本（学习时间、数据迁移、社交关系），用户即便对现状不满，也会被强行留在现有的系统中。习惯是最高级的垄断。",
+  "deepAnalysis": "锁定效应（Lock-in Effect）揭示了用户粘性的本质。核心洞见：由于巨大的转移成本，用户即便对现状不满，也会被强行留在现有的系统中。转移成本包括学习时间、数据迁移、社交关系等。习惯是最高级的垄断，锁定效应是平台竞争的核心护城河。",
+  "principle": "1. 转移成本：转移成本阻止用户离开\n2. 学习成本：学习新系统需要时间\n3. 数据锁定：数据迁移成本高\n4. 社交锁定：社交关系难以迁移\n5. 习惯垄断：习惯形成垄断",
+  "scope": "平台竞争、产品设计、用户留存、商业模式、竞争战略、市场营销",
+  "tips": "1. 建立锁定：建立用户锁定机制\n2. 增加转移成本：增加用户转移成本\n3. 数据积累：帮助用户积累数据\n4. 社交绑定：绑定用户社交关系\n5. 持续优化：持续优化用户体验",
+  "practice": "1. 分析锁定：分析现有锁定机制\n2. 增加锁定：增加锁定机制\n3. 数据积累：帮助用户积累数据\n4. 社交绑定：绑定用户社交关系\n5. 持续优化：持续优化产品",
+  "scenario": "1. 平台设计：设计用户锁定机制\n2. 用户留存：提高用户留存率\n3. 商业模式：建立可持续的商业模式\n4. 竞争战略：建立竞争壁垒\n5. 产品迭代：持续优化产品体验",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 磁场源 (平台生态) -->\r\n        <circle r=\"300\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"1\" opacity=\"0.05\" />\r\n        <path d=\"M-100,-100 Q0,-150 100,-100 L100,100 Q0,150 -100,100 Z\" fill=\"#ef4444\" />\r\n        <text text-anchor=\"middle\" y=\"5\" fill=\"white\" style=\"font-size: 24px; font-weight: 900;\">核心生态</text>\r\n        \r\n        <!-- 被锁定的用户 -->\r\n        <g fill=\"#ef4444\" opacity=\"0.8\">\r\n           <circle cx=\"-150\" cy=\"-80\" r=\"10\"><animate attributeName=\"opacity\" values=\"1;0.2;1\" dur=\"2s\" repeatCount=\"indefinite\" /></circle>\r\n           <circle cx=\"180\" cy=\"120\" r=\"12\" />\r\n           <circle cx=\"-50\" cy=\"200\" r=\"8\" />\r\n        </g>\r\n\r\n        <!-- 迁出阻力 (红色屏障) -->\r\n        <circle r=\"220\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"8\" stroke-dasharray=\"10 20\" opacity=\"0.3\">\r\n           <animate attributeName=\"stroke-dashoffset\" from=\"0\" to=\"100\" dur=\"1s\" repeatCount=\"indefinite\" />\r\n        </circle>\r\n        \r\n        <text y=\"280\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.1em;\">迁出成本 > 迁移收益</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

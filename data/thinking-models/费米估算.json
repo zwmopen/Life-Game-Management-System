@@ -1,0 +1,13 @@
+{
+  "id": "费米估算",
+  "name": "费米估算",
+  "label": "费米估算",
+  "icon": "BrainCircuit",
+  "description": "由核物理学家费米提出。通过将一个不可能直接回答的大问题，拆解为一系列可以通过常识或粗略经验判断的小问题，从而得出在数量级上极度接近真相的预测。",
+  "deepAnalysis": "费米估算（Fermi Estimation）由核物理学家恩里科·费米提出。核心方法：通过将一个不可能直接回答的大问题，拆解为一系列可以通过常识或粗略经验判断的小问题，从而得出在数量级上极度接近真相的预测。\n\n经典案例：芝加哥有多少钢琴调音师？\n- 芝加哥人口：约300万\n- 每户平均人数：约3人\n- 拥有钢琴的家庭比例：约1/10\n- 每架钢琴每年调音次数：约1次\n- 调音师每天调音数量：约4架\n- 调音师每年工作天数：约250天\n- 计算：300万÷3×1/10×1÷(4×250)≈100名\n\n实际答案：约80-120名，估算相当准确！",
+  "principle": "1. 问题拆解：将大问题拆解为小问题\n2. 常识估算：用常识和经验估算小问题\n3. 数量级正确：追求数量级正确而非精确\n4. 误差抵消：多个估算的误差可能相互抵消\n5. 快速决策：在信息不足时快速做出决策",
+  "scope": "商业估算、市场分析、投资决策、产品规划、面试考察、资源评估",
+  "tips": "1. 拆解问题：将复杂问题拆解为简单问题\n2. 利用常识：利用已知的常识和数据\n3. 估算范围：给出估算范围而非单一数字\n4. 验证合理性：检查估算结果是否合理\n5. 迭代优化：根据新信息迭代优化估算",
+  "practice": "将费米估算应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 巨大且模糊的问题核心 -->\r\n        <circle r=\"250\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"2\" stroke-dasharray=\"15 30\" opacity=\"0.1\" class=\"animate-spin\" style=\"animation-duration: 30s\" />\r\n        <text y=\"-280\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.4\" style=\"font-size: 18px; font-weight: 900;\">“芝加哥有多少调音师？”</text>\r\n\r\n        <!-- 逻辑拆解路径 -->\r\n        <g>\r\n          <rect x=\"-300\" y=\"-40\" width=\"180\" height=\"80\" rx=\"15\" fill=\"#ef4444\" opacity=\"0.2\" />\r\n          <text x=\"-210\" y=\"5\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">城市人口</text>\r\n          \r\n          <rect x=\"-100\" y=\"-40\" width=\"180\" height=\"80\" rx=\"15\" fill=\"#ef4444\" opacity=\"0.5\" />\r\n          <text x=\"-10\" y=\"5\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 14px; font-weight: 900;\">钢琴拥有率</text>\r\n\r\n          <rect x=\"100\" y=\"-40\" width=\"220\" height=\"80\" rx=\"15\" fill=\"#ef4444\" />\r\n          <text x=\"210\" y=\"5\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 14px; font-weight: 900;\">年调音频率</text>\r\n        </g>\r\n\r\n        <!-- 最终收敛的答案 -->\r\n        <g transform=\"translate(0, 150)\">\r\n          <path d=\"M0,0 L0,50\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"5 5\" />\r\n          <circle r=\"60\" cy=\"110\" fill=\"#10b981\" filter=\"drop-shadow(0 0 30px #10b981)\" />\r\n          <text y=\"120\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 24px; font-weight: 900;\">数量级答案</text>\r\n        </g>\r\n      </g>\r\n    </svg>\n</div>"
+}

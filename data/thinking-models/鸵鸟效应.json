@@ -1,0 +1,14 @@
+{
+  "id": "鸵鸟效应",
+  "name": "鸵鸟效应",
+  "label": "鸵鸟效应",
+  "icon": "BrainCircuit",
+  "description": "当面临潜在的财务损失或负面反馈时，人们倾向于通过“闭上眼睛”拒绝接收信息，来逃避心理上的痛苦感。这种回避让小病拖成大患。",
+  "deepAnalysis": "鸵鸟效应（Ostrich Effect）揭示了人类逃避负面信息的心理倾向。核心洞见：当面临潜在的财务损失或负面反馈时，人们倾向于通过闭上眼睛拒绝接收信息，来逃避心理上的痛苦感。这种回避让小病拖成大患，小问题演变成大危机。逃避不能解决问题，只会让问题更严重。",
+  "principle": "1. 信息回避：逃避负面信息的心理倾向\n2. 痛苦逃避：逃避心理痛苦的本能\n3. 问题放大：回避让问题变得更严重\n4. 机会成本：错过解决问题的时机\n5. 恶性循环：问题越大越想逃避",
+  "scope": "投资决策、风险管理、心理健康、问题解决、组织管理、危机处理",
+  "tips": "1. 正视问题：勇敢面对问题\n2. 早期干预：问题发现越早越好\n3. 信息透明：保持信息透明\n4. 建立机制：建立问题发现机制\n5. 心理建设：培养面对问题的勇气",
+  "practice": "1. 识别逃避：识别自己的逃避行为\n2. 正视现实：勇敢面对现实\n3. 早期行动：尽早采取行动\n4. 寻求帮助：必要时寻求帮助\n5. 建立习惯：培养面对问题的习惯",
+  "scenario": "1. 投资管理：及时止损而非逃避\n2. 健康管理：及时就医而非拖延\n3. 问题解决：及时解决而非逃避\n4. 组织管理：建立问题上报机制\n5. 危机处理：及时处理而非隐瞒",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <!-- 负面数据流 (红色碎片) -->\r\n      <g>\r\n        <rect x=\"400\" y=\"50\" width=\"20\" height=\"20\" rx=\"5\" fill=\"#ef4444\" opacity=\"0.5\">\r\n          <animate attributeName=\"y\" from=\"50\" to=\"250\" dur=\"2s\" repeatCount=\"indefinite\" />\r\n        </rect>\r\n        <rect x=\"580\" y=\"20\" width=\"15\" height=\"15\" rx=\"4\" fill=\"#ef4444\" opacity=\"0.4\">\r\n          <animate attributeName=\"y\" from=\"20\" to=\"250\" dur=\"1.5s\" repeatCount=\"indefinite\" />\r\n        </rect>\r\n      </g>\r\n      \r\n      <!-- 认知屏障 -->\r\n      <path d=\"M200,450 Q500,100 800,450\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"2\" stroke-dasharray=\"10 20\" opacity=\"0.1\" />\r\n      \r\n      <!-- 掩埋自我的观察者 -->\r\n      <g transform=\"translate(500, 450)\">\r\n        <circle r=\"60\" fill=\"#1e293b\" opacity=\"0.1\" />\r\n        <!-- 低头的轮廓 -->\r\n        <path d=\"M-40,0 Q0,-80 40,0\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"4\" stroke-linecap=\"round\" />\r\n        <text y=\"40\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.5\" style=\"font-size: 14px; font-weight: 900;\">我不看，它就不存在</text>\r\n        \r\n        <!-- 屏蔽罩 -->\r\n        <path d=\"M-120,-50 Q0,-250 120,-50\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"5 5\" />\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"550\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 12px; font-weight: 900; letter-spacing: 0.5em;\">AVO我D我NG THE UN计划LEASANT TRUTH</text>\r\n    </svg>\n</div>"
+}

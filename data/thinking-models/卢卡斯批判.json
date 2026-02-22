@@ -1,0 +1,14 @@
+{
+  "id": "卢卡斯批判",
+  "name": "卢卡斯批判",
+  "label": "卢卡斯批判",
+  "icon": "BrainCircuit",
+  "description": "经济政策的死穴：不能单纯利用过去的数据来预测未来政策的效果。因为当政策环境（规则）改变时，参与者也会相应地改变他们的预期和行为，从而抵消掉政策本来的初衷。",
+  "deepAnalysis": "卢卡斯批判（Lucas Critique）由诺贝尔经济学奖得主罗伯特·卢卡斯提出。核心洞见：不能单纯利用过去的数据来预测未来政策的效果。因为当政策环境改变时，参与者也会相应地改变他们的预期和行为，从而抵消掉政策本来的初衷。这揭示了经济政策的根本困境——政策制定者与市场参与者之间存在博弈关系。",
+  "principle": "1. 预期适应：参与者会根据政策变化调整预期和行为\n2. 结构性变化：政策改变会导致经济结构变化\n3. 历史数据局限：历史数据不能简单外推\n4. 博弈思维：政策制定者与参与者存在博弈\n5. 政策无效性：预期调整可能抵消政策效果",
+  "scope": "宏观经济政策、企业战略、博弈论、政策评估、投资决策、组织变革",
+  "tips": "1. 考虑预期：预测时要考虑参与者的预期调整\n2. 动态思维：用动态视角而非静态视角\n3. 博弈分析：分析参与者的博弈策略\n4. 结构建模：建立结构性模型而非简化模型\n5. 持续监测：政策实施后持续监测效果",
+  "practice": "1. 分析政策影响：分析政策对参与者预期的影响\n2. 预测行为变化：预测参与者的行为变化\n3. 建立结构模型：建立包含预期调整的模型\n4. 动态调整：根据实际效果动态调整\n5. 持续监测：持续监测政策效果",
+  "scenario": "1. 货币政策：央行制定货币政策时考虑市场预期\n2. 企业战略：企业制定战略时考虑竞争对手反应\n3. 组织变革：变革时考虑员工预期调整\n4. 投资决策：投资时考虑市场预期变化\n5. 政策评估：评估政策时考虑预期效应",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <g transform=\"translate(350, 300)\">\r\n        <circle r=\"120\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"6\" stroke-dasharray=\"15 10\" class=\"animate-spin\" style=\"animation-duration: 8s;\" />\r\n        <circle r=\"30\" fill=\"#ef4444\" />\r\n        <text y=\"160\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">政策干预</text>\r\n      </g>\r\n      <g transform=\"translate(500, 300)\">\r\n        <circle r=\"40\" fill=\"#ef4444\" fill-opacity=\"0.1\" class=\"animate-ping\" />\r\n        <path d=\"M-30,-30 L30,30 M30,-30 L-30,30\" stroke=\"#ef4444\" stroke-width=\"8\" stroke-linecap=\"round\" />\r\n      </g>\r\n      <g transform=\"translate(650, 300)\">\r\n        <circle r=\"120\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"6\" stroke-dasharray=\"20 5\" class=\"animate-spin\" style=\"animation-duration: 4s; animation-direction: reverse;\" />\r\n        <circle r=\"30\" fill=\"#ef4444\" />\r\n        <text y=\"160\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">民众预期</text>\r\n      </g>\r\n      <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 28px; font-weight: 900; letter-spacing: 0.1em; opacity: 0.1;\">博弈规则改变，行为即改变</text>\r\n      <text x=\"500\" y=\"520\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 16px; font-weight: 900;\">静态的历史数据无法预测动态的未来反应</text>\r\n    </svg>\n</div>"
+}

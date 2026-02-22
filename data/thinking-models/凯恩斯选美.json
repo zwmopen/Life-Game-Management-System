@@ -1,0 +1,13 @@
+{
+  "id": "凯恩斯选美",
+  "name": "凯恩斯选美",
+  "label": "凯恩斯选美博弈",
+  "icon": "BrainCircuit",
+  "description": "金融市场的本质：不是挑选客观上最美的面孔，而是挑选那个能获得最多投票的面孔。获胜的关键不在于你的品味，而在于你对“大众平均预期”的精确计算。",
+  "deepAnalysis": "凯恩斯选美博弈（Keynesian Beauty Contest）揭示了金融市场的本质。核心洞见：不是挑选客观上最美的面孔，而是挑选那个能获得最多投票的面孔。获胜的关键不在于你的品味，而在于你对'大众平均预期'的精确计算。\n\n核心机制：\n- 一阶预测：我觉得谁美\n- 二阶预测：我觉得大众觉得谁美\n- 三阶预测：我觉得大众预测大众觉得谁美\n- 无限递归：预测的层级无限延伸\n\n应用场景：\n- 股票投资：预测市场共识而非公司价值\n- 房地产：预测市场热点而非居住价值\n- 投机交易：预测其他交易者的行为",
+  "principle": "1. 预测共识：获胜关键是预测大众的平均预期\n2. 递归思维：需要考虑他人如何预测他人\n3. 博弈本质：市场是预测他人行为的博弈\n4. 理性泡沫：泡沫可能因共识而持续\n5. 反向思考：当所有人过度复杂时回归简单",
+  "scope": "股票投资、房地产投资、投机交易、市场分析、博弈论、行为金融",
+  "tips": "1. 识别共识：问自己大众会怎么看\n2. 反向设阻：当所有人过度复杂时回归简单\n3. 博弈思维：思考他人如何预测他人\n4. 避免从众：不要盲目跟随大众\n5. 独立思考：保持独立判断能力",
+  "practice": "将凯恩斯选美应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 递归预测环 -->\r\n        <circle r=\"300\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"1\" opacity=\"0.05\" />\r\n        \r\n        <!-- 一阶预测: 我觉得美 -->\r\n        <g transform=\"translate(-250, -150)\">\r\n          <circle r=\"80\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"2\" stroke-dasharray=\"5 5\" opacity=\"0.2\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"#64748b\" opacity=\"0.4\" style=\"font-size: 14px; font-weight: 800;\">一阶: 我的偏好</text>\r\n        </g>\r\n        \r\n        <!-- 二阶预测: 核心 (我觉得大众觉得谁美) -->\r\n        <g>\r\n          <circle r=\"120\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"4\" class=\"animate-pulse\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">二阶预期</text>\r\n          <text y=\"45\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 800;\">(博弈的主战场)</text>\r\n          <circle r=\"150\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"1\" stroke-dasharray=\"10 20\" class=\"animate-spin\" style=\"animation-duration: 10s\" />\r\n        </g>\r\n\r\n        <!-- 三阶预测: 无穷递归 -->\r\n        <g transform=\"translate(250, 150)\" opacity=\"0.3\">\r\n          <circle r=\"80\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"2\" stroke-dasharray=\"2 5\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 800;\">三阶: 大众预测的大众</text>\r\n        </g>\r\n\r\n        <text y=\"280\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 36px; font-weight: 900; letter-spacing: 0.1em;\">猜大众所猜 才是博弈之神</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

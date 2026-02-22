@@ -1,0 +1,13 @@
+{
+  "id": "沉没成本",
+  "name": "沉没成本",
+  "label": "沉没成本",
+  "icon": "BrainCircuit",
+  "description": "人类非理性决策的头号杀手。我们倾向于在已经亏损的事情上追加投入，仅仅因为我们“已经投入了这么多”。",
+  "deepAnalysis": "沉没成本谬误（Sunk Cost Fallacy）是人类非理性决策的头号杀手。我们倾向于在已经亏损的事情上追加投入，仅仅因为我们'已经投入了这么多'——这是一种完全非理性的决策方式。\n\n核心机制：\n- 损失厌恶：放弃意味着承认损失，心理上难以接受\n- 自我辩护：继续投入可以避免承认之前的决策错误\n- 情感绑定：投入越多，越难割舍\n\n典型案例：\n- 继续看完一部烂片，因为'已经看了半小时'\n- 继续持有一只亏损股票，因为'已经亏了这么多'\n- 继续一段失败的关系，因为'已经在一起这么多年'",
+  "principle": "1. 过去已逝：沉没成本已经发生，无法改变\n2. 决策向前：决策应该基于未来收益，而非过去投入\n3. 止损勇气：承认错误并及时止损是理性的选择\n4. 情感分离：将情感与决策分离\n5. 定期清零：定期审视并清理沉没成本",
+  "scope": "投资决策、项目管理、人际关系、职业选择、消费决策、时间管理",
+  "tips": "1. 识别沉没：识别哪些是沉没成本\n2. 问自己：如果从零开始，我还会选择这个吗？\n3. 设定止损：提前设定止损点\n4. 定期审视：定期审视并清理沉没成本\n5. 接受损失：接受损失是理性的选择",
+  "practice": "将沉没成本应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <!-- 无底洞漏斗 -->\r\n      <g transform=\"translate(500, 300)\">\r\n        <path d=\"M-250,-200 L250,-200 L50,200 L-50,200 Z\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n        \r\n        <!-- 掉落的筹码 -->\r\n        <circle r=\"15\" fill=\"#ef4444\" opacity=\"0.6\">\r\n          <animate attributeName=\"cy\" from=\"-250\" to=\"250\" dur=\"2s\" repeatCount=\"indefinite\" />\r\n          <animate attributeName=\"opacity\" values=\"0;1;0\" dur=\"2s\" repeatCount=\"indefinite\" />\r\n          <animate attributeName=\"r\" values=\"15;5;0\" dur=\"2s\" repeatCount=\"indefinite\" />\r\n        </circle>\r\n        <circle r=\"10\" fill=\"#ef4444\" opacity=\"0.4\" cx=\"40\">\r\n          <animate attributeName=\"cy\" from=\"-250\" to=\"250\" dur=\"3s\" begin=\"0.5s\" repeatCount=\"indefinite\" />\r\n        </circle>\r\n\r\n        <!-- 退出指示 -->\r\n        <g transform=\"translate(250, 150)\">\r\n          <path d=\"M0,0 L100,-100\" stroke=\"#10b981\" stroke-width=\"3\" stroke-dasharray=\"5 5\" />\r\n          <text x=\"110\" y=\"-100\" fill=\"#10b981\" style=\"font-size: 14px; font-weight: 900;\">及时止损</text>\r\n        </g>\r\n\r\n        <text y=\"240\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 12px; font-weight: 900; letter-spacing: 1em;\">无底洞</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "协同学",
+  "name": "协同学",
+  "label": "协同论",
+  "icon": "BrainCircuit",
+  "description": "赫尔曼·哈肯提出。复杂系统由无数子系统构成。在临界点，系统内部各要素会发生竞争，最终胜出的极少数变量被称为“序参量”。序参量通过“奴役原理”主宰所有子系统的行为，将系统引向有序。",
+  "deepAnalysis": "协同学（Synergetics）由赫尔曼·哈肯提出，研究复杂系统中各部分如何通过协同作用产生有序结构。核心洞见：当系统远离平衡态时，微小的涨落可能被放大，导致系统自发形成新的有序结构。这种自组织现象是自然界和人类社会普遍存在的。",
+  "principle": "1. 序参量：主导系统演化的关键变量\n2. 支配原理：序参量支配子系统行为\n3. 自组织：系统自发形成有序结构\n4. 涨落放大：微小涨落被放大导致相变\n5. 远离平衡：远离平衡态是自组织的前提",
+  "scope": "复杂系统、组织管理、社会变革、生物进化、物理化学、经济系统",
+  "tips": "1. 识别序参量：识别系统中的序参量\n2. 利用涨落：利用微小涨落触发变革\n3. 创造条件：创造远离平衡态的条件\n4. 引导自组织：引导系统自组织\n5. 关注临界点：关注系统的临界点",
+  "practice": "1. 分析系统：分析系统的当前状态\n2. 识别序参量：识别主导变量\n3. 创造条件：创造变革条件\n4. 引导自组织：引导系统自组织\n5. 监测演化：监测系统演化过程",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 无数混乱的子系统 (背景小点) -->\r\n        <g fill=\"#94a3b8\" opacity=\"0.2\">\r\n          <circle cx=\"-300\" cy=\"-100\" r=\"10\" /><circle cx=\"200\" cy=\"150\" r=\"12\" />\r\n          <circle cx=\"-150\" cy=\"220\" r=\"8\" /><circle cx=\"350\" cy=\"-80\" r=\"15\" />\r\n          <animateTransform attributeName=\"transform\" type=\"translate\" values=\"0,0; 10,10; 0,0\" dur=\"0.1s\" repeatCount=\"indefinite\" />\r\n        </g>\r\n        \r\n        <!-- 序参量 (引导者 - 巨大引力球) -->\r\n        <g>\r\n          <circle r=\"120\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"15 10\" />\r\n          <circle r=\"50\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 40px #ef4444)\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"white\" style=\"font-size: 24px; font-weight: 900;\">序参量</text>\r\n        </g>\r\n\r\n        <!-- 被奴役的子系统 (强制对齐) -->\r\n        <g stroke=\"#ef4444\" stroke-width=\"2\" opacity=\"0.6\">\r\n           <line x1=\"0\" y1=\"0\" x2=\"-200\" y2=\"-200\" marker-end=\"url(#bluearrow)\" />\r\n           <line x1=\"0\" y1=\"0\" x2=\"200\" y2=\"200\" marker-end=\"url(#bluearrow)\" />\r\n           <line x1=\"0\" y1=\"0\" x2=\"-200\" y2=\"200\" marker-end=\"url(#bluearrow)\" />\r\n           <line x1=\"0\" y1=\"0\" x2=\"200\" y2=\"-200\" marker-end=\"url(#bluearrow)\" />\r\n        </g>\r\n\r\n        <text y=\"280\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.2em;\">奴役原理：少数决定多数</text>\r\n      </g>\r\n      <defs>\r\n        <marker id=\"bluearrow\" markerWidth=\"10\" markerHeight=\"10\" refX=\"5\" refY=\"5\" orient=\"auto\"><path d=\"M0,0 L10,5 L0,10 Z\" fill=\"#ef4444\"/></marker>\r\n      </defs>\r\n    </svg>\n</div>"
+}

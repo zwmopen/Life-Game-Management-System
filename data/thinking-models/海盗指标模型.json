@@ -1,0 +1,13 @@
+{
+  "id": "海盗指标模型",
+  "name": "海盗指标模型",
+  "label": "AARRR 漏斗",
+  "icon": "BrainCircuit",
+  "description": "增长黑客的基石模型。通过解构用户全生命周期的五个环节，精准定位增长的瓶颈所在。",
+  "deepAnalysis": "AARRR 漏斗是由 Dave McClure 提出的增长黑客模型，通过解构用户全生命周期的五个环节：获取用户（Acquisition）、激活用户（Activation）、提高留存（Retention）、实现收益（Revenue）、裂变传播（Referral），帮助企业精准定位增长瓶颈并制定相应策略。",
+  "principle": "漏斗思维：用户从接触到转化是一个层层过滤的过程，每一层都可能存在流失。; ;           数据驱动：通过数据分析识别各环节的转化率和流失原因。; ;           留存优先：留存是增长的基础，没有良好的留存，获取用户的成本就无法收回。; ;           增长循环：通过裂变传播形成用户增长的正循环。",
+  "scope": "互联网产品增长策略制定, \n          初创企业用户增长, \n          产品运营优化, \n          市场营销效果评估, \n          用户体验改进",
+  "tips": "1. 建立完整的漏斗数据分析体系，追踪每个环节的转化率。; 2. 识别漏斗中的瓶颈环节，优先解决影响最大的问题。; 3. 通过A/B测试验证不同策略的效果。; 4. 关注用户在激活环节的Aha时刻，优化用户首次体验。",
+  "practice": "从留存率开始优化，确保产品核心价值被用户认可。; \n          通过用户画像和行为分析，精准定位目标用户群体。; \n          设计有效的激励机制，促进用户裂变传播。; \n          持续监测和优化各环节的转化率，形成增长闭环。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 800\">\n        <g transform=\"translate(500, 400)\">\n          <!-- 漏斗各层级 (大字号汉化) -->\n          <g>\n            <path d=\"M-300,-300 L300,-300 L250,-180 L-250,-180 Z\" fill=\"var(--primary-color)\" fill-opacity=\"0.9\" />\n            <text text-anchor=\"middle\" y=\"-230\" fill=\"var(--text-primary)\" style=\"font-size: 32px; font-weight: 900;\">1. 获取用户</text>\n            \n            <path d=\"M-245,-175 L245,-175 L190,-55 L-190,-55 Z\" fill=\"var(--primary-color)\" fill-opacity=\"0.7\" />\n            <text text-anchor=\"middle\" y=\"-105\" fill=\"var(--text-primary)\" style=\"font-size: 28px; font-weight: 900;\">2. 激活瞬间</text>\n\n            <path d=\"M-185,-50 L185,-50 L130,70 L-130,70 Z\" fill=\"var(--secondary-color)\" fill-opacity=\"0.7\" />\n            <text text-anchor=\"middle\" y=\"20\" fill=\"var(--text-primary)\" style=\"font-size: 26px; font-weight: 900;\">3. 提高留存</text>\n\n            <path d=\"M-125,75 L125,75 L70,195 L-70,195 Z\" fill=\"var(--primary-color)\" fill-opacity=\"0.8\" />\n            <text text-anchor=\"middle\" y=\"145\" fill=\"var(--text-primary)\" style=\"font-size: 24px; font-weight: 900;\">4. 实现收益</text>\n\n            <path d=\"M-65,200 L65,200 L40,320 L-40,320 Z\" fill=\"var(--secondary-color)\" />\n            <text text-anchor=\"middle\" y=\"270\" fill=\"var(--text-primary)\" style=\"font-size: 22px; font-weight: 900;\">5. 裂变传播</text>\n          </g>\n          \n          <!-- 动态粒子流 -->\n          <circle r=\"6\" fill=\"var(--text-primary)\" opacity=\"0.4\">\n            <animateMotion path=\"M0,-300 L0,320\" dur=\"1.5s\" repeatCount=\"indefinite\" />\n          </circle>\n        </g>\n      </svg>\n</div>"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "兰斯登原则",
+  "name": "兰斯登原则",
+  "label": "蓝斯登原则",
+  "icon": "BrainCircuit",
+  "description": "给员工创造一个宜人的工作环境，他们就会自发地产生最高的工作效率。管理者不是监工，而是“环境的设计师”。",
+  "deepAnalysis": "兰斯登原则（Lansden Principle）是管理学中的重要法则。核心洞见：给员工创造一个宜人的工作环境，他们就会自发地产生最高的工作效率。管理者不是监工，而是'环境的设计师'。\n\n核心机制：\n- 环境驱动：环境比监督更能激发效率\n- 自我驱动：在良好环境中员工会自我驱动\n- 信任效应：信任带来更高的责任感\n\n环境要素：\n- 软性契约：尊重、信任和必要的'不管理'\n- 硬性舒适：空气、光线、工具的丝滑度\n- 文化氛围：开放、包容、创新的文化",
+  "principle": "1. 环境优先：环境设计比直接管理更有效\n2. 信任驱动：信任带来更高的责任感\n3. 自我驱动：良好环境激发自我驱动\n4. 减少干预：给天才留出自由呼吸的空白\n5. 系统思维：从系统角度设计工作环境",
+  "scope": "团队管理、组织设计、企业文化、办公环境、远程办公、创新管理",
+  "tips": "1. 设计环境：主动设计有利于工作的环境\n2. 建立信任：建立基于信任的管理文化\n3. 减少干预：减少不必要的干预和监督\n4. 优化工具：提供高质量的工作工具\n5. 关注细节：关注影响工作体验的细节",
+  "practice": "将兰斯登原则应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <!-- 宜人场域 (动态背景) -->\r\n      <g transform=\"translate(500, 325)\">\r\n        <circle r=\"300\" fill=\"#ef4444\" fill-opacity=\"0.03\" />\r\n        <circle r=\"150\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"2\" stroke-dasharray=\"10 40\" opacity=\"0.2\" class=\"animate-spin\" style=\"animation-duration: 25s;\" />\r\n        \r\n        <!-- 核心团队 (自发高效) -->\r\n        <g>\r\n          <circle r=\"80\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 40px #ef4444)\" />\r\n          <text text-anchor=\"middle\" y=\"10\" fill=\"white\" style=\"font-size: 32px; font-weight: 900;\">宜人环境</text>\r\n          <circle r=\"110\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"4\" class=\"animate-ping\" />\r\n        </g>\r\n\r\n        <!-- 散发的能量 -->\r\n        <g fill=\"#ef4444\" opacity=\"0.6\" style=\"font-size: 24px; font-weight: 900;\">\r\n          <text x=\"-250\" y=\"-180\" text-anchor=\"middle\">自驱动</text>\r\n          <text x=\"250\" y=\"-180\" text-anchor=\"middle\">强协作</text>\r\n          <text x=\"0\" y=\"250\" text-anchor=\"middle\">极速产出</text>\r\n        </g>\r\n      </g>\r\n      <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 24px; font-weight: 900; letter-spacing: 0.5em;\">ENV我RONMENT OVER SU计划ERV我S我ON</text>\r\n    </svg>\n</div>"
+}

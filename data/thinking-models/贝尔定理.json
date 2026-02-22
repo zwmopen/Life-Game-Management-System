@@ -1,0 +1,14 @@
+{
+  "id": "贝尔定理",
+  "name": "贝尔定理",
+  "label": "贝尔不等式",
+  "icon": "BrainCircuit",
+  "description": "贝尔不等式是量子力学中的一个重要定理，它证明了宇宙不存在某种隐秘的、预设好的“说明书”（隐变量理论）。通过实验验证，贝尔不等式被违反，揭示了量子世界的非定域性和纠缠现象的真实性。当两个量子系统发生过互动后，无论它们相隔多远，其状态都会瞬间关联，超越了传统物理学的定域性原则。",
+  "deepAnalysis": "贝尔定理（Bell's Theorem）是量子力学的重大发现。核心洞见：宇宙不存在某种隐秘的、预设好的说明书（隐变量理论）。实验证明贝尔不等式被违反，揭示了量子世界的非定域性和纠缠现象的真实性。当两个量子系统发生过互动后，无论相隔多远，其状态都会瞬间关联。",
+  "principle": "1. 非定域性：量子世界具有非定域性\n2. 瞬间关联：纠缠粒子瞬间关联\n3. 无隐变量：不存在隐变量理论\n4. 纠缠真实：量子纠缠是真实的\n5. 超越距离：关联超越空间距离",
+  "scope": "量子物理、系统思维、认知科学、整体论、关联思维、复杂系统",
+  "tips": "1. 认识关联：认识系统的深层关联\n2. 超越距离：超越物理距离限制\n3. 整体思维：用整体思维看问题\n4. 非定域性：理解非定域性\n5. 深层连接：关注深层连接",
+  "practice": "1. 分析系统：分析系统的关联\n2. 识别纠缠：识别纠缠关系\n3. 整体思维：用整体思维分析\n4. 利用关联：利用深层关联\n5. 系统优化：优化系统整体",
+  "scenario": "1. 系统设计：设计关联系统\n2. 认知科学：理解认知的非定域性\n3. 组织管理：理解组织的深层关联\n4. 复杂系统：理解复杂系统的关联\n5. 整体决策：用整体思维做决策",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\n        <g transform=\"translate(500, 325)\">\n          <!-- 纠缠波场 -->\n          <circle r=\"280\" fill=\"none\" stroke=\"var(--primary-color)\" stroke-width=\"1\" stroke-dasharray=\"2 10\" opacity=\"0.1\" class=\"animate-spin\" />\n          \n          <!-- 粒子 A 与 B (量子相关性) -->\n          <g>\n            <line x1=\"-200\" y1=\"0\" x2=\"200\" y2=\"0\" stroke=\"var(--primary-color)\" stroke-width=\"2\" stroke-dasharray=\"10 20\" opacity=\"0.3\" />\n            <circle cx=\"-200\" cy=\"0\" r=\"40\" fill=\"var(--primary-color)\" />\n            <circle cx=\"200\" cy=\"0\" r=\"40\" fill=\"var(--primary-color)\" />\n            <path d=\"M-220,0 L-180,0 M220,0 L180,0\" stroke=\"white\" stroke-width=\"6\" />\n            <animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0\" to=\"360\" dur=\"5s\" repeatCount=\"indefinite\" />\n          </g>\n\n          <!-- 不等式的崩塌 (红色闪电) -->\n          <g opacity=\"0.6\">\n             <path d=\"M-50,-200 L0,-150 L-20,-100 L50,-50\" fill=\"none\" stroke=\"var(--primary-color)\" stroke-width=\"4\" />\n             <text y=\"-240\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 24px; font-weight: 900;\">违背定域性原则</text>\n          </g>\n\n          <text y=\"240\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 32px; font-weight: 900;\">贝尔不等式：隐变量的终结</text>\n        </g>\n      </svg>\n</div>"
+}

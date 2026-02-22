@@ -1,0 +1,14 @@
+{
+  "id": "鲁莽协议",
+  "name": "鲁莽协议",
+  "label": "鲁莽协议",
+  "icon": "BrainCircuit",
+  "description": "“如果你在犹豫‘做不做’，答案永远是‘做’。” 针对高认知人群的过度思考。当你觉得没准备好、怕出垃圾内容时，启动此协议：强行关闭 CEO 大脑，开启“鲁莽士兵”模式，在 5 分钟内强制产出物理结果。",
+  "deepAnalysis": "鲁莽协议（Reckless Protocol）是针对高认知人群过度思考的行动策略。核心洞见：如果你在犹豫做不做，答案永远是做。高认知人群常常陷入分析瘫痪，总觉得没准备好。鲁莽协议要求强行关闭CEO大脑，开启鲁莽士兵模式，在5分钟内强制产出物理结果。完成比完美更重要。",
+  "principle": "1. 行动优先：犹豫时选择行动\n2. 关闭分析：停止过度分析\n3. 快速产出：在短时间内产出结果\n4. 完成优先：完成比完美更重要\n5. 迭代改进：先完成再迭代改进",
+  "scope": "创意工作、项目管理、个人成长、创业决策、学习实践、问题解决",
+  "tips": "1. 设定时限：给行动设定短时限\n2. 降低标准：接受不完美的结果\n3. 强制产出：强制自己产出物理结果\n4. 迭代优化：先完成再优化\n5. 建立习惯：养成快速行动的习惯",
+  "practice": "1. 识别犹豫：识别自己是否在过度思考\n2. 启动协议：启动鲁莽协议\n3. 设定时限：设定5分钟时限\n4. 强制产出：在时限内产出结果\n5. 迭代改进：根据结果迭代改进",
+  "scenario": "1. 创意工作：快速产出创意原型\n2. 写作创作：快速完成初稿\n3. 项目启动：快速启动项目\n4. 学习实践：快速实践所学\n5. 决策行动：快速做出决策",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 思考的迷宫 (左 - 无限纠缠) -->\r\n        <g transform=\"translate(-300, 0)\" opacity=\"0.2\">\r\n          <path d=\"M-100,-100 Q0,-150 100,-50 T0,50 T-100,100\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"2\" class=\"animate-spin\" style=\"animation-duration: 10s\" />\r\n          <text y=\"150\" text-anchor=\"middle\" style=\"font-size: 14px;\">过度审慎 (思虑过载)</text>\r\n        </g>\r\n        \r\n        <!-- 鲁莽截断线 -->\r\n        <line x1=\"-150\" y1=\"-250\" x2=\"-150\" y2=\"250\" stroke=\"#ef4444\" stroke-width=\"8\" stroke-dasharray=\"10 5\" />\r\n        <text x=\"-170\" y=\"0\" text-anchor=\"end\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\" transform=\"rotate(-90 -170 0)\">STO计划 TH我NK我NG</text>\r\n\r\n        <!-- 冲出的士兵 (右 - 动作爆发) -->\r\n        <g transform=\"translate(100, 0)\">\r\n          <path d=\"M0,0 L350,0\" stroke=\"#ef4444\" stroke-width=\"80\" stroke-linecap=\"round\" opacity=\"0.1\" />\r\n          <path d=\"M0,0 L200,0\" stroke=\"#ef4444\" stroke-width=\"12\" stroke-linecap=\"round\">\r\n            <animate attributeName=\"stroke-dasharray\" from=\"0,200\" to=\"200,0\" dur=\"0.5s\" repeatCount=\"indefinite\" />\r\n          </path>\r\n          <circle r=\"40\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 30px #ef4444)\" />\r\n          <text text-anchor=\"middle\" y=\"8\" fill=\"white\" style=\"font-size: 16px; font-weight: 900;\">立即A</text>\r\n        </g>\r\n\r\n        <text y=\"240\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 42px; font-weight: 900; letter-spacing: 0.1em;\">先开枪，后瞄准</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

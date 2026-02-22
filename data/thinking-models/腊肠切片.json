@@ -1,0 +1,13 @@
+{
+  "id": "腊肠切片",
+  "name": "腊肠切片",
+  "label": "萨拉米战术",
+  "icon": "BrainCircuit",
+  "description": "与其发动全面战争，不如每次只切下一片极薄的“萨拉米香肠”。每一片的损失都小到不值得为了它进行决死抵抗，但累积起来，对手将在无声中丧失全部版图。",
+  "deepAnalysis": "这是一个思维模型，展示了腊肠切片的核心概念和应用。",
+  "principle": "思维模型的核心原则：腊肠切片",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将腊肠切片应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 完整的领地 (香肠) -->\r\n        <rect x=\"-300\" y=\"-80\" width=\"600\" height=\"160\" rx=\"80\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"2\" />\r\n        \r\n        <!-- 正在进行的小切片 -->\r\n        <g>\r\n          <rect x=\"250\" y=\"-80\" width=\"10\" height=\"160\" rx=\"5\" fill=\"#ef4444\" />\r\n          <rect x=\"230\" y=\"-80\" width=\"10\" height=\"160\" rx=\"5\" fill=\"#ef4444\" opacity=\"0.6\" />\r\n          <rect x=\"210\" y=\"-80\" width=\"10\" height=\"160\" rx=\"5\" fill=\"#ef4444\" opacity=\"0.3\" />\r\n          <animateTransform attributeName=\"transform\" type=\"translate\" values=\"0,0; -400,0; 0,0\" dur=\"10s\" repeatCount=\"indefinite\" />\r\n        </g>\r\n\r\n        <!-- 防御红线 -->\r\n        <line x1=\"0\" y1=\"-200\" x2=\"0\" y2=\"200\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"10 5\" opacity=\"0.3\" />\r\n        <text x=\"20\" y=\"-220\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">防御红线 (阈值)</text>\r\n        \r\n        <text y=\"180\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">微调式侵蚀：不触发警报的占领</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

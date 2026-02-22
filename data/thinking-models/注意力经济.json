@@ -1,0 +1,13 @@
+{
+  "id": "注意力经济",
+  "name": "注意力经济",
+  "label": "注意力经济",
+  "icon": "BrainCircuit",
+  "description": "在一个信息无限丰富的世界里，信息的价值已经降到了零。真正稀缺的是人类处理信息的脑带宽（注意力）。自媒体的本质不是生产信息，而是通过设计“非对称信号”来收割并转化这一稀缺资源。",
+  "deepAnalysis": "注意力经济是指在信息爆炸的时代，注意力成为稀缺资源，而经济活动围绕着获取、维持和转化注意力展开的一种经济模式。在这个模式中，信息的价值不再取决于其本身，而是取决于它能够吸引多少注意力。",
+  "principle": "注意力稀缺性：在信息过剩的时代，人类的注意力成为最稀缺的资源。; ;           非对称信号：通过设计独特的信号来吸引注意力，在竞争中脱颖而出。; ;           价值转化：将获取的注意力转化为经济价值或其他形式的价值。; ;           注意力管理：个人和组织需要有效地管理自己的注意力，避免被信息洪流淹没。",
+  "scope": "内容创作和自媒体, \n          市场营销和广告, \n          社交媒体运营, \n          教育和学习, \n          个人时间管理, \n          产品设计和用户体验",
+  "tips": "1. 信噪比优化：在嘈杂的信息环境中，提高内容的信号强度，减少噪声干扰。; 2. 注意力钩子：设计有效的注意力钩子，快速吸引目标受众。; 3. 深度连接：与其追求广泛的浅层关注，不如建立深度的连接和忠诚。; 4. 注意力保护：建立个人的注意力防火墙，避免被无关信息干扰。",
+  "practice": "作为内容创作者，平衡价值与吸引力，避免过度追求流量而牺牲内容质量。; \n          作为信息消费者，建立明确的信息筛选机制，避免信息过载。; \n          在工作和学习中，采用时间块管理方法，提高注意力的专注度和效率。; \n          利用技术工具辅助注意力管理，如番茄钟、网站 blockers 等。; \n          培养深度阅读和思考的习惯，提高信息处理的质量和效率。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\n        <g transform=\"translate(500, 325)\">\n          <!-- 漏斗沙漏 -->\n          <path d=\"M-200,-250 L200,-250 L50,0 L200,250 L-200,250 L-50,0 Z\" fill=\"none\" stroke=\"var(--text-primary)\" stroke-width=\"2\" opacity=\"0.1\" />\n          \n          <!-- 流动的金沙 (注意力) -->\n          <g fill=\"#fbbf24\">\n            <circle r=\"5\" cx=\"0\" cy=\"-200\"><animate attributeName=\"cy\" from=\"-200\" to=\"200\" dur=\"2s\" repeatCount=\"indefinite\" /></circle>\n            <circle r=\"4\" cx=\"10\" cy=\"-150\" style=\"animation-delay: 0.5s\"><animate attributeName=\"cy\" from=\"-150\" to=\"200\" dur=\"2.5s\" repeatCount=\"indefinite\" /></circle>\n            <path d=\"M-150,-240 Q0,-200 150,-240\" fill=\"none\" stroke=\"#fbbf24\" stroke-width=\"2\" opacity=\"0.3\" />\n          </g>\n\n          <!-- 价值转换点 -->\n          <g transform=\"translate(0, 0)\">\n            <circle r=\"40\" fill=\"var(--primary-color)\" filter=\"drop-shadow(0 0 20px var(--primary-color))\" />\n            <text text-anchor=\"middle\" y=\"5\" fill=\"white\" style=\"font-size: 10px; font-weight: 900;\">内容</text>\n            <circle r=\"60\" fill=\"none\" stroke=\"var(--primary-color)\" stroke-width=\"1\" class=\"animate-ping\" />\n          </g>\n\n          <text y=\"280\" text-anchor=\"middle\" fill=\"#fbbf24\" style=\"font-size: 42px; font-weight: 900;\">注意力 = 21世纪的黄金</text>\n          <text y=\"315\" text-anchor=\"middle\" fill=\"var(--text-secondary)\" opacity=\"0.6\" style=\"font-size: 14px;\">在过剩的信息中 寻找稀缺的眼球</text>\n        </g>\n      </svg>\n</div>"
+}

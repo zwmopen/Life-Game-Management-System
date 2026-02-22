@@ -1,0 +1,13 @@
+{
+  "id": "巴纳姆效应",
+  "name": "巴纳姆效应",
+  "label": "巴纳姆效应",
+  "icon": "BrainCircuit",
+  "description": "人们会认为那些模糊、通用的性格描述是在精准地揭示自己的特质。这种\"对号入座\"是占星术和伪人格测试的物理基础。",
+  "deepAnalysis": "这是一个思维模型，展示了巴纳姆效应的核心概念和应用。",
+  "principle": "思维模型的核心原则：巴纳姆效应",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将巴纳姆效应应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\n        <defs>\n          <radialGradient id=\"mirrorGlow\"><stop offset=\"0%\" stop-color=\"var(--primary-color)\" stop-opacity=\"0.3\" /><stop offset=\"100%\" stop-color=\"transparent\" /></radialGradient>\n        </defs>\n        \n        <!-- 模糊的万能描述 -->\n        <g transform=\"translate(500, 300)\">\n          <circle r=\"250\" fill=\"url(#mirrorGlow)\" class=\"animate-pulse\" />\n          <g fill=\"var(--primary-color)\" opacity=\"0.4\" style=\"font-size: 24px; font-weight: 900;\">\n            <text x=\"-350\" y=\"-150\">\"你有时很外向...\"</text>\n            <text x=\"150\" y=\"200\">\"你有未开发的潜力...\"</text>\n            <text x=\"-400\" y=\"100\">\"你内心渴望认可...\"</text>\n            <text x=\"100\" y=\"-200\">\"你正面临选择...\"</text>\n          </g>\n          \n          <!-- 核心陷阱 -->\n          <g>\n            <path d=\"M-100,-150 Q0,-220 100,-150 Q150,0 100,150 Q0,220 -100,150 Q-150,0 -100,-150\" fill=\"none\" stroke=\"var(--text-primary)\" stroke-width=\"4\" opacity=\"0.3\" />\n            <text y=\"10\" text-anchor=\"middle\" fill=\"var(--text-primary)\" style=\"font-size: 48px; font-weight: 900;\">万能描述陷阱</text>\n            <text y=\"50\" text-anchor=\"middle\" fill=\"var(--text-secondary)\" style=\"font-size: 14px; font-weight: 900; opacity: 0.5;\">(由于模糊，所以\"精准\")</text>\n          </g>\n        </g>\n      </svg>\n</div>"
+}

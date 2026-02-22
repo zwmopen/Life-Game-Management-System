@@ -1,0 +1,14 @@
+{
+  "id": "踢猫效应",
+  "name": "踢猫效应",
+  "label": "踢猫效应",
+  "icon": "BrainCircuit",
+  "description": "一种典型的心理压力连锁反应。由于无法直接反击强者，人们倾向于将愤怒和负面情绪宣泄在比自己更弱小的对象身上。",
+  "deepAnalysis": "踢猫效应（Kick the Cat Effect）揭示了负面情绪的连锁传递。核心洞见：一种典型的心理压力连锁反应。由于无法直接反击强者，人们倾向于将愤怒和负面情绪宣泄在比自己更弱小的对象身上。这种情绪传递链会沿着权力阶梯向下蔓延，最终伤害最弱势的群体。",
+  "principle": "1. 情绪传递：负面情绪向下传递\n2. 权力阶梯：沿权力阶梯向下\n3. 弱者受害：最弱势群体受害\n4. 连锁反应：形成连锁反应\n5. 无法反击：无法反击强者导致转移",
+  "scope": "情绪管理、组织管理、心理健康、人际关系、压力管理、领导力",
+  "tips": "1. 情绪觉察：觉察自己的情绪状态\n2. 情绪阻断：阻断情绪传递链\n3. 合理宣泄：寻找合理的宣泄渠道\n4. 保护弱者：保护弱势群体\n5. 领导责任：领导者要管理情绪",
+  "practice": "1. 觉察情绪：觉察自己的情绪状态\n2. 识别来源：识别情绪的真正来源\n3. 阻断传递：阻断情绪传递链\n4. 合理宣泄：寻找合理的宣泄渠道\n5. 修复关系：修复受损的关系",
+  "scenario": "1. 组织管理：管理组织情绪传递\n2. 情绪管理：管理个人情绪\n3. 人际关系：维护人际关系\n4. 压力管理：管理工作压力\n5. 领导力：提升领导情绪管理",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <!-- 瀑布流径 -->\r\n      <path d=\"M200,100 L350,100 L350,250 L550,250 L550,400 L750,400 L750,550\" fill=\"none\" stroke=\"#1e293b\" opacity=\"0.05\" stroke-width=\"2\" />\r\n      \r\n      <!-- 节点 1: 权力顶端 -->\r\n      <g transform=\"translate(200, 100)\">\r\n        <rect x=\"-60\" y=\"-40\" width=\"120\" height=\"80\" rx=\"15\" fill=\"#ef4444\" />\r\n        <text text-anchor=\"middle\" y=\"5\" fill=\"white\" style=\"font-size: 14px; font-weight: 900;\">上级/强者</text>\r\n        <circle r=\"10\" cx=\"60\" cy=\"0\" fill=\"#ef4444\">\r\n          <animate attributeName=\"cx\" from=\"60\" to=\"150\" dur=\"1s\" repeatCount=\"indefinite\" />\r\n          <animate attributeName=\"opacity\" values=\"1;0\" dur=\"1s\" repeatCount=\"indefinite\" />\r\n        </circle>\r\n      </g>\r\n\r\n      <!-- 节点 2: 压力中继 -->\r\n      <g transform=\"translate(500, 250)\">\r\n        <rect x=\"-60\" y=\"-40\" width=\"120\" height=\"80\" rx=\"15\" fill=\"#f59e0b\" />\r\n        <text text-anchor=\"middle\" y=\"5\" fill=\"white\" style=\"font-size: 14px; font-weight: 900;\">下级/员工</text>\r\n        <circle r=\"8\" cx=\"60\" cy=\"0\" fill=\"#f59e0b\">\r\n          <animate attributeName=\"cx\" from=\"60\" to=\"250\" dur=\"0.8s\" repeatCount=\"indefinite\" />\r\n          <animate attributeName=\"opacity\" values=\"1;0\" dur=\"0.8s\" repeatCount=\"indefinite\" />\r\n        </circle>\r\n      </g>\r\n\r\n      <!-- 节点 3: 最终受害者 -->\r\n      <g transform=\"translate(800, 400)\">\r\n        <rect x=\"-60\" y=\"-40\" width=\"120\" height=\"80\" rx=\"15\" fill=\"#3b82f6\" />\r\n        <text text-anchor=\"middle\" y=\"5\" fill=\"white\" style=\"font-size: 14px; font-weight: 900;\">弱者/猫</text>\r\n        <circle r=\"40\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"2\" class=\"animate-ping\" />\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"550\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 12px; font-weight: 900; letter-spacing: 0.5em;\">CaSCaDE OF D我S计划LaCED aGGRESS我ON</text>\r\n    </svg>\n</div>"
+}

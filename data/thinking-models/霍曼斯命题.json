@@ -1,0 +1,14 @@
+{
+  "id": "霍曼斯命题",
+  "name": "霍曼斯命题",
+  "label": "霍曼斯命题",
+  "icon": "BrainCircuit",
+  "description": "社会学家乔治·霍曼斯提出的交换理论：人的社会行为是在报酬、成本和价值的计算中进行的。人际互动本质上是一种非物质资源的交换。",
+  "deepAnalysis": "霍曼斯命题（Homans' Propositions）由社会学家乔治·霍曼斯提出。核心洞见：人的社会行为是在报酬、成本和价值的计算中进行的。人际互动本质上是一种非物质资源的交换。人们倾向于重复那些带来报酬的行为，避免那些带来惩罚的行为。这揭示了社会互动的经济本质。",
+  "principle": "1. 交换理论：社会行为是资源交换\n2. 报酬驱动：报酬驱动行为重复\n3. 成本考量：人们会考量行为成本\n4. 价值评估：评估交换的价值\n5. 公平原则：交换需要公平",
+  "scope": "人际关系、团队管理、组织行为、社会交往、激励设计、合作博弈",
+  "tips": "1. 理解交换：理解人际互动的交换本质\n2. 提供价值：在关系中提供价值\n3. 保持公平：保持交换的公平性\n4. 识别需求：识别对方的需求\n5. 建立互惠：建立互惠关系",
+  "practice": "1. 分析关系：分析关系中的交换模式\n2. 识别价值：识别双方提供的价值\n3. 评估公平：评估交换的公平性\n4. 提供价值：主动提供价值\n5. 建立互惠：建立互惠关系",
+  "scenario": "1. 人际关系：建立互惠的人际关系\n2. 团队管理：设计公平的激励体系\n3. 商业合作：建立互惠的商业合作\n4. 社交网络：建立价值交换的社交网络\n5. 组织行为：理解组织中的交换行为",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 800 600\">\r\n      <!-- 节点 A 与 B 的互动 -->\r\n      <g transform=\"translate(200, 300)\">\r\n        <circle r=\"60\" fill=\"#1e293b\" />\r\n        <text text-anchor=\"middle\" y=\"5\" fill=\"white\" style=\"font-size: 14px; font-weight: 900;\">个体 A</text>\r\n      </g>\r\n      <g transform=\"translate(600, 300)\">\r\n        <circle r=\"60\" fill=\"#ef4444\" />\r\n        <text text-anchor=\"middle\" y=\"5\" fill=\"white\" style=\"font-size: 14px; font-weight: 900;\">个体 B</text>\r\n      </g>\r\n      \r\n      <!-- 交换路径 -->\r\n      <path d=\"M270,280 Q400,200 530,280\" fill=\"none\" stroke=\"#10b981\" stroke-width=\"4\">\r\n        <animate attributeName=\"stroke-dasharray\" from=\"0,500\" to=\"500,0\" dur=\"2s\" repeatCount=\"indefinite\" />\r\n      </path>\r\n      <text x=\"400\" y=\"210\" text-anchor=\"middle\" fill=\"#10b981\" style=\"font-size: 12px; font-weight: 900;\">给予价值 (Reward)</text>\r\n\r\n      <path d=\"M530,320 Q400,400 270,320\" fill=\"none\" stroke=\"#fbbf24\" stroke-width=\"4\">\r\n        <animate attributeName=\"stroke-dasharray\" from=\"500,0\" to=\"0,500\" dur=\"2s\" repeatCount=\"indefinite\" />\r\n      </path>\r\n      <text x=\"400\" y=\"410\" text-anchor=\"middle\" fill=\"#fbbf24\" style=\"font-size: 12px; font-weight: 900;\">产生互惠 (Action)</text>\r\n\r\n      <!-- 成功命题标注 -->\r\n      <g transform=\"translate(400, 100)\">\r\n        <text text-anchor=\"middle\" fill=\"#64748b\" style=\"font-size: 16px; font-weight: 900;\">互动次数 ∝ 奖励价值</text>\r\n        <circle r=\"10\" cy=\"-30\" fill=\"#10b981\" class=\"animate-ping\" />\r\n      </g>\r\n\r\n      <text x=\"400\" y=\"550\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 10px; font-weight: 900; letter-spacing: 0.5em;\">社会交换微积分</text>\r\n    </svg>\n</div>"
+}

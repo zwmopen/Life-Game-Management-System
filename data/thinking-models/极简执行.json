@@ -1,0 +1,13 @@
+{
+  "id": "极简执行",
+  "name": "极简执行",
+  "label": "极简D力",
+  "icon": "BrainCircuit",
+  "description": "对于超级个体，最强大的武器是“单线程饱和攻击”。拒绝同时维护 5 个项目或 10 个工具。锁定那个一旦完成就能让其他事变得简单或不再重要的“关键变量”，然后冷酷地推土机式前进。",
+  "deepAnalysis": "这是一个思维模型，展示了极简执行的核心概念和应用。",
+  "principle": "思维模型的核心原则：极简执行",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将极简执行应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 复杂的流程迷宫 (背景) -->\r\n        <g stroke=\"#1e293b\" stroke-width=\"1\" opacity=\"0.05\" fill=\"none\">\r\n          <path d=\"M-400,-200 Q-200,-100 0,-200 T400,-200\" />\r\n          <path d=\"M-400,200 Q0,0 400,200\" />\r\n        </g>\r\n        \r\n        <!-- 被剔除的辅助线 -->\r\n        <g opacity=\"0.2\" stroke=\"#94a3b8\" stroke-width=\"2\" stroke-dasharray=\"5 15\">\r\n           <line x1=\"-300\" y1=\"0\" x2=\"300\" y2=\"0\" />\r\n           <circle r=\"280\" />\r\n        </g>\r\n\r\n        <!-- 唯一的致命打击 (红色激光) -->\r\n        <g>\r\n          <line x1=\"0\" y1=\"-300\" x2=\"0\" y2=\"0\" stroke=\"#ef4444\" stroke-width=\"15\" stroke-linecap=\"round\">\r\n            <animate attributeName=\"stroke-dasharray\" from=\"0,300\" to=\"300,0\" dur=\"0.2s\" repeatCount=\"indefinite\" />\r\n          </line>\r\n          <circle r=\"50\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 50px #ef4444)\" />\r\n          <text text-anchor=\"middle\" y=\"8\" fill=\"white\" style=\"font-size: 24px; font-weight: 900;\">ACT!</text>\r\n          <circle r=\"80\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"2\" class=\"animate-ping\" />\r\n        </g>\r\n\r\n        <text y=\"240\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.1em;\">剥离一切，直到只剩下结果</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

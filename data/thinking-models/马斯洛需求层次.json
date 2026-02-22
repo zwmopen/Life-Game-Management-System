@@ -1,0 +1,14 @@
+{
+  "id": "马斯洛需求层次",
+  "name": "马斯洛需求层次",
+  "label": "马斯洛需求层次",
+  "icon": "BrainCircuit",
+  "description": "人类动机的底层协议。只有当较低级别的生存需求获得基本满足后，个体的能量才会自发地流向更高级别的价值追求。",
+  "deepAnalysis": "马斯洛需求层次（Maslow's Hierarchy of Needs）揭示了人类动机的底层协议。核心洞见：人类需求从低到高分为五个层次——生理需求、安全需求、社交需求、尊重需求、自我实现。只有当较低级别的生存需求获得基本满足后，个体的能量才会自发地流向更高级别的价值追求。",
+  "principle": "1. 生理需求：食物、水、睡眠等基本生存需求\n2. 安全需求：人身安全、财产安全、健康保障\n3. 社交需求：归属感、爱情、友谊\n4. 尊重需求：自尊、认可、地位\n5. 自我实现：发挥潜能、实现理想",
+  "scope": "组织管理、产品设计、市场营销、个人发展、教育培训、心理咨询",
+  "tips": "1. 识别需求：识别目标人群的需求层次\n2. 满足基础：先满足基础层次需求\n3. 引导升级：引导需求向更高层次发展\n4. 差异化策略：针对不同层次制定策略\n5. 动态调整：根据需求变化调整策略",
+  "practice": "1. 分析需求：分析目标人群的需求层次\n2. 评估满足：评估当前需求的满足程度\n3. 制定策略：针对需求层次制定策略\n4. 满足需求：逐步满足各层次需求\n5. 引导升级：引导需求向更高层次发展",
+  "scenario": "1. 员工激励：针对不同需求层次的员工制定激励方案\n2. 产品设计：设计满足不同需求层次的产品功能\n3. 市场营销：针对不同需求层次的消费者制定营销策略\n4. 教育培训：满足学生不同层次的需求\n5. 个人发展：规划个人成长路径",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <defs>\r\n        <filter id=\"goldGlow\"><feGaussianBlur stddeviation=\"10\" result=\"blur\"/><feMerge><feMergeNode in=\"blur\"/><feMergeNode in=\"SourceGraphic\"/></feMerge></filter>\r\n      </defs>\r\n      <g transform=\"translate(500, 320)\">\r\n        <!-- 顶层: 自我实现 -->\r\n        <path d=\"M-70, -250 L70, -250 L95, -180 L-95, -180 Z\" fill=\"#fbbf24\" filter=\"url(#goldGlow)\" class=\"animate-pulse\" />\r\n        <text text-anchor=\"middle\" y=\"-205\" fill=\"white\" style=\"font-size: 32px; font-weight: 900;\">自我实现</text>\r\n        \r\n        <!-- 尊重 -->\r\n        <path d=\"M-105, -170 L105, -170 L140, -100 L-140, -100 Z\" fill=\"#f59e0b\" fill-opacity=\"0.8\" />\r\n        <text text-anchor=\"middle\" y=\"-125\" fill=\"white\" style=\"font-size: 28px; font-weight: 900;\">尊重需求</text>\r\n\r\n        <!-- 社交 -->\r\n        <path d=\"M-150, -90 L150, -90 L185, -20 L-185, -20 Z\" fill=\"#d97706\" fill-opacity=\"0.6\" />\r\n        <text text-anchor=\"middle\" y=\"-45\" fill=\"white\" style=\"font-size: 28px; font-weight: 900;\">归属与爱</text>\r\n\r\n        <!-- 安全 -->\r\n        <path d=\"M-195, -10 L195, -10 L230, 60 L-230, 60 Z\" fill=\"#92400e\" fill-opacity=\"0.4\" />\r\n        <text text-anchor=\"middle\" y=\"35\" fill=\"white\" style=\"font-size: 28px; font-weight: 900;\">安全需求</text>\r\n\r\n        <!-- 生理 -->\r\n        <path d=\"M-240, 70 L240, 70 L275, 140 L-275, 140 Z\" fill=\"#451a03\" fill-opacity=\"0.2\" />\r\n        <text text-anchor=\"middle\" y=\"115\" fill=\"white\" style=\"font-size: 28px; font-weight: 900;\">生理需求</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

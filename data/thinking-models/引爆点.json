@@ -1,0 +1,13 @@
+{
+  "id": "引爆点",
+  "name": "引爆点",
+  "label": "引爆点",
+  "icon": "BrainCircuit",
+  "description": "流行、观点或行为跨越某个阈值后，像野火蔓延一样瞬间爆发的过程。在引爆点之前，努力看起来是徒劳的；一旦越过，增长将不再受控。",
+  "deepAnalysis": "这是一个思维模型，展示了引爆点的核心概念和应用。",
+  "principle": "思维模型的核心原则：引爆点",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将引爆点应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 支撑座 -->\r\n        <path d=\"M-20,200 L20,200 L0,150 Z\" fill=\"#1e293b\" opacity=\"0.1\" />\r\n        \r\n        <!-- 杠杆平衡 -->\r\n        <g>\r\n          <animateTransform attributeName=\"transform\" type=\"rotate\" values=\"-15,0,150; 15,0,150; 15,0,150\" dur=\"4s\" repeatCount=\"indefinite\" />\r\n          <rect x=\"-400\" y=\"145\" width=\"800\" height=\"10\" rx=\"5\" fill=\"#1e293b\" />\r\n          \r\n          <!-- 堆积的微小液滴 (量变) -->\r\n          <g transform=\"translate(-300, 100)\">\r\n            <circle r=\"10\" fill=\"#ef4444\" opacity=\"0.6\">\r\n               <animate attributeName=\"cy\" from=\"-200\" to=\"30\" dur=\"1s\" repeatCount=\"indefinite\" />\r\n            </circle>\r\n          </g>\r\n\r\n          <!-- 突然坠落的重物 (突破临界) -->\r\n          <g transform=\"translate(300, 100)\">\r\n            <rect x=\"-40\" y=\"-40\" width=\"80\" height=\"80\" rx=\"10\" fill=\"#ef4444\" />\r\n            <text y=\"80\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">临界质量</text>\r\n          </g>\r\n        </g>\r\n\r\n        <!-- 质变核心 -->\r\n        <g transform=\"translate(0, 150)\">\r\n          <circle r=\"60\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"2\" class=\"animate-ping\" />\r\n          <text y=\"-250\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 72px; font-weight: 900;\">临界点</text>\r\n        </g>\r\n      </g>\r\n    </svg>\n</div>"
+}

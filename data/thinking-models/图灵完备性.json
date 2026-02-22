@@ -1,0 +1,14 @@
+{
+  "id": "图灵完备性",
+  "name": "图灵完备性",
+  "label": "图灵完备",
+  "icon": "BrainCircuit",
+  "description": "计算的物理终点。只要一个系统具备“读取、写入、移动、跳转”这四个基本指令，它就能在足够的时间和空间内，模拟宇宙中任何可以被逻辑描述的复杂事物。",
+  "deepAnalysis": "图灵完备性（Turing Completeness）是计算理论的核心概念。核心洞见：只要一个系统具备'读取、写入、移动、跳转'这四个基本指令，它就能在足够的时间和空间内，模拟宇宙中任何可以被逻辑描述的复杂事物。这意味着简单的规则可以产生无限的可能性，通用计算能力是系统的终极能力。",
+  "principle": "1. 基本指令：读取、写入、移动、跳转四个基本操作\n2. 通用计算：能够模拟任何可计算的逻辑\n3. 简单涌现复杂：简单规则产生无限可能\n4. 等价性：所有图灵完备系统在能力上等价\n5. 理论极限：图灵完备是计算能力的理论上限",
+  "scope": "计算机科学、系统设计、编程语言、人工智能、认知科学、架构设计",
+  "tips": "1. 追求完备：设计系统时追求图灵完备\n2. 理解基础：理解系统的基本操作\n3. 简化设计：用简单规则构建复杂系统\n4. 认识极限：理解计算的理论极限\n5. 创造工具：构建能赋予用户创造力的工具",
+  "practice": "1. 分析系统：分析系统的基本操作\n2. 验证完备：验证系统是否图灵完备\n3. 设计基础：设计简洁的基础操作\n4. 构建复杂：从简单规则构建复杂功能\n5. 持续扩展：保持系统的可扩展性",
+  "scenario": "1. 编程语言：设计图灵完备的编程语言\n2. 系统设计：设计能处理任意逻辑的系统\n3. 工具开发：开发能赋予用户创造力的工具\n4. 认知模型：构建通用的认知模型\n5. 人工智能：理解AI的计算能力边界",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 无限纸带 -->\r\n        <rect x=\"-450\" y=\"-40\" width=\"900\" height=\"80\" rx=\"10\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n        <g>\r\n          <animateTransform attributeName=\"transform\" type=\"translate\" values=\"-50,0; 50,0; -50,0\" dur=\"4s\" repeatCount=\"indefinite\" />\r\n          <rect x=\"-40\" y=\"-35\" width=\"70\" height=\"70\" rx=\"10\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"1\" />\r\n          <rect x=\"40\" y=\"-35\" width=\"70\" height=\"70\" rx=\"10\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"1\" />\r\n          <rect x=\"120\" y=\"-35\" width=\"70\" height=\"70\" rx=\"10\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"1\" />\r\n        </g>\r\n        \r\n        <!-- 读写头 (核心逻辑) -->\r\n        <g>\r\n          <path d=\"M0,80 L-40,150 L40,150 Z\" fill=\"#ef4444\" />\r\n          <rect x=\"-60\" y=\"150\" width=\"120\" height=\"60\" rx=\"15\" fill=\"#ef4444\" />\r\n          <text text-anchor=\"middle\" y=\"185\" fill=\"white\" style=\"font-size: 14px; font-weight: 900;\">REaD/WR我TE</text>\r\n        </g>\r\n\r\n        <!-- 涌现出的无限可能 -->\r\n        <g opacity=\"0.2\">\r\n           <circle r=\"300\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"1\" stroke-dasharray=\"10 40\" class=\"animate-spin\" />\r\n           <text y=\"-200\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.2em;\">通用机器</text>\r\n        </g>\r\n      </g>\r\n    </svg>\n</div>"
+}

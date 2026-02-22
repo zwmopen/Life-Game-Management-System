@@ -1,0 +1,14 @@
+{
+  "id": "霍夫曼逻辑",
+  "name": "霍夫曼逻辑",
+  "label": "霍夫曼编码逻辑",
+  "icon": "BrainCircuit",
+  "description": "源自信息论。最优的系统会对出现频率最高的消息分配最短的代码，而对罕见的消息分配长的代码。这最小化了系统传输的总代价。",
+  "deepAnalysis": "霍夫曼逻辑（Huffman Logic）源自信息论。核心洞见：最优的系统会对出现频率最高的消息分配最短的代码，而对罕见的消息分配长的代码。这最小化了系统传输的总代价。这是一种资源优化策略——将最少的资源分配给最常见的任务，将更多资源分配给罕见的任务。",
+  "principle": "1. 频率优先：高频消息用短代码\n2. 资源优化：优化资源分配\n3. 总代价最小：最小化总传输代价\n4. 不等长编码：使用不等长编码\n5. 效率优先：优先考虑效率",
+  "scope": "系统设计、资源分配、流程优化、信息管理、产品设计、效率提升",
+  "tips": "1. 识别高频：识别高频任务或消息\n2. 优化高频：优化高频任务的处理\n3. 资源分配：根据频率分配资源\n4. 简化流程：简化高频流程\n5. 效率优先：优先提升高频任务效率",
+  "practice": "1. 分析频率：分析任务或消息的频率\n2. 识别高频：识别高频任务\n3. 优化高频：优化高频任务处理\n4. 分配资源：根据频率分配资源\n5. 持续优化：持续优化系统效率",
+  "scenario": "1. 系统设计：设计高效的系统\n2. 流程优化：优化高频流程\n3. 资源分配：优化资源分配\n4. 产品设计：优化高频功能\n5. 信息管理：优化信息处理",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 高频信号 (极短) -->\r\n        <g transform=\"translate(-300, -100)\">\r\n          <rect x=\"-40\" y=\"-20\" width=\"80\" height=\"40\" rx=\"10\" fill=\"#10b981\" />\r\n          <text y=\"60\" text-anchor=\"middle\" fill=\"#10b981\" style=\"font-size: 24px; font-weight: 900;\">1 (高频)</text>\r\n          <circle r=\"60\" fill=\"none\" stroke=\"#10b981\" stroke-width=\"2\" class=\"animate-ping\" />\r\n        </g>\r\n        \r\n        <!-- 低频信号 (极长) -->\r\n        <g transform=\"translate(150, 100)\">\r\n          <rect x=\"-200\" y=\"-20\" width=\"400\" height=\"40\" rx=\"10\" fill=\"#94a3b8\" opacity=\"0.4\" />\r\n          <text y=\"60\" text-anchor=\"middle\" fill=\"#94a3b8\" style=\"font-size: 16px; font-weight: 900;\">0101101 (低频)</text>\r\n        </g>\r\n\r\n        <!-- 压缩天平 -->\r\n        <path d=\"M-200,-50 Q0,0 200,50\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"15 10\" opacity=\"0.3\" />\r\n\r\n        <text y=\"-220\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 42px; font-weight: 900;\">认知极致压缩</text>\r\n        <text y=\"240\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.5\" style=\"font-size: 14px; font-weight: 900;\">高频信息 = 极简 / 低频信息 = 冗长</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "上游思维",
+  "name": "上游思维",
+  "label": "上游思维",
+  "icon": "BrainCircuit",
+  "description": "“与其不断把落水的人从下游救上来，不如去上游看看是谁在把他们推下去。”这是一种从根源解决问题的系统级思考方式。",
+  "deepAnalysis": "上游思维是一种从根源解决问题的系统思考方式，由丹·希思在《上游》一书中提出。它强调在问题发生之前采取预防措施，而不是在问题发生后进行补救。上游思维要求我们超越眼前的问题，深入分析问题的根本原因，从系统层面进行干预，以防止问题再次发生。",
+  "principle": "1. 预防优先：预防问题发生比解决问题更有效\n2. 系统思考：将问题视为系统的一部分，而非孤立事件\n3. 根本原因分析：深入挖掘问题的根本原因，而非处理表面症状\n4. 长期导向：关注长期影响，而非短期收益\n5. 协作共赢：解决复杂问题需要多方面协作。",
+  "scope": "公共政策、企业管理、环境保护、 healthcare、教育改革、社会问题解决、个人生活管理",
+  "tips": "1. 识别问题早期信号：建立问题预警机制\n2. 区分治标与治本：不要满足于表面解决方案\n3. 系统映射：绘制问题的系统图，识别关键干预点\n4. 小步快跑：通过小的干预措施测试效果\n5. 持续监测：建立监测机制，评估干预效果。",
+  "practice": "1. 问题定义：明确要解决的问题\n2. 根本原因分析：使用5Whys、鱼骨图等工具分析根本原因\n3. 系统映射：绘制问题的系统图，识别关键变量和关系\n4. 干预设计：设计针对根本原因的干预措施\n5. 实施与监测：实施干预措施，监测效果并调整。例如，在公共卫生领域，通过改善水质和卫生条件，预防疾病传播，而不是仅仅治疗患病者。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <!-- 河流 -->\r\n      <path d=\"M500,50 Q700,300 500,550\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"120\" opacity=\"0.03\" stroke-linecap=\"round\" />\r\n      <path d=\"M500,50 Q700,300 500,550\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"15 30\">\r\n        <animate attributeName=\"stroke-dashoffset\" from=\"0\" to=\"100\" dur=\"3s\" repeatCount=\"indefinite\" />\r\n      </path>\r\n\r\n      <!-- 下游 -->\r\n      <g transform=\"translate(550, 480)\">\r\n        <circle r=\"60\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"5 5\" />\r\n        <text text-anchor=\"middle\" y=\"10\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">下游救火</text>\r\n        <text y=\"80\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 16px; opacity: 0.6;\">(反应式处理问题)</text>\r\n      </g>\r\n\r\n      <!-- 上游 -->\r\n      <g transform=\"translate(450, 120)\">\r\n        <circle r=\"90\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 40px #ef4444)\" />\r\n        <text text-anchor=\"middle\" y=\"15\" fill=\"white\" style=\"font-size: 36px; font-weight: 900;\">上游预防</text>\r\n        <circle r=\"120\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"2\" class=\"animate-ping\" />\r\n        <text y=\"-110\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900; letter-spacing: 0.1em;\">源头解决</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

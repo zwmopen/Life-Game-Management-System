@@ -1,0 +1,14 @@
+{
+  "id": "选择权",
+  "name": "选择权",
+  "label": "可选性思维",
+  "icon": "BrainCircuit",
+  "description": "塔勒布提出。如果你能限制住失败的代价（有限损失），同时保持对极其丰厚回报（无限收益）的开放，那么你就不需要精准预测未来。你只需要保持“在场”，并进行大量的低成本实验。",
+  "deepAnalysis": "选择权（Optionality）由塔勒布提出。核心洞见：如果你能限制住失败的代价（有限损失），同时保持对极其丰厚回报（无限收益）的开放，那么你就不需要精准预测未来。你只需要保持在场，并进行大量的低成本实验。选择权是对抗不确定性的最佳策略。",
+  "principle": "1. 有限损失：限制失败的代价\n2. 无限收益：保持对高收益的开放\n3. 无需预测：不需要精准预测\n4. 保持在场：保持参与的机会\n5. 低成本实验：进行大量低成本实验",
+  "scope": "投资决策、创业战略、风险管理、职业发展、创新管理、决策分析",
+  "tips": "1. 限制损失：限制失败的代价\n2. 保持开放：保持对高收益的开放\n3. 多元实验：进行多元化实验\n4. 保持在场：保持参与的机会\n5. 不预测：不需要精准预测",
+  "practice": "1. 识别机会：识别有选择权的机会\n2. 限制损失：限制失败的代价\n3. 保持开放：保持对高收益的开放\n4. 多元实验：进行多元化实验\n5. 持续优化：持续优化选择权",
+  "scenario": "1. 投资决策：投资有选择权的资产\n2. 创业战略：保持创业的选择权\n3. 职业发展：保持职业的选择权\n4. 创新管理：进行低成本创新实验\n5. 风险管理：管理风险的选择权",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 风险截断线 (下行受限) -->\r\n        <rect x=\"-450\" y=\"100\" width=\"900\" height=\"200\" fill=\"#ef4444\" fill-opacity=\"0.05\" />\r\n        <line x1=\"-450\" y1=\"100\" x2=\"450\" y2=\"100\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"10 5\" />\r\n        <text x=\"-440\" y=\"130\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">下行风险有限 (有限损失)</text>\r\n\r\n        <!-- 多样化尝试 (发散的小箭头) -->\r\n        <g stroke=\"#ef4444\" stroke-width=\"2\" fill=\"none\">\r\n          <path d=\"M-300,80 Q-250,0 -200,-50\" opacity=\"0.3\" />\r\n          <path d=\"M-100,80 Q-50,0 0,-100\" opacity=\"0.3\" />\r\n          <path d=\"M100,80 Q150,0 200,-80\" opacity=\"0.3\" />\r\n        </g>\r\n        \r\n        <!-- 爆发性的上行 (核心可选性) -->\r\n        <g transform=\"translate(300, 80)\">\r\n          <path d=\"M0,0 Q50,-150 150,-400\" stroke=\"#ef4444\" stroke-width=\"12\" stroke-linecap=\"round\">\r\n             <animate attributeName=\"stroke-dasharray\" from=\"0,1000\" to=\"1000,0\" dur=\"4s\" repeatCount=\"indefinite\" />\r\n          </path>\r\n          <circle cx=\"150\" cy=\"-400\" r=\"40\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 40px #ef4444)\" class=\"animate-ping\" />\r\n          <text x=\"120\" y=\"-450\" text-anchor=\"end\" fill=\"#ef4444\" style=\"font-size: 36px; font-weight: 900;\">无限上行潜力</text>\r\n        </g>\r\n\r\n        <text y=\"-280\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">可选性：不确定的朋友</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

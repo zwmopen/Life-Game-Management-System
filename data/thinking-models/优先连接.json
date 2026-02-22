@@ -1,0 +1,14 @@
+{
+  "id": "优先连接",
+  "name": "优先连接",
+  "label": "偏好依附",
+  "icon": "BrainCircuit",
+  "description": "网络增长的底层法则：新的节点在加入网络时，倾向于链接那些已有链接更多的节点。这种“跟风”行为导致网络迅速演化为极少数超级 Hub 统治全局的形态。",
+  "deepAnalysis": "优先连接（Preferential Attachment），又称'富者越富'效应或马太效应，是网络科学中的核心概念。它描述了一种现象：在网络中，已经拥有较多连接的节点更容易获得新的连接。这解释了为什么热门内容越来越热门、富人越来越富、大城市越来越大的现象。",
+  "principle": "1. 累积优势：已有的优势会带来更多优势，形成正反馈循环\n2. 初始条件敏感：早期的小优势会通过累积效应放大为巨大差距\n3. 赢家通吃：在某些领域，领先者会占据绝大部分市场份额\n4. 幂律分布：优先连接导致网络呈幂律分布，少数节点拥有大量连接\n5. 路径依赖：当前状态受历史路径影响，早期决策影响深远。",
+  "scope": "社交网络、市场营销、平台经济、城市发展、财富分配、学术引用",
+  "tips": "1. 早期布局：在新兴领域尽早进入，建立初始优势\n2. 质量与运气：成功需要质量基础，但运气在早期阶段影响巨大\n3. 主动积累：主动积累初始优势，如粉丝、客户、引用等\n4. 借势发展：借助已有优势扩展到新领域\n5. 打破锁定：在劣势领域，需要寻找差异化路径打破优先连接。",
+  "practice": "1. 内容创作：在社交媒体上，早期积累粉丝至关重要，需要持续输出高质量内容\n2. 产品推广：新产品需要突破临界点，可以借助已有平台或KOL推广\n3. 职业发展：在职业早期建立专业声誉，为后续发展积累优势\n4. 投资决策：关注具有网络效应的平台，赢家通吃效应明显\n5. 城市发展：理解大城市的优先连接效应，做出合理的城市选择。",
+  "scenario": "1. 社交媒体：大V的粉丝增长速度远超普通用户，形成粉丝集中\n2. 学术引用：高被引论文更容易被引用，形成引用集中\n3. 平台竞争：电商平台呈现赢家通吃，头部平台占据大部分市场份额\n4. 城市发展：大城市吸引更多人才和资源，形成城市集中\n5. 财富积累：富人更容易获得投资机会，财富差距扩大。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 核心超级节点 (Hub) -->\r\n        <circle r=\"60\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 40px #ef4444)\" />\r\n        <circle r=\"120\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"1\" stroke-dasharray=\"5 10\" opacity=\"0.2\" class=\"animate-spin\" />\r\n        \r\n        <!-- 正在加入的新节点 (被核心吸引) -->\r\n        <g fill=\"#ef4444\">\r\n           <circle r=\"10\"><animateMotion path=\"M-400,-200 L0,0\" dur=\"2s\" repeatCount=\"indefinite\" /></circle>\r\n           <circle r=\"10\" style=\"animation-delay: 0.5s\"><animateMotion path=\"M400,-150 L0,0\" dur=\"2.5s\" repeatCount=\"indefinite\" /></circle>\r\n           <circle r=\"10\" style=\"animation-delay: 1s\"><animateMotion path=\"M100,400 L0,0\" dur=\"1.8s\" repeatCount=\"indefinite\" /></circle>\r\n        </g>\r\n\r\n        <!-- 孤立的小节点 (贫瘠) -->\r\n        <g transform=\"translate(-300, 150)\" opacity=\"0.3\">\r\n           <circle r=\"20\" fill=\"#94a3b8\" />\r\n           <text y=\"40\" text-anchor=\"middle\" style=\"font-size: 10px;\">边缘节点</text>\r\n        </g>\r\n\r\n        <text y=\"240\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 42px; font-weight: 900;\">富者愈富：连接的重力</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "施瓦茨论文",
+  "name": "施瓦茨论文",
+  "label": "史华兹论断",
+  "icon": "BrainCircuit",
+  "description": "所有的坏事，只要你认为它是好事，它就会变成好事。每一个危机的裂缝中，都预埋了通向更高维度的入场券。",
+  "deepAnalysis": "这是一个思维模型，展示了施瓦茨论文的核心概念和应用。",
+  "principle": "思维模型的核心原则：施瓦茨论文",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将施瓦茨论文应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <!-- 坏事背景 (崩塌感) -->\r\n      <g transform=\"translate(500, 325)\">\r\n        <rect x=\"-350\" y=\"-180\" width=\"700\" height=\"360\" rx=\"40\" fill=\"#1e293b\" opacity=\"0.9\" />\r\n        <path d=\"M-300,-100 L300,100 M-300,100 L300,-100\" stroke=\"#475569\" stroke-width=\"4\" opacity=\"0.2\" />\r\n        <text y=\"-80\" text-anchor=\"middle\" fill=\"#475569\" style=\"font-size: 96px; font-weight: 900; letter-spacing: 0.1em;\">坏消息</text>\r\n        \r\n        <!-- 撕开的机会缝隙 -->\r\n        <g>\r\n          <path d=\"M-80,-250 L80,-250 L180,250 L-180,250 Z\" fill=\"white\" filter=\"drop-shadow(0 0 40px white)\" />\r\n          <text y=\"50\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 52px; font-weight: 900; letter-spacing: 0.1em;\">机会诞生处</text>\r\n          <path d=\"M0,80 L0,220\" stroke=\"#ef4444\" stroke-width=\"6\" stroke-dasharray=\"10 5\" marker-end=\"url(#bluearrow)\" />\r\n        </g>\r\n      </g>\r\n      <defs>\r\n        <marker id=\"bluearrow\" markerWidth=\"10\" markerHeight=\"10\" refX=\"5\" refY=\"5\" orient=\"auto\"><path d=\"M0,0 L10,5 L0,10 Z\" fill=\"#ef4444\"/></marker>\r\n      </defs>\r\n      <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.2\" style=\"font-size: 24px; font-weight: 900; letter-spacing: 0.5em;\">计划ERcE计划T我ON SHa计划ES REaL我TY</text>\r\n    </svg>\n</div>"
+}

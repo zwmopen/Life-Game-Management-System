@@ -1,0 +1,13 @@
+{
+  "id": "信息增量",
+  "name": "信息增量",
+  "label": "信息增量",
+  "icon": "BrainCircuit",
+  "description": "自媒体的黄金定律。信息的价值不在于其正确性（正确通常是常识），而在于它与受众已有认知之间的“差值”。没有增量，即便再完美的表达也只是在浪费读者的带宽。",
+  "deepAnalysis": "信息增量是自媒体和内容创作的核心法则。信息的价值不在于正确性（正确通常是常识），而在于与受众认知的差值。这一概念揭示了为什么很多'正确'的内容没有传播价值——因为它们没有提供新东西。\n\n核心公式：信息价值 = 新信息 - 已知信息\n\n三种增量类型：\n- 正增量：提供新视角、新数据、新方法\n- 零增量：重复已知信息，毫无价值\n- 负增量：传播错误或过时信息，有害无益\n\n实践要点：创作前必须问'读者看完能得到什么新东西？'",
+  "principle": "1. 零增量即零价值：重复已知信息等于浪费读者时间\n2. 认知基线决定价值：同样的内容对不同受众价值不同\n3. 差异化是核心：独特视角比正确观点更有价值\n4. 增量需要持续：一次增量建立关注，持续增量建立信任\n5. 过度增量有风险：超出受众接受能力的信息会被忽略",
+  "scope": "内容创作、自媒体运营、知识传播、教育培训、营销传播、产品文案",
+  "tips": "1. 调研受众认知基线：了解目标读者已经知道什么\n2. 明确增量点：写作前列出3个读者能学到的新东西\n3. 用独特视角：即使是常见话题，也要找到新切入点\n4. 数据增信：用具体数据、案例支撑观点\n5. 定期复盘：分析哪些内容获得了更多传播和互动",
+  "practice": "将信息增量应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 用户既有认知 (平整的地表) -->\r\n        <rect x=\"-450\" y=\"50\" width=\"900\" height=\"150\" fill=\"#1e293b\" opacity=\"0.05\" />\r\n        <line x1=\"-450\" y1=\"50\" x2=\"450\" y2=\"50\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.2\" />\r\n        <text x=\"-430\" y=\"80\" fill=\"#64748b\" opacity=\"0.5\" style=\"font-size: 14px; font-weight: 900;\">已知领地 (Noise/Common Sense)</text>\r\n        \r\n        <!-- 信息增量 (突起的山峰) -->\r\n        <g>\r\n          <path d=\"M-150,50 L0,-250 L150,50 Z\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"10 5\" />\r\n          <path d=\"M-50,50 L0,-150 L50,50 Z\" fill=\"#ef4444\" />\r\n          <circle cx=\"0\" cy=\"-150\" r=\"15\" fill=\"#fbbf24\" class=\"animate-ping\" />\r\n          <text y=\"-180\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 42px; font-weight: 900;\">Δ (Delta)</text>\r\n          <text y=\"-140\" text-anchor=\"middle\" fill=\"#fbbf24\" style=\"font-size: 18px; font-weight: 900;\">核心新认知</text>\r\n        </g>\r\n\r\n        <text y=\"220\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">价值 = (你的信息 - 用户的常识)</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

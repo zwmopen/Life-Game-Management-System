@@ -1,0 +1,13 @@
+{
+  "id": "禀赋效应",
+  "name": "禀赋效应",
+  "label": "禀赋效应",
+  "icon": "BrainCircuit",
+  "description": "一旦一个人拥有了某个物品，他对该物品价值的评价会立刻超过它在市场上的真实价值。放弃的痛苦远大于得到的快乐。",
+  "deepAnalysis": "这是一个思维模型，展示了禀赋效应的核心概念和应用。",
+  "principle": "思维模型的核心原则：禀赋效应",
+  "scope": "市场营销和消费者行为, \n          谈判和协商策略, \n          投资决策和资产管理, \n          公共政策和资源分配, \n          个人财务管理, \n          产品设计和用户体验, \n          人力资源管理和激励机制",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "免费试用策略：让用户先体验产品，产生所有权错觉后再决定购买; \n          参与式设计：让用户参与产品的设计或组装过程，增强情感连接; \n          30天冷静期：在做出大额购买决策前，给自己充分的思考时间; \n          价值评估：定期对重要资产进行客观估值，避免价值高估; \n          交换思维：在考虑是否保留某物时，问自己是否愿意用同样的价格购买它; \n          断舍离：定期清理不需要的物品，减少物质依恋",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\n          <defs>\n            <marker id=\"arrow\" markerWidth=\"10\" markerHeight=\"10\" refX=\"5\" refY=\"5\" orient=\"auto\"><path d=\"M0,0 L10,5 L0,10 Z\" fill=\"var(--primary-color)\"/></marker>\n          </defs>\n          <!-- 我的物品 (溢价重力) -->\n          <g transform=\"translate(350, 300)\">\n            <rect x=\"-120\" y=\"-180\" width=\"240\" height=\"360\" rx=\"30\" fill=\"var(--primary-color)\" fill-opacity=\"0.1\" stroke=\"var(--primary-color)\" stroke-width=\"4\" />\n            <text y=\"-210\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 32px; font-weight: 900;\">我的物品：¥500</text>\n            <path d=\"M0,180 L0,300\" stroke=\"var(--primary-color)\" stroke-width=\"4\" stroke-dasharray=\"10 5\" marker-end=\"url(#arrow)\" />\n            <text y=\"340\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 16px; font-weight: 900;\">拥有权产生的心理溢价</text>\n          </g>\n          \n          <!-- 市场公允 (轻飘) -->\n          <g transform=\"translate(750, 300)\" opacity=\"0.2\">\n            <rect x=\"-80\" y=\"-120\" width=\"160\" height=\"240\" rx=\"20\" fill=\"none\" stroke=\"var(--text-primary)\" stroke-width=\"2\" />\n            <text y=\"-140\" text-anchor=\"middle\" fill=\"var(--text-secondary)\" style=\"font-size: 24px; font-weight: 900;\">市场估值: ¥100</text>\n          </g>\n\n          <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"var(--text-secondary)\" style=\"font-size: 20px; font-weight: 900; opacity: 0.1; letter-spacing: 0.5em;\">OWNERSHIP CREATES VALUE</text>\n        </svg>\n</div>"
+}

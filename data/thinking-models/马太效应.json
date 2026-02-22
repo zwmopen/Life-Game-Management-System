@@ -1,0 +1,13 @@
+{
+  "id": "马太效应",
+  "name": "马太效应",
+  "label": "马太效应",
+  "icon": "BrainCircuit",
+  "description": "“凡有的，还要加倍给他；没有的，连他所有的也要夺过来。”这是系统内部的正反馈回路产生的极端不平等现象。",
+  "deepAnalysis": "马太效应（Matthew Effect）由社会学家罗伯特·默顿于1968年提出，源自《圣经·马太福音》：'凡有的，还要加倍给他；没有的，连他所有的也要夺过来。'核心洞见：系统内部的正反馈回路会产生极端不平等现象。\n\n典型表现：\n- 学术界：知名学者的论文更容易被引用\n- 商业界：大企业更容易获得资源和机会\n- 社会阶层：富者越富，穷者越穷\n- 社交媒体：大V更容易获得关注\n\n核心机制：优势积累 → 资源倾斜 → 更大优势",
+  "principle": "1. 优势积累：已有优势会带来更多优势\n2. 资源倾斜：资源倾向于流向已有资源者\n3. 正反馈回路：成功孕育更大的成功\n4. 起点敏感：初始条件的微小差异会被放大\n5. 累积效应：时间越长，差距越大",
+  "scope": "财富分配、学术研究、职业发展、品牌建设、社交媒体、教育公平",
+  "tips": "1. 建立优势：尽早建立初始优势\n2. 利用积累：利用已有优势获取更多资源\n3. 打破循环：对于弱势领域，需要外部干预\n4. 长期视角：理解优势积累需要时间\n5. 关注起点：关注初始条件的公平性",
+  "practice": "将马太效应应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <defs>\r\n        <radialGradient id=\"goldGlow\"><stop offset=\"0%\" stop-color=\"#fbbf24\" /><stop offset=\"100%\" stop-color=\"transparent\" /></radialGradient>\r\n      </defs>\r\n      <g transform=\"translate(500, 300)\">\r\n        <!-- 引力场波纹 -->\r\n        <circle r=\"250\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"1\" opacity=\"0.05\" />\r\n        <circle r=\"150\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"1\" opacity=\"0.05\" />\r\n        \r\n        <!-- 优势核心 -->\r\n        <g>\r\n          <circle r=\"80\" fill=\"url(#goldGlow)\" class=\"animate-pulse\" />\r\n          <circle r=\"35\" fill=\"#fbbf24\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"#451a03\" style=\"font-size: 14px; font-weight: 900;\">资源集中点</text>\r\n        </g>\r\n\r\n        <!-- 被吸入的弱势点 -->\r\n        <g>\r\n          <circle r=\"5\" fill=\"#1e293b\" opacity=\"0.4\"><animateMotion path=\"M-300,-100 Q-150,0 0,0\" dur=\"3s\" repeatCount=\"indefinite\" /></circle>\r\n          <circle r=\"3\" fill=\"#1e293b\" opacity=\"0.4\"><animateMotion path=\"M300,200 Q150,0 0,0\" dur=\"4s\" repeatCount=\"indefinite\" /></circle>\r\n          <circle r=\"4\" fill=\"#1e293b\" opacity=\"0.4\"><animateMotion path=\"M-200,250 Q-100,0 0,0\" dur=\"2.5s\" repeatCount=\"indefinite\" /></circle>\r\n        </g>\r\n      </g>\r\n      <text x=\"500\" y=\"550\" text-anchor=\"middle\" fill=\"#fbbf24\" style=\"font-size: 14px; font-weight: 900; letter-spacing: 0.5em;\">W我NNER TaKES aLL GRaV我TY</text>\r\n    </svg>\n</div>"
+}

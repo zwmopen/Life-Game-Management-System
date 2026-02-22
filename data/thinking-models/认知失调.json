@@ -1,0 +1,14 @@
+{
+  "id": "认知失调",
+  "name": "认知失调",
+  "label": "认知失调",
+  "icon": "BrainCircuit",
+  "description": "当我们的行为与信念发生冲突时，内心会产生极大的焦虑。为了消除这种不适，人类往往倾向于“扭曲信念”来合理化自己的错误行为，而非纠正行为本身。",
+  "deepAnalysis": "认知失调（Cognitive Dissonance）由费斯廷格提出。核心洞见：当我们的行为与信念发生冲突时，内心会产生极大的焦虑。为了消除这种不适，人类往往倾向于扭曲信念来合理化自己的错误行为，而非纠正行为本身。这是自我欺骗的心理机制。",
+  "principle": "1. 信念冲突：行为与信念冲突\n2. 心理焦虑：产生心理焦虑\n3. 合理化：扭曲信念合理化\n4. 自我欺骗：自我欺骗机制\n5. 行为纠正：应纠正行为而非信念",
+  "scope": "心理认知、决策分析、自我管理、行为改变、人际关系、消费行为",
+  "tips": "1. 识别失调：识别认知失调状态\n2. 正视冲突：正视信念冲突\n3. 纠正行为：纠正行为而非信念\n4. 避免合理化：避免自我欺骗\n5. 保持一致：保持信念行为一致",
+  "practice": "1. 识别失调：识别认知失调状态\n2. 分析冲突：分析信念行为冲突\n3. 选择纠正：选择纠正行为\n4. 采取行动：采取纠正行动\n5. 保持一致：保持信念行为一致",
+  "scenario": "1. 自我管理：管理自我认知\n2. 决策分析：理性分析决策\n3. 行为改变：改变不良行为\n4. 人际关系：处理人际冲突\n5. 消费行为：理解消费心理",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\n          <g transform=\"translate(500, 325)\">\n            <!-- 冲突的两个板块 -->\n            <g transform=\"translate(-180, 0)\">\n              <rect x=\"-120\" y=\"-120\" width=\"240\" height=\"240\" rx=\"30\" fill=\"var(--primary-color)\" fill-opacity=\"0.8\" />\n              <text text-anchor=\"middle\" y=\"5\" fill=\"white\" style=\"font-size: 32px; font-weight: 900;\">旧信念</text>\n              <animateTransform attributeName=\"transform\" type=\"translate\" values=\"-180,0; -160,0; -180,0\" dur=\"0.1s\" repeatCount=\"indefinite\" />\n            </g>\n            \n            <g transform=\"translate(180, 0)\">\n              <rect x=\"-120\" y=\"-120\" width=\"240\" height=\"240\" rx=\"30\" fill=\"var(--primary-color)\" fill-opacity=\"0.8\" />\n              <text text-anchor=\"middle\" y=\"5\" fill=\"white\" style=\"font-size: 32px; font-weight: 900;\">新事实</text>\n              <animateTransform attributeName=\"transform\" type=\"translate\" values=\"180,0; 200,0; 180,0\" dur=\"0.1s\" repeatCount=\"indefinite\" />\n            </g>\n\n            <!-- 心理拉扯感 -->\n            <path d=\"M-100,0 L100,0\" stroke=\"var(--primary-color)\" stroke-width=\"12\" stroke-dasharray=\"10 5\">\n              <animate attributeName=\"stroke-dashoffset\" from=\"0\" to=\"20\" dur=\"0.2s\" repeatCount=\"indefinite\" />\n            </path>\n            \n            <text y=\"200\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 42px; font-weight: 900; letter-spacing: 0.1em;\">摩擦与痛苦</text>\n          </g>\n          <text x=\"500\" y=\"60\" text-anchor=\"middle\" fill=\"var(--text-secondary)\" opacity=\"0.3\" style=\"font-size: 16px; font-weight: 900; letter-spacing: 0.5em;\">矛盾的摩擦</text>\n        </svg>\n</div>"
+}

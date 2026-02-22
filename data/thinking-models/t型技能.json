@@ -1,0 +1,13 @@
+{
+  "id": "t型技能",
+  "name": "T型技能",
+  "label": "T 型人才模型",
+  "icon": "BrainCircuit",
+  "description": "横向代表跨领域的视野与协作能力，纵向代表在某一特定领域的物理级穿透力。这是现代职场最具抗风险能力的生存结构。",
+  "deepAnalysis": "T型技能模型是一种描述人才能力结构的框架，由麦肯锡公司提出。'T'的横向部分代表跨领域的知识广度和协作能力，纵向部分代表在某一特定领域的专业深度和技术能力。这种结构被认为是现代职场最具竞争力的能力模型，能够平衡专业深度和跨领域协作需求。",
+  "principle": "1. 深度与广度结合：既要有专业深度，又要有跨领域视野\n2. 协作优先：在复杂问题解决中，协作能力往往比单一专业能力更重要\n3. 持续学习：不断拓展知识广度和深化专业深度\n4. 适应性：能够适应不同领域的工作需求\n5. 价值创造：将专业知识转化为实际价值。",
+  "scope": "职业发展、人才培养、团队构建、招聘选拔、能力评估、个人成长",
+  "tips": "1. 先深后广：先建立专业深度，再拓展知识广度\n2. 关联学习：将新领域知识与现有专业知识关联\n3. 实践应用：在实际项目中应用跨领域知识\n4. 建立网络：与不同领域的专业人士建立联系\n5. 定期反思：评估自己的T型技能发展情况。",
+  "practice": "1. 专业深度培养：专注于一个领域，通过学习和实践不断深化专业知识\n2. 知识广度拓展：学习相关领域的基础知识，了解其核心概念和应用\n3. 跨领域项目：参与跨领域项目，锻炼协作能力\n4. 知识整合：将不同领域的知识整合应用，创造创新解决方案\n5. 持续评估：定期评估自己的T型技能结构，调整发展方向。例如，一位软件工程师可以在深化编程技能的同时，学习产品设计、项目管理等相关领域知识，成为T型人才。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 广度 (横杆) -->\r\n        <rect x=\"-400\" y=\"-220\" width=\"800\" height=\"60\" rx=\"30\" fill=\"#ef4444\" fill-opacity=\"0.2\" stroke=\"#ef4444\" stroke-width=\"2\" />\r\n        <text y=\"-180\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">跨学科广度 (认知边界)</text>\r\n        \r\n        <!-- 深度 (竖杆) -->\r\n        <rect x=\"-60\" y=\"-220\" width=\"120\" height=\"500\" rx=\"30\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 40px #ef4444)\" />\r\n        <text x=\"0\" y=\"100\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 32px; font-weight: 900;\" transform=\"rotate(90 0 100)\">核心专业深度</text>\r\n        \r\n        <!-- 爆发点 -->\r\n        <circle cx=\"0\" cy=\"-190\" r=\"15\" fill=\"#fbbf24\" class=\"animate-ping\" />\r\n      </g>\r\n      <text x=\"500\" y=\"50\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 20px; font-weight: 900; letter-spacing: 0.5em;\">现代生存架构</text>\r\n    </svg>\n</div>"
+}

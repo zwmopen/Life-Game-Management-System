@@ -1,0 +1,13 @@
+{
+  "id": "未见墓地",
+  "name": "未见墓地",
+  "label": "沉默的墓地",
+  "icon": "BrainCircuit",
+  "description": "加强版幸存者偏差。我们倾向于通过分析成功者的特质来寻找成功路径，却忽视了数以万计拥有同样特质、付出同样努力但最终失败的人。成功可能只是随机波动的幸存。",
+  "deepAnalysis": "这是一个思维模型，展示了未见墓地的核心概念和应用。",
+  "principle": "思维模型的核心原则：未见墓地",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将未见墓地应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <!-- 失败的地层 (巨大的墓地) -->\r\n      <g opacity=\"0.05\" fill=\"#1e293b\">\r\n        <rect x=\"50\" y=\"350\" width=\"900\" height=\"250\" rx=\"20\" />\r\n        <g transform=\"translate(100, 400)\">\r\n          <path d=\"M-10,0 L10,0 M0,-10 L0,10\" stroke=\"#1e293b\" stroke-width=\"2\" />\r\n          <path d=\"M50,30 L70,30 M60,20 L60,40\" stroke=\"#1e293b\" stroke-width=\"2\" />\r\n          <path d=\"M200,-20 L220,-20 M210,-30 L210,-10\" stroke=\"#1e293b\" stroke-width=\"2\" />\r\n          <path d=\"M400,50 L420,50 M410,40 L410,60\" stroke=\"#1e293b\" stroke-width=\"2\" />\r\n          <animateTransform attributeName=\"transform\" type=\"translate\" values=\"0,0; 5,5; 0,0\" dur=\"0.1s\" repeatCount=\"indefinite\" />\r\n        </g>\r\n        <text x=\"500\" y=\"520\" text-anchor=\"middle\" style=\"font-size: 48px; font-weight: 900;\">沉默的失败者 (99.9%)</text>\r\n      </g>\r\n      \r\n      <!-- 唯一的幸存者 (高光点) -->\r\n      <g transform=\"translate(500, 200)\">\r\n        <circle r=\"40\" fill=\"#fbbf24\" filter=\"drop-shadow(0 0 30px #fbbf24)\" />\r\n        <text y=\"-60\" text-anchor=\"middle\" fill=\"#fbbf24\" style=\"font-size: 32px; font-weight: 900;\">唯一的成功者</text>\r\n        <text y=\"-30\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.6\" style=\"font-size: 14px;\">(大众关注的所有焦点)</text>\r\n        <circle r=\"100\" fill=\"none\" stroke=\"#fbbf24\" stroke-width=\"1\" class=\"animate-ping\" />\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900; letter-spacing: 0.5em; opacity: 0.1;\">沉默证据</text>\r\n    </svg>\n</div>"
+}

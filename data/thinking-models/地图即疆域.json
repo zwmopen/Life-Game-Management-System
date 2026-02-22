@@ -1,0 +1,14 @@
+{
+  "id": "地图即疆域",
+  "name": "地图即疆域",
+  "label": "地图不等于疆域",
+  "icon": "BrainCircuit",
+  "description": "由科日布斯基提出。我们的认知、模型和语言仅仅是对现实世界的“简化地图”。不要把地图当成真实的疆域，否则你会在迷雾中撞上南墙。",
+  "deepAnalysis": "地图即疆域（The Map is Not the Territory）由科日布斯基提出。核心洞见：我们的认知、模型和语言仅仅是对现实世界的简化地图，而非现实本身。地图是简化的、抽象的、有选择性的；疆域是复杂的、具体的、完整的。不要把地图当成真实的疆域，否则你会在迷雾中撞上南墙。",
+  "principle": "1. 简化本质：地图是对疆域的简化\n2. 抽象层次：地图是抽象的，疆域是具体的\n3. 选择性：地图有选择性地呈现信息\n4. 动态变化：疆域在变化，地图可能过时\n5. 验证必要：需要不断验证地图与疆域的一致性",
+  "scope": "认知科学、决策分析、模型思维、科学方法、战略规划、风险管理",
+  "tips": "1. 保持怀疑：当现实与理论不符时，错的是理论\n2. 多元视角：使用多个模型交叉验证\n3. 验证假设：不断验证假设与现实的一致性\n4. 更新模型：根据现实更新模型\n5. 走进疆域：不要只看地图，要走进疆域",
+  "practice": "1. 识别模型：识别自己使用的模型\n2. 验证现实：验证模型与现实的差距\n3. 更新认知：根据现实更新认知\n4. 多元验证：使用多个模型交叉验证\n5. 保持谦逊：承认模型的局限性",
+  "scenario": "1. 商业决策：验证商业模型与市场现实\n2. 科学研究：验证理论与实验数据\n3. 战略规划：验证战略假设与环境变化\n4. 产品设计：验证产品假设与用户需求\n5. 风险管理：验证风险模型与实际情况",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <!-- 复杂的疆域 (有机、不规则) -->\r\n      <g transform=\"translate(300, 325)\">\r\n        <path d=\"M-200,-150 Q-100,-250 50,-180 T250,-50 T150,150 T-50,250 T-250,50 Z\" fill=\"#ef4444\" fill-opacity=\"0.05\" stroke=\"#ef4444\" stroke-width=\"2\" />\r\n        <path d=\"M-150,-100 L-100,-120 M100,50 L120,80\" stroke=\"#ef4444\" stroke-width=\"1\" opacity=\"0.3\" />\r\n        <text y=\"0\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 42px; font-weight: 900; opacity: 0.4;\">疆域 (REaL我TY)</text>\r\n      </g>\r\n      \r\n      <!-- 简化的地图 (规则、抽象) -->\r\n      <g transform=\"translate(750, 325)\">\r\n        <rect x=\"-120\" y=\"-120\" width=\"240\" height=\"240\" rx=\"20\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"4\" />\r\n        <line x1=\"-120\" y1=\"0\" x2=\"120\" y2=\"0\" stroke=\"#ef4444\" stroke-width=\"1\" />\r\n        <line x1=\"0\" y1=\"-120\" x2=\"0\" y2=\"120\" stroke=\"#ef4444\" stroke-width=\"1\" />\r\n        <text y=\"160\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">地图 (MOdEL)</text>\r\n        <text y=\"190\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.5\" style=\"font-size: 14px;\">(模型只是简化的投影)</text>\r\n      </g>\r\n\r\n      <path d=\"M500,325 L600,325\" stroke=\"#1e293b\" stroke-width=\"4\" stroke-dasharray=\"10 10\" opacity=\"0.2\" marker-end=\"url(#blackarrow)\" />\r\n      <defs>\r\n        <marker id=\"blackarrow\" markerWidth=\"10\" markerHeight=\"10\" refX=\"5\" refY=\"5\" orient=\"auto\"><path d=\"M0,0 L10,5 L0,10 Z\" fill=\"#1e293b\"/></marker>\r\n      </defs>\r\n    </svg>\n</div>"
+}

@@ -1,0 +1,14 @@
+{
+  "id": "反馈滞后校准",
+  "name": "反馈滞后校准",
+  "label": "反馈延迟校准",
+  "icon": "BrainCircuit",
+  "description": "宇宙的第一德行是耐心。在自媒体和价值投资中，你的行为（我nput）和回报（Output）之间存在物理性的“波长差”。如果没有校准这个延迟，你会由于“看不见效果”而在黎明前的最后一秒选择撤离。卓越源于对滞后性的逻辑确信。",
+  "deepAnalysis": "反馈滞后校准（Feedback Lag Calibration）是应对反馈滞后的策略方法。核心洞见：既然反馈滞后是客观规律，我们就需要校准自己的预期和行动节奏。通过理解系统的滞后周期，建立正确的预期，设置中间指标，避免因看不到即时效果而过度调节或过早放弃。",
+  "principle": "1. 周期识别：识别系统的反馈滞后周期\n2. 预期校准：根据周期校准预期\n3. 中间指标：设置中间指标监测进度\n4. 节奏控制：控制行动节奏避免过度调节\n5. 耐心储备：储备足够的耐心和资源",
+  "scope": "项目管理、投资决策、健康管理、学习成长、组织变革、产品迭代",
+  "tips": "1. 研究周期：研究类似系统的滞后周期\n2. 设定预期：设定合理的时间预期\n3. 设置里程碑：设置中间里程碑\n4. 监测过程：监测过程指标而非只看结果\n5. 保持耐心：保持耐心持续行动",
+  "practice": "1. 分析系统：分析系统的反馈滞后特征\n2. 确定周期：确定合理的反馈周期\n3. 设定指标：设定中间过程指标\n4. 持续行动：按节奏持续行动\n5. 定期评估：定期评估并调整",
+  "scenario": "1. 投资理财：设定合理的收益预期周期\n2. 健身计划：设置阶段性健身目标\n3. 技能学习：设置学习里程碑\n4. 企业转型：设定转型的阶段性目标\n5. 产品迭代：设置迭代评估周期",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(100, 325)\">\r\n        <!-- 动作轴 (快) -->\r\n        <line x1=\"0\" y1=\"-100\" x2=\"800\" y2=\"-100\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n        <g fill=\"#ef4444\">\r\n           <circle r=\"15\" cx=\"100\" cy=\"-100\" /><circle r=\"15\" cx=\"200\" cy=\"-100\" /><circle r=\"15\" cx=\"300\" cy=\"-100\" />\r\n           <text x=\"0\" y=\"-140\" fill=\"#ef4444\" style=\"font-size: 16px; font-weight: 900;\">今日动作 (Action)</text>\r\n        </g>\r\n        \r\n        <!-- 回报轴 (延迟) -->\r\n        <line x1=\"0\" y1=\"100\" x2=\"800\" y2=\"100\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n        <g transform=\"translate(600, 100)\">\r\n           <circle r=\"40\" fill=\"#10b981\" class=\"animate-pulse\" />\r\n           <text y=\"70\" text-anchor=\"middle\" fill=\"#10b981\" style=\"font-size: 24px; font-weight: 900;\">最终反馈 (Result)</text>\r\n        </g>\r\n\r\n        <!-- 连接线 (延迟斜率) -->\r\n        <path d=\"M100,-100 L600,100\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"10 5\" opacity=\"0.3\">\r\n          <animate attributeName=\"stroke-dashoffset\" from=\"0\" to=\"100\" dur=\"2s\" repeatCount=\"indefinite\" />\r\n        </path>\r\n\r\n        <text x=\"400\" y=\"0\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">THE T我ME GA计划 (时滞)</text>\r\n        <text x=\"400\" y=\"35\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.5\" style=\"font-size: 12px;\">不要因为今天没结果，就否定昨天的努力</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

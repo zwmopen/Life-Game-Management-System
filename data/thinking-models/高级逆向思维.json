@@ -1,0 +1,14 @@
+{
+  "id": "高级逆向思维",
+  "name": "高级逆向思维",
+  "label": "反演法",
+  "icon": "BrainCircuit",
+  "description": "“如果你想帮一个印度人，不要想怎么帮他，先想怎么做会伤害他，然后避开这些行为。” 通过定义失败的边界，反向锁定成功的路径。这是查理·芒格一生最推崇的思维工具。",
+  "deepAnalysis": "高级逆向思维（Inversion）是查理·芒格一生最推崇的思维工具。核心洞见：如果你想帮助某人，不要想怎么帮他，先想怎么做会伤害他，然后避开这些行为。通过定义失败的边界，反向锁定成功的路径。正向思考往往陷入迷茫，逆向思考却能清晰看到要避免的陷阱。",
+  "principle": "1. 逆向思考：从反面思考问题\n2. 定义失败：先定义什么会导致失败\n3. 避免失败：避免失败就是成功\n4. 边界锁定：通过边界锁定路径\n5. 否定法：通过排除找到答案",
+  "scope": "决策分析、风险管理、战略规划、问题解决、投资决策、个人成长",
+  "tips": "1. 反向提问：问什么会导致失败\n2. 列出陷阱：列出所有可能的陷阱\n3. 避免陷阱：制定策略避免陷阱\n4. 减法思维：先做减法再做加法\n5. 安全边际：为错误预留空间",
+  "practice": "1. 设定目标：明确想要达成的目标\n2. 逆向思考：思考什么会导致失败\n3. 列出风险：列出所有风险因素\n4. 制定对策：制定避免风险的策略\n5. 执行验证：执行并验证效果",
+  "scenario": "1. 投资决策：先思考什么会导致亏损\n2. 项目管理：先思考什么会导致项目失败\n3. 职业规划：先思考什么会阻碍职业发展\n4. 健康管理：先思考什么会损害健康\n5. 关系维护：先思考什么会破坏关系",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <!-- 复杂的障碍场 -->\r\n      <g transform=\"translate(500, 325)\">\r\n        <circle r=\"300\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"1\" opacity=\"0.05\" />\r\n        \r\n        <!-- 识别出的“必死区” (红色地雷) -->\r\n        <g fill=\"#ef4444\" opacity=\"0.2\">\r\n          <circle cx=\"-150\" cy=\"-100\" r=\"50\" /><circle cx=\"180\" cy=\"120\" r=\"60\" />\r\n          <circle cx=\"0\" cy=\"-200\" r=\"40\" /><circle cx=\"-200\" cy=\"150\" r=\"55\" />\r\n          <text x=\"-150\" y=\"-100\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 10px; font-weight: 900;\">致命错误</text>\r\n        </g>\r\n        \r\n        <!-- 逆向推导出的安全路径 (亮蓝色) -->\r\n        <path d=\"M-350,200 Q-100,50 0,0 T350,-200\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"8\" stroke-linecap=\"round\">\r\n           <animate attributeName=\"stroke-dasharray\" from=\"0,1000\" to=\"1000,0\" dur=\"4s\" fill=\"freeze\" />\r\n        </path>\r\n        <circle cx=\"350\" cy=\"-200\" r=\"20\" fill=\"#ef4444\" class=\"animate-ping\" />\r\n        <text x=\"350\" y=\"-240\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">最终目标</text>\r\n      </g>\r\n      <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900; letter-spacing: 0.3em;\">反过来想 总是反过来想</text>\r\n    </svg>\n</div>"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "系统动力学",
+  "name": "系统动力学",
+  "label": "曼陀罗思考法",
+  "icon": "BrainCircuit",
+  "description": "鈥滅悊瑙ｄ笘鐣屼笉鏄湅瀹冪殑鐬棿蹇収锛岃€屾槸鐪嬪畠鍙樺寲鐨勯€熺巼涓庣Н绱€傗€?",
+  "deepAnalysis": "这是一个思维模型，展示了系统动力学的核心概念和应用。",
+  "principle": "思维模型的核心原则：系统动力学",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将系统动力学应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 600 600\" class=\"w-full h-auto max-w-[500px]\">\r\n        <!-- 鍏ユ祦绠￠亾 -->\r\n        <rect x=\"50\" y=\"250\" width=\"150\" height=\"40\" fill=\"#1e293b\" rx=\"5\" />\r\n        <path d=\"M50,270 L200,270\" stroke=\"#3b82f6\" stroke-width=\"4\" class=\"flow-line\" />\r\n        <text x=\"125\" y=\"240\" text-anchor=\"middle\" fill=\"#3b82f6\" class=\"text-[10px] font-black uppercase tracking-widest\">我nflow (娴侀噺鍏?</text>\r\n\r\n        <!-- 瀛橀噺瀹瑰櫒 (娴寸几/姘存Ы) -->\r\n        <rect x=\"200\" y=\"200\" width=\"200\" height=\"200\" fill=\"none\" stroke=\"rgba(255,255,255,0.1)\" stroke-width=\"4\" rx=\"10\" />\r\n        <rect x=\"205\" y=\"205\" width=\"190\" height=\"190\" fill=\"#3b82f6\" fill-opacity=\"0.2\" class=\"water\" transform-origin=\"bottom\" style=\"transform: scaleY(0.5); y: 205;\" />\r\n        <text x=\"300\" y=\"305\" text-anchor=\"middle\" fill=\"white\" class=\"font-black text-xl italic tracking-widest\">STOcK (瀛橀噺)</text>\r\n\r\n        <!-- 鍑烘祦绠￠亾 -->\r\n        <rect x=\"400\" y=\"310\" width=\"150\" height=\"40\" fill=\"#1e293b\" rx=\"5\" />\r\n        <path d=\"M400,330 L550,330\" stroke=\"#ef4444\" stroke-width=\"4\" class=\"flow-line\" />\r\n        <text x=\"475\" y=\"380\" text-anchor=\"middle\" fill=\"#ef4444\" class=\"text-[10px] font-black uppercase tracking-widest\">Outflow (娴侀噺鍑?</text>\r\n        \r\n        <!-- 浜戠闅愬柣 (婧愬ご涓庣粓鐐? -->\r\n        <circle cx=\"50\" cy=\"270\" r=\"30\" fill=\"white\" fill-opacity=\"0.05\" />\r\n        <circle cx=\"550\" cy=\"330\" r=\"30\" fill=\"white\" fill-opacity=\"0.05\" />\r\n      </svg>\n</div>"
+}

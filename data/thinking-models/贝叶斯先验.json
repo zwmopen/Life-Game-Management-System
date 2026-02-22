@@ -1,0 +1,14 @@
+{
+  "id": "贝叶斯先验",
+  "name": "贝叶斯先验",
+  "label": "贝叶斯先验",
+  "icon": "BrainCircuit",
+  "description": "在你看到任何新数据之前，你对世界的初始判断。先验决定了你认知的起点，即使证据再强，错误的先验也会让你在真相面前徘徊许久。",
+  "deepAnalysis": "贝叶斯先验（Bayesian Prior）揭示了认知起点的重要性。核心洞见：在你看到任何新数据之前，你对世界的初始判断就是先验。先验决定了你认知的起点，即使证据再强，错误的先验也会让你在真相面前徘徊许久。选择合适的先验是理性判断的基础。",
+  "principle": "1. 初始判断：先验是初始信念\n2. 认知起点：决定认知的起点\n3. 影响更新：影响后验概率\n4. 先验选择：选择合适的先验\n5. 持续修正：持续修正先验",
+  "scope": "决策分析、认知科学、投资决策、科学推理、机器学习、概率判断",
+  "tips": "1. 审视先验：审视自己的先验\n2. 选择合理：选择合理的先验\n3. 保持开放：保持开放心态\n4. 持续更新：持续更新先验\n5. 避免偏见：避免先验偏见",
+  "practice": "1. 识别先验：识别自己的先验\n2. 评估合理性：评估先验的合理性\n3. 选择先验：选择合适的先验\n4. 收集证据：收集新证据\n5. 更新先验：更新先验信念",
+  "scenario": "1. 投资决策：审视投资先验\n2. 科学推理：设定科学先验\n3. 认知升级：审视认知先验\n4. 决策分析：分析决策先验\n5. 机器学习：设定模型先验",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\n        <g transform=\"translate(500, 325)\">\n          <!-- 初始先验 (模糊背景) -->\n          <circle r=\"200\" fill=\"var(--accent-color)\" fill-opacity=\"0.05\" stroke=\"var(--accent-color)\" stroke-width=\"1\" stroke-dasharray=\"10 20\" />\n          <text y=\"-220\" text-anchor=\"middle\" fill=\"var(--accent-color)\" style=\"font-size: 18px; font-weight: 900;\">初始先验</text>\n          \n          <!-- 新证据注入 -->\n          <g transform=\"translate(0, -100)\">\n            <path d=\"M0,-200 L0,-50\" stroke=\"var(--accent-color)\" stroke-width=\"4\" stroke-dasharray=\"5 5\" marker-end=\"url(#redarrow)\" />\n            <text x=\"20\" y=\"-120\" fill=\"var(--accent-color)\" style=\"font-size: 14px; font-weight: 900;\">新证据</text>\n          </g>\n\n          <!-- 最终校准后的后验 -->\n          <g>\n            <circle r=\"60\" fill=\"var(--accent-color)\" filter=\"drop-shadow(0 0 30px var(--accent-color))\" />\n            <text text-anchor=\"middle\" y=\"5\" fill=\"white\" style=\"font-size: 24px; font-weight: 900;\">后验</text>\n            <circle r=\"80\" fill=\"none\" stroke=\"white\" stroke-width=\"2\" opacity=\"0.3\" class=\"animate-ping\" />\n          </g>\n        </g>\n        <defs>\n          <marker id=\"redarrow\" markerWidth=\"10\" markerHeight=\"10\" refX=\"5\" refY=\"5\" orient=\"auto\"><path d=\"M0,0 L10,5 L0,10 Z\" fill=\"var(--accent-color)\"/></marker>\n        </defs>\n      </svg>\n</div>"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "机会",
+  "name": "机会",
+  "label": "机会成本",
+  "icon": "BrainCircuit",
+  "description": "做出一项选择时所放弃的其他选择中的“最高价值”。在资源有限的世界里，所有的成本本质上都是机会成本。",
+  "deepAnalysis": "这是一个思维模型，展示了机会的核心概念和应用。",
+  "principle": "思维模型的核心原则：机会",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将机会应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <!-- 决策分叉 -->\r\n      <g transform=\"translate(500, 500)\">\r\n        <path d=\"M0,0 Q0,-150 -250,-400\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"40\" opacity=\"0.05\" />\r\n        <path d=\"M0,0 Q0,-150 250,-400\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"40\" opacity=\"0.05\" />\r\n        \r\n        <!-- 被选中的路径 -->\r\n        <path d=\"M0,0 Q0,-150 -250,-400\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"10 20\">\r\n          <animate attributeName=\"stroke-dashoffset\" from=\"0\" to=\"100\" dur=\"2s\" repeatCount=\"indefinite\" />\r\n        </path>\r\n        <circle cx=\"-250\" cy=\"-400\" r=\"50\" fill=\"#ef4444\" />\r\n        <text x=\"-250\" y=\"-395\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 14px; font-weight: 900;\">选择 A (已选)</text>\r\n\r\n        <!-- 机会成本路径 -->\r\n        <g opacity=\"0.4\">\r\n          <path d=\"M0,0 Q0,-150 250,-400\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"2\" stroke-dasharray=\"5 5\" />\r\n          <circle cx=\"250\" cy=\"-400\" r=\"40\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"2\" />\r\n          <text x=\"250\" y=\"-395\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 12px; font-weight: 900;\">被放弃的 B (成本)</text>\r\n        </g>\r\n\r\n        <circle r=\"20\" fill=\"#1e293b\" />\r\n        <text y=\"40\" text-anchor=\"middle\" fill=\"#64748b\" style=\"font-size: 12px; font-weight: 900; letter-spacing: 0.2em;\">DEc我S我ON 计划O我NT</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

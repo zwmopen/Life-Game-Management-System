@@ -1,0 +1,13 @@
+{
+  "id": "深度林迪效应",
+  "name": "深度林迪效应",
+  "label": "林迪效应",
+  "icon": "BrainCircuit",
+  "description": "对于书籍、宗教、技术等“非易失性”事物，每多存活一天，其预期的未来寿命就增加一天。时间不是损耗者，而是最高级的背书人。",
+  "deepAnalysis": "这是一个思维模型，展示了深度林迪效应的核心概念和应用。",
+  "principle": "思维模型的核心原则：深度林迪效应",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将深度林迪效应应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <!-- 遗忘的沙海 -->\r\n      <rect x=\"0\" y=\"450\" width=\"1000\" height=\"200\" fill=\"#1e293b\" opacity=\"0.03\" />\r\n      \r\n      <!-- 脆弱的新生思想 (闪烁且易逝) -->\r\n      <g transform=\"translate(150, 450)\">\r\n        <circle r=\"40\" fill=\"#ef4444\" opacity=\"0.3\">\r\n           <animate attributeName=\"opacity\" values=\"0.3;0;0.3\" dur=\"1s\" repeatCount=\"indefinite\" />\r\n        </circle>\r\n        <text y=\"70\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">流行爆梗</text>\r\n        <text y=\"95\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.5\" style=\"font-size: 10px;\">(预期寿命：48小时)</text>\r\n      </g>\r\n      \r\n      <!-- 永恒的经典 (金字塔稳固) -->\r\n      <g transform=\"translate(700, 450)\">\r\n        <path d=\"M-150,0 L150,0 L0,-350 Z\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"4\" />\r\n        <path d=\"M-100,0 L100,0 L0,-250 Z\" fill=\"#ef4444\" />\r\n        <text y=\"50\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">千年经典 (L我NdY)</text>\r\n        <circle r=\"180\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"1\" class=\"animate-ping\" />\r\n        <text y=\"-380\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 18px; font-weight: 900;\">“已存在 2000 年，未来概率仍是 2000 年”</text>\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 28px; font-weight: 900; letter-spacing: 0.5em; opacity: 0.1;\">THE SURV我VaL OF THE TESTEd</text>\r\n    </svg>\n</div>"
+}

@@ -1,0 +1,14 @@
+{
+  "id": "齐普夫定律",
+  "name": "齐普夫定律",
+  "label": "齐夫定律",
+  "icon": "BrainCircuit",
+  "description": "自然系统的统计奥秘：排名第 n 的元素，其频率约是排名第 1 元素的 1/n。最常用的 20% 词汇占据了 80% 的使用场景，揭示了信息的极端集中性。",
+  "deepAnalysis": "齐普夫定律（Zipf's Law）揭示了自然语言和许多自然现象中的统计规律。核心洞见：在任何按频率排序的列表中，第n个元素的频率约是第1个元素的1/n。这意味着少数元素占据了绝大多数份额，而大量元素只占很小份额。这种极端集中性在语言、城市人口、网站流量等领域普遍存在。",
+  "principle": "1. 排名规律：第n名频率约是第1名的1/n\n2. 极端集中：少数元素占据绝大多数份额\n3. 长尾分布：大量元素只占很小份额\n4. 普遍存在：在众多领域都适用\n5. 幂律特征：符合幂律分布",
+  "scope": "语言学、信息检索、城市规划、网络分析、资源分配、学习策略",
+  "tips": "1. 掌握核心：攻克前1000个高频概念理解80%内容\n2. 资源聚焦：将资源投入最重要的少数元素\n3. 长尾利用：长尾元素总量可能超过头部\n4. 预测分布：预测新领域的分布特征\n5. 效率优化：优化高频元素提升整体效率",
+  "practice": "1. 识别高频：识别领域中的高频元素\n2. 聚焦核心：优先处理高频元素\n3. 分析长尾：分析长尾元素的价值\n4. 优化分配：根据频率优化资源分配\n5. 持续监测：监测分布变化",
+  "scenario": "1. 语言学习：优先学习高频词汇\n2. 信息检索：优化高频查询的响应\n3. 城市规划：预测城市人口分布\n4. 网站运营：优化高频页面体验\n5. 知识管理：优先掌握核心概念",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <!-- 坐标轴 -->\r\n      <line x1=\"150\" y1=\"550\" x2=\"850\" y2=\"550\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n      \r\n      <!-- 齐夫阶梯 (递减条形图) -->\r\n      <g transform=\"translate(150, 550)\">\r\n        <rect x=\"0\" y=\"-400\" width=\"80\" height=\"400\" fill=\"#ef4444\" />\r\n        <text x=\"40\" y=\"30\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">1st</text>\r\n        <text x=\"40\" y=\"-420\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">100%</text>\r\n\r\n        <rect x=\"120\" y=\"-200\" width=\"80\" height=\"200\" fill=\"#ef4444\" fill-opacity=\"0.5\" />\r\n        <text x=\"160\" y=\"30\" text-anchor=\"middle\" fill=\"#64748b\" style=\"font-size: 18px;\">2nd</text>\r\n        <text x=\"160\" y=\"-220\" text-anchor=\"middle\" fill=\"#64748b\" style=\"font-size: 12px;\">50%</text>\r\n\r\n        <rect x=\"240\" y=\"-133\" width=\"80\" height=\"133\" fill=\"#ef4444\" fill-opacity=\"0.3\" />\r\n        <text x=\"280\" y=\"30\" text-anchor=\"middle\" fill=\"#64748b\" style=\"font-size: 18px;\">3rd</text>\r\n        <text x=\"280\" y=\"-153\" text-anchor=\"middle\" fill=\"#64748b\" style=\"font-size: 12px;\">33%</text>\r\n\r\n        <path d=\"M40,-400 Q160,-200 600,-30\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"10 5\" opacity=\"0.4\" />\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.1em;\">Frequency ∝ 1 / Rank</text>\r\n    </svg>\n</div>"
+}

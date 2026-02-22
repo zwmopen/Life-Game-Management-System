@@ -1,0 +1,13 @@
+{
+  "id": "创造性破坏",
+  "name": "创造性破坏",
+  "label": "创造性破坏",
+  "icon": "BrainCircuit",
+  "description": "由约瑟夫·熊彼特提出。资本主义演化的动力不是维持稳定，而是持续不断的颠覆：新的技术、新的模式通过摧毁旧的产业结构，释放出巨大的社会生产力。",
+  "deepAnalysis": "创造性破坏（Creative Destruction）由经济学家约瑟夫·熊彼特提出。核心洞见：资本主义的本质不是静态的均衡，而是不断的创造性破坏——新技术、新企业不断摧毁旧技术、旧企业，在破坏中创造新的价值。",
+  "principle": "1. 创新驱动：创新是经济发展的核心动力\n2. 破坏创造：新事物通过摧毁旧事物获得空间\n3. 动态均衡：经济永远处于动态变化中\n4. 企业家精神：企业家是创造性破坏的主体\n5. 机会与风险：创造性破坏带来机会也带来风险",
+  "scope": "技术创新、商业模式、组织变革、个人发展、社会演进、投资决策",
+  "tips": "1. 保持开放心态：主动拥抱变化\n2. 预见趋势：关注技术和市场的发展趋势\n3. 危机意识：在危机中寻找机会\n4. 自我革新：定期评估自己的技能和知识\n5. 生态系统思维：理解不同要素之间的相互关系",
+  "practice": "1. 分析趋势：分析技术和市场趋势\n2. 识别机会：识别创造性破坏带来的机会\n3. 主动适应：主动适应变化\n4. 持续创新：持续创新\n5. 风险管理：管理创造性破坏的风险",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\n        <g transform=\"translate(500, 325)\">\n          <!-- 旧系统 (瓦解中) -->\n          <g opacity=\"0.1\">\n            <rect x=\"-250\" y=\"-150\" width=\"500\" height=\"300\" rx=\"40\" fill=\"var(--text-primary)\" />\n            <path d=\"M-100,-100 L100,100 M-100,100 L100,-100\" stroke=\"var(--primary-color)\" stroke-width=\"20\" opacity=\"0.3\" />\n            <animateTransform attributeName=\"transform\" type=\"translate\" values=\"0,0; 5,5; 0,0\" dur=\"0.2s\" repeatCount=\"indefinite\" />\n          </g>\n          \n          <!-- 新势力 (破土而出) -->\n          <g transform=\"translate(0, 50)\">\n            <path d=\"M-60,0 Q0,-300 60,0 Z\" fill=\"var(--primary-color)\" filter=\"drop-shadow(0 0 40px var(--primary-color))\">\n              <animate attributeName=\"d\" values=\"M-60,0 Q0,-50 60,0 Z; M-80,0 Q0,-450 80,0 Z\" dur=\"3s\" repeatCount=\"indefinite\" />\n            </path>\n            <text y=\"-200\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 42px; font-weight: 900; letter-spacing: 0.2em;\">新秩序</text>\n            <circle r=\"100\" fill=\"none\" stroke=\"var(--primary-color)\" stroke-width=\"2\" class=\"animate-ping\" />\n          </g>\n\n          <text y=\"280\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 24px; font-weight: 900;\">破坏是创造的前提</text>\n        </g>\n      </svg>\n</div>"
+}

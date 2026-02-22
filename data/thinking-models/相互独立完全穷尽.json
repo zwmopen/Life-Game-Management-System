@@ -1,0 +1,13 @@
+{
+  "id": "相互独立完全穷尽",
+  "name": "相互独立完全穷尽",
+  "label": "MEcE 原则",
+  "icon": "BrainCircuit",
+  "description": "结构化思考的底层协议。将复杂问题拆解为多个维度，确保各部分之间不重叠、无遗漏。",
+  "deepAnalysis": "这是一个思维模型，展示了相互独立完全穷尽的核心概念和应用。",
+  "principle": "思维模型的核心原则：相互独立完全穷尽",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将相互独立完全穷尽应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 800\">\r\n      <rect x=\"200\" y=\"100\" width=\"600\" height=\"500\" rx=\"40\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"4\" stroke-dasharray=\"15 10\" opacity=\"0.1\" />\r\n      <g transform=\"translate(100, 100)\">\r\n        <g transform=\"translate(200, 100)\">\r\n          <rect width=\"240\" height=\"190\" rx=\"25\" fill=\"#ef4444\" fill-opacity=\"0.8\">\r\n            <animateTransform attributeName=\"transform\" type=\"translate\" values=\"-15,-15; 0,0; -15,-15\" dur=\"4s\" repeatCount=\"indefinite\" />\r\n          </rect>\r\n          <text x=\"120\" y=\"105\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 28px; font-weight: 900;\">相互独立</text>\r\n          <text x=\"120\" y=\"140\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 14px; font-weight: 800;\">(ME)</text>\r\n        </g>\r\n        <g transform=\"translate(460, 100)\">\r\n          <rect width=\"240\" height=\"190\" rx=\"25\" fill=\"#ef4444\" fill-opacity=\"0.6\">\r\n            <animateTransform attributeName=\"transform\" type=\"translate\" values=\"15,-15; 0,0; 15,-15\" dur=\"4s\" repeatCount=\"indefinite\" />\r\n          </rect>\r\n        </g>\r\n        <g transform=\"translate(200, 310)\">\r\n          <rect width=\"240\" height=\"190\" rx=\"25\" fill=\"#ef4444\" fill-opacity=\"0.4\">\r\n            <animateTransform attributeName=\"transform\" type=\"translate\" values=\"-15,15; 0,0; -15,15\" dur=\"4s\" repeatCount=\"indefinite\" />\r\n          </rect>\r\n        </g>\r\n        <g transform=\"translate(460, 310)\">\r\n          <rect width=\"240\" height=\"190\" rx=\"25\" fill=\"#ef4444\" fill-opacity=\"0.2\">\r\n            <animateTransform attributeName=\"transform\" type=\"translate\" values=\"15,15; 0,0; 15,15\" dur=\"4s\" repeatCount=\"indefinite\" />\r\n          </rect>\r\n          <text x=\"120\" y=\"105\" text-anchor=\"middle\" fill=\"#1e293b\" style=\"font-size: 28px; font-weight: 900;\">完全穷尽</text>\r\n          <text x=\"120\" y=\"140\" text-anchor=\"middle\" fill=\"#1e293b\" style=\"font-size: 14px; font-weight: 800;\">(cE)</text>\r\n        </g>\r\n      </g>\r\n      <text x=\"500\" y=\"700\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 22px; font-weight: 900; letter-spacing: 0.5em;\">不重叠 · 不遗漏</text>\r\n    </svg>\n</div>"
+}

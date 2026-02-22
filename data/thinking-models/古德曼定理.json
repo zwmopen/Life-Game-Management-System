@@ -1,0 +1,14 @@
+{
+  "id": "古德曼定理",
+  "name": "古德曼定理",
+  "label": "古德曼定理",
+  "icon": "BrainCircuit",
+  "description": "没有沉默，就没有有意义的交流。沉默是沟通中最有效的部分，它为双方提供了消化、反思和产生共鸣的物理空间。",
+  "deepAnalysis": "古德曼定理（Goodman's Theorem）揭示了信任建立的规律。核心洞见：信任的建立是缓慢的、渐进的，但信任的破坏是瞬间的、彻底的。一次失信可能摧毁多年积累的信任。这就是为什么诚信是商业和个人成功的基石——它是最脆弱也最有价值的资产。",
+  "principle": "1. 渐进建立：信任是缓慢积累的\n2. 瞬间破坏：信任可以瞬间被摧毁\n3. 不对称性：建立和破坏的速度不对称\n4. 累积效应：信任有累积效应\n5. 修复困难：信任一旦破坏难以修复",
+  "scope": "人际关系、商业合作、品牌建设、团队管理、客户关系、个人信誉",
+  "tips": "1. 珍惜信任：珍惜每一次建立信任的机会\n2. 兑现承诺：始终兑现承诺\n3. 避免失信：一次失信代价巨大\n4. 持续积累：持续积累信任资本\n5. 透明沟通：保持透明的沟通",
+  "practice": "1. 承诺管理：谨慎承诺，确保能兑现\n2. 记录跟踪：跟踪记录承诺的兑现情况\n3. 及时沟通：遇到问题及时沟通\n4. 持续交付：持续交付可靠的结果\n5. 修复关系：失信后积极修复",
+  "scenario": "1. 商业合作：建立长期合作关系\n2. 品牌建设：建立品牌信任\n3. 团队管理：建立团队信任\n4. 客户服务：建立客户信任\n5. 个人信誉：建立个人信誉",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 说的部分 (嘈杂但狭窄) -->\r\n        <g transform=\"translate(-300, 0)\">\r\n          <rect x=\"-80\" y=\"-40\" width=\"160\" height=\"80\" rx=\"20\" fill=\"#ef4444\" opacity=\"0.8\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"white\" style=\"font-size: 48px; font-weight: 900;\">说</text>\r\n          <text y=\"70\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 800;\">(输出)</text>\r\n        </g>\r\n        \r\n        <!-- 听的部分 (广阔且深邃) -->\r\n        <g transform=\"translate(150, 0)\">\r\n          <rect x=\"-250\" y=\"-180\" width=\"500\" height=\"360\" rx=\"40\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"10 5\" />\r\n          <text text-anchor=\"middle\" y=\"20\" fill=\"#ef4444\" style=\"font-size: 80px; font-weight: 900; letter-spacing: 0.2em;\">沉默与听</text>\r\n          <circle r=\"120\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"1\" opacity=\"0.3\" class=\"animate-ping\" />\r\n          <text y=\"100\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.6\" style=\"font-size: 20px; font-weight: 800;\">沟通中最有力量的留白</text>\r\n        </g>\r\n      </g>\r\n      <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.1\" style=\"font-size: 24px; font-weight: 900; letter-spacing: 0.5em;\">S我LENcE 我S THE 核心 OF D我ALOGUE</text>\r\n    </svg>\n</div>"
+}

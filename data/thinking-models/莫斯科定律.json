@@ -1,0 +1,13 @@
+{
+  "id": "莫斯科定律",
+  "name": "莫斯科定律",
+  "label": "摩斯科定理",
+  "icon": "BrainCircuit",
+  "description": "你永远没有第二次机会去给人留下第一个好印象。在人际和品牌博弈中，初始的 5 秒钟决定了后续 5 年的信任基准线。",
+  "deepAnalysis": "这是一个思维模型，展示了莫斯科定律的核心概念和应用。",
+  "principle": "思维模型的核心原则：莫斯科定律",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将莫斯科定律应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <!-- 初始的重锤刻印 -->\r\n      <g transform=\"translate(300, 300)\">\r\n        <rect x=\"-100\" y=\"-100\" width=\"200\" height=\"200\" rx=\"20\" fill=\"#1e293b\" opacity=\"0.05\" stroke=\"#1e293b\" stroke-width=\"2\" />\r\n        <g transform=\"translate(0, -50)\">\r\n          <path d=\"M-30,-20 L30,-20 L0,30 Z\" fill=\"#ef4444\">\r\n            <animateTransform attributeName=\"transform\" type=\"translate\" values=\"0,-150; 0,0\" dur=\"0.5s\" fill=\"freeze\" />\r\n          </path>\r\n          <text y=\"80\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">第一印象</text>\r\n        </g>\r\n      </g>\r\n      \r\n      <!-- 漫长的后续修正 (无力感) -->\r\n      <g transform=\"translate(700, 300)\">\r\n        <path d=\"M-150,0 Q0,-50 150,0\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"2\" opacity=\"0.3\" stroke-dasharray=\"5 5\" />\r\n        <text y=\"50\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">后续 100 次解释</text>\r\n        <text y=\"80\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.4\" style=\"font-size: 10px;\">(难以磨灭初始的痕迹)</text>\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"550\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900; letter-spacing: 0.5em;\">YOU NEVER GET A SEcONd cHANcE</text>\r\n    </svg>\n</div>"
+}

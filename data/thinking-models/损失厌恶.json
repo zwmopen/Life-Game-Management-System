@@ -1,0 +1,13 @@
+{
+  "id": "损失厌恶",
+  "name": "损失厌恶",
+  "label": "损失厌恶",
+  "icon": "BrainCircuit",
+  "description": "人类对“失去”的敏感度远超对“获得”的喜悦。这种非对称性进化确保了我们在原始丛林中的生存，但在现代决策中却成为了阻碍。",
+  "deepAnalysis": "损失厌恶（Loss Aversion）是行为经济学中最核心的概念之一，由丹尼尔·卡尼曼和阿莫斯·特沃斯基提出。核心洞见：人类对'失去'的敏感度远超对'获得'的喜悦——损失带来的痛苦约为同等收益带来快乐的2倍。\n\n核心机制：\n- 进化根源：在原始丛林中，避免死亡比获得食物更重要\n- 非对称性：损失的痛苦 > 收益的快乐\n- 参照依赖：相对于参照点的得失决定感受\n\n典型表现：\n- 持有亏损股票过久，过早卖出盈利股票\n- 宁愿确定获得900元，也不愿以90%概率获得1000元",
+  "principle": "1. 非对称性：损失的痛苦约为收益快乐的2倍\n2. 参照依赖：相对于参照点的得失决定感受\n3. 风险偏好反转：面对收益时风险厌恶，面对损失时风险偏好\n4. 禀赋效应：拥有某物后，对其评价更高\n5. 沉没成本：因不愿承认损失而继续投入",
+  "scope": "投资决策、消费行为、谈判策略、营销定价、政策设计、风险管理",
+  "tips": "1. 识别厌恶：识别自己是否因损失厌恶而做出非理性决策\n2. 重构框架：将损失重新框架化为机会成本\n3. 设定止损：提前设定止损点并严格执行\n4. 长期视角：用长期视角淡化短期损失\n5. 对称思考：同时考虑收益和损失",
+  "practice": "将损失厌恶应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <!-- 支架 -->\r\n      <path d=\"M480,500 L520,500 L500,450 Z\" fill=\"#1e293b\" opacity=\"0.1\" />\r\n      \r\n      <g transform=\"translate(500, 450)\">\r\n        <animateTransform attributeName=\"transform\" type=\"rotate\" values=\"10;15;10\" dur=\"4s\" repeatCount=\"indefinite\" />\r\n        <rect x=\"-400\" y=\"-5\" width=\"800\" height=\"10\" rx=\"5\" fill=\"#1e293b\" />\r\n        \r\n        <!-- 损失端 (沉重) -->\r\n        <g transform=\"translate(-300, 0)\">\r\n          <rect x=\"-80\" y=\"10\" width=\"160\" height=\"160\" rx=\"20\" fill=\"#ef4444\" />\r\n          <text text-anchor=\"middle\" y=\"90\" fill=\"white\" style=\"font-size: 48px; font-weight: 900;\">损失</text>\r\n          <text y=\"210\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">痛感 2.5X</text>\r\n        </g>\r\n        \r\n        <!-- 收益端 (轻量) -->\r\n        <g transform=\"translate(300, 0)\">\r\n          <rect x=\"-80\" y=\"10\" width=\"160\" height=\"80\" rx=\"20\" fill=\"#10b981\" opacity=\"0.6\" />\r\n          <text text-anchor=\"middle\" y=\"60\" fill=\"white\" style=\"font-size: 32px; font-weight: 900;\">收益</text>\r\n          <text y=\"120\" text-anchor=\"middle\" fill=\"#10b981\" style=\"font-size: 20px; font-weight: 900;\">快乐 1X</text>\r\n        </g>\r\n      </g>\r\n    </svg>\n</div>"
+}

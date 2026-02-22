@@ -1,0 +1,13 @@
+{
+  "id": "斯特金定律",
+  "name": "斯特金定律",
+  "label": "史特金定律",
+  "icon": "BrainCircuit",
+  "description": "科幻作家西奥多·史特金提出：任何事物，其 90% 都是没有价值的垃圾。如果你觉得某个行业不行，那是因为你只看到了那 90%。",
+  "deepAnalysis": "这是一个思维模型，展示了斯特金定律的核心概念和应用。",
+  "principle": "思维模型的核心原则：斯特金定律",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将斯特金定律应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <!-- 90% 的垃圾背景 -->\r\n      <g opacity=\"0.05\" fill=\"#1e293b\">\r\n        <rect x=\"50\" y=\"50\" width=\"900\" height=\"550\" rx=\"40\" />\r\n        <text x=\"500\" y=\"325\" text-anchor=\"middle\" style=\"font-size: 180px; font-weight: 900;\">90%</text>\r\n      </g>\r\n      \r\n      <!-- 10% 的黄金核心 -->\r\n      <g transform=\"translate(500, 325)\">\r\n        <circle r=\"120\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 50px #ef4444)\" />\r\n        <text text-anchor=\"middle\" y=\"10\" fill=\"white\" style=\"font-size: 42px; font-weight: 900;\">10% 精华</text>\r\n        <circle r=\"150\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"2\" class=\"animate-ping\" />\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"550\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.2em;\">任何事物 90% 都是垃圾</text>\r\n    </svg>\n</div>"
+}

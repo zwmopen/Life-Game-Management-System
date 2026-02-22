@@ -1,0 +1,13 @@
+{
+  "id": "算法抵抗",
+  "name": "算法抵抗",
+  "label": "算法抗性设计",
+  "icon": "BrainCircuit",
+  "description": "在这个算法统治注意力的时代，自媒体创作者极易陷入“数据驱动”的陷阱：算法喜欢什么你就喂什么，最终你丧失了独立的人格，变成了一个昂贵的、可替换的数字零件。抗性设计要求你：在拥抱流量规律的同时，保留 20% 绝对不妥协、极具个人偏见的“硬核内容”。",
+  "deepAnalysis": "算法抗性设计（Algorithm Resistance Design）是一种在算法主导的数字环境中保持认知主权和创作独立性的策略。它主张在拥抱流量规律的同时，保留一定比例的个人特色内容，避免被算法完全驯化，从而建立长期的、可持续的个人品牌。",
+  "principle": "认知主权：保持独立思考能力，不被算法的短期反馈完全左右创作方向。; ;           80/20 原则：用 80% 的内容适应算法规则获取流量，用 20% 的内容坚持个人特色建立品牌。; ;           自建评价体系：不单纯依赖算法提供的指标，建立符合个人价值观的内容评价标准。; ;           长期主义：关注长期品牌价值和粉丝信任度，而非短期流量波动。",
+  "scope": "内容创作和自媒体运营, \n          个人品牌建设, \n          数字营销和社交媒体策略, \n          创意行业职业发展, \n          信息消费和媒体素养",
+  "tips": "1. 反算法测试：定期发布一些可能不符合算法偏好但代表个人最高水平的内容，检验自己是否被驯化。; 2. 建立自有的评价指标：将完读率、深度互动、粉丝忠诚度等指标的权重设为高于点赞量和浏览量。; 3. 内容多样化：在适应算法的同时，保持内容的多样性和深度，避免同质化。; 4. 粉丝关系建设：通过私域运营、深度互动等方式，建立不依赖平台算法的粉丝关系。",
+  "practice": "定期回顾创作方向，确保内容符合个人价值观和长期目标。; \n          建立内容档案，记录不同类型内容的表现和反馈。; \n          与粉丝保持直接沟通，了解他们的真实需求和反馈。; \n          持续学习和探索，保持内容的新鲜度和深度。; \n          在平台规则变化时，保持灵活性但不放弃核心特色。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\n        <g transform=\"translate(500, 325)\">\n          <!-- 算法重力场 (漏斗) -->\n          <path d=\"M-450,-250 Q0,0 450,-250\" fill=\"none\" stroke=\"var(--secondary-color)\" stroke-width=\"4\" stroke-dasharray=\"10 20\" opacity=\"0.2\" />\n          <text y=\"-280\" text-anchor=\"middle\" fill=\"var(--secondary-color)\" style=\"font-size: 14px; font-weight: 900;\">算法诱导：做爆款、追热点</text>\n          \n          <!-- 被驯化的个体 (被吸入中心) -->\n          <g transform=\"translate(0, -50)\" opacity=\"0.3\">\n             <circle r=\"40\" fill=\"var(--text-secondary)\" />\n             <text y=\"70\" text-anchor=\"middle\" fill=\"var(--text-secondary)\" style=\"font-size: 10px;\">同质化产出</text>\n          </g>\n\n          <!-- 具备抗性的内核 (主权个体) -->\n          <g transform=\"translate(0, 100)\">\n            <rect x=\"-100\" y=\"-80\" width=\"200\" height=\"160\" rx=\"30\" fill=\"var(--primary-color)\" />\n            <text text-anchor=\"middle\" y=\"10\" fill=\"var(--text-primary)\" style=\"font-size: 28px; font-weight: 900;\">认知主权</text>\n            <path d=\"M0,0 L0,-250\" stroke=\"var(--primary-color)\" stroke-width=\"4\" stroke-dasharray=\"10 5\" />\n            <circle r=\"120\" fill=\"none\" stroke=\"var(--primary-color)\" stroke-width=\"2\" />\n          </g>\n\n          <text y=\"280\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 32px; font-weight: 900;\">利用算法，而非成为算法的零件</text>\n        </g>\n      </svg>\n</div>"
+}

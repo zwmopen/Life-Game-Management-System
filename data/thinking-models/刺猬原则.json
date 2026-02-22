@@ -1,0 +1,13 @@
+{
+  "id": "刺猬原则",
+  "name": "刺猬原则",
+  "label": "刺猬法则",
+  "icon": "BrainCircuit",
+  "description": "寒冬里刺猬们为了取暖而靠近，但如果靠得太近，会被彼此的刺扎伤；如果分得太开，又会感到寒冷。于是它们寻找到了一个既能取暖又不至于受伤的“黄金距离”。",
+  "deepAnalysis": "刺猬法则（Hedgehog Principle）源于古希腊寓言：狐狸知道很多事，但刺猬只知道一件大事。核心洞见：成功的企业和个人往往专注于一个核心优势，而非分散精力追求多个目标。专注是卓越的唯一入场券。",
+  "principle": "1. 专注原则：专注于一个核心优势\n2. 简化战略：将复杂战略简化为一个核心理念\n3. 深度优于广度：在细分领域做到极致\n4. 持续深耕：长期坚持一个方向\n5. 拒绝诱惑：拒绝所有不相关的机会",
+  "scope": "企业战略、职业规划、个人发展、产品定位、品牌建设、竞争策略",
+  "tips": "1. 找到核心：找到你的核心优势\n2. 深耕细作：在核心领域深耕细作\n3. 拒绝诱惑：拒绝所有不相关的机会\n4. 长期坚持：长期坚持一个方向\n5. 持续优化：持续优化核心能力",
+  "practice": "1. 自我分析：分析自己的核心优势\n2. 确定方向：确定专注的方向\n3. 制定计划：制定深耕计划\n4. 执行专注：严格执行专注策略\n5. 定期复盘：定期复盘并调整",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 800 600\">\r\n      <!-- 刺猬 A -->\r\n      <g transform=\"translate(300, 300)\">\r\n        <circle r=\"60\" fill=\"#1e293b\" />\r\n        <g stroke=\"#1e293b\" stroke-width=\"4\" stroke-linecap=\"round\">\r\n           <line x1=\"0\" y1=\"-60\" x2=\"0\" y2=\"-90\" /><line x1=\"42\" y1=\"-42\" x2=\"63\" y2=\"-63\" />\r\n           <line x1=\"60\" y1=\"0\" x2=\"90\" y2=\"0\" /><line x1=\"-42\" y1=\"-42\" x2=\"-63\" y2=\"-63\" />\r\n        </g>\r\n        <text y=\"5\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 10px;\">个人 A</text>\r\n      </g>\r\n\r\n      <!-- 刺猬 B -->\r\n      <g transform=\"translate(500, 300)\">\r\n        <circle r=\"60\" fill=\"#1e293b\" />\r\n        <g stroke=\"#1e293b\" stroke-width=\"4\" stroke-linecap=\"round\">\r\n           <line x1=\"0\" y1=\"-60\" x2=\"0\" y2=\"-90\" /><line x1=\"-42\" y1=\"-42\" x2=\"-63\" y2=\"-63\" />\r\n           <line x1=\"-60\" y1=\"0\" x2=\"-90\" y2=\"0\" /><line x1=\"42\" y1=\"-42\" x2=\"63\" y2=\"-63\" />\r\n        </g>\r\n        <text y=\"5\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 10px;\">个人 B</text>\r\n      </g>\r\n      \r\n      <!-- 温暖力场 (重叠但刺不伤) -->\r\n      <g transform=\"translate(400, 300)\">\r\n        <ellipse rx=\"150\" ry=\"100\" fill=\"#fbbf24\" fill-opacity=\"0.1\" class=\"animate-pulse\" />\r\n        <text y=\"130\" text-anchor=\"middle\" fill=\"#fbbf24\" style=\"font-size: 14px; font-weight: 900;\">WARMTH W我THOUT 计划A我N</text>\r\n      </g>\r\n\r\n      <text x=\"400\" y=\"550\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 10px; font-weight: 900; letter-spacing: 0.5em;\">O计划T我MAL 计划SYcHOLOG我cAL D我STANcE</text>\r\n    </svg>\n</div>"
+}

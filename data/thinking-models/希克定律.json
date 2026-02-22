@@ -1,0 +1,13 @@
+{
+  "id": "希克定律",
+  "name": "希克定律",
+  "label": "希克定律",
+  "icon": "BrainCircuit",
+  "description": "一个人面临的选择越多，所需要的决策时间就越长。每增加一个选项，都在无形中收割用户的认知带宽。",
+  "deepAnalysis": "这是一个思维模型，展示了希克定律的核心概念和应用。",
+  "principle": "思维模型的核心原则：希克定律",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将希克定律应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <!-- 坐标轴 -->\r\n      <line x1=\"150\" y1=\"550\" x2=\"850\" y2=\"550\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n      <line x1=\"150\" y1=\"550\" x2=\"150\" y2=\"100\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n      \r\n      <!-- 对数增长曲线 -->\r\n      <path d=\"M150,550 Q200,300 850,250\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"10\" stroke-linecap=\"round\">\r\n        <animate attributeName=\"stroke-dasharray\" from=\"0,1000\" to=\"1000,0\" dur=\"4s\" fill=\"freeze\" />\r\n      </path>\r\n\r\n      <!-- 选项按钮爆炸 -->\r\n      <g transform=\"translate(700, 350)\">\r\n        <rect x=\"-40\" y=\"-40\" width=\"80\" height=\"80\" rx=\"10\" fill=\"#94a3b8\" opacity=\"0.2\" />\r\n        <rect x=\"50\" y=\"-40\" width=\"80\" height=\"80\" rx=\"10\" fill=\"#94a3b8\" opacity=\"0.2\" />\r\n        <rect x=\"-130\" y=\"-40\" width=\"80\" height=\"80\" rx=\"10\" fill=\"#94a3b8\" opacity=\"0.2\" />\r\n        <text y=\"-80\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 42px; font-weight: 900;\">选项过载</text>\r\n      </g>\r\n\r\n      <g transform=\"translate(150, 100)\">\r\n        <circle r=\"40\" fill=\"#ef4444\" class=\"animate-ping\" />\r\n        <text x=\"60\" y=\"10\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">决策时间 (T)</text>\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"580\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 16px; font-weight: 900; letter-spacing: 0.5em;\">T我ME = a + b log₂(n + 1)</text>\r\n    </svg>\n</div>"
+}

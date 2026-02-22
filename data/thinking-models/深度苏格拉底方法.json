@@ -1,0 +1,13 @@
+{
+  "id": "深度苏格拉底方法",
+  "name": "深度苏格拉底方法",
+  "label": "苏格拉底追问",
+  "icon": "BrainCircuit",
+  "description": "对抗思维模糊的利刃。当你因为“不知道怎么搞”而拖延时，持续追问 3 个为什么。将宏大的、令人生畏的愿景（如做成长我计划），通过递归下钻，还原为当下 5 分钟就能D的物理动作。",
+  "deepAnalysis": "这是一个思维模型，展示了深度苏格拉底方法的核心概念和应用。",
+  "principle": "思维模型的核心原则：深度苏格拉底方法",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将深度苏格拉底方法应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 递归圆环 -->\r\n        <circle r=\"300\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"1\" opacity=\"0.05\" />\r\n        \r\n        <!-- 第一层：我想做我计划 -->\r\n        <circle r=\"240\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"2\" opacity=\"0.2\" />\r\n        <text y=\"-250\" text-anchor=\"middle\" fill=\"#ef4444\" opacity=\"0.4\" style=\"font-size: 14px;\">\"我想做我计划\" (模糊)</text>\r\n        \r\n        <!-- 第二层：分享成长方法 -->\r\n        <circle r=\"160\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"4\" opacity=\"0.4\" />\r\n        <text y=\"-170\" text-anchor=\"middle\" fill=\"#ef4444\" opacity=\"0.7\" style=\"font-size: 18px;\">\"具体分享效率工具\" (方向)</text>\r\n\r\n        <!-- 第三层：今日完成 5 个选题 -->\r\n        <circle r=\"80\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 30px #ef4444)\" />\r\n        <text text-anchor=\"middle\" y=\"5\" fill=\"white\" style=\"font-size: 20px; font-weight: 900;\">原子动作</text>\r\n        <circle r=\"100\" fill=\"none\" stroke=\"white\" stroke-width=\"1\" class=\"animate-ping\" />\r\n\r\n        <!-- 向下钻取的箭头 -->\r\n        <g stroke=\"#fbbf24\" stroke-width=\"4\">\r\n           <line x1=\"0\" y1=\"-240\" x2=\"0\" y2=\"-100\" marker-end=\"url(#goldarrow)\" />\r\n           <animate attributeName=\"stroke-dasharray\" from=\"0,200\" to=\"200,0\" dur=\"1s\" repeatCount=\"indefinite\" />\r\n        </g>\r\n      </g>\r\n      <defs>\r\n        <marker id=\"goldarrow\" markerWidth=\"10\" markerHeight=\"10\" refX=\"5\" refY=\"5\" orient=\"auto\"><path d=\"M0,0 L10,5 L0,10 Z\" fill=\"#fbbf24\"/></marker>\r\n      </defs>\r\n    </svg>\n</div>"
+}

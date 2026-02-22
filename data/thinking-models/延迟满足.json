@@ -1,0 +1,13 @@
+{
+  "id": "延迟满足",
+  "name": "延迟满足",
+  "label": "延迟满足",
+  "icon": "BrainCircuit",
+  "description": "为了更有价值的长远结果，而放弃当下的即时快感。这是衡量一个人心智成熟度和长期成就最重要的物理指标。",
+  "deepAnalysis": "延迟满足（Delayed Gratification）是衡量一个人心智成熟度和长期成就最重要的物理指标。著名的斯坦福棉花糖实验证明：能够为了更有价值的长远结果而放弃当下即时快感的孩子，在成年后普遍取得更高的成就。\n\n核心机制：\n- 时间偏好：选择现在还是未来\n- 自控能力：抵抗即时诱惑的能力\n- 目标导向：对长期目标的清晰认知\n\n典型表现：\n- 学习投资：放弃娱乐时间投入学习\n- 健康管理：放弃美食坚持锻炼\n- 财务规划：放弃消费进行储蓄投资",
+  "principle": "1. 时间偏好：延迟满足反映了对未来的重视\n2. 自控能力：延迟满足需要强大的自控能力\n3. 目标清晰：延迟满足需要对长期目标的清晰认知\n4. 可训练性：延迟满足能力可以通过训练提升\n5. 环境影响：环境对延迟满足能力有重要影响",
+  "scope": "个人发展、职业规划、企业管理、投资理财、健康管理、教育培养",
+  "tips": "1. 设定目标：设定清晰的长期目标\n2. 分解奖励：将大奖励分解为小奖励\n3. 转移注意：转移对即时诱惑的注意力\n4. 环境设计：设计有利于延迟满足的环境\n5. 习惯培养：培养延迟满足的习惯",
+  "practice": "从小事开始：通过日常小事锻炼延迟满足能力，如推迟看手机、先完成工作再娱乐。; \n          使用预承诺机制：提前做出承诺，增加反悔成本。; \n          可视化未来收益：定期想象长期目标实现后的场景，增强动力。; \n          建立奖励系统：为延迟满足的行为设置合理的奖励机制。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\n      <!-- 坐标轴 -->\n      <line x1=\"150\" y1=\"550\" x2=\"850\" y2=\"550\" stroke=\"var(--text-primary)\" stroke-width=\"2\" opacity=\"0.1\" />\n      <line x1=\"150\" y1=\"550\" x2=\"150\" y2=\"100\" stroke=\"var(--text-primary)\" stroke-width=\"2\" opacity=\"0.1\" />\n      \n      <!-- 路径 A: 即时满足 (平淡衰减) -->\n      <g>\n        <path d=\"M150,450 Q400,450 850,530\" fill=\"none\" stroke=\"var(--text-secondary)\" stroke-width=\"4\" stroke-dasharray=\"10 5\" opacity=\"0.4\" />\n        <circle cx=\"150\" cy=\"450\" r=\"15\" fill=\"var(--text-secondary)\" />\n        <text x=\"280\" y=\"490\" fill=\"var(--text-secondary)\" style=\"font-size: 16px; font-weight: 900;\">即时满足：多巴胺陷阱</text>\n      </g>\n\n      <!-- 路径 B: 延迟满足 (先抑后扬) -->\n      <g>\n        <path d=\"M150,550 Q300,550 500,450 T850,50\" fill=\"none\" stroke=\"var(--primary-color)\" stroke-width=\"10\" stroke-linecap=\"round\">\n          <animate attributeName=\"stroke-dasharray\" from=\"0,1500\" to=\"1500,0\" dur=\"4s\" fill=\"freeze\" />\n        </path>\n        <g transform=\"translate(850, 50)\">\n          <circle r=\"40\" fill=\"var(--primary-color)\" filter=\"drop-shadow(0 0 40px var(--primary-color))\" class=\"animate-pulse\" />\n          <text y=\"-60\" text-anchor=\"end\" fill=\"var(--primary-color)\" style=\"font-size: 52px; font-weight: 900;\">复利爆发</text>\n        </g>\n        <text x=\"300\" y=\"580\" fill=\"var(--primary-color)\" style=\"font-size: 24px; font-weight: 900;\">前期忍耐期</text>\n      </g>\n\n      <text x=\"150\" y=\"80\" text-anchor=\"middle\" fill=\"var(--text-secondary)\" style=\"font-size: 14px; font-weight: 900; opacity: 0.3;\" transform=\"rotate(-90 150 80)\">生命价值潜力 ↑</text>\n    </svg>\n</div>"
+}

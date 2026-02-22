@@ -1,0 +1,14 @@
+{
+  "id": "侯世达定律",
+  "name": "侯世达定律",
+  "label": "侯世达定律",
+  "icon": "BrainCircuit",
+  "description": "人类预估能力的终极讽刺。由于任务的复杂性呈非线性指数级增长，我们的预估永远赶不上变化的脚步，即使你预留了缓冲时间。",
+  "deepAnalysis": "侯世达定律（Hofstadter's Law）是由认知科学家道格拉斯·侯世达提出的一条著名定律：'做事所花费的时间总是比你预期的要长，即使你预期到了侯世达定律也是如此。'这揭示了人类在时间估算上的系统性偏差，以及复杂任务的不确定性本质。",
+  "principle": "1. 乐观偏差：人们天生倾向于低估任务完成时间，即使知道这个偏差也难以避免\n2. 递归悖论：即使考虑了侯世达定律，估算仍然会偏低，形成递归困境\n3. 忽略未知：估算时只考虑已知因素，忽略了未知的意外和复杂性\n4. 单点估算：人们倾向于给出一个确定的时间，而非时间范围\n5. 规划谬误：这是规划谬误的一种表现形式，与乐观偏见相关。",
+  "scope": "项目管理、软件开发、工程规划、个人时间管理、学术研究、创业计划",
+  "tips": "1. 范围估算：给出乐观、悲观、最可能三个时间估算，而非单一数值\n2. 历史校准：参考类似任务的实际耗时，校准估算偏差\n3. 缓冲时间：在估算基础上增加50%-100%的缓冲时间\n4. 分解任务：将大任务分解为小任务，分别估算后汇总\n5. 定期复盘：记录估算与实际的差距，持续校准估算能力。",
+  "practice": "1. 项目规划：在项目计划中预留充足的缓冲时间，通常为估算的1.5-2倍\n2. 敏捷开发：使用迭代方式，每轮迭代后校准时间估算\n3. 个人任务：给每个任务增加50%的缓冲时间\n4. 团队协作：让多人独立估算后取平均值，减少个人偏差\n5. 风险管理：识别可能导致延期的风险因素，制定应对方案。",
+  "scenario": "1. 软件开发：程序员估算3天完成的功能，实际可能需要1-2周\n2. 装修工程：预计2个月的装修，可能拖延到4个月\n3. 学术研究：预计1年完成的论文，可能需要2-3年\n4. 创业项目：预计6个月上线的产品，可能需要1年以上\n5. 日常任务：预计1小时完成的家务，可能需要2-3小时。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <g transform=\"translate(500, 300)\">\r\n        <circle r=\"220\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"1\" opacity=\"0.1\" />\r\n        <g>\r\n          <animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0\" to=\"360\" dur=\"25s\" repeatCount=\"indefinite\" />\r\n          <line x1=\"0\" y1=\"0\" x2=\"0\" y2=\"-200\" stroke=\"#ef4444\" stroke-width=\"6\" stroke-linecap=\"round\" />\r\n          <g transform=\"translate(0, -200)\">\r\n             <circle r=\"50\" fill=\"#ffffff\" stroke=\"#ef4444\" stroke-width=\"3\" />\r\n             <line x1=\"0\" y1=\"0\" x2=\"0\" y2=\"-40\" stroke=\"#ef4444\" stroke-width=\"3\">\r\n                <animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0\" to=\"360\" dur=\"3s\" repeatCount=\"indefinite\" />\r\n             </line>\r\n          </g>\r\n        </g>\r\n        <text y=\"10\" text-anchor=\"middle\" fill=\"#1e293b\" style=\"font-size: 20px; font-weight: 900;\">永远比预期的长</text>\r\n        <text y=\"50\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 28px; font-weight: 900;\">(即便是你考虑到了本定律)</text>\r\n      </g>\r\n      <text x=\"500\" y=\"560\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 18px; font-weight: 900; letter-spacing: 0.5em;\">递归式的进度盲区</text>\r\n    </svg>\n</div>"
+}

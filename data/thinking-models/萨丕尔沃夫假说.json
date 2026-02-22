@@ -1,0 +1,13 @@
+{
+  "id": "萨丕尔沃夫假说",
+  "name": "萨丕尔-沃夫假说",
+  "label": "萨皮尔-沃尔夫假说",
+  "icon": "BrainCircuit",
+  "description": "语言不仅是表达思想的工具，更是塑造思想的模具。你所掌握的词汇量和语法结构，决定了你观察世界的颗粒度。如果你没有某个概念的词汇，你甚至无法在脑中意识到它的存在。",
+  "deepAnalysis": "这是一个思维模型，展示了萨丕尔-沃夫假说的核心概念和应用。",
+  "principle": "思维模型的核心原则：萨丕尔-沃夫假说",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将萨丕尔-沃夫假说应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 思考者大脑 -->\r\n        <path d=\"M-120,0 Q-120,-180 0,-180 T120,0 T0,180 T-120,0\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"1\" opacity=\"0.1\" />\r\n        \r\n        <!-- 语言的格栅 (监狱) -->\r\n        <g stroke=\"#ef4444\" stroke-width=\"4\" opacity=\"0.3\">\r\n          <line x1=\"-200\" y1=\"-100\" x2=\"200\" y2=\"-100\" /><line x1=\"-200\" y1=\"0\" x2=\"200\" y2=\"0\" /><line x1=\"-200\" y1=\"100\" x2=\"200\" y2=\"100\" />\r\n          <line x1=\"-100\" y1=\"-200\" x2=\"-100\" y2=\"200\" /><line x1=\"100\" y1=\"-200\" x2=\"100\" y2=\"200\" />\r\n        </g>\r\n\r\n        <!-- 核心真相：无法被语言描述的色彩 -->\r\n        <g>\r\n          <circle r=\"60\" fill=\"url(#rainbowGrad)\" filter=\"drop-shadow(0 0 30px #3b82f6)\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"white\" style=\"font-size: 16px; font-weight: 900;\">未命名的认知</text>\r\n          <path d=\"M0,-80 L0,-120\" stroke=\"#ef4444\" stroke-width=\"4\" marker-end=\"url(#redarrow)\" />\r\n          <text y=\"-140\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">语言之外 无从思考</text>\r\n        </g>\r\n      </g>\r\n      <defs>\r\n        <linearGradient id=\"rainbowGrad\"><stop offset=\"0%\" stop-color=\"#3b82f6\" /><stop offset=\"50%\" stop-color=\"#10b981\" /><stop offset=\"100%\" stop-color=\"#ef4444\" /></linearGradient>\r\n        <marker id=\"redarrow\" markerWidth=\"10\" markerHeight=\"10\" refX=\"5\" refY=\"5\" orient=\"auto\"><path d=\"M0,0 L10,5 L0,10 Z\" fill=\"#ef4444\"/></marker>\r\n      </defs>\r\n      <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.1em; opacity: 0.1;\">语言塑造思想</text>\r\n    </svg>\n</div>"
+}

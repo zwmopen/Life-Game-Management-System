@@ -1,0 +1,13 @@
+{
+  "id": "决策树",
+  "name": "决策树",
+  "label": "决策树模型",
+  "icon": "BrainCircuit",
+  "description": "将复杂的抉择路径可视化。通过解构每个决策点的概率与潜在收益，将非理性的直觉转化为数学上的期望值计算。",
+  "deepAnalysis": "决策树（Decision Tree）是一种将复杂决策可视化的工具。通过解构每个决策点的概率与潜在收益，将非理性的直觉转化为数学上的期望值计算。\n\n核心结构：\n- 决策节点：需要做出选择的点（方形）\n- 机会节点：结果不确定的点（圆形）\n- 分支：不同的选择或结果\n- 终点：最终结果和收益\n\n计算方法：\n- 期望值 = 概率 × 收益\n- 从终点倒推，计算每个节点的期望值\n- 选择期望值最大的路径\n\n应用价值：让决策从直觉走向量化，避免情绪干扰。",
+  "principle": "1. 结构化思维：将复杂决策拆解为简单的选择序列\n2. 量化决策：用期望值量化每个选择的收益\n3. 概率思维：考虑不同结果的概率分布\n4. 倒推计算：从终点倒推计算期望值\n5. 理性选择：选择期望值最大的路径",
+  "scope": "投资决策、商业决策、医疗诊断、项目管理、风险管理、职业规划",
+  "tips": "1. 画出决策树：将决策可视化\n2. 估计概率：估计每个结果的概率\n3. 计算收益：计算每个终点的收益\n4. 倒推期望值：从终点倒推计算期望值\n5. 敏感性分析：分析关键假设的影响",
+  "practice": "将决策树应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\n          <g stroke=\"var(--text-primary)\" stroke-width=\"2\" opacity=\"0.1\">\n            <line x1=\"500\" y1=\"100\" x2=\"500\" y2=\"250\" />\n            <line x1=\"500\" y1=\"250\" x2=\"300\" y2=\"400\" />\n            <line x1=\"500\" y1=\"250\" x2=\"700\" y2=\"400\" />\n          </g>\n          \n          <g transform=\"translate(500, 100)\">\n            <rect x=\"-100\" y=\"-40\" width=\"200\" height=\"80\" rx=\"20\" fill=\"var(--primary-color)\" />\n            <text text-anchor=\"middle\" y=\"8\" fill=\"white\" style=\"font-size: 28px; font-weight: 900;\">核心决策点</text>\n          </g>\n\n          <g transform=\"translate(300, 400)\">\n            <circle r=\"60\" fill=\"var(--primary-color)\" fill-opacity=\"0.1\" stroke=\"var(--primary-color)\" stroke-width=\"3\" />\n            <text text-anchor=\"middle\" y=\"5\" fill=\"var(--primary-color)\" style=\"font-size: 24px; font-weight: 900;\">风险路径</text>\n            <text y=\"100\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 16px; font-weight: 800;\">(30% 失败率)</text>\n          </g>\n\n          <g transform=\"translate(700, 400)\">\n            <circle r=\"60\" fill=\"var(--success-color)\" fill-opacity=\"0.1\" stroke=\"var(--success-color)\" stroke-width=\"3\" />\n            <text text-anchor=\"middle\" y=\"5\" fill=\"var(--success-color)\" style=\"font-size: 24px; font-weight: 900;\">机会路径</text>\n            <text y=\"100\" text-anchor=\"middle\" fill=\"var(--success-color)\" style=\"font-size: 16px; font-weight: 800;\">(70% 成功率)</text>\n          </g>\n\n          <text x=\"500\" y=\"550\" text-anchor=\"middle\" fill=\"var(--text-secondary)\" style=\"font-size: 20px; font-weight: 900; letter-spacing: 0.3em; opacity: 0.2;\">理性评估每一个可能的分叉</text>\n        </svg>\n</div>"
+}

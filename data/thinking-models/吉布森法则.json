@@ -1,0 +1,14 @@
+{
+  "id": "吉布森法则",
+  "name": "吉布森法则",
+  "label": "吉布森定律",
+  "icon": "BrainCircuit",
+  "description": "“对于每一位提供有力证据的专家，你总能找到另一位持相反意见且证据同样有力的专家。” 揭示了在复杂法律、科学或商业辩论中，纯粹依靠“专家意见”无法达成共识的物理现实。",
+  "deepAnalysis": "吉布森法则（Gibson's Law）揭示了信息与决策的关系。核心洞见：信息不是被动接收的，而是主动感知的。我们看到的不是客观现实，而是我们准备好看到的东西。我们的经验、预期和目标会过滤和塑造我们感知的信息。这就是为什么不同的人面对同样的情况会做出完全不同的判断。",
+  "principle": "1. 主动感知：信息是主动感知而非被动接收\n2. 经验过滤：经验会过滤我们感知的信息\n3. 预期影响：预期会影响我们看到的现实\n4. 目标导向：目标会引导注意力方向\n5. 认知框架：认知框架决定感知内容",
+  "scope": "决策分析、信息处理、用户研究、市场洞察、风险评估、创新思维",
+  "tips": "1. 意识偏见：意识到自己的认知偏见\n2. 多元视角：从多个视角看待问题\n3. 挑战假设：挑战自己的假设\n4. 收集反例：主动寻找反例\n5. 更新框架：持续更新认知框架",
+  "practice": "1. 反思偏见：反思自己的认知偏见\n2. 寻求多元：寻求多元的观点\n3. 挑战假设：挑战自己的假设\n4. 收集信息：广泛收集信息\n5. 更新认知：根据新信息更新认知",
+  "scenario": "1. 市场调研：避免只看到想看到的信息\n2. 用户研究：理解用户的感知框架\n3. 风险评估：避免忽视潜在风险\n4. 创新思维：突破现有认知框架\n5. 决策分析：避免确认偏误",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 分裂的天平 -->\r\n        <g transform=\"translate(-250, 0)\">\r\n          <circle r=\"100\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"10 5\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">专家 A 的证据</text>\r\n          <path d=\"M0,100 L0,200\" stroke=\"#ef4444\" stroke-width=\"2\" stroke-dasharray=\"5 5\" />\r\n        </g>\r\n        \r\n        <g transform=\"translate(250, 0)\">\r\n          <circle r=\"100\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"10 5\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">专家 B 的反证</text>\r\n          <path d=\"M0,100 L0,200\" stroke=\"#ef4444\" stroke-width=\"2\" stroke-dasharray=\"5 5\" />\r\n        </g>\r\n\r\n        <!-- 决策者的死锁 -->\r\n        <g>\r\n          <rect x=\"-80\" y=\"-40\" width=\"160\" height=\"80\" rx=\"40\" fill=\"#1e293b\" opacity=\"0.9\" />\r\n          <text text-anchor=\"middle\" y=\"10\" fill=\"white\" style=\"font-size: 14px; font-weight: 900;\">决策僵局</text>\r\n          <path d=\"M-60,-60 L60,60 M60,-60 L-60,60\" stroke=\"#fbbf24\" stroke-width=\"12\" stroke-linecap=\"round\" />\r\n        </g>\r\n\r\n        <text y=\"280\" text-anchor=\"middle\" fill=\"#94a3b8\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.1em;\">证据是无穷的，结论是主观的</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

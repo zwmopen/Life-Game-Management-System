@@ -1,0 +1,13 @@
+{
+  "id": "无标度网络",
+  "name": "无标度网络",
+  "label": "无标度网络",
+  "icon": "BrainCircuit",
+  "description": "巴拉巴西提出。真实网络不是均匀的。由于“偏好依附”，系统内存在着极少数拥有天文数字级别连接的超级节点。这种结构极其稳健（抗随机破坏），但也极其脆弱（怕精准打击）。",
+  "deepAnalysis": "这是一个思维模型，展示了无标度网络的核心概念和应用。",
+  "principle": "思维模型的核心原则：无标度网络",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将无标度网络应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 超级节点 (Hub) -->\r\n        <circle r=\"50\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 30px #ef4444)\" />\r\n        \r\n        <!-- 连接线 -->\r\n        <g stroke=\"#ef4444\" stroke-width=\"1.5\" opacity=\"0.2\">\r\n          <line x1=\"0\" y1=\"0\" x2=\"-300\" y2=\"-200\" /><line x1=\"0\" y1=\"0\" x2=\"300\" y2=\"-150\" />\r\n          <line x1=\"0\" y1=\"0\" x2=\"-250\" y2=\"150\" /><line x1=\"0\" y1=\"0\" x2=\"280\" y2=\"200\" />\r\n          <line x1=\"0\" y1=\"0\" x2=\"0\" y2=\"-280\" /><line x1=\"0\" y1=\"0\" x2=\"0\" y2=\"280\" />\r\n        </g>\r\n\r\n        <!-- 普通节点 -->\r\n        <g fill=\"#1e293b\">\r\n          <circle cx=\"-300\" cy=\"-200\" r=\"10\" /><circle cx=\"300\" cy=\"-150\" r=\"10\" />\r\n          <circle cx=\"-250\" cy=\"150\" r=\"10\" /><circle cx=\"280\" cy=\"200\" r=\"10\" />\r\n          <circle cx=\"0\" cy=\"-280\" r=\"10\" /><circle cx=\"0\" cy=\"280\" r=\"10\" />\r\n        </g>\r\n\r\n        <!-- 针对性攻击 (闪电) -->\r\n        <g transform=\"translate(0, 0)\" opacity=\"0\">\r\n          <animate attributeName=\"opacity\" values=\"0;1;0\" dur=\"2s\" repeatCount=\"indefinite\" />\r\n          <path d=\"M-50,-200 L0,-50 L50,-200\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"4\" />\r\n          <text y=\"-100\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">精准打击 Hub = 系统瘫痪</text>\r\n        </g>\r\n\r\n        <text y=\"320\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.1em;\">连接的极致不平等</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

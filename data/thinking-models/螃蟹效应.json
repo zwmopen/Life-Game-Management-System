@@ -1,0 +1,14 @@
+{
+  "id": "螃蟹效应",
+  "name": "螃蟹效应",
+  "label": "螃蟹效应",
+  "icon": "BrainCircuit",
+  "description": "“如果我爬不上去，我也绝不允许你爬上去。”这种源于嫉妒的内耗，是组织活力的头号杀手。",
+  "deepAnalysis": "螃蟹效应（Crab Mentality）揭示了群体中的嫉妒内耗。核心洞见：如果我爬不上去，我也绝不允许你爬上去。这种源于嫉妒的内耗，是组织活力的头号杀手。当一个人试图脱颖而出时，其他人会下意识地将其拉回同一水平。",
+  "principle": "1. 嫉妒心理：源于嫉妒的拉扯\n2. 内耗机制：群体内部消耗\n3. 拉回水平：将优秀者拉回\n4. 组织杀手：组织活力的杀手\n5. 零和思维：零和博弈思维",
+  "scope": "组织管理、团队建设、企业文化、人际交往、职业发展、领导力",
+  "tips": "1. 识别行为：识别螃蟹效应行为\n2. 保护优秀：保护优秀员工\n3. 建立文化：建立正向文化\n4. 激励合作：激励合作而非竞争\n5. 领导干预：领导及时干预",
+  "practice": "1. 识别行为：识别螃蟹效应行为\n2. 保护优秀：保护优秀员工\n3. 建立文化：建立正向文化\n4. 激励合作：激励合作\n5. 持续监测：持续监测组织氛围",
+  "scenario": "1. 组织管理：管理组织氛围\n2. 团队建设：建设正向团队\n3. 企业文化：建设企业文化\n4. 人际交往：处理人际关系\n5. 职业发展：避免职业内耗",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\n        <!-- 篓子 -->\n        <rect x=\"350\" y=\"100\" width=\"300\" height=\"450\" rx=\"30\" fill=\"none\" stroke=\"var(--text-primary)\" stroke-width=\"2\" stroke-dasharray=\"10 20\" opacity=\"0.1\" />\n        \n        <!-- 试图逃离者 (上) -->\n        <g transform=\"translate(500, 180)\">\n          <circle r=\"40\" fill=\"var(--primary-color)\" fill-opacity=\"0.8\" />\n          <path d=\"M-50,0 L-30,-20 M50,0 L30,-20\" stroke=\"var(--primary-color)\" stroke-width=\"6\" stroke-linecap=\"round\" />\n          <text text-anchor=\"middle\" y=\"5\" fill=\"white\" style=\"font-size: 14px; font-weight: 900;\">创新者</text>\n        </g>\n\n        <!-- 拖拽者 (下) -->\n        <g transform=\"translate(500, 350)\">\n          <circle r=\"45\" fill=\"var(--text-primary)\" opacity=\"0.8\" />\n          <text text-anchor=\"middle\" y=\"5\" fill=\"white\" style=\"font-size: 14px; font-weight: 900;\">平庸者</text>\n          <line x1=\"0\" y1=\"-45\" x2=\"0\" y2=\"-120\" stroke=\"var(--primary-color)\" stroke-width=\"4\" stroke-dasharray=\"5 5\">\n            <animate attributeName=\"stroke-dashoffset\" from=\"0\" to=\"20\" dur=\"0.5s\" repeatCount=\"indefinite\" />\n          </line>\n        </g>\n\n        <text x=\"500\" y=\"580\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 12px; font-weight: 900; letter-spacing: 0.5em;\">THE CRAB BUCKET TRAP</text>\n      </svg>\n</div>"
+}

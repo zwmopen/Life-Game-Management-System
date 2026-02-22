@@ -1,0 +1,13 @@
+{
+  "id": "投入",
+  "name": "投入",
+  "label": "风险共担",
+  "icon": "BrainCircuit",
+  "description": "“不要听取那些不需要为自己的建议承担后果的人。” 塔勒布认为物理层面的对称风险，是系统健康运行的唯一道德基础。",
+  "deepAnalysis": "这是一个思维模型，展示了投入的核心概念和应用。",
+  "principle": "思维模型的核心原则：投入",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将投入应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <!-- 支架 -->\r\n      <path d=\"M480,500 L520,500 L500,450 Z\" fill=\"#1e293b\" opacity=\"0.1\" />\r\n      \r\n      <!-- 天平杠杆 -->\r\n      <g transform=\"translate(500, 450)\">\r\n        <animateTransform attributeName=\"transform\" type=\"rotate\" values=\"-2,0,0; 2,0,0; -2,0,0\" dur=\"4s\" repeatCount=\"indefinite\" />\r\n        <rect x=\"-350\" y=\"-5\" width=\"700\" height=\"10\" rx=\"5\" fill=\"#1e293b\" />\r\n        \r\n        <!-- 收益端 -->\r\n        <g transform=\"translate(-250, -60)\">\r\n          <rect x=\"-50\" y=\"0\" width=\"100\" height=\"60\" rx=\"10\" fill=\"#10b981\" />\r\n          <text text-anchor=\"middle\" y=\"35\" fill=\"white\" style=\"font-size: 14px; font-weight: 900;\">收益 REWaRd</text>\r\n        </g>\r\n\r\n        <!-- 风险端 -->\r\n        <g transform=\"translate(250, -60)\">\r\n          <rect x=\"-50\" y=\"0\" width=\"100\" height=\"60\" rx=\"10\" fill=\"#ef4444\" />\r\n          <text text-anchor=\"middle\" y=\"35\" fill=\"white\" style=\"font-size: 14px; font-weight: 900;\">风险 R我SK</text>\r\n        </g>\r\n\r\n        <!-- 关联锁链 -->\r\n        <path d=\"M-250,0 Q0,-150 250,0\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"3\" stroke-dasharray=\"10 5\" opacity=\"0.3\" />\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"100\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 48px; font-weight: 900; letter-spacing: 0.1em; opacity: 0.05;\">SK我N 我N THE G是E</text>\r\n      <text x=\"500\" y=\"150\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 16px; font-weight: 900;\">没有风险共担，就没有真正的过滤</text>\r\n    </svg>\n</div>"
+}

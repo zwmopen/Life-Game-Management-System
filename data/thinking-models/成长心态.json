@@ -1,0 +1,13 @@
+{
+  "id": "成长心态",
+  "name": "成长心态",
+  "label": "成长型思维",
+  "icon": "BrainCircuit",
+  "description": "由卡罗尔·德韦克提出。这不仅是关于努力，更是关于大脑的可塑性：将每一次失败视为“尚未成功”的阶梯，而非对自己能力的终极审判。",
+  "deepAnalysis": "这是一个思维模型，展示了成长心态的核心概念和应用。",
+  "principle": "思维模型的核心原则：成长心态",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将成长心态应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <!-- 固定思维 (左) -->\r\n      <g transform=\"translate(250, 325)\">\r\n        <rect x=\"-120\" y=\"-120\" width=\"240\" height=\"240\" rx=\"40\" fill=\"none\" stroke=\"#94a3b8\" stroke-width=\"4\" opacity=\"0.3\" />\r\n        <path d=\"M-60,-60 L60,60 M60,-60 L-60,60\" stroke=\"#94a3b8\" stroke-width=\"8\" stroke-linecap=\"round\" opacity=\"0.2\" />\r\n        <text y=\"160\" text-anchor=\"middle\" fill=\"#94a3b8\" style=\"font-size: 28px; font-weight: 900;\">固定思维</text>\r\n        <text y=\"195\" text-anchor=\"middle\" fill=\"#94a3b8\" style=\"font-size: 14px;\">(天赋是天生的，避免失败)</text>\r\n      </g>\r\n      \r\n      <!-- 成长思维 (右) -->\r\n      <g transform=\"translate(750, 325)\">\r\n        <circle r=\"150\" fill=\"#ef4444\" fill-opacity=\"0.05\" class=\"animate-pulse\" />\r\n        <!-- 绽放的形状 -->\r\n        <g fill=\"#ef4444\">\r\n          <path d=\"M0,0 Q-40,-120 0,-180 Q40,-120 0,0\" opacity=\"0.8\" />\r\n          <path d=\"M0,0 Q40,120 0,180 Q-40,120 0,0\" opacity=\"0.8\" />\r\n          <path d=\"M0,0 Q120,-40 180,0 Q120,40 0,0\" opacity=\"0.8\" />\r\n          <path d=\"M0,0 Q-120,40 -180,0 Q-120,-40 0,0\" opacity=\"0.8\" />\r\n          <animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0\" to=\"360\" dur=\"20s\" repeatCount=\"indefinite\" />\r\n        </g>\r\n        <circle r=\"30\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 30px #ef4444)\" />\r\n        <text y=\"220\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 42px; font-weight: 900;\">成长型思维</text>\r\n        <text y=\"260\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 16px; font-weight: 900;\">(挑战是养分，过程即终点)</text>\r\n      </g>\r\n\r\n      <path d=\"M420,325 L580,325\" stroke=\"#1e293b\" stroke-width=\"2\" stroke-dasharray=\"10 5\" opacity=\"0.1\" />\r\n      <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900; letter-spacing: 0.5em; opacity: 0.2;\">THE 计划OWER OF YET</text>\r\n    </svg>\n</div>"
+}

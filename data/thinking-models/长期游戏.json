@@ -1,0 +1,14 @@
+{
+  "id": "长期游戏",
+  "name": "长期游戏",
+  "label": "长线博弈",
+  "icon": "BrainCircuit",
+  "description": "Naval Ravikant 提出。在商业和社交中，所有的复利增长都源于重复的信任博弈。当你与一群靠谱的人长期共事，你们之间的摩擦成本（沟通、法律、契约）会趋向于零，而创造力将无限放大。",
+  "deepAnalysis": "长期游戏（Long-term Game）由Naval Ravikant提出。核心洞见：在商业和社交中，所有的复利增长都源于重复的信任博弈。当你与一群靠谱的人长期共事，你们之间的摩擦成本会趋向于零，而创造力将无限放大。长期游戏是积累信任资本的最佳策略。",
+  "principle": "1. 信任复利：信任随时间复利增长\n2. 摩擦降低：长期合作降低摩擦成本\n3. 创造力放大：信任释放创造力\n4. 筛选机制：长期游戏筛选靠谱的人\n5. 重复博弈：重复博弈促进合作",
+  "scope": "商业合作、人际关系、团队建设、投资决策、职业发展、创业战略",
+  "tips": "1. 选择靠谱的人：选择值得长期合作的人\n2. 建立信任：持续建立信任\n3. 长期视角：用长期视角做决策\n4. 重复合作：与靠谱的人重复合作\n5. 避免短期：避免短期博弈思维",
+  "practice": "1. 筛选伙伴：筛选值得长期合作的人\n2. 建立信任：持续建立信任\n3. 长期合作：与靠谱的人长期合作\n4. 积累声誉：积累长期声誉\n5. 复利增长：享受信任复利",
+  "scenario": "1. 商业合作：建立长期商业伙伴关系\n2. 团队建设：建立长期团队\n3. 投资决策：做长期投资决策\n4. 职业发展：规划长期职业发展\n5. 创业战略：制定长期创业战略",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 消失的水平线 (远方) -->\r\n        <path d=\"M-400,100 L400,100\" stroke=\"#1e293b\" stroke-width=\"1\" opacity=\"0.1\" />\r\n        \r\n        <!-- 核心路径 (不断延展的桥梁) -->\r\n        <g>\r\n          <path d=\"M-350,100 L350,-200\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"12\" stroke-linecap=\"round\" opacity=\"0.2\" />\r\n          <path d=\"M-350,100 L350,-200\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"20 10\">\r\n            <animate attributeName=\"stroke-dashoffset\" from=\"100\" to=\"0\" dur=\"3s\" repeatCount=\"indefinite\" />\r\n          </path>\r\n        </g>\r\n\r\n        <!-- 节点：复利点 -->\r\n        <g transform=\"translate(0, -50)\">\r\n          <circle r=\"60\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"2\" class=\"animate-pulse\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">信誉复利</text>\r\n        </g>\r\n\r\n        <!-- 短线博弈 (红色，被甩开) -->\r\n        <g transform=\"translate(-200, 150)\" opacity=\"0.3\">\r\n          <rect x=\"-40\" y=\"-10\" width=\"80\" height=\"20\" fill=\"#ef4444\" rx=\"5\" />\r\n          <text y=\"40\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 10px;\">短线收割 (无后劲)</text>\r\n        </g>\r\n\r\n        <text y=\"240\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.1em;\">与对的人 玩一辈子的游戏</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

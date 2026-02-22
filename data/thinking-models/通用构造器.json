@@ -1,0 +1,14 @@
+{
+  "id": "通用构造器",
+  "name": "通用构造器",
+  "label": "万能构造器",
+  "icon": "BrainCircuit",
+  "description": "冯·诺依曼提出。一个能制造自身的系统必须包含：一个能D任何图纸的机器（构造器）、该机器的说明书（描述）、以及一个能完美复制该说明书的复印机。这是生命复制和人工智能自我进化的终极模型。",
+  "deepAnalysis": "通用构造器（Universal Constructor）由冯·诺依曼提出。核心洞见：一个能制造自身的系统必须包含三个要素：一个能执行任何图纸的机器（构造器）、该机器的说明书（描述）、以及一个能完美复制该说明书的复印机。这是生命复制和人工智能自我进化的终极模型。",
+  "principle": "1. 构造器：能执行任何图纸的机器\n2. 描述：构造器的说明书\n3. 复印机：能复制说明书\n4. 自我复制：三个要素实现自我复制\n5. 进化基础：生命和AI进化的基础",
+  "scope": "人工智能、生命科学、系统设计、自动化、自我进化、复杂系统",
+  "tips": "1. 理解自我复制：理解自我复制的要素\n2. 设计系统：设计能自我复制的系统\n3. 信息传递：确保信息的完整传递\n4. 进化机制：建立进化机制\n5. 自动化：实现系统自动化",
+  "practice": "1. 分析系统：分析系统的自我复制能力\n2. 识别要素：识别构造器、描述、复印机\n3. 设计系统：设计自我复制系统\n4. 测试验证：测试自我复制能力\n5. 优化进化：优化进化机制",
+  "scenario": "1. 人工智能：设计能自我进化的AI\n2. 生命科学：理解生命的自我复制\n3. 系统设计：设计自我复制系统\n4. 自动化：实现系统自动化\n5. 复杂系统：理解复杂系统",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 核心控制器 (描述 A) -->\r\n        <rect x=\"-300\" y=\"-150\" width=\"200\" height=\"120\" rx=\"20\" fill=\"#ef4444\" />\r\n        <text x=\"-200\" y=\"-80\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 18px; font-weight: 900;\">指令描述 (A)</text>\r\n        \r\n        <!-- 建造手臂 (构造器 B) -->\r\n        <g transform=\"translate(0, 0)\">\r\n          <path d=\"M-100,0 L150,0\" stroke=\"#1e293b\" stroke-width=\"20\" stroke-linecap=\"round\" opacity=\"0.2\" />\r\n          <path d=\"M-100,0 L50,0\" stroke=\"#ef4444\" stroke-width=\"8\" stroke-dasharray=\"10 5\">\r\n            <animate attributeName=\"d\" values=\"M-100,0 L50,0; M-100,0 L350,0; M-100,0 L50,0\" dur=\"4s\" repeatCount=\"indefinite\" />\r\n          </path>\r\n          <circle cx=\"0\" cy=\"0\" r=\"40\" fill=\"#ef4444\" />\r\n          <text text-anchor=\"middle\" y=\"80\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">构造器主体</text>\r\n        </g>\r\n\r\n        <!-- 复制出的后代 -->\r\n        <g transform=\"translate(350, -100)\" opacity=\"0\">\r\n          <animate attributeName=\"opacity\" from=\"0\" to=\"1\" dur=\"1s\" begin=\"2s\" fill=\"freeze\" />\r\n          <rect x=\"-50\" y=\"-30\" width=\"100\" height=\"60\" rx=\"10\" fill=\"#ef4444\" fill-opacity=\"0.3\" stroke=\"#ef4444\" />\r\n          <text text-anchor=\"middle\" y=\"60\" fill=\"#ef4444\" style=\"font-size: 12px; font-weight: 900;\">复制品 (A+B)</text>\r\n        </g>\r\n\r\n        <text y=\"240\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 42px; font-weight: 900; letter-spacing: 0.1em;\">自复制的逻辑闭环</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

@@ -1,0 +1,14 @@
+{
+  "id": "香农极限",
+  "name": "香农极限",
+  "label": "香农极限",
+  "icon": "BrainCircuit",
+  "description": "信息论的终极判决：在存在噪声的信道中，数据的无误传输率存在一个绝对的理论上限。无论你如何优化编码，一旦超过这个极限，误码率将不可控地爆发。这是通信宇宙的物理围墙。",
+  "deepAnalysis": "香农极限（Shannon Limit）是信息论的终极判决。核心洞见：在存在噪声的信道中，数据的无误传输率存在一个绝对的理论上限。无论你如何优化编码，一旦超过这个极限，误码率将不可控地爆发。这是通信宇宙的物理围墙，也是任何传输系统的理论边界。",
+  "principle": "1. 理论上限：无误传输存在理论上限\n2. 噪声约束：噪声决定了传输极限\n3. 编码优化：优化编码可逼近极限\n4. 不可逾越：超过极限必然出错\n5. 工程意义：指导通信系统设计",
+  "scope": "通信工程、数据传输、网络设计、信息论、系统设计、资源优化",
+  "tips": "1. 认识边界：认识系统的理论边界\n2. 优化逼近：优化以逼近极限\n3. 避免过载：不要超过系统极限\n4. 降低噪声：降低噪声提高极限\n5. 增加带宽：增加带宽提高容量",
+  "practice": "1. 评估系统：评估系统的传输能力\n2. 识别噪声：识别系统的噪声源\n3. 计算极限：计算理论传输极限\n4. 优化编码：优化编码逼近极限\n5. 监测性能：监测实际传输性能",
+  "scenario": "1. 通信系统：设计高效的通信系统\n2. 数据传输：优化数据传输效率\n3. 网络设计：规划网络带宽\n4. 存储系统：设计高效存储系统\n5. 资源分配：合理分配传输资源",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 信道管道 -->\r\n        <rect x=\"-400\" y=\"-100\" width=\"800\" height=\"200\" rx=\"20\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n        \r\n        <!-- 噪声 (背景杂波) -->\r\n        <g fill=\"#ef4444\" opacity=\"0.1\">\r\n          <circle cx=\"-300\" cy=\"50\" r=\"5\" /><circle cx=\"200\" cy=\"-60\" r=\"4\" />\r\n          <animateTransform attributeName=\"transform\" type=\"translate\" values=\"0,0; 5,5; 0,0\" dur=\"0.1s\" repeatCount=\"indefinite\" />\r\n        </g>\r\n\r\n        <!-- 信息流 (蓝色数据块) -->\r\n        <g>\r\n          <rect x=\"-380\" y=\"-40\" width=\"600\" height=\"80\" rx=\"10\" fill=\"#ef4444\" fill-opacity=\"0.3\">\r\n             <animate attributeName=\"width\" values=\"100;750;100\" dur=\"5s\" repeatCount=\"indefinite\" />\r\n          </rect>\r\n          <text y=\"8\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">有效带宽</text>\r\n        </g>\r\n\r\n        <!-- 香农红线 (硬上限) -->\r\n        <g transform=\"translate(350, 0)\">\r\n          <line x1=\"0\" y1=\"-150\" x2=\"0\" y2=\"150\" stroke=\"#ef4444\" stroke-width=\"8\" stroke-dasharray=\"10 5\" />\r\n          <text x=\"20\" y=\"-120\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">SHaNNON L我M我T</text>\r\n          <text x=\"20\" y=\"-90\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">C = B log₂(1 + S/N)</text>\r\n        </g>\r\n\r\n        <text y=\"240\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.5\" style=\"font-size: 18px; font-weight: 900;\">任何信道 都有不可逾越的吞吐上限</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

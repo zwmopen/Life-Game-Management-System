@@ -1,0 +1,14 @@
+{
+  "id": "中断恢复",
+  "name": "中断恢复",
+  "label": "逻辑断路补偿",
+  "icon": "BrainCircuit",
+  "description": "逻辑断路补偿是一套针对完美主义者的心理补丁系统，旨在防止一次失败引发的连锁反应。当日常习惯或目标因为外部原因中断时，这套系统帮助人们承认失败、避免内疚、并立即启动明天的重启程序，从而打破\"破罐子破摔\"的负面循环。",
+  "deepAnalysis": "逻辑断路补偿（又称中断恢复）是一套针对完美主义者的心理补丁系统。它旨在防止一次失败引发的连锁反应——当日常习惯或目标因为外部原因中断时，这套系统帮助人们承认失败、避免内疚、并立即启动重启程序，从而打破'破罐子破摔'的负面循环。核心洞察是：中断是常态，完美连续是幻想，真正的自律不是从不中断，而是中断后能快速恢复。",
+  "principle": "1. 承认失败：当中断发生时，第一时间承认并接受，不逃避不否认\n2. 避免内疚：中断不是道德失败，是正常现象，内疚只会消耗恢复所需的能量\n3. 立即重启：不要等待'完美时机'，中断后的第一个行动就是最好的重启\n4. 降低重启门槛：重启时降低标准，先恢复习惯再追求质量\n5. 预设中断方案：提前规划中断后的恢复路径，减少决策负担。",
+  "scope": "习惯养成、目标管理、学习计划、健身计划、项目管理、个人成长",
+  "tips": "1. 设定重启锚点：为每个习惯设定一个最小重启标准，如'中断后只需做1分钟就算恢复'\n2. 记录中断原因：客观记录中断的原因和情境，避免自我攻击\n3. 24小时恢复法则：中断后24小时内必须执行一次最小行动\n4. 移除'全有或全无'思维：接受部分完成比完全不做好\n5. 建立中断日志：追踪中断模式，识别高风险情境并提前预防。",
+  "practice": "1. 习惯中断恢复：健身中断后，从每天5分钟开始恢复，而非直接回到1小时\n2. 学习计划恢复：错过几天学习后，先完成最小任务（如读1页），重建惯性\n3. 项目进度恢复：项目延期后，重新设定可实现的里程碑，而非试图追赶原计划\n4. 情绪恢复：情绪低落导致效率下降时，接受状态，降低当日目标\n5. 定期复盘：每周回顾中断情况，优化恢复策略。",
+  "scenario": "1. 健身计划中断：生病或出差导致健身中断后，从轻量训练开始恢复\n2. 学习计划中断：考试周错过几天学习后，先完成最小任务重建习惯\n3. 写作计划中断：灵感枯竭中断写作后，从写50字开始恢复\n4. 项目延期：项目因外部原因延期后，重新规划里程碑而非试图追赶\n5. 团队协作中断：团队成员变动后，快速调整分工恢复进度。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\n        <g transform=\"translate(500, 325)\">\n          <!-- 崩坏的现状 (左) -->\n          <g transform=\"translate(-250, 0)\">\n            <path d=\"M-60,-60 L60,60 M60,-60 L-60,60\" stroke=\"var(--danger-color)\" stroke-width=\"12\" stroke-linecap=\"round\" />\n            <text y=\"100\" text-anchor=\"middle\" fill=\"var(--danger-color)\" style=\"font-size: 20px; font-weight: 900;\">今日断更/失败</text>\n            <text y=\"130\" text-anchor=\"middle\" fill=\"var(--danger-color)\" style=\"font-size: 14px;\">产生\"明天也无所谓\"的债务</text>\n          </g>\n          \n          <!-- 重启按钮 (核心) -->\n          <g>\n            <circle r=\"80\" fill=\"var(--success-color)\" filter=\"drop-shadow(0 0 40px var(--success-color))\" />\n            <path d=\"M0,-40 L0,40 M-40,0 L40,0\" stroke=\"var(--text-primary)\" stroke-width=\"8\" stroke-linecap=\"round\" transform=\"rotate(45)\" />\n            <text y=\"140\" text-anchor=\"middle\" fill=\"var(--success-color)\" style=\"font-size: 32px; font-weight: 900;\">重启协议 (REBOOT)</text>\n          </g>\n\n          <!-- 恢复后的新路径 (右) -->\n          <g transform=\"translate(250, 0)\">\n            <path d=\"M0,0 L200,0\" stroke=\"var(--success-color)\" stroke-width=\"12\" stroke-linecap=\"round\" opacity=\"0.3\" />\n            <circle r=\"15\" fill=\"var(--success-color)\" class=\"animate-ping\" />\n            <text y=\"50\" text-anchor=\"middle\" fill=\"var(--success-color)\" style=\"font-size: 18px; font-weight: 900;\">止损成功：不连续失败</text>\n          </g>\n\n          <text y=\"-250\" text-anchor=\"middle\" fill=\"var(--danger-color)\" style=\"font-size: 36px; font-weight: 900; letter-spacing: 0.1em;\">失败可以发生，但绝不允许连续</text>\n        </g>\n      </svg>\n</div>"
+}

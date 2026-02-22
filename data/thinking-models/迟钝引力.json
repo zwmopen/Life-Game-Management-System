@@ -1,0 +1,13 @@
+{
+  "id": "迟钝引力",
+  "name": "迟钝引力",
+  "label": "钝感力重力场",
+  "icon": "BrainCircuit",
+  "description": "在一个聪明人过剩、算法极度敏捷的时代，“变笨”反而是一种稀缺的特权。认知溢出的人往往因为过度感知风险和负面反馈而提前离场。你需要建立一种“钝感力重力场”，像磐石一样对抗所有的情绪波动和短期诱惑。",
+  "deepAnalysis": "这是一个思维模型，展示了迟钝引力的核心概念和应用。",
+  "principle": "思维模型的核心原则：迟钝引力",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将迟钝引力应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 聪明人的波动 (高频、脆弱) -->\r\n        <g opacity=\"0.3\">\r\n          <path d=\"M-450,-100 Q-400,-250 -350,-100 T-250,-100\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"2\" />\r\n          <text x=\"-350\" y=\"-50\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 14px;\">敏感的高智商 (易过热)</text>\r\n        </g>\r\n        \r\n        <!-- 钝感力的核心 (磐石) -->\r\n        <g>\r\n          <rect x=\"-150\" y=\"-100\" width=\"300\" height=\"200\" rx=\"40\" fill=\"#1e293b\" />\r\n          <text text-anchor=\"middle\" y=\"20\" fill=\"white\" style=\"font-size: 64px; font-weight: 900;\">笨</text>\r\n          <circle r=\"180\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"4\" stroke-dasharray=\"15 30\" class=\"animate-spin\" style=\"animation-duration: 20s\" />\r\n        </g>\r\n\r\n        <!-- 产生的引力 -->\r\n        <g fill=\"#1e293b\" opacity=\"0.6\">\r\n           <circle r=\"10\" cx=\"-220\" cy=\"180\"><animate attributeName=\"cx\" from=\"-400\" to=\"-150\" dur=\"2s\" repeatCount=\"indefinite\" /></circle>\r\n           <circle r=\"10\" cx=\"220\" cy=\"-180\" style=\"animation-delay: 1s\"><animate attributeName=\"cx\" from=\"400\" to=\"150\" dur=\"2s\" repeatCount=\"indefinite\" /></circle>\r\n        </g>\r\n\r\n        <text y=\"240\" text-anchor=\"middle\" fill=\"#1e293b\" style=\"font-size: 32px; font-weight: 900;\">变傻一点，才能跑赢均值回归</text>\r\n      </g>\r\n    </svg>\n</div>"
+}

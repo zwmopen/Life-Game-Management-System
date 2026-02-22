@@ -1,0 +1,13 @@
+{
+  "id": "能量守恒",
+  "name": "能量守恒",
+  "label": "能量守恒",
+  "icon": "BrainCircuit",
+  "description": "能量既不会凭空产生，也不会凭空消失，它只能从一种形式转化为另一种。这是宇宙中最诚实的物理账本。",
+  "deepAnalysis": "这是一个思维模型，展示了能量守恒的核心概念和应用。",
+  "principle": "思维模型的核心原则：能量守恒",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将能量守恒应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <!-- 摆钟 (动能/势能转化) -->\r\n      <g transform=\"translate(500, 50)\">\r\n        <line x1=\"0\" y1=\"0\" x2=\"0\" y2=\"400\" stroke=\"#1e293b\" stroke-width=\"1\" opacity=\"0.05\" />\r\n        <g>\r\n          <animateTransform attributeName=\"transform\" type=\"rotate\" values=\"-45,0,0; 45,0,0; -45,0,0\" dur=\"4s\" repeatCount=\"indefinite\" />\r\n          <line x1=\"0\" y1=\"0\" x2=\"0\" y2=\"350\" stroke=\"#ef4444\" stroke-width=\"4\" />\r\n          <circle cx=\"0\" cy=\"350\" r=\"40\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 25px #ef4444)\">\r\n             <animate attributeName=\"fill\" values=\"#ef4444;#ef4444;#ef4444\" dur=\"4s\" repeatCount=\"indefinite\" />\r\n          </circle>\r\n          <text y=\"355\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 10px; font-weight: 900;\">TOTaL ENERGY</text>\r\n        </g>\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"520\" text-anchor=\"middle\" fill=\"#1e293b\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.2em;\">E = CONSTaNT</text>\r\n      <text x=\"500\" y=\"550\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 12px; font-weight: 900; letter-spacing: 0.5em;\">NO FREE LUNCH 我N 计划HYS我CS</text>\r\n    </svg>\n</div>"
+}

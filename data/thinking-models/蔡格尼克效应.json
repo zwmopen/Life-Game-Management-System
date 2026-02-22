@@ -1,0 +1,13 @@
+{
+  "id": "蔡格尼克效应",
+  "name": "蔡格尼克效应",
+  "label": "蔡格尼克效应",
+  "icon": "BrainCircuit",
+  "description": "人类天生讨厌“未完成感”。那些被打断、悬而未决的任务会像后台常驻程序一样，持续消耗大脑资源，产生认知张力。",
+  "deepAnalysis": "这是一个思维模型，展示了蔡格尼克效应的核心概念和应用。",
+  "principle": "思维模型的核心原则：蔡格尼克效应",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将蔡格尼克效应应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <!-- 缺失的拼图 -->\r\n      <g transform=\"translate(500, 300)\">\r\n        <rect x=\"-200\" y=\"-150\" width=\"180\" height=\"150\" rx=\"10\" fill=\"#1e293b\" opacity=\"0.05\" />\r\n        <rect x=\"20\" y=\"-150\" width=\"180\" height=\"150\" rx=\"10\" fill=\"#1e293b\" opacity=\"0.05\" />\r\n        <rect x=\"-200\" y=\"20\" width=\"180\" height=\"150\" rx=\"10\" fill=\"#1e293b\" opacity=\"0.05\" />\r\n        \r\n        <!-- 核心执念区 -->\r\n        <rect x=\"20\" y=\"20\" width=\"180\" height=\"150\" rx=\"10\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"15 5\" opacity=\"0.3\" />\r\n        \r\n        <!-- 悬浮的未竟之事 -->\r\n        <g transform=\"translate(200, 100)\">\r\n           <animateTransform attributeName=\"transform\" type=\"translate\" values=\"200,100; 180,80; 200,100\" dur=\"3s\" repeatCount=\"indefinite\" />\r\n           <rect x=\"-100\" y=\"-50\" width=\"200\" height=\"100\" rx=\"20\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 30px #ef4444)\" />\r\n           <text text-anchor=\"middle\" y=\"10\" fill=\"white\" style=\"font-size: 32px; font-weight: 900;\">未竟之事</text>\r\n        </g>\r\n      </g>\r\n      <text x=\"500\" y=\"100\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 20px; font-weight: 900; letter-spacing: 0.5em; opacity: 0.2;\">COGN我T我VE TENS我ON: THE UNF我N我SHEd</text>\r\n    </svg>\n</div>"
+}

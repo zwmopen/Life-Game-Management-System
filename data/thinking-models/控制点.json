@@ -1,0 +1,13 @@
+{
+  "id": "控制点",
+  "name": "控制点",
+  "label": "控制点理论",
+  "icon": "BrainCircuit",
+  "description": "描述了一个人对“成败原因”的终极归因倾向。这是决定一个个体是具有高度抗压韧性，还是陷入习得性无助的核心人格变量。",
+  "deepAnalysis": "这是一个思维模型，展示了控制点的核心概念和应用。",
+  "principle": "思维模型的核心原则：控制点",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将控制点应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <line x1=\"500\" y1=\"100\" x2=\"500\" y2=\"500\" stroke=\"#1e293b\" opacity=\"0.1\" stroke-width=\"2\" stroke-dasharray=\"10 20\" />\r\n      <g transform=\"translate(250, 300)\">\r\n        <circle r=\"140\" fill=\"#ef4444\" fill-opacity=\"0.05\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"10 10\" />\r\n        <circle r=\"30\" fill=\"#ef4444\" class=\"animate-ping\" />\r\n        <text y=\"180\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 36px; font-weight: 900;\">内控型 (我NTERNaL)</text>\r\n        <text y=\"215\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.5\" style=\"font-size: 16px;\">“我的努力主宰一切”</text>\r\n      </g>\r\n      <g transform=\"translate(750, 300)\">\r\n        <path d=\"M-100,-100 L100,100 M100,-100 L-100,100\" stroke=\"#94a3b8\" stroke-width=\"2\" opacity=\"0.3\" />\r\n        <circle r=\"12\" fill=\"#ef4444\">\r\n           <animateTransform attributeName=\"transform\" type=\"translate\" values=\"0,-120; 60,60; -60,60; 0,-120\" dur=\"5s\" repeatCount=\"indefinite\" />\r\n        </circle>\r\n        <text y=\"180\" text-anchor=\"middle\" fill=\"#94a3b8\" style=\"font-size: 36px; font-weight: 900;\">外控型 (EXTERNaL)</text>\r\n        <text y=\"215\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.5\" style=\"font-size: 16px;\">“一切皆是运气与环境”</text>\r\n      </g>\r\n      <text x=\"500\" y=\"60\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 24px; font-weight: 900; letter-spacing: 0.5em;\">权力的重心在哪里?</text>\r\n    </svg>\n</div>"
+}

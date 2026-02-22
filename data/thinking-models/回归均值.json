@@ -1,0 +1,13 @@
+{
+  "id": "回归均值",
+  "name": "回归均值",
+  "label": "均值回归",
+  "icon": "BrainCircuit",
+  "description": "指在随机变量的序列中，如果某一次观测值表现为极端的偏离（极好或极坏），下一次观测值将大概率地向平均值移动。这是自然的物理引力。",
+  "deepAnalysis": "回归均值（Regression to the Mean）由英国统计学家弗朗西斯·高尔顿于1886年发现。核心洞见：在随机变量的序列中，极端值之后往往会向平均值回归。\n\n核心机制：\n- 自然引力：极端表现难以持续\n- 随机波动：极端值往往包含随机因素\n- 统计规律：向均值回归是统计规律\n\n常见误区：\n- 将回归归因于干预措施\n- 对极端表现过度反应\n- 忽视随机性的作用",
+  "principle": "1. 自然引力：极端表现难以持续，会向均值回归\n2. 随机因素：极端值往往包含随机波动\n3. 统计规律：回归均值是统计规律而非因果\n4. 干预错觉：回归常被误认为是干预的效果\n5. 预测价值：回归均值可用于预测和决策",
+  "scope": "投资分析、绩效评估、医学研究、体育预测、教育评估、质量控制",
+  "tips": "1. 警惕极端：对极端表现保持警惕\n2. 区分因果：区分回归效应和干预效果\n3. 长期视角：用长期数据判断真实水平\n4. 预测应用：利用回归规律进行预测\n5. 避免过度反应：避免对极端值过度反应",
+  "practice": "将回归均值应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 800 600\">\r\n      <!-- 中心均值 -->\r\n      <circle cx=\"400\" cy=\"300\" r=\"50\" fill=\"#ef4444\" fill-opacity=\"0.1\" />\r\n      <circle cx=\"400\" cy=\"300\" r=\"5\" fill=\"#ef4444\" />\r\n      \r\n      <!-- 极点 A (高峰) 向中心回归 -->\r\n      <g>\r\n        <circle cx=\"150\" cy=\"100\" r=\"10\" fill=\"#ef4444\" />\r\n        <text x=\"150\" y=\"80\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 10px; font-weight: 900;\">高点 (极佳状态)</text>\r\n        <path d=\"M170,120 L350,270\" stroke=\"#ef4444\" stroke-width=\"2\" stroke-dasharray=\"5 5\" marker-end=\"url(#arrow-red)\" />\r\n      </g>\r\n\r\n      <!-- 极点 B (低谷) 向中心回归 -->\r\n      <g>\r\n        <circle cx=\"650\" cy=\"500\" r=\"10\" fill=\"#10b981\" />\r\n        <text x=\"650\" y=\"530\" text-anchor=\"middle\" fill=\"#10b981\" style=\"font-size: 10px; font-weight: 900;\">低点 (极差状态)</text>\r\n        <path d=\"M630,480 L450,330\" stroke=\"#10b981\" stroke-width=\"2\" stroke-dasharray=\"5 5\" marker-end=\"url(#arrow-green)\" />\r\n      </g>\r\n\r\n      <defs>\r\n        <marker id=\"arrow-red\" markerWidth=\"10\" markerHeight=\"10\" refX=\"5\" refY=\"5\" orient=\"auto\"><path d=\"M0,0 L10,5 L0,10 Z\" fill=\"#ef4444\"/></marker>\r\n        <marker id=\"arrow-green\" markerWidth=\"10\" markerHeight=\"10\" refX=\"5\" refY=\"5\" orient=\"auto\"><path d=\"M0,0 L10,5 L0,10 Z\" fill=\"#10b981\"/></marker>\r\n      </defs>\r\n\r\n      <text x=\"400\" y=\"580\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 10px; font-weight: 900; letter-spacing: 0.5em;\">EXTREMES ARE FOLLOWEd BY MEd我OcR我TY</text>\r\n    </svg>\n</div>"
+}

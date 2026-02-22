@@ -1,0 +1,13 @@
+{
+  "id": "布兰多利尼法则",
+  "name": "布兰多利尼法则",
+  "label": "废话不对称定律",
+  "icon": "BrainCircuit",
+  "description": "\"驳斥废话所需的能量，比生产废话所需的能量大一个数量级。\" 揭示了在这个信息碎片化时代，理性的辟谣者面对感性的造谣者时，具有天然的物理劣势。",
+  "deepAnalysis": "这是一个思维模型，展示了布兰多利尼法则的核心概念和应用。",
+  "principle": "思维模型的核心原则：布兰多利尼法则",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将布兰多利尼法则应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\n      <g transform=\"translate(500, 325)\">\n        <!-- 废话生产 (轻量、海量) -->\n        <g transform=\"translate(-300, 0)\">\n          <path d=\"M-50,0 Q0,-60 50,0 T150,0\" stroke=\"var(--primary)\" stroke-width=\"4\" opacity=\"0.3\">\n            <animate attributeName=\"stroke-dasharray\" from=\"0,200\" to=\"200,0\" dur=\"0.5s\" repeatCount=\"indefinite\" />\n          </path>\n          <circle r=\"30\" fill=\"var(--primary)\" />\n          <text y=\"70\" text-anchor=\"middle\" fill=\"var(--primary)\" style=\"font-size: 24px; font-weight: 900;\">生产废话</text>\n          <text y=\"100\" text-anchor=\"middle\" fill=\"var(--text-secondary)\" opacity=\"0.5\" style=\"font-size: 12px;\">(能耗: 1 单位)</text>\n        </g>\n        \n        <!-- 驳斥废话 (沉重、单一) -->\n        <g transform=\"translate(200, 0)\">\n          <rect x=\"-150\" y=\"-150\" width=\"300\" height=\"300\" rx=\"40\" fill=\"var(--primary)\" fill-opacity=\"0.1\" stroke=\"var(--primary)\" stroke-width=\"4\" />\n          <path d=\"M0,-50 L0,50 M-50,0 L50,0\" stroke=\"var(--primary)\" stroke-width=\"8\" stroke-linecap=\"round\" />\n          <text y=\"200\" text-anchor=\"middle\" fill=\"var(--primary)\" style=\"font-size: 32px; font-weight: 900;\">驳斥与辟谣</text>\n          <text y=\"235\" text-anchor=\"middle\" fill=\"var(--primary)\" style=\"font-size: 20px; font-weight: 900;\">(能耗: 100 单位+)</text>\n          <circle r=\"180\" fill=\"none\" stroke=\"var(--primary)\" stroke-width=\"1\" stroke-dasharray=\"2 10\" class=\"animate-spin\" />\n        </g>\n\n        <path d=\"M-100,0 L50,0\" stroke=\"var(--primary)\" stroke-width=\"2\" stroke-dasharray=\"5 5\" opacity=\"0.2\" />\n      </g>\n      <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"var(--primary)\" style=\"font-size: 42px; font-weight: 900; letter-spacing: 0.1em; opacity: 0.1;\">THE BULLSHIT ASYMMETRY</text>\n    </svg>\n</div>"
+}

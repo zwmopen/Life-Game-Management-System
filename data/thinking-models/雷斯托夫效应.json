@@ -1,0 +1,14 @@
+{
+  "id": "雷斯托夫效应",
+  "name": "雷斯托夫效应",
+  "label": "雷斯托夫效应",
+  "icon": "BrainCircuit",
+  "description": "也称“孤立效应”。指在这一组对象中，最独特的那个（颜色、形状、属性不同）最容易被人们记住并优先处理。",
+  "deepAnalysis": "雷斯托夫效应（Von Restorff Effect）又称孤立效应。核心洞见：在一组对象中，最独特的那个（颜色、形状、属性不同）最容易被人们记住并优先处理。这是因为大脑对差异化的信息更加敏感。在营销、设计和沟通中，利用雷斯托夫效应可以让你的信息脱颖而出。",
+  "principle": "1. 独特性：独特的元素最容易被记住\n2. 差异敏感：大脑对差异敏感\n3. 孤立效应：孤立的元素更突出\n4. 注意力捕获：独特性捕获注意力\n5. 记忆增强：独特性增强记忆",
+  "scope": "营销传播、产品设计、用户体验、广告创意、演讲沟通、品牌建设",
+  "tips": "1. 创造差异：创造与周围环境的差异\n2. 突出重点：让重点信息独特\n3. 避免同质：避免与周围元素同质\n4. 适度使用：适度使用避免过度\n5. 一致性：保持品牌一致性",
+  "practice": "1. 识别背景：识别信息的背景环境\n2. 设计差异：设计与背景的差异\n3. 突出重点：让重点信息独特\n4. 测试效果：测试差异化效果\n5. 优化调整：优化差异化策略",
+  "scenario": "1. 广告设计：设计独特的广告\n2. 产品包装：设计独特的包装\n3. 演讲沟通：突出演讲重点\n4. 品牌建设：建立独特的品牌形象\n5. 用户体验：设计突出的交互元素",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <!-- 灰暗的平凡背景 -->\r\n      <g fill=\"#1e293b\" opacity=\"0.1\">\r\n        <circle cx=\"200\" cy=\"200\" r=\"30\" /><circle cx=\"300\" cy=\"200\" r=\"30\" />\r\n        <circle cx=\"400\" cy=\"200\" r=\"30\" /><circle cx=\"500\" cy=\"200\" r=\"30\" />\r\n        <circle cx=\"600\" cy=\"200\" r=\"30\" /><circle cx=\"700\" cy=\"200\" r=\"30\" />\r\n        <circle cx=\"200\" cy=\"400\" r=\"30\" /><circle cx=\"300\" cy=\"400\" r=\"30\" />\r\n        <circle cx=\"400\" cy=\"400\" r=\"30\" /><circle cx=\"600\" cy=\"400\" r=\"30\" />\r\n        <circle cx=\"700\" cy=\"400\" r=\"30\" /><circle cx=\"800\" cy=\"400\" r=\"30\" />\r\n      </g>\r\n      \r\n      <!-- 异常点 (核心) -->\r\n      <g transform=\"translate(500, 400)\">\r\n        <rect x=\"-60\" y=\"-60\" width=\"120\" height=\"120\" rx=\"15\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 25px #ef4444)\">\r\n           <animate attributeName=\"fill-opacity\" values=\"1;0.3;1\" dur=\"2s\" repeatCount=\"indefinite\" />\r\n        </rect>\r\n        <circle r=\"120\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"2\" class=\"animate-ping\" />\r\n        <text y=\"100\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">被记住的异常项</text>\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"100\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.4\" style=\"font-size: 22px; font-weight: 900; letter-spacing: 0.3em;\">显著性偏差 (孤立效应)</text>\r\n    </svg>\n</div>"
+}

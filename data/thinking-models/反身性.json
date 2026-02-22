@@ -1,0 +1,13 @@
+{
+  "id": "反身性",
+  "name": "反身性",
+  "label": "反身性",
+  "icon": "BrainCircuit",
+  "description": "乔治·索罗斯提出。在具有思考能力的参与者系统中（如股市），参与者的感知会影响现实，而改变后的现实又会进一步强化这种感知，从而使系统长时间偏离平衡点。",
+  "deepAnalysis": "反身性（Reflexivity）是由金融大鳄乔治·索罗斯提出的核心概念。在具有思考能力的参与者系统中（如股市），参与者的感知会影响现实，而改变后的现实又会进一步强化这种感知，从而使系统长时间偏离平衡点。\n\n核心机制：\n- 认知功能：参与者试图理解现实\n- 参与功能：参与者的认知影响现实\n- 双向互动：认知与现实相互影响\n\n典型表现：\n- 股市泡沫：乐观预期推高股价，高股价强化乐观预期\n- 银行挤兑：恐慌导致挤兑，挤兑证实恐慌\n- 自证预言：预期影响行为，行为实现预期",
+  "principle": "1. 双向互动：参与者的认知与现实相互影响\n2. 偏离均衡：系统可能长时间偏离均衡点\n3. 自强化循环：正反馈导致趋势自我强化\n4. 拐点必然：泡沫终将破裂，回归终将发生\n5. 认知谦逊：承认认知本身会影响现实",
+  "scope": "金融市场、经济周期、社会运动、舆论传播、组织变革、个人发展",
+  "tips": "1. 识别循环：识别当前处于反身性循环的哪个阶段\n2. 顺势而为：在趋势强化阶段顺势而为\n3. 警惕拐点：警惕趋势反转的拐点\n4. 独立思考：不被主流预期裹挟\n5. 动态调整：根据现实变化调整认知",
+  "practice": "将反身性应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 认知环 -->\r\n        <g transform=\"translate(-250, 0)\">\r\n          <circle r=\"100\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"10 5\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">认知 (Bias)</text>\r\n        </g>\r\n        \r\n        <!-- 现实环 -->\r\n        <g transform=\"translate(250, 0)\">\r\n          <circle r=\"100\" fill=\"none\" stroke=\"#10b981\" stroke-width=\"4\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"#10b981\" style=\"font-size: 32px; font-weight: 900;\">现实 (Fact)</text>\r\n        </g>\r\n\r\n        <!-- 互连回路 -->\r\n        <g stroke-width=\"4\" fill=\"none\">\r\n          <path d=\"M-150,-50 Q0,-150 150,-50\" stroke=\"#ef4444\" marker-end=\"url(#bluearrow)\" />\r\n          <path d=\"M150,50 Q0,150 -150,50\" stroke=\"#10b981\" marker-end=\"url(#greenarrow)\" />\r\n        </g>\r\n\r\n        <text y=\"240\" text-anchor=\"middle\" fill=\"#64748b\" style=\"font-size: 42px; font-weight: 900;\">双向干扰回路</text>\r\n      </g>\r\n      <defs>\r\n        <marker id=\"bluearrow\" markerWidth=\"10\" markerHeight=\"10\" refX=\"5\" refY=\"5\" orient=\"auto\"><path d=\"M0,0 L10,5 L0,10 Z\" fill=\"#ef4444\"/></marker>\r\n        <marker id=\"greenarrow\" markerWidth=\"10\" markerHeight=\"10\" refX=\"5\" refY=\"5\" orient=\"auto\" rotate=\"180\"><path d=\"M0,0 L10,5 L0,10 Z\" fill=\"#10b981\"/></marker>\r\n      </defs>\r\n    </svg>\n</div>"
+}

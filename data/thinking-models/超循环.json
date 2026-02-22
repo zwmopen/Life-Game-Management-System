@@ -1,0 +1,14 @@
+{
+  "id": "超循环",
+  "name": "超循环",
+  "label": "超循环",
+  "icon": "BrainCircuit",
+  "description": "由诺奖得主曼弗雷德·艾根提出。生命起源的关键：一系列自复制分子（如 RNa）相互催化，形成一个闭合的组织网。a 帮助 B 复制，B 帮助 c 复制，c 最终反过来帮助 a。这种结构具有极强的抗干扰能力和演化潜能。",
+  "deepAnalysis": "超循环（Hypercycle）由诺奖得主曼弗雷德·艾根提出。核心洞见：生命起源的关键在于一系列自复制分子相互催化，形成一个闭合的组织网。A帮助B复制，B帮助C复制，C最终反过来帮助A。这种结构具有极强的抗干扰能力和演化潜能，是复杂系统进化的基础。",
+  "principle": "1. 相互催化：元素相互催化\n2. 闭合网络：形成闭合网络\n3. 自我强化：自我强化循环\n4. 抗干扰：强抗干扰能力\n5. 演化潜能：具有演化潜能",
+  "scope": "系统设计、组织管理、商业模式、创新生态、团队协作、进化理论",
+  "tips": "1. 建立循环：建立相互强化的循环\n2. 闭合网络：确保网络闭合\n3. 相互支持：元素相互支持\n4. 增强韧性：增强系统韧性\n5. 促进进化：促进系统进化",
+  "practice": "1. 识别元素：识别系统的关键元素\n2. 建立催化：建立元素间催化关系\n3. 形成闭环：形成闭合循环\n4. 强化连接：强化元素间连接\n5. 促进进化：促进系统进化",
+  "scenario": "1. 系统设计：设计自我强化系统\n2. 组织管理：建立相互支持团队\n3. 商业模式：设计自我强化商业模式\n4. 创新生态：建立创新生态系统\n5. 团队协作：建立协作循环",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 三个相互催化的子循环 -->\r\n        <g class=\"animate-spin\" style=\"animation-duration: 15s;\">\r\n          <circle cx=\"0\" cy=\"-150\" r=\"60\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"4\" />\r\n          <circle cx=\"130\" cy=\"75\" r=\"60\" fill=\"#10b981\" fill-opacity=\"0.1\" stroke=\"#10b981\" stroke-width=\"4\" />\r\n          <circle cx=\"-130\" cy=\"75\" r=\"60\" fill=\"#fbbf24\" fill-opacity=\"0.1\" stroke=\"#fbbf24\" stroke-width=\"4\" />\r\n        </g>\r\n        \r\n        <!-- 催化连线 (顺时针) -->\r\n        <g stroke-width=\"3\" opacity=\"0.6\">\r\n          <path d=\"M0,-90 Q100,-90 130,15\" stroke=\"#ef4444\" marker-end=\"url(#bluearrow)\" />\r\n          <path d=\"M100,105 Q0,180 -100,105\" stroke=\"#10b981\" marker-end=\"url(#greenarrow)\" />\r\n          <path d=\"M-130,15 Q-100,-90 0,-90\" stroke=\"#fbbf24\" marker-end=\"url(#goldarrow)\" />\r\n        </g>\r\n\r\n        <text text-anchor=\"middle\" y=\"10\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.2em;\">HY计划ERcYcLE</text>\r\n        <text y=\"240\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.6\" style=\"font-size: 16px;\">各环节通过互利实现整体的自复制</text>\r\n      </g>\r\n      <defs>\r\n        <marker id=\"bluearrow\" markerWidth=\"10\" markerHeight=\"10\" refX=\"5\" refY=\"5\" orient=\"auto\"><path d=\"M0,0 L10,5 L0,10 Z\" fill=\"#ef4444\"/></marker>\r\n        <marker id=\"greenarrow\" markerWidth=\"10\" markerHeight=\"10\" refX=\"5\" refY=\"5\" orient=\"auto\"><path d=\"M0,0 L10,5 L0,10 Z\" fill=\"#10b981\"/></marker>\r\n        <marker id=\"goldarrow\" markerWidth=\"10\" markerHeight=\"10\" refX=\"5\" refY=\"5\" orient=\"auto\"><path d=\"M0,0 L10,5 L0,10 Z\" fill=\"#fbbf24\"/></marker>\r\n      </defs>\r\n    </svg>\n</div>"
+}

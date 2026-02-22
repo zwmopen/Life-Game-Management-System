@@ -1,0 +1,13 @@
+{
+  "id": "注意力复利",
+  "name": "注意力复利",
+  "label": "注意力复利",
+  "icon": "BrainCircuit",
+  "description": "自媒体的黄金真相：单次爆款只是瞬间的流量，而连续的高质量输出才是资产。每一次解决用户的真实痛点，都在他的心中存入了一份信任。当信任累积过临界点，转化将不再需要推销。",
+  "deepAnalysis": "注意力复利是指通过持续的高质量内容输出，将短期的流量转化为长期的信任资产的过程。它基于复利效应原理，认为每一次有价值的内容输出都会在用户心中积累信任，当信任累积到一定程度时，会产生指数级的增长效应。",
+  "principle": "信任积累：每一次解决用户的真实痛点，都在他的心中存入了一份信任。; ;           指数增长：信任的积累遵循复利效应，前期增长缓慢，后期会指数级爆发。; ;           价值一致性：持续输出高质量内容，保持价值的一致性。; ;           长期视角：关注长期的信任资产积累，而非短期的流量波动。",
+  "scope": "内容创作和自媒体, \n          个人品牌建设, \n          企业营销和品牌塑造, \n          教育和知识付费, \n          社交媒体运营",
+  "tips": "1. 剔除噪音流量：专注于高质量的目标受众，而非泛滥的眼球流量。; 2. 持续输出：保持定期的高质量内容输出，建立用户的期待和习惯。; 3. 价值深度：提供有深度、有价值的内容，解决用户的真实问题。; 4. 建立索引性：让你的内容成为某个领域的\"常识指引\"，当用户有问题时第一时间想到你。",
+  "practice": "制定内容创作计划，保持定期输出的节奏。; \n          专注于特定领域，建立专业形象和权威感。; \n          与受众建立互动，回应评论和问题，增强信任关系。; \n          持续学习和提升，确保内容的质量和相关性。; \n          耐心坚持，理解注意力复利需要时间积累才能显现效果。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 1200\" class=\"w-full h-auto\">\n        <!-- 移动坐标系，确保所有内容都在视口内 -->\n        <g transform=\"translate(100, 900)\">\n          <!-- 坐标轴 -->\n          <line x1=\"0\" y1=\"0\" x2=\"800\" y2=\"0\" stroke=\"var(--text-primary)\" stroke-width=\"2\" opacity=\"0.1\" />\n          \n          <!-- 流量模式 (起伏波动，无沉淀) -->\n          <path d=\"M0,-50 L100,-150 L200,-50 L300,-200 L400,-100 L800,-50\" fill=\"none\" stroke=\"var(--text-secondary)\" stroke-width=\"2\" stroke-dasharray=\"10 5\" opacity=\"0.4\" />\n          <text x=\"600\" y=\"40\" fill=\"var(--text-secondary)\" style=\"font-size: 14px;\">普通流量：阅后即焚</text>\n\n          <!-- 注意力复利曲线 (信任沉淀) -->\n          <g>\n            <path d=\"M0,0 Q200,-10 400,-100 T800,-500\" fill=\"none\" stroke=\"var(--primary-color)\" stroke-width=\"12\" stroke-linecap=\"round\">\n               <animate attributeName=\"stroke-dasharray\" from=\"0,1500\" to=\"1500,0\" dur=\"5s\" fill=\"freeze\" />\n            </path>\n            <circle cx=\"800\" cy=\"-500\" r=\"40\" fill=\"var(--primary-color)\" filter=\"drop-shadow(0 0 40px var(--primary-color))\" class=\"animate-pulse\" />\n            <text x=\"750\" y=\"-550\" text-anchor=\"end\" fill=\"var(--primary-color)\" style=\"font-size: 42px; font-weight: 900;\">信任资产</text>\n          </g>\n\n          <!-- 持续的输出点 -->\n          <g fill=\"var(--primary-color)\">\n            <circle cx=\"100\" cy=\"-5\" r=\"5\" /><circle cx=\"200\" cy=\"-15\" r=\"5\" />\n            <circle cx=\"300\" cy=\"-40\" r=\"5\" /><circle cx=\"400\" cy=\"-100\" r=\"5\" />\n            <text x=\"100\" y=\"30\" text-anchor=\"middle\" style=\"font-size: 10px; fill: var(--text-primary);\">单次高价值输出</text>\n          </g>\n        </g>\n      </svg>\n</div>"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "帕累托分形",
+  "name": "帕累托分形",
+  "label": "分形二八定律",
+  "icon": "BrainCircuit",
+  "description": "帕累托分布具有分形特征：在关键的 20% 内部，依然存在着属于那 20% 的“关键少数”。这意味着 4% 的投入往往贡献了 64% 的最终价值。",
+  "deepAnalysis": "这是一个思维模型，展示了帕累托分形的核心概念和应用。",
+  "principle": "思维模型的核心原则：帕累托分形",
+  "scope": "思维模式、决策分析、问题解决",
+  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
+  "practice": "将帕累托分形应用到日常决策和问题解决中，观察效果并调整。",
+  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 800\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 基础 20/80 -->\r\n        <rect x=\"-400\" y=\"-100\" width=\"800\" height=\"200\" rx=\"30\" fill=\"#1e293b\" opacity=\"0.05\" />\r\n        <rect x=\"-400\" y=\"-100\" width=\"160\" height=\"200\" rx=\"30\" fill=\"#ef4444\" fill-opacity=\"0.2\" />\r\n        \r\n        <!-- 分形嵌套 1 -->\r\n        <g transform=\"translate(-400, -100)\">\r\n          <rect width=\"32\" height=\"200\" rx=\"10\" fill=\"#ef4444\" fill-opacity=\"0.5\" />\r\n          <!-- 分形嵌套 2 (核心中的核心) -->\r\n          <g transform=\"translate(0, 0)\">\r\n            <rect width=\"6.4\" height=\"200\" rx=\"3\" fill=\"#ef4444\" />\r\n            <circle cx=\"3.2\" cy=\"0\" r=\"10\" fill=\"#ef4444\" class=\"animate-ping\" />\r\n          </g>\r\n        </g>\r\n\r\n        <text x=\"300\" y=\"20\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 24px; font-weight: 900;\">80% 平庸多数</text>\r\n        <text x=\"-320\" y=\"250\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">关键 20%</text>\r\n        <text x=\"-380\" y=\"-150\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 42px; font-weight: 900;\">核心 4% (4/64法则)</text>\r\n      </g>\r\n      <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 18px; font-weight: 900; letter-spacing: 0.8em;\">THE FRaCTaL 计划OWER LaW</text>\r\n    </svg>\n</div>"
+}
