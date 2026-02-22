@@ -192,7 +192,160 @@ interface ShopItem {
 
 ---
 
-## 7. 注意事项
+## 8. 商品卡片设计规范
+
+### 8.1 卡片整体布局
+
+商品卡片采用**图片背景+渐变遮罩+信息叠加**的设计模式：
+
+```
+┌─────────────────────────────┐
+│ [商品图片 - 全背景]           │
+│                             │
+│    ┌─────────────────────┐  │
+│    │ 渐变遮罩 (从浅到深)   │  │
+│    │                     │  │
+│    │   ¥价格 (胶囊样式)   │  │
+│    │   商品名称           │  │
+│    │   商品描述           │  │
+│    │   [购买按钮]         │  │
+│    └─────────────────────┘  │
+└─────────────────────────────┘
+```
+
+### 8.2 卡片容器样式
+
+| 属性 | 值 | 说明 |
+|------|-----|------|
+| 布局 | `grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6` | 响应式网格布局 |
+| 间距 | `gap-4` | 卡片间距16px |
+| 最小高度 | `minHeight: '280px'` | 卡片最小高度 |
+| 圆角 | `rounded-xl` | 12px圆角 |
+| 过渡 | `transition-all duration-300` | 300ms过渡动画 |
+
+### 8.3 拟态风格样式
+
+#### 深色模式（neomorphic-dark）
+
+```css
+背景色: bg-[#1e1e2e]
+边框色: border-[#1e1e2e]
+阴影: shadow-[8px_8px_16px_rgba(0,0,0,0.4),-8px_-8px_16px_rgba(30,30,46,0.8)]
+悬停阴影: hover:shadow-[10px_10px_20px_rgba(0,0,0,0.5),-10px_-10px_20px_rgba(30,30,46,1)]
+激活阴影: active:shadow-[inset_5px_5px_10px_rgba(0,0,0,0.4),inset_-5px_-5px_10px_rgba(30,30,46,0.8)]
+```
+
+#### 浅色模式（neomorphic-light）
+
+```css
+背景色: bg-[#e0e5ec]
+边框色: border-[#e0e5ec]
+阴影: shadow-[8px_8px_16px_rgba(163,177,198,0.6),-8px_-8px_16px_rgba(255,255,255,1)]
+悬停阴影: hover:shadow-[10px_10px_20px_rgba(163,177,198,0.7),-10px_-10px_20px_rgba(255,255,255,1)]
+激活阴影: active:shadow-[inset_5px_5px_10px_rgba(163,177,198,0.6),inset_-5px_-5px_10px_rgba(255,255,255,1)]
+```
+
+### 8.4 商品图片样式
+
+| 属性 | 值 | 说明 |
+|------|-----|------|
+| 定位 | `absolute top-0 left-0 w-full h-full` | 全背景覆盖 |
+| 对象适应 | `object-cover` | 保持比例裁剪 |
+| 悬停效果 | `group-hover:scale-105` | 悬停放大5% |
+| 过渡 | `transition-all duration-500` | 500ms过渡 |
+
+### 8.5 渐变遮罩样式
+
+渐变遮罩从商品图片顶部70px处开始，向下渐变：
+
+**深色模式：**
+```css
+background: linear-gradient(to bottom, 
+  rgba(30,30,46,0) 0%, 
+  rgba(30,30,46,0.5) 20%, 
+  rgba(30,30,46,0.8) 50%, 
+  rgba(30,30,46,0.95) 100%)
+```
+
+**浅色模式：**
+```css
+background: linear-gradient(to bottom, 
+  rgba(255,255,255,0) 0%, 
+  rgba(255,255,255,0.3) 30%, 
+  rgba(255,255,255,0.6) 60%, 
+  rgba(255,255,255,0.8) 100%)
+```
+
+### 8.6 价格标签样式
+
+| 属性 | 深色模式 | 浅色模式 |
+|------|----------|----------|
+| 背景 | `bg-yellow-600/30` | `bg-[#fff3cd]` |
+| 文字 | `text-yellow-400` | `text-[#fd7e14]` |
+| 边框 | `border border-yellow-600/50` | 无 |
+| 圆角 | `rounded-full` | `rounded-full` |
+| 内边距 | `px-4 py-1.5` | `px-4 py-1.5` |
+| 字体 | `text-sm font-bold` | `text-sm font-bold` |
+
+### 8.7 商品名称样式
+
+| 属性 | 值 |
+|------|-----|
+| 字体 | `font-bold text-xl` |
+| 颜色 | `text-white` |
+| 文字阴影 | `text-shadow: 0 1px 2px rgba(0,0,0,0.8)` |
+| 换行 | `break-words` |
+
+### 8.8 商品描述样式
+
+| 属性 | 深色模式 | 浅色模式 |
+|------|----------|----------|
+| 字体 | `text-sm` | `text-sm` |
+| 颜色 | `text-white/90` | `text-zinc-700` |
+| 行数限制 | `line-clamp-2` | `line-clamp-2` |
+| 文字阴影 | `0 1px 2px rgba(0,0,0,0.8)` | `0 1px 2px rgba(255,255,255,0.8)` |
+
+### 8.9 购买按钮样式
+
+| 状态 | 样式 |
+|------|------|
+| 默认（深色） | `bg-gradient-to-r from-blue-600 to-purple-600 text-white` |
+| 默认（浅色） | `bg-gradient-to-r from-blue-500 to-purple-500 text-white` |
+| 悬停 | `hover:from-blue-500 hover:to-purple-500` |
+| 已拥有 | `bg-zinc-800/30 text-zinc-500` |
+| 圆角 | `rounded-full` |
+| 内边距 | `px-8 py-2.5` |
+| 字体 | `text-sm font-bold` |
+
+### 8.10 管理模式样式
+
+管理模式下，卡片边框变为红色虚线：
+
+```css
+border-red-500/30
+```
+
+编辑/删除按钮位于右上角，使用圆形拟态按钮：
+
+| 按钮 | 颜色 |
+|------|------|
+| 编辑 | `text-blue-400`（深色）/ `text-blue-600`（浅色） |
+| 删除 | `text-red-400`（深色）/ `text-red-600`（浅色） |
+
+### 8.11 盲盒卡片样式
+
+盲盒卡片采用居中布局：
+
+| 属性 | 值 |
+|------|-----|
+| 图标 | `text-4xl mb-2` 🎁 |
+| 价格 | `text-lg font-bold` |
+| 描述 | `text-xs mt-1` |
+| 购买按钮 | `w-full py-1 text-[12px] font-bold rounded-md` |
+
+---
+
+## 9. 注意事项
 
 - 商品价格应合理，符合现实逻辑
 - 图标颜色应与分类主题协调
@@ -201,12 +354,13 @@ interface ShopItem {
 
 ---
 
-## 8. 文档版本
+## 10. 文档版本
 
 | 版本 | 更新时间 | 更新内容 |
 |------|----------|----------|
 | 1.0 | 2026-01-10 | 初始版本 |
 | 1.1 | 2026-02-21 | 更新分类体系，添加实际商品示例，更新ID命名规范 |
+| 1.2 | 2026-02-23 | 新增商品卡片设计规范，包括卡片布局、拟态样式、渐变遮罩、价格标签等详细规范 |
 
 ---
 
