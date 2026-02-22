@@ -110,7 +110,7 @@ export const SHOP_CATALOG: ShopItem[] = [
   { id: 'p_property_1', name: '房子一间', description: '温馨小屋', cost: 500000, type: 'physical', owned: false, icon: <Home size={24} className="text-red-500"/>, category: '家居', image: 'https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=400&h=400&fit=crop' },
     
   // 车辆类
-  { id: 'p_car_1', name: '理想汽车', description: '新能源汽车', cost: 250000, type: 'physical', owned: false, icon: <Car size={24} className="text-green-500"/>, category: '家居', image: 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=400&h=400&fit=crop' },
+  { id: 'p_car_1', name: '理想汽车', description: '新能源汽车', cost: 200000, type: 'physical', owned: false, icon: <Car size={24} className="text-green-500"/>, category: '家居', image: 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=400&h=400&fit=crop' },
     
   // 饮食类
   { id: 's_food_14', name: '酱骨头套餐', description: '酱骨头、牛骨头、调料一条龙', cost: 158, type: 'leisure', owned: false, icon: <Utensils size={24} className="text-red-500"/>, category: '吃喝', image: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=400&h=400&fit=crop' },
@@ -158,6 +158,16 @@ export const SHOP_CATALOG: ShopItem[] = [
   { id: 'r_vip_13', name: '社群门票(5000元)', description: '加入顶级社群', cost: 5000, type: 'rights', owned: false, icon: <Users size={24} className="text-purple-500"/>, category: '会员充值', image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&h=400&fit=crop' },
   { id: 'r_vip_14', name: '社群门票(10000元)', description: '加入尊享社群', cost: 10000, type: 'rights', owned: false, icon: <Users size={24} className="text-yellow-500"/>, category: '会员充值', image: 'https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=400&h=400&fit=crop' },
   { id: 'r_vip_15', name: '社群门票(20000元)', description: '加入至尊社群', cost: 20000, type: 'rights', owned: false, icon: <Users size={24} className="text-red-500"/>, category: '会员充值', image: 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=400&h=400&fit=crop' },
+  
+  // 第三批新增商品（家居电器类/会员类）
+  { id: 'p_home_3', name: '空调', description: '夏日清凉必备', cost: 2000, type: 'physical', owned: false, icon: <Wind size={24} className="text-blue-400"/>, category: '家居', image: 'https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=400&h=400&fit=crop' },
+  { id: 'p_home_4', name: '净水器', description: '健康饮水保障', cost: 2000, type: 'physical', owned: false, icon: <Coffee size={24} className="text-cyan-400"/>, category: '家居', image: 'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=400&h=400&fit=crop' },
+  { id: 'p_home_5', name: '扫地机器人', description: '智能清扫，解放双手', cost: 2000, type: 'physical', owned: false, icon: <Layout size={24} className="text-purple-400"/>, category: '家居', image: 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=400&h=400&fit=crop' },
+  { id: 'p_home_6', name: '洗地机', description: '深度清洁神器', cost: 2500, type: 'physical', owned: false, icon: <Layout size={24} className="text-green-400"/>, category: '家居', image: 'https://images.unsplash.com/photo-1558317374-067fb5f30001?w=400&h=400&fit=crop' },
+  { id: 'p_home_7', name: '油烟机', description: '厨房油烟克星', cost: 3000, type: 'physical', owned: false, icon: <Wind size={24} className="text-gray-400"/>, category: '家居', image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=400&fit=crop' },
+  { id: 'p_home_8', name: '太阳能光伏板', description: '绿色能源，环保节能', cost: 2000, type: 'physical', owned: false, icon: <Sun size={24} className="text-yellow-400"/>, category: '家居', image: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=400&h=400&fit=crop' },
+  { id: 'p_dig_13', name: 'Mac mini', description: '苹果迷你主机', cost: 4000, type: 'physical', owned: false, icon: <Laptop size={24} className="text-gray-300"/>, category: '数码', image: 'https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=400&h=400&fit=crop' },
+  { id: 'r_vip_16', name: 'AI会员', description: 'AI助手，智能办公', cost: 200, type: 'rights', owned: false, icon: <Globe size={24} className="text-purple-500"/>, category: '会员充值', image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=400&fit=crop' },
 ];
 
 export default SHOP_CATALOG;

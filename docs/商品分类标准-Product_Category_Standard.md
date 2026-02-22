@@ -254,6 +254,36 @@ interface ShopItem {
 | 悬停效果 | `group-hover:scale-105` | 悬停放大5% |
 | 过渡 | `transition-all duration-500` | 500ms过渡 |
 
+#### 图片链接规范
+
+**图片来源：**
+- 使用 Unsplash 图片服务
+- URL格式：`https://images.unsplash.com/photo-{id}?w=400&h=400&fit=crop`
+- 尺寸参数：`w=400&h=400&fit=crop`（400x400像素，裁剪适配）
+
+**图片加载逻辑：**
+```typescript
+// 只显示有效的 images.unsplash.com 链接
+{item.image && item.image.includes('images.unsplash.com') ? (
+  <img src={item.image} alt={item.name} ... />
+) : (
+  // 没有有效图片时，显示默认图标
+  <div className="fallback-icon">{item.icon}</div>
+)}
+```
+
+**图片加载失败处理：**
+- 图片加载失败时自动隐藏
+- 显示 fallback 图标（商品 icon 字段）
+- fallback 背景色：深色 `#1a1a2e`，浅色 `#e0e5ec`
+
+**示例图片URL：**
+```
+https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&h=400&fit=crop  // 手机
+https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop  // 耳机
+https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop  // 手表
+```
+
 ### 8.5 渐变遮罩样式
 
 渐变遮罩从商品图片顶部70px处开始，向下渐变：
@@ -361,6 +391,7 @@ border-red-500/30
 | 1.0 | 2026-01-10 | 初始版本 |
 | 1.1 | 2026-02-21 | 更新分类体系，添加实际商品示例，更新ID命名规范 |
 | 1.2 | 2026-02-23 | 新增商品卡片设计规范，包括卡片布局、拟态样式、渐变遮罩、价格标签等详细规范 |
+| 1.3 | 2026-02-23 | 补充图片链接规范，包括图片来源、加载逻辑、失败处理和示例URL |
 
 ---
 
