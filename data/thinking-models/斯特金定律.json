@@ -4,10 +4,10 @@
   "label": "史特金定律",
   "icon": "BrainCircuit",
   "description": "科幻作家西奥多·史特金提出：任何事物，其 90% 都是没有价值的垃圾。如果你觉得某个行业不行，那是因为你只看到了那 90%。",
-  "deepAnalysis": "这是一个思维模型，展示了斯特金定律的核心概念和应用。",
-  "principle": "思维模型的核心原则：斯特金定律",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将斯特金定律应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "斯特金定律（Sturgeon's Law）由科幻作家西奥多斯特金提出。核心洞见：任何事物，其90%都是没有价值的垃圾。如果你觉得某个行业不行，那是因为你只看到了那90%。理解这个定律有助于正确评估领域价值，找到真正的精华。",
+  "principle": "1. 90%垃圾：任何事物90%都是垃圾\n2. 10%精华：只有10%是真正有价值的\n3. 选择性忽视：学会忽视那90%\n4. 寻找精华：主动寻找那10%的精华\n5. 避免偏见：不要因90%而否定整个领域",
+  "scope": "内容筛选、信息过滤、行业评估、学习选择、投资决策、人才选拔",
+  "tips": "1. 接受现实：接受90%都是垃圾的现实\n2. 主动筛选：主动筛选而非被动接受\n3. 寻找精华：花精力寻找那10%的精华\n4. 避免偏见：不要因垃圾而否定整个领域\n5. 提高门槛：提高自己的筛选门槛",
+  "practice": "1. 接受现实：接受90%都是垃圾的现实\n2. 主动筛选：主动筛选而非被动接受\n3. 寻找精华：花精力寻找那10%的精华\n4. 避免偏见：不要因垃圾而否定整个领域\n5. 提高门槛：提高自己的筛选门槛",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <!-- 90% 的垃圾背景 -->\r\n      <g opacity=\"0.05\" fill=\"#1e293b\">\r\n        <rect x=\"50\" y=\"50\" width=\"900\" height=\"550\" rx=\"40\" />\r\n        <text x=\"500\" y=\"325\" text-anchor=\"middle\" style=\"font-size: 180px; font-weight: 900;\">90%</text>\r\n      </g>\r\n      \r\n      <!-- 10% 的黄金核心 -->\r\n      <g transform=\"translate(500, 325)\">\r\n        <circle r=\"120\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 50px #ef4444)\" />\r\n        <text text-anchor=\"middle\" y=\"10\" fill=\"white\" style=\"font-size: 42px; font-weight: 900;\">10% 精华</text>\r\n        <circle r=\"150\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"2\" class=\"animate-ping\" />\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"550\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.2em;\">任何事物 90% 都是垃圾</text>\r\n    </svg>\n</div>"
 }

@@ -4,10 +4,10 @@
   "label": "自我损耗",
   "icon": "BrainCircuit",
   "description": "意志力是一种稀缺的生理资源，就像电池一样，每次做决策、抵制诱惑或处理压力都会消耗电量。当电量耗尽，人会变得冲动、易怒且丧失理智。",
-  "deepAnalysis": "这是一个思维模型，展示了自我损耗的核心概念和应用。",
-  "principle": "思维模型的核心原则：自我损耗",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将自我损耗应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "自我损耗（自我控制损耗）是社会心理学家罗伊·鲍迈斯特等人在20世纪90年代提出的理论，指个体在进行自我控制后，自我控制能力会暂时下降的现象。核心概念是：意志力和自我控制是一种有限的生理资源，类似于肌肉，过度使用会导致疲劳。这一理论基于大脑前额叶皮层的能量消耗机制，当个体进行决策、抵制诱惑、控制情绪或执行其他需要自我控制的任务时，会消耗葡萄糖等生理资源，导致后续的自我控制能力下降。自我损耗理论揭示了人类行为中的许多看似矛盾的现象，如为什么在疲惫时人们更容易做出冲动的决定。",
+  "principle": "1. 有限资源原则：意志力和自我控制是有限的生理资源，会随着使用而消耗\n2. 资源损耗原则：任何需要自我控制的活动都会消耗这一资源，无论活动的性质如何\n3. 资源恢复原则：损耗的意志力可以通过休息、营养补充等方式恢复\n4. 任务依赖原则：前一个需要自我控制的任务会影响后续任务的表现\n5. 个体差异原则：不同个体的意志力资源储备和恢复速度存在差异",
+  "scope": "心理学、教育学、管理学、经济学、市场营销、个人发展、时间管理、健康管理、成瘾行为、决策科学",
+  "tips": "1. 意志力预算：像管理财务预算一样管理意志力资源，优先分配给最重要的任务\n2. 减少决策消耗：建立日常习惯和常规，减少不必要的决策，保存意志力\n3. 能量管理：通过合理饮食、充足睡眠和适当运动维持良好的生理状态，为意志力提供能量基础\n4. 任务排序：将需要高度自我控制的任务安排在意志力充沛的时段\n5. 恢复策略：在意志力消耗后，及时采取恢复措施，如短暂休息、冥想或进行愉悦的活动",
+  "practice": "1. 第一步：识别高消耗任务，列出需要大量自我控制的活动\n2. 第二步：意志力审计，记录自己在不同时段的意志力水平和任务表现\n3. 第三步：优化日程，将高消耗任务安排在意志力巅峰期，低消耗任务安排在低谷期\n4. 第四步：建立习惯，将重复的决策转化为习惯，减少意志力消耗\n5. 第五步：实施恢复计划，在高消耗任务后安排适当的恢复活动，确保意志力资源的可持续利用",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <!-- 意志力电池 -->\r\n      <g transform=\"translate(500, 300)\">\r\n        <rect x=\"-150\" y=\"-80\" width=\"300\" height=\"160\" rx=\"20\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"4\" opacity=\"0.2\" />\r\n        <rect x=\"150\" y=\"-30\" width=\"20\" height=\"60\" fill=\"#1e293b\" opacity=\"0.2\" />\r\n        \r\n        <!-- 动态电量 -->\r\n        <rect x=\"-140\" y=\"-70\" width=\"280\" height=\"140\" rx=\"10\" fill=\"#10b981\">\r\n           <animate attributeName=\"width\" values=\"280;20;280\" dur=\"10s\" repeatCount=\"indefinite\" />\r\n           <animate attributeName=\"fill\" values=\"#10b981;#ef4444;#10b981\" dur=\"10s\" repeatCount=\"indefinite\" />\r\n        </rect>\r\n        \r\n        <text text-anchor=\"middle\" y=\"5\" fill=\"white\" style=\"font-size: 32px; font-weight: 900;\">W我LL计划OWER</text>\r\n      </g>\r\n      \r\n      <!-- 决策消耗物 -->\r\n      <g>\r\n        <circle r=\"15\" fill=\"#ef4444\" opacity=\"0.6\"><animateMotion path=\"M900,100 Q700,100 500,300\" dur=\"2s\" repeatCount=\"indefinite\" /></circle>\r\n        <text x=\"850\" y=\"80\" fill=\"#ef4444\" style=\"font-size: 18px; font-weight: 900;\">琐碎决策</text>\r\n\r\n        <circle r=\"20\" fill=\"#ef4444\" opacity=\"0.8\"><animateMotion path=\"M100,500 Q300,500 500,300\" dur=\"3s\" repeatCount=\"indefinite\" /></circle>\r\n        <text x=\"100\" y=\"540\" fill=\"#ef4444\" style=\"font-size: 18px; font-weight: 900;\">克制冲动</text>\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"520\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 48px; font-weight: 900; letter-spacing: 0.1em;\">认知资源是有限的</text>\r\n    </svg>\n</div>"
 }

@@ -3,11 +3,11 @@
   "name": "网络中介",
   "label": "网络中介逻辑",
   "icon": "BrainCircuit",
-  "description": "在这个资源过剩但连接稀缺的时代，价值不再存储于单个节点内部。谁能更高效地桥接分散的专家、资金和流量，谁就拥有了对系统总利润的“抽成权”。中介者是网络的润滑剂，更是价值的分配者。",
-  "deepAnalysis": "这是一个思维模型，展示了网络中介的核心概念和应用。",
-  "principle": "思维模型的核心原则：网络中介",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将网络中介应用到日常决策和问题解决中，观察效果并调整。",
+  "description": "在这个资源过剩但连接稀缺的时代，价值不再存储于单个节点内部。谁能更高效地桥接分散的专家、资金和流量，谁就拥有了对系统总利润的\"抽成权\"。中介者是网络的润滑剂，更是价值的分配者。",
+  "deepAnalysis": "网络中介（Network Brokerage）是在复杂网络中扮演连接角色的思维模型。核心洞见：在资源过剩但连接稀缺的时代，价值不再存储于单个节点内部，而是产生于节点之间的连接。谁能更高效地桥接分散的专家、资金和流量，谁就拥有了对系统总利润的‘抽成权’。中介者不仅是网络的润滑剂，更是价值的分配者。",
+  "principle": "1. 连接价值：价值产生于节点间的有效连接\n2. 信息优势：中介者掌握多源信息\n3. 匹配效率：降低资源匹配的搜索成本\n4. 信任传递：在陌生节点间传递信任\n5. 价值捕获：通过连接获取系统价值的一部分",
+  "scope": "商业模式、平台经济、供应链管理、社交网络、信息传递、资源配置",
+  "tips": "1. 识别需求：准确识别网络中的连接需求\n2. 建立信任：在不同节点间建立信任关系\n3. 优化匹配：提高资源匹配的效率和准确性\n4. 持续创新：不断优化中介服务的价值\n5. 网络维护：维护和扩展网络连接的质量",
+  "practice": "1. 网络映射：绘制并分析目标网络的结构\n2. 需求分析：识别网络中的未满足需求\n3. 服务设计：设计高效的中介服务模式\n4. 技术应用：利用技术提高中介效率\n5. 生态建设：构建可持续的中介生态系统",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 复杂散乱的网络 (背景) -->\r\n        <g opacity=\"0.1\" stroke=\"#1e293b\" stroke-width=\"1\">\r\n          <circle cx=\"-200\" cy=\"-200\" r=\"150\" fill=\"none\" stroke-dasharray=\"2 10\" />\r\n          <circle cx=\"250\" cy=\"180\" r=\"120\" fill=\"none\" stroke-dasharray=\"2 10\" />\r\n        </g>\r\n        \r\n        <!-- 中介者 (你 - 能量核心) -->\r\n        <g>\r\n          <circle r=\"60\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 40px #ef4444)\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"white\" style=\"font-size: 16px; font-weight: 900;\">资源中介</text>\r\n        </g>\r\n\r\n        <!-- 连接流 (流动的粒子) -->\r\n        <g>\r\n           <circle r=\"8\" fill=\"#10b981\">\r\n             <animateMotion path=\"M-350,-200 Q-150,-100 0,0\" dur=\"2s\" repeatCount=\"indefinite\" />\r\n           </circle>\r\n           <circle r=\"8\" fill=\"#3b82f6\" style=\"animation-delay: 1s\">\r\n             <animateMotion path=\"M350,200 Q150,100 0,0\" dur=\"2s\" repeatCount=\"indefinite\" />\r\n           </circle>\r\n        </g>\r\n\r\n        <text y=\"220\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">连接产生的溢价权</text>\r\n        <text y=\"255\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.5\" style=\"font-size: 12px;\">资源不属于占有者，属于连接者</text>\r\n      </g>\r\n    </svg>\n</div>"
 }

@@ -4,10 +4,10 @@
   "label": "斯特赖桑德效应",
   "icon": "BrainCircuit",
   "description": "试图隐藏、删除或限制某项信息的努力，反而会导致该信息在互联网上获得更广泛的关注和传播。禁忌本身就是最强的诱导信号。",
-  "deepAnalysis": "这是一个思维模型，展示了斯翠珊效应的核心概念和应用。",
-  "principle": "思维模型的核心原则：斯翠珊效应",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将斯翠珊效应应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "斯翠珊效应（Streisand Effect）揭示了禁令的反向传播效应。核心洞见：试图隐藏、删除或限制某项信息的努力，反而会导致该信息在互联网上获得更广泛的关注和传播。禁忌本身就是最强的诱导信号。理解这个效应有助于正确处理负面信息和危机公关。",
+  "principle": "1. 禁令反效：禁令反而增加关注度\n2. 禁忌诱导：禁忌是最强的诱导信号\n3. 好奇心驱动：好奇心驱动传播\n4. 逆反心理：禁令激发逆反心理\n5. 网络放大：网络效应放大禁令影响",
+  "scope": "危机公关、信息管理、网络传播、隐私保护、舆论管理、品牌管理",
+  "tips": "1. 避免禁令：避免用禁令处理负面信息\n2. 透明处理：透明处理而非隐藏\n3. 正面回应：正面回应而非删除\n4. 预防为主：预防负面信息产生\n5. 顺势而为：利用关注传播正面信息",
+  "practice": "1. 避免禁令：避免用禁令处理负面信息\n2. 透明处理：透明处理而非隐藏\n3. 正面回应：正面回应而非删除\n4. 预防为主：预防负面信息产生\n5. 顺势而为：利用关注传播正面信息",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 禁令护盾 (试图掩盖) -->\r\n        <rect x=\"-100\" y=\"-100\" width=\"200\" height=\"200\" rx=\"20\" fill=\"#1e293b\" />\r\n        <path d=\"M-60,-60 L60,60 M60,-60 L-60,60\" stroke=\"#ef4444\" stroke-width=\"12\" stroke-linecap=\"round\" />\r\n        <text y=\"-140\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">禁止访问 (CENSOREd)</text>\r\n        \r\n        <!-- 爆发性的关注波纹 -->\r\n        <g fill=\"none\" stroke=\"#fbbf24\" stroke-width=\"2\">\r\n          <circle r=\"120\">\r\n            <animate attributeName=\"r\" from=\"120\" to=\"450\" dur=\"3s\" repeatCount=\"indefinite\" />\r\n            <animate attributeName=\"opacity\" from=\"1\" to=\"0\" dur=\"3s\" repeatCount=\"indefinite\" />\r\n          </circle>\r\n          <circle r=\"120\" style=\"animation-delay: 1.5s\">\r\n            <animate attributeName=\"r\" from=\"120\" to=\"450\" dur=\"3s\" repeatCount=\"indefinite\" />\r\n            <animate attributeName=\"opacity\" from=\"1\" to=\"0\" dur=\"3s\" repeatCount=\"indefinite\" />\r\n          </circle>\r\n        </g>\r\n\r\n        <!-- 好奇心的聚光灯 -->\r\n        <g opacity=\"0.6\">\r\n           <circle cx=\"-300\" cy=\"-200\" r=\"10\" fill=\"#fbbf24\" class=\"animate-ping\" />\r\n           <circle cx=\"350\" cy=\"150\" r=\"15\" fill=\"#fbbf24\" class=\"animate-ping\" style=\"animation-delay: 0.5s\" />\r\n           <circle cx=\"-200\" cy=\"250\" r=\"8\" fill=\"#fbbf24\" class=\"animate-ping\" style=\"animation-delay: 1s\" />\r\n        </g>\r\n\r\n        <text y=\"240\" text-anchor=\"middle\" fill=\"#fbbf24\" style=\"font-size: 42px; font-weight: 900; letter-spacing: 0.1em;\">试图隐藏 = 强制置顶</text>\r\n      </g>\r\n    </svg>\n</div>"
 }

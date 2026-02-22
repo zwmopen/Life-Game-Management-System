@@ -4,10 +4,10 @@
   "label": "认知闭合需求",
   "icon": "BrainCircuit",
   "description": "人类大脑天生厌恶“悬而未决”。为了结束不确定性带来的心理痛苦，我们倾向于快速接受一个简单的答案，哪怕那个答案完全经不起推敲。",
-  "deepAnalysis": "这是一个思维模型，展示了封闭需求的核心概念和应用。",
-  "principle": "思维模型的核心原则：封闭需求",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将封闭需求应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "封闭需求（Need for Closure）揭示了人类对确定性的渴望。核心洞见：人类大脑天生厌恶'悬而未决'。为了结束不确定性带来的心理痛苦，我们倾向于快速接受一个简单的答案，哪怕那个答案完全经不起推敲。理解封闭需求有助于避免过早下结论。",
+  "principle": "1. 不确定厌恶：大脑厌恶悬而未决的状态\n2. 快速封闭：倾向于快速接受简单答案\n3. 认知吝啬：封闭需求是认知吝啬的表现\n4. 质量牺牲：为速度牺牲决策质量\n5. 个体差异：封闭需求强度因人而异",
+  "scope": "决策制定、问题解决、人际沟通、团队协作、政治态度、消费行为",
+  "tips": "1. 延迟判断：在获得充分信息前延迟下结论\n2. 容忍模糊：培养容忍不确定性的能力\n3. 寻求证据：主动寻求更多证据再下结论\n4. 多元假设：同时考虑多个假设而非急于封闭\n5. 反思动机：反思自己是否因封闭需求而急于判断",
+  "practice": "1. 延迟判断：在获得充分信息前延迟下结论\n2. 容忍模糊：培养容忍不确定性的能力\n3. 寻求证据：主动寻求更多证据再下结论\n4. 多元假设：同时考虑多个假设而非急于封闭\n5. 反思动机：反思自己是否因封闭需求而急于判断",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <g transform=\"translate(300, 300)\">\r\n        <rect x=\"-120\" y=\"-120\" width=\"240\" height=\"240\" rx=\"40\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"3\" stroke-dasharray=\"15 20\" opacity=\"0.2\" />\r\n        <path d=\"M-50,-50 L50,50 M50,-50 L-50,50\" stroke=\"#ef4444\" stroke-width=\"12\" opacity=\"0.6\">\r\n           <animate attributeName=\"opacity\" values=\"1;0.2;1\" dur=\"1.2s\" repeatCount=\"indefinite\" />\r\n        </path>\r\n        <text y=\"160\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">混沌的未知焦虑</text>\r\n      </g>\r\n      <path d=\"M480,300 L580,300\" stroke=\"#1e293b\" stroke-width=\"3\" marker-end=\"url(#blackarrow)\" opacity=\"0.2\" />\r\n      <g transform=\"translate(750, 300)\">\r\n        <rect x=\"-120\" y=\"-120\" width=\"240\" height=\"240\" rx=\"40\" fill=\"#ef4444\" filter=\"drop-shadow(0 20px 40px #ef4444)\" />\r\n        <path d=\"M-40,0 L-10,30 L50,-40\" fill=\"none\" stroke=\"white\" stroke-width=\"12\" stroke-linecap=\"round\" />\r\n        <text y=\"160\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">只要一个确定的结论</text>\r\n        <text y=\"195\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">(哪怕是错的)</text>\r\n      </g>\r\n      <defs>\r\n        <marker id=\"blackarrow\" markerWidth=\"10\" markerHeight=\"10\" refX=\"5\" refY=\"5\" orient=\"auto\"><path d=\"M0,0 L10,5 L0,10 Z\" fill=\"#1e293b\"/></marker>\r\n      </defs>\r\n      <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 24px; font-weight: 900; letter-spacing: 0.5em;\">逃避模糊，是智力的本能自保</text>\r\n    </svg>\n</div>"
 }

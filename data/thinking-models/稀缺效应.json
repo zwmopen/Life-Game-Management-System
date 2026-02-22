@@ -4,10 +4,10 @@
   "label": "稀缺效应",
   "icon": "BrainCircuit",
   "description": "当人处于金钱或时间极度匮乏（稀缺）的状态时，大脑会自动征用所有带宽去应付当前的危机，导致长远规划和决策能力的丧失。",
-  "deepAnalysis": "这是一个思维模型，展示了稀缺效应的核心概念和应用。",
-  "principle": "思维模型的核心原则：稀缺效应",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将稀缺效应应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "稀缺效应是由行为经济学家塞德希尔·穆来纳森和埃尔德·沙菲尔提出的认知心理学现象，指当个体面临资源（如金钱、时间、注意力）稀缺时，大脑会自动将认知带宽集中于解决当前稀缺问题，形成'隧道视野'。这种认知模式虽然能提高对即时问题的处理能力，但会牺牲对长远规划、自我控制和创新思维的认知资源，导致决策质量下降和资源管理效率降低。稀缺效应揭示了贫困陷阱、时间管理困境等现象的心理机制，为理解和应对资源稀缺提供了新的视角。",
+  "principle": "1. 认知带宽限制原则：人的认知资源是有限的，稀缺会占用大量带宽，导致其他认知功能受损\n2. 隧道视野原则：稀缺状态下，注意力会过度集中于即时需求，忽略长远重要事项\n3. 带宽损耗原则：长期处于稀缺状态会持续损耗认知带宽，形成恶性循环\n4. 决策质量下降原则：稀缺导致的认知负担会降低决策的理性和前瞻性\n5. 资源管理悖论：越稀缺越难以有效管理资源，进一步加剧稀缺状态",
+  "scope": "经济学、心理学、行为金融学、时间管理、贫困研究、教育管理、组织行为、个人理财",
+  "tips": "1. 识别稀缺状态：及时察觉自己是否处于稀缺状态，如金钱紧张、时间压力大等\n2. 创造带宽缓冲：建立应急基金、预留空闲时间，为认知带宽创造缓冲空间\n3. 简化决策：在稀缺状态下，减少需要决策的事项，降低认知负担\n4. 预设决策：在非稀缺状态下预先做出重要决策，避免在稀缺状态下做关键选择\n5. 定期反思：定期评估自己的资源使用情况，避免陷入稀缺陷阱",
+  "practice": "1. 第一步：自我评估，识别当前面临的稀缺资源类型（金钱、时间、注意力等）\n2. 第二步：带宽保护，暂时减少非必要的认知负担，如关闭通知、简化日程\n3. 第三步：优先排序，明确当前最核心的需求，制定最小可行计划\n4. 第四步：创造缓冲，通过提前规划或寻求支持，为稀缺资源创造缓冲空间\n5. 第五步：长期规划，在稀缺状态缓解后，建立避免再次陷入稀缺的长期策略",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <!-- 正常带宽流 -->\r\n      <g opacity=\"0.05\">\r\n        <rect x=\"100\" y=\"100\" width=\"800\" height=\"400\" rx=\"40\" fill=\"#1e293b\" />\r\n      </g>\r\n      \r\n      <!-- 稀缺导致的隧道视野 (漏斗) -->\r\n      <path d=\"M100,100 L900,100 L550,300 L550,500 L450,500 L450,300 Z\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"2\" stroke-dasharray=\"10 10\" opacity=\"0.1\" />\r\n      \r\n      <!-- 被卡住的认知资源 -->\r\n      <g>\r\n        <circle cx=\"500\" cy=\"150\" r=\"40\" fill=\"#f59e0b\" opacity=\"0.8\">\r\n           <animate attributeName=\"cy\" from=\"150\" to=\"280\" dur=\"2s\" repeatCount=\"indefinite\" />\r\n           <animate attributeName=\"r\" from=\"40\" to=\"20\" dur=\"2s\" repeatCount=\"indefinite\" />\r\n        </circle>\r\n        <text x=\"500\" y=\"350\" text-anchor=\"middle\" fill=\"#f59e0b\" style=\"font-size: 24px; font-weight: 900;\">隧道视野 (TUNNEL我NG)</text>\r\n      </g>\r\n\r\n      <!-- 流出的微量决策 -->\r\n      <rect x=\"490\" y=\"450\" width=\"20\" height=\"20\" rx=\"4\" fill=\"#ef4444\" opacity=\"0.5\">\r\n         <animate attributeName=\"y\" from=\"450\" to=\"550\" dur=\"1s\" repeatCount=\"indefinite\" />\r\n         <animate attributeName=\"opacity\" values=\"1;0\" dur=\"1s\" repeatCount=\"indefinite\" />\r\n      </rect>\r\n\r\n      <text x=\"500\" y=\"50\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 14px; font-weight: 900; letter-spacing: 0.5em;\">COGN我T我VE BaNdW我dTH TaX</text>\r\n    </svg>\n</div>"
 }

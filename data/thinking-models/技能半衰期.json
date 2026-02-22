@@ -3,11 +3,11 @@
   "name": "技能半衰期",
   "label": "技能半衰期",
   "icon": "BrainCircuit",
-  "description": "在这个技术奇点时代，如果你学习的是“具体的工具操作”（如某个软件的界面），其价值每 18 个月就会减半。如果你学习的是“底层逻辑”（如博弈论、心理学、编程范式），其价值的半衰期长达 30 年。为了防范贬值，你必须极度偏执地投资在慢变量上。",
-  "deepAnalysis": "这是一个思维模型，展示了技能半衰期的核心概念和应用。",
-  "principle": "思维模型的核心原则：技能半衰期",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将技能半衰期应用到日常决策和问题解决中，观察效果并调整。",
-  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(100, 550)\">\r\n        <!-- 坐标轴 -->\r\n        <line x1=\"0\" y1=\"0\" x2=\"800\" y2=\"0\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n        \r\n        <!-- 具体的工具技巧 (半衰期极短) -->\r\n        <path d=\"M0,-400 Q50,-50 200,-20 T800,0\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"8\" stroke-dasharray=\"10 5\" opacity=\"0.4\" />\r\n        <text x=\"100\" y=\"-120\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">工具技巧 (A我 瞬间替代)</text>\r\n\r\n        <!-- 底层通用能力 (半衰期极长) -->\r\n        <path d=\"M0,-400 L800,-350\" fill=\"none\" stroke=\"#10b981\" stroke-width=\"12\" stroke-linecap=\"round\">\r\n           <animate attributeName=\"stroke-dasharray\" from=\"0,800\" to=\"800,0\" dur=\"5s\" fill=\"freeze\" />\r\n        </path>\r\n        <text x=\"400\" y=\"-380\" text-anchor=\"middle\" fill=\"#10b981\" style=\"font-size: 32px; font-weight: 900;\">底层通识 (林迪效应)</text>\r\n\r\n        <!-- 贬值粒子 -->\r\n        <g opacity=\"0.3\" fill=\"#ef4444\">\r\n          <circle cx=\"50\" cy=\"-200\" r=\"4\"><animate attributeName=\"opacity\" values=\"1;0\" dur=\"1s\" repeatCount=\"indefinite\" /></circle>\r\n          <circle cx=\"150\" cy=\"-100\" r=\"3\"><animate attributeName=\"opacity\" values=\"1;0\" dur=\"1.5s\" repeatCount=\"indefinite\" /></circle>\r\n        </g>\r\n      </g>\r\n      <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900; letter-spacing: 0.8em; opacity: 0.1;\">SK我LL DE计划REc我AT我ON</text>\r\n    </svg>\n</div>"
+  "description": "在这个技术奇点时代，如果你学习的是具体的工具操作（如某个软件的界面），其价值每18个月就会减半。如果你学习的是底层逻辑（如博弈论、心理学、编程范式），其价值的半衰期长达30年。为了防范贬值，你必须极度偏执地投资在慢变量上。",
+  "deepAnalysis": "技能半衰期（Skill Half-Life）揭示了技能价值的衰减规律。核心洞见：在这个技术奇点时代，如果你学习的是具体的工具操作（如某个软件的界面），其价值每18个月就会减半。如果你学习的是底层逻辑（如博弈论、心理学、编程范式），其价值的半衰期长达30年。为了防范贬值，你必须极度偏执地投资在慢变量上。",
+  "principle": "1. 快技能贬值：具体工具操作贬值快\n2. 慢技能保值：底层逻辑保值时间长\n3. 半衰期差异：不同技能半衰期差异巨大\n4. 投资策略：偏执投资慢变量技能\n5. 持续更新：快技能需要持续更新",
+  "scope": "职业规划、学习策略、技能投资、个人发展、教育规划、人才发展",
+  "tips": "1. 识别半衰期：识别所学技能的半衰期\n2. 投资慢变量：偏执投资慢变量技能\n3. 平衡组合：平衡快慢技能的组合\n4. 持续更新：快技能需要持续更新\n5. 底层优先：优先学习底层逻辑",
+  "practice": "1. 识别半衰期：识别所学技能的半衰期\n2. 投资慢变量：偏执投资慢变量技能\n3. 平衡组合：平衡快慢技能的组合\n4. 持续更新：快技能需要持续更新\n5. 底层优先：优先学习底层逻辑",
+  "visualDesign": "<div class=\"neu-card\"><svg viewBox=\"0 0 1000 650\"><g transform=\"translate(100, 550)\"><line x1=\"0\" y1=\"0\" x2=\"800\" y2=\"0\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" /><path d=\"M0,-400 Q50,-50 200,-20 T800,0\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"8\" stroke-dasharray=\"10 5\" opacity=\"0.4\" /><text x=\"100\" y=\"-120\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">工具技巧 (AI 瞬间替代)</text><path d=\"M0,-400 L800,-350\" fill=\"none\" stroke=\"#10b981\" stroke-width=\"12\" stroke-linecap=\"round\" /><text x=\"400\" y=\"-380\" text-anchor=\"middle\" fill=\"#10b981\" style=\"font-size: 32px; font-weight: 900;\">底层通识 (林迪效应)</text></g></svg></div>"
 }

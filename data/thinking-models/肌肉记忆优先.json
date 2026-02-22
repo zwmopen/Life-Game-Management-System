@@ -4,10 +4,10 @@
   "label": "肌肉记忆优先律",
   "icon": "BrainCircuit",
   "description": "所谓大师，就是把复杂的决策“硬核化”到脊髓里的人。居家工作的终极境界是：你不需要“想”怎么剪视频，你的手看到素材会自动开始切。当你把产出降级为一种生理性的肌肉运动，你便消灭了所有的决策成本。",
-  "deepAnalysis": "这是一个思维模型，展示了肌肉记忆优先的核心概念和应用。",
-  "principle": "思维模型的核心原则：肌肉记忆优先",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将肌肉记忆优先应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "肌肉记忆优先是基于神经科学和认知心理学的实践模型，核心概念是通过反复练习将复杂技能从有意识的认知系统（系统2）转化为无意识的自动化系统（系统1）。从神经科学角度看，这一过程涉及大脑皮层与基底神经节的协同作用，通过髓鞘化增强神经通路的传导效率，最终形成无需意识参与的自动化反应。该模型揭示了专家技能形成的本质——不是依赖更强的意志力，而是通过刻意练习将决策成本降至最低，实现本能级别的执行效率。",
+  "principle": "1. 自动化原则：通过反复练习，将有意识的认知任务转化为无意识的自动化反应\n2. 神经可塑性原则：大脑具有适应性，通过刻意练习可以重塑神经通路，增强技能的自动化程度\n3. 决策成本最小化原则：肌肉记忆消除了执行过程中的决策成本，提高效率和一致性\n4. 质量稳定性原则：自动化执行减少了人为误差，提高了输出质量的稳定性\n5. 能量守恒原则：自动化反应消耗的认知能量远低于有意识的决策过程",
+  "scope": "技能学习、专业训练、创意产出、日常工作、运动表现、音乐演奏、编程开发、内容创作",
+  "tips": "1. 分解技能：将复杂技能分解为可重复的基本单元，逐一练习至自动化\n2. 刻意练习：专注于技能的薄弱环节，进行有针对性的重复练习\n3. 建立仪式：创造固定的工作仪式，帮助大脑快速进入自动化状态\n4. 环境优化：设计有利于自动化执行的工作环境，减少干扰和决策点\n5. 反馈循环：定期接收反馈，调整练习方法，加速肌肉记忆的形成",
+  "practice": "1. 第一步：技能分解，将目标技能拆分为最小可执行单元\n2. 第二步：慢速精确练习，确保每个动作的准确性，避免错误肌肉记忆\n3. 第三步：逐渐加速，在保持准确性的前提下提高执行速度\n4. 第四步：情境整合，将自动化单元整合到实际工作情境中\n5. 第五步：持续强化，通过定期练习维持和强化肌肉记忆，防止技能退化",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 逻辑层 (上 - 慢、耗能) -->\r\n        <g transform=\"translate(0, -180)\">\r\n          <path d=\"M-150,0 Q0,-50 150,0\" fill=\"none\" stroke=\"#94a3b8\" stroke-width=\"2\" stroke-dasharray=\"5 5\" opacity=\"0.2\" />\r\n          <text text-anchor=\"middle\" y=\"0\" fill=\"#94a3b8\" style=\"font-size: 14px; font-weight: 900;\">逻辑决策 (系统 2)</text>\r\n          <text y=\"25\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 10px;\">耗时 5 分钟、痛苦</text>\r\n        </g>\r\n        \r\n        <!-- 转换漏斗 -->\r\n        <path d=\"M-50,-130 L-20,-50 M50,-130 L20,-50\" stroke=\"#ef4444\" stroke-width=\"2\" opacity=\"0.3\" />\r\n\r\n        <!-- 肌肉层 (下 - 快、本能) -->\r\n        <g>\r\n          <circle r=\"100\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 40px #ef4444)\" />\r\n          <path d=\"M-40,0 L0,40 L60,-40\" fill=\"none\" stroke=\"white\" stroke-width=\"12\" stroke-linecap=\"round\" />\r\n          <text y=\"150\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">肌肉反射 (系统 1)</text>\r\n          <text y=\"180\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">耗时 0.1 秒、无感</text>\r\n        </g>\r\n\r\n        <circle r=\"180\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"1\" class=\"animate-ping\" />\r\n        <text y=\"-280\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 36px; font-weight: 900;\">让产出成为一种生理排泄</text>\r\n      </g>\r\n    </svg>\n</div>"
 }

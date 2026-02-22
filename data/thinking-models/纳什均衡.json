@@ -3,11 +3,11 @@
   "name": "纳什均衡",
   "label": "纳什均衡",
   "icon": "BrainCircuit",
-  "description": "博弈陷入了“死锁”。在已知对手策略的情况下，任何一方单方面改变自己的策略，处境都不会变得更好。",
-  "deepAnalysis": "这是一个思维模型，展示了纳什均衡的核心概念和应用。",
-  "principle": "思维模型的核心原则：纳什均衡",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将纳什均衡应用到日常决策和问题解决中，观察效果并调整。",
+  "description": "博弈陷入了\"死锁\"。在已知对手策略的情况下，任何一方单方面改变自己的策略，处境都不会变得更好。",
+  "deepAnalysis": "纳什均衡（Nash Equilibrium）是博弈论中的核心概念，由数学家约翰·纳什提出。核心洞见：在一个博弈中，当所有参与者都选择了自己的最优策略，且没有参与者有动机单方面改变策略时，就达到了纳什均衡状态。此时，博弈陷入了一种‘死锁’，任何单方面的改变都不会使情况变得更好。",
+  "principle": "1. 策略最优：每个参与者的策略都是对其他参与者策略的最优反应\n2. 稳定性：没有参与者有动机单方面改变策略\n3. 自我实施：均衡策略具有自我实施的性质\n4. 多重均衡：一个博弈可能存在多个纳什均衡\n5. 非合作性：纳什均衡是基于非合作假设的",
+  "scope": "博弈论、经济学、国际关系、商业竞争、决策分析、冲突解决",
+  "tips": "1. 策略分析：分析各方的最优策略和反应函数\n2. 均衡识别：识别博弈中的纳什均衡点\n3. 预测行为：利用纳什均衡预测理性参与者的行为\n4. 机制设计：设计有利于达到理想均衡的机制\n5. 合作可能：识别通过合作达到更优结果的可能性",
+  "practice": "1. 博弈建模：将现实问题建模为博弈\n2. 均衡分析：分析博弈中的纳什均衡\n3. 策略选择：根据均衡分析选择最优策略\n4. 机制设计：设计促进理想均衡的机制\n5. 动态调整：根据实际情况动态调整策略",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <path d=\"M150,150 Q500,700 850,150\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"4\" opacity=\"0.1\" />\r\n      \r\n      <!-- 动态扰动 -->\r\n      <g>\r\n        <circle r=\"12\" fill=\"#ef4444\" opacity=\"0.6\">\r\n          <animateMotion path=\"M300,250 Q500,450 500,450 Q500,450 480,400\" dur=\"4s\" repeatCount=\"indefinite\" />\r\n        </circle>\r\n        <circle r=\"12\" fill=\"#3b82f6\" opacity=\"0.6\">\r\n          <animateMotion path=\"M700,250 Q500,450 500,450 Q500,450 520,400\" dur=\"5s\" repeatCount=\"indefinite\" />\r\n        </circle>\r\n      </g>\r\n\r\n      <!-- 稳态核心 -->\r\n      <g transform=\"translate(500, 450)\">\r\n        <circle r=\"60\" fill=\"#ef4444\" fill-opacity=\"0.1\" class=\"animate-ping\" />\r\n        <circle r=\"30\" fill=\"#ef4444\" />\r\n        <text y=\"80\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 36px; font-weight: 900;\">纳什均衡点</text>\r\n        <text y=\"115\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.6\" style=\"font-size: 14px;\">(单方面改变现状将受损)</text>\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900; letter-spacing: 0.5em; opacity: 0.1;\">NON-COO计划ERaT我VE STaB我L我TY</text>\r\n    </svg>\n</div>"
 }

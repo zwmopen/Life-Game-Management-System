@@ -4,10 +4,10 @@
   "label": "基本率谬误",
   "icon": "BrainCircuit",
   "description": "人类大脑厌恶冰冷的数字，热爱鲜活的故事。我们倾向于被具体的、感人的个案打动，而完全忽视了该事件在整体背景中发生的真实概率。",
-  "deepAnalysis": "这是一个思维模型，展示了基础比率谬误的核心概念和应用。",
-  "principle": "思维模型的核心原则：基础比率谬误",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将基础比率谬误应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "基础比率谬误（Base Rate Fallacy）揭示了人类对统计概率的认知偏差。核心洞见：人类大脑厌恶冰冷的数字，热爱鲜活的故事。我们倾向于被具体的、感人的个案打动，而完全忽视了该事件在整体背景中发生的真实概率。这会导致严重的判断错误。",
+  "principle": "1. 个案偏好：人类偏好具体个案而非统计数据\n2. 基础比率忽视：忽视事件在整体中的真实概率\n3. 故事效应：生动的故事比冰冷的数字更有说服力\n4. 贝叶斯思维：应结合基础比率进行概率判断\n5. 统计素养：培养统计思维对抗直觉偏差",
+  "scope": "医疗诊断、法律判决、投资决策、市场分析、风险评估、新闻报道",
+  "tips": "1. 查找基础比率：决策前先查找基础比率数据\n2. 贝叶斯更新：用贝叶斯思维更新概率判断\n3. 质疑个案：对生动个案保持警惕\n4. 统计优先：优先参考统计数据而非个案\n5. 双重验证：用统计数据验证个案结论",
+  "practice": "1. 查找基础比率：决策前先查找基础比率数据\n2. 贝叶斯更新：用贝叶斯思维更新概率判断\n3. 质疑个案：对生动个案保持警惕\n4. 统计优先：优先参考统计数据而非个案\n5. 双重验证：用统计数据验证个案结论",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\" class=\"w-full h-auto\">\n        <g opacity=\"0.08\" fill=\"var(--text-primary)\">\n          <circle cx=\"100\" cy=\"150\" r=\"12\" /><circle cx=\"200\" cy=\"120\" r=\"14\" /><circle cx=\"300\" cy=\"160\" r=\"10\" />\n          <circle cx=\"500\" cy=\"140\" r=\"18\" /><circle cx=\"600\" cy=\"180\" r=\"12\" /><circle cx=\"700\" cy=\"150\" r=\"14\" />\n          <circle cx=\"150\" cy=\"300\" r=\"11\" /><circle cx=\"650\" cy=\"320\" r=\"16\" /><circle cx=\"400\" cy=\"340\" r=\"13\" />\n          <circle cx=\"850\" cy=\"100\" r=\"9\" /><circle cx=\"900\" cy=\"250\" r=\"15\" /><circle cx=\"800\" cy=\"400\" r=\"12\" />\n          <text x=\"500\" y=\"520\" text-anchor=\"middle\" style=\"font-size: 48px; font-weight: 900; opacity: 0.2;\">宏观基本率 (FaCTS)</text>\n        </g>\n        <g transform=\"translate(500, 300)\">\n          <circle r=\"140\" fill=\"var(--accent-secondary)\" fill-opacity=\"0.1\" class=\"animate-pulse\" />\n          <path d=\"M0,-100 L50,0 L-50,0 Z\" fill=\"var(--accent-secondary)\" />\n          <text y=\"70\" text-anchor=\"middle\" fill=\"var(--accent-secondary)\" style=\"font-size: 36px; font-weight: 900;\">生动个案</text>\n          <text y=\"110\" text-anchor=\"middle\" fill=\"var(--accent-secondary)\" style=\"font-size: 16px; font-weight: 900;\">(极低概率的干扰项)</text>\n        </g>\n        <text x=\"500\" y=\"50\" text-anchor=\"middle\" fill=\"var(--text-secondary)\" opacity=\"0.3\" style=\"font-size: 20px; font-weight: 900; letter-spacing: 0.5em;\">屏蔽噪音，看透原始概率</text>\n      </svg>\n</div>"
 }

@@ -4,10 +4,10 @@
   "label": "外部性",
   "icon": "BrainCircuit",
   "description": "指一个人的行为对旁观者产生的未补偿的代价（负外部性）或未被索取的收益（正外部性）。系统价值不等于内部产出之和。",
-  "deepAnalysis": "这是一个思维模型，展示了外部性的核心概念和应用。",
-  "principle": "思维模型的核心原则：外部性",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将外部性应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "外部性（Externality）揭示了行为对第三方的溢出效应。核心洞见：指一个人的行为对旁观者产生的未补偿的代价（负外部性）或未被索取的收益（正外部性）。系统价值不等于内部产出之和。理解外部性有助于做出更全面的决策。",
+  "principle": "1. 溢出效应：行为会对第三方产生影响\n2. 负外部性：对他人产生未补偿的代价\n3. 正外部性：对他人产生未被索取的收益\n4. 系统视角：系统价值不等于内部产出之和\n5. 内部化：将外部性内部化是解决问题的关键",
+  "scope": "公共政策、环境保护、企业社会责任、城市规划、经济分析、产品设计",
+  "tips": "1. 识别外部性：识别行为对第三方的溢出效应\n2. 区分类型：区分正外部性和负外部性\n3. 量化影响：尝试量化外部性的影响\n4. 内部化：考虑如何将外部性内部化\n5. 系统思考：从系统视角评估决策影响",
+  "practice": "1. 识别外部性：识别行为对第三方的溢出效应\n2. 区分类型：区分正外部性和负外部性\n3. 量化影响：尝试量化外部性的影响程度\n4. 内部化：考虑如何将外部性内部化\n5. 系统思考：从系统视角评估决策的整体影响",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 决策主体 -->\r\n        <rect x=\"-100\" y=\"-100\" width=\"200\" height=\"200\" rx=\"30\" fill=\"#1e293b\" />\r\n        <text text-anchor=\"middle\" y=\"10\" fill=\"white\" style=\"font-size: 24px; font-weight: 900;\">内部决策</text>\r\n        \r\n        <!-- 负外部性 (烟雾扩散) -->\r\n        <g opacity=\"0.3\">\r\n          <circle r=\"40\" cx=\"-250\" cy=\"-150\" fill=\"#ef4444\"><animate attributeName=\"r\" values=\"40;150;40\" dur=\"4s\" repeatCount=\"indefinite\" /></circle>\r\n          <text x=\"-250\" y=\"-50\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 18px; font-weight: 900;\">负外部性 (代价)</text>\r\n        </g>\r\n\r\n        <!-- 正外部性 (光芒辐射) -->\r\n        <g opacity=\"0.3\">\r\n          <circle r=\"40\" cx=\"250\" cy=\"150\" fill=\"#10b981\" class=\"animate-pulse\" />\r\n          <text x=\"250\" y=\"50\" text-anchor=\"middle\" fill=\"#10b981\" style=\"font-size: 18px; font-weight: 900;\">正外部性 (溢出收益)</text>\r\n        </g>\r\n\r\n        <text y=\"240\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.5\" style=\"font-size: 16px; font-weight: 900; letter-spacing: 0.5em;\">BEYONd THE BOUNdaRY</text>\r\n      </g>\r\n    </svg>\n</div>"
 }

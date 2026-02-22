@@ -4,10 +4,10 @@
   "label": "巴甫洛夫反应",
   "icon": "BrainCircuit",
   "description": "人类大脑会将无关的信号（如手机消息提示音）与特定的情感或奖励强行绑定。这种“条件反射”完全绕过了理性，成为了生理本能的一部分。",
-  "deepAnalysis": "这是一个思维模型，展示了巴甫洛夫反应的核心概念和应用。",
-  "principle": "思维模型的核心原则：巴甫洛夫反应",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将巴甫洛夫反应应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "巴甫洛夫反应（Pavlovian Response）揭示了条件反射的形成机制。核心洞见：人类大脑会将无关的信号（如手机消息提示音）与特定的情感或奖励强行绑定。这种'条件反射'完全绕过了理性，成为了生理本能的一部分。理解巴甫洛夫反应有助于设计习惯和打破不良条件反射。",
+  "principle": "1. 条件联结：中性刺激与反应可以建立联结\n2. 绕过理性：条件反射绕过理性直接触发\n3. 生理本能：条件反射成为生理本能的一部分\n4. 可设计性：条件反射可以主动设计\n5. 可消退：条件反射可以通过消退训练消除",
+  "scope": "习惯养成、行为设计、营销传播、心理健康、教育训练、产品设计",
+  "tips": "1. 识别触发器：识别自己的条件反射触发器\n2. 设计联结：主动设计积极的条件反射\n3. 打破联结：打破不良的条件反射联结\n4. 利用提示：利用提示触发期望行为\n5. 消退训练：通过消退训练消除不良反射",
+  "practice": "1. 识别触发器：识别自己的条件反射触发器\n2. 设计联结：主动设计积极的条件反射\n3. 打破联结：打破不良的条件反射联结\n4. 利用提示：利用提示触发期望行为\n5. 消退训练：通过消退训练消除不良反射",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <!-- 铃铛 (中性刺激) -->\r\n      <g transform=\"translate(300, 200)\">\r\n        <path d=\"M-40,40 Q0,-60 40,40 Z\" fill=\"#fbbf24\" />\r\n        <circle cy=\"45\" r=\"8\" fill=\"#fbbf24\" />\r\n        <animateTransform attributeName=\"transform\" type=\"rotate\" values=\"-10,300,200; 10,300,200; -10,300,200\" dur=\"0.5s\" repeatCount=\"indefinite\" />\r\n        <text y=\"100\" text-anchor=\"middle\" fill=\"#fbbf24\" style=\"font-size: 24px; font-weight: 900;\">铃声 (信号)</text>\r\n      </g>\r\n      \r\n      <!-- 自动关联路径 -->\r\n      <path d=\"M400,200 Q500,200 600,400\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"6\" stroke-dasharray=\"10 5\" opacity=\"0.3\">\r\n        <animate attributeName=\"stroke-dashoffset\" from=\"100\" to=\"0\" dur=\"1s\" repeatCount=\"indefinite\" />\r\n      </path>\r\n\r\n      <!-- 反应点 -->\r\n      <g transform=\"translate(700, 450)\">\r\n        <circle r=\"100\" fill=\"#ef4444\" fill-opacity=\"0.1\" class=\"animate-pulse\" />\r\n        <circle r=\"40\" fill=\"#ef4444\" />\r\n        <text y=\"80\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">生理性反射</text>\r\n        <text y=\"110\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.5\" style=\"font-size: 14px;\">(非理性的自动触发)</text>\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 48px; font-weight: 900; letter-spacing: 0.2em; opacity: 0.1;\">CONd我T我ONEd REFLEX</text>\r\n    </svg>\n</div>"
 }

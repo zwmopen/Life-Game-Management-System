@@ -4,10 +4,10 @@
   "label": "委托代理问题",
   "icon": "BrainCircuit",
   "description": "当一方（代理人）代表另一方（委托人）行事时，由于信息不对称和激励不相容，代理人往往会为了自身私利而损害委托人的利益。这是组织内耗的总根源。",
-  "deepAnalysis": "这是一个思维模型，展示了委托代理的核心概念和应用。",
-  "principle": "思维模型的核心原则：委托代理",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将委托代理应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "委托代理问题（Principal-Agent Problem）揭示了组织内耗的总根源。核心洞见：当一方（代理人）代表另一方（委托人）行事时，由于信息不对称和激励不相容，代理人往往会为了自身私利而损害委托人的利益。理解委托代理问题有助于设计更好的激励机制和治理结构。",
+  "principle": "1. 信息不对称：代理人拥有委托人不知道的信息\n2. 激励不相容：代理人利益与委托人利益不一致\n3. 道德风险：代理人可能利用信息优势损害委托人\n4. 代理成本：委托人需要付出成本监督代理人\n5. 机制设计：通过机制设计使激励相容",
+  "scope": "公司治理、组织管理、合同设计、激励机制、投资管理、公共政策",
+  "tips": "1. 识别代理关系：识别组织中的委托代理关系\n2. 对齐激励：设计使双方利益一致的激励机制\n3. 减少信息不对称：增加透明度减少信息不对称\n4. 监督机制：建立有效的监督和问责机制\n5. 长期绑定：建立长期关系减少短期行为",
+  "practice": "1. 识别代理关系：识别组织中的委托代理关系\n2. 对齐激励：设计使双方利益一致的激励机制\n3. 减少信息不对称：增加透明度减少信息不对称\n4. 监督机制：建立有效的监督和问责机制\n5. 长期绑定：建立长期关系减少短期行为",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 委托人 (Owner) -->\r\n        <g transform=\"translate(-250, 0)\">\r\n          <circle r=\"80\" fill=\"#ef4444\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"white\" style=\"font-size: 24px; font-weight: 900;\">委托人</text>\r\n          <path d=\"M100,-40 L300,-100\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"10 5\" marker-end=\"url(#bluearrow)\" />\r\n          <text x=\"180\" y=\"-80\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">目标：长期价值</text>\r\n        </g>\r\n        \r\n        <!-- 代理人 (agent) -->\r\n        <g transform=\"translate(250, 0)\">\r\n          <circle r=\"80\" fill=\"#ef4444\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"white\" style=\"font-size: 24px; font-weight: 900;\">代理人</text>\r\n          <path d=\"M-100,40 L-300,100\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"10 5\" marker-end=\"url(#redarrow)\" />\r\n          <text x=\"-180\" y=\"80\" text-anchor=\"end\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">目标：短期薪酬</text>\r\n        </g>\r\n\r\n        <!-- 冲突核心 -->\r\n        <g>\r\n          <circle r=\"40\" fill=\"none\" stroke=\"#fbbf24\" stroke-width=\"2\" class=\"animate-ping\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"#fbbf24\" style=\"font-size: 32px; font-weight: 900;\">利益错位</text>\r\n        </g>\r\n      </g>\r\n      <defs>\r\n        <marker id=\"bluearrow\" markerWidth=\"10\" markerHeight=\"10\" refX=\"5\" refY=\"5\" orient=\"auto\"><path d=\"M0,0 L10,5 L0,10 Z\" fill=\"#ef4444\"/></marker>\r\n        <marker id=\"redarrow\" markerWidth=\"10\" markerHeight=\"10\" refX=\"5\" refY=\"5\" orient=\"auto\" rotate=\"180\"><path d=\"M0,0 L10,5 L0,10 Z\" fill=\"#ef4444\"/></marker>\r\n      </defs>\r\n    </svg>\n</div>"
 }

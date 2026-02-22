@@ -4,10 +4,10 @@
   "label": "汉密尔顿法则",
   "icon": "BrainCircuit",
   "description": "进化生物学核心：利他行为之所以会演化，是因为它在数学上能让包含相同基因的亲属获得更大的生存收益。只要“亲缘系数 (r) 乘以 受益者的增益 (B)”大于“A者的代价 (C)”，这种看似无私的行为就会被自然选择永久保留。",
-  "deepAnalysis": "这是一个思维模型，展示了汉密尔顿规则的核心概念和应用。",
-  "principle": "思维模型的核心原则：汉密尔顿规则",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将汉密尔顿规则应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "汉密尔顿规则（Hamilton's Rule）揭示了利他行为的进化基础。核心洞见：利他行为之所以会演化，是因为它在数学上能让包含相同基因的亲属获得更大的生存收益。只要亲缘系数r乘以受益者的增益B大于A者的代价C，这种看似无私的行为就会被自然选择永久保留。",
+  "principle": "1. 亲缘选择：利他行为基于亲缘关系\n2. 数学条件：rB大于C时利他行为演化\n3. 基因视角：利他是更高阶的基因利己\n4. 亲缘系数：亲缘关系越近系数越高\n5. 进化稳定：利他行为具有进化稳定性",
+  "scope": "进化生物学、社会行为、家庭关系、组织行为、社会心理学、行为经济学",
+  "tips": "1. 理解亲缘：理解亲缘关系的重要性\n2. 计算收益：计算利他行为的收益代价\n3. 基因视角：从基因视角理解行为\n4. 扩展应用：将规则扩展到非亲属合作\n5. 批判思考：批判性思考利他行为",
+  "practice": "1. 理解亲缘：理解亲缘关系的重要性\n2. 计算收益：计算利他行为的收益代价\n3. 基因视角：从基因视角理解行为\n4. 扩展应用：将规则扩展到非亲属合作\n5. 批判思考：批判性思考利他行为",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 支点 -->\r\n        <path d=\"M-20,100 L20,100 L0,60 Z\" fill=\"#1e293b\" opacity=\"0.2\" />\r\n        \r\n        <!-- 天平 (亲缘利他博弈) -->\r\n        <g transform=\"translate(0, 60)\">\r\n          <animateTransform attributeName=\"transform\" type=\"rotate\" values=\"-15,0,0; 15,0,0; -15,0,0\" dur=\"6s\" repeatCount=\"indefinite\" />\r\n          <rect x=\"-400\" y=\"-5\" width=\"800\" height=\"10\" rx=\"5\" fill=\"#1e293b\" />\r\n          \r\n          <!-- 代价 C (自己的损失) -->\r\n          <g transform=\"translate(-250, -60)\">\r\n             <rect x=\"-60\" y=\"0\" width=\"120\" height=\"60\" rx=\"10\" fill=\"#ef4444\" />\r\n             <text text-anchor=\"middle\" y=\"35\" fill=\"white\" style=\"font-size: 24px; font-weight: 900;\">代价 C</text>\r\n          </g>\r\n\r\n          <!-- 收益 B x 亲缘 r (群体的增益) -->\r\n          <g transform=\"translate(250, -100)\">\r\n             <rect x=\"-80\" y=\"0\" width=\"160\" height=\"100\" rx=\"20\" fill=\"#10b981\" filter=\"drop-shadow(0 0 30px #10b981)\" />\r\n             <text text-anchor=\"middle\" y=\"55\" fill=\"white\" style=\"font-size: 24px; font-weight: 900;\">收益 rB</text>\r\n             <circle r=\"10\" cx=\"60\" cy=\"-20\" fill=\"white\" class=\"animate-pulse\" />\r\n          </g>\r\n        </g>\r\n\r\n        <text y=\"-180\" text-anchor=\"middle\" fill=\"#10b981\" style=\"font-size: 52px; font-weight: 900;\">rB > C</text>\r\n        <text y=\"-130\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.6\" style=\"font-size: 16px;\">利他主义是更高阶的基因利己</text>\r\n      </g>\r\n    </svg>\n</div>"
 }

@@ -4,10 +4,10 @@
   "label": "机会成本",
   "icon": "BrainCircuit",
   "description": "对于个体，最昂贵的成本不是钱，而是“如果我没把时间花在 A 上，我就能把 A 的产出叠加到 B 上的那个复利差值”。这不仅是简单的替代，而是整个人生轨迹的非线性偏移。",
-  "deepAnalysis": "这是一个思维模型，展示了深度机会成本的核心概念和应用。",
-  "principle": "思维模型的核心原则：深度机会成本",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将深度机会成本应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "深度机会成本（Deep Opportunity Cost）揭示了时间选择的复利差异。核心洞见：对于个体，最昂贵的成本不是钱，而是如果我没把时间花在A上，我就能把A的产出叠加到B上的那个复利差值。这不仅是简单的替代，而是整个人生轨迹的非线性偏移。",
+  "principle": "1. 时间最贵：时间是最昂贵的成本\n2. 复利差异：不同选择的复利差异巨大\n3. 轨迹偏移：选择导致人生轨迹非线性偏移\n4. 隐性成本：机会成本是隐性但巨大的\n5. 决策关键：机会成本是决策的关键因素",
+  "scope": "时间管理、职业选择、投资决策、人生规划、资源配置、战略决策",
+  "tips": "1. 计算复利：计算不同选择的复利差异\n2. 识别隐性：识别隐性的机会成本\n3. 长期视角：用长期视角评估机会成本\n4. 果断选择：评估后果断选择减少犹豫\n5. 定期审视：定期审视当前选择的机会成本",
+  "practice": "1. 计算复利：计算不同选择的复利差异\n2. 识别隐性：识别隐性的机会成本\n3. 长期视角：用长期视角评估机会成本\n4. 果断选择：评估后果断选择减少犹豫\n5. 定期审视：定期审视当前选择的机会成本",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 决策分叉 -->\r\n        <path d=\"M0,0 L-350,-250\" stroke=\"#1e293b\" stroke-width=\"2\" stroke-dasharray=\"10 5\" opacity=\"0.2\" />\r\n        <path d=\"M0,0 L350,-250\" stroke=\"#1e293b\" stroke-width=\"2\" stroke-dasharray=\"10 5\" opacity=\"0.2\" />\r\n        \r\n        <!-- 选择 A (已选) -->\r\n        <g transform=\"translate(-350, -250)\">\r\n          <circle r=\"40\" fill=\"#ef4444\" />\r\n          <text y=\"60\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">选择 A: 平庸但安全</text>\r\n        </g>\r\n        \r\n        <!-- 真正的机会成本 B (失去的复利爆发) -->\r\n        <g transform=\"translate(350, -250)\">\r\n          <circle r=\"40\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"5 5\" class=\"animate-spin\" />\r\n          <path d=\"M0,0 Q100,-150 250,-350\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"8\" opacity=\"0.3\" />\r\n          <text y=\"60\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">机会成本 B</text>\r\n          <text y=\"90\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">(在那之后所丧失的 1000% 收益)</text>\r\n        </g>\r\n\r\n        <!-- 当前的时间成本 (漏出的沙) -->\r\n        <g transform=\"translate(0, 100)\">\r\n           <path d=\"M-20,-50 L20,-50 L10,50 L-10,50 Z\" fill=\"#fbbf24\" opacity=\"0.5\" />\r\n           <circle r=\"3\" fill=\"#fbbf24\"><animate attributeName=\"cy\" from=\"-20\" to=\"50\" dur=\"0.5s\" repeatCount=\"indefinite\" /></circle>\r\n           <text y=\"100\" text-anchor=\"middle\" fill=\"#fbbf24\" style=\"font-size: 14px; font-weight: 900;\">每一秒犹豫，都在支付成本</text>\r\n        </g>\r\n\r\n        <text y=\"-250\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 28px; font-weight: 900; letter-spacing: 0.1em;\">不做的代价，远比做错要贵</text>\r\n      </g>\r\n    </svg>\n</div>"
 }

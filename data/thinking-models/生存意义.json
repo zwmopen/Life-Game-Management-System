@@ -4,10 +4,10 @@
   "label": "我K我Ga我",
   "icon": "BrainCircuit",
   "description": "源自日本长寿之乡。它代表了那个让你每天早晨都有动力起床的理由。意义不在于单一的成功，而在于四种力量的完美平衡。",
-  "deepAnalysis": "这是一个思维模型，展示了生存意义的核心概念和应用。",
-  "principle": "思维模型的核心原则：生存意义",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将生存意义应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "生存意义（Ikigai）源自日本长寿之乡，是一种关于生活目标和意义的思维模型。核心洞见：真正的生活意义在于四种元素的交集 - 你热爱的、你擅长的、世界需要的、能给你报酬的。这四种力量的平衡能带来持久的满足感和动力。",
+  "principle": "1. 热爱驱动：做你真正热爱的事情\n2. 优势发挥：利用你的核心优势\n3. 价值贡献：满足世界的真实需求\n4. 可持续性：获得合理的回报\n5. 平衡统一：四种元素的和谐统一",
+  "scope": "人生规划、职业选择、生活平衡、心理健康、个人发展、退休规划",
+  "tips": "1. 自我探索：深入了解自己的兴趣和优势\n2. 需求分析：识别世界的真实需求\n3. 技能培养：持续提升你的核心能力\n4. 价值创造：找到能产生价值的结合点\n5. 平衡调整：定期审视四种元素的平衡",
+  "practice": "1. 四象限分析：分别列出你热爱的、擅长的、世界需要的、能赚钱的事物\n2. 交集寻找：找出四个象限的交集区域\n3. 小步尝试：在交集区域进行小规模实践\n4. 反馈调整：根据实践结果调整方向\n5. 持续优化：不断完善你的生存意义模型",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 800\">\r\n      <g transform=\"translate(500, 400)\">\r\n        <!-- 四圆交集 -->\r\n        <circle cx=\"0\" cy=\"-140\" r=\"220\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"2\" />\r\n        <circle cx=\"140\" cy=\"0\" r=\"220\" fill=\"#3b82f6\" fill-opacity=\"0.1\" stroke=\"#3b82f6\" stroke-width=\"2\" />\r\n        <circle cx=\"0\" cy=\"140\" r=\"220\" fill=\"#10b981\" fill-opacity=\"0.1\" stroke=\"#10b981\" stroke-width=\"2\" />\r\n        <circle cx=\"-140\" cy=\"0\" r=\"220\" fill=\"#fbbf24\" fill-opacity=\"0.1\" stroke=\"#fbbf24\" stroke-width=\"2\" />\r\n\r\n        <!-- 核心 我K我Ga我 -->\r\n        <g>\r\n          <circle r=\"60\" fill=\"#FFFFFF\" filter=\"drop-shadow(0 0 30px rgba(0,0,0,0.1))\" />\r\n          <text text-anchor=\"middle\" y=\"12\" fill=\"#0f172a\" style=\"font-size: 32px; font-weight: 900;\">我K我Ga我</text>\r\n        </g>\r\n\r\n        <!-- 四大要素 -->\r\n        <g font-weight=\"900\" style=\"font-size: 24px;\">\r\n          <text y=\"-200\" text-anchor=\"middle\" fill=\"#ef4444\">你热爱的</text>\r\n          <text x=\"240\" y=\"0\" text-anchor=\"middle\" fill=\"#3b82f6\">世界需要的</text>\r\n          <text y=\"220\" text-anchor=\"middle\" fill=\"#10b981\">能给你报酬的</text>\r\n          <text x=\"-240\" y=\"0\" text-anchor=\"middle\" fill=\"#fbbf24\">你擅长的</text>\r\n        </g>\r\n\r\n        <!-- 重叠状态 (全量汉化) -->\r\n        <g fill=\"#64748b\" opacity=\"0.6\" style=\"font-size: 14px; font-weight: 800;\">\r\n           <text x=\"130\" y=\"-130\" text-anchor=\"middle\">使命</text>\r\n           <text x=\"130\" y=\"130\" text-anchor=\"middle\">天职</text>\r\n           <text x=\"-130\" y=\"130\" text-anchor=\"middle\">专业</text>\r\n           <text x=\"-130\" y=\"-130\" text-anchor=\"middle\">激情</text>\r\n        </g>\r\n      </g>\r\n    </svg>\n</div>"
 }

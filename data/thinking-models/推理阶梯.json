@@ -4,10 +4,10 @@
   "label": "推论之梯",
   "icon": "BrainCircuit",
   "description": "描述了人脑从观察事实到做出A的飞速过程。梯子爬得越快，偏见产生的概率就越高。这是一种认知的“短路”。",
-  "deepAnalysis": "这是一个思维模型，展示了推理阶梯的核心概念和应用。",
-  "principle": "思维模型的核心原则：推理阶梯",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将推理阶梯应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "推理阶梯（Ladder of Inference）揭示了从事实到行动的认知跳跃。核心洞见：描述了人脑从观察事实到做出行动的飞速过程。梯子爬得越快，偏见产生的概率就越高。这是一种认知的短路。理解推理阶梯有助于放慢思考过程，减少偏见。",
+  "principle": "1. 认知跳跃：从事实到行动的快速跳跃\n2. 偏见累积：跳跃越快偏见越多\n3. 认知短路：推理阶梯是认知短路\n4. 反思空间：需要在阶梯上停留反思\n5. 可逆过程：可以沿阶梯反向检验",
+  "scope": "决策制定、沟通理解、冲突解决、偏见识别、批判性思维、问题分析",
+  "tips": "1. 放慢思考：在阶梯上放慢思考\n2. 检验假设：检验每一步的假设\n3. 回溯推理：沿阶梯反向检验\n4. 寻找事实：区分事实和推论\n5. 邀请质疑：邀请他人质疑你的推理",
+  "practice": "1. 放慢思考：在阶梯上放慢思考\n2. 检验假设：检验每一步的假设\n3. 回溯推理：沿阶梯反向检验\n4. 寻找事实：区分事实和推论\n5. 邀请质疑：邀请他人质疑你的推理",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 320)\">\r\n        <!-- 阶梯背景 -->\r\n        <path d=\"M-200,280 L-120,-280 M200,280 L120,-280\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"12\" opacity=\"0.05\" stroke-linecap=\"round\" />\r\n        \r\n        <!-- 阶梯节点 (汉化大字号) -->\r\n        <g>\r\n          <line x1=\"-180\" y1=\"200\" x2=\"180\" y2=\"200\" stroke=\"#ef4444\" stroke-width=\"20\" stroke-linecap=\"round\" />\r\n          <text x=\"-250\" y=\"210\" text-anchor=\"end\" fill=\"#ef4444\" style=\"font-size: 28px; font-weight: 900;\">1. 原始事实</text>\r\n\r\n          <line x1=\"-165\" y1=\"100\" x2=\"165\" y2=\"100\" stroke=\"#ef4444\" stroke-width=\"20\" stroke-linecap=\"round\" opacity=\"0.8\" />\r\n          <text x=\"-235\" y=\"110\" text-anchor=\"end\" fill=\"#ef4444\" style=\"font-size: 28px; font-weight: 900;\">2. 筛选信息</text>\r\n\r\n          <line x1=\"-150\" y1=\"0\" x2=\"150\" y2=\"0\" stroke=\"#ef4444\" stroke-width=\"20\" stroke-linecap=\"round\" opacity=\"0.6\" />\r\n          <text x=\"-220\" y=\"10\" text-anchor=\"end\" fill=\"#ef4444\" style=\"font-size: 28px; font-weight: 900;\">3. 赋予意义</text>\r\n\r\n          <line x1=\"-135\" y1=\"-100\" x2=\"135\" y2=\"-100\" stroke=\"#ef4444\" stroke-width=\"20\" stroke-linecap=\"round\" />\r\n          <text x=\"-205\" y=\"-90\" text-anchor=\"end\" fill=\"#ef4444\" style=\"font-size: 28px; font-weight: 900;\">4. 形成偏见</text>\r\n\r\n          <line x1=\"-120\" y1=\"-200\" x2=\"120\" y2=\"-200\" stroke=\"#ef4444\" stroke-width=\"20\" stroke-linecap=\"round\" opacity=\"0.8\" />\r\n          <text x=\"-190\" y=\"-190\" text-anchor=\"end\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">5. 采取A</text>\r\n        </g>\r\n      </g>\r\n      <text x=\"500\" y=\"50\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900; letter-spacing: 0.5em; opacity: 0.2;\">别在没看清地面前就跳下梯子</text>\r\n    </svg>\n</div>"
 }

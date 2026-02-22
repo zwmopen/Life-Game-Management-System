@@ -4,10 +4,10 @@
   "label": "庞加莱回归",
   "icon": "BrainCircuit",
   "description": "数学证明：对于任何在一个有限空间内、状态数有限的保守动力系统，只要时间足够长，它几乎必然会回到与初始状态无限接近的位置。没有什么是真正消失的，历史只是在极其漫长的尺度上进行着均值回归。",
-  "deepAnalysis": "这是一个思维模型，展示了庞加莱回归的核心概念和应用。",
-  "principle": "思维模型的核心原则：庞加莱回归",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将庞加莱回归应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "庞加莱回归（Poincaré Recurrence）揭示了动力系统的周期性回归。核心洞见：对于任何在一个有限空间内、状态数有限的保守动力系统，只要时间足够长，它几乎必然会回到与初始状态无限接近的位置。没有什么是真正消失的，历史只是在极其漫长的尺度上进行着均值回归。理解这个定理有助于理解系统的长期行为。",
+  "principle": "1. 必然回归：有限系统必然回归初始状态\n2. 时间尺度：回归需要极长的时间尺度\n3. 状态有限：只有有限状态系统才适用\n4. 均值回归：历史在长尺度上均值回归\n5. 系统边界：系统边界决定回归可能性",
+  "scope": "物理学、系统科学、概率论、混沌理论、统计力学、哲学思考",
+  "tips": "1. 识别边界：识别系统的边界和状态空间\n2. 长期视角：用极长期视角看待系统变化\n3. 接受循环：接受系统的周期性循环\n4. 概率思维：用概率思维理解回归\n5. 耐心等待：某些回归需要极长时间",
+  "practice": "1. 识别边界：识别系统的边界和状态空间\n2. 长期视角：用极长期视角看待系统变化\n3. 接受循环：接受系统的周期性循环\n4. 概率思维：用概率思维理解回归\n5. 耐心等待：某些回归需要极长时间",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 复杂的轨道 (遍历全场) -->\r\n        <path d=\"M-300,-200 Q0,-100 200,150 T-200,100 T300,-150 T-300,-200\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"2\" opacity=\"0.1\" />\r\n        \r\n        <!-- 随机游走的粒子 (时间流逝) -->\r\n        <circle r=\"12\" fill=\"#ef4444\">\r\n           <animateMotion path=\"M-300,-200 Q0,-100 200,150 T-200,100 T300,-150 T-300,-200\" dur=\"10s\" repeatCount=\"indefinite\" />\r\n        </circle>\r\n\r\n        <!-- 初始点 (标记) -->\r\n        <g transform=\"translate(-300, -200)\">\r\n           <circle r=\"25\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"5 5\" class=\"animate-ping\" />\r\n           <text x=\"40\" y=\"40\" fill=\"#ef4444\" style=\"font-size: 18px; font-weight: 900;\">初始状态</text>\r\n        </g>\r\n\r\n        <!-- 回归时刻 -->\r\n        <g transform=\"translate(0, 0)\" opacity=\"0\">\r\n           <animate attributeName=\"opacity\" values=\"0;1;0\" dur=\"10s\" repeatCount=\"indefinite\" />\r\n           <text y=\"-250\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 48px; font-weight: 900;\">回归 (REcURRENcE)</text>\r\n        </g>\r\n\r\n        <text y=\"280\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.5\" style=\"font-size: 24px; font-weight: 900; letter-spacing: 0.2em;\">在无限中 终将重逢</text>\r\n      </g>\r\n    </svg>\n</div>"
 }

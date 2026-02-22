@@ -4,10 +4,10 @@
   "label": "范式转移",
   "icon": "BrainCircuit",
   "description": "托马斯·库恩提出。进步不是通过微调实现的，而是通过“摧毁”。当旧的理论体系（范式）无法处理日益堆积的观测异常时，系统会进入危机，最终被一套全新的、不可调和的逻辑底座所取代。",
-  "deepAnalysis": "这是一个思维模型，展示了范式转移的核心概念和应用。",
-  "principle": "思维模型的核心原则：范式转移",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将范式转移应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "范式转移是由科学哲学家托马斯·库恩在其1962年出版的《科学革命的结构》中提出的核心概念，指科学发展不是通过累积性的知识增长实现的，而是通过范式的根本转变实现的。范式是指科学共同体共享的信念、理论、方法和标准的集合，它为科学家提供了解决问题的框架。库恩认为，科学发展遵循这样的模式：常规科学（在现有范式下解决问题）→ 异常积累（现有范式无法解释的现象增加）→ 危机（范式的合法性受到质疑）→ 科学革命（新范式取代旧范式）→ 新的常规科学。核心洞察是：范式转移不是渐进的改进，而是根本性的世界观转变，新旧范式之间存在不可通约性，即它们使用不同的概念体系和评价标准。",
+  "principle": "1. 范式支配原则：在常规科学阶段，范式为科学家提供了解决问题的框架和标准\n2. 异常积累原则：随着研究的深入，现有范式无法解释的异常现象会逐渐积累\n3. 危机触发原则：当异常积累到一定程度，现有范式的合法性受到质疑，科学进入危机阶段\n4. 革命替代原则：危机最终通过新范式的建立和旧范式的取代来解决，这是一个革命性的过程\n5. 不可通约原则：新旧范式之间存在不可通约性，它们使用不同的概念体系和评价标准",
+  "scope": "科学哲学、历史学、社会学、经济学、管理学、技术创新、组织变革、教育改革、文化研究、心理学",
+  "tips": "1. 识别范式：学会识别当前领域或组织中占主导地位的范式，理解其基本假设和局限性\n2. 关注异常：保持对现有范式无法解释的异常现象的敏感度，这些是范式转移的前兆\n3. 开放心态：培养对新思想和新方法的开放心态，避免被现有范式的思维定势所束缚\n4. 构建新框架：在识别到范式危机时，积极参与构建新的范式框架，而非仅仅修补旧范式\n5. 管理过渡期：理解范式转移过程中的混乱和抵抗，学会在过渡期管理变革",
+  "practice": "1. 第一步：范式分析，识别当前领域或组织的主导范式，分析其基本假设和局限性\n2. 第二步：异常识别，系统收集和分析现有范式无法解释的异常现象\n3. 第三步：危机评估，评估异常积累的程度，判断是否已经进入范式危机阶段\n4. 第四步：新范式构建，基于对异常的理解，提出新的理论框架和方法体系\n5. 第五步：范式推广，通过论证、实验和应用，推广新范式，最终实现范式转移",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 旧范式基座 (平稳上升后遇到墙) -->\r\n        <g transform=\"translate(-400, 150)\">\r\n          <path d=\"M0,0 L250,-100\" stroke=\"#94a3b8\" stroke-width=\"8\" stroke-linecap=\"round\" />\r\n          <rect x=\"250\" y=\"-150\" width=\"10\" height=\"200\" fill=\"#ef4444\" opacity=\"0.3\" />\r\n          <text y=\"50\" fill=\"#94a3b8\" style=\"font-size: 18px; font-weight: 900;\">常规科学阶段</text>\r\n        </g>\r\n        \r\n        <!-- 危机与异常 (闪动的雷电) -->\r\n        <g transform=\"translate(-100, 0)\">\r\n          <path d=\"M0,-50 L20,0 L-20,0 L0,50\" fill=\"#fbbf24\" class=\"animate-pulse\" />\r\n          <text y=\"-80\" text-anchor=\"middle\" fill=\"#fbbf24\" style=\"font-size: 24px; font-weight: 900;\">异常 (Anomalies)</text>\r\n        </g>\r\n\r\n        <!-- 新范式 (高维飞跃) -->\r\n        <g transform=\"translate(100, -100)\">\r\n          <path d=\"M0,150 L350,-150\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"15\" stroke-linecap=\"round\">\r\n            <animate attributeName=\"stroke-dasharray\" from=\"0,1000\" to=\"1000,0\" dur=\"3s\" fill=\"freeze\" />\r\n          </path>\r\n          <circle cx=\"350\" cy=\"-150\" r=\"40\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 40px #ef4444)\" class=\"animate-ping\" />\r\n          <text x=\"350\" y=\"-220\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 48px; font-weight: 900;\">范式转移</text>\r\n        </g>\r\n\r\n        <text y=\"280\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 20px; font-weight: 900; letter-spacing: 0.5em;\">Sc我ENT我F我c REVOLUT我ONS</text>\r\n      </g>\r\n    </svg>\n</div>"
 }

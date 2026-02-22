@@ -4,10 +4,10 @@
   "label": "引爆点",
   "icon": "BrainCircuit",
   "description": "流行、观点或行为跨越某个阈值后，像野火蔓延一样瞬间爆发的过程。在引爆点之前，努力看起来是徒劳的；一旦越过，增长将不再受控。",
-  "deepAnalysis": "这是一个思维模型，展示了引爆点的核心概念和应用。",
-  "principle": "思维模型的核心原则：引爆点",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将引爆点应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "引爆点（Tipping Point）揭示了临界质量的爆发效应。核心洞见：流行、观点或行为跨越某个阈值后，像野火蔓延一样瞬间爆发。在引爆点之前，努力看起来是徒劳的；一旦越过，增长将不再受控。理解引爆点有助于在正确的时间做正确的事，等待并促成爆发。",
+  "principle": "1. 临界质量：需要达到临界质量才能引爆\n2. 非线性爆发：越过阈值后非线性爆发\n3. 努力滞后：引爆前努力看似徒劳\n4. 不可逆转：引爆后增长不再受控\n5. 关键节点：找到并突破关键节点",
+  "scope": "市场营销、社会传播、产品推广、舆论管理、病毒营销、社会变革",
+  "tips": "1. 识别阈值：识别引爆的临界阈值\n2. 积累临界：持续积累达到临界质量\n3. 寻找节点：找到能触发引爆的关键节点\n4. 耐心等待：引爆前保持耐心\n5. 快速响应：引爆后快速响应抓住机会",
+  "practice": "1. 识别阈值：识别引爆的临界阈值\n2. 积累临界：持续积累达到临界质量\n3. 寻找节点：找到能触发引爆的关键节点\n4. 耐心等待：引爆前保持耐心\n5. 快速响应：引爆后快速响应抓住机会",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 支撑座 -->\r\n        <path d=\"M-20,200 L20,200 L0,150 Z\" fill=\"#1e293b\" opacity=\"0.1\" />\r\n        \r\n        <!-- 杠杆平衡 -->\r\n        <g>\r\n          <animateTransform attributeName=\"transform\" type=\"rotate\" values=\"-15,0,150; 15,0,150; 15,0,150\" dur=\"4s\" repeatCount=\"indefinite\" />\r\n          <rect x=\"-400\" y=\"145\" width=\"800\" height=\"10\" rx=\"5\" fill=\"#1e293b\" />\r\n          \r\n          <!-- 堆积的微小液滴 (量变) -->\r\n          <g transform=\"translate(-300, 100)\">\r\n            <circle r=\"10\" fill=\"#ef4444\" opacity=\"0.6\">\r\n               <animate attributeName=\"cy\" from=\"-200\" to=\"30\" dur=\"1s\" repeatCount=\"indefinite\" />\r\n            </circle>\r\n          </g>\r\n\r\n          <!-- 突然坠落的重物 (突破临界) -->\r\n          <g transform=\"translate(300, 100)\">\r\n            <rect x=\"-40\" y=\"-40\" width=\"80\" height=\"80\" rx=\"10\" fill=\"#ef4444\" />\r\n            <text y=\"80\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">临界质量</text>\r\n          </g>\r\n        </g>\r\n\r\n        <!-- 质变核心 -->\r\n        <g transform=\"translate(0, 150)\">\r\n          <circle r=\"60\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"2\" class=\"animate-ping\" />\r\n          <text y=\"-250\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 72px; font-weight: 900;\">临界点</text>\r\n        </g>\r\n      </g>\r\n    </svg>\n</div>"
 }

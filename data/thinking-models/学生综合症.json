@@ -4,10 +4,10 @@
   "label": "学生综合征",
   "icon": "BrainCircuit",
   "description": "即使有充足的时间，人们也倾向于在最后一刻才全力以赴。这种习惯性的拖延会将项目置于极大的风险中。",
-  "deepAnalysis": "这是一个思维模型，展示了学生综合症的核心概念和应用。",
-  "principle": "思维模型的核心原则：学生综合症",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将学生综合症应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "学生综合症（Student Syndrome）揭示了人类拖延行为的普遍规律。核心洞见：即使有充足的时间，人们也倾向于在最后一刻才全力以赴。这种习惯性的拖延会将项目置于极大的风险中，因为最后时刻的意外无法被吸收。",
+  "principle": "1. 拖延倾向：人们倾向于拖延到最后时刻\n2. 虚假安全：充足时间给人虚假的安全感\n3. 风险累积：最后时刻的风险无法被吸收\n4. 帕金森效应：工作会填满所有可用时间\n5. 截止驱动：截止日期是唯一的真正驱动力",
+  "scope": "项目管理、时间管理、学习效率、工作规划、团队协作、个人发展",
+  "tips": "1. 设定中间截止日期：将大截止日期分解为多个小截止日期\n2. 缩短时间框：故意缩短可用时间逼迫早期行动\n3. 早期交付：设定早期交付目标而非最后交付\n4. 进度可视化：可视化进度增加紧迫感\n5. 外部监督：引入外部监督增加压力",
+  "practice": "1. 设定中间截止日期：将大截止日期分解为多个小截止日期\n2. 缩短时间框：故意缩短可用时间逼迫早期行动\n3. 早期交付：设定早期交付目标而非最后交付\n4. 进度可视化：可视化进度增加紧迫感\n5. 外部监督：引入外部监督增加压力",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <!-- 坐标轴 -->\r\n      <line x1=\"100\" y1=\"500\" x2=\"900\" y2=\"500\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n      <line x1=\"100\" y1=\"500\" x2=\"100\" y2=\"100\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n      \r\n      <!-- 努力程度曲线 (末端激增) -->\r\n      <path d=\"M100,480 L750,480 Q880,480 880,100\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"6\" stroke-linecap=\"round\">\r\n        <animate attributeName=\"stroke-dasharray\" from=\"0,1000\" to=\"1000,0\" dur=\"3s\" fill=\"freeze\" />\r\n      </path>\r\n\r\n      <!-- 截止日期红色警示 -->\r\n      <g transform=\"translate(880, 100)\">\r\n        <circle r=\"15\" fill=\"#ef4444\" class=\"animate-ping\" />\r\n        <text x=\"25\" y=\"5\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">截止日期</text>\r\n      </g>\r\n\r\n      <text x=\"400\" y=\"450\" text-anchor=\"middle\" fill=\"#94a3b8\" style=\"font-size: 12px; font-weight: 900;\">“时间还多得很” 的错觉期</text>\r\n    </svg>\n</div>"
 }

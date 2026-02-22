@@ -3,11 +3,11 @@
   "name": "罗森塔尔效应",
   "label": "罗森塔尔效应",
   "icon": "BrainCircuit",
-  "description": "也称“皮格马利翁效应”。指人的情感和观念会不同程度地受到别人下意识的影响。你对一个人的期望越高，他往往表现得越好。",
-  "deepAnalysis": "这是一个思维模型，展示了罗森塔尔效应的核心概念和应用。",
-  "principle": "思维模型的核心原则：罗森塔尔效应",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将罗森塔尔效应应用到日常决策和问题解决中，观察效果并调整。",
+  "description": "也称\"皮格马利翁效应\"。指人的情感和观念会不同程度地受到别人下意识的影响。你对一个人的期望越高，他往往表现得越好。",
+  "deepAnalysis": "罗森塔尔效应（Rosenthal Effect），也称为皮格马利翁效应，是一种社会心理现象。核心洞见：人的情感和观念会不同程度地受到别人下意识的影响。你对一个人的期望越高，他往往表现得越好。这一效应源于心理学家罗伯特·罗森塔尔的实验，展示了期望如何影响行为表现。",
+  "principle": "1. 期望引导：他人的期望会引导个体的行为\n2. 自我实现：期望会成为自我实现的预言\n3. 行为暗示：无意识的行为暗示传递期望\n4. 信心提升：高期望增强个体的自信心\n5. 潜力激发：适当的期望能激发潜在能力",
+  "scope": "教育教学、管理领导、亲子关系、心理咨询、团队建设、个人发展",
+  "tips": "1. 设定高标：为他人设定合理的高期望\n2. 积极反馈：给予积极的反馈和鼓励\n3. 信任表达：明确表达对他人能力的信任\n4. 关注进步：关注并肯定每一点进步\n5. 个性化期望：根据个体特点设定适当期望",
+  "practice": "1. 期望设定：为团队成员设定明确的高期望\n2. 沟通传递：通过语言和行为传递期望\n3. 资源支持：为实现期望提供必要的资源\n4. 反馈强化：定期给予建设性的反馈\n5. 调整优化：根据实际情况调整期望水平",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 800 600\">\r\n      <!-- 期望源 (太阳光环) -->\r\n      <g transform=\"translate(400, 100)\">\r\n        <circle r=\"60\" fill=\"#fbbf24\" fill-opacity=\"0.2\" class=\"animate-pulse\" />\r\n        <circle r=\"30\" fill=\"#fbbf24\" />\r\n        <text y=\"70\" text-anchor=\"middle\" fill=\"#fbbf24\" style=\"font-size: 14px; font-weight: 900;\">H我GH EX计划EcTaT我ON</text>\r\n      </g>\r\n      \r\n      <!-- 反馈路径 (雨滴) -->\r\n      <g fill=\"#fbbf24\" opacity=\"0.4\">\r\n        <circle cx=\"380\" cy=\"180\" r=\"3\"><animate attributeName=\"cy\" from=\"180\" to=\"400\" dur=\"2s\" repeatCount=\"indefinite\" /></circle>\r\n        <circle cx=\"420\" cy=\"220\" r=\"3\"><animate attributeName=\"cy\" from=\"220\" to=\"400\" dur=\"1.5s\" repeatCount=\"indefinite\" /></circle>\r\n      </g>\r\n\r\n      <!-- 被影响者 (生长的树木) -->\r\n      <g transform=\"translate(400, 500)\">\r\n        <rect x=\"-10\" y=\"-150\" width=\"20\" height=\"150\" fill=\"#475569\" />\r\n        <circle r=\"80\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"2\" stroke-dasharray=\"10 5\" />\r\n        <path d=\"M-60,-120 Q0,-220 60,-120 T0,-20 Z\" fill=\"#ef4444\" fill-opacity=\"0.6\">\r\n           <animate attributeName=\"transform\" type=\"scale\" values=\"0.8;1.1;0.8\" dur=\"4s\" repeatCount=\"indefinite\" />\r\n        </path>\r\n        <text y=\"40\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 18px; font-weight: 900;\">成长</text>\r\n      </g>\r\n\r\n      <text x=\"400\" y=\"580\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 10px; font-weight: 900; letter-spacing: 0.5em;\">SELF-FULF我LL我NG 计划RO计划HEcY</text>\r\n    </svg>\n</div>"
 }

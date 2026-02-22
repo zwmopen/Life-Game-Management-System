@@ -4,10 +4,10 @@
   "label": "本福特定律",
   "icon": "BrainCircuit",
   "description": "自然生成的数字并非平均分布。首位数字为 1 的概率高达 30%，而 9 只有不到 5%。这是检测数据造假、财务欺诈的最强物理指纹。",
-  "deepAnalysis": "这是一个思维模型，展示了本福德定律的核心概念和应用。",
-  "principle": "思维模型的核心原则：本福德定律",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将本福德定律应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "本福德定律（Benford's Law）揭示了自然生成数字的分布规律。核心洞见：自然生成的数字并非平均分布。首位数字为1的概率高达30%，而9只有不到5%。这是检测数据造假、财务欺诈的最强物理指纹。理解这个定律有助于识别异常数据和欺诈行为。",
+  "principle": "1. 非均匀分布：自然数字非均匀分布\n2. 首位规律：首位数字分布有规律\n3. 1最常见：首位为1的概率最高约30%\n4. 9最罕见：首位为9的概率最低约5%\n5. 欺诈指纹：偏离本福德定律可能是欺诈",
+  "scope": "财务审计、欺诈检测、数据分析、选举监督、科学研究、税务稽查",
+  "tips": "1. 检查首位：检查数据首位数字分布\n2. 对比定律：对比本福德定律预期分布\n3. 识别异常：识别偏离预期的异常\n4. 深入调查：对异常数据进行深入调查\n5. 结合其他：结合其他证据综合判断",
+  "practice": "1. 检查首位：检查数据首位数字分布\n2. 对比定律：对比本福德定律预期分布\n3. 识别异常：识别偏离预期的异常\n4. 深入调查：对异常数据进行深入调查\n5. 结合其他：结合其他证据综合判断",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\n          <line x1=\"150\" y1=\"520\" x2=\"850\" y2=\"520\" stroke=\"var(--svg-color-primary)\" stroke-width=\"4\" opacity=\"0.1\" />\n          <g transform=\"translate(180, 520)\">\n            <rect x=\"0\" y=\"-301\" width=\"60\" height=\"301\" fill=\"var(--svg-color-accent)\"><animate attributeName=\"height\" from=\"0\" to=\"301\" dur=\"2.5s\" fill=\"freeze\" /></rect>\n            <text x=\"30\" y=\"40\" text-anchor=\"middle\" fill=\"var(--svg-color-accent)\" style=\"font-size: 36px; font-weight: 900;\">1</text>\n            <text x=\"30\" y=\"-320\" text-anchor=\"middle\" fill=\"var(--svg-color-accent)\" style=\"font-size: 16px; font-weight: 900;\">30.1%</text>\n\n            <rect x=\"80\" y=\"-176\" width=\"60\" height=\"176\" fill=\"var(--svg-color-accent)\" fill-opacity=\"0.8\" />\n            <text x=\"110\" y=\"40\" text-anchor=\"middle\" fill=\"var(--svg-color-primary)\" style=\"font-size: 20px;\">2</text>\n\n            <rect x=\"160\" y=\"-125\" width=\"60\" height=\"125\" fill=\"var(--svg-color-accent)\" fill-opacity=\"0.6\" />\n            <text x=\"190\" y=\"40\" text-anchor=\"middle\" fill=\"var(--svg-color-primary)\" style=\"font-size: 20px;\">3</text>\n\n            <rect x=\"560\" y=\"-46\" width=\"60\" height=\"46\" fill=\"var(--svg-color-accent)\" fill-opacity=\"0.4\" />\n            <text x=\"590\" y=\"40\" text-anchor=\"middle\" fill=\"var(--svg-color-accent)\" style=\"font-size: 36px; font-weight: 900;\">9</text>\n            <text x=\"590\" y=\"-60\" text-anchor=\"middle\" fill=\"var(--svg-color-accent)\" style=\"font-size: 16px; font-weight: 900;\">4.6%</text>\n          </g>\n          <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"var(--svg-color-secondary)\" opacity=\"0.3\" style=\"font-size: 24px; font-weight: 900; letter-spacing: 0.5em;\">异常数字分布律 (反欺诈指纹)</text>\n        </svg>\n</div>"
 }

@@ -4,10 +4,10 @@
   "label": "眼镜蛇效应",
   "icon": "BrainCircuit",
   "description": "为了解决一个问题而采取的单纯激励，由于忽视了博弈方的私利，反而会导致该问题呈指数级恶化。政策成了毒药。",
-  "deepAnalysis": "这是一个思维模型，展示了毒蛇效应的核心概念和应用。",
-  "principle": "思维模型的核心原则：毒蛇效应",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将毒蛇效应应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "毒蛇效应（Cobra Effect）揭示了激励设计的意外后果。核心洞见：为了解决一个问题而采取的单纯激励，由于忽视了博弈方的私利，反而会导致该问题呈指数级恶化。政策成了毒药。理解这个效应有助于设计更有效的激励机制。",
+  "principle": "1. 激励扭曲：激励可能产生扭曲行为\n2. 私利博弈：博弈方会为私利利用激励\n3. 意外后果：激励可能产生意外后果\n4. 问题恶化：激励可能使问题恶化\n5. 系统思维：需要系统思维设计激励",
+  "scope": "公共政策、组织管理、激励机制、绩效考核、产品设计、社会治理",
+  "tips": "1. 预判博弈：预判博弈方如何利用激励\n2. 系统设计：系统设计而非单一激励\n3. 监控反馈：监控激励的实际效果\n4. 及时调整：发现问题及时调整\n5. 多维考量：多维考量激励的影响",
+  "practice": "1. 预判博弈：预判博弈方如何利用激励\n2. 系统设计：系统设计而非单一激励\n3. 监控反馈：监控激励的实际效果\n4. 及时调整：发现问题及时调整\n5. 多维考量：多维考量激励的影响",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\n          <defs>\n            <marker id=\"arrow-red\" markerWidth=\"10\" markerHeight=\"10\" refX=\"5\" refY=\"5\" orient=\"auto\"><path d=\"M0,0 L10,5 L0,10 Z\" fill=\"var(--primary-color)\"/></marker>\n          </defs>\n          <g transform=\"translate(300, 300)\">\n            <rect x=\"-100\" y=\"-50\" width=\"200\" height=\"100\" rx=\"20\" fill=\"var(--primary-color)\" />\n            <text text-anchor=\"middle\" y=\"10\" fill=\"white\" style=\"font-size: 32px; font-weight: 900;\">政策激励</text>\n            <path d=\"M100,0 L250,0\" stroke=\"var(--primary-color)\" stroke-width=\"4\" stroke-dasharray=\"10 5\" marker-end=\"url(#arrow-red)\" />\n          </g>\n          <g transform=\"translate(700, 300)\">\n            <animateTransform attributeName=\"transform\" type=\"translate\" values=\"700,300; 700,270; 700,300\" dur=\"0.8s\" repeatCount=\"indefinite\" />\n            <path d=\"M-40,60 Q0,-60 40,60 T120,60\" fill=\"none\" stroke=\"var(--primary-color)\" stroke-width=\"16\" stroke-linecap=\"round\" />\n            <circle r=\"15\" cx=\"140\" cy=\"60\" fill=\"var(--primary-color)\" />\n            <text y=\"120\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 42px; font-weight: 900;\">问题失控!</text>\n          </g>\n          <text x=\"500\" y=\"100\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 28px; font-weight: 900; letter-spacing: 0.1em; opacity: 0.1;\">越奖励，越严重</text>\n        </svg>\n</div>"
 }

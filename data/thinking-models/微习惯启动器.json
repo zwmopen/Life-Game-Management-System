@@ -3,11 +3,11 @@
   "name": "微习惯启动器",
   "label": "微习惯启动器",
   "icon": "BrainCircuit",
-  "description": "D力的核心不是意志力，而是“绕过意志力”。大脑对剧变有防御本能，但对极小动作（如只做 1 个俯卧撑、只写一行代码）视而不见。通过“不可能失败”的动作，强行启动A惯性。",
-  "deepAnalysis": "这是一个思维模型，展示了微习惯启动器的核心概念和应用。",
-  "principle": "思维模型的核心原则：微习惯启动器",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将微习惯启动器应用到日常决策和问题解决中，观察效果并调整。",
-  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 800\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 坚固的墙壁 (心理阻力) -->\r\n        <rect x=\"-400\" y=\"-10\" width=\"800\" height=\"20\" fill=\"#1e293b\" opacity=\"0.1\" />\r\n        \r\n        <!-- 生长的小芽 (微习惯) -->\r\n        <g transform=\"translate(0, 0)\">\r\n          <path d=\"M0,0 Q-20,-100 0,-180 T20,-280\" fill=\"none\" stroke=\"#10b981\" stroke-width=\"6\" stroke-linecap=\"round\">\r\n            <animate attributeName=\"stroke-dasharray\" from=\"0,300\" to=\"300,0\" dur=\"4s\" repeatCount=\"indefinite\" />\r\n          </path>\r\n          <circle r=\"10\" cy=\"-280\" fill=\"#10b981\" class=\"animate-ping\" />\r\n          <text y=\"-320\" text-anchor=\"middle\" fill=\"#10b981\" style=\"font-size: 28px; font-weight: 900;\">每天拍1条30秒口播</text>\r\n        </g>\r\n\r\n        <!-- 被绕过的巨型任务 (背景) -->\r\n        <g transform=\"translate(-250, -100)\" opacity=\"0.1\">\r\n          <rect x=\"-100\" y=\"-100\" width=\"200\" height=\"200\" rx=\"30\" fill=\"#1e293b\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"#1e293b\" style=\"font-size: 14px; font-weight: 900;\">宏大目标 (恐惧源)</text>\r\n        </g>\r\n\r\n        <text y=\"240\" text-anchor=\"middle\" fill=\"#10b981\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.1em;\">微小到不可能失败</text>\r\n      </g>\r\n    </svg>\n</div>"
+  "description": "动力的核心不是意志力，而是绕过意志力。大脑对剧变有防御本能，但对极小动作视而不见。通过不可能失败的动作，强行启动惯性。",
+  "deepAnalysis": "微习惯启动器揭示了行动启动的核心机制。核心洞见：动力的核心不是意志力，而是绕过意志力。大脑对剧变有防御本能，但对极小动作（如只做1个俯卧撑、只写一行代码）视而不见。通过不可能失败的动作，强行启动惯性。",
+  "principle": "1. 绕过意志力：不依赖意志力而是绕过它\n2. 极小动作：动作小到大脑无法拒绝\n3. 启动惯性：用极小动作启动惯性\n4. 不可能失败：设定不可能失败的目标\n5. 防御盲区：利用大脑对极小变化的盲区",
+  "scope": "习惯养成、拖延克服、行动启动、学习效率、健身计划、创作写作",
+  "tips": "1. 设定极小目标：设定不可能失败的极小目标\n2. 立即开始：设定后立即开始不思考\n3. 接受最小：接受最小完成也是成功\n4. 逐步加量：惯性启动后可以逐步加量\n5. 保持简单：保持启动动作的简单性",
+  "practice": "1. 设定极小目标：设定不可能失败的极小目标如写一行代码\n2. 立即开始：设定后立即开始不思考不犹豫\n3. 接受最小：接受最小完成也是成功不苛求\n4. 逐步加量：惯性启动后可以逐步加量\n5. 保持简单：保持启动动作的简单性",
+  "visualDesign": "<div class=\"neu-card\"><svg viewBox=\"0 0 1000 800\"><g transform=\"translate(500, 325)\"><rect x=\"-400\" y=\"-10\" width=\"800\" height=\"20\" fill=\"#1e293b\" opacity=\"0.1\" /><g transform=\"translate(0, 0)\"><path d=\"M0,0 Q-20,-100 0,-180 T20,-280\" fill=\"none\" stroke=\"#10b981\" stroke-width=\"6\" stroke-linecap=\"round\"><animate attributeName=\"stroke-dasharray\" from=\"0,300\" to=\"300,0\" dur=\"4s\" repeatCount=\"indefinite\" /></path><circle r=\"10\" cy=\"-280\" fill=\"#10b981\" class=\"animate-ping\" /><text y=\"-320\" text-anchor=\"middle\" fill=\"#10b981\" style=\"font-size: 28px; font-weight: 900;\">每天拍1条30秒口播</text></g><text y=\"240\" text-anchor=\"middle\" fill=\"#10b981\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.1em;\">微小到不可能失败</text></g></svg></div>"
 }

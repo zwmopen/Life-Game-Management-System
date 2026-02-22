@@ -4,10 +4,10 @@
   "label": "拉弗曲线",
   "icon": "BrainCircuit",
   "description": "税率与税收收益之间存在着一种抛物线关系。当税率过高，人们会因为“不划算”而停止劳动或逃税，导致政府的总收益反而下降。",
-  "deepAnalysis": "这是一个思维模型，展示了拉弗曲线的核心概念和应用。",
-  "principle": "思维模型的核心原则：拉弗曲线",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将拉弗曲线应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "拉弗曲线（Laffer Curve）揭示了税率与税收收益的抛物线关系。核心洞见：税率与税收收益之间存在着一种抛物线关系。当税率过高，人们会因为不划算而停止劳动或逃税，导致政府的总收益反而下降。理解拉弗曲线有助于找到最优税率。",
+  "principle": "1. 抛物线关系：税率与税收呈抛物线关系\n2. 临界点：存在税收最大化的临界点\n3. 过高反降：税率过高税收反而下降\n4. 激励效应：税率影响劳动和投资激励\n5. 最优税率：存在最优税率点",
+  "scope": "财政政策、税收设计、经济分析、公共政策、激励机制、组织管理",
+  "tips": "1. 寻找临界点：寻找税收最大化的临界点\n2. 避免极端：避免税率过高或过低\n3. 考虑激励：考虑税率对激励的影响\n4. 动态调整：根据经济状况动态调整\n5. 平衡目标：平衡税收与经济增长目标",
+  "practice": "1. 寻找临界点：寻找税收最大化的临界点\n2. 避免极端：避免税率过高或过低\n3. 考虑激励：考虑税率对激励的影响\n4. 动态调整：根据经济状况动态调整\n5. 平衡目标：平衡税收与经济增长目标",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <!-- 坐标轴 -->\r\n      <line x1=\"150\" y1=\"550\" x2=\"850\" y2=\"550\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n      <line x1=\"150\" y1=\"550\" x2=\"150\" y2=\"100\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n      \r\n      <!-- 拉弗曲线 -->\r\n      <path d=\"M150,550 Q500,50 850,550\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"10\" stroke-linecap=\"round\">\r\n        <animate attributeName=\"stroke-dasharray\" from=\"0,1500\" to=\"1500,0\" dur=\"4s\" fill=\"freeze\" />\r\n      </path>\r\n\r\n      <!-- 临界点 -->\r\n      <g transform=\"translate(500, 150)\">\r\n        <circle r=\"15\" fill=\"#ef4444\" class=\"animate-ping\" />\r\n        <text y=\"-40\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">税收临界点</text>\r\n        <text y=\"-5\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.5\" style=\"font-size: 14px;\">(再增税总收益反而下降)</text>\r\n      </g>\r\n\r\n      <text x=\"850\" y=\"580\" text-anchor=\"end\" fill=\"#64748b\" opacity=\"0.4\" style=\"font-size: 16px; font-weight: 900;\">税率 (Tax Rate) →</text>\r\n      <text x=\"130\" y=\"100\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.4\" style=\"font-size: 16px; font-weight: 900;\" transform=\"rotate(-90 130 100)\">总税收收益 ↑</text>\r\n    </svg>\n</div>"
 }

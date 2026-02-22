@@ -4,10 +4,10 @@
   "label": "单人公司画布",
   "icon": "BrainCircuit",
   "description": "摆脱“打工人”思维，将自己视为一个商业系统。明确你的核心交付物是什么、谁是你的理想客户、以及如何通过工具实现自动化的价值闭环。作为超级个体，你的体力是有限的，但系统的复利是无限的。",
-  "deepAnalysis": "这是一个思维模型，展示了独立创业者画布的核心概念和应用。",
-  "principle": "思维模型的核心原则：独立创业者画布",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将独立创业者画布应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "独立创业者画布（Indie Hacker Canvas）是超级个体的商业系统框架。核心洞见：摆脱打工人思维，将自己视为一个商业系统。明确你的核心交付物是什么、谁是你的理想客户、以及如何通过工具实现自动化的价值闭环。作为超级个体，你的体力是有限的，但系统的复利是无限的。",
+  "principle": "1. 系统思维：将自己视为商业系统\n2. 核心交付：明确核心交付物\n3. 理想客户：明确谁是理想客户\n4. 自动化闭环：通过工具实现自动化\n5. 复利无限：体力有限系统复利无限",
+  "scope": "创业规划、个人品牌、商业模式、超级个体、自由职业、副业发展",
+  "tips": "1. 定义交付：明确你的核心交付物\n2. 识别客户：识别你的理想客户\n3. 设计闭环：设计自动化价值闭环\n4. 选择工具：选择合适的工具实现自动化\n5. 持续优化：持续优化商业系统",
+  "practice": "1. 定义交付：明确你的核心交付物\n2. 识别客户：识别你的理想客户\n3. 设计闭环：设计自动化价值闭环\n4. 选择工具：选择合适的工具实现自动化\n5. 持续优化：持续优化商业系统",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 画布结构 -->\r\n        <rect x=\"-400\" y=\"-200\" width=\"800\" height=\"400\" rx=\"40\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n        \r\n        <!-- 核心节点 (全量汉化) -->\r\n        <g transform=\"translate(-300, -100)\">\r\n          <rect x=\"-80\" y=\"-50\" width=\"160\" height=\"100\" rx=\"20\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"2\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"#ef4444\" style=\"font-size: 16px; font-weight: 900;\">流量入口</text>\r\n        </g>\r\n        <g transform=\"translate(0, 0)\">\r\n          <rect x=\"-100\" y=\"-80\" width=\"200\" height=\"160\" rx=\"30\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 30px #ef4444)\" />\r\n          <text text-anchor=\"middle\" y=\"10\" fill=\"white\" style=\"font-size: 24px; font-weight: 900;\">个人品牌</text>\r\n          <circle r=\"120\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"1\" class=\"animate-ping\" />\r\n        </g>\r\n        <g transform=\"translate(300, 100)\">\r\n          <rect x=\"-80\" y=\"-50\" width=\"160\" height=\"100\" rx=\"20\" fill=\"#10b981\" fill-opacity=\"0.1\" stroke=\"#10b981\" stroke-width=\"2\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"#10b981\" style=\"font-size: 16px; font-weight: 900;\">变现产品</text>\r\n        </g>\r\n\r\n        <!-- 逻辑连接线 -->\r\n        <path d=\"M-220,-100 Q0,-100 0,-80\" stroke=\"#ef4444\" stroke-width=\"2\" stroke-dasharray=\"5 5\" opacity=\"0.4\" />\r\n        <path d=\"M0,80 Q0,100 220,100\" stroke=\"#10b981\" stroke-width=\"2\" stroke-dasharray=\"5 5\" opacity=\"0.4\" />\r\n\r\n        <text y=\"260\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.1em;\">一个人就是一家系统</text>\r\n      </g>\r\n    </svg>\n</div>"
 }

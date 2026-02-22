@@ -4,10 +4,10 @@
   "label": "威尔逊法则",
   "icon": "BrainCircuit",
   "description": "如果你把注意力放在质量上，金钱就会自然而然地随之而来。反之，如果你只盯着钱，质量和钱你都会失去。",
-  "deepAnalysis": "这是一个思维模型，展示了威尔逊法则的核心概念和应用。",
-  "principle": "思维模型的核心原则：威尔逊法则",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将威尔逊法则应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "威尔逊法则（Wilson's Law）揭示了质量与财富的因果关系。核心洞见：如果你把注意力放在质量上，金钱就会自然而然地随之而来。反之，如果你只盯着钱，质量和钱你都会失去。专注于创造价值，回报是自然的结果。",
+  "principle": "1. 质量优先：专注于质量而非金钱\n2. 因果关系：质量是因财富是果\n3. 反向陷阱：只盯着钱会失去一切\n4. 价值创造：创造真正的价值是根本\n5. 长期主义：质量思维是长期主义",
+  "scope": "商业战略、产品开发、个人品牌、职业发展、创业经营、服务行业",
+  "tips": "1. 聚焦质量：将注意力集中在质量上\n2. 价值导向：以创造价值为导向\n3. 避免短视：避免只盯着短期利益\n4. 持续改进：持续改进产品和服务质量\n5. 长期视角：用长期视角看待回报",
+  "practice": "1. 聚焦质量：将注意力集中在质量上\n2. 价值导向：以创造价值为导向而非追逐金钱\n3. 避免短视：避免只盯着短期利益\n4. 持续改进：持续改进产品和服务质量\n5. 长期视角：用长期视角看待回报",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <!-- 核心质量场 -->\r\n      <g transform=\"translate(500, 300)\">\r\n        <circle r=\"120\" fill=\"#ef4444\" fill-opacity=\"0.1\" class=\"animate-pulse\" />\r\n        <circle r=\"60\" fill=\"#ef4444\" />\r\n        <text text-anchor=\"middle\" y=\"8\" fill=\"white\" style=\"font-size: 24px; font-weight: 900;\">工作质量</text>\r\n        <!-- 引力轨道 -->\r\n        <circle r=\"180\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"1\" stroke-dasharray=\"5 15\" opacity=\"0.4\" class=\"animate-spin\" style=\"animation-duration: 20s\" />\r\n      </g>\r\n      \r\n      <!-- 被吸入的“金钱”与“效益” -->\r\n      <g>\r\n        <circle r=\"15\" fill=\"#fbbf24\">\r\n          <animateMotion path=\"M100,100 Q300,100 500,300\" dur=\"3s\" repeatCount=\"indefinite\" />\r\n        </circle>\r\n        <text x=\"100\" y=\"80\" fill=\"#fbbf24\" style=\"font-size: 18px; font-weight: 900;\">财富 (Money)</text>\r\n\r\n        <circle r=\"15\" fill=\"#10b981\">\r\n          <animateMotion path=\"M900,500 Q700,500 500,300\" dur=\"4s\" repeatCount=\"indefinite\" />\r\n        </circle>\r\n        <text x=\"800\" y=\"540\" fill=\"#10b981\" style=\"font-size: 18px; font-weight: 900;\">效益 (计划rofit)</text>\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"100\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 28px; font-weight: 900; letter-spacing: 0.1em; opacity: 0.1;\">质量孕育财富</text>\r\n    </svg>\n</div>"
 }

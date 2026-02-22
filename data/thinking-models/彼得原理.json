@@ -4,10 +4,10 @@
   "label": "彼得原理",
   "icon": "BrainCircuit",
   "description": "组织内部的致命死结：因为奖励过去的成功（如优秀的程序员），而将其晋升到陌生的层级（如平庸的经理），直到他无法胜任为止。",
-  "deepAnalysis": "这是一个思维模型，展示了彼得原理的核心概念和应用。",
-  "principle": "思维模型的核心原则：彼得原理",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将彼得原理应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "彼得原理（Peter Principle）揭示了组织晋升的悖论。核心洞见：在层级组织中，每个员工都会被晋升到自己无法胜任的位置。因为组织奖励过去的成功（如优秀的程序员），而将其晋升到陌生的层级（如平庸的经理），直到他无法胜任为止。最终每个职位都被不胜任的人占据。",
+  "principle": "1. 晋升陷阱：基于过去表现的晋升会导致不胜任\n2. 能力错位：新岗位需要的技能可能与旧岗位完全不同\n3. 层级膨胀：不胜任者会制造更多工作掩盖无能\n4. 组织僵化：不胜任者阻碍下属晋升和成长\n5. 彼得高地：每个人最终都会到达自己的不胜任点",
+  "scope": "组织管理、人才晋升、职业发展、团队建设、人力资源、领导力发展",
+  "tips": "1. 技能评估：晋升前评估新岗位所需技能\n2. 双轨晋升：提供技术和管理双轨晋升通道\n3. 试用期机制：晋升前设置试用考察期\n4. 培训支持：为晋升者提供必要的培训和支持\n5. 价值认可：认可专业贡献而非只奖励晋升",
+  "practice": "1. 技能匹配：评估晋升者技能是否匹配新岗位\n2. 双轨制：建立技术专家和管理者双轨晋升\n3. 试点晋升：晋升前先让候选人代理新岗位\n4. 培训体系：建立系统的晋升培训体系\n5. 价值激励：用薪酬和荣誉激励而非只有晋升",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <g stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\">\r\n        <path d=\"M100,500 L300,500 L300,400 L500,400 L500,300 L700,300 L700,200 L900,200\" fill=\"none\" />\r\n      </g>\r\n      <g>\r\n        <circle r=\"30\" fill=\"#ef4444\">\r\n          <animateMotion path=\"M200,480 L300,480 L300,380 L500,380 L500,280 L700,280\" dur=\"5s\" repeatCount=\"indefinite\" />\r\n        </circle>\r\n        <rect x=\"180\" y=\"440\" width=\"50\" height=\"6\" fill=\"#10b981\" opacity=\"0.6\" />\r\n      </g>\r\n      <g transform=\"translate(700, 280)\">\r\n        <circle r=\"80\" fill=\"#ef4444\" fill-opacity=\"0.1\" class=\"animate-ping\" />\r\n        <circle r=\"45\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"6\" stroke-dasharray=\"10 5\" />\r\n        <text y=\"-80\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">不胜任点 (L我M我T)</text>\r\n        <text y=\"10\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 800;\">晋升的终结</text>\r\n      </g>\r\n      <text x=\"500\" y=\"550\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 24px; font-weight: 900; letter-spacing: 0.5em;\">每个职位终将被不胜任的人占据</text>\r\n    </svg>\n</div>"
 }

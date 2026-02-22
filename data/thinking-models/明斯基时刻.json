@@ -4,10 +4,10 @@
   "label": "明斯基时刻",
   "icon": "BrainCircuit",
   "description": "海曼·明斯基提出：稳定是破坏性的。长期的繁荣会让投资者忘记风险，过度加杠杆。当债务产生的利息超过了资产产生的现金流，整个系统就会在某个瞬间发生断裂，导致资产价格雪崩。崩溃不是由于外力，而是由于系统内部的自我蚕食。",
-  "deepAnalysis": "这是一个思维模型，展示了明斯基时刻的核心概念和应用。",
-  "principle": "思维模型的核心原则：明斯基时刻",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将明斯基时刻应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "明斯基时刻（Minsky Moment）由海曼明斯基提出。核心洞见：稳定是破坏性的。长期的繁荣会让投资者忘记风险，过度加杠杆。当债务产生的利息超过了资产产生的现金流，整个系统就会在某个瞬间发生断裂，导致资产价格雪崩。崩溃不是由于外力，而是由于系统内部的自我蚕食。",
+  "principle": "1. 稳定孕育不稳：长期稳定导致风险遗忘\n2. 杠杆累积：繁荣期过度加杠杆\n3. 现金流断裂：债务利息超过资产现金流\n4. 瞬间崩塌：系统在某个瞬间断裂\n5. 内部蚕食：崩溃源于系统内部而非外力",
+  "scope": "金融危机、投资决策、风险管理、经济周期、杠杆控制、资产配置",
+  "tips": "1. 警惕稳定：长期稳定时保持警惕\n2. 控制杠杆：控制杠杆避免过度负债\n3. 关注现金流：关注现金流而非资产价格\n4. 识别阶段：识别对冲投机庞氏三阶段\n5. 提前撤退：在明斯基时刻前撤退",
+  "practice": "1. 警惕稳定：长期稳定时保持警惕\n2. 控制杠杆：控制杠杆避免过度负债\n3. 关注现金流：关注现金流而非资产价格\n4. 识别阶段：识别对冲投机庞氏三阶段\n5. 提前撤退：在明斯基时刻前撤退",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(100, 500)\">\r\n        <!-- 长期繁荣路径 -->\r\n        <path d=\"M0,0 L200,-50 L400,-150 L600,-350\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"8\" stroke-linecap=\"round\" opacity=\"0.3\" />\r\n        \r\n        <!-- 债务堆叠产生的“伪稳定”高度 -->\r\n        <g>\r\n          <path d=\"M0,0 L200,-50 L400,-150 L600,-350\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"8\" stroke-linecap=\"round\">\r\n            <animate attributeName=\"stroke-dasharray\" from=\"0,800\" to=\"800,0\" dur=\"4s\" fill=\"freeze\" />\r\n          </path>\r\n          <!-- 崩塌点 (明斯基时刻) -->\r\n          <g transform=\"translate(600, -350)\">\r\n            <circle r=\"30\" fill=\"#ef4444\" class=\"animate-ping\" />\r\n            <path d=\"M0,0 L100,400\" stroke=\"#ef4444\" stroke-width=\"12\" stroke-linecap=\"round\">\r\n              <animate attributeName=\"stroke-dasharray\" from=\"0,500\" to=\"500,0\" dur=\"0.5s\" begin=\"4s\" fill=\"freeze\" />\r\n            </path>\r\n            <text x=\"40\" y=\"-40\" fill=\"#ef4444\" style=\"font-size: 42px; font-weight: 900;\">M我NSKY MOMENT</text>\r\n          </g>\r\n        </g>\r\n\r\n        <!-- 阶段说明 -->\r\n        <g font-weight=\"900\" style=\"font-size: 14px;\">\r\n           <text x=\"100\" y=\"30\" fill=\"#ef4444\">1. 对冲性融资</text>\r\n           <text x=\"300\" y=\"-50\" fill=\"#fbbf24\">2. 投机性融资</text>\r\n           <text x=\"500\" y=\"-200\" fill=\"#ef4444\">3. 庞氏融资 (危险!)</text>\r\n        </g>\r\n      </g>\r\n      <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 28px; font-weight: 900; letter-spacing: 0.1em;\">稳定必然孕育不稳</text>\r\n    </svg>\n</div>"
 }

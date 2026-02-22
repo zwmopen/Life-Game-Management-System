@@ -4,10 +4,10 @@
   "label": "布鲁克斯法则",
   "icon": "BrainCircuit",
   "description": "“向进度落后的软件项目增加人手，只会使进度更加落后。” 这是软件工程史上的第一铁律，揭示了沟通成本的非线性爆炸。",
-  "deepAnalysis": "这是一个思维模型，展示了布鲁克斯法则的核心概念和应用。",
-  "principle": "思维模型的核心原则：布鲁克斯法则",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将布鲁克斯法则应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "布鲁克斯法则（Brooks's Law）揭示了软件项目管理的铁律。核心洞见：'向进度落后的软件项目增加人手，只会使进度更加落后。'这是软件工程史上的第一铁律，揭示了沟通成本的非线性爆炸。理解这个法则有助于避免盲目增加人手的错误决策。",
+  "principle": "1. 沟通成本：沟通成本随人数平方增长\n2. 培训成本：新人需要老员工培训\n3. 学习曲线：新人需要时间熟悉项目\n4. 复杂度爆炸：团队规模增加导致复杂度爆炸\n5. 有限收益：增加人手收益有限成本巨大",
+  "scope": "软件工程、项目管理、团队管理、组织设计、人力资源、产品开发",
+  "tips": "1. 避免加人：进度落后时避免盲目加人\n2. 减少范围：考虑减少项目范围而非加人\n3. 延长工期：考虑延长工期而非加人\n4. 小团队：保持小团队高效运作\n5. 提前规划：提前规划避免进度落后",
+  "practice": "1. 避免加人：进度落后时避免盲目加人\n2. 减少范围：考虑减少项目范围而非加人\n3. 延长工期：考虑延长工期而非加人\n4. 小团队：保持小团队高效运作\n5. 提前规划：提前规划避免进度落后",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\n        <!-- 项目进度条 -->\n        <rect x=\"100\" y=\"300\" width=\"800\" height=\"20\" rx=\"10\" fill=\"var(--text-primary)\" opacity=\"0.05\" />\n        <g transform=\"translate(100, 300)\">\n          <rect width=\"600\" height=\"20\" rx=\"10\" fill=\"var(--primary-color)\" />\n          <text x=\"300\" y=\"-30\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 32px; font-weight: 900;\">项目进度 (LaTE!)</text>\n        </g>\n        \n        <!-- 涌入的新员工 (干扰项) -->\n        <g>\n          <circle cx=\"200\" cy=\"100\" r=\"30\" fill=\"var(--primary-color)\" opacity=\"0.8\">\n             <animate attributeName=\"cy\" from=\"100\" to=\"310\" dur=\"2s\" repeatCount=\"indefinite\" />\n             <animate attributeName=\"cx\" from=\"200\" to=\"400\" dur=\"2s\" repeatCount=\"indefinite\" />\n          </circle>\n          <circle cx=\"800\" cy=\"100\" r=\"30\" fill=\"var(--primary-color)\" opacity=\"0.6\">\n             <animate attributeName=\"cy\" from=\"100\" to=\"310\" dur=\"2.5s\" repeatCount=\"indefinite\" />\n             <animate attributeName=\"cx\" from=\"800\" to=\"500\" dur=\"2.5s\" repeatCount=\"indefinite\" />\n          </circle>\n          <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 42px; font-weight: 900;\">盲目增加人手</text>\n        </g>\n\n        <!-- 产生的沟通损耗 -->\n        <g transform=\"translate(500, 310)\">\n           <circle r=\"120\" fill=\"none\" stroke=\"var(--primary-color)\" stroke-width=\"2\" stroke-dasharray=\"10 5\" class=\"animate-spin\" />\n           <text y=\"160\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 32px; font-weight: 900;\">沟通成本指数增长</text>\n        </g>\n\n        <text x=\"500\" y=\"580\" text-anchor=\"middle\" fill=\"var(--text-secondary)\" opacity=\"0.3\" style=\"font-size: 16px; font-weight: 900; letter-spacing: 0.5em;\">人手 ≠ 生产力</text>\n      </svg>\n</div>"
 }

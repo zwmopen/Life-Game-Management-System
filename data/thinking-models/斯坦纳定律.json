@@ -4,10 +4,10 @@
   "label": "斯坦纳定理",
   "icon": "BrainCircuit",
   "description": "在哪儿说得越少，在哪儿听到的就越多。只有当你闭上嘴巴，外界最真实、最敏锐的信号才有可能穿透噪音进入你的大脑。",
-  "deepAnalysis": "这是一个思维模型，展示了斯坦纳定律的核心概念和应用。",
-  "principle": "思维模型的核心原则：斯坦纳定律",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将斯坦纳定律应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "斯坦纳定律（Steiner's Law）揭示了倾听与表达的反比关系。核心洞见：在哪儿说得越少，在哪儿听到的就越多。只有当你闭上嘴巴，外界最真实、最敏锐的信号才有可能穿透噪音进入你的大脑。听得越多，说得越有分量。",
+  "principle": "1. 反比关系：说得越少听得越多\n2. 信号接收：闭嘴才能接收真实信号\n3. 信息质量：倾听获得更高质量信息\n4. 表达分量：倾听让表达更有分量\n5. 深度理解：倾听带来深度理解",
+  "scope": "人际沟通、谈判协商、领导力、学习效率、问题解决、信息收集",
+  "tips": "1. 少说多听：刻意减少表达增加倾听\n2. 主动倾听：主动倾听而非被动听\n3. 提问技巧：用提问引导对方表达\n4. 沉默力量：善用沉默的力量\n5. 记录整理：记录并整理听到的信息",
+  "practice": "1. 少说多听：刻意减少表达增加倾听\n2. 主动倾听：主动倾听而非被动听\n3. 提问技巧：用提问引导对方表达\n4. 沉默力量：善用沉默的力量\n5. 记录整理：记录并整理听到的信息",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <!-- 说的洪水 -->\r\n      <g transform=\"translate(200, 300)\">\r\n        <path d=\"M0,-80 Q100,0 0,80\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"12\" stroke-linecap=\"round\" opacity=\"0.3\" />\r\n        <text y=\"120\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 16px; font-weight: 900;\">喋喋不休</text>\r\n      </g>\r\n      \r\n      <!-- 听的深海 -->\r\n      <g transform=\"translate(600, 300)\">\r\n        <rect x=\"-150\" y=\"-150\" width=\"300\" height=\"300\" rx=\"30\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"10 5\" />\r\n        <circle r=\"40\" fill=\"#ef4444\" class=\"animate-pulse\" />\r\n        <text y=\"180\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">深度倾听</text>\r\n        <text y=\"210\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.5\" style=\"font-size: 12px;\">“听得越多，说得越有分量”</text>\r\n      </g>\r\n\r\n      <!-- 连接流 -->\r\n      <path d=\"M300,300 L450,300\" stroke=\"#ef4444\" stroke-width=\"2\" stroke-dasharray=\"5 5\" opacity=\"0.2\" />\r\n    </svg>\n</div>"
 }

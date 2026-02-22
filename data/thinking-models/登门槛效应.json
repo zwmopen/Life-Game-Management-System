@@ -4,10 +4,10 @@
   "label": "登门槛效应",
   "icon": "BrainCircuit",
   "description": "一旦人们接受了一个微小的、微不足道的要求，为了维持认知上的前后一致性，他们就更有可能接受后续更大、更具难度的要求。",
-  "deepAnalysis": "这是一个思维模型，展示了登门槛效应的核心概念和应用。",
-  "principle": "思维模型的核心原则：登门槛效应",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将登门槛效应应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "登门槛效应（Foot-in-the-Door Effect）揭示了人类行为的一致性倾向。核心洞见：一旦人们接受了一个微小的、微不足道的要求，为了维持认知上的前后一致性，他们就更有可能接受后续更大、更具难度的要求。这是因为人们希望保持自我形象的一致性，避免认知失调。",
+  "principle": "1. 一致性需求：人们希望保持行为和态度的一致\n2. 自我形象：接受小要求会改变自我认知\n3. 逐步承诺：小承诺会导致更大的承诺\n4. 认知失调：不一致会产生心理不适\n5. 社会认同：行为会受到先前行为的影响",
+  "scope": "市场营销、销售策略、领导力、教育引导、社会影响力、人际关系",
+  "tips": "1. 从小开始：先提出小而容易接受的要求\n2. 逐步升级：循序渐进地提出更大的要求\n3. 保持一致：确保要求之间有逻辑联系\n4. 及时强化：对每个小承诺给予积极反馈\n5. 尊重选择：确保对方是自愿接受要求",
+  "practice": "1. 目标分解：将大目标分解为小步骤\n2. 初次接触：先建立简单的互动关系\n3. 承诺记录：让对方公开或书面承诺\n4. 持续跟进：在小成功后及时提出下一步\n5. 价值展示：确保每个步骤都有明确价值",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 800 600\">\r\n      <!-- 门与阶梯 -->\r\n      <g transform=\"translate(100, 500)\">\r\n        <!-- Step 1 -->\r\n        <rect x=\"0\" y=\"-40\" width=\"100\" height=\"40\" fill=\"#ef4444\" opacity=\"0.3\" />\r\n        <text x=\"50\" y=\"-15\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 10px; font-weight: 900;\">1. 帮个小忙</text>\r\n        \r\n        <!-- Step 2 -->\r\n        <rect x=\"100\" y=\"-120\" width=\"120\" height=\"120\" fill=\"#ef4444\" opacity=\"0.6\" />\r\n        <text x=\"160\" y=\"-60\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 10px; font-weight: 900;\">2. 深度探讨</text>\r\n\r\n        <!-- Step 3 (The Door) -->\r\n        <rect x=\"220\" y=\"-300\" width=\"300\" height=\"300\" rx=\"10\" fill=\"#ef4444\" />\r\n        <circle cx=\"480\" cy=\"-150\" r=\"10\" fill=\"#fbbf24\" />\r\n        <text x=\"370\" y=\"-150\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 24px; font-weight: 900;\">3. 核心成交</text>\r\n        \r\n        <!-- 引导箭头 -->\r\n        <path d=\"M50,-50 Q160,-150 250,-250\" fill=\"none\" stroke=\"#fbbf24\" stroke-width=\"4\" stroke-dasharray=\"10 5\" marker-end=\"url(#arrow)\" />\r\n      </g>\r\n\r\n      <defs>\r\n        <marker id=\"arrow\" markerWidth=\"10\" markerHeight=\"10\" refX=\"5\" refY=\"5\" orient=\"auto\">\r\n          <path d=\"M0,0 L10,5 L0,10 Z\" fill=\"#fbbf24\" />\r\n        </marker>\r\n      </defs>\r\n\r\n      <text x=\"400\" y=\"50\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 10px; font-weight: 900; letter-spacing: 0.5em;\">承诺升级</text>\r\n    </svg>\n</div>"
 }

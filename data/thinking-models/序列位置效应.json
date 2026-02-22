@@ -4,10 +4,10 @@
   "label": "系列位置效应",
   "icon": "BrainCircuit",
   "description": "人类对一组信息的记忆效率呈 U 型：最先接收到的（首因）和最后接收到的（近因）最为深刻，而中间部分最容易被遗忘。",
-  "deepAnalysis": "这是一个思维模型，展示了序列位置效应的核心概念和应用。",
-  "principle": "思维模型的核心原则：序列位置效应",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将序列位置效应应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "序列位置效应（Serial Position Effect）揭示了记忆的位置规律。核心洞见：人类对一组信息的记忆效率呈U型：最先接收到的（首因）和最后接收到的（近因）最为深刻，而中间部分最容易被遗忘。理解序列位置效应有助于优化信息呈现顺序和学习策略。",
+  "principle": "1. U型记忆：记忆效率呈U型分布\n2. 首因效应：最先接收的信息记忆最深刻\n3. 近因效应：最后接收的信息记忆最深刻\n4. 中间遗忘：中间部分最容易被遗忘\n5. 顺序优化：可以优化信息顺序提升记忆",
+  "scope": "学习记忆、演讲表达、广告营销、产品设计、用户体验、教育培训",
+  "tips": "1. 重要先行：将最重要信息放在开头\n2. 重要后置：将重要信息放在结尾\n3. 强化中间：对中间信息进行强化\n4. 分段处理：将长信息分段减少中间\n5. 重复关键：对关键信息进行重复",
+  "practice": "1. 重要先行：将最重要信息放在开头\n2. 重要后置：将重要信息放在结尾\n3. 强化中间：对中间信息进行强化\n4. 分段处理：将长信息分段减少中间\n5. 重复关键：对关键信息进行重复",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <!-- U 型记忆曲线 -->\r\n      <path d=\"M150,150 Q160,500 500,510 T850,150\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"12\" stroke-linecap=\"round\" opacity=\"0.8\">\r\n        <animate attributeName=\"stroke-dasharray\" from=\"0,1500\" to=\"1500,0\" dur=\"4s\" fill=\"freeze\" />\r\n      </path>\r\n\r\n      <!-- 首因效应 -->\r\n      <g transform=\"translate(150, 150)\">\r\n        <circle r=\"40\" fill=\"#3b82f6\" class=\"animate-pulse\" />\r\n        <text y=\"-60\" text-anchor=\"middle\" fill=\"#3b82f6\" style=\"font-size: 32px; font-weight: 900;\">首因 (计划rimacy)</text>\r\n      </g>\r\n\r\n      <!-- 近因效应 -->\r\n      <g transform=\"translate(850, 150)\">\r\n        <circle r=\"40\" fill=\"#10b981\" class=\"animate-pulse\" />\r\n        <text y=\"-60\" text-anchor=\"middle\" fill=\"#10b981\" style=\"font-size: 32px; font-weight: 900;\">近因 (Recency)</text>\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"450\" text-anchor=\"middle\" fill=\"#94a3b8\" style=\"font-size: 24px; font-weight: 900;\">被遗忘的中段 (Middle Gap)</text>\r\n      \r\n      <text x=\"500\" y=\"580\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 16px; font-weight: 900; letter-spacing: 0.5em;\">STaRT STRONG, ENd STRONGER</text>\r\n    </svg>\n</div>"
 }

@@ -4,10 +4,10 @@
   "label": "曼陀罗",
   "icon": "BrainCircuit",
   "description": "鈥滃皢娣锋矊鐨勭伒鎰熼攣瀹氬湪鍑犱綍绉╁簭涓紝寮哄埗澶ц剳濉ˉ绌虹櫧銆傗€?",
-  "deepAnalysis": "这是一个思维模型，展示了曼陀罗的核心概念和应用。",
-  "principle": "思维模型的核心原则：曼陀罗",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将曼陀罗应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "曼陀罗（Mandala）是一种将复杂灵感锁定在几何秩序中的思维工具。核心洞见：通过将混乱的灵感锁定在几何秩序中，强制大脑填补空白。曼陀罗图表通过九宫格的形式，帮助发散思维和系统思考。",
+  "principle": "1. 几何秩序：用几何秩序组织思维\n2. 强制发散：强制大脑填补空白\n3. 九宫格结构：通过九宫格发散思维\n4. 系统思考：帮助系统思考问题\n5. 视化思维：将思维可视化",
+  "scope": "创意思维、问题分析、目标规划、头脑风暴、学习笔记、项目管理",
+  "tips": "1. 确定核心：将核心主题放在中心\n2. 发散思考：围绕核心发散八个维度\n3. 深入挖掘：每个维度继续深入挖掘\n4. 视觉呈现：用视觉方式呈现\n5. 迭代优化：持续迭代优化",
+  "practice": "1. 确定核心：将核心主题放在中心\n2. 发散思考：围绕核心发散八个维度\n3. 深入挖掘：每个维度继续深入挖掘\n4. 视觉呈现：用视觉方式呈现\n5. 迭代优化：持续迭代优化",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 600 600\" class=\"w-full h-auto\">\r\n        <!-- 鍑犱綍鑳屾櫙绾?-->\r\n        <circle cx=\"300\" cy=\"300\" r=\"280\" class=\"lotus-bg\" />\r\n        <line x1=\"0\" y1=\"0\" x2=\"600\" y2=\"600\" class=\"lotus-bg\" />\r\n        <line x1=\"600\" y1=\"0\" x2=\"0\" y2=\"600\" class=\"lotus-bg\" />\r\n        \r\n        <!-- 涔濆鏍?-->\r\n        <g transform=\"translate(100, 100)\">\r\n          <!-- Row 1 -->\r\n          <rect x=\"0\" y=\"0\" width=\"125\" height=\"125\" rx=\"15\" fill=\"#ffffff\" class=\"cell\" /><text x=\"62\" y=\"70\" text-anchor=\"middle\" fill=\"#444\" class=\"text-[8px] font-bold\">维度A</text>\r\n          <rect x=\"135\" y=\"0\" width=\"125\" height=\"125\" rx=\"15\" fill=\"#ffffff\" class=\"cell\" />\r\n          <rect x=\"270\" y=\"0\" width=\"125\" height=\"125\" rx=\"15\" fill=\"#ffffff\" class=\"cell\" />\r\n          <!-- Row 2 -->\r\n          <rect x=\"0\" y=\"135\" width=\"125\" height=\"125\" rx=\"15\" fill=\"#ffffff\" class=\"cell\" />\r\n          <rect x=\"135\" y=\"135\" width=\"125\" height=\"125\" rx=\"30\" fill=\"#ef4444\" class=\"cell shadow-lg shadow-purple-500/20\" /> <!-- 核心 -->\r\n          <text x=\"197\" y=\"205\" text-anchor=\"middle\" fill=\"white\" class=\"font-black text-xl italic uppercase\">核心</text>\r\n          <rect x=\"270\" y=\"135\" width=\"125\" height=\"125\" rx=\"15\" fill=\"#ffffff\" class=\"cell\" />\r\n          <!-- Row 3 -->\r\n          <rect x=\"0\" y=\"270\" width=\"125\" height=\"125\" rx=\"15\" fill=\"#ffffff\" class=\"cell\" />\r\n          <rect x=\"135\" y=\"270\" width=\"125\" height=\"125\" rx=\"15\" fill=\"#ffffff\" class=\"cell\" />\r\n          <rect x=\"270\" y=\"270\" width=\"125\" height=\"125\" rx=\"15\" fill=\"#ffffff\" class=\"cell\" />\r\n        </g>\r\n\r\n        <text x=\"300\" y=\"550\" text-anchor=\"middle\" fill=\"#333\" class=\"font-black text-[10px] uppercase tracking-[1em]\">几何发散</text>\r\n      </svg>\n</div>"
 }

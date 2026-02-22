@@ -3,11 +3,11 @@
   "name": "红皇后效应",
   "label": "红皇后效应",
   "icon": "BrainCircuit",
-  "description": "“在这个国度里，你必须不停地奔跑，才能留在原地。” 揭示了在激烈竞争系统中的进化竞赛。",
-  "deepAnalysis": "这是一个思维模型，展示了红皇后效应的核心概念和应用。",
-  "principle": "思维模型的核心原则：红皇后效应",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将红皇后效应应用到日常决策和问题解决中，观察效果并调整。",
+  "description": "\"在这个国度里，你必须不停地奔跑，才能留在原地。\" 揭示了在激烈竞争系统中的进化竞赛。",
+  "deepAnalysis": "红皇后效应（Red Queen Effect）源于《爱丽丝镜中奇遇记》中的名言，描述了在激烈竞争系统中的进化竞赛。核心洞见：在这个国度里，你必须不停地奔跑，才能留在原地。这一效应揭示了在竞争环境中，只有不断进化和适应，才能保持相对位置不被淘汰。",
+  "principle": "1. 相对竞争：成功取决于相对竞争对手的表现\n2. 持续进化：必须不断进化才能维持现状\n3. 适应压力：竞争压力驱动持续适应\n4. 协同进化：竞争对手之间存在协同进化关系\n5. 能量消耗：维持地位需要持续投入能量",
+  "scope": "进化论、商业竞争、技术创新、个人发展、组织变革、市场竞争",
+  "tips": "1. 持续学习：保持学习和进化的习惯\n2. 竞争分析：密切关注竞争对手的动态\n3. 创新驱动：通过创新获得竞争优势\n4. 资源分配：合理分配资源用于进化和适应\n5. 长期视角：从长期进化的角度制定战略",
+  "practice": "1. 竞争监测：建立竞争对手监测机制\n2. 创新体系：构建持续创新的组织体系\n3. 能力建设：持续提升核心竞争力\n4. 战略调整：根据竞争动态调整战略\n5. 适应评估：定期评估组织的适应能力",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <!-- 跑步机履带 -->\r\n      <g transform=\"translate(500, 450)\">\r\n        <rect x=\"-350\" y=\"-10\" width=\"700\" height=\"40\" rx=\"20\" fill=\"#1e293b\" opacity=\"0.05\" />\r\n        <line x1=\"-300\" y1=\"10\" x2=\"300\" y2=\"10\" stroke=\"#1e293b\" stroke-width=\"2\" stroke-dasharray=\"20 10\" opacity=\"0.2\">\r\n          <animate attributeName=\"stroke-dashoffset\" from=\"0\" to=\"30\" dur=\"1s\" repeatCount=\"indefinite\" />\r\n        </line>\r\n      </g>\r\n      \r\n      <!-- 跑者 A (你) -->\r\n      <g transform=\"translate(400, 400)\">\r\n        <circle r=\"40\" fill=\"#ef4444\" />\r\n        <text text-anchor=\"middle\" y=\"5\" fill=\"white\" style=\"font-size: 14px; font-weight: 900;\">你</text>\r\n        <animateTransform attributeName=\"transform\" type=\"translate\" values=\"400,400; 405,395; 400,400\" dur=\"0.2s\" repeatCount=\"indefinite\" />\r\n      </g>\r\n\r\n      <!-- 跑者 B (竞争对手) -->\r\n      <g transform=\"translate(600, 400)\">\r\n        <circle r=\"40\" fill=\"#ef4444\" opacity=\"0.8\" />\r\n        <text text-anchor=\"middle\" y=\"5\" fill=\"white\" style=\"font-size: 14px; font-weight: 900;\">对手</text>\r\n        <animateTransform attributeName=\"transform\" type=\"translate\" values=\"600,400; 595,405; 600,400\" dur=\"0.25s\" repeatCount=\"indefinite\" />\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"200\" text-anchor=\"middle\" fill=\"#64748b\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.1em; opacity: 0.1;\">RUNN我NG TO STANd ST我LL</text>\r\n      <text x=\"500\" y=\"250\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 16px; font-weight: 900;\">相对速度 > 绝对努力</text>\r\n    </svg>\n</div>"
 }

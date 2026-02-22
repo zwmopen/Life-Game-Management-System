@@ -4,10 +4,10 @@
   "label": "埃尔斯伯格悖论",
   "icon": "BrainCircuit",
   "description": "人类不仅仅厌恶“输”的风险，更极度恐惧“未知的风险”。我们宁愿选择一个确定会输的已知概率，也不敢触碰那个可能大赢的黑盒。",
-  "deepAnalysis": "这是一个思维模型，展示了埃尔斯伯格悖论的核心概念和应用。",
-  "principle": "思维模型的核心原则：埃尔斯伯格悖论",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将埃尔斯伯格悖论应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "埃尔斯伯格悖论（Ellsberg Paradox）揭示了人类对不确定性的非理性恐惧。核心洞见：人类不仅仅厌恶'输'的风险，更极度恐惧'未知的风险'。我们宁愿选择一个确定会输的已知概率，也不敢触碰那个可能大赢的黑盒。这种模糊厌恶会导致错失机会。",
+  "principle": "1. 模糊厌恶：人类对未知概率的恐惧超过已知风险\n2. 确定性偏好：宁愿选择确定的损失也不选择不确定的收益\n3. 信息价值：减少模糊性本身就有价值\n4. 机会成本：回避模糊可能导致错失机会\n5. 理性决策：应基于期望值而非模糊程度决策",
+  "scope": "投资决策、风险管理、商业谈判、职业选择、创业决策、保险购买",
+  "tips": "1. 识别模糊厌恶：识别自己是否因模糊而回避机会\n2. 计算期望值：用期望值计算替代模糊直觉\n3. 获取信息：主动获取信息减少模糊性\n4. 小额尝试：用小额尝试探索模糊领域\n5. 接受不确定：接受一定程度的模糊是常态",
+  "practice": "1. 识别模糊厌恶：识别自己是否因模糊而回避机会\n2. 计算期望值：用期望值计算替代模糊直觉\n3. 获取信息：主动获取信息减少模糊性\n4. 小额尝试：用小额尝试探索模糊领域\n5. 接受不确定：接受一定程度的模糊是常态",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <!-- 已知风险 A -->\r\n      <g transform=\"translate(300, 300)\">\r\n        <rect x=\"-140\" y=\"-180\" width=\"280\" height=\"360\" rx=\"30\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n        <circle cx=\"-50\" cy=\"-70\" r=\"35\" fill=\"#475569\" />\r\n        <circle cx=\"50\" cy=\"70\" r=\"35\" fill=\"#475569\" />\r\n        <text y=\"220\" text-anchor=\"middle\" fill=\"#64748b\" style=\"font-size: 20px; font-weight: 900;\">已知风险 (50% 概率)</text>\r\n        <text y=\"245\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.5\" style=\"font-size: 12px;\">(虽然会输，但能管理)</text>\r\n      </g>\r\n      \r\n      <!-- 未知不确定性 B -->\r\n      <g transform=\"translate(700, 300)\">\r\n        <rect x=\"-140\" y=\"-180\" width=\"280\" height=\"360\" rx=\"30\" fill=\"#ef4444\" fill-opacity=\"0.05\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"10 10\" />\r\n        <text text-anchor=\"middle\" dy=\".35em\" fill=\"#ef4444\" style=\"font-size: 160px; font-weight: 900;\">?</text>\r\n        <text y=\"220\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 20px; font-weight: 900;\">未知不确定性 (Ambiguity)</text>\r\n        <text y=\"245\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 12px; font-weight: 900;\">(人类最原始的恐惧源)</text>\r\n        <circle r=\"180\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"1\" stroke-dasharray=\"2 10\" class=\"animate-spin\" />\r\n      </g>\r\n\r\n      <path d=\"M450,300 L550,300\" stroke=\"#1e293b\" stroke-width=\"1\" stroke-dasharray=\"5 5\" opacity=\"0.2\" />\r\n    </svg>\n</div>"
 }

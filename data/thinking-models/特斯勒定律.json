@@ -4,10 +4,10 @@
   "label": "特斯勒定律",
   "icon": "BrainCircuit",
   "description": "每一个过程都有其固有的复杂性。它既不能被消除，也无法被简化，只能从一处转移到另一处。伟大的产品是让开发者承担痛苦，从而解放用户。",
-  "deepAnalysis": "这是一个思维模型，展示了特斯勒定律的核心概念和应用。",
-  "principle": "思维模型的核心原则：特斯勒定律",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将特斯勒定律应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "特斯勒定律（Tesler's Law）揭示了复杂性的守恒本质。核心洞见：每一个过程都有其固有的复杂性。它既不能被消除，也无法被简化，只能从一处转移到另一处。伟大的产品是让开发者承担痛苦，从而解放用户。理解这个定律有助于正确看待简化的代价。",
+  "principle": "1. 复杂性守恒：复杂性不能消除只能转移\n2. 固有复杂：每个过程都有固有复杂性\n3. 用户优先：让用户简单开发者承担复杂\n4. 转移策略：将复杂性转移到合适的地方\n5. 隐藏复杂：隐藏而非消除复杂性",
+  "scope": "产品设计、用户体验、系统设计、软件开发、服务设计、交互设计",
+  "tips": "1. 识别复杂：识别系统中的固有复杂性\n2. 决定归属：决定复杂性由谁承担\n3. 用户优先：优先让用户简单\n4. 隐藏复杂：隐藏后台复杂性\n5. 适度简化：适度简化而非过度简化",
+  "practice": "1. 识别复杂：识别系统中的固有复杂性\n2. 决定归属：决定复杂性由谁承担\n3. 用户优先：优先让用户简单\n4. 隐藏复杂：隐藏后台复杂性\n5. 适度简化：适度简化而非过度简化",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <!-- 复杂性守恒容器 -->\r\n      <rect x=\"200\" y=\"200\" width=\"600\" height=\"200\" rx=\"30\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n      \r\n      <g transform=\"translate(200, 200)\">\r\n        <!-- 用户侧 -->\r\n        <rect width=\"200\" height=\"200\" rx=\"30\" fill=\"#3b82f6\" fill-opacity=\"0.8\">\r\n           <animate attributeName=\"width\" values=\"200;400;200\" dur=\"4s\" repeatCount=\"indefinite\" />\r\n        </rect>\r\n        <text x=\"100\" y=\"105\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 24px; font-weight: 900;\">用户操作</text>\r\n        \r\n        <!-- 开发侧 -->\r\n        <g>\r\n          <rect x=\"200\" y=\"0\" width=\"400\" height=\"200\" rx=\"30\" fill=\"#ef4444\" fill-opacity=\"0.8\">\r\n             <animate attributeName=\"x\" values=\"200;400;200\" dur=\"4s\" repeatCount=\"indefinite\" />\r\n             <animate attributeName=\"width\" values=\"400;200;400\" dur=\"4s\" repeatCount=\"indefinite\" />\r\n          </rect>\r\n          <text x=\"400\" y=\"105\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 24px; font-weight: 900;\">系统处理</text>\r\n        </g>\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"150\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 42px; font-weight: 900;\">复杂性守恒定律</text>\r\n      <text x=\"500\" y=\"500\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.4\" style=\"font-size: 18px; font-weight: 900;\">你让用户越省心，背后就越复杂</text>\r\n    </svg>\n</div>"
 }

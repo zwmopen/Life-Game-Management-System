@@ -4,10 +4,10 @@
   "label": "熵增定律",
   "icon": "BrainCircuit",
   "description": "孤立系统的熵（无序度）总是倾向于增加。它是宇宙最绝望的法则：毁灭不需要努力，而维持秩序需要源源不断的开放与能量输入。",
-  "deepAnalysis": "这是一个思维模型，展示了熵定律的核心概念和应用。",
-  "principle": "思维模型的核心原则：熵定律",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将熵定律应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "熵定律（Entropy Law）是热力学第二定律的核心。核心洞见：孤立系统的熵（无序度）总是倾向于增加。它是宇宙最绝望的法则：毁灭不需要努力，而维持秩序需要源源不断的开放与能量输入。理解熵增定律有助于理解系统的自然趋势和维护秩序的成本。",
+  "principle": "1. 熵增趋势：孤立系统趋向无序\n2. 能量需求：秩序需要能量维持\n3. 开放系统：开放系统可以对抗熵增\n4. 不可逆性：熵增过程不可逆\n5. 对抗成本：对抗熵增需要持续投入",
+  "scope": "物理学、系统科学、组织管理、信息理论、生态学、时间管理",
+  "tips": "1. 认识熵增：认识熵增是自然趋势\n2. 持续投入：秩序需要持续能量投入\n3. 保持开放：保持系统开放对抗熵增\n4. 定期维护：定期维护防止熵增\n5. 简化系统：简化系统减少熵增",
+  "practice": "1. 认识熵增：认识熵增是自然趋势\n2. 持续投入：秩序需要持续能量投入\n3. 保持开放：保持系统开放对抗熵增\n4. 定期维护：定期维护防止熵增\n5. 简化系统：简化系统减少熵增",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <circle cx=\"500\" cy=\"300\" r=\"280\" fill=\"none\" stroke=\"#ef4444\" stroke-opacity=\"0.05\" stroke-width=\"1\" stroke-dasharray=\"10 20\" />\r\n      <g transform=\"translate(500, 300)\">\r\n        <rect x=\"-80\" y=\"-80\" width=\"160\" height=\"160\" rx=\"20\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"6\" stroke-dasharray=\"10 5\" />\r\n        <text text-anchor=\"middle\" y=\"10\" fill=\"#1e293b\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.2em;\">秩序 (秩序)</text>\r\n      </g>\r\n      <g>\r\n        <rect x=\"470\" y=\"270\" width=\"50\" height=\"50\" rx=\"10\" fill=\"#3b82f6\" opacity=\"0.6\">\r\n          <animateTransform attributeName=\"transform\" type=\"translate\" values=\"0,0; -300,-200; 0,0\" dur=\"8s\" repeatCount=\"indefinite\" />\r\n          <animateTransform attributeName=\"transform\" type=\"rotate\" values=\"0; 90; 0\" dur=\"8s\" additive=\"sum\" repeatCount=\"indefinite\" />\r\n        </rect>\r\n        <rect x=\"510\" y=\"270\" width=\"40\" height=\"40\" rx=\"10\" fill=\"#1d4ed8\" opacity=\"0.4\">\r\n          <animateTransform attributeName=\"transform\" type=\"translate\" values=\"0,0; 280,-180; 0,0\" dur=\"6s\" repeatCount=\"indefinite\" />\r\n        </rect>\r\n        <text x=\"500\" y=\"550\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 20px; font-weight: 900;\">混乱是宇宙的默认状态</text>\r\n      </g>\r\n    </svg>\n</div>"
 }

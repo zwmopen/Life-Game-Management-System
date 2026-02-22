@@ -4,10 +4,10 @@
   "label": "曝光效应",
   "icon": "BrainCircuit",
   "description": "人们会单纯因为经常接触某事物而产生好感。在认知层面，“熟悉”往往被大脑自动标记为“安全”。",
-  "deepAnalysis": "这是一个思维模型，展示了曝光效应的核心概念和应用。",
-  "principle": "思维模型的核心原则：曝光效应",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将曝光效应应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "曝光效应（Mere Exposure Effect）揭示了熟悉度与好感的关系。核心洞见：人们会单纯因为经常接触某事物而产生好感。在认知层面，熟悉往往被大脑自动标记为安全。理解曝光效应有助于品牌建设、人际交往和信息传播。",
+  "principle": "1. 熟悉生好感：频繁接触产生好感\n2. 安全标记：熟悉被标记为安全\n3. 无意识过程：曝光效应是无意识的\n4. 适度原则：过度曝光可能产生厌烦\n5. 初始态度：对初始负面事物曝光会增强负面",
+  "scope": "品牌建设、广告营销、人际交往、产品设计、政治宣传、社会影响",
+  "tips": "1. 增加曝光：增加正面事物的曝光\n2. 控制频率：控制曝光频率避免厌烦\n3. 初始正面：确保初始印象是正面的\n4. 多渠道曝光：通过多渠道增加曝光\n5. 持续曝光：持续曝光维持好感",
+  "practice": "1. 增加曝光：增加正面事物的曝光\n2. 控制频率：控制曝光频率避免厌烦\n3. 初始正面：确保初始印象是正面的\n4. 多渠道曝光：通过多渠道增加曝光\n5. 持续曝光：持续曝光维持好感",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <!-- 曝光计数轴 -->\r\n      <line x1=\"150\" y1=\"500\" x2=\"850\" y2=\"500\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n      <text x=\"500\" y=\"540\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.4\" style=\"font-size: 12px; font-weight: 900; letter-spacing: 0.2em;\">EX计划OSURE FREQUENcY →</text>\r\n\r\n      <!-- 阶段 1: 陌生/警惕 -->\r\n      <g transform=\"translate(250, 400)\">\r\n        <circle r=\"40\" fill=\"#1e293b\" opacity=\"0.1\" stroke=\"#1e293b\" stroke-width=\"1\" stroke-dasharray=\"4 4\" />\r\n        <text y=\"70\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.5\" style=\"font-size: 10px;\">首次接触 (警惕)</text>\r\n      </g>\r\n\r\n      <!-- 阶段 2: 熟悉/接受 -->\r\n      <g transform=\"translate(500, 300)\">\r\n        <circle r=\"80\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"1\" />\r\n        <circle r=\"40\" fill=\"#ef4444\" opacity=\"0.3\" />\r\n        <text y=\"110\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 10px;\">多次接触 (习惯)</text>\r\n      </g>\r\n\r\n      <!-- 阶段 3: 偏好/喜爱 -->\r\n      <g transform=\"translate(750, 200)\">\r\n        <circle r=\"120\" fill=\"#ef4444\" fill-opacity=\"0.05\" class=\"animate-pulse\" />\r\n        <circle r=\"60\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 25px #ef4444)\" />\r\n        <path d=\"M-15,-5 L0,10 L15,-5\" fill=\"none\" stroke=\"white\" stroke-width=\"4\" stroke-linecap=\"round\" />\r\n        <text y=\"90\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">产生偏好 (安全感)</text>\r\n      </g>\r\n\r\n      <path d=\"M250,400 Q500,380 750,200\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"3\" stroke-dasharray=\"10 5\" opacity=\"0.3\" />\r\n      <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"#1e293b\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.1em; opacity: 0.05;\">F是我L我AR我TY BREEdS L我K我NG</text>\r\n    </svg>\n</div>"
 }

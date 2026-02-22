@@ -4,10 +4,10 @@
   "label": "拓扑鲁棒性",
   "icon": "BrainCircuit",
   "description": "量子力学与材料科学的高阶概念：系统的某些属性（如导电性、稳定性）不取决于个别原子的好坏，而取决于系统全局的拓扑连通性。只要“形状”没变，局部的剧烈损坏都不会影响整体功能的输出。",
-  "deepAnalysis": "这是一个思维模型，展示了拓扑鲁棒性的核心概念和应用。",
-  "principle": "思维模型的核心原则：拓扑鲁棒性",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将拓扑鲁棒性应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "拓扑鲁棒性（Topological Robustness）揭示了系统属性的全局依赖性。核心洞见：量子力学与材料科学的高阶概念：系统的某些属性（如导电性、稳定性）不取决于个别原子的好坏，而取决于系统全局的拓扑连通性。只要形状没变，局部的剧烈损坏都不会影响整体功能的输出。",
+  "principle": "1. 全局依赖：属性取决于全局拓扑连通性\n2. 形状决定：形状决定功能而非局部质量\n3. 局部免疫：局部损坏不影响整体功能\n4. 拓扑保护：拓扑结构提供保护\n5. 鲁棒设计：设计具有拓扑鲁棒性的系统",
+  "scope": "量子计算、材料科学、系统设计、网络安全、组织设计、容错机制",
+  "tips": "1. 关注形状：关注系统的全局拓扑形状\n2. 设计冗余：设计拓扑冗余提高鲁棒性\n3. 局部容错：容忍局部损坏\n4. 全局视角：从全局视角设计系统\n5. 拓扑保护：利用拓扑结构保护关键功能",
+  "practice": "1. 关注形状：关注系统的全局拓扑形状\n2. 设计冗余：设计拓扑冗余提高鲁棒性\n3. 局部容错：容忍局部损坏\n4. 全局视角：从全局视角设计系统\n5. 拓扑保护：利用拓扑结构保护关键功能",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 甜甜圈拓扑 (Torus) -->\r\n        <ellipse rx=\"300\" ry=\"150\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"40\" stroke-opacity=\"0.1\" />\r\n        <ellipse rx=\"300\" ry=\"150\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"2\" stroke-dasharray=\"10 30\" class=\"animate-spin\" style=\"animation-duration: 20s\" />\r\n        \r\n        <!-- 局部被破坏的节点 (红色碎片) -->\r\n        <g>\r\n          <circle cx=\"-150\" cy=\"0\" r=\"30\" fill=\"#ef4444\" opacity=\"0.6\" />\r\n          <path d=\"M-170,-20 L-130,20 M-130,-20 L-170,20\" stroke=\"white\" stroke-width=\"4\" />\r\n          <text x=\"-150\" y=\"60\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">局部失效</text>\r\n        </g>\r\n\r\n        <!-- 整体环路依然通畅 (蓝色能量流) -->\r\n        <path d=\"M300,0 A300,150 0 1,1 -300,0 A300,150 0 1,1 300,0\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"6\" stroke-dasharray=\"15 45\">\r\n          <animate attributeName=\"stroke-dashoffset\" from=\"0\" to=\"1000\" dur=\"10s\" repeatCount=\"indefinite\" />\r\n        </path>\r\n\r\n        <text y=\"240\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.1em;\">整体形状 > 局部质量</text>\r\n      </g>\r\n    </svg>\n</div>"
 }

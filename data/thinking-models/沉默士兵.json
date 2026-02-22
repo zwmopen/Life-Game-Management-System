@@ -4,10 +4,10 @@
   "label": "哑巴士兵模式",
   "icon": "BrainCircuit",
   "description": "高认知者的通病是“想得太多”。在 09:00 - 22:00 之间，强行切断你的智力。你是没有名字、没有情绪、没有“为什么”的D机器。你的所有价值仅体现在清单的勾选速度上。",
-  "deepAnalysis": "这是一个思维模型，展示了沉默士兵的核心概念和应用。",
-  "principle": "思维模型的核心原则：沉默士兵",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将沉默士兵应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "沉默士兵（Silent Soldier）是高认知者的执行模式切换策略。核心洞见：高认知者的通病是想得太多。在执行时间段内，强行切断你的智力。你是没有名字、没有情绪、没有为什么的机器。你的所有价值仅体现在清单的勾选速度上。思考留给复盘时间，执行时间只管执行。",
+  "principle": "1. 智力切断：执行时间切断智力思考\n2. 无我执行：没有名字情绪和为什么\n3. 清单驱动：价值体现在清单勾选速度\n4. 时间分离：思考和执行时间分离\n5. 机械模式：进入机械执行模式",
+  "scope": "执行力提升、时间管理、自我管理、任务完成、效率提升、工作模式",
+  "tips": "1. 设定执行时间：设定固定的执行时间段\n2. 切断思考：执行时间禁止思考为什么\n3. 清单驱动：用清单驱动执行\n4. 速度优先：追求勾选速度而非完美\n5. 复盘分离：思考和复盘放在执行时间外",
+  "practice": "1. 设定执行时间：设定固定的执行时间段\n2. 切断思考：执行时间禁止思考为什么\n3. 清单驱动：用清单驱动执行\n4. 速度优先：追求勾选速度而非完美\n5. 复盘分离：思考和复盘放在执行时间外",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 思考大脑 (OFF) -->\r\n        <g transform=\"translate(-250, 0)\">\r\n          <path d=\"M-80,0 Q-80,-120 0,-120 T80,0 T0,120 T-80,0\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"5 5\" opacity=\"0.3\" />\r\n          <text y=\"5\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">逻辑脑 (已禁用)</text>\r\n          <path d=\"M-40,40 L40,-40 M-40,-40 L40,40\" stroke=\"#ef4444\" stroke-width=\"12\" stroke-linecap=\"round\" />\r\n        </g>\r\n        \r\n        <!-- 士兵身躯 (ON) -->\r\n        <g transform=\"translate(200, 0)\">\r\n          <rect x=\"-100\" y=\"-150\" width=\"200\" height=\"300\" rx=\"20\" fill=\"#1e293b\" />\r\n          <path d=\"M0,0 L0,250\" stroke=\"#10b981\" stroke-width=\"20\" opacity=\"0.1\" />\r\n          <text text-anchor=\"middle\" y=\"10\" fill=\"white\" style=\"font-size: 32px; font-weight: 900;\">哑巴士兵</text>\r\n          <text y=\"50\" text-anchor=\"middle\" fill=\"white\" opacity=\"0.6\" style=\"font-size: 12px;\">(只管开火，不问意义)</text>\r\n          <circle r=\"120\" fill=\"none\" stroke=\"#10b981\" stroke-width=\"2\" class=\"animate-ping\" />\r\n        </g>\r\n\r\n        <!-- 任务清单流 -->\r\n        <g transform=\"translate(-50, 0)\">\r\n          <rect x=\"-40\" y=\"-100\" width=\"80\" height=\"20\" rx=\"5\" fill=\"#10b981\" />\r\n          <rect x=\"-40\" y=\"-50\" width=\"80\" height=\"20\" rx=\"5\" fill=\"#10b981\" />\r\n          <rect x=\"-40\" y=\"0\" width=\"80\" height=\"20\" rx=\"5\" fill=\"#10b981\" />\r\n          <animateTransform attributeName=\"transform\" type=\"translate\" values=\"-50,0; 150,0\" dur=\"1s\" repeatCount=\"indefinite\" />\r\n        </g>\r\n\r\n        <text y=\"-250\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">白天不做决策，只管机械移动</text>\r\n      </g>\r\n    </svg>\n</div>"
 }

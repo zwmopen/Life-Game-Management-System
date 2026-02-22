@@ -4,10 +4,10 @@
   "label": "布尔决策逻辑",
   "icon": "BrainCircuit",
   "description": "乔治·布尔提出。世界虽然复杂，但最终的所有决策都可以被拆解为一系列的“是”与“否”。拒绝灰度的纠缠，通过二进制的清晰分叉来重构系统的选择算法。",
-  "deepAnalysis": "这是一个思维模型，展示了布尔逻辑的核心概念和应用。",
-  "principle": "思维模型的核心原则：布尔逻辑",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将布尔逻辑应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "布尔逻辑（Boolean Logic）揭示了决策的二进制本质。核心洞见：乔治·布尔提出，世界虽然复杂，但最终的所有决策都可以被拆解为一系列的'是'与'否'。拒绝灰度的纠缠，通过二进制的清晰分叉来重构系统的选择算法。理解布尔逻辑有助于简化复杂决策。",
+  "principle": "1. 二进制思维：所有决策可拆解为是与否\n2. 逻辑门：用AND、OR、NOT构建决策树\n3. 消除灰度：拒绝模糊的中间状态\n4. 清晰分叉：通过清晰分叉简化决策\n5. 系统重构：用布尔逻辑重构决策系统",
+  "scope": "决策制定、程序设计、逻辑推理、问题分析、系统设计、流程优化",
+  "tips": "1. 拆解决策：将复杂决策拆解为二元选择\n2. 构建决策树：用布尔逻辑构建决策树\n3. 消除模糊：消除模糊的中间状态\n4. 明确条件：明确每个分叉的条件\n5. 验证逻辑：验证决策逻辑的完整性",
+  "practice": "1. 拆解决策：将复杂决策拆解为二元选择\n2. 构建决策树：用布尔逻辑构建决策树\n3. 消除模糊：消除模糊的中间状态\n4. 明确条件：明确每个分叉的条件\n5. 验证逻辑：验证决策逻辑的完整性",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\n      <g transform=\"translate(500, 325)\">\n        <!-- 逻辑门背景 -->\n        <path d=\"M-300,-150 L100,-150 L200,0 L100,150 L-300,150 Z\" fill=\"none\" stroke=\"var(--text-primary)\" stroke-width=\"2\" opacity=\"0.1\" />\n        \n        <!-- 0 与 1 的分叉流 -->\n        <g transform=\"translate(-400, 0)\">\n          <path d=\"M0,0 Q150,0 250,-100\" stroke=\"var(--danger)\" stroke-width=\"12\" fill=\"none\" opacity=\"0.8\">\n             <animate attributeName=\"stroke-dasharray\" from=\"0,400\" to=\"400,0\" dur=\"2s\" repeatCount=\"indefinite\" />\n          </path>\n          <path d=\"M0,0 Q150,0 250,100\" stroke=\"var(--success)\" stroke-width=\"12\" fill=\"none\" opacity=\"0.8\">\n             <animate attributeName=\"stroke-dasharray\" from=\"0,400\" to=\"400,0\" dur=\"2s\" begin=\"1s\" repeatCount=\"indefinite\" />\n          </path>\n        </g>\n\n        <!-- 决策点 -->\n        <g>\n          <rect x=\"-60\" y=\"-60\" width=\"120\" height=\"120\" rx=\"60\" fill=\"var(--danger)\" filter=\"drop-shadow(0 0 30px var(--danger))\" />\n          <text text-anchor=\"middle\" y=\"10\" fill=\"white\" style=\"font-size: 24px; font-weight: 900;\">ANd/OR</text>\n        </g>\n        \n        <!-- 结果 A (0) -->\n        <g transform=\"translate(300, -100)\">\n          <circle r=\"50\" fill=\"none\" stroke=\"var(--danger)\" stroke-width=\"4\" stroke-dasharray=\"5 5\" />\n          <text text-anchor=\"middle\" y=\"10\" fill=\"var(--danger)\" style=\"font-size: 32px; font-weight: 900;\">0 (假)</text>\n        </g>\n\n        <!-- 结果 B (1) -->\n        <g transform=\"translate(300, 100)\">\n          <circle r=\"60\" fill=\"var(--success)\" />\n          <text text-anchor=\"middle\" y=\"10\" fill=\"white\" style=\"font-size: 32px; font-weight: 900;\">1 (真)</text>\n          <circle r=\"80\" fill=\"none\" stroke=\"var(--success)\" stroke-width=\"2\" class=\"animate-ping\" />\n        </g>\n\n        <text y=\"260\" text-anchor=\"middle\" fill=\"var(--danger)\" style=\"font-size: 42px; font-weight: 900; letter-spacing: 0.2em;\">逻辑的极致还原</text>\n      </g>\n    </svg>\n</div>"
 }

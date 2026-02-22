@@ -4,10 +4,10 @@
   "label": "帕累托最优",
   "icon": "BrainCircuit",
   "description": "理想的资源状态：如果你想让一个人的处境变好，就必须让另一个人的处境变坏。这意味着系统内的所有冗余和浪费已被彻底榨干。",
-  "deepAnalysis": "这是一个思维模型，展示了帕累托最优的核心概念和应用。",
-  "principle": "思维模型的核心原则：帕累托最优",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将帕累托最优应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "帕累托最优（Pareto Optimality）是经济学中的理想资源状态。核心洞见：当资源配置达到帕累托最优时，任何改变都会使至少一个人的处境变坏。这意味着系统内的所有冗余和浪费已被彻底榨干。帕累托改进则是指在不损害任何人的前提下使至少一人受益的改变。",
+  "principle": "1. 效率边界：帕累托最优是资源配置的效率边界\n2. 无损改进：帕累托改进是不损害他人的改进\n3. 利益冲突：超越帕累托最优后利益必然冲突\n4. 现实约束：现实中很少达到真正的帕累托最优\n5. 改进空间：帕累托最优前存在改进空间",
+  "scope": "资源分配、政策制定、谈判协商、组织设计、供应链优化、利益协调",
+  "tips": "1. 寻找改进：寻找不损害他人的改进机会\n2. 识别边界：判断当前是否接近效率边界\n3. 协调利益：在帕累托最优后需要利益协调\n4. 补偿机制：通过补偿机制实现更优分配\n5. 动态视角：帕累托最优是动态变化的",
+  "practice": "1. 现状评估：评估当前资源配置是否有效率空间\n2. 寻找共赢：寻找让所有人受益或无人受损的改进\n3. 利益协调：在效率边界后通过补偿协调利益\n4. 动态调整：随环境变化重新评估最优状态\n5. 平衡效率与公平：在效率与公平间寻找平衡",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <path d=\"M200,100 Q850,100 850,550\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"2\" stroke-dasharray=\"15 15\" opacity=\"0.1\" />\r\n      <g>\r\n        <circle r=\"20\" fill=\"#10b981\">\r\n          <animateMotion path=\"M200,100 Q850,100 850,550\" dur=\"8s\" repeatCount=\"indefinite\" />\r\n        </circle>\r\n        <circle r=\"50\" fill=\"#10b981\" fill-opacity=\"0.1\" class=\"animate-ping\">\r\n           <animateMotion path=\"M200,100 Q850,100 850,550\" dur=\"8s\" repeatCount=\"indefinite\" />\r\n        </circle>\r\n      </g>\r\n      <g transform=\"translate(525, 80)\">\r\n        <text text-anchor=\"middle\" fill=\"#10b981\" style=\"font-size: 36px; font-weight: 900;\">帕累托前沿 (L我M我T)</text>\r\n        <text y=\"35\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.4\" style=\"font-size: 14px;\">(任何改进都必须伤害他人的地带)</text>\r\n      </g>\r\n      <g transform=\"translate(350, 350)\">\r\n        <circle r=\"15\" fill=\"#ef4444\" />\r\n        <path d=\"M0,0 L180,-180\" stroke=\"#ef4444\" stroke-width=\"3\" stroke-dasharray=\"8 4\" marker-end=\"url(#redarrow)\" />\r\n        <text y=\"45\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 20px; font-weight: 900;\">低效区 (帕累托改进空间)</text>\r\n      </g>\r\n      <defs>\r\n        <marker id=\"redarrow\" markerWidth=\"10\" markerHeight=\"10\" refX=\"5\" refY=\"5\" orient=\"auto\"><path d=\"M0,0 L10,5 L0,10 Z\" fill=\"#ef4444\"/></marker>\r\n      </defs>\r\n      <text x=\"500\" y=\"560\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 18px; font-weight: 900; letter-spacing: 0.5em;\">资源分配的极致效率边界</text>\r\n    </svg>\n</div>"
 }

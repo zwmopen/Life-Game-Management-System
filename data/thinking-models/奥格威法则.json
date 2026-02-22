@@ -4,10 +4,10 @@
   "label": "奥格尔维法则",
   "icon": "BrainCircuit",
   "description": "“如果你招募的人都比你矮小，我们将成为侏儒公司；如果你招募的人都比你高大，我们将成为巨人公司。” 揭示了人才密度对组织天花板的决定性作用。",
-  "deepAnalysis": "这是一个思维模型，展示了奥格威法则的核心概念和应用。",
-  "principle": "思维模型的核心原则：奥格威法则",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将奥格威法则应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "奥格威法则（Ogilvy's Law）揭示了人才密度对组织天花板的决定性作用。核心洞见：'如果你招募的人都比你矮小，我们将成为侏儒公司；如果你招募的人都比你高大，我们将成为巨人公司。'招聘比自己强的人是组织成长的关键，也是领导者自信和胸怀的体现。",
+  "principle": "1. 人才密度：人才密度决定组织天花板\n2. 招强原则：招聘比自己强的人\n3. 侏儒陷阱：招不如己者导致组织萎缩\n4. 巨人路径：招更强者成就巨人公司\n5. 领导胸怀：敢于招更强者是领导者的自信",
+  "scope": "人才招聘、团队建设、组织管理、企业发展、领导力、人力资源",
+  "tips": "1. 招强原则：坚持招聘比自己强的人\n2. 克服恐惧：克服被超越的恐惧\n3. 培养机制：建立培养和发展人才的机制\n4. 放权信任：敢于放权给更强的人\n5. 持续提升：持续提升自己保持竞争力",
+  "practice": "1. 招强原则：坚持招聘比自己强的人\n2. 克服恐惧：克服被超越的恐惧心理\n3. 培养机制：建立培养和发展人才的机制\n4. 放权信任：敢于放权给更强的人\n5. 持续提升：持续提升自己保持竞争力",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <!-- 路径 A: 招不如己者 (逐渐萎缩) -->\r\n      <g transform=\"translate(250, 300)\">\r\n        <circle r=\"60\" fill=\"#94a3b8\" />\r\n        <circle cx=\"40\" cy=\"80\" r=\"40\" fill=\"#94a3b8\" opacity=\"0.6\" />\r\n        <circle cx=\"80\" cy=\"130\" r=\"20\" fill=\"#94a3b8\" opacity=\"0.3\" />\r\n        <text y=\"180\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 16px; font-weight: 900;\">武大郎开店：公司沦为侏儒</text>\r\n      </g>\r\n      \r\n      <!-- 路径 B: 招更强者 (巨人公司) -->\r\n      <g transform=\"translate(650, 300)\">\r\n        <circle r=\"40\" fill=\"#1e293b\" opacity=\"0.2\" />\r\n        <g transform=\"translate(0, -100)\">\r\n           <circle r=\"80\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"2\" stroke-dasharray=\"10 5\" />\r\n           <path d=\"M-40,0 L40,0 M0,-40 L0,40\" stroke=\"#ef4444\" stroke-width=\"4\" opacity=\"0.3\" />\r\n        </g>\r\n        <rect x=\"-100\" y=\"-350\" width=\"200\" height=\"400\" rx=\"30\" fill=\"#ef4444\" fill-opacity=\"0.05\" stroke=\"#ef4444\" stroke-width=\"1\" />\r\n        <text y=\"100\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">招募比你强的人</text>\r\n        <text y=\"130\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">我们终将成为巨人公司</text>\r\n        <circle r=\"200\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"1\" class=\"animate-ping\" />\r\n      </g>\r\n    </svg>\n</div>"
 }

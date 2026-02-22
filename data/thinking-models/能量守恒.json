@@ -4,10 +4,10 @@
   "label": "能量守恒",
   "icon": "BrainCircuit",
   "description": "能量既不会凭空产生，也不会凭空消失，它只能从一种形式转化为另一种。这是宇宙中最诚实的物理账本。",
-  "deepAnalysis": "这是一个思维模型，展示了能量守恒的核心概念和应用。",
-  "principle": "思维模型的核心原则：能量守恒",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将能量守恒应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "能量守恒定律是物理学的基本定律之一，由迈尔、焦耳和亥姆霍兹等人在19世纪提出并完善。核心洞察是：能量既不会凭空产生，也不会凭空消失，只会从一种形式转化为另一种形式，或者从一个物体转移到另一个物体，在转化或转移的过程中，能量的总量保持不变。这一定律不仅适用于物理系统，也可以作为思维模型应用于社会科学和个人生活，它提醒我们任何成果的获得都需要相应的能量投入，不存在无成本的收益，为我们提供了一种客观评估事物价值和可持续性的分析框架。",
+  "principle": "1. 能量总量不变原则：在封闭系统中，能量的总量始终保持恒定，不会增加或减少\n2. 能量转化原则：能量可以从一种形式转化为另一种形式，如动能转化为势能、电能转化为热能等\n3. 能量转移原则：能量可以在不同物体或系统之间转移，但转移过程中总量保持不变\n4. 质能等价原则：爱因斯坦相对论扩展了能量守恒定律，指出质量和能量可以相互转化（E=mc²）\n5. 能量耗散原则：能量转化过程中，部分能量会转化为热能等难以利用的形式（熵增）",
+  "scope": "物理学、化学、工程学、生物学、生态学、经济学、管理学、个人生活规划、资源管理",
+  "tips": "1. 能量审计：定期评估个人或组织的能量（时间、精力、资源）投入与产出，确保能量使用效率\n2. 能量转化意识：识别不同形式的'能量'（如时间、金钱、知识）之间的转化关系，优化资源配置\n3. 长期能量平衡：关注长期能量平衡，避免短期过度消耗导致的能量枯竭\n4. 能量流动分析：分析能量在系统中的流动路径，识别能量瓶颈和优化机会\n5. 可持续能量管理：建立可持续的能量管理策略，确保系统的长期稳定运行",
+  "practice": "1. 第一步：能量盘点，识别个人或组织拥有的各种形式的'能量'资源\n2. 第二步：能量审计，评估能量的投入与产出，识别能量浪费和低效环节\n3. 第三步：能量优化，调整能量分配，将能量集中于高价值活动\n4. 第四步：能量转化，促进不同形式能量之间的有效转化，如将时间投入转化为知识资产\n5. 第五步：能量平衡，建立能量输入与输出的动态平衡机制，确保长期可持续发展",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <!-- 摆钟 (动能/势能转化) -->\r\n      <g transform=\"translate(500, 50)\">\r\n        <line x1=\"0\" y1=\"0\" x2=\"0\" y2=\"400\" stroke=\"#1e293b\" stroke-width=\"1\" opacity=\"0.05\" />\r\n        <g>\r\n          <animateTransform attributeName=\"transform\" type=\"rotate\" values=\"-45,0,0; 45,0,0; -45,0,0\" dur=\"4s\" repeatCount=\"indefinite\" />\r\n          <line x1=\"0\" y1=\"0\" x2=\"0\" y2=\"350\" stroke=\"#ef4444\" stroke-width=\"4\" />\r\n          <circle cx=\"0\" cy=\"350\" r=\"40\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 25px #ef4444)\">\r\n             <animate attributeName=\"fill\" values=\"#ef4444;#ef4444;#ef4444\" dur=\"4s\" repeatCount=\"indefinite\" />\r\n          </circle>\r\n          <text y=\"355\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 10px; font-weight: 900;\">TOTaL ENERGY</text>\r\n        </g>\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"520\" text-anchor=\"middle\" fill=\"#1e293b\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.2em;\">E = CONSTaNT</text>\r\n      <text x=\"500\" y=\"550\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 12px; font-weight: 900; letter-spacing: 0.5em;\">NO FREE LUNCH 我N 计划HYS我CS</text>\r\n    </svg>\n</div>"
 }

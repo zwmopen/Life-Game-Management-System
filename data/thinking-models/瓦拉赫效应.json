@@ -3,11 +3,11 @@
   "name": "瓦拉赫效应",
   "label": "瓦拉赫效应",
   "icon": "BrainCircuit",
-  "description": "奥托·瓦拉赫曾被评价为“笨拙的人”，在化学和文学方面都一窍不通。但当他转入化学领域时，由于其细致严谨的特质被极度放大，最终获得了诺贝尔奖。",
-  "deepAnalysis": "这是一个思维模型，展示了瓦拉赫效应的核心概念和应用。",
-  "principle": "思维模型的核心原则：瓦拉赫效应",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将瓦拉赫效应应用到日常决策和问题解决中，观察效果并调整。",
+  "description": "奥托·瓦拉赫曾被评价为\"笨拙的人\"，在化学和文学方面都一窍不通。但当他转入化学领域时，由于其细致严谨的特质被极度放大，最终获得了诺贝尔奖。",
+  "deepAnalysis": "瓦拉赫效应（Wallasch Effect）揭示了个体潜能的差异性和环境匹配的重要性。核心洞见：每个人都有自己独特的天赋和优势，当这些天赋被放置在合适的环境中时，能产生惊人的成就。这一概念源于诺贝尔化学奖得主奥托·瓦拉赫的人生经历。",
+  "principle": "1. 天赋差异：每个人都有独特的天赋组合\n2. 环境匹配：天赋需要合适的环境才能发挥\n3. 优势放大：在优势领域，能力会非线性增长\n4. 试错发现：通过尝试不同领域发现真正的天赋\n5. 专注深耕：在优势领域深耕能获得卓越成就",
+  "scope": "教育培养、职业发展、人才管理、个人成长、团队建设、创业选择",
+  "tips": "1. 广泛尝试：通过多种体验发现自己的天赋\n2. 识别信号：注意哪些领域让你感到轻松且有成就感\n3. 环境适配：寻找能放大你优势的环境\n4. 专注投入：在优势领域持续投入时间和精力\n5. 个性化发展：制定符合自身天赋的发展路径",
+  "practice": "1. 天赋盘点：列出自己在不同领域的表现和感受\n2. 环境测试：在不同环境中尝试发挥自己的能力\n3. 反馈收集：获取他人对自己优势的客观评价\n4. 专注练习：在优势领域进行刻意练习\n5. 环境优化：主动创造或寻找能放大优势的环境",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 800 600\">\r\n      <!-- 平庸的群山 (低矮且暗淡) -->\r\n      <g fill=\"#94a3b8\" opacity=\"0.2\">\r\n        <path d=\"M50,500 L150,350 L250,500 Z\" />\r\n        <path d=\"M200,500 L300,420 L400,500 Z\" />\r\n        <path d=\"M550,500 L650,380 L750,500 Z\" />\r\n        <text x=\"150\" y=\"520\" text-anchor=\"middle\" style=\"font-size: 10px;\">语言? (一般)</text>\r\n        <text x=\"300\" y=\"520\" text-anchor=\"middle\" style=\"font-size: 10px;\">社交? (平平)</text>\r\n      </g>\r\n      \r\n      <!-- 唯一的珠峰 (高耸且明亮) -->\r\n      <g transform=\"translate(450, 500)\">\r\n        <path d=\"M-100,0 L0,-400 L100,0 Z\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"2\" />\r\n        <path d=\"M-40,-160 L0,-400 L40,-160 Z\" fill=\"#ef4444\" />\r\n        <circle cy=\"-400\" r=\"15\" fill=\"#ef4444\" class=\"animate-ping\" />\r\n        <text y=\"-430\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 18px; font-weight: 900;\">文学 (天才点)</text>\r\n        <text y=\"20\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 10px; font-weight: 900;\">沃拉赫峰值</text>\r\n      </g>\r\n\r\n      <text x=\"400\" y=\"580\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 10px; font-weight: 900; letter-spacing: 0.5em;\">关注极端人才</text>\r\n    </svg>\n</div>"
 }

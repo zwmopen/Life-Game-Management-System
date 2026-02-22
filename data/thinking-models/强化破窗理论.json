@@ -4,10 +4,10 @@
   "label": "破窗理论",
   "icon": "BrainCircuit",
   "description": "这种现象不仅限于物理环境，更存在于代码、流程与职场道德中。一旦第一个 Bug 或第一次违规被容忍，系统就开始了自发的熵增过程。",
-  "deepAnalysis": "这是一个思维模型，展示了强化破窗理论的核心概念和应用。",
-  "principle": "思维模型的核心原则：强化破窗理论",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将强化破窗理论应用到日常决策和问题解决中，观察效果并调整。",
-  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\n        <!-- 秩序骨架 -->\n        <g stroke=\"var(--text-primary)\" stroke-width=\"2\" opacity=\"0.1\">\n          <line x1=\"100\" y1=\"300\" x2=\"900\" y2=\"300\" /><line x1=\"500\" y1=\"100\" x2=\"500\" y2=\"500\" />\n        </g>\n        \n        <!-- 裂变核心 -->\n        <g transform=\"translate(500, 300)\">\n          <!-- 初始破窗 -->\n          <circle r=\"20\" fill=\"var(--primary-color)\" class=\"animate-ping\" />\n          <path d=\"M-10,-10 L10,10 M10,-10 L-10,10\" stroke=\"var(--primary-color)\" stroke-width=\"4\" />\n          \n          <!-- 扩散的负面脉冲 -->\n          <circle r=\"20\" fill=\"none\" stroke=\"var(--primary-color)\" stroke-width=\"2\" opacity=\"0.5\">\n             <animate attributeName=\"r\" from=\"20\" to=\"400\" dur=\"3s\" repeatCount=\"indefinite\" />\n             <animate attributeName=\"opacity\" from=\"0.5\" to=\"0\" dur=\"3s\" repeatCount=\"indefinite\" />\n          </circle>\n          \n          <!-- 被传染的失序点 -->\n          <g opacity=\"0.4\">\n            <circle cx=\"-150\" cy=\"-100\" r=\"8\" fill=\"var(--primary-color)\" /><circle cx=\"180\" cy=\"120\" r=\"10\" fill=\"var(--primary-color)\" />\n            <circle cx=\"200\" cy=\"-150\" r=\"6\" fill=\"var(--primary-color)\" /><circle cx=\"-120\" cy=\"180\" r=\"12\" fill=\"var(--primary-color)\" />\n          </g>\n        </g>\n\n        <text x=\"500\" y=\"520\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 24px; font-weight: 900; letter-spacing: 0.2em;\">CONTAGIOUS DISORDER</text>\n        <text x=\"500\" y=\"550\" text-anchor=\"middle\" fill=\"var(--text-secondary)\" opacity=\"0.3\" style=\"font-size: 10px;\">微小的被动，诱发了全系统的崩坏</text>\n      </svg>\n</div>"
+  "deepAnalysis": "强化破窗理论揭示了自发熵增的系统性崩坏。核心洞见：这种现象不仅限于物理环境，更存在于代码、流程与职场道德中。一旦第一个Bug或第一次违规被容忍，系统就开始了自发的熵增过程。理解这个理论有助于建立零容忍的文化。",
+  "principle": "1. 首破必崩：第一个破窗会导致系统性崩坏\n2. 自发熵增：容忍会引发自发熵增\n3. 系统性：问题具有系统性和扩散性\n4. 零容忍：需要建立零容忍的文化\n5. 及时修复：及时修复防止熵增扩散",
+  "scope": "代码质量、流程管理、职场道德、组织文化、系统设计、质量控制",
+  "tips": "1. 零容忍：对任何问题零容忍\n2. 快速修复：发现问题立即修复\n3. 代码审查：定期代码审查防止破窗\n4. 文化建设：建立重视质量的文化\n5. 流程规范：建立规范流程防止违规",
+  "practice": "1. 零容忍：对任何问题零容忍\n2. 快速修复：发现问题立即修复\n3. 代码审查：定期代码审查防止破窗\n4. 文化建设：建立重视质量的文化\n5. 流程规范：建立规范流程防止违规",
+  "visualDesign": "<div class=\"neu-card\"><svg viewBox=\"0 0 1000 600\"><g transform=\"translate(500, 300)\"><circle r=\"20\" fill=\"var(--primary-color)\" /><path d=\"M-10,-10 L10,10 M10,-10 L-10,10\" stroke=\"var(--primary-color)\" stroke-width=\"4\" /></g></svg></div>"
 }

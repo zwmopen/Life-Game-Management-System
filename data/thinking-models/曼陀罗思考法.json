@@ -4,10 +4,10 @@
   "label": "曼陀罗图表",
   "icon": "BrainCircuit",
   "description": "鈥滃皢娣锋矊鐨勭伒鎰熼攣瀹氬湪鍑犱綍鐨勭З搴忎腑锛屽疄鐜颁粠1鍒?4鐨勬繁搴﹀彂鏁ｃ€傗€?",
-  "deepAnalysis": "这是一个思维模型，展示了曼陀罗思考法的核心概念和应用。",
-  "principle": "思维模型的核心原则：曼陀罗思考法",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将曼陀罗思考法应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "曼陀罗思考法（Mandala Thinking）是一种将碎片化灵感锁定在几何秩序中的思维工具。核心洞见：通过3x3的九宫格，实现从单一目标到全方位细节的深度演化。中心是核心主题，周围八个格子是八个维度的展开，每个格子还可以继续展开形成新的九宫格。",
+  "principle": "1. 几何秩序：用九宫格几何秩序组织思维\n2. 核心展开：从核心主题向八个维度展开\n3. 无限递归：每个格子可以继续展开\n4. 强制发散：强制大脑填补空白\n5. 可视化：将思维过程可视化",
+  "scope": "创意思维、问题分析、目标规划、头脑风暴、学习笔记、项目管理",
+  "tips": "1. 确定核心：将核心主题放在中心\n2. 八维展开：围绕核心展开八个维度\n3. 深入挖掘：每个维度继续深入挖掘\n4. 视觉呈现：用视觉方式呈现\n5. 迭代优化：持续迭代优化",
+  "practice": "1. 确定核心：将核心主题放在中心\n2. 八维展开：围绕核心展开八个维度\n3. 深入挖掘：每个维度继续深入挖掘\n4. 视觉呈现：用视觉方式呈现\n5. 迭代优化：持续迭代优化",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 600 600\" class=\"w-full h-auto max-w-[500px]\">\r\n        <!-- 瑁呴グ鑳屾櫙绾?-->\r\n        <circle cx=\"300\" cy=\"300\" r=\"280\" fill=\"none\" stroke=\"white\" stroke-width=\"1\" class=\"lotus-line\" stroke-dasharray=\"10 5\" />\r\n        \r\n        <!-- 3x3 涔濆鏍?-->\r\n        <!-- Row 1 -->\r\n        <rect x=\"50\" y=\"50\" width=\"160\" height=\"160\" rx=\"20\" fill=\"#1e293b\" class=\"cell\" />\r\n        <rect x=\"220\" y=\"50\" width=\"160\" height=\"160\" rx=\"20\" fill=\"#1e293b\" class=\"cell\" />\r\n        <rect x=\"390\" y=\"50\" width=\"160\" height=\"160\" rx=\"20\" fill=\"#1e293b\" class=\"cell\" />\r\n        <!-- Row 2 -->\r\n        <rect x=\"50\" y=\"220\" width=\"160\" height=\"160\" rx=\"20\" fill=\"#1e293b\" class=\"cell\" />\r\n        <rect x=\"220\" y=\"220\" width=\"160\" height=\"160\" rx=\"30\" fill=\"#3b82f6\" class=\"cell shadow-lg shadow-blue-500/20\" /> <!-- 涓績鏍稿績 -->\r\n        <rect x=\"390\" y=\"220\" width=\"160\" height=\"160\" rx=\"20\" fill=\"#1e293b\" class=\"cell\" />\r\n        <!-- Row 3 -->\r\n        <rect x=\"50\" y=\"390\" width=\"160\" height=\"160\" rx=\"20\" fill=\"#1e293b\" class=\"cell\" />\r\n        <rect x=\"220\" y=\"390\" width=\"160\" height=\"160\" rx=\"20\" fill=\"#1e293b\" class=\"cell\" />\r\n        <rect x=\"390\" y=\"390\" width=\"160\" height=\"160\" rx=\"20\" fill=\"#1e293b\" class=\"cell\" />\r\n\r\n        <!-- 鏂囨湰鏍囨敞 -->\r\n        <text x=\"300\" y=\"305\" text-anchor=\"middle\" fill=\"white\" class=\"font-black text-2xl uppercase tracking-tighter\">核心</text>\r\n        <g fill=\"#475569\" class=\"text-[8px] font-bold uppercase tracking-widest\">\r\n           <text x=\"130\" y=\"135\" text-anchor=\"middle\">子主题A</text>\r\n           <text x=\"300\" y=\"135\" text-anchor=\"middle\">子主题B</text>\r\n           <text x=\"470\" y=\"135\" text-anchor=\"middle\">子主题C</text>\r\n        </g>\r\n      </svg>\n</div>"
 }

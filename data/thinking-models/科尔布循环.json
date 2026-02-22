@@ -4,10 +4,10 @@
   "label": "库伯学习圈",
   "icon": "BrainCircuit",
   "description": "学习不是单纯的输入，而是经验的“炼金术”。唯有通过反思和实践的闭环，知识才能从短期记忆转化为本能能力。",
-  "deepAnalysis": "这是一个思维模型，展示了科尔布循环的核心概念和应用。",
-  "principle": "思维模型的核心原则：科尔布循环",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将科尔布循环应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "科尔布循环（库伯学习圈）是由美国心理学家大卫·科尔布在20世纪80年代提出的学习理论模型，基于约翰·杜威的经验学习理论。核心洞察是：学习不是线性过程，而是一个通过经验转化创造知识的循环系统，包含体验、反思、抽象和实践四个相互关联的阶段。该模型揭示了有效学习的本质——从具体经验出发，通过反思升华，形成抽象概念，再回到实践验证，如此循环往复，实现知识的深度内化。",
+  "principle": "1. 学习是经验的转化过程：通过直接经验和反思，将具体体验转化为抽象概念\n2. 循环性原则：学习是持续循环的过程，每个阶段都为下一个阶段提供基础\n3. 个性化原则：个体在学习循环的不同阶段有不同偏好，形成独特学习风格\n4. 应用导向原则：学习的最终目的是通过实践应用验证和深化知识\n5. 整体性原则：完整学习过程需要包含所有四个阶段，跳过任何阶段都会影响效果",
+  "scope": "教育教学、职业培训、个人成长、团队发展、组织学习、培训设计、课程开发",
+  "tips": "1. 识别个人学习风格：了解自己在科尔布循环中的偏好阶段，针对性加强薄弱环节\n2. 创造完整学习循环：确保每次学习都包含体验、反思、抽象和实践四个阶段\n3. 设计学习活动：根据不同学习阶段设计相应活动，如体验阶段的角色扮演、反思阶段的小组讨论\n4. 应用学习日志：通过记录学习过程中的体验和反思，强化学习循环\n5. 促进团队学习多样性：在团队中结合不同学习风格的成员，形成互补的学习过程",
+  "practice": "1. 第一阶段（亲身体验）：参与实际活动或案例分析，获得直接经验\n2. 第二阶段（反思观察）：回顾体验过程，记录感受和发现，从不同角度分析\n3. 第三阶段（抽象理论）：将反思内容提炼为概念和理论，与现有知识体系整合\n4. 第四阶段（积极实践）：将抽象概念应用到新的情境中，验证理论的有效性\n5. 循环迭代：根据实践结果再次进入学习循环，不断深化和优化知识",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <circle cx=\"500\" cy=\"300\" r=\"220\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"3\" stroke-dasharray=\"10 5\" opacity=\"0.2\">\r\n        <animate attributeName=\"stroke-dashoffset\" from=\"0\" to=\"100\" dur=\"10s\" repeatCount=\"indefinite\" />\r\n      </circle>\r\n      \r\n      <g transform=\"translate(500, 100)\">\r\n        <rect x=\"-100\" y=\"-40\" width=\"200\" height=\"80\" rx=\"15\" fill=\"#ef4444\" />\r\n        <text y=\"5\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 22px; font-weight: 900;\">1. 亲身体验</text>\r\n      </g>\r\n      <g transform=\"translate(750, 300)\">\r\n        <rect x=\"-100\" y=\"-40\" width=\"200\" height=\"80\" rx=\"15\" fill=\"#ef4444\" fill-opacity=\"0.8\" />\r\n        <text y=\"5\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 22px; font-weight: 900;\">2. 反思观察</text>\r\n      </g>\r\n      <g transform=\"translate(500, 500)\">\r\n        <rect x=\"-100\" y=\"-40\" width=\"200\" height=\"80\" rx=\"15\" fill=\"#ef4444\" fill-opacity=\"0.6\" />\r\n        <text y=\"5\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 22px; font-weight: 900;\">3. 抽象理论</text>\r\n      </g>\r\n      <g transform=\"translate(250, 300)\">\r\n        <rect x=\"-100\" y=\"-40\" width=\"200\" height=\"80\" rx=\"15\" fill=\"#10b981\" />\r\n        <text y=\"5\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 22px; font-weight: 900;\">4. 积极实践</text>\r\n      </g>\r\n      \r\n      <text x=\"500\" y=\"300\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.05\" style=\"font-size: 96px; font-weight: 900;\">LEaRN</text>\r\n    </svg>\n</div>"
 }

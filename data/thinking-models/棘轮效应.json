@@ -4,10 +4,10 @@
   "label": "棘轮效应",
   "icon": "BrainCircuit",
   "description": "消费习惯具有不可逆性。生活水平易于随着收入提高而增加，但极难随着收入降低而降下来。一旦体验过高级配置，大脑就会将此设为新的生存基准线。",
-  "deepAnalysis": "这是一个思维模型，展示了棘轮效应的核心概念和应用。",
-  "principle": "思维模型的核心原则：棘轮效应",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将棘轮效应应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "棘轮效应（Ratchet Effect）揭示了消费习惯的不可逆性。核心洞见：消费习惯具有不可逆性。生活水平易于随着收入提高而增加，但极难随着收入降低而降下来。一旦体验过高级配置，大脑就会将此设为新的生存基准线。理解这个效应有助于管理消费和预期。",
+  "principle": "1. 向上易向下难：消费水平向上调整容易向下难\n2. 基准线漂移：高级体验成为新的基准线\n3. 不可逆性：消费习惯具有不可逆性\n4. 心理锚定：高级体验成为心理锚点\n5. 预防优于治疗：预防棘轮效应比逆转更容易",
+  "scope": "消费管理、个人理财、生活方式、组织管理、预期管理、心理调节",
+  "tips": "1. 谨慎升级：谨慎对待消费升级\n2. 保持弹性：保持生活方式的弹性\n3. 延迟满足：延迟高级体验避免过早锚定\n4. 定期审视：定期审视消费习惯\n5. 建立缓冲：建立财务缓冲应对收入波动",
+  "practice": "1. 谨慎升级：谨慎对待消费升级\n2. 保持弹性：保持生活方式的弹性\n3. 延迟满足：延迟高级体验避免过早锚定\n4. 定期审视：定期审视消费习惯\n5. 建立缓冲：建立财务缓冲应对收入波动",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <g transform=\"translate(500, 300)\">\r\n        <g>\r\n          <animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0\" to=\"360\" dur=\"12s\" repeatCount=\"indefinite\" />\r\n          <circle r=\"180\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"45\" stroke-dasharray=\"20 10\" opacity=\"0.1\" />\r\n          <path d=\"M0,-200 L25,-160 L-25,-160 Z\" fill=\"#1e293b\" transform=\"rotate(0)\" />\r\n          <path d=\"M0,-200 L25,-160 L-25,-160 Z\" fill=\"#1e293b\" transform=\"rotate(60)\" />\r\n          <path d=\"M0,-200 L25,-160 L-25,-160 Z\" fill=\"#1e293b\" transform=\"rotate(120)\" />\r\n          <path d=\"M0,-200 L25,-160 L-25,-160 Z\" fill=\"#1e293b\" transform=\"rotate(180)\" />\r\n          <path d=\"M0,-200 L25,-160 L-25,-160 Z\" fill=\"#1e293b\" transform=\"rotate(240)\" />\r\n          <path d=\"M0,-200 L25,-160 L-25,-160 Z\" fill=\"#1e293b\" transform=\"rotate(300)\" />\r\n        </g>\r\n        <g transform=\"translate(0, -200)\">\r\n           <path d=\"M-50,0 L0,50 L50,0 Z\" fill=\"#ef4444\">\r\n              <animate attributeName=\"fill-opacity\" values=\"1;0.3;1\" dur=\"0.6s\" repeatCount=\"indefinite\" />\r\n           </path>\r\n           <text y=\"-40\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">锁定：无法下降</text>\r\n        </g>\r\n        <text y=\"15\" text-anchor=\"middle\" fill=\"#1e293b\" style=\"font-size: 32px; font-weight: 900;\">生活水平/欲望</text>\r\n      </g>\r\n      <text x=\"500\" y=\"550\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 18px; font-weight: 900; letter-spacing: 0.5em;\">向上易，向下难</text>\r\n    </svg>\n</div>"
 }

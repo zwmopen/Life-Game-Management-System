@@ -4,10 +4,10 @@
   "label": "怪异环",
   "icon": "BrainCircuit",
   "description": "由道格拉斯·霍夫施塔特在《哥德尔、埃舍尔、巴赫》中提出。当系统在不断的层级跨越（从分子到神经元，到思想，到自我）中，最终竟然回到了最低层级并对其产生影响，这种“层级坍缩”导致了自我意识的诞生。",
-  "deepAnalysis": "这是一个思维模型，展示了奇异环的核心概念和应用。",
-  "principle": "思维模型的核心原则：奇异环",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将奇异环应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "奇异环（Strange Loop）由道格拉斯·霍夫施塔特在《哥德尔、埃舍尔、巴赫》中提出。核心洞见：当系统在不断的层级跨越（从分子到神经元，到思想，到自我）中，最终竟然回到了最低层级并对其产生影响，这种'层级坍缩'导致了自我意识的诞生。理解奇异环有助于理解复杂系统和涌现现象。",
+  "principle": "1. 层级跨越：系统在多个层级间跨越\n2. 循环回归：最终回到起点形成闭环\n3. 层级坍缩：高层级影响低层级\n4. 涌现机制：奇异环是涌现的重要机制\n5. 自我指涉：自我意识源于奇异环",
+  "scope": "认知科学、系统思维、人工智能、哲学思考、组织设计、复杂系统",
+  "tips": "1. 识别层级：识别系统中的多个层级\n2. 寻找闭环：寻找层级间的循环回归\n3. 理解涌现：理解奇异环如何导致涌现\n4. 自我指涉：关注系统中的自我指涉现象\n5. 系统视角：用系统视角理解复杂现象",
+  "practice": "1. 识别层级：识别系统中的多个层级结构\n2. 寻找闭环：寻找层级间的循环回归路径\n3. 理解涌现：理解奇异环如何导致涌现现象\n4. 自我指涉：关注系统中的自我指涉现象\n5. 系统视角：用系统视角理解复杂现象",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 莫比乌斯环模拟 -->\r\n        <path d=\"M-250,0 Q-250,-150 0,-150 T250,0 T0,150 T-250,0\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"12\" stroke-dasharray=\"10 30\" opacity=\"0.6\">\r\n           <animate attributeName=\"stroke-dashoffset\" from=\"0\" to=\"100\" dur=\"5s\" repeatCount=\"indefinite\" />\r\n        </path>\r\n        \r\n        <!-- 递归指针 -->\r\n        <g>\r\n          <animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0\" to=\"360\" dur=\"10s\" repeatCount=\"indefinite\" />\r\n          <circle r=\"40\" cx=\"250\" cy=\"0\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 30px #ef4444)\" />\r\n          <text x=\"250\" y=\"5\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 14px; font-weight: 900;\">自我</text>\r\n        </g>\r\n\r\n        <!-- 符号叠加 -->\r\n        <g fill=\"#ef4444\" opacity=\"0.1\" font-weight=\"900\" style=\"font-size: 120px;\">\r\n          <text x=\"-150\" y=\"50\">我</text>\r\n          <text x=\"50\" y=\"50\">是</text>\r\n        </g>\r\n        \r\n        <text y=\"280\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.2em;\">由符号涌现出的“我”</text>\r\n      </g>\r\n    </svg>\n</div>"
 }

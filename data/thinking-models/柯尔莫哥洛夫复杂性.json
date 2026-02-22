@@ -4,10 +4,10 @@
   "label": "科尔莫哥洛夫复杂度",
   "icon": "BrainCircuit",
   "description": "衡量一个事物的逻辑深度：不是看它表面有多少细节，而是看描述它、生成它的最短算法有多长。无法被压缩的信息，才是真正的“硬核”复杂度。",
-  "deepAnalysis": "这是一个思维模型，展示了柯尔莫哥洛夫复杂性的核心概念和应用。",
-  "principle": "思维模型的核心原则：柯尔莫哥洛夫复杂性",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将柯尔莫哥洛夫复杂性应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "柯尔莫哥洛夫复杂性（Kolmogorov Complexity）揭示了信息的本质深度。核心洞见：衡量一个事物的逻辑深度，不是看它表面有多少细节，而是看描述它、生成它的最短算法有多长。无法被压缩的信息，才是真正的硬核复杂度。理解这个概念有助于识别真正的复杂性和价值。",
+  "principle": "1. 算法定义：复杂度由最短算法定义\n2. 可压缩性：可压缩的信息复杂度低\n3. 硬核复杂：不可压缩才是真复杂\n4. 表面vs深度：表面细节不等于深度复杂\n5. 价值识别：高复杂度往往高价值",
+  "scope": "信息理论、算法设计、数据压缩、科学哲学、认知科学、复杂性研究",
+  "tips": "1. 寻找算法：寻找描述事物的最短算法\n2. 评估可压缩：评估信息的可压缩性\n3. 识别硬核：识别不可压缩的核心\n4. 区分表面深度：区分表面细节和深度复杂\n5. 价值判断：用复杂度判断价值",
+  "practice": "1. 寻找算法：寻找描述事物的最短算法\n2. 评估可压缩：评估信息的可压缩性\n3. 识别硬核：识别不可压缩的核心\n4. 区分表面深度：区分表面细节和深度复杂\n5. 价值判断：用复杂度判断价值",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 对象 A: 伪复杂 (长序列) -->\r\n        <g transform=\"translate(-250, 0)\">\r\n          <rect x=\"-120\" y=\"-120\" width=\"240\" height=\"240\" rx=\"30\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"1\" opacity=\"0.2\" />\r\n          <text y=\"5\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 10px;\">01010101010101...</text>\r\n          <path d=\"M-80,60 L80,60\" stroke=\"#10b981\" stroke-width=\"8\" stroke-linecap=\"round\" />\r\n          <text y=\"100\" text-anchor=\"middle\" fill=\"#10b981\" style=\"font-size: 18px; font-weight: 900;\">描述：重复 100 次 01</text>\r\n          <text y=\"130\" text-anchor=\"middle\" fill=\"#10b981\" style=\"font-size: 12px;\">(低复杂度/可压缩)</text>\r\n        </g>\r\n        \r\n        <!-- 对象 B: 深度复杂 (随机/无理) -->\r\n        <g transform=\"translate(250, 0)\">\r\n          <rect x=\"-120\" y=\"-120\" width=\"240\" height=\"240\" rx=\"30\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"2\" />\r\n          <text y=\"5\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 10px; font-weight: 800;\">3.14159265358979...</text>\r\n          <text y=\"100\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 18px; font-weight: 900;\">描述：无法压缩的逻辑</text>\r\n          <text y=\"130\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 12px;\">(高复杂度/深度内容)</text>\r\n          <circle r=\"140\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"1\" stroke-dasharray=\"2 10\" class=\"animate-spin\" />\r\n        </g>\r\n\r\n        <text y=\"-220\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 42px; font-weight: 900; letter-spacing: 0.1em;\">K(x) = 最短程序长度</text>\r\n      </g>\r\n    </svg>\n</div>"
 }

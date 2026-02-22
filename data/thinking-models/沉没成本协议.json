@@ -4,10 +4,10 @@
   "label": "沉没成本",
   "icon": "BrainCircuit",
   "description": "人类无法在博弈中途靠“意志力”止损，因为自尊会蒙蔽理智。唯一的解决方案是在进入博弈之前，建立一份物理级的“止损协议”：如果到了 X 日期，K计划我 未达 Y，系统将强制关闭，不接受任何理由。你不是在放弃，你是在D原本的正确算法。",
-  "deepAnalysis": "这是一个思维模型，展示了沉没成本协议的核心概念和应用。",
-  "principle": "思维模型的核心原则：沉没成本协议",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将沉没成本协议应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "沉没成本协议（Sunk Cost Protocol）是防止承诺升级的物理熔断机制。核心洞见：人类无法在博弈中途靠意志力止损，因为自尊会蒙蔽理智。唯一的解决方案是在进入博弈之前，建立一份物理级的止损协议：如果到了X日期，计划未达Y，系统将强制关闭，不接受任何理由。",
+  "principle": "1. 预设协议：在进入博弈前预设止损协议\n2. 物理熔断：协议必须是物理级不可更改的\n3. 自动执行：到期自动执行不接受理由\n4. 自尊隔离：协议隔离自尊对决策的干扰\n5. 算法思维：用算法替代意志力",
+  "scope": "投资决策、项目管理、创业决策、时间管理、资源分配、风险控制",
+  "tips": "1. 预设止损：在开始前预设止损条件\n2. 物理锁定：用物理方式锁定协议\n3. 自动执行：设置自动执行机制\n4. 不接受理由：到期不接受任何理由\n5. 定期审查：定期审查协议执行情况",
+  "practice": "1. 预设止损：在开始前预设止损条件\n2. 物理锁定：用物理方式锁定协议\n3. 自动执行：设置自动执行机制\n4. 不接受理由：到期不接受任何理由\n5. 定期审查：定期审查协议执行情况",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 正在下沉的陷阱 -->\r\n        <circle r=\"300\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"1\" stroke-dasharray=\"2 10\" opacity=\"0.1\" />\r\n        \r\n        <!-- 止损协议 (物理切断门) -->\r\n        <g>\r\n          <rect x=\"-350\" y=\"-10\" width=\"700\" height=\"20\" fill=\"#10b981\" />\r\n          <text y=\"-30\" text-anchor=\"middle\" fill=\"#10b981\" style=\"font-size: 24px; font-weight: 900;\">预设协议：到期强制终止</text>\r\n        </g>\r\n        \r\n        <!-- 被拦住的项目 -->\r\n        <g transform=\"translate(0, -120)\">\r\n           <rect x=\"-80\" y=\"-50\" width=\"160\" height=\"100\" rx=\"20\" fill=\"#94a3b8\" />\r\n           <path d=\"M-60,-20 L60,-20 M0,-40 L0,20\" stroke=\"white\" stroke-width=\"4\" opacity=\"0.5\" />\r\n           <animateTransform attributeName=\"transform\" type=\"translate\" values=\"0,-120; 0,-20; 0,-120\" dur=\"2s\" repeatCount=\"indefinite\" />\r\n        </g>\r\n\r\n        <!-- 执念的黑影 -->\r\n        <g transform=\"translate(0, 100)\" opacity=\"0.2\">\r\n          <text text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 64px; font-weight: 900; letter-spacing: 0.2em;\">EGO / 计划R我DE</text>\r\n        </g>\r\n\r\n        <text y=\"240\" text-anchor=\"middle\" fill=\"#10b981\" style=\"font-size: 32px; font-weight: 900;\">协议第一，情绪第二</text>\r\n      </g>\r\n    </svg>\n</div>"
 }

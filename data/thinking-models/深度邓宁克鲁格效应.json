@@ -4,10 +4,10 @@
   "label": "邓宁-克鲁格",
   "icon": "BrainCircuit",
   "description": "平庸者不仅能力不足，更可怕的是他们丧失了判定“能力”的标准。这种元认知能力的缺失，锁死了自我进化的可能。",
-  "deepAnalysis": "这是一个思维模型，展示了深度邓宁-克鲁格效应的核心概念和应用。",
-  "principle": "思维模型的核心原则：深度邓宁-克鲁格效应",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将深度邓宁-克鲁格效应应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "深度邓宁-克鲁格效应（Deep Dunning-Kruger Effect）揭示了能力与元认知的关系。核心洞见：平庸者不仅能力不足，更可怕的是他们丧失了判定能力的标准。这种元认知能力的缺失，锁死了自我进化的可能。理解这个效应有助于保持谦逊和持续学习。",
+  "principle": "1. 元认知缺失：能力不足者缺乏元认知能力\n2. 自我锁死：元认知缺失锁死进化可能\n3. 达克曲线：自信与能力的倒U型关系\n4. 无知自信：无知者往往过度自信\n5. 专家谦逊：真正的专家往往更谦逊",
+  "scope": "自我认知、学习成长、人才评估、领导力、决策质量、团队管理",
+  "tips": "1. 保持谦逊：无论什么水平都保持谦逊\n2. 寻求反馈：主动寻求外部反馈\n3. 持续学习：持续学习提升能力\n4. 质疑自信：质疑自己的过度自信\n5. 培养元认知：培养元认知能力",
+  "practice": "1. 保持谦逊：无论什么水平都保持谦逊\n2. 寻求反馈：主动寻求外部反馈\n3. 持续学习：持续学习提升能力\n4. 质疑自信：质疑自己的过度自信\n5. 培养元认知：培养元认知能力",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <!-- 曲线背景 -->\r\n      <path d=\"M100,500 Q150,50 300,100 T500,450 T850,250\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"1\" opacity=\"0.1\" />\r\n      \r\n      <!-- 愚昧山巅的放大镜 (深挖核心) -->\r\n      <g transform=\"translate(250, 150)\">\r\n        <circle r=\"120\" fill=\"#ffffff\" stroke=\"#ef4444\" stroke-width=\"4\" filter=\"drop-shadow(0 15px 30px rgba(239, 68, 68, 0.2))\" />\r\n        <g transform=\"translate(0, -20)\">\r\n           <text text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">愚昧山巅</text>\r\n           <text y=\"30\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 10px; font-weight: 800;\">CONF我DENCE: 100%</text>\r\n        </g>\r\n        <!-- 元认知缺失指示 -->\r\n        <g transform=\"translate(0, 50)\">\r\n          <rect x=\"-80\" y=\"0\" width=\"160\" height=\"40\" rx=\"10\" fill=\"#ef4444\" fill-opacity=\"0.1\" />\r\n          <text text-anchor=\"middle\" y=\"25\" fill=\"#ef4444\" style=\"font-size: 12px; font-weight: 900;\">元认知缺失: 无法意识到无知</text>\r\n          <animate attributeName=\"opacity\" values=\"1;0.3;1\" dur=\"2s\" repeatCount=\"indefinite\" />\r\n        </g>\r\n      </g>\r\n\r\n      <!-- 绝望之谷与开悟之坡 -->\r\n      <g transform=\"translate(500, 480)\" opacity=\"0.3\">\r\n        <text text-anchor=\"middle\" fill=\"#64748b\" style=\"font-size: 12px; font-weight: 900;\">绝望之谷 (意识到差距)</text>\r\n      </g>\r\n      <g transform=\"translate(850, 250)\" opacity=\"0.6\">\r\n        <text text-anchor=\"middle\" fill=\"#10b981\" style=\"font-size: 14px; font-weight: 900;\">持续大师之路</text>\r\n        <path d=\"M-40,40 L40,-40\" stroke=\"#10b981\" stroke-width=\"4\" stroke-linecap=\"round\" />\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"560\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 12px; font-weight: 900; letter-spacing: 0.5em;\">ANATOMY OF THE 我NCOM计划ETENT BRA我N</text>\r\n    </svg>\n</div>"
 }

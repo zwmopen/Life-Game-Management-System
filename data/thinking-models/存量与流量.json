@@ -4,10 +4,10 @@
   "label": "存量与流量",
   "icon": "BrainCircuit",
   "description": "系统动力学的基石。理解世界不是看它的瞬间快照，而是看它变化的速率与积累的惯性。",
-  "deepAnalysis": "这是一个思维模型，展示了存量与流量的核心概念和应用。",
-  "principle": "思维模型的核心原则：存量与流量",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将存量与流量应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "存量与流量（Stock and Flow）是系统动力学的基石。核心洞见：理解世界不是看它的瞬间快照，而是看它变化的速率与积累的惯性。存量是系统中的累积量，流量是存量的变化速率。理解存量与流量的关系是理解系统行为的关键。",
+  "principle": "1. 存量累积：存量是随时间累积的量\n2. 流量变化：流量是存量的变化速率\n3. 动态平衡：存量由流入和流出决定\n4. 时间延迟：流量变化对存量的影响有延迟\n5. 系统视角：用存量流量视角理解系统",
+  "scope": "系统思维、财务管理、资源规划、项目管理、环境科学、经济学",
+  "tips": "1. 识别存量：识别系统中的关键存量\n2. 分析流量：分析影响存量的流入流出\n3. 理解延迟：理解流量变化的延迟效应\n4. 动态思考：用动态视角而非静态快照\n5. 寻找杠杆：找到影响流量的杠杆点",
+  "practice": "1. 识别存量：识别系统中的关键存量\n2. 分析流量：分析影响存量的流入流出\n3. 理解延迟：理解流量变化的延迟效应\n4. 动态思考：用动态视角而非静态快照\n5. 寻找杠杆：找到影响流量的杠杆点",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <!-- 容器 -->\r\n      <g transform=\"translate(500, 325)\">\r\n        <rect x=\"-200\" y=\"-140\" width=\"400\" height=\"280\" rx=\"20\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"4\" opacity=\"0.1\" />\r\n        <!-- 动态存量 -->\r\n        <rect x=\"-196\" y=\"-30\" width=\"392\" height=\"166\" fill=\"#ef4444\" fill-opacity=\"0.3\" rx=\"10\">\r\n          <animate attributeName=\"height\" values=\"166;190;166\" dur=\"5s\" repeatCount=\"indefinite\" />\r\n          <animate attributeName=\"y\" values=\"-30;-54;-30\" dur=\"5s\" repeatCount=\"indefinite\" />\r\n        </rect>\r\n        <text text-anchor=\"middle\" y=\"20\" fill=\"#1e293b\" style=\"font-size: 48px; font-weight: 900; letter-spacing: 0.1em;\">存量 (STOcK)</text>\r\n      </g>\r\n\r\n      <!-- 入流 -->\r\n      <g transform=\"translate(150, 185)\">\r\n        <path d=\"M0,0 L200,0\" stroke=\"#10b981\" stroke-width=\"12\" stroke-dasharray=\"15 10\">\r\n          <animate attributeName=\"stroke-dashoffset\" from=\"0\" to=\"50\" dur=\"1s\" repeatCount=\"indefinite\" />\r\n        </path>\r\n        <text x=\"100\" y=\"-30\" text-anchor=\"middle\" fill=\"#10b981\" style=\"font-size: 24px; font-weight: 900;\">流量入 (我nflow)</text>\r\n      </g>\r\n\r\n      <!-- 出流 -->\r\n      <g transform=\"translate(650, 465)\">\r\n        <path d=\"M0,0 L200,0\" stroke=\"#ef4444\" stroke-width=\"12\" stroke-dasharray=\"15 10\">\r\n          <animate attributeName=\"stroke-dashoffset\" from=\"50\" to=\"0\" dur=\"1s\" repeatCount=\"indefinite\" />\r\n        </path>\r\n        <text x=\"100\" y=\"55\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">流量出 (Outflow)</text>\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"50\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 16px; font-weight: 900; letter-spacing: 0.5em;\">SYSTEM DYN是我cS FOUNDaT我ON</text>\r\n    </svg>\n</div>"
 }

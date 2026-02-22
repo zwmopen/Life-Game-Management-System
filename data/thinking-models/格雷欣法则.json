@@ -4,10 +4,10 @@
   "label": "格雷希法则",
   "icon": "BrainCircuit",
   "description": "当评估标准失效，平庸会像瘟疫一样挤走卓越。在信息不对称的系统中，低质量的投入往往会获得与高质量同等的名义收益，导致高手离场。",
-  "deepAnalysis": "这是一个思维模型，展示了格雷欣法则的核心概念和应用。",
-  "principle": "思维模型的核心原则：格雷欣法则",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将格雷欣法则应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "格雷欣法则（Gresham's Law）揭示了劣币驱逐良币的机制。核心洞见：当评估标准失效，平庸会像瘟疫一样挤走卓越。在信息不对称的系统中，低质量的投入往往会获得与高质量同等的名义收益，导致高手离场。理解这个法则有助于建立正确的评估机制。",
+  "principle": "1. 评估失效：评估标准失效导致劣币驱逐良币\n2. 信息不对称：信息不对称是根本原因\n3. 名义等同：低质量获得与高质量同等名义收益\n4. 高手离场：真正的高手会选择离开\n5. 系统崩坏：最终导致系统整体质量下降",
+  "scope": "组织管理、人才评估、市场竞争、货币制度、信息市场、质量管理",
+  "tips": "1. 建立标准：建立有效的评估标准\n2. 信息透明：减少信息不对称\n3. 差异化定价：让质量差异体现在收益上\n4. 保护高手：保护真正的高手不被挤出\n5. 定期审查：定期审查评估机制有效性",
+  "practice": "1. 建立标准：建立有效的评估标准\n2. 信息透明：减少信息不对称\n3. 差异化定价：让质量差异体现在收益上\n4. 保护高手：保护真正的高手不被挤出\n5. 定期审查：定期审查评估机制有效性",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <rect x=\"200\" y=\"100\" width=\"600\" height=\"400\" rx=\"40\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" stroke-dasharray=\"10 20\" />\r\n      <g fill=\"#1e293b\" opacity=\"0.2\">\r\n        <circle cx=\"350\" cy=\"250\" r=\"40\" /><circle cx=\"450\" cy=\"200\" r=\"40\" />\r\n        <circle cx=\"550\" cy=\"280\" r=\"40\" /><circle cx=\"400\" cy=\"350\" r=\"40\" />\r\n        <circle cx=\"500\" cy=\"400\" r=\"40\" /><circle cx=\"300\" cy=\"380\" r=\"40\" />\r\n        <text x=\"500\" y=\"480\" text-anchor=\"middle\" fill=\"#64748b\" style=\"font-size: 28px; font-weight: 900;\">劣币 (DEBR我S)</text>\r\n        <animateTransform attributeName=\"transform\" type=\"translate\" values=\"0,0; 5,5; 0,0\" dur=\"0.2s\" repeatCount=\"indefinite\" />\r\n      </g>\r\n      <g transform=\"translate(450, 300)\">\r\n        <animateTransform attributeName=\"transform\" type=\"translate\" values=\"450,300; 950,300\" dur=\"5s\" repeatCount=\"indefinite\" />\r\n        <circle r=\"60\" fill=\"#fbbf24\" filter=\"drop-shadow(0 0 30px #fbbf24)\" />\r\n        <text text-anchor=\"middle\" y=\"10\" fill=\"#451a03\" style=\"font-size: 32px; font-weight: 900;\">良币</text>\r\n        <circle r=\"80\" fill=\"none\" stroke=\"#fbbf24\" stroke-width=\"2\" class=\"animate-ping\" />\r\n      </g>\r\n      <text x=\"500\" y=\"560\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.1em;\">劣币驱逐良币</text>\r\n    </svg>\n</div>"
 }

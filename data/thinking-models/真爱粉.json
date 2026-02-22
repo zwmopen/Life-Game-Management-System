@@ -3,11 +3,11 @@
   "name": "真爱粉",
   "label": "1000 铁粉定律",
   "icon": "BrainCircuit",
-  "description": "凯文·凯利提出。作为一个超级个体，你不需要成为巨星。只要有 1000 个忠诚粉丝（他们每年愿意为你消费一天的工资），你就能拥有独立的人格和富足的生活。这意味着自媒体的成功不在于“曝光量”，而在于“信任浓度”。",
-  "deepAnalysis": "这是一个思维模型，展示了真爱粉的核心概念和应用。",
-  "principle": "思维模型的核心原则：真爱粉",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将真爱粉应用到日常决策和问题解决中，观察效果并调整。",
+  "description": "凯文·凯利提出。作为一个超级个体，你不需要成为巨星。只要有 1000 个忠诚粉丝（他们每年愿意为你消费一天的工资），你就能拥有独立的人格和富足的生活。这意味着自媒体的成功不在于\"曝光量\"，而在于\"信任浓度\"。",
+  "deepAnalysis": "真爱粉（1000 True Fans）是凯文·凯利提出的关于个人品牌和创作者经济的思维模型。核心洞见：作为超级个体，你不需要成为巨星，只要有1000个忠诚粉丝（他们每年愿意为你消费一天的工资），就能拥有独立的人格和富足的生活。成功的关键在于信任浓度而非曝光量。",
+  "principle": "1. 信任优先：建立深度信任关系\n2. 价值共创：与粉丝共同创造价值\n3. 质量胜于数量：1000个真爱粉胜过10000个泛粉\n4. 可持续收入：通过多种方式从铁粉获取收入\n5. 个人品牌：建立独特的个人品牌形象",
+  "scope": "个人品牌、内容创作、自媒体运营、创业模式、粉丝经济、数字营销",
+  "tips": "1. 深度互动：与粉丝建立个人化的互动关系\n2. 价值输出：持续提供高质量的内容\n3. 社区建设：打造粉丝社区增强归属感\n4. 多元变现：设计多种适合铁粉的产品和服务\n5. 真诚相待：保持真实和透明的个人风格",
+  "practice": "1. 粉丝画像：深入了解你的目标粉丝群体\n2. 内容规划：制定有针对性的内容创作计划\n3. 互动机制：建立定期与粉丝互动的机制\n4. 产品开发：基于粉丝需求开发专属产品\n5. 数据追踪：分析粉丝行为数据优化策略",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 核心创作者 -->\r\n        <circle r=\"60\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 30px #ef4444)\" class=\"animate-pulse\" />\r\n        <text text-anchor=\"middle\" y=\"5\" fill=\"white\" style=\"font-size: 16px; font-weight: 900;\">你</text>\r\n        \r\n        <!-- 铁粉星群 (1000个点隐喻) -->\r\n        <g opacity=\"0.4\">\r\n          <circle cx=\"-150\" cy=\"-100\" r=\"10\" fill=\"#fbbf24\" /><circle cx=\"150\" cy=\"-120\" r=\"8\" fill=\"#fbbf24\" />\r\n          <circle cx=\"-80\" cy=\"180\" r=\"12\" fill=\"#fbbf24\" /><circle cx=\"200\" cy=\"50\" r=\"9\" fill=\"#fbbf24\" />\r\n          <circle cx=\"-220\" cy=\"-50\" r=\"7\" fill=\"#fbbf24\" /><circle cx=\"0\" cy=\"-200\" r=\"11\" fill=\"#fbbf24\" />\r\n          <animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0\" to=\"360\" dur=\"60s\" repeatCount=\"indefinite\" />\r\n        </g>\r\n\r\n        <!-- 价值回流 -->\r\n        <g stroke=\"#fbbf24\" stroke-width=\"2\" opacity=\"0.3\" stroke-dasharray=\"5 5\">\r\n          <line x1=\"-150\" y1=\"-100\" x2=\"-40\" y2=\"-20\" />\r\n          <line x1=\"150\" y1=\"-120\" x2=\"40\" y2=\"-20\" />\r\n          <line x1=\"-80\" y1=\"180\" x2=\"-20\" y2=\"40\" />\r\n          <animate attributeName=\"stroke-dashoffset\" from=\"0\" to=\"20\" dur=\"1s\" repeatCount=\"indefinite\" />\r\n        </g>\r\n\r\n        <text y=\"260\" text-anchor=\"middle\" fill=\"#fbbf24\" style=\"font-size: 36px; font-weight: 900;\">1,000 True Fans</text>\r\n        <text y=\"295\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.6\" style=\"font-size: 14px;\">不求千万泛粉丝，只求千位同行人</text>\r\n      </g>\r\n    </svg>\n</div>"
 }

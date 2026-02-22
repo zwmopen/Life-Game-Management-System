@@ -3,11 +3,11 @@
   "name": "心智循环测试",
   "label": "心智闭环测试",
   "icon": "BrainCircuit",
-  "description": "高认知人群最容易沉溺于“逻辑的优美”。心智闭环测试强制你跳出脑内剧场，问一个极其粗暴的问题：这件看似完美的事，如果我现在就要做，第一步踩在哪里？如果第一步在物理上无法立即D，它就是一个无效的“逻辑假阳性”。",
-  "deepAnalysis": "这是一个思维模型，展示了心智循环测试的核心概念和应用。",
-  "principle": "思维模型的核心原则：心智循环测试",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将心智循环测试应用到日常决策和问题解决中，观察效果并调整。",
-  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 完美的圆 (心智逻辑 - 虚幻) -->\r\n        <circle r=\"220\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"2\" stroke-dasharray=\"10 20\" opacity=\"0.2\">\r\n          <animate attributeName=\"stroke-dashoffset\" from=\"0\" to=\"100\" dur=\"5s\" repeatCount=\"indefinite\" />\r\n        </circle>\r\n        \r\n        <!-- 核心碰撞器 -->\r\n        <g>\r\n          <rect x=\"-150\" y=\"-100\" width=\"300\" height=\"200\" rx=\"40\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"4\" />\r\n          <text text-anchor=\"middle\" y=\"10\" fill=\"#ef4444\" style=\"font-size: 28px; font-weight: 900;\">工程可行性滤镜</text>\r\n        </g>\r\n\r\n        <!-- 撞碎的垃圾想法 (红色碎片) -->\r\n        <g fill=\"#ef4444\" opacity=\"0.4\">\r\n          <rect x=\"-300\" y=\"-200\" width=\"40\" height=\"10\" rx=\"5\" transform=\"rotate(45 -280 -195)\"><animate attributeName=\"opacity\" values=\"0.4;0;0.4\" dur=\"1s\" repeatCount=\"indefinite\" /></rect>\r\n          <text x=\"-350\" y=\"-220\" text-anchor=\"middle\" style=\"font-size: 14px;\">“我想出了个改变世界的点子”</text>\r\n        </g>\r\n\r\n        <!-- 通过筛选的金子 (D细节) -->\r\n        <g transform=\"translate(0, 150)\">\r\n          <path d=\"M-50,0 L0,50 L80,-30\" fill=\"none\" stroke=\"#10b981\" stroke-width=\"12\" stroke-linecap=\"round\" />\r\n          <text y=\"100\" text-anchor=\"middle\" fill=\"#10b981\" style=\"font-size: 24px; font-weight: 900;\">落地动作 (ACT我ON)</text>\r\n        </g>\r\n\r\n        <text y=\"-280\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.1em;\">逻辑自洽并不代表物理可行</text>\r\n      </g>\r\n    </svg>\n</div>"
+  "description": "高认知人群最容易沉溺于逻辑的优美。心智闭环测试强制你跳出脑内剧场，问一个极其粗暴的问题：这件看似完美的事，如果我现在就要做，第一步踩在哪里？如果第一步在物理上无法立即执行，它就是一个无效的逻辑假阳性。",
+  "deepAnalysis": "心智循环测试是验证想法可行性的快速筛选器。核心洞见：高认知人群最容易沉溺于逻辑的优美而忽视物理可行性。心智闭环测试强制你跳出脑内剧场，问一个极其粗暴的问题：这件看似完美的事，如果我现在就要做，第一步踩在哪里？理解这个测试有助于避免逻辑假阳性。",
+  "principle": "1. 物理验证：用物理行动验证逻辑可行性\n2. 第一步测试：问自己第一步能否立即执行\n3. 跳出剧场：跳出脑内剧场面对现实\n4. 假阳性识别：识别逻辑自洽但物理不可行的想法\n5. 快速筛选：用简单测试快速筛选想法",
+  "scope": "创意验证、项目评估、创业决策、计划制定、想法筛选、行动规划",
+  "tips": "1. 第一步测试：问自己第一步能否立即执行\n2. 物理验证：用物理行动验证逻辑可行性\n3. 跳出剧场：跳出脑内剧场面对现实\n4. 假阳性识别：识别逻辑自洽但物理不可行的想法\n5. 快速筛选：用简单测试快速筛选想法",
+  "practice": "1. 第一步测试：问自己第一步能否立即执行\n2. 物理验证：用物理行动验证逻辑可行性\n3. 跳出剧场：跳出脑内剧场面对现实\n4. 假阳性识别：识别逻辑自洽但物理不可行的想法\n5. 快速筛选：用简单测试快速筛选想法",
+  "visualDesign": "<div class=\"neu-card\"><svg viewBox=\"0 0 1000 650\"><g transform=\"translate(500, 325)\"><circle r=\"220\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"2\" stroke-dasharray=\"10 20\" opacity=\"0.2\" /><g><rect x=\"-150\" y=\"-100\" width=\"300\" height=\"200\" rx=\"40\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"4\" /><text text-anchor=\"middle\" y=\"10\" fill=\"#ef4444\" style=\"font-size: 28px; font-weight: 900;\">工程可行性滤镜</text></g><text y=\"-280\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.1em;\">逻辑自洽并不代表物理可行</text></g></svg></div>"
 }

@@ -4,10 +4,10 @@
   "label": "现状偏见",
   "icon": "BrainCircuit",
   "description": "人们倾向于维持现有的状态，即使改变带来的潜在收益明显高于风险。改变被大脑自动设为“不安全”的默认项。",
-  "deepAnalysis": "这是一个思维模型，展示了现状偏差的核心概念和应用。",
-  "principle": "思维模型的核心原则：现状偏差",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将现状偏差应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "现状偏差（Status Quo Bias）是行为经济学中的重要概念。核心洞见：人们倾向于维持现有的状态，即使改变带来的潜在收益明显高于风险。改变被大脑自动设为\"不安全\"的默认项，这种心理倾向源于损失厌恶和对不确定性的恐惧。理解现状偏差有助于克服惰性，做出更理性的决策。",
+  "principle": "1. 惰性倾向：人天生倾向于维持现状\n2. 损失厌恶：改变被视为潜在损失\n3. 不确定性恐惧：未知被视为风险\n4. 决策瘫痪：选项越多越难改变\n5. 默认效应：默认选项有强大吸引力",
+  "scope": "行为经济学、组织变革、个人决策、投资理财、职业规划、公共政策",
+  "tips": "1. 识别偏差：意识到自己可能陷入现状偏差\n2. 量化成本：计算维持现状的机会成本\n3. 小步试错：用小实验降低改变风险\n4. 设定期限：给决策设定明确的时间节点\n5. 逆向思考：想象不改变的长期后果",
+  "practice": "1. 定期审视：每季度审视生活中的现状状态\n2. 成本核算：计算维持现状的隐性成本\n3. 小实验法：用最小成本测试改变效果\n4. 默认反转：主动质疑所有默认选项\n5. 求助外部：借助外部视角打破惯性",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <!-- 理想未来 -->\r\n      <g transform=\"translate(750, 200)\" opacity=\"0.1\">\r\n        <path d=\"M-60,0 L60,0 L50,-120 L-50,-120 Z\" fill=\"#10b981\" />\r\n        <text y=\"40\" text-anchor=\"middle\" fill=\"#10b981\" style=\"font-size: 16px; font-weight: 900;\">最优化的未来</text>\r\n      </g>\r\n      \r\n      <!-- 现状 -->\r\n      <g transform=\"translate(350, 300)\">\r\n        <rect x=\"-120\" y=\"-40\" width=\"240\" height=\"80\" rx=\"15\" fill=\"#1e293b\" />\r\n        <text y=\"8\" text-anchor=\"middle\" fill=\"white\" style=\"font-size: 24px; font-weight: 900;\">当前的现状</text>\r\n        \r\n        <!-- 沉重的现状之锚 -->\r\n        <g>\r\n          <animateTransform attributeName=\"transform\" type=\"rotate\" values=\"-3,0,0; 3,0,0; -3,0,0\" dur=\"4s\" repeatCount=\"indefinite\" />\r\n          <line x1=\"0\" y1=\"40\" x2=\"0\" y2=\"220\" stroke=\"#ef4444\" stroke-width=\"5\" stroke-dasharray=\"10 5\" />\r\n          <path d=\"M-60,220 Q0,320 60,220\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"20\" stroke-linecap=\"round\" />\r\n          <text y=\"300\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.1em;\">现状的心理引力</text>\r\n        </g>\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"#64748b\" style=\"font-size: 20px; font-weight: 900; opacity: 0.2;\">CHaNGE 我S V我EWEd aS a R我SK</text>\r\n    </svg>\n</div>"
 }

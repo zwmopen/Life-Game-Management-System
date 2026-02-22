@@ -4,10 +4,10 @@
   "label": "突发对称破缺",
   "icon": "BrainCircuit",
   "description": "当系统面对多种完全等价的成功路径时，由于内部的一个极微小随机涨落，系统被迫选择其中一个方向并锁定。正是这种“不公平”的选择，让原本均匀的世界诞生了万物，让同质化的企业诞生了独特的灵魂。",
-  "deepAnalysis": "这是一个思维模型，展示了自发对称性破缺的核心概念和应用。",
-  "principle": "思维模型的核心原则：自发对称性破缺",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将自发对称性破缺应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "自发对称性破缺是一个源于物理学的概念，指系统在相变过程中，由于微小的随机扰动，从对称的高能量状态跃迁到不对称的低能量状态的现象。这一概念最早由物理学家在研究相变和基本粒子时提出，后被拓展到复杂系统理论、生物学、经济学等领域。核心洞察是：在看似对称、等价的多种可能性中，微小的随机事件会触发系统选择其中一种状态并锁定，这种选择并非由外部力量强制，而是系统内部自发产生的，正是这种破缺创造了多样性和复杂性。",
+  "principle": "1. 对称状态不稳定性原则：完全对称的状态往往是不稳定的高能量状态，系统倾向于向低能量的不对称状态演化\n2. 微小扰动触发原则：系统的对称性破缺通常由微小的随机扰动触发，这种扰动在宏观上被放大\n3. 路径依赖原则：一旦系统选择了某个方向，就会形成路径依赖，难以回到原来的对称状态\n4. 多样性创造原则：自发对称性破缺是系统产生多样性和复杂性的重要机制\n5. 临界状态敏感性原则：在临界状态下，系统对微小扰动极其敏感，小因可以产生大果",
+  "scope": "物理学、生物学、经济学、管理学、复杂系统理论、创新管理、组织发展、市场竞争、战略决策",
+  "tips": "1. 识别对称状态：学会识别组织或系统中存在的对称状态，这些状态往往隐藏着创新和发展的机会\n2. 创造扰动：在需要突破的情境中，主动引入适当的扰动，触发系统的对称性破缺\n3. 把握临界时刻：识别系统的临界状态，在关键时刻做出战略选择\n4. 接受不确定性：理解并接受对称性破缺中的随机性和不确定性，将其视为创造独特性的机会\n5. 建立适应性：在对称性破缺后，快速适应新的不对称状态，巩固已有的优势",
+  "practice": "1. 第一步：系统分析，识别当前系统的对称状态和可能的演化方向\n2. 第二步：创造扰动，在适当的时机引入微小的变化或创新，触发系统的对称性破缺\n3. 第三步：战略选择，在系统开始破缺时，有意识地引导其向有利于目标的方向发展\n4. 第四步：路径巩固，一旦系统选择了某个方向，通过资源投入和制度设计巩固这一选择\n5. 第五步：适应优化，根据新的不对称状态调整策略，充分利用已形成的优势",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 完美的对称势能面 -->\r\n        <circle r=\"250\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"1\" opacity=\"0.1\" />\r\n        <circle r=\"150\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"1\" opacity=\"0.1\" />\r\n        \r\n        <!-- 初始的对称平衡点 -->\r\n        <g id=\"ball\">\r\n          <circle r=\"30\" fill=\"#ef4444\" class=\"animate-pulse\" />\r\n          <animateTransform attributeName=\"transform\" type=\"translate\" values=\"0,0; 5,5; 0,0\" dur=\"0.1s\" repeatCount=\"indefinite\" />\r\n        </g>\r\n\r\n        <!-- 破缺发生的路径 -->\r\n        <path d=\"M0,0 L200,100\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"10 5\" opacity=\"0\">\r\n           <animate attributeName=\"opacity\" from=\"0\" to=\"1\" dur=\"1s\" begin=\"3s\" fill=\"freeze\" />\r\n        </path>\r\n\r\n        <!-- 坍缩后的稳态 -->\r\n        <g transform=\"translate(200, 100)\" opacity=\"0\">\r\n          <animate attributeName=\"opacity\" from=\"0\" to=\"1\" dur=\"1s\" begin=\"4s\" fill=\"freeze\" />\r\n          <circle r=\"60\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 30px #ef4444)\" />\r\n          <text y=\"100\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">独一无二的战略位置</text>\r\n        </g>\r\n\r\n        <text y=\"-260\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">选择即破缺：平庸的终结</text>\r\n      </g>\r\n    </svg>\n</div>"
 }

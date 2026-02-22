@@ -4,10 +4,10 @@
   "label": "正和博弈",
   "icon": "BrainCircuit",
   "description": "拒绝存量博弈的零和逻辑。正和博弈是指各方通过协作、交换或技术进步，使得系统的总利益持续增加，从而在不损害他方利益的前提下实现共赢。",
-  "deepAnalysis": "这是一个思维模型，展示了正和博弈的核心概念和应用。",
-  "principle": "思维模型的核心原则：正和博弈",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将正和博弈应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "正和博弈（Positive-Sum Game）揭示了共赢的可能性。核心洞见：拒绝存量博弈的零和逻辑。正和博弈是指各方通过协作、交换或技术进步，使得系统的总利益持续增加，从而在不损害他方利益的前提下实现共赢。理解正和博弈有助于寻找合作机会。",
+  "principle": "1. 做大蛋糕：通过协作做大系统总利益\n2. 非零和：不是你输我赢而是共赢\n3. 协作增值：协作比对抗创造更多价值\n4. 技术进步：技术进步可以创造正和\n5. 交换价值：交换创造双方价值",
+  "scope": "商业合作、谈判协商、团队协作、国际关系、组织管理、战略规划",
+  "tips": "1. 寻找共赢：寻找各方都能受益的方案\n2. 做大蛋糕：优先考虑做大蛋糕而非分配\n3. 建立信任：建立信任促进合作\n4. 长期视角：用长期视角看待合作\n5. 创造价值：专注于创造而非分配",
+  "practice": "1. 寻找共赢：寻找各方都能受益的方案\n2. 做大蛋糕：优先考虑做大蛋糕而非分配\n3. 建立信任：建立信任促进合作\n4. 长期视角：用长期视角看待合作\n5. 创造价值：专注于创造而非分配",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 共同生长的蛋糕 -->\r\n        <circle r=\"120\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"10 20\" opacity=\"0.2\" class=\"animate-spin\" style=\"animation-duration: 30s\" />\r\n        <circle r=\"100\" fill=\"#ef4444\" fill-opacity=\"0.1\">\r\n          <animate attributeName=\"r\" values=\"100;280;100\" dur=\"8s\" repeatCount=\"indefinite\" />\r\n        </circle>\r\n        \r\n        <!-- 玩家 A 与 B (握手协同) -->\r\n        <g transform=\"translate(-150, 0)\">\r\n          <circle r=\"60\" fill=\"#ef4444\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"white\" style=\"font-size: 14px; font-weight: 900;\">协作方 A</text>\r\n        </g>\r\n        <g transform=\"translate(150, 0)\">\r\n          <circle r=\"60\" fill=\"#10b981\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"white\" style=\"font-size: 14px; font-weight: 900;\">协作方 B</text>\r\n        </g>\r\n\r\n        <!-- 价值外溢 -->\r\n        <g fill=\"#fbbf24\" opacity=\"0.6\">\r\n          <circle r=\"10\" cx=\"-200\" cy=\"-200\"><animate attributeName=\"opacity\" values=\"0;1;0\" dur=\"2s\" repeatCount=\"indefinite\" /></circle>\r\n          <circle r=\"10\" cx=\"200\" cy=\"200\" style=\"animation-delay: 1s\"><animate attributeName=\"opacity\" values=\"0;1;0\" dur=\"2s\" repeatCount=\"indefinite\" /></circle>\r\n        </g>\r\n\r\n        <text y=\"280\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 48px; font-weight: 900; letter-spacing: 0.1em;\">Win-Win (1 + 1 > 2)</text>\r\n      </g>\r\n      <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"#10b981\" style=\"font-size: 24px; font-weight: 900; letter-spacing: 0.5em; opacity: 0.2;\">NON-ZERO SUM WEALTH CREAT我ON</text>\r\n    </svg>\n</div>"
 }

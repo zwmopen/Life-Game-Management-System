@@ -4,10 +4,10 @@
   "label": "自行车棚效应",
   "icon": "BrainCircuit",
   "description": "组织在处理问题时，倾向于在最简单、最琐碎的事情上耗费最多的精力，因为每个人都觉得自己是专家。而对于真正核心的复杂问题，由于无人敢挑战，往往被迅速通过。",
-  "deepAnalysis": "这是一个思维模型，展示了帕金森琐碎定律的核心概念和应用。",
-  "principle": "思维模型的核心原则：帕金森琐碎定律",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将帕金森琐碎定律应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "帕金森琐碎定律（Law of Triviality）揭示了组织的注意力分配偏差。核心洞见：组织在处理问题时，倾向于在最简单、最琐碎的事情上耗费最多的精力，因为每个人都觉得自己是专家。而对于真正核心的复杂问题，由于无人敢挑战，往往被迅速通过。理解这个定律有助于避免在琐事上浪费精力。",
+  "principle": "1. 琐事偏好：组织倾向于在琐事上耗费过多精力\n2. 专家幻觉：人人都是琐事专家\n3. 复杂回避：复杂问题因无人敢挑战而被快速通过\n4. 注意力错配：注意力与问题重要性错配\n5. 会议陷阱：会议往往被琐事主导",
+  "scope": "会议管理、组织决策、项目管理、团队协作、时间管理、领导力",
+  "tips": "1. 识别琐事：识别讨论是否陷入琐事\n2. 时间分配：按问题重要性分配讨论时间\n3. 专家引导：复杂问题请专家引导讨论\n4. 议程控制：严格控制会议议程\n5. 决策层级：将琐事决策下放",
+  "practice": "1. 识别琐事：识别讨论是否陷入琐事\n2. 时间分配：按问题重要性分配讨论时间\n3. 专家引导：复杂问题请专家引导讨论\n4. 议程控制：严格控制会议议程\n5. 决策层级：将琐事决策下放",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\n        <g transform=\"translate(250, 300)\">\n          <path d=\"M-120,120 L120,120 L0,-120 Z\" fill=\"var(--text-color)\" opacity=\"0.05\" />\n          <text y=\"160\" text-anchor=\"middle\" fill=\"var(--secondary-text)\" opacity=\"0.4\" style=\"font-size: 24px; font-weight: 900;\">十亿级核电站项目</text>\n          <text y=\"190\" text-anchor=\"middle\" fill=\"var(--secondary-text)\" opacity=\"0.4\" style=\"font-size: 14px;\">(2分钟全票通过)</text>\n        </g>\n        <g transform=\"translate(720, 300)\">\n          <rect x=\"-100\" y=\"60\" width=\"200\" height=\"50\" fill=\"var(--accent-color)\" />\n          <path d=\"M-100,60 L0,-40 L100,60\" fill=\"none\" stroke=\"var(--accent-color)\" stroke-width=\"6\" />\n          <text y=\"140\" text-anchor=\"middle\" fill=\"var(--accent-color)\" style=\"font-size: 24px; font-weight: 900;\">车棚刷什么颜色?</text>\n          <text y=\"170\" text-anchor=\"middle\" fill=\"var(--accent-color)\" style=\"font-size: 18px; font-weight: 900;\">(激辩 2 小时)</text>\n          <circle r=\"120\" fill=\"none\" stroke=\"var(--accent-color)\" stroke-width=\"2\" stroke-dasharray=\"5 5\" class=\"animate-ping\" />\n        </g>\n        <text x=\"500\" y=\"550\" text-anchor=\"middle\" fill=\"var(--secondary-text)\" opacity=\"0.3\" style=\"font-size: 18px; font-weight: 900; letter-spacing: 0.5em;\">琐碎定律：平庸的狂欢</text>\n      </svg>\n</div>"
 }

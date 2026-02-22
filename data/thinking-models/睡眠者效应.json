@@ -4,10 +4,10 @@
   "label": "睡眠者效应",
   "icon": "BrainCircuit",
   "description": "人们会随着时间的推移，逐渐遗忘掉信息的来源，而只记住信息的内容。这导致原本因为来源不可靠而被质疑的信息，在一段时间后反而变得具有说服力。",
-  "deepAnalysis": "这是一个思维模型，展示了睡眠者效应的核心概念和应用。",
-  "principle": "思维模型的核心原则：睡眠者效应",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将睡眠者效应应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "睡眠者效应（Sleeper Effect）揭示了信息接收和记忆的时间依赖性。核心洞见：人们会随着时间的推移，逐渐遗忘掉信息的来源，而只记住信息的内容。这导致原本因为来源不可靠而被质疑的信息，在一段时间后反而变得具有说服力。这一现象在传播学和心理学中具有重要意义。",
+  "principle": "1. 来源遗忘：人们更容易忘记信息的来源而非内容\n2. 时间衰减：时间会削弱对来源可信度的记忆\n3. 内容留存：信息内容比其来源更持久地保存在记忆中\n4. 延迟说服：不可靠来源的信息在延迟后反而更有说服力\n5. 认知分离：信息内容与来源评价在记忆中逐渐分离",
+  "scope": "传播学、广告营销、政治宣传、公共关系、教育说服、信息传播",
+  "tips": "1. 信息质量：确保信息本身的质量和说服力\n2. 延迟效应：考虑信息传播的长期效果\n3. 来源策略：合理选择信息的初始来源\n4. 重复曝光：适当重复信息以增强内容记忆\n5. 批判性思维：培养对信息来源的长期关注",
+  "practice": "1. 信息设计：设计高质量、有说服力的信息内容\n2. 传播策略：制定考虑长期效果的传播计划\n3. 效果追踪：定期评估信息传播的长期效果\n4. 来源管理：谨慎管理信息的初始来源\n5. 媒介选择：选择适合目标受众的传播媒介",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 800 600\">\r\n      <!-- 时间轴 -->\r\n      <line x1=\"100\" y1=\"450\" x2=\"700\" y2=\"450\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n      \r\n      <!-- 路径 A: 低可靠性信源 (迅速衰减) -->\r\n      <g opacity=\"0.4\">\r\n        <path d=\"M150,400 L250,420 L400,440 L600,445\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"2\" stroke-dasharray=\"5 5\" />\r\n        <circle cx=\"150\" cy=\"400\" r=\"10\" fill=\"#ef4444\" />\r\n        <text x=\"150\" y=\"370\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 10px; font-weight: 900;\">折扣信源 (质疑)</text>\r\n      </g>\r\n\r\n      <!-- 路径 B: 信息本身 (睡眠中...然后觉醒) -->\r\n      <g>\r\n        <path d=\"M150,400 Q300,410 450,300 T650,150\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"5\">\r\n           <animate attributeName=\"stroke-dasharray\" from=\"0,1000\" to=\"1000,0\" dur=\"4s\" fill=\"freeze\" />\r\n        </path>\r\n        <!-- 觉醒点 -->\r\n        <g transform=\"translate(650, 150)\">\r\n          <circle r=\"40\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 20px #ef4444)\" />\r\n          <path d=\"M-15,0 L15,0 M0,-15 L0,15\" stroke=\"white\" stroke-width=\"3\" />\r\n          <text y=\"60\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 12px; font-weight: 900;\">内容被接受 (来源被遗忘)</text>\r\n        </g>\r\n      </g>\r\n\r\n      <text x=\"400\" y=\"550\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 10px; font-weight: 900; letter-spacing: 0.5em;\">T我ME D我SSOLVES THE SOURcE</text>\r\n    </svg>\n</div>"
 }

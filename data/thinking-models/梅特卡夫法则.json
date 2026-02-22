@@ -4,10 +4,10 @@
   "label": "梅特卡夫定律",
   "icon": "BrainCircuit",
   "description": "网络的价值与联网用户数的平方成正比。每增加一个用户，不但本身产生价值，还为现有所有用户增加了连接价值。",
-  "deepAnalysis": "这是一个思维模型，展示了梅特卡夫法则的核心概念和应用。",
-  "principle": "思维模型的核心原则：梅特卡夫法则",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将梅特卡夫法则应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "梅特卡夫法则（Metcalfe's Law）揭示了网络价值的非线性增长规律。核心洞见：一个网络的价值与用户数量的平方成正比。每增加一个新用户，网络价值的增加不是线性的，而是指数级的。理解这个定律有助于理解网络效应和平台战略。",
+  "principle": "1. 平方增长：网络价值与用户数平方成正比\n2. 网络效应：用户增加带来非线性价值增长\n3. 临界规模：需要达到临界规模才能发挥效应\n4. 赢家通吃：网络效应导致赢家通吃\n5. 早期投入：早期用户获取投入产出比高",
+  "scope": "互联网平台、社交网络、商业模式、投资决策、技术战略、市场分析",
+  "tips": "1. 快速扩张：快速扩张用户规模\n2. 达到临界：尽快达到临界规模\n3. 降低门槛：降低用户加入门槛\n4. 网络连接：促进用户间连接\n5. 长期视角：用长期视角评估网络价值",
+  "practice": "1. 快速扩张：快速扩张用户规模\n2. 达到临界：尽快达到临界规模\n3. 降低门槛：降低用户加入门槛\n4. 网络连接：促进用户间连接\n5. 长期视角：用长期视角评估网络价值",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <g transform=\"translate(500, 300)\">\r\n        <!-- 自动生成的网状连接 -->\r\n        <g stroke=\"#ef4444\" stroke-width=\"1\" opacity=\"0.1\" class=\"animate-pulse\">\r\n          <line x1=\"-200\" y1=\"-150\" x2=\"200\" y2=\"-150\" /><line x1=\"-200\" y1=\"-150\" x2=\"-200\" y2=\"150\" />\r\n          <line x1=\"-200\" y1=\"-150\" x2=\"200\" y2=\"150\" /><line x1=\"200\" y1=\"-150\" x2=\"-200\" y2=\"150\" />\r\n          <line x1=\"200\" y1=\"-150\" x2=\"200\" y2=\"150\" /><line x1=\"-200\" y1=\"150\" x2=\"200\" y2=\"150\" />\r\n          <!-- 核心连接 -->\r\n          <line x1=\"0\" y1=\"0\" x2=\"-200\" y2=\"-150\" /><line x1=\"0\" y1=\"0\" x2=\"200\" y2=\"-150\" />\r\n          <line x1=\"0\" y1=\"0\" x2=\"200\" y2=\"150\" /><line x1=\"0\" y1=\"0\" x2=\"-200\" y2=\"150\" />\r\n        </g>\r\n        \r\n        <!-- 节点 -->\r\n        <circle cx=\"-200\" cy=\"-150\" r=\"10\" fill=\"#1e293b\" />\r\n        <circle cx=\"200\" cy=\"-150\" r=\"10\" fill=\"#1e293b\" />\r\n        <circle cx=\"200\" cy=\"150\" r=\"10\" fill=\"#1e293b\" />\r\n        <circle cx=\"-200\" cy=\"150\" r=\"10\" fill=\"#1e293b\" />\r\n        \r\n        <!-- 爆发核心 -->\r\n        <g>\r\n          <circle r=\"40\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 20px #ef4444)\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"white\" style=\"font-size: 20px; font-weight: 900;\">V = N²</text>\r\n          <circle r=\"60\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"2\" stroke-dasharray=\"5 5\" class=\"animate-spin\" />\r\n        </g>\r\n      </g>\r\n      <text x=\"500\" y=\"520\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900; letter-spacing: 0.5em;\">NETWORK EFFEcT 是计划L我F我ER</text>\r\n    </svg>\n</div>"
 }

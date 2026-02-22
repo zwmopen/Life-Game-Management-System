@@ -4,10 +4,10 @@
   "label": "熵增定律",
   "icon": "BrainCircuit",
   "description": "\"这个宇宙的熵值是趋向于增加。无序是自然的终点。\"",
-  "deepAnalysis": "这是一个思维模型，展示了熵的核心概念和应用。",
-  "principle": "思维模型的核心原则：熵",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将熵应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "熵（Entropy）是热力学第二定律的核心概念。核心洞见：这个宇宙的熵值趋向于增加。无序是自然的终点。秩序需要持续的能量投入来维持，一旦停止投入，系统会自发趋向混乱。理解熵增定律有助于理解系统的自然趋势和维护秩序的成本。",
+  "principle": "1. 熵增趋势：宇宙趋向于无序\n2. 能量需求：秩序需要能量维持\n3. 不可逆性：熵增过程不可逆\n4. 自然趋势：混乱是自然趋势\n5. 对抗成本：对抗熵增需要持续投入",
+  "scope": "物理学、系统科学、组织管理、信息理论、生态学、时间管理",
+  "tips": "1. 认识熵增：认识熵增是自然趋势\n2. 持续投入：秩序需要持续能量投入\n3. 定期维护：定期维护防止熵增\n4. 简化系统：简化系统减少熵增\n5. 建立秩序：主动建立秩序对抗熵增",
+  "practice": "1. 认识熵增：认识熵增是自然趋势\n2. 持续投入：秩序需要持续能量投入\n3. 定期维护：定期维护防止熵增\n4. 简化系统：简化系统减少熵增\n5. 建立秩序：主动建立秩序对抗熵增",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 800 800\" class=\"w-full h-auto\">\r\n        <!-- 标题 -->\r\n        <text x=\"400\" y=\"100\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 42px; font-weight: 900;\">熵增定律</text>\r\n        \r\n        <!-- 稳定输入引擎 -->\r\n        <circle cx=\"400\" cy=\"400\" r=\"280\" fill=\"none\" stroke=\"#ef4444\" stroke-opacity=\"0.05\" stroke-width=\"1\" stroke-dasharray=\"10 20\" />\r\n        \r\n        <!-- 崩溃中的有序核心 -->\r\n        <g class=\"core\">\r\n          <rect x=\"350\" y=\"350\" width=\"100\" height=\"100\" rx=\"10\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"10 5\" />\r\n          <text x=\"400\" y=\"405\" text-anchor=\"middle\" fill=\"white\" class=\"font-black text-xl italic tracking-widest\">秩序</text>\r\n        </g>\r\n\r\n        <!-- 随机崩溃的碎片 -->\r\n        <rect x=\"380\" y=\"380\" width=\"40\" height=\"40\" rx=\"5\" fill=\"#3b82f6\" class=\"debris\" style=\"--tx: -180px; --ty: -150px; animation-delay: 0s\" />\r\n        <rect x=\"380\" y=\"380\" width=\"30\" height=\"30\" rx=\"5\" fill=\"#1d4ed8\" class=\"debris\" style=\"--tx: 200px; --ty: -120px; animation-delay: 1s\" />\r\n        <rect x=\"380\" y=\"380\" width=\"35\" height=\"35\" rx=\"5\" fill=\"#60a5fa\" class=\"debris\" style=\"--tx: -150px; --ty: 180px; animation-delay: 2s\" />\r\n        <rect x=\"380\" y=\"380\" width=\"45\" height=\"45\" rx=\"5\" fill=\"#2563eb\" class=\"debris\" style=\"--tx: 160px; --ty: 210px; animation-delay: 3s\" />\r\n\r\n        <text x=\"400\" y=\"700\" text-anchor=\"middle\" fill=\"#ef4444\" class=\"font-black text-[12px] uppercase tracking-[1em]\">混沌是默认状态</text>\r\n      </svg>\n</div>"
 }

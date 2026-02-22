@@ -4,10 +4,10 @@
   "label": "对称性破缺",
   "icon": "BrainCircuit",
   "description": "宇宙最初是完美的、对称的、空无一物的。秩序之所以产生，是因为完美的平衡极其脆弱，任何极其微小的随机抖动都会迫使系统选择一个特定的方向，从而产生了结构、物质和多样性。",
-  "deepAnalysis": "这是一个思维模型，展示了对称性破缺的核心概念和应用。",
-  "principle": "思维模型的核心原则：对称性破缺",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将对称性破缺应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "对称性破缺（Symmetry Breaking）揭示了秩序产生的物理机制。核心洞见：宇宙最初是完美的、对称的、空无一物的。秩序之所以产生，是因为完美的平衡极其脆弱，任何极其微小的随机抖动都会迫使系统选择一个特定的方向，从而产生了结构、物质和多样性。理解对称性破缺有助于理解创新和变革的本质。",
+  "principle": "1. 完美不稳定：完美的对称状态极其不稳定\n2. 微扰触发：微小的扰动可以触发系统性变化\n3. 方向选择：系统被迫选择特定方向打破对称\n4. 结构涌现：对称性破缺导致新结构涌现\n5. 不可预测：破缺方向往往不可预测",
+  "scope": "物理学、系统科学、创新管理、组织变革、社会发展、商业模式",
+  "tips": "1. 识别临界点：识别系统处于临界对称状态的时刻\n2. 触发扰动：在关键时刻施加微小扰动\n3. 接受不确定：接受破缺方向的不确定性\n4. 拥抱变化：拥抱变化而非固守完美\n5. 观察涌现：观察新结构的涌现",
+  "practice": "1. 识别临界点：识别系统处于临界对称状态的时刻\n2. 触发扰动：在关键时刻施加微小扰动\n3. 接受不确定：接受破缺方向的不确定性\n4. 拥抱变化：拥抱变化而非固守完美\n5. 观察涌现：观察新结构的涌现",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 完美的平衡轨道 (背景) -->\r\n        <circle r=\"150\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"1\" opacity=\"0.1\" />\r\n        \r\n        <!-- 处于巅峰的不稳定小球 (墨西哥帽势能面隐喻) -->\r\n        <g>\r\n          <path d=\"M-300,100 Q0,-400 300,100\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"4\" opacity=\"0.1\" />\r\n          \r\n          <!-- 选择路径 -->\r\n          <circle r=\"25\" fill=\"#ef4444\" filter=\"drop-shadow(0 0 20px #ef4444)\">\r\n            <animate attributeName=\"cy\" from=\"-150\" to=\"100\" dur=\"3s\" fill=\"freeze\" />\r\n            <animate attributeName=\"cx\" from=\"0\" to=\"250\" dur=\"3s\" fill=\"freeze\" />\r\n          </circle>\r\n        </g>\r\n\r\n        <!-- 涌现出的新秩序 -->\r\n        <g transform=\"translate(250, 100)\" opacity=\"0\">\r\n          <animate attributeName=\"opacity\" from=\"0\" to=\"1\" dur=\"1s\" begin=\"3s\" fill=\"freeze\" />\r\n          <circle r=\"80\" fill=\"#ef4444\" fill-opacity=\"0.2\" stroke=\"#ef4444\" stroke-width=\"2\" class=\"animate-ping\" />\r\n          <text y=\"120\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">新结构诞生</text>\r\n        </g>\r\n\r\n        <text y=\"-250\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">微小扰动 -> 结构突变</text>\r\n      </g>\r\n    </svg>\n</div>"
 }

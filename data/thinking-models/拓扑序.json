@@ -4,10 +4,10 @@
   "label": "拓扑序",
   "icon": "BrainCircuit",
   "description": "物理学的高阶秩序：某种系统的属性不取决于局部的排列，也不由对称性定义，而是由系统内各部分之间“长程关联”的模式决定的。它是系统作为一个不可分割整体的终极证明。",
-  "deepAnalysis": "这是一个思维模型，展示了拓扑序的核心概念和应用。",
-  "principle": "思维模型的核心原则：拓扑序",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将拓扑序应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "拓扑序（Topological Order）揭示了物理学的高阶秩序。核心洞见：某种系统的属性不取决于局部的排列，也不由对称性定义，而是由系统内各部分之间长程关联的模式决定的。它是系统作为一个不可分割整体的终极证明。秩序不在零件里，在缠绕中。",
+  "principle": "1. 长程关联：属性由长程关联模式决定\n2. 非局部：不取决于局部排列\n3. 整体性：系统作为不可分割整体\n4. 涌现秩序：秩序从关联中涌现\n5. 鲁棒性：拓扑序具有鲁棒性",
+  "scope": "物理学、量子计算、系统科学、复杂系统、材料科学、信息理论",
+  "tips": "1. 关注关联：关注系统各部分的关联模式\n2. 整体视角：从整体视角理解系统\n3. 寻找涌现：寻找从关联中涌现的秩序\n4. 非局部思维：用非局部思维理解系统\n5. 鲁棒设计：设计具有鲁棒性的系统",
+  "practice": "1. 关注关联：关注系统各部分的关联模式\n2. 整体视角：从整体视角理解系统\n3. 寻找涌现：寻找从关联中涌现的秩序\n4. 非局部思维：用非局部思维理解系统\n5. 鲁棒设计：设计具有鲁棒性的系统",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 散乱的零件 (物理层) -->\r\n        <g opacity=\"0.3\">\r\n          <circle cx=\"-200\" cy=\"-100\" r=\"10\" fill=\"#1e293b\" /><circle cx=\"150\" cy=\"180\" r=\"10\" fill=\"#1e293b\" />\r\n          <circle cx=\"-50\" cy=\"220\" r=\"10\" fill=\"#1e293b\" /><circle cx=\"280\" cy=\"-80\" r=\"10\" fill=\"#1e293b\" />\r\n        </g>\r\n        \r\n        <!-- 隐形的缠绕网 (拓扑序) -->\r\n        <g fill=\"none\" stroke=\"#ef4444\" stroke-width=\"2\" stroke-dasharray=\"5 15\">\r\n           <path d=\"M-200,-100 Q0,0 150,180\" />\r\n           <path d=\"M-50,220 Q0,0 280,-80\" />\r\n           <path d=\"M-200,-100 Q-150,100 -50,220\" />\r\n           <path d=\"M150,180 Q200,50 280,-80\" />\r\n           <animate attributeName=\"stroke-dashoffset\" from=\"0\" to=\"100\" dur=\"5s\" repeatCount=\"indefinite\" />\r\n        </g>\r\n\r\n        <!-- 涌现出的全局相 (系统灵魂) -->\r\n        <g>\r\n          <circle r=\"120\" fill=\"#ef4444\" fill-opacity=\"0.05\" class=\"animate-pulse\" />\r\n          <text text-anchor=\"middle\" y=\"5\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.2em;\">TO计划OLOG我CaL 秩序</text>\r\n          <text y=\"40\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.6\" style=\"font-size: 14px;\">长程量子纠缠的产物</text>\r\n        </g>\r\n\r\n        <text y=\"280\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">秩序不在零件里，在缠绕中</text>\r\n      </g>\r\n    </svg>\n</div>"
 }

@@ -4,10 +4,10 @@
   "label": "多巴胺 R计划E",
   "icon": "BrainCircuit",
   "description": "多巴胺分泌的不是为了“获得奖励”，而是为了“更新预测”。当你获得的结果超过预期（正误差），多巴胺爆发，驱动你学习和上瘾；当结果低于预期（负误差），你会感到深深的沮丧。",
-  "deepAnalysis": "这是一个思维模型，展示了多巴胺RPE的核心概念和应用。",
-  "principle": "思维模型的核心原则：多巴胺RPE",
-  "scope": "行为设计：通过控制奖励的预期与实际差异，设计更有效的激励系统。, \n          市场营销：利用惊喜元素提高用户体验和品牌忠诚度。, \n          个人成长：通过管理预期，提高幸福感和满足感。, \n           addiction treatment：理解上瘾机制，制定更有效的戒断策略。",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "设定合理目标：将大目标分解为小目标，通过完成小目标获得持续的正向反馈。; \n          延迟满足：适当延迟奖励的获得，增加奖励预测误差的强度。; \n          记录进步：通过记录和回顾，发现并放大那些被忽视的正向误差。; \n          培养感恩：将日常的积极体验视为惊喜，增加正向误差的频率。; \n          适应变化：当环境变化导致负向误差时，及时调整预期，保持情绪稳定。",
+  "deepAnalysis": "多巴胺RPE（Reward Prediction Error）揭示了多巴胺的真正功能。核心洞见：多巴胺分泌的不是为了'获得奖励'，而是为了'更新预测'。当你获得的结果超过预期（正误差），多巴胺爆发，驱动你学习和上瘾；当结果低于预期（负误差），你会感到深深的沮丧。",
+  "principle": "1. 预测误差：多巴胺响应预测误差而非奖励本身\n2. 正向误差：结果超过预期时多巴胺爆发\n3. 负向误差：结果低于预期时感到沮丧\n4. 学习驱动：预测误差驱动学习和行为调整\n5. 上瘾机制：不可预测的奖励最容易上瘾",
+  "scope": "行为设计、激励机制、习惯养成、游戏设计、市场营销、心理健康",
+  "tips": "1. 管理预期：合理管理预期避免过度失望\n2. 创造惊喜：适度创造超出预期的惊喜\n3. 分解目标：将大目标分解为小目标获得持续反馈\n4. 延迟满足：适度延迟增加奖励的预测误差\n5. 记录进步：记录进步发现被忽视的正向误差",
+  "practice": "1. 管理预期：合理管理预期避免过度失望\n2. 创造惊喜：适度创造超出预期的惊喜\n3. 分解目标：将大目标分解为小目标获得持续反馈\n4. 延迟满足：适度延迟增加奖励的预测误差\n5. 记录进步：记录进步发现被忽视的正向误差",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\n      <!-- 坐标轴 -->\n      <line x1=\"100\" y1=\"325\" x2=\"900\" y2=\"325\" stroke=\"var(--text-primary)\" stroke-width=\"2\" opacity=\"0.1\" />\n      \n      <!-- 预期水平 (虚线) -->\n      <line x1=\"100\" y1=\"300\" x2=\"900\" y2=\"300\" stroke=\"var(--text-primary)\" stroke-width=\"4\" stroke-dasharray=\"10 10\" opacity=\"0.3\" />\n      <text x=\"120\" y=\"280\" fill=\"var(--text-secondary)\" opacity=\"0.5\" style=\"font-size: 14px; font-weight: 800;\">预期 (Expectation)</text>\n\n      <!-- 现实发生 (跳动的路径) -->\n      <g transform=\"translate(100, 325)\">\n        <path d=\"M0,0 L200,0 L250,-150 L300,0 L500,0 L550,150 L600,0 L800,0\" fill=\"none\" stroke=\"var(--primary-color)\" stroke-width=\"6\" stroke-linecap=\"round\">\n           <animate attributeName=\"stroke-dasharray\" from=\"0,1000\" to=\"1000,0\" dur=\"4s\" repeatCount=\"indefinite\" />\n        </path>\n        \n        <!-- 正向误差 (惊喜) -->\n        <g transform=\"translate(250, -150)\">\n          <circle r=\"40\" fill=\"#10b981\" fill-opacity=\"0.2\" class=\"animate-ping\" />\n          <text y=\"-50\" text-anchor=\"middle\" fill=\"#10b981\" style=\"font-size: 24px; font-weight: 900;\">惊喜 (Dopamine Spike!)</text>\n        </g>\n\n        <!-- 负向误差 (失望) -->\n        <g transform=\"translate(550, 150)\">\n          <text y=\"50\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 24px; font-weight: 900;\">失望 (Reward Drop)</text>\n        </g>\n      </g>\n\n      <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 32px; font-weight: 900;\">多巴胺 = 现实 - 预期</text>\n    </svg>\n</div>"
 }

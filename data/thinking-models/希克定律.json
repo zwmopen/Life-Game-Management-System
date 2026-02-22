@@ -4,10 +4,10 @@
   "label": "希克定律",
   "icon": "BrainCircuit",
   "description": "一个人面临的选择越多，所需要的决策时间就越长。每增加一个选项，都在无形中收割用户的认知带宽。",
-  "deepAnalysis": "这是一个思维模型，展示了希克定律的核心概念和应用。",
-  "principle": "思维模型的核心原则：希克定律",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将希克定律应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "希克定律（Hick's Law）揭示了选择数量与决策时间的关系。核心洞见：一个人面临的选择越多，所需要的决策时间就越长。每增加一个选项，都在无形中收割用户的认知带宽。理解希克定律有助于简化选择、提升决策效率。",
+  "principle": "1. 选择数量：选择越多决策时间越长\n2. 对数关系：决策时间与选择数量呈对数关系\n3. 认知带宽：选项消耗认知带宽\n4. 简化价值：简化选择有巨大价值\n5. 默认选项：默认选项可以减少决策负担",
+  "scope": "用户体验、产品设计、决策制定、界面设计、营销策略、时间管理",
+  "tips": "1. 减少选项：减少不必要的选项\n2. 分类组织：将选项分类组织减少认知负担\n3. 突出推荐：突出推荐选项引导决策\n4. 设置默认：设置合理的默认选项\n5. 分步决策：将复杂决策分解为多步简单决策",
+  "practice": "1. 减少选项：减少不必要的选项\n2. 分类组织：将选项分类组织减少认知负担\n3. 突出推荐：突出推荐选项引导决策\n4. 设置默认：设置合理的默认选项\n5. 分步决策：将复杂决策分解为多步简单决策",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <!-- 坐标轴 -->\r\n      <line x1=\"150\" y1=\"550\" x2=\"850\" y2=\"550\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n      <line x1=\"150\" y1=\"550\" x2=\"150\" y2=\"100\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n      \r\n      <!-- 对数增长曲线 -->\r\n      <path d=\"M150,550 Q200,300 850,250\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"10\" stroke-linecap=\"round\">\r\n        <animate attributeName=\"stroke-dasharray\" from=\"0,1000\" to=\"1000,0\" dur=\"4s\" fill=\"freeze\" />\r\n      </path>\r\n\r\n      <!-- 选项按钮爆炸 -->\r\n      <g transform=\"translate(700, 350)\">\r\n        <rect x=\"-40\" y=\"-40\" width=\"80\" height=\"80\" rx=\"10\" fill=\"#94a3b8\" opacity=\"0.2\" />\r\n        <rect x=\"50\" y=\"-40\" width=\"80\" height=\"80\" rx=\"10\" fill=\"#94a3b8\" opacity=\"0.2\" />\r\n        <rect x=\"-130\" y=\"-40\" width=\"80\" height=\"80\" rx=\"10\" fill=\"#94a3b8\" opacity=\"0.2\" />\r\n        <text y=\"-80\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 42px; font-weight: 900;\">选项过载</text>\r\n      </g>\r\n\r\n      <g transform=\"translate(150, 100)\">\r\n        <circle r=\"40\" fill=\"#ef4444\" class=\"animate-ping\" />\r\n        <text x=\"60\" y=\"10\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">决策时间 (T)</text>\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"580\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 16px; font-weight: 900; letter-spacing: 0.5em;\">T我ME = a + b log₂(n + 1)</text>\r\n    </svg>\n</div>"
 }

@@ -4,10 +4,10 @@
   "label": "多米诺链条",
   "icon": "BrainCircuit",
   "description": "一个多米诺骨牌能推倒比它大 1.5 倍的另一块。这种能量的指数级传递意味着：一个微小的初始动作，在经过系统的杠杆放大后，能产生足以摧毁摩天大楼的终极动能。",
-  "deepAnalysis": "这是一个思维模型，展示了多米诺进阶的核心概念和应用。",
-  "principle": "思维模型的核心原则：多米诺进阶",
-  "scope": "个人目标：通过设定小目标，利用多米诺效应逐步实现更大的目标。, \n          商业策略：识别并利用关键的业务杠杆点，通过微小的调整引发整个系统的积极变化。, \n          风险管理：识别潜在的风险链条，设置熔断机制，防止局部风险演变为系统性危机。, \n          社会变革：理解社会系统中的连锁反应机制，通过关键事件推动社会进步。",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "分解目标：将大目标分解为一系列小目标，通过完成小目标逐步接近大目标。; \n          建立习惯链：通过习惯堆叠，建立正向的行为连锁反应。; \n          关注细节：注意微小的变化，它们可能是引发巨大变革的起点。; \n          设置检查点：在关键环节设置检查点，确保能量传递的方向和效率。; \n          学习历史：研究历史上的多米诺效应案例，从中吸取经验教训。",
+  "deepAnalysis": "多米诺进阶（Domino Progression）揭示了微小初始动作的指数级放大效应。核心洞见：一个多米诺骨牌能推倒比它大1.5倍的另一块。这种能量的指数级传递意味着：一个微小的初始动作，在经过系统的杠杆放大后，能产生足以摧毁摩天大楼的终极动能。",
+  "principle": "1. 指数放大：每个环节都能放大前一个环节的能量\n2. 1.5倍法则：每步放大1.5倍是可持续的杠杆\n3. 系统传递：需要完整的传递链条才能发挥作用\n4. 初始条件：微小的初始条件决定最终结果\n5. 非线性崩塌：最终效果是非线性的巨大能量释放",
+  "scope": "目标管理、习惯养成、风险管理、系统设计、商业策略、社会变革",
+  "tips": "1. 分解目标：将大目标分解为递进的小目标\n2. 建立链条：确保每个环节能推动下一个环节\n3. 关注起点：重视微小的初始动作\n4. 设置检查点：在关键环节设置检查确保传递\n5. 警惕风险：识别可能的风险链条设置熔断",
+  "practice": "1. 分解目标：将大目标分解为递进的小目标\n2. 建立链条：确保每个环节能推动下一个环节\n3. 关注起点：重视微小的初始动作选择\n4. 设置检查点：在关键环节设置检查确保传递\n5. 警惕风险：识别可能的风险链条设置熔断机制",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\n      <g transform=\"translate(100, 500)\">\n        <!-- 递增的多米诺骨牌 -->\n        <g>\n          <rect x=\"0\" y=\"-40\" width=\"15\" height=\"40\" fill=\"var(--primary-color)\" opacity=\"0.3\" />\n          <rect x=\"80\" y=\"-80\" width=\"25\" height=\"80\" fill=\"var(--primary-color)\" opacity=\"0.5\" />\n          <rect x=\"200\" y=\"-160\" width=\"45\" height=\"160\" fill=\"var(--primary-color)\" opacity=\"0.7\" />\n          <rect x=\"400\" y=\"-320\" width=\"80\" height=\"320\" rx=\"10\" fill=\"var(--primary-color)\" />\n          <g transform=\"translate(700, -500)\">\n             <rect x=\"-100\" y=\"0\" width=\"200\" height=\"500\" rx=\"30\" fill=\"var(--primary-color)\" filter=\"drop-shadow(0 0 50px var(--primary-color))\" />\n             <text text-anchor=\"middle\" y=\"250\" fill=\"white\" style=\"font-size: 32px; font-weight: 900;\" transform=\"rotate(-90 0 250)\">非线性崩塌</text>\n             <circle r=\"40\" cy=\"0\" fill=\"var(--primary-color)\" class=\"animate-ping\" />\n          </g>\n        </g>\n        \n        <!-- 倒下的连线 -->\n        <path d=\"M7.5,-40 Q40,-20 80,-80 T200,-160 T400,-320 T700,-500\" fill=\"none\" stroke=\"var(--primary-color)\" stroke-width=\"4\" stroke-dasharray=\"10 5\" opacity=\"0.4\" />\n      </g>\n      <text x=\"500\" y=\"100\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 42px; font-weight: 900; letter-spacing: 0.1em; opacity: 0.1;\">THE CaSCaDE OF ENERGY</text>\n    </svg>\n</div>"
 }

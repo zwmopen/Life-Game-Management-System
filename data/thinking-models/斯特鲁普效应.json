@@ -4,10 +4,10 @@
   "label": "斯特鲁普效应",
   "icon": "BrainCircuit",
   "description": "当大脑面临“自动化的文字阅读”与“手动的颜色识别”产生冲突时，处理器的时钟周期会发生剧烈波动，导致反应延迟。",
-  "deepAnalysis": "这是一个思维模型，展示了斯特鲁普效应的核心概念和应用。",
-  "principle": "思维模型的核心原则：斯特鲁普效应",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将斯特鲁普效应应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "斯特鲁普效应（Stroop Effect）揭示了认知干扰的机制。核心洞见：当大脑面临自动化的文字阅读与手动的颜色识别产生冲突时，处理器的时钟周期会发生剧烈波动，导致反应延迟。这揭示了大脑处理信息的自动化程度与认知控制之间的关系。",
+  "principle": "1. 自动化冲突：自动化过程与控制过程冲突\n2. 反应延迟：冲突导致反应时间增加\n3. 认知干扰：信息冲突产生认知干扰\n4. 自动化优势：自动化过程优先发生\n5. 控制需求：需要认知控制来克服干扰",
+  "scope": "认知心理学、注意力研究、界面设计、信息呈现、认知评估、注意力测试",
+  "tips": "1. 减少冲突：设计时减少信息冲突\n2. 一致性设计：保持信息呈现的一致性\n3. 注意力管理：管理注意力分配\n4. 认知负荷：减少不必要的认知负荷\n5. 自动化利用：利用自动化提高效率",
+  "practice": "1. 减少冲突：设计时减少信息冲突\n2. 一致性设计：保持信息呈现的一致性\n3. 注意力管理：管理注意力分配\n4. 认知负荷：减少不必要的认知负荷\n5. 自动化利用：利用自动化提高效率",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <defs>\r\n        <filter id=\"textGlow\"><feGaussianBlur stddeviation=\"4\" result=\"blur\"/><feMerge><feMergeNode in=\"blur\"/><feMergeNode in=\"SourceGraphic\"/></feMerge></filter>\r\n      </defs>\r\n      <!-- 一致性案例 -->\r\n      <g transform=\"translate(300, 300)\">\r\n        <text text-anchor=\"middle\" fill=\"#10b981\" style=\"font-size: 150px; font-weight: 900;\">绿色</text>\r\n        <text y=\"120\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.4\" style=\"font-size: 20px; font-weight: 900; letter-spacing: 0.3em;\">一阶：直觉同步 (快)</text>\r\n      </g>\r\n      <!-- 冲突性案例 -->\r\n      <g transform=\"translate(700, 300)\">\r\n        <text text-anchor=\"middle\" fill=\"#3b82f6\" style=\"font-size: 150px; font-weight: 900;\">红色</text>\r\n        <text y=\"120\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 20px; font-weight: 900; letter-spacing: 0.3em;\" filter=\"url(#textGlow)\">二阶：认知干预 (慢)</text>\r\n        <path d=\"M-80,150 L80,150\" stroke=\"#ef4444\" stroke-width=\"6\" stroke-linecap=\"round\" />\r\n      </g>\r\n      <path d=\"M480,300 L520,300\" stroke=\"#1e293b\" stroke-width=\"1\" stroke-dasharray=\"5 5\" opacity=\"0.2\" />\r\n    </svg>\n</div>"
 }

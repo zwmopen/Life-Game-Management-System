@@ -3,11 +3,11 @@
   "name": "米勒定律",
   "label": "米勒定律",
   "icon": "BrainCircuit",
-  "description": "人类短时记忆的平均上限是 7（正负 2）个信息块。一旦超过这个数值，大脑将进入“过载性平庸”状态。这一物理法则决定了所有高效内容创作和项目管理的“极简上限”。",
-  "deepAnalysis": "这是一个思维模型，展示了米勒定律的核心概念和应用。",
-  "principle": "思维模型的核心原则：米勒定律",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将米勒定律应用到日常决策和问题解决中，观察效果并调整。",
+  "description": "人类短时记忆的平均上限是 7（正负 2）个信息块。一旦超过这个数值，大脑将进入\"过载性平庸\"状态。这一物理法则决定了所有高效内容创作和项目管理的\"极简上限\"。",
+  "deepAnalysis": "米勒定律（Miller's Law）揭示了人类认知能力的局限性。核心洞见：人类短时记忆的平均上限是7（正负2）个信息块。一旦超过这个数值，大脑将进入‘过载性平庸’状态，信息处理效率急剧下降。这一法则由心理学家乔治·米勒提出，是认知心理学的基础概念之一。",
+  "principle": "1. 容量限制：短时记忆容量有限，平均为7±2个信息块\n2. 信息组块：通过组块可以增加记忆容量\n3. 认知负荷：超过容量会导致认知负荷过重\n4. 处理效率：在容量范围内信息处理效率最高\n5. 个体差异：不同人的记忆容量存在个体差异",
+  "scope": "认知心理学、教学设计、内容创作、用户界面设计、项目管理、信息架构",
+  "tips": "1. 信息分组：将信息组织成有意义的组块\n2. 简化设计：界面和内容设计保持简洁\n3. 层次结构：使用层次结构组织复杂信息\n4. 视觉提示：利用视觉元素减轻记忆负担\n5. 交互设计：设计符合认知容量的交互流程",
+  "practice": "1. 内容优化：将内容分解为7±2个核心要点\n2. 界面设计：限制界面元素数量，保持简洁\n3. 学习策略：使用组块技术提高学习效率\n4. 信息架构：构建层次清晰的信息结构\n5. 测试验证：通过用户测试验证信息处理的有效性",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 认知槽位 -->\r\n        <g>\r\n          <rect x=\"-350\" y=\"-50\" width=\"80\" height=\"100\" rx=\"10\" fill=\"#ef4444\" opacity=\"0.9\" />\r\n          <rect x=\"-250\" y=\"-50\" width=\"80\" height=\"100\" rx=\"10\" fill=\"#ef4444\" opacity=\"0.8\" />\r\n          <rect x=\"-150\" y=\"-50\" width=\"80\" height=\"100\" rx=\"10\" fill=\"#ef4444\" opacity=\"0.7\" />\r\n          <rect x=\"-50\" y=\"-50\" width=\"80\" height=\"100\" rx=\"10\" fill=\"#ef4444\" opacity=\"0.6\" />\r\n          <rect x=\"50\" y=\"-50\" width=\"80\" height=\"100\" rx=\"10\" fill=\"#ef4444\" opacity=\"0.5\" />\r\n          <rect x=\"150\" y=\"-50\" width=\"80\" height=\"100\" rx=\"10\" fill=\"#ef4444\" opacity=\"0.4\" />\r\n          <rect x=\"250\" y=\"-50\" width=\"80\" height=\"100\" rx=\"10\" fill=\"#ef4444\" opacity=\"0.3\" />\r\n        </g>\r\n        \r\n        <!-- 溢出点 (红色警告) -->\r\n        <g transform=\"translate(360, 0)\">\r\n          <rect x=\"0\" y=\"-50\" width=\"80\" height=\"100\" rx=\"10\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"5 5\" />\r\n          <path d=\"M20,-20 L60,20 M60,-20 L20,20\" stroke=\"#ef4444\" stroke-width=\"8\" stroke-linecap=\"round\" />\r\n          <text y=\"100\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">溢出：信息无法进入</text>\r\n        </g>\r\n\r\n        <text y=\"-150\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 80px; font-weight: 900;\">7 ± 2</text>\r\n        <text y=\"240\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.6\" style=\"font-size: 32px; font-weight: 900;\">这是大脑处理器的物理红线</text>\r\n      </g>\r\n    </svg>\n</div>"
 }

@@ -4,10 +4,10 @@
   "label": "普朗克原理",
   "icon": "BrainCircuit",
   "description": "科学真理的胜利，并不是通过说服反对者并让他们看到光明实现的，而是因为反对者最终都死去了，而熟悉这一真理的新一代成长起来了。",
-  "deepAnalysis": "这是一个思维模型，展示了普朗克原理的核心概念和应用。",
-  "principle": "思维模型的核心原则：普朗克原理",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将普朗克原理应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "普朗克原理（Planck's Principle）揭示了科学真理的代际更替规律。核心洞见：科学真理的胜利，并不是通过说服反对者并让他们看到光明实现的，而是因为反对者最终都死去了，而熟悉这一真理的新一代成长起来了。理解这个原理有助于理解变革的困难和代际更替的重要性。",
+  "principle": "1. 代际更替：真理胜利靠代际更替\n2. 固化阻力：既得利益者难以改变\n3. 新生接受：新一代天生接受新观念\n4. 时间成本：变革需要时间等待\n5. 教育关键：教育新一代是变革关键",
+  "scope": "科学哲学、组织变革、思想演进、教育传承、创新推广、代际更替",
+  "tips": "1. 接受现实：接受变革需要时间的现实\n2. 教育新一代：重点教育新一代\n3. 等待时机：等待反对者退出历史舞台\n4. 建立传承：建立思想传承机制\n5. 保持耐心：对变革保持耐心",
+  "practice": "1. 接受现实：接受变革需要时间的现实\n2. 教育新一代：重点教育新一代\n3. 等待时机：等待反对者退出历史舞台\n4. 建立传承：建立思想传承机制\n5. 保持耐心：对变革保持耐心",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 800 600\">\r\n      <!-- 旧观念一代 (逐渐沉没) -->\r\n      <g opacity=\"0.2\">\r\n        <rect x=\"100\" y=\"400\" width=\"100\" height=\"20\" rx=\"5\" fill=\"#475569\" />\r\n        <rect x=\"250\" y=\"450\" width=\"100\" height=\"20\" rx=\"5\" fill=\"#475569\" />\r\n        <animateTransform attributeName=\"transform\" type=\"translate\" from=\"0,0\" to=\"0,200\" dur=\"10s\" repeatCount=\"indefinite\" />\r\n        <text x=\"150\" y=\"380\" text-anchor=\"middle\" fill=\"#475569\" style=\"font-size: 10px;\">旧学术权威</text>\r\n      </g>\r\n      \r\n      <!-- 新观念一代 (从地平线升起) -->\r\n      <g transform=\"translate(400, 300)\">\r\n        <circle r=\"60\" fill=\"#ef4444\" fill-opacity=\"0.2\" class=\"animate-pulse\" />\r\n        <path d=\"M0,-80 L0,-120\" stroke=\"#ef4444\" stroke-width=\"4\" marker-end=\"url(#arrow-blue)\" />\r\n        <text y=\"5\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 24px; font-weight: 900;\">新一代科学家</text>\r\n        <text y=\"40\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.6\" style=\"font-size: 12px;\">“他们天生就接受这一真理”</text>\r\n      </g>\r\n\r\n      <defs>\r\n        <marker id=\"arrow-blue\" markerWidth=\"10\" markerHeight=\"10\" refX=\"5\" refY=\"5\" orient=\"auto\"><path d=\"M0,0 L10,5 L0,10 Z\" fill=\"#ef4444\"/></marker>\r\n      </defs>\r\n\r\n      <text x=\"400\" y=\"550\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">Sc我ENcE ADVANcES ONE FUNERAL AT A T我ME</text>\r\n    </svg>\n</div>"
 }

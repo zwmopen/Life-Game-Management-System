@@ -3,11 +3,11 @@
   "name": "强化对比效应",
   "label": "对比效应",
   "icon": "BrainCircuit",
-  "description": "当多个同类极端案例同时出现时，大脑的基准线会发生剧烈漂移，导致原本正常的事物在对比下变得极其“平庸”或“糟糕”。",
-  "deepAnalysis": "这是一个思维模型，展示了强化对比效应的核心概念和应用。",
-  "principle": "思维模型的核心原则：强化对比效应",
-  "scope": "社交媒体分析：理解信息过载对认知的影响, \n          人力资源管理：招聘、绩效评估中的偏差控制, \n          市场营销：产品定价、品牌定位策略, \n          教育评估：考试评分、学生评价的客观性, \n          艺术评审：作品评选、比赛打分的公平性",
-  "tips": "1. 隔离对比：评价前先清空大脑，强制引入客观的物理标准而非相对的排名标准。; 2. 均值对标：意识到你正处于“极值簇”中，主动在大脑里拉回全行业的平均基准线。; 3. 分散注意力：避免连续接触多个极端案例，适当分散注意力，让大脑有时间恢复正常的基准线。; 4. 延迟判断：对于重要的判断，不要在接触极端案例后立即做出，而是等待一段时间，让情绪和认知恢复平静。",
-  "practice": "有意识地引入客观标准：在评价事物时，不依赖于相对比较，而是参考客观的物理标准或行业平均水平。; \n          多样化信息源：接触多样化的信息，避免信息茧房效应，保持对不同类型案例的认知。; \n          自我提醒：意识到自己可能受到强化版对比效应的影响，主动调整判断。; \n          建立评价框架：在进行重要评价时，建立明确的评价框架和标准，减少主观因素的影响。",
-  "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\n        <!-- 强化场：三个极端锚点 -->\n        <g opacity=\"0.1\" fill=\"var(--text-primary)\">\n          <circle cx=\"200\" cy=\"150\" r=\"100\" />\n          <circle cx=\"800\" cy=\"150\" r=\"100\" />\n          <circle cx=\"500\" cy=\"500\" r=\"100\" />\n        </g>\n        \n        <!-- 连接引力线 -->\n        <g stroke=\"var(--text-primary)\" stroke-width=\"1\" opacity=\"0.05\">\n          <line x1=\"200\" y1=\"150\" x2=\"500\" y2=\"300\" />\n          <line x1=\"800\" y1=\"150\" x2=\"500\" y2=\"300\" />\n          <line x1=\"500\" y1=\"500\" x2=\"500\" y2=\"300\" />\n        </g>\n\n        <!-- 核心观察物：在极端环境下被扭曲 -->\n        <g transform=\"translate(500, 300)\">\n          <circle r=\"40\" fill=\"var(--primary-color)\">\n             <animate attributeName=\"r\" values=\"40;30;40\" dur=\"1.5s\" repeatCount=\"indefinite\" />\n             <animate attributeName=\"fill-opacity\" values=\"0.8;0.3;0.8\" dur=\"1.5s\" repeatCount=\"indefinite\" />\n          </circle>\n          <text y=\"80\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 24px; font-weight: 900;\">目标感知</text>\n          <text y=\"105\" text-anchor=\"middle\" fill=\"var(--text-secondary)\" opacity=\"0.5\" style=\"font-size: 10px;\">(受 3 个极端对比物影响)</text>\n        </g>\n\n        <text x=\"500\" y=\"50\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.1em; opacity: 0.05;\">INTENSIFIED CONTRAST</text>\n      </svg>\n</div>"
+  "description": "当多个同类极端案例同时出现时，大脑的基准线会发生剧烈漂移，导致原本正常的事物在对比下变得极其平庸或糟糕。",
+  "deepAnalysis": "强化对比效应揭示了极端案例对基准线的剧烈影响。核心洞见：当多个同类极端案例同时出现时，大脑的基准线会发生剧烈漂移，导致原本正常的事物在对比下变得极其平庸或糟糕。理解这个效应有助于避免被极端案例扭曲判断。",
+  "principle": "1. 基准漂移：极端案例会剧烈漂移基准线\n2. 相对扭曲：正常事物在极端对比下显得平庸\n3. 多案例叠加：多个极端案例叠加效应更强\n4. 情绪放大：极端案例往往伴随强烈情绪\n5. 认知恢复：需要时间让认知基准恢复",
+  "scope": "社交媒体分析、人力资源管理、市场营销、教育评估、艺术评审、消费决策",
+  "tips": "1. 隔离对比：评价前先清空大脑避免对比\n2. 均值对标：意识到处于极值簇中主动拉回基准\n3. 分散注意力：避免连续接触多个极端案例\n4. 延迟判断：重要判断不要在接触极端案例后立即做出\n5. 多样化信息：接触多样化信息避免信息茧房",
+  "practice": "1. 隔离对比：评价前先清空大脑避免对比\n2. 均值对标：意识到处于极值簇中主动拉回基准\n3. 分散注意力：避免连续接触多个极端案例\n4. 延迟判断：重要判断不要在接触极端案例后立即做出\n5. 多样化信息：接触多样化信息避免信息茧房",
+  "visualDesign": "<div class=\"neu-card\"><svg viewBox=\"0 0 1000 600\"><g opacity=\"0.1\" fill=\"var(--text-primary)\"><circle cx=\"200\" cy=\"150\" r=\"100\" /><circle cx=\"800\" cy=\"150\" r=\"100\" /><circle cx=\"500\" cy=\"500\" r=\"100\" /></g><g transform=\"translate(500, 300)\"><circle r=\"40\" fill=\"var(--primary-color)\" /><text y=\"80\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 24px; font-weight: 900;\">目标感知</text></g></svg></div>"
 }

@@ -4,10 +4,10 @@
   "label": "士兵/CEO 切换模式",
   "icon": "BrainCircuit",
   "description": "居家办公最大的内耗是“在干活时想战略，在休息时想D”。通过物理时间的硬性切割，强行在两种人格间切换。士兵负责产量，CEO 负责方向。两者绝不在同一时间出现。",
-  "deepAnalysis": "这是一个思维模型，展示了士兵CEO模式的核心概念和应用。",
-  "principle": "思维模型的核心原则：士兵CEO模式",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将士兵CEO模式应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "士兵CEO模式（Soldier/CEO Mode）是居家办公的时间管理策略。核心洞见：居家办公最大的内耗是'在干活时想战略，在休息时想执行'。通过物理时间的硬性切割，强行在两种人格间切换。士兵负责产量，CEO负责方向。两者绝不在同一时间出现。",
+  "principle": "1. 人格分离：将执行者和决策者人格分离\n2. 时间切割：用物理时间硬性切割两种模式\n3. 士兵模式：只执行不思考禁止问为什么\n4. CEO模式：只复盘和决策不执行具体任务\n5. 互不干扰：两种模式绝不在同一时间出现",
+  "scope": "居家办公、时间管理、自我管理、创业者、自由职业者、远程工作",
+  "tips": "1. 设定时间边界：明确士兵和CEO模式的时间边界\n2. 物理切换：用物理动作标记模式切换\n3. 禁止越界：士兵模式禁止思考战略\n4. 定期复盘：CEO模式定期复盘和调整\n5. 严格执行：严格执行两种模式的分离",
+  "practice": "1. 设定时间边界：明确士兵和CEO模式的时间边界\n2. 物理切换：用物理动作标记模式切换如换衣服换位置\n3. 禁止越界：士兵模式禁止思考战略只执行\n4. 定期复盘：CEO模式定期复盘和调整方向\n5. 严格执行：严格执行两种模式的分离不混用",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 模式 A: 士兵 (白天 9:00 - 22:00) -->\r\n        <g transform=\"translate(-250, 0)\">\r\n          <circle r=\"120\" fill=\"#1e293b\" />\r\n          <path d=\"M-40,20 L0,-40 L40,20 Z\" fill=\"white\" /> <!-- 钢盔隐喻 -->\r\n          <text y=\"160\" text-anchor=\"middle\" fill=\"#1e293b\" style=\"font-size: 28px; font-weight: 900;\">士兵模式 (D器)</text>\r\n          <text y=\"190\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">禁止思考！禁止问为什么！</text>\r\n          <rect x=\"-80\" y=\"210\" width=\"160\" height=\"30\" rx=\"15\" fill=\"#ef4444\" fill-opacity=\"0.1\" />\r\n          <text y=\"230\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 10px;\">像机器人一样完成清单</text>\r\n        </g>\r\n        \r\n        <!-- 分界线 -->\r\n        <line x1=\"0\" y1=\"-200\" x2=\"0\" y2=\"200\" stroke=\"#1e293b\" stroke-width=\"2\" stroke-dasharray=\"10 20\" opacity=\"0.2\" />\r\n\r\n        <!-- 模式 B: CEO (晚上 22:00 - 23:00) -->\r\n        <g transform=\"translate(250, 0)\">\r\n          <circle r=\"120\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"4\" />\r\n          <rect x=\"-40\" y=\"-40\" width=\"80\" height=\"40\" fill=\"#ef4444\" /> <!-- 领结/西装隐喻 -->\r\n          <text y=\"160\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 28px; font-weight: 900;\">CEO 模式 (复盘器)</text>\r\n          <text y=\"190\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">冷酷审计，制定明日战术</text>\r\n          <circle r=\"150\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"1\" class=\"animate-ping\" />\r\n        </g>\r\n\r\n        <text y=\"-250\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900;\">精神分裂是高效的良药</text>\r\n      </g>\r\n    </svg>\n</div>"
 }

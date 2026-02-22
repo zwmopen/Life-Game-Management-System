@@ -4,10 +4,10 @@
   "label": "渗透定价",
   "icon": "BrainCircuit",
   "description": "商业版“闪电战”。上市初期以甚至低于成本的价格迅速席卷市场。核心目标不是单件利润，而是通过规模化建立不可逾越的护城河，并彻底封死对手的生存空间。",
-  "deepAnalysis": "这是一个思维模型，展示了渗透定价的核心概念和应用。",
-  "principle": "思维模型的核心原则：渗透定价",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将渗透定价应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "渗透定价（Penetration Pricing）是商业版闪电战策略。核心洞见：上市初期以甚至低于成本的价格迅速席卷市场。核心目标不是单件利润，而是通过规模化建立不可逾越的护城河，并彻底封死对手的生存空间。理解渗透定价有助于制定有效的市场进入策略。",
+  "principle": "1. 低价切入：以低价快速切入市场\n2. 规模优先：规模优先于短期利润\n3. 护城河建设：通过规模建立护城河\n4. 竞争封杀：低价封杀竞争对手空间\n5. 后期收割：市场份额稳定后再收割利润",
+  "scope": "产品定价、市场进入、竞争策略、商业模式、创业策略、品牌推广",
+  "tips": "1. 计算承受力：计算能承受多长时间的低价\n2. 快速扩张：低价期快速扩张市场份额\n3. 建立壁垒：用规模建立竞争壁垒\n4. 监控竞争：监控竞争对手反应\n5. 适时提价：市场份额稳定后适时提价",
+  "practice": "1. 计算承受力：计算能承受多长时间的低价\n2. 快速扩张：低价期快速扩张市场份额\n3. 建立壁垒：用规模建立竞争壁垒\n4. 监控竞争：监控竞争对手反应\n5. 适时提价：市场份额稳定后适时提价",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <rect x=\"450\" y=\"100\" width=\"450\" height=\"400\" rx=\"30\" fill=\"#1e293b\" opacity=\"0.05\" stroke=\"#1e293b\" stroke-width=\"2\" stroke-dasharray=\"10 10\" />\r\n      <g transform=\"translate(100, 300)\">\r\n        <path d=\"M0,-30 L450,0 L0,30 Z\" fill=\"#ef4444\">\r\n           <animate attributeName=\"d\" values=\"M0,-30 L150,0 L0,30 Z; M0,-30 L550,0 L0,30 Z; M0,-30 L150,0 L0,30 Z\" dur=\"3s\" repeatCount=\"indefinite\" />\r\n        </path>\r\n        <circle cx=\"500\" cy=\"0\" r=\"20\" fill=\"#ef4444\" class=\"animate-ping\" />\r\n        <text y=\"-60\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 36px; font-weight: 900;\">极低初价杀入</text>\r\n        <text y=\"-25\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">(规模先于利润)</text>\r\n      </g>\r\n      <text x=\"675\" y=\"310\" text-anchor=\"middle\" fill=\"#1e293b\" opacity=\"0.3\" style=\"font-size: 28px; font-weight: 900; letter-spacing: 0.2em;\">传统存量市场</text>\r\n      <text x=\"500\" y=\"550\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 20px; font-weight: 900; letter-spacing: 0.5em;\">先占领心智与渠道，再讨论收割</text>\r\n    </svg>\n</div>"
 }

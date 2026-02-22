@@ -4,10 +4,10 @@
   "label": "布雷斯悖论",
   "icon": "BrainCircuit",
   "description": "布雷斯悖论是指在一个路网中增加一条路，不仅不能缓解拥堵，反而可能导致所有人的出行时间都变长的现象。这是因为每个人的理性选择（走捷径）最终拖垮了整个系统的平衡，形成了集体非理性的结果。",
-  "deepAnalysis": "这是一个思维模型，展示了布雷斯悖论的核心概念和应用。",
-  "principle": "思维模型的核心原则：布雷斯悖论",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将布雷斯悖论应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "布雷斯悖论（Braess's Paradox）揭示了系统优化的反直觉现象。核心洞见：在一个路网中增加一条路，不仅不能缓解拥堵，反而可能导致所有人的出行时间都变长。这是因为每个人的理性选择（走捷径）最终拖垮了整个系统的平衡，形成了集体非理性的结果。理解这个悖论有助于避免局部优化导致的系统恶化。",
+  "principle": "1. 局部优化陷阱：局部优化可能导致系统恶化\n2. 个体理性悖论：个体理性可能导致集体非理性\n3. 捷径诱惑：捷径可能拖垮整个系统\n4. 系统视角：需要从系统视角评估优化\n5. 意外后果：优化可能带来意外负面后果",
+  "scope": "交通规划、网络设计、系统优化、组织管理、资源分配、公共政策",
+  "tips": "1. 系统视角：从系统整体视角评估优化\n2. 模拟预测：模拟优化对系统的影响\n3. 警惕捷径：警惕看似优化实则恶化的捷径\n4. 动态评估：动态评估系统变化\n5. 反直觉：接受系统优化的反直觉性",
+  "practice": "1. 系统视角：从系统整体视角评估优化\n2. 模拟预测：模拟优化对系统的影响\n3. 警惕捷径：警惕看似优化实则恶化的捷径\n4. 动态评估：动态评估系统变化\n5. 反直觉：接受系统优化的反直觉性",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\n        <g transform=\"translate(500, 325)\">\n          <!-- 初始稳态路网 -->\n          <g stroke=\"var(--primary-color)\" stroke-width=\"4\" fill=\"none\">\n            <path d=\"M-400,0 L-200,-150 L200,-150 L400,0\" opacity=\"0.3\" />\n            <path d=\"M-400,0 L-200,150 L200,150 L400,0\" opacity=\"0.3\" />\n          </g>\n          \n          <!-- 新增的捷径 (悖论之源) -->\n          <g transform=\"translate(0, 0)\">\n            <line x1=\"-200\" y1=\"-150\" x2=\"200\" y2=\"150\" stroke=\"var(--primary-color)\" stroke-width=\"8\" stroke-dasharray=\"10 5\">\n              <animate attributeName=\"stroke-dashoffset\" from=\"0\" to=\"100\" dur=\"1s\" repeatCount=\"indefinite\" />\n            </line>\n            <text y=\"-20\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 24px; font-weight: 900;\">新增捷径 (造成死锁)</text>\n          </g>\n\n          <!-- 拥堵点 -->\n          <g fill=\"var(--primary-color)\">\n             <circle cx=\"-200\" cy=\"-150\" r=\"30\" class=\"animate-pulse\" />\n             <circle cx=\"200\" cy=\"150\" r=\"30\" class=\"animate-pulse\" />\n             <text x=\"-200\" y=\"-200\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 18px; font-weight: 900;\">全员选择此路</text>\n          </g>\n\n          <text y=\"240\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 42px; font-weight: 900;\">更多路 = 更堵塞</text>\n        </g>\n        <text x=\"500\" y=\"80\" text-anchor=\"middle\" fill=\"var(--text-secondary)\" opacity=\"0.1\" style=\"font-size: 24px; font-weight: 900; letter-spacing: 0.5em;\">RESOURCES DON'T EQUAL EFFICIENCY</text>\n      </svg>\n</div>"
 }

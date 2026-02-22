@@ -4,10 +4,10 @@
   "label": "帕金森定律",
   "icon": "BrainCircuit",
   "description": "工作会自动填满所有被分配的时间。如果你给一项任务三天时间，它就会在第三天的最后一刻才勉强完成。",
-  "deepAnalysis": "这是一个思维模型，展示了帕金森定律的核心概念和应用。",
-  "principle": "思维模型的核心原则：帕金森定律",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将帕金森定律应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "帕金森定律（Parkinson's Law）揭示了时间管理的悖论。核心洞见：工作会自动填满所有被分配的时间。如果你给一项任务三天时间，它就会在第三天的最后一刻才勉强完成。这意味着时间限制越宽松，效率越低；时间限制越紧，效率越高。",
+  "principle": "1. 时间膨胀：工作会自动填满可用时间\n2. 效率反比：时间越多效率越低\n3. 截止日期效应：截止日期临近时效率最高\n4. 帕金森琐碎定律：会议时间花在琐碎事项上\n5. 组织膨胀：组织会不断扩张直到填满所有资源",
+  "scope": "时间管理、项目管理、组织管理、效率提升、预算控制、资源分配",
+  "tips": "1. 设定死线：为任务设定明确且紧迫的截止时间\n2. 缩短预期：故意缩短任务预期时间\n3. 分块处理：将大任务分解为小任务分别设限\n4. 消除拖延：用时间限制对抗拖延倾向\n5. 定期检查：定期检查时间使用效率",
+  "practice": "1. 时间预算：为每项任务设定严格的时间预算\n2. 缩短时限：故意缩短任务时间逼迫效率\n3. 番茄工作：使用番茄工作法限制时间\n4. 定期回顾：定期回顾时间使用情况\n5. 消除完美主义：接受足够好而非完美",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <circle cx=\"500\" cy=\"300\" r=\"240\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"12\" opacity=\"0.05\" />\r\n      <g transform=\"translate(500, 300)\">\r\n        <rect x=\"-150\" y=\"-50\" width=\"300\" height=\"100\" rx=\"50\" fill=\"#f59e0b\" fill-opacity=\"0.2\" stroke=\"#f59e0b\" stroke-width=\"4\">\r\n          <animate attributeName=\"width\" values=\"120;450;120\" dur=\"5s\" repeatCount=\"indefinite\" />\r\n          <animate attributeName=\"x\" values=\"-60;-225;-60\" dur=\"5s\" repeatCount=\"indefinite\" />\r\n        </rect>\r\n        <text text-anchor=\"middle\" y=\"10\" fill=\"#92400e\" style=\"font-size: 28px; font-weight: 900;\">工作量随时间而膨胀</text>\r\n      </g>\r\n      <g transform=\"translate(500, 300)\">\r\n        <line x1=\"0\" y1=\"0\" x2=\"0\" y2=\"-200\" stroke=\"#f59e0b\" stroke-width=\"10\" stroke-linecap=\"round\">\r\n          <animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0\" to=\"360\" dur=\"15s\" repeatCount=\"indefinite\" />\r\n        </line>\r\n        <circle r=\"20\" fill=\"#f59e0b\" />\r\n      </g>\r\n      <text x=\"500\" y=\"560\" text-anchor=\"middle\" fill=\"#94a3b8\" style=\"font-size: 18px; font-weight: 900; letter-spacing: 0.3em;\">时间膨胀陷阱</text>\r\n    </svg>\n</div>"
 }

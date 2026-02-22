@@ -4,10 +4,10 @@
   "label": "垃圾问答协议",
   "icon": "BrainCircuit",
   "description": "治愈完美主义的猛药。今天的目标不是“做一个爆款”，而是“产出 10 个哪怕只有 40 分的垃圾内容”。通过降低心理门槛，强行开启生产线。100 个垃圾的尸体上，才会自发长出一个天才的想法。",
-  "deepAnalysis": "这是一个思维模型，展示了垃圾输出的核心概念和应用。",
-  "principle": "思维模型的核心原则：垃圾输出",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将垃圾输出应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "垃圾输出（Garbage Output）是治愈完美主义的猛药。核心洞见：今天的目标不是'做一个爆款'，而是'产出10个哪怕只有40分的垃圾内容'。通过降低心理门槛，强行开启生产线。100个垃圾的尸体上，才会自发长出一个天才的想法。",
+  "principle": "1. 完成大于完美：完成度比完美度更重要\n2. 数量带来质量：大量产出是高质量的前提\n3. 降低门槛：降低心理门槛才能开始行动\n4. 迭代思维：先有再好，先完成再完美\n5. 拥抱垃圾：接受垃圾是成长的必经之路",
+  "scope": "内容创作、产品设计、创业创新、技能学习、艺术创作、写作练习",
+  "tips": "1. 设定垃圾目标：今天必须产出10个垃圾\n2. 关闭评判：产出时不评判只生产\n3. 快速迭代：从垃圾中挑选有潜力的迭代\n4. 记录数量：记录产出数量而非质量\n5. 定期回顾：定期回顾垃圾中涌现的金子",
+  "practice": "1. 设定垃圾目标：今天必须产出10个垃圾内容\n2. 关闭评判模式：产出时不评判只生产\n3. 快速迭代：从垃圾中挑选有潜力的继续优化\n4. 记录产出数量：记录产出数量而非质量\n5. 定期回顾：定期回顾垃圾中涌现的金子",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 完美的垃圾桶 (接收器) -->\r\n        <path d=\"M-100,-150 L100,-150 L80,150 L-80,150 Z\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"2\" opacity=\"0.1\" />\r\n        \r\n        <!-- 正在生成的“垃圾内容” (原石) -->\r\n        <g>\r\n          <rect x=\"-40\" y=\"-250\" width=\"80\" height=\"80\" rx=\"10\" fill=\"#94a3b8\" opacity=\"0.8\">\r\n             <animate attributeName=\"y\" from=\"-250\" to=\"50\" dur=\"1s\" repeatCount=\"indefinite\" />\r\n             <animate attributeName=\"opacity\" values=\"0.8;0\" dur=\"1s\" repeatCount=\"indefinite\" />\r\n          </rect>\r\n          <text y=\"-280\" text-anchor=\"middle\" fill=\"#94a3b8\" style=\"font-size: 14px; font-weight: 900;\">今日第 4 个垃圾产出</text>\r\n        </g>\r\n\r\n        <!-- 垃圾中提炼的金子 (极低概率涌现) -->\r\n        <g transform=\"translate(0, 150)\">\r\n          <circle r=\"20\" fill=\"#fbbf24\" opacity=\"0\">\r\n             <animate attributeName=\"opacity\" values=\"0;1;0\" dur=\"5s\" repeatCount=\"indefinite\" />\r\n             <animate attributeName=\"r\" values=\"20;50;20\" dur=\"5s\" repeatCount=\"indefinite\" />\r\n          </circle>\r\n          <text y=\"80\" text-anchor=\"middle\" fill=\"#fbbf24\" style=\"font-size: 24px; font-weight: 900;\">真实的手感</text>\r\n        </g>\r\n\r\n        <text y=\"-200\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 42px; font-weight: 900;\">完成度 > 完美度</text>\r\n        <text y=\"240\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.5\" style=\"font-size: 18px; font-weight: 900;\">哪怕姿势难看，只要你在动，就在变强</text>\r\n      </g>\r\n    </svg>\n</div>"
 }

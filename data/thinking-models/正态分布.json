@@ -4,10 +4,10 @@
   "label": "正态分布",
   "icon": "BrainCircuit",
   "description": "也称高斯分布。在自然界中，绝大多数变量（如身高、智力、测量误差）都倾向于集中在平均值附近，两端极值极为罕见。",
-  "deepAnalysis": "这是一个思维模型，展示了正态分布的核心概念和应用。",
-  "principle": "思维模型的核心原则：正态分布",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将正态分布应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "正态分布（Normal Distribution）也称高斯分布。核心洞见：在自然界中，绝大多数变量（如身高、智力、测量误差）都倾向于集中在平均值附近，两端极值极为罕见。理解正态分布有助于正确认识世界和理解统计规律。",
+  "principle": "1. 集中趋势：大多数值集中在平均值附近\n2. 两端稀有：两端极值极为罕见\n3. 对称分布：分布关于平均值对称\n4. 标准差：标准差决定分布宽度\n5. 自然规律：正态分布是自然界的普遍规律",
+  "scope": "统计学、数据分析、质量控制、教育评估、风险管理、科学研究",
+  "tips": "1. 认识平均：大多数情况接近平均值\n2. 警惕极端：极端情况很少见\n3. 理解变异：理解标准差的含义\n4. 样本大小：样本越大越接近正态\n5. 应用统计：用正态分布进行统计推断",
+  "practice": "1. 认识平均：大多数情况接近平均值\n2. 警惕极端：极端情况很少见\n3. 理解变异：理解标准差的含义\n4. 样本大小：样本越大越接近正态\n5. 应用统计：用正态分布进行统计推断",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 800 600\">\r\n      <!-- 阴影区域 (中间 68%) -->\r\n      <path d=\"M300,500 Q400,50 500,500 Z\" fill=\"#ef4444\" fill-opacity=\"0.1\" />\r\n      \r\n      <!-- 正态曲线 -->\r\n      <path d=\"M100,500 Q250,500 400,100 T700,500\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"6\" stroke-linecap=\"round\" />\r\n      \r\n      <!-- 标注 -->\r\n      <g transform=\"translate(400, 300)\">\r\n        <text text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 18px; font-weight: 900;\">大多数 (Average)</text>\r\n        <line x1=\"0\" y1=\"-200\" x2=\"0\" y2=\"200\" stroke=\"#ef4444\" stroke-width=\"1\" stroke-dasharray=\"5 5\" />\r\n      </g>\r\n      \r\n      <g transform=\"translate(150, 520)\" opacity=\"0.4\">\r\n        <text text-anchor=\"middle\" fill=\"#64748b\" style=\"font-size: 10px;\">左尾 (极少数)</text>\r\n      </g>\r\n      <g transform=\"translate(650, 520)\" opacity=\"0.4\">\r\n        <text text-anchor=\"middle\" fill=\"#64748b\" style=\"font-size: 10px;\">右尾 (极少数)</text>\r\n      </g>\r\n\r\n      <text x=\"400\" y=\"580\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 10px; font-weight: 900; letter-spacing: 0.5em;\">THE BELL CURVE OF NATURAL VAR我AT我ON</text>\r\n    </svg>\n</div>"
 }

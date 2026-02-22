@@ -4,10 +4,10 @@
   "label": "控制错觉",
   "icon": "BrainCircuit",
   "description": "人们倾向于相信自己可以控制、或至少影响那些客观上完全由随机因素决定的结果。这种错觉给我们带来了虚假的安全感，但也导致了过度投机。",
-  "deepAnalysis": "这是一个思维模型，展示了控制幻觉的核心概念和应用。",
-  "principle": "思维模型的核心原则：控制幻觉",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将控制幻觉应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "控制幻觉（Illusion of Control）揭示了人类对随机事件的非理性信念。核心洞见：人们倾向于相信自己可以控制、或至少影响那些客观上完全由随机因素决定的结果。这种错觉给我们带来了虚假的安全感，但也导致了过度投机。",
+  "principle": "1. 随机误解：误将随机事件理解为可控\n2. 虚假安全：带来虚假的安全感\n3. 过度投机：导致过度投机行为\n4. 因果错觉：误以为存在因果关联\n5. 技能高估：高估自己的控制能力",
+  "scope": "投资决策、赌博行为、风险管理、消费决策、管理决策、心理调节",
+  "tips": "1. 识别随机：识别哪些是真正的随机事件\n2. 质疑控制：质疑自己是否真的能控制\n3. 区分因果：区分真正的因果关系\n4. 接受不确定：接受不确定性是常态\n5. 理性评估：理性评估自己的影响力",
+  "practice": "1. 识别随机：识别哪些是真正的随机事件\n2. 质疑控制：质疑自己是否真的能控制\n3. 区分因果：区分真正的因果关系\n4. 接受不确定：接受不确定性是常态\n5. 理性评估：理性评估自己的影响力",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\r\n      <!-- 复杂的随机系统 (黑盒) -->\r\n      <g transform=\"translate(700, 300)\">\r\n        <rect x=\"-150\" y=\"-150\" width=\"300\" height=\"300\" rx=\"30\" fill=\"#1e293b\" fill-opacity=\"0.03\" stroke=\"#1e293b\" stroke-width=\"1\" />\r\n        <g class=\"animate-spin\" style=\"animation-duration: 3s;\">\r\n          <circle r=\"80\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"2\" stroke-dasharray=\"10 40\" opacity=\"0.2\" />\r\n        </g>\r\n        <text y=\"180\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.4\" style=\"font-size: 12px; font-weight: 900;\">随机系统 (RaNdOMNESS)</text>\r\n      </g>\r\n      \r\n      <!-- 虚假的操纵杆 -->\r\n      <g transform=\"translate(300, 300)\">\r\n        <rect x=\"-40\" y=\"-120\" width=\"80\" height=\"240\" rx=\"40\" fill=\"#ef4444\" fill-opacity=\"0.1\" stroke=\"#ef4444\" stroke-width=\"2\" />\r\n        <circle r=\"40\" fill=\"#ef4444\">\r\n           <animate attributeName=\"cy\" values=\"-80;80;-80\" dur=\"2s\" repeatCount=\"indefinite\" />\r\n        </circle>\r\n        <text y=\"180\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">我的操作 (我LL我们我ON)</text>\r\n      </g>\r\n\r\n      <!-- 断裂的因果线 -->\r\n      <g transform=\"translate(500, 300)\">\r\n        <path d=\"M-80,0 L80,0\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-dasharray=\"5 10\" />\r\n        <circle r=\"15\" fill=\"#ef4444\" opacity=\"0.8\" class=\"animate-ping\" />\r\n        <text y=\"-30\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 10px; font-weight: 900;\">无因果关联</text>\r\n      </g>\r\n\r\n      <text x=\"500\" y=\"550\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 12px; font-weight: 900; letter-spacing: 0.5em;\">FEEL我NG 我N CHaRGE OF THE UNCONTROLLaBLE</text>\r\n    </svg>\n</div>"
 }

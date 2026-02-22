@@ -4,10 +4,10 @@
   "label": "手表定律",
   "icon": "BrainCircuit",
   "description": "拥有两块手表并不能告诉你更准确的时间，反而会让你失去对时间的信心。当一个人被多种矛盾的目标或标准指引时，将陷入行为混乱。",
-  "deepAnalysis": "这是一个思维模型，展示了塞加尔定律的核心概念和应用。",
-  "principle": "思维模型的核心原则：塞加尔定律",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将塞加尔定律应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "塞加尔定律（Segal's Law）揭示了多重标准的混乱效应。核心洞见：拥有两块手表并不能告诉你更准确的时间，反而会让你失去对时间的信心。当一个人被多种矛盾的目标或标准指引时，将陷入行为混乱。明确单一的目标和标准是高效行动的前提。",
+  "principle": "1. 单一标准：多个矛盾标准会导致混乱\n2. 目标聚焦：明确单一目标才能高效行动\n3. 信心丧失：多重标准会削弱决策信心\n4. 优先级排序：必须对多个标准进行优先级排序\n5. 统一度量：建立统一的度量标准",
+  "scope": "目标管理、团队管理、决策制定、绩效考核、项目管理、个人发展",
+  "tips": "1. 明确目标：确保只有一个核心目标\n2. 统一标准：建立统一的衡量标准\n3. 优先级排序：对多个标准进行优先级排序\n4. 定期审视：定期审视目标是否清晰\n5. 消除冲突：消除相互冲突的目标和标准",
+  "practice": "1. 明确目标：确保只有一个核心目标\n2. 统一标准：建立统一的衡量标准\n3. 优先级排序：对多个标准进行优先级排序\n4. 定期审视：定期审视目标是否清晰\n5. 消除冲突：消除相互冲突的目标和标准",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 800 600\">\r\n      <!-- 表 A (正常) -->\r\n      <g transform=\"translate(250, 300)\">\r\n        <circle r=\"100\" fill=\"none\" stroke=\"#1e293b\" stroke-width=\"4\" />\r\n        <line x1=\"0\" y1=\"0\" x2=\"0\" y2=\"-70\" stroke=\"#1e293b\" stroke-width=\"6\" stroke-linecap=\"round\" />\r\n        <line x1=\"0\" y1=\"0\" x2=\"40\" y2=\"0\" stroke=\"#1e293b\" stroke-width=\"4\" stroke-linecap=\"round\" />\r\n        <text y=\"130\" text-anchor=\"middle\" fill=\"#64748b\" style=\"font-size: 14px; font-weight: 900;\">12:15 (标准 1)</text>\r\n      </g>\r\n      \r\n      <!-- 表 B (微差) -->\r\n      <g transform=\"translate(550, 300)\">\r\n        <circle r=\"100\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"4\" opacity=\"0.6\" />\r\n        <line x1=\"0\" y1=\"0\" x2=\"20\" y2=\"-65\" stroke=\"#ef4444\" stroke-width=\"6\" stroke-linecap=\"round\" />\r\n        <line x1=\"0\" y1=\"0\" x2=\"50\" y2=\"20\" stroke=\"#ef4444\" stroke-width=\"4\" stroke-linecap=\"round\" />\r\n        <text y=\"130\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">12:22 (标准 2)</text>\r\n      </g>\r\n\r\n      <!-- 迷茫的核心 -->\r\n      <g transform=\"translate(400, 300)\">\r\n        <circle r=\"30\" fill=\"none\" stroke=\"#fbbf24\" stroke-width=\"2\" class=\"animate-spin\" />\r\n        <text y=\"5\" text-anchor=\"middle\" fill=\"#fbbf24\" style=\"font-size: 40px; font-weight: 900;\">?</text>\r\n        <text y=\"180\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.5\" style=\"font-size: 10px;\">“到底现在几点了？”</text>\r\n      </g>\r\n\r\n      <text x=\"400\" y=\"550\" text-anchor=\"middle\" fill=\"#64748b\" opacity=\"0.3\" style=\"font-size: 10px; font-weight: 900; letter-spacing: 0.5em;\">TWO WATcHES MEAN NO T我ME</text>\r\n    </svg>\n</div>"
 }

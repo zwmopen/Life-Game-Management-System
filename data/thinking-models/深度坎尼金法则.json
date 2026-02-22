@@ -4,10 +4,10 @@
   "label": "木桶效应",
   "icon": "BrainCircuit",
   "description": "木桶效应的深层解读不仅关注静态的容量限制，更强调动态的系统通量（Throughput）。在任何串行系统中，整体的处理能力和效率往往由系统中的瓶颈环节决定，长板的冗余能力在短板面前毫无价值，甚至会导致系统内的拥堵和资源浪费。",
-  "deepAnalysis": "这是一个思维模型，展示了深度坎尼金法则的核心概念和应用。",
-  "principle": "思维模型的核心原则：深度坎尼金法则",
-  "scope": "生产管理：制造流程中的瓶颈工序决定了整条生产线的产能。, \n        软件系统：系统性能往往由最慢的组件（如数据库、网络IO）决定。, \n        项目管理：项目进度由关键路径上的最长任务决定。, \n        供应链管理：供应链的效率由最薄弱的环节决定。, \n        个人生产力：个人的整体效率由最耗时或最不擅长的任务决定。",
-  "tips": "1. 瓶颈识别：通过系统分析和数据监控，准确识别系统中的瓶颈环节。; 2. 瓶颈优化：优先投资和改进瓶颈环节，以获得最大的整体效益提升。; 3. 能力平衡：调整非瓶颈环节的能力，使其与瓶颈环节相匹配，避免资源浪费。; 4. 动态调整：建立机制监控瓶颈的变化，及时调整资源配置。; 5. 缓冲管理：在瓶颈前后设置适当的缓冲，以减少瓶颈对整个系统的影响。",
-  "practice": "将深度坎尼金法则应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "深度坎尼金法则（Deep Cannikin Rule）是木桶效应的深层解读。核心洞见：不仅关注静态的容量限制，更强调动态的系统通量（Throughput）。在任何串行系统中，整体的处理能力和效率往往由系统中的瓶颈环节决定，长板的冗余能力在短板面前毫无价值。",
+  "principle": "1. 瓶颈决定通量：瓶颈决定系统整体通量\n2. 长板无效：长板冗余在短板面前无效\n3. 拥堵效应：长板会导致系统内拥堵\n4. 动态瓶颈：瓶颈可能随时间变化\n5. 优化优先：优先优化瓶颈环节",
+  "scope": "生产管理、软件系统、项目管理、供应链管理、个人生产力、流程优化",
+  "tips": "1. 瓶颈识别：准确识别系统中的瓶颈环节\n2. 瓶颈优化：优先投资和改进瓶颈环节\n3. 能力平衡：调整非瓶颈环节能力匹配瓶颈\n4. 动态调整：监控瓶颈变化及时调整\n5. 缓冲管理：在瓶颈前后设置适当缓冲",
+  "practice": "1. 瓶颈识别：准确识别系统中的瓶颈环节\n2. 瓶颈优化：优先投资和改进瓶颈环节\n3. 能力平衡：调整非瓶颈环节能力匹配瓶颈\n4. 动态调整：监控瓶颈变化及时调整\n5. 缓冲管理：在瓶颈前后设置适当缓冲",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 600\">\n        <!-- 管道主干 -->\n        <path d=\"M100,300 L400,300\" stroke=\"var(--text-primary)\" stroke-width=\"80\" opacity=\"0.05\" stroke-linecap=\"round\" />\n        <path d=\"M600,300 L900,300\" stroke=\"var(--text-primary)\" stroke-width=\"80\" opacity=\"0.05\" stroke-linecap=\"round\" />\n        \n        <!-- 瓶颈短板 (缩窄处) -->\n        <g transform=\"translate(500, 300)\">\n          <path d=\"M-100,-40 L100,-15 L100,15 L-100,40 Z\" fill=\"var(--primary-color)\" fill-opacity=\"0.1\" stroke=\"var(--primary-color)\" stroke-width=\"2\" stroke-dasharray=\"5 5\" />\n          <rect x=\"-10\" y=\"-40\" width=\"20\" height=\"80\" fill=\"var(--primary-color)\" class=\"animate-pulse\" />\n          <text y=\"70\" text-anchor=\"middle\" fill=\"var(--primary-color)\" style=\"font-size: 14px; font-weight: 900;\">瓶颈节点 (THE LIMIT)</text>\n        </g>\n\n        <!-- 动态流体 -->\n        <g>\n          <!-- 下游稀疏流 -->\n          <rect x=\"600\" y=\"295\" width=\"300\" height=\"10\" fill=\"var(--primary-color)\" opacity=\"0.3\" />\n          <!-- 上游拥堵流 -->\n          <rect x=\"100\" y=\"270\" width=\"300\" height=\"60\" fill=\"var(--primary-color)\" opacity=\"0.1\" />\n          <circle cx=\"250\" cy=\"300\" r=\"10\" fill=\"var(--primary-color)\" opacity=\"0.8\">\n             <animate attributeName=\"cx\" from=\"100\" to=\"490\" dur=\"1s\" repeatCount=\"indefinite\" />\n             <animate attributeName=\"opacity\" values=\"1;0\" dur=\"1s\" repeatCount=\"indefinite\" />\n          </circle>\n        </g>\n\n        <text x=\"500\" y=\"550\" text-anchor=\"middle\" fill=\"var(--text-secondary)\" opacity=\"0.3\" style=\"font-size: 12px; font-weight: 900; letter-spacing: 0.5em;\">THROUGHPUT IS DETERMINED BY THE BOTTLENECK</text>\n      </svg>\n</div>"
 }

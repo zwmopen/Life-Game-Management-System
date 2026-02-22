@@ -4,10 +4,10 @@
   "label": "博弈惩罚机制",
   "icon": "BrainCircuit",
   "description": "博弈论证明：在重复博弈中，为了维持长期协作，系统必须具备惩罚“背叛者”和“搭便车者”的能力。惩罚虽然有成本，但它是保护集体不陷入零和黑洞的唯一安全垫。",
-  "deepAnalysis": "这是一个思维模型，展示了游戏惩罚的核心概念和应用。",
-  "principle": "思维模型的核心原则：游戏惩罚",
-  "scope": "思维模式、决策分析、问题解决",
-  "tips": "1. 理解模型的核心概念\n2. 结合实际问题应用\n3. 定期复盘和优化",
-  "practice": "将游戏惩罚应用到日常决策和问题解决中，观察效果并调整。",
+  "deepAnalysis": "游戏惩罚（Game Punishment）是博弈论的核心机制。核心洞见：博弈论证明，在重复博弈中，为了维持长期协作，系统必须具备惩罚背叛者和搭便车者的能力。惩罚虽然有成本，但它是保护集体不陷入零和黑洞的唯一安全垫。理解惩罚机制有助于维护协作系统。",
+  "principle": "1. 惩罚必要：惩罚是维护协作的必要成本\n2. 背叛诱惑：背叛总有短期诱惑\n3. 惩罚可信：惩罚必须可信才能有效\n4. 集体利益：惩罚保护集体长期利益\n5. 机制设计：需要设计有效的惩罚机制",
+  "scope": "组织管理、团队协作、社会制度、合同设计、国际关系、公共治理",
+  "tips": "1. 建立规则：建立明确的协作规则\n2. 设定惩罚：设定违反规则的惩罚\n3. 确保执行：确保惩罚能够执行\n4. 公开透明：规则和惩罚公开透明\n5. 适度原则：惩罚适度避免过度",
+  "practice": "1. 建立规则：建立明确的协作规则\n2. 设定惩罚：设定违反规则的惩罚\n3. 确保执行：确保惩罚能够执行\n4. 公开透明：规则和惩罚公开透明\n5. 适度原则：惩罚适度避免过度",
   "visualDesign": "<div class=\"neu-card\">\n<svg viewBox=\"0 0 1000 650\">\r\n      <g transform=\"translate(500, 325)\">\r\n        <!-- 协作圈 -->\r\n        <circle r=\"250\" fill=\"none\" stroke=\"#10b981\" stroke-width=\"2\" stroke-dasharray=\"10 10\" opacity=\"0.3\" />\r\n        \r\n        <!-- 合作者们 -->\r\n        <g fill=\"#10b981\">\r\n          <circle cx=\"-150\" cy=\"-150\" r=\"15\" /><circle cx=\"150\" cy=\"-150\" r=\"15\" />\r\n          <circle cx=\"-150\" cy=\"150\" r=\"15\" /><circle cx=\"150\" cy=\"150\" r=\"15\" />\r\n        </g>\r\n        \r\n        <!-- 背叛者 (红色，试图离开中心获利) -->\r\n        <g transform=\"translate(0, 0)\">\r\n           <circle r=\"25\" fill=\"#ef4444\">\r\n             <animate attributeName=\"cx\" from=\"0\" to=\"350\" dur=\"2s\" repeatCount=\"indefinite\" />\r\n           </circle>\r\n           <text x=\"50\" y=\"0\" fill=\"#ef4444\" style=\"font-size: 14px; font-weight: 900;\">背叛者 (搭便车)</text>\r\n        </g>\r\n\r\n        <!-- 惩罚者的闪电 (维护规则) -->\r\n        <g>\r\n          <path d=\"M150,150 L350,50\" stroke=\"#fbbf24\" stroke-width=\"8\" stroke-linecap=\"round\" opacity=\"0\">\r\n            <animate attributeName=\"opacity\" values=\"0;1;0\" dur=\"2s\" repeatCount=\"indefinite\" />\r\n          </path>\r\n          <text x=\"350\" y=\"30\" fill=\"#fbbf24\" style=\"font-size: 18px; font-weight: 900;\">惩罚行为</text>\r\n        </g>\r\n\r\n        <text y=\"280\" text-anchor=\"middle\" fill=\"#ef4444\" style=\"font-size: 32px; font-weight: 900; letter-spacing: 0.1em;\">没有惩罚 协作必将瓦解</text>\r\n      </g>\r\n    </svg>\n</div>"
 }
