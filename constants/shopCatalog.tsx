@@ -39,7 +39,7 @@ export const SHOP_CATALOG: ShopItem[] = [
   
   // 装备
   { id: 'p_gear_1', name: '人体工学椅', description: '脊椎防御系统', cost: 1500, type: 'physical', owned: false, icon: <Armchair size={24} className="text-orange-400"/>, category: '家居', image: 'https://images.unsplash.com/photo-1580480055273-228ff5388ef8?w=400&h=400&fit=crop' },
-  { id: 'p_gear_2', name: '乳胶枕头', description: '深度睡眠加速器', cost: 300, type: 'physical', owned: false, icon: <Sofa size={24} className="text-purple-400"/>, category: '家居', image: 'https://images.unsplash.com/photo-1522772885608-4f6c5e8b8e?w=400&h=400&fit=crop' },
+  { id: 'p_gear_2', name: '乳胶枕头', description: '深度睡眠加速器', cost: 300, type: 'physical', owned: false, icon: <Sofa size={24} className="text-purple-400"/>, category: '家居', image: 'https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?w=400&h=400&fit=crop' },
   { id: 'p_gear_3', name: '新战靴 (鞋子)', description: '行动力 +10%', cost: 800, type: 'physical', owned: false, icon: <Footprints size={24} className="text-yellow-600"/>, category: '形象设计与穿搭', image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop' },
   { id: 'p_gear_4', name: '防蓝光眼镜', description: '护眼 Buff', cost: 400, type: 'physical', owned: false, icon: <Glasses size={24} className="text-cyan-400"/>, category: '形象设计与穿搭', image: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400&h=400&fit=crop' },
   { id: 'p_gear_5', name: '智能台灯', description: '护眼照明，专注模式', cost: 350, type: 'physical', owned: false, icon: <Sun size={24} className="text-yellow-500"/>, category: '数码', image: 'https://images.unsplash.com/photo-1534073828943-f801091bb18c?w=400&h=400&fit=crop' },
@@ -99,7 +99,7 @@ export const SHOP_CATALOG: ShopItem[] = [
   { id: 'r_misc_7', name: '在线课程', description: '专业技能提升', cost: 399, type: 'rights', owned: false, icon: <BookOpen size={24} className="text-blue-600"/>, category: '会员充值', image: 'https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=400&h=400&fit=crop' },
   { id: 'r_misc_8', name: '演唱会周边', description: '限量版演唱会纪念品', cost: 199, type: 'physical', owned: false, icon: <Music size={24} className="text-purple-600"/>, category: '休闲娱乐', image: 'https://images.unsplash.com/photo-1493225255756-d9584f8606e9?w=400&h=400&fit=crop' },
   { id: 'r_misc_9', name: '定制T恤', description: '个性化服装定制', cost: 129, type: 'physical', owned: false, icon: <Shirt size={24} className="text-pink-500"/>, category: '形象设计与穿搭', image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop' },
-  { id: 'r_misc_10', name: '宠物食品', description: '优质宠物粮', cost: 159, type: 'physical', owned: false, icon: <Fish size={24} className="text-orange-500"/>, category: '家居', image: 'https://images.unsplash.com/photo-1587304738949-5f584b1e9?w=400&h=400&fit=crop' },
+  { id: 'r_misc_10', name: '宠物食品', description: '优质宠物粮', cost: 159, type: 'physical', owned: false, icon: <Fish size={24} className="text-orange-500"/>, category: '家居', image: 'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=400&h=400&fit=crop' },
     
   // 新增用户要求商品
   // 家居类
