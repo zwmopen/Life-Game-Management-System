@@ -111,6 +111,36 @@ interface ShopItem {
 - 尺寸参数：`w=400&h=400&fit=crop`
 - URL格式：`https://images.unsplash.com/photo-{id}?w=400&h=400&fit=crop`
 
+#### 图片ID获取步骤（重要！）
+
+**必须从Unsplash网站获取真实的图片ID，不能随意构造！**
+
+1. **访问 Unsplash**：https://unsplash.com
+2. **搜索关键词**：输入商品相关的英文关键词，如 `pillow`、`pet food`、`headphones`
+3. **选择图片**：点击喜欢的图片进入详情页
+4. **获取图片ID**：
+   - 从浏览器地址栏获取URL，如：`https://unsplash.com/photos/abc123xyz`
+   - 图片ID就是 `abc123xyz` 部分
+5. **拼接完整链接**：`https://images.unsplash.com/photo-abc123xyz?w=400&h=400&fit=crop`
+
+#### 常见错误
+
+❌ **错误做法**：随意编造图片ID
+```
+https://images.unsplash.com/photo-1595376685484-8c7a3-228ff5388ef8?w=400&h=400&fit=crop
+（这个ID是编造的，图片无法访问）
+```
+
+✅ **正确做法**：使用从Unsplash网站获取的真实ID
+```
+https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?w=400&h=400&fit=crop
+（这个ID来自真实的Unsplash图片）
+```
+
+#### 验证图片链接
+
+添加新商品后，应在浏览器中打开图片链接验证是否可访问。
+
 ---
 
 ## 5. 分类详细说明
@@ -392,6 +422,7 @@ border-red-500/30
 | 1.1 | 2026-02-21 | 更新分类体系，添加实际商品示例，更新ID命名规范 |
 | 1.2 | 2026-02-23 | 新增商品卡片设计规范，包括卡片布局、拟态样式、渐变遮罩、价格标签等详细规范 |
 | 1.3 | 2026-02-23 | 补充图片链接规范，包括图片来源、加载逻辑、失败处理和示例URL |
+| 1.4 | 2026-02-23 | 新增图片ID获取步骤，强调必须从Unsplash网站获取真实ID，不能随意构造 |
 
 ---
 
