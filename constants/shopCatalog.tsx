@@ -9,7 +9,8 @@ import {
   Armchair, Sofa, Footprints, Glasses, Sun, Utensils, Coffee, 
   Gift, Fish, BookOpen, Video, Scissors, Ticket, Music, Dumbbell,
   Wifi, Box, Calendar, Mountain, Home, Car, Heart, Shirt, Users,
-  Globe, Palette
+  Globe, Palette, Droplets, Watch, Zap, Timer, Award, Sparkles,
+  Headset, Building2, Crown
 } from 'lucide-react';
 
 export interface ShopItem {
@@ -74,7 +75,7 @@ export const SHOP_CATALOG: ShopItem[] = [
   { id: 'r_tick_3', name: '演唱会门票', description: '音乐盛宴，情感释放', cost: 498, type: 'rights', owned: false, icon: <Music size={24} className="text-purple-600"/>, category: '休闲娱乐', image: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=400&h=400&fit=crop' },
   
   // 会员
-  { id: 'r_vip_1', name: '网易云 VIP (月)', description: '听觉享受', cost: 15, type: 'rights', owned: false, icon: <Music size={24} className="text-red-600"/>, category: '会员充值', image: 'https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?w=400&h=400&fit=crop' },
+  { id: 'r_vip_1', name: '网易云 VIP (月)', description: '听觉享受', cost: 15, type: 'rights', owned: false, icon: <Headphones size={24} className="text-red-500"/>, category: '会员充值', image: 'https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?w=400&h=400&fit=crop' },
   { id: 'r_vip_3', name: '健身会员 (月)', description: '健身特权，健康生活', cost: 298, type: 'rights', owned: false, icon: <Dumbbell size={24} className="text-blue-500"/>, category: '会员充值', image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&h=400&fit=crop' },
   { id: 'r_vip_4', name: '网课论坛会员', description: '学习资源，交流平台', cost: 99, type: 'rights', owned: false, icon: <BookOpen size={24} className="text-purple-500"/>, category: '会员充值', image: 'https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=400&h=400&fit=crop' },
   { id: 'r_vip_5', name: '小众社群', description: '兴趣交流，人脉拓展', cost: 99, type: 'rights', owned: false, icon: <Users size={24} className="text-green-500"/>, category: '会员充值', image: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=400&h=400&fit=crop' },
@@ -106,7 +107,7 @@ export const SHOP_CATALOG: ShopItem[] = [
   { id: 'p_home_2', name: '厨房套装', description: '全套厨房设备', cost: 3500, type: 'physical', owned: false, icon: <Utensils size={24} className="text-blue-500"/>, category: '家居', image: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=400&h=400&fit=crop' },
     
   // 房产类
-  { id: 'p_property_1', name: '房子一间', description: '温馨小屋', cost: 500000, type: 'physical', owned: false, icon: <Home size={24} className="text-red-500"/>, category: '家居', image: 'https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=400&h=400&fit=crop' },
+  { id: 'p_property_1', name: '豪华别墅', description: '梦想家园', cost: 500000, type: 'physical', owned: false, icon: <Building2 size={24} className="text-amber-500"/>, category: '家居', image: 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=400&h=400&fit=crop' },
     
   // 车辆类
   { id: 'p_car_1', name: '理想汽车', description: '新能源汽车', cost: 200000, type: 'physical', owned: false, icon: <Car size={24} className="text-green-500"/>, category: '家居', image: 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=400&h=400&fit=crop' },
@@ -130,13 +131,30 @@ export const SHOP_CATALOG: ShopItem[] = [
   { id: 's_sport_1', name: '爬山', description: '去爬山30分钟', cost: 20, type: 'leisure', owned: false, icon: <Mountain size={24} className="text-green-500"/>, category: '休闲娱乐', image: 'https://images.unsplash.com/photo-1551632811-561732d1e306?w=400&h=400&fit=crop' },
   { id: 's_sport_2', name: '跑步', description: '去跑步30分钟', cost: 10, type: 'leisure', owned: false, icon: <Footprints size={24} className="text-blue-500"/>, category: '休闲娱乐', image: 'https://images.unsplash.com/photo-1571008887538-b36bb32f4571?w=400&h=400&fit=crop' },
   { id: 's_sport_3', name: '健身', description: '去健身房30分钟', cost: 50, type: 'leisure', owned: false, icon: <Dumbbell size={24} className="text-red-500"/>, category: '休闲娱乐', image: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=400&h=400&fit=crop' },
-    
+  
+  // 运动健康类商品
+  { id: 'p_sport_1', name: '瑜伽垫', description: '居家健身必备', cost: 99, type: 'physical', owned: false, icon: <Layout size={24} className="text-purple-400"/>, category: '运动健康', image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=400&fit=crop' },
+  { id: 'p_sport_2', name: '运动大水杯', description: '补水神器', cost: 59, type: 'physical', owned: false, icon: <Droplets size={24} className="text-blue-400"/>, category: '运动健康', image: 'https://images.unsplash.com/photo-1523362628745-0c100150b504?w=400&h=400&fit=crop' },
+  { id: 'p_sport_3', name: '运动跑鞋', description: '专业跑步装备', cost: 399, type: 'physical', owned: false, icon: <Footprints size={24} className="text-orange-400"/>, category: '运动健康', image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop' },
+  { id: 'p_sport_4', name: '蛋白粉', description: '增肌补充营养', cost: 199, type: 'physical', owned: false, icon: <Coffee size={24} className="text-amber-400"/>, category: '运动健康', image: 'https://images.unsplash.com/photo-1593095948071-474c5cc2989d?w=400&h=400&fit=crop' },
+  { id: 'p_sport_5', name: '运动耳机', description: '运动音乐伴侣', cost: 299, type: 'physical', owned: false, icon: <Headset size={24} className="text-green-400"/>, category: '运动健康', image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=400&fit=crop' },
+  { id: 'p_sport_6', name: '运动手环', description: '智能运动追踪', cost: 199, type: 'physical', owned: false, icon: <Watch size={24} className="text-cyan-400"/>, category: '运动健康', image: 'https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=400&h=400&fit=crop' },
+  { id: 'r_sport_1', name: 'Keep会员', description: '专业健身课程', cost: 128, type: 'rights', owned: false, icon: <Award size={24} className="text-green-500"/>, category: '运动健康', image: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400&h=400&fit=crop' },
+  { id: 'r_sport_2', name: '健身房年卡', description: '全年健身特权', cost: 1999, type: 'rights', owned: false, icon: <Dumbbell size={24} className="text-red-500"/>, category: '运动健康', image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&h=400&fit=crop' },
+  { id: 'r_sport_3', name: '健身私教课', description: '一对一专业指导', cost: 299, type: 'rights', owned: false, icon: <Users size={24} className="text-blue-500"/>, category: '运动健康', image: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=400&h=400&fit=crop' },
+  
   // 服装类
   { id: 'p_cloth_1', name: '衣服一件', description: '时尚服装', cost: 299, type: 'physical', owned: false, icon: <Shirt size={24} className="text-purple-500"/>, category: '形象设计与穿搭', image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop' },
   { id: 'p_cloth_2', name: '裤子一条', description: '休闲裤子', cost: 199, type: 'physical', owned: false, icon: <Shirt size={24} className="text-blue-500"/>, category: '形象设计与穿搭', image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&h=400&fit=crop' },
   { id: 'p_cloth_3', name: '家人衣服', description: '给家人买衣服', cost: 399, type: 'physical', owned: false, icon: <Users size={24} className="text-pink-500"/>, category: '形象设计与穿搭', image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&h=400&fit=crop' },
   { id: 'p_cloth_4', name: '家人裤子', description: '给家人买裤子', cost: 299, type: 'physical', owned: false, icon: <Users size={24} className="text-green-500"/>, category: '形象设计与穿搭', image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&h=400&fit=crop' },
-    
+  
+  // 男生形象设计类商品
+  { id: 'p_male_1', name: '男士素颜霜', description: '自然遮瑕，提升气色', cost: 89, type: 'physical', owned: false, icon: <Sparkles size={24} className="text-amber-400"/>, category: '形象设计与穿搭', image: 'https://images.unsplash.com/photo-1621607512214-68297480165e?w=400&h=400&fit=crop' },
+  { id: 'p_male_2', name: '男士夹板', description: '打造帅气发型', cost: 59, type: 'physical', owned: false, icon: <Zap size={24} className="text-orange-400"/>, category: '形象设计与穿搭', image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400&h=400&fit=crop' },
+  { id: 'p_male_3', name: '男士洗面奶', description: '深层清洁，控油祛痘', cost: 49, type: 'physical', owned: false, icon: <Droplets size={24} className="text-blue-400"/>, category: '形象设计与穿搭', image: 'https://images.unsplash.com/photo-1620331311520-246422fd82f9?w=400&h=400&fit=crop' },
+  { id: 'p_male_4', name: '男士护肤品套装', description: '全套护肤，焕然一新', cost: 199, type: 'physical', owned: false, icon: <Gift size={24} className="text-cyan-400"/>, category: '形象设计与穿搭', image: 'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=400&h=400&fit=crop' },
+  
   // 礼品类
   { id: 'p_gift_1', name: '朋友礼物', description: '常用但贵的小礼物', cost: 1000, type: 'physical', owned: false, icon: <Gift size={24} className="text-yellow-500"/>, category: '休闲娱乐', image: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=400&h=400&fit=crop' },
   
@@ -166,7 +184,7 @@ export const SHOP_CATALOG: ShopItem[] = [
   { id: 'p_home_7', name: '油烟机', description: '厨房油烟克星', cost: 3000, type: 'physical', owned: false, icon: <Wind size={24} className="text-gray-400"/>, category: '家居', image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=400&fit=crop' },
   { id: 'p_home_8', name: '太阳能光伏板', description: '绿色能源，环保节能', cost: 2000, type: 'physical', owned: false, icon: <Sun size={24} className="text-yellow-400"/>, category: '家居', image: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=400&h=400&fit=crop' },
   { id: 'p_dig_13', name: 'Mac mini', description: '苹果迷你主机', cost: 4000, type: 'physical', owned: false, icon: <Laptop size={24} className="text-gray-300"/>, category: '数码', image: 'https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=400&h=400&fit=crop' },
-  { id: 'r_vip_16', name: 'AI会员', description: 'AI助手，智能办公', cost: 200, type: 'rights', owned: false, icon: <Globe size={24} className="text-purple-500"/>, category: '会员充值', image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=400&fit=crop' },
+  { id: 'r_vip_16', name: 'AI会员', description: 'AI助手，智能办公', cost: 200, type: 'rights', owned: false, icon: <Sparkles size={24} className="text-purple-500"/>, category: '会员充值', image: 'https://images.unsplash.com/photo-1676299081847-824916de030a?w=400&h=400&fit=crop' },
 ];
 
 export default SHOP_CATALOG;
