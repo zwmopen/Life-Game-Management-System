@@ -10,7 +10,7 @@ import {
   Gift, Fish, BookOpen, Video, Scissors, Ticket, Music, Dumbbell,
   Wifi, Box, Calendar, Mountain, Home, Car, Heart, Shirt, Users,
   Globe, Palette, Droplets, Watch, Zap, Timer, Award, Sparkles,
-  Headset, Building2, Crown
+  Headset, Building2, Crown, Smile
 } from 'lucide-react';
 
 export interface ShopItem {
@@ -97,9 +97,7 @@ export const SHOP_CATALOG: ShopItem[] = [
   { id: 'r_misc_4', name: '咖啡机', description: '自制美味咖啡', cost: 899, type: 'physical', owned: false, icon: <Coffee size={24} className="text-amber-700"/>, category: '家居', image: 'https://images.unsplash.com/photo-1520970014086-2208d157c9e2?w=400&h=400&fit=crop' },
   { id: 'r_misc_5', name: '瑜伽垫', description: '居家健身必备', cost: 89, type: 'physical', owned: false, icon: <Dumbbell size={24} className="text-purple-500"/>, category: '家居', image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=400&fit=crop' },
   { id: 'r_misc_6', name: '电影会员年卡', description: '全年电影观看特权', cost: 199, type: 'rights', owned: false, icon: <Video size={24} className="text-red-500"/>, category: '会员充值', image: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?w=400&h=400&fit=crop' },
-  { id: 'r_misc_7', name: '在线课程', description: '专业技能提升', cost: 399, type: 'rights', owned: false, icon: <BookOpen size={24} className="text-blue-600"/>, category: '会员充值', image: 'https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=400&h=400&fit=crop' },
-  { id: 'r_misc_9', name: '定制T恤', description: '个性化服装定制', cost: 129, type: 'physical', owned: false, icon: <Shirt size={24} className="text-pink-500"/>, category: '形象设计与穿搭', image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop' },
-  { id: 'r_misc_10', name: '宠物食品', description: '优质宠物粮', cost: 159, type: 'physical', owned: false, icon: <Fish size={24} className="text-orange-500"/>, category: '家居', image: 'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=400&h=400&fit=crop' },
+
     
   // 新增用户要求商品
   // 家居类
@@ -146,14 +144,21 @@ export const SHOP_CATALOG: ShopItem[] = [
   // 服装类
   { id: 'p_cloth_1', name: '衣服一件', description: '时尚服装', cost: 299, type: 'physical', owned: false, icon: <Shirt size={24} className="text-purple-500"/>, category: '形象设计与穿搭', image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop' },
   { id: 'p_cloth_2', name: '裤子一条', description: '休闲裤子', cost: 199, type: 'physical', owned: false, icon: <Shirt size={24} className="text-blue-500"/>, category: '形象设计与穿搭', image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&h=400&fit=crop' },
-  { id: 'p_cloth_3', name: '家人衣服', description: '给家人买衣服', cost: 399, type: 'physical', owned: false, icon: <Users size={24} className="text-pink-500"/>, category: '形象设计与穿搭', image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&h=400&fit=crop' },
-  { id: 'p_cloth_4', name: '家人裤子', description: '给家人买裤子', cost: 299, type: 'physical', owned: false, icon: <Users size={24} className="text-green-500"/>, category: '形象设计与穿搭', image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&h=400&fit=crop' },
   
   // 男生形象设计类商品
   { id: 'p_male_1', name: '男士素颜霜', description: '自然遮瑕，提升气色', cost: 89, type: 'physical', owned: false, icon: <Sparkles size={24} className="text-amber-400"/>, category: '形象设计与穿搭', image: 'https://images.unsplash.com/photo-1621607512214-68297480165e?w=400&h=400&fit=crop' },
   { id: 'p_male_2', name: '男士夹板', description: '打造帅气发型', cost: 59, type: 'physical', owned: false, icon: <Zap size={24} className="text-orange-400"/>, category: '形象设计与穿搭', image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400&h=400&fit=crop' },
   { id: 'p_male_3', name: '男士洗面奶', description: '深层清洁，控油祛痘', cost: 49, type: 'physical', owned: false, icon: <Droplets size={24} className="text-blue-400"/>, category: '形象设计与穿搭', image: 'https://images.unsplash.com/photo-1620331311520-246422fd82f9?w=400&h=400&fit=crop' },
   { id: 'p_male_4', name: '男士护肤品套装', description: '全套护肤，焕然一新', cost: 199, type: 'physical', owned: false, icon: <Gift size={24} className="text-cyan-400"/>, category: '形象设计与穿搭', image: 'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=400&h=400&fit=crop' },
+  
+  // 更多形象设计类商品
+  { id: 'p_style_1', name: '香水', description: '提升个人魅力', cost: 299, type: 'physical', owned: false, icon: <Sparkles size={24} className="text-pink-400"/>, category: '形象设计与穿搭', image: 'https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=400&h=400&fit=crop' },
+  { id: 'p_style_2', name: '口腔护理套装', description: '清新口气，自信微笑', cost: 89, type: 'physical', owned: false, icon: <Sparkles size={24} className="text-blue-400"/>, category: '形象设计与穿搭', image: 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400&h=400&fit=crop' },
+  { id: 'p_style_3', name: '时尚墨镜', description: '潮流配饰，遮阳神器', cost: 199, type: 'physical', owned: false, icon: <Glasses size={24} className="text-gray-600"/>, category: '形象设计与穿搭', image: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=400&h=400&fit=crop' },
+  { id: 'p_style_4', name: '发蜡发胶', description: '发型定型，持久有型', cost: 49, type: 'physical', owned: false, icon: <Zap size={24} className="text-yellow-400"/>, category: '形象设计与穿搭', image: 'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=400&h=400&fit=crop' },
+  { id: 'p_style_5', name: '牙齿美白套装', description: '自信笑容，美白牙齿', cost: 159, type: 'physical', owned: false, icon: <Sparkles size={24} className="text-cyan-400"/>, category: '形象设计与穿搭', image: 'https://images.unsplash.com/photo-1585751119414-ef2636f8aede?w=400&h=400&fit=crop' },
+  { id: 'p_style_6', name: '男士皮带', description: '穿搭细节，品质之选', cost: 199, type: 'physical', owned: false, icon: <Layout size={24} className="text-amber-600"/>, category: '形象设计与穿搭', image: 'https://images.unsplash.com/photo-1624222247344-550fb60583dc?w=400&h=400&fit=crop' },
+  { id: 'p_style_7', name: '领带', description: '正式场合必备', cost: 99, type: 'physical', owned: false, icon: <Shirt size={24} className="text-red-600"/>, category: '形象设计与穿搭', image: 'https://images.unsplash.com/photo-1589756823695-278bc923f962?w=400&h=400&fit=crop' },
   
   // 礼品类
   { id: 'p_gift_1', name: '朋友礼物', description: '常用但贵的小礼物', cost: 1000, type: 'physical', owned: false, icon: <Gift size={24} className="text-yellow-500"/>, category: '休闲娱乐', image: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=400&h=400&fit=crop' },
@@ -167,7 +172,6 @@ export const SHOP_CATALOG: ShopItem[] = [
   // 第二批新增商品（娱乐类/形象设计与穿搭类）
   { id: 's_spa_2', name: '按摩', description: '缓解疲劳，放松身心', cost: 200, type: 'leisure', owned: false, icon: <Armchair size={24} className="text-blue-400"/>, category: '休闲娱乐', image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=400&fit=crop' },
   { id: 'r_tick_9', name: '兴趣组队门票', description: '加入兴趣组队活动', cost: 50, type: 'rights', owned: false, icon: <Users size={24} className="text-yellow-500"/>, category: '休闲娱乐', image: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=400&h=400&fit=crop' },
-  { id: 'p_cloth_5', name: '素颜霜', description: '提升气色，自然妆容', cost: 100, type: 'physical', owned: false, icon: <Palette size={24} className="text-pink-500"/>, category: '形象设计与穿搭', image: 'https://images.unsplash.com/photo-1560343090-f0409e92791a?w=400&h=400&fit=crop' },
   { id: 'p_cloth_6', name: '夹板', description: '打造百变发型', cost: 30, type: 'physical', owned: false, icon: <Scissors size={24} className="text-purple-500"/>, category: '形象设计与穿搭', image: 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=400&h=400&fit=crop' },
   { id: 'p_cloth_7', name: '头发烫染', description: '时尚发型，提升魅力', cost: 100, type: 'physical', owned: false, icon: <Scissors size={24} className="text-red-500"/>, category: '形象设计与穿搭', image: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400&h=400&fit=crop' },
   { id: 'r_vip_11', name: '社群门票(1000元)', description: '加入高端社群', cost: 1000, type: 'rights', owned: false, icon: <Users size={24} className="text-green-500"/>, category: '会员充值', image: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=400&h=400&fit=crop' },
