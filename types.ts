@@ -11,6 +11,8 @@ import React from 'react';
 export enum ProductCategory {
   /** 全部商品分类 */
   ALL = '全部',
+  /** 家居数码分类，如手机、电脑、耳机、家具、厨具、日用品等 */
+  DIGITAL_HOME = '家居数码',
   /** 数码产品分类，如手机、电脑、耳机等 */
   DIGITAL = '数码',
   /** 家居用品分类，如家具、厨具、日用品等 */
@@ -19,8 +21,8 @@ export enum ProductCategory {
   FOOD = '吃喝',
   /** 饮食相关分类，与FOOD类似，用于更细致的分类 */
   DIET = '饮食',
-  /** 形象设计与穿搭分类，如服装、化妆品、配饰等 */
-  CLOTHING = '形象设计与穿搭',
+  /** 个人形象分类，如服装、化妆品、配饰等 */
+  CLOTHING = '个人形象',
   /** 休闲娱乐分类，如游戏、电影、旅游等 */
   LEISURE_ENTERTAINMENT = '休闲娱乐',
   /** 会员/权益/充值分类，如各种会员服务、充值卡等 */
