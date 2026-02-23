@@ -151,7 +151,7 @@ export const SHOP_CATALOG: ShopItem[] = [
   
   // 服装类
   { id: 'p_cloth_1', name: '衣服', description: '时尚服装', cost: 299, type: 'physical', owned: false, icon: <Shirt size={24} className="text-purple-500"/>, category: '个人形象', image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop' },
-  { id: 'p_cloth_2', name: '裤子', description: '休闲裤子', cost: 199, type: 'physical', owned: false, icon: <Shirt size={24} className="text-blue-500"/>, category: '形象设计与穿搭', image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&h=400&fit=crop' },
+  { id: 'p_cloth_2', name: '裤子', description: '休闲裤子', cost: 199, type: 'physical', owned: false, icon: <Shirt size={24} className="text-blue-500"/>, category: '个人形象', image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&h=400&fit=crop' },
   
   // 男生形象设计类商品
   { id: 'p_male_1', name: '素颜霜', description: '自然遮瑕，提升气色', cost: 89, type: 'physical', owned: false, icon: <Sparkles size={24} className="text-amber-400"/>, category: '个人形象', image: 'https://images.unsplash.com/photo-1621607512214-68297480165e?w=400&h=400&fit=crop' },
@@ -179,8 +179,8 @@ export const SHOP_CATALOG: ShopItem[] = [
   // 第二批新增商品（娱乐类/形象设计与穿搭类）
   { id: 's_spa_2', name: '按摩', description: '缓解疲劳，放松身心', cost: 200, type: 'leisure', owned: false, icon: <Armchair size={24} className="text-blue-400"/>, category: '休闲娱乐', image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=400&fit=crop' },
   { id: 'r_tick_9', name: '兴趣组队门票', description: '加入兴趣组队活动', cost: 50, type: 'rights', owned: false, icon: <Users size={24} className="text-yellow-500"/>, category: '休闲娱乐', image: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=400&h=400&fit=crop' },
-  { id: 'p_cloth_6', name: '鞋子', description: '打造百变发型', cost: 30, type: 'physical', owned: false, icon: <Scissors size={24} className="text-purple-500"/>, category: '形象设计与穿搭', image: 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=400&h=400&fit=crop' },
-  { id: 'p_cloth_7', name: '头发烫染', description: '时尚发型，提升魅力', cost: 100, type: 'physical', owned: false, icon: <Scissors size={24} className="text-red-500"/>, category: '形象设计与穿搭', image: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400&h=400&fit=crop' },
+  { id: 'p_cloth_6', name: '鞋子', description: '打造百变发型', cost: 30, type: 'physical', owned: false, icon: <Scissors size={24} className="text-purple-500"/>, category: '个人形象', image: 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=400&h=400&fit=crop' },
+  { id: 'p_cloth_7', name: '头发烫染', description: '时尚发型，提升魅力', cost: 100, type: 'physical', owned: false, icon: <Scissors size={24} className="text-red-500"/>, category: '个人形象', image: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400&h=400&fit=crop' },
   { id: 'r_vip_11', name: '社群门票(1000元)', description: '加入高端社群', cost: 1000, type: 'rights', owned: false, icon: <Users size={24} className="text-green-500"/>, category: '会员充值', image: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=400&h=400&fit=crop' },
   { id: 'r_vip_12', name: '社群门票(3000元)', description: '加入精英社群', cost: 3000, type: 'rights', owned: false, icon: <Users size={24} className="text-blue-500"/>, category: '会员充值', image: 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=400&h=400&fit=crop' },
   { id: 'r_vip_13', name: '社群门票(5000元)', description: '加入顶级社群', cost: 5000, type: 'rights', owned: false, icon: <Users size={24} className="text-purple-500"/>, category: '会员充值', image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&h=400&fit=crop' },
