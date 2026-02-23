@@ -27,7 +27,7 @@ export const useShop = ({
     const [isEditItemOpen, setIsEditItemOpen] = useState(false);
     const [editingItem, setEditingItem] = useState<any>(null);
     const [draggedShopIndex, setDraggedShopIndex] = useState<number | null>(null);
-    const [groups, setGroups] = useState<string[]>(['家居数码', '运动健康', '服装礼品', '会员充值', '休闲娱乐', '个人形象']); // 商品分组
+    const [groups, setGroups] = useState<string[]>(['家居数码', '运动健康', '会员充值', '休闲娱乐', '个人形象']); // 商品分组
     const [isAddingGroup, setIsAddingGroup] = useState(false); // 控制添加分组弹窗
     const [newGroupName, setNewGroupName] = useState(''); // 新分组名称
 

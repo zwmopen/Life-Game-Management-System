@@ -144,10 +144,9 @@ export const SHOP_CATALOG: ShopItem[] = [
   // 运动健康类食品
   { id: 'p_food_21', name: '香蕉', description: '天然水果，补充能量', cost: 5, type: 'physical', owned: false, icon: <Coffee size={24} className="text-yellow-400"/>, category: '运动健康', image: 'https://images.unsplash.com/photo-1571771894821-ce9b303a9f0b?w=400&h=400&fit=crop' },
   { id: 'p_food_22', name: '苹果', description: '一天一苹果，医生远离我', cost: 8, type: 'physical', owned: false, icon: <Coffee size={24} className="text-red-400"/>, category: '运动健康', image: 'https://images.unsplash.com/photo-1560806326421-7b0ac9b9185?w=400&h=400&fit=crop' },
-  { id: 'p_food_23', name: '麦片', description: '营养早餐，健康生活', cost: 15, type: 'physical', owned: false, icon: <Coffee size={24} className="text-amber-400"/>, category: '运动健康', image: 'https://images.unsplash.com/photo-1563636616852-9d9ae8c9f9e?w=400&h=400&fit=crop' },
   { id: 'p_food_24', name: '牛奶', description: '补钙佳品，强健骨骼', cost: 6, type: 'physical', owned: false, icon: <Coffee size={24} className="text-white"/>, category: '运动健康', image: 'https://images.unsplash.com/photo-1563636616852-9d9ae8c9f9e?w=400&h=400&fit=crop' },
   { id: 'p_food_25', name: '鸡蛋', description: '优质蛋白，营养补充', cost: 2, type: 'physical', owned: false, icon: <Coffee size={24} className="text-orange-400"/>, category: '运动健康', image: 'https://images.unsplash.com/photo-1582720419414-2b7f4c9f9f5?w=400&h=400&fit=crop' },
-  { id: 'p_food_26', name: '燕麦片', description: '健康谷物，营养均衡', cost: 12, type: 'physical', owned: false, icon: <Coffee size={24} className="text-cyan-400"/>, category: '运动健康', image: 'https://images.unsplash.com/photo-1583636616852-9d9ae8c9f9e?w=400&h=400&fit=crop' },
+  { id: 'p_food_26', name: '燕麦片', description: '健康谷物，营养均衡', cost: 12, type: 'physical', owned: false, icon: <Coffee size={24} className="text-cyan-400"/>, category: '运动健康', image: 'https://images.unsplash.com/photo-1517673136136-9a9a7f6d6b6?w=400&h=400&fit=crop' },
   
   // 服装类
   { id: 'p_cloth_1', name: '衣服', description: '时尚服装', cost: 299, type: 'physical', owned: false, icon: <Shirt size={24} className="text-purple-500"/>, category: '个人形象', image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop' },

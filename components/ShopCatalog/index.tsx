@@ -39,7 +39,7 @@ const ShopCatalog: React.FC<ShopCatalogProps> = memo(({
   textSub,
   neomorphicStyles,
   justPurchasedItem,
-  groups = ['家居数码', '运动健康', '服装礼品', '会员充值', '休闲娱乐', '个人形象'],
+  groups = ['家居数码', '运动健康', '会员充值', '休闲娱乐', '个人形象'],
   setGroups,
   isAddingGroup,
   setIsAddingGroup,
