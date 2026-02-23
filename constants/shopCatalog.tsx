@@ -65,7 +65,7 @@ export const SHOP_CATALOG: ShopItem[] = [
   { id: 's_ent_4', name: '刷短视频一小时', description: '长时间刷短视频', cost: 60, type: 'leisure', owned: false, icon: <Video size={24} className="text-red-600"/>, category: '休闲娱乐', image: 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=400&h=400&fit=crop' },
   
   // 服务
-  { id: 's_hair_1', name: '理发', description: '魅力值回升', cost: 48, type: 'leisure', owned: false, icon: <Scissors size={24} className="text-pink-400"/>, category: '休闲娱乐', image: 'https://images.unsplash.com/photo-1622288432450-277d0fef5ed6?w=400&h=400&fit=crop' },
+  { id: 's_hair_1', name: '理发', description: '魅力值回升', cost: 48, type: 'physical', owned: false, icon: <Scissors size={24} className="text-pink-400"/>, category: '个人形象', image: 'https://images.unsplash.com/photo-1622288432450-277d0fef5ed6?w=400&h=400&fit=crop' },
   { id: 's_spa_1', name: '按摩放松', description: '缓解疲劳，恢复精力', cost: 198, type: 'leisure', owned: false, icon: <Armchair size={24} className="text-blue-400"/>, category: '休闲娱乐', image: 'https://images.unsplash.com/photo-1516455590571-18256e5bb9ff?w=400&h=400&fit=crop' },
   { id: 's_books_1', name: '书籍购买', description: '知识获取，思维升级', cost: 98, type: 'leisure', owned: false, icon: <BookOpen size={24} className="text-amber-600"/>, category: '休闲娱乐', image: 'https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=400&h=400&fit=crop' },
   
@@ -92,7 +92,7 @@ export const SHOP_CATALOG: ShopItem[] = [
   
   // 新增商品
   { id: 'r_misc_1', name: '365天日历', description: '时间管理，记录生活', cost: 9.9, type: 'physical', owned: false, icon: <Calendar size={24} className="text-yellow-500"/>, category: '家居数码', image: 'https://images.unsplash.com/photo-1506784365847-bbad939e9335?w=400&h=400&fit=crop' },
-  { id: 'r_misc_2', name: '约人爬山', description: '户外活动，锻炼身体', cost: 9.9, type: 'leisure', owned: false, icon: <Mountain size={24} className="text-green-500"/>, category: '家居数码', image: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&h=400&fit=crop' },
+  { id: 'r_misc_2', name: '团购爬山', description: '户外活动，锻炼身体', cost: 9.9, type: 'leisure', owned: false, icon: <Mountain size={24} className="text-green-500"/>, category: '运动健康', image: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&h=400&fit=crop' },
   { id: 'r_misc_3', name: '智能手表', description: '健康监测与通讯', cost: 1299, type: 'physical', owned: false, icon: <Smartphone size={24} className="text-blue-400"/>, category: '家居数码', image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop' },
   { id: 'r_misc_4', name: '咖啡机', description: '自制美味咖啡', cost: 899, type: 'physical', owned: false, icon: <Coffee size={24} className="text-amber-700"/>, category: '家居数码', image: 'https://images.unsplash.com/photo-1520970014086-2208d157c9e2?w=400&h=400&fit=crop' },
   { id: 'r_misc_5', name: '瑜伽垫', description: '居家健身必备', cost: 89, type: 'physical', owned: false, icon: <Dumbbell size={24} className="text-purple-500"/>, category: '家居数码', image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=400&fit=crop' },
@@ -127,7 +127,6 @@ export const SHOP_CATALOG: ShopItem[] = [
     
   // 运动类
   { id: 's_sport_1', name: '爬山', description: '去爬山30分钟', cost: 20, type: 'leisure', owned: false, icon: <Mountain size={24} className="text-green-500"/>, category: '休闲娱乐', image: 'https://images.unsplash.com/photo-1551632811-561732d1e306?w=400&h=400&fit=crop' },
-  { id: 's_sport_2', name: '跑步', description: '去跑步30分钟', cost: 10, type: 'leisure', owned: false, icon: <Footprints size={24} className="text-blue-500"/>, category: '休闲娱乐', image: 'https://images.unsplash.com/photo-1571008887538-b36bb32f4571?w=400&h=400&fit=crop' },
   { id: 's_sport_3', name: '健身', description: '去健身房30分钟', cost: 50, type: 'leisure', owned: false, icon: <Dumbbell size={24} className="text-red-500"/>, category: '休闲娱乐', image: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=400&h=400&fit=crop' },
   
   // 运动健康类商品
@@ -142,11 +141,11 @@ export const SHOP_CATALOG: ShopItem[] = [
   { id: 'r_sport_3', name: '健身私教课', description: '一对一专业指导', cost: 299, type: 'rights', owned: false, icon: <Users size={24} className="text-blue-500"/>, category: '运动健康', image: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=400&h=400&fit=crop' },
   
   // 运动健康类食品
-  { id: 'p_food_21', name: '香蕉', description: '天然水果，补充能量', cost: 5, type: 'physical', owned: false, icon: <Coffee size={24} className="text-yellow-400"/>, category: '运动健康', image: 'https://images.unsplash.com/photo-1571771894821-ce9b303a9f0b?w=400&h=400&fit=crop' },
-  { id: 'p_food_22', name: '苹果', description: '一天一苹果，医生远离我', cost: 8, type: 'physical', owned: false, icon: <Coffee size={24} className="text-red-400"/>, category: '运动健康', image: 'https://images.unsplash.com/photo-1560806326421-7b0ac9b9185?w=400&h=400&fit=crop' },
-  { id: 'p_food_24', name: '牛奶', description: '补钙佳品，强健骨骼', cost: 6, type: 'physical', owned: false, icon: <Coffee size={24} className="text-white"/>, category: '运动健康', image: 'https://images.unsplash.com/photo-1563636616852-9d9ae8c9f9e?w=400&h=400&fit=crop' },
-  { id: 'p_food_25', name: '鸡蛋', description: '优质蛋白，营养补充', cost: 2, type: 'physical', owned: false, icon: <Coffee size={24} className="text-orange-400"/>, category: '运动健康', image: 'https://images.unsplash.com/photo-1582720419414-2b7f4c9f9f5?w=400&h=400&fit=crop' },
-  { id: 'p_food_26', name: '燕麦片', description: '健康谷物，营养均衡', cost: 12, type: 'physical', owned: false, icon: <Coffee size={24} className="text-cyan-400"/>, category: '运动健康', image: 'https://images.unsplash.com/photo-1517673136136-9a9a7f6d6b6?w=400&h=400&fit=crop' },
+  { id: 'p_food_21', name: '香蕉', description: '天然水果，补充能量', cost: 5, type: 'physical', owned: false, icon: <Coffee size={24} className="text-yellow-400"/>, category: '运动健康', image: 'https://images.unsplash.com/photo-1587132137056-bfbf0166836e?w=400&h=400&fit=crop' },
+  { id: 'p_food_22', name: '苹果', description: '一天一苹果，医生远离我', cost: 8, type: 'physical', owned: false, icon: <Coffee size={24} className="text-red-400"/>, category: '运动健康', image: 'https://images.unsplash.com/photo-1630563451961-ac2ff27616ab?w=400&h=400&fit=crop' },
+  { id: 'p_food_24', name: '牛奶', description: '补钙佳品，强健骨骼', cost: 6, type: 'physical', owned: false, icon: <Coffee size={24} className="text-white"/>, category: '运动健康', image: 'https://images.unsplash.com/photo-1517448931760-9bf4414148c5?w=400&h=400&fit=crop' },
+  { id: 'p_food_25', name: '鸡蛋', description: '优质蛋白，营养补充', cost: 2, type: 'physical', owned: false, icon: <Coffee size={24} className="text-orange-400"/>, category: '运动健康', image: 'https://images.unsplash.com/photo-1651144440711-9824c0d50520?w=400&h=400&fit=crop' },
+  { id: 'p_food_26', name: '燕麦片', description: '健康谷物，营养均衡', cost: 12, type: 'physical', owned: false, icon: <Coffee size={24} className="text-cyan-400"/>, category: '运动健康', image: 'https://images.unsplash.com/photo-1610406765661-57646c40da59?w=400&h=400&fit=crop' },
   
   // 服装类
   { id: 'p_cloth_1', name: '衣服', description: '时尚服装', cost: 299, type: 'physical', owned: false, icon: <Shirt size={24} className="text-purple-500"/>, category: '个人形象', image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop' },
