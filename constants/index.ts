@@ -275,7 +275,7 @@ export const INITIAL_PROJECTS: Project[] = [
     ]
   },
   {
-    id: 'p3', name: '成长型博主养成', startDate: '2025-12-23', description: '成为一个拥有1000粉丝的成长型博主', status: 'active' as const, logs: [], dailyFocus: {}, todayFocusMinutes: 0, fears: [], attr: AttributeType.INTELLIGENCE, priority: 'medium' as const,
+    id: 'p3', name: '个人内容输出', startDate: '2025-12-23', description: '成为一个拥有1000粉丝的成长型博主', status: 'active' as const, logs: [], dailyFocus: {}, todayFocusMinutes: 0, fears: [], attr: AttributeType.INTELLIGENCE, priority: 'medium' as const,
     subTasks: [
       { id: 't3_1', title: '刷爆款选题', duration: 10, completed: false, frequency: 'daily' as const },
       { id: 't3_2', title: '全网搜集， AI梳理文案', duration: 20, completed: false, frequency: 'daily' as const },
