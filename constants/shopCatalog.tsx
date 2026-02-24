@@ -160,21 +160,14 @@ export const SHOP_CATALOG: ShopItem[] = [
   // 更多形象设计类商品
   { id: 'p_style_1', name: '香水', description: '提升个人魅力', cost: 299, type: 'physical', owned: false, icon: <Sparkles size={24} className="text-pink-400"/>, category: '个人形象', image: 'https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=400&h=400&fit=crop' },
   { id: 'p_style_2', name: '口腔护理套装', description: '清新口气，自信微笑', cost: 89, type: 'physical', owned: false, icon: <Sparkles size={24} className="text-blue-400"/>, category: '个人形象', image: 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400&h=400&fit=crop' },
-  { id: 'p_style_3', name: '时尚墨镜', description: '潮流配饰，遮阳神器', cost: 199, type: 'physical', owned: false, icon: <Glasses size={24} className="text-gray-600"/>, category: '个人形象', image: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=400&h=400&fit=crop' },
+  { id: 'p_style_3', name: '墨镜', description: '潮流配饰，遮阳神器', cost: 199, type: 'physical', owned: false, icon: <Glasses size={24} className="text-gray-600"/>, category: '个人形象', image: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=400&h=400&fit=crop' },
   { id: 'p_style_4', name: '发蜡发胶', description: '发型定型，持久有型', cost: 49, type: 'physical', owned: false, icon: <Zap size={24} className="text-yellow-400"/>, category: '个人形象', image: 'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=400&h=400&fit=crop' },
   { id: 'p_style_5', name: '牙齿美白套装', description: '自信笑容，美白牙齿', cost: 159, type: 'physical', owned: false, icon: <Sparkles size={24} className="text-cyan-400"/>, category: '个人形象', image: 'https://images.unsplash.com/photo-1585751119414-ef2636f8aede?w=400&h=400&fit=crop' },
   
   // 更多形象设计类商品推荐
   { id: 'p_style_6', name: '眉笔', description: '精致眉形，提升气质', cost: 29, type: 'physical', owned: false, icon: <Sparkles size={24} className="text-amber-400"/>, category: '个人形象', image: 'https://images.unsplash.com/photo-1522338242992-e1a54906a8da?w=400&h=400&fit=crop' },
-  { id: 'p_style_7', name: '眼影', description: '精致眼妆，魅力加分', cost: 89, type: 'physical', owned: false, icon: <Sparkles size={24} className="text-purple-400"/>, category: '个人形象', image: 'https://images.unsplash.com/photo-1596704017254-9b121068fb31d?w=400&h=400&fit=crop' },
-  { id: 'p_style_8', name: '口红', description: '时尚色彩，自信妆容', cost: 129, type: 'physical', owned: false, icon: <Sparkles size={24} className="text-red-400"/>, category: '个人形象', image: 'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=400&h=400&fit=crop' },
-  { id: 'p_style_9', name: '美甲', description: '精致指甲，时尚加分', cost: 99, type: 'physical', owned: false, icon: <Sparkles size={24} className="text-pink-400"/>, category: '个人形象', image: 'https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=400&h=400&fit=crop' },
-  { id: 'p_style_10', name: '指甲油', description: 'DIY美甲，个性十足', cost: 39, type: 'physical', owned: false, icon: <Sparkles size={24} className="text-blue-400"/>, category: '个人形象', image: 'https://images.unsplash.com/photo-1522337660859-02fbefca4702?w=400&h=400&fit=crop' },
   { id: 'p_style_11', name: '隐形眼镜', description: '清晰视野，舒适佩戴', cost: 199, type: 'physical', owned: false, icon: <Glasses size={24} className="text-cyan-400"/>, category: '个人形象', image: 'https://images.unsplash.com/photo-1598550942736-7a3787e3e3c8?w=400&h=400&fit=crop' },
-  { id: 'p_style_12', name: '美容仪', description: '护肤美容，科技护肤', cost: 299, type: 'physical', owned: false, icon: <Sparkles size={24} className="text-purple-500"/>, category: '个人形象', image: 'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=400&h=400&fit=crop' },
   { id: 'p_style_13', name: '面膜', description: '补水保湿，焕发光彩', cost: 69, type: 'physical', owned: false, icon: <Sparkles size={24} className="text-green-400"/>, category: '个人形象', image: 'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=400&h=400&fit=crop' },
-  { id: 'p_style_14', name: '精华液', description: '深层滋养，肌肤焕新', cost: 159, type: 'physical', owned: false, icon: <Droplets size={24} className="text-amber-400"/>, category: '个人形象', image: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=400&h=400&fit=crop' },
-  { id: 'p_style_15', name: '爽肤水', description: '清爽补水，平衡肌肤', cost: 89, type: 'physical', owned: false, icon: <Droplets size={24} className="text-blue-400"/>, category: '个人形象', image: 'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=400&h=400&fit=crop' },
   
   
   // 礼品类
