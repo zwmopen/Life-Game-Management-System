@@ -110,6 +110,8 @@ export const SHOP_CATALOG: ShopItem[] = [
   
   // 车辆类
   { id: 'p_car_1', name: '理想汽车', description: '新能源汽车', cost: 200000, type: 'physical', owned: false, icon: <Car size={24} className="text-green-500"/>, category: '家居数码', image: 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=400&h=400&fit=crop' },
+  { id: 'p_car_2', name: '越野车', description: '越野性能强劲，征服各种地形', cost: 350000, type: 'physical', owned: false, icon: <Car size={24} className="text-orange-500"/>, category: '家居数码', image: 'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=400&h=400&fit=crop' },
+  { id: 'p_car_3', name: '特斯拉汽车', description: '智能电动先锋，科技感十足', cost: 280000, type: 'physical', owned: false, icon: <Car size={24} className="text-red-500"/>, category: '家居数码', image: 'https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=400&h=400&fit=crop' },
     
   // 饮食类
   { id: 's_food_14', name: '酱骨头套餐', description: '酱骨头、牛骨头、调料一条龙', cost: 158, type: 'leisure', owned: false, icon: <Utensils size={24} className="text-red-500"/>, category: '吃喝', image: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=400&h=400&fit=crop' },
