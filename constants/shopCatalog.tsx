@@ -156,7 +156,6 @@ export const SHOP_CATALOG: ShopItem[] = [
   
   // 男生形象设计类商品
   { id: 'p_male_1', name: '素颜霜', description: '自然遮瑕，提升气色', cost: 89, type: 'physical', owned: false, icon: <Sparkles size={24} className="text-amber-400"/>, category: '个人形象', image: 'https://images.unsplash.com/photo-1621607512214-68297480165e?w=400&h=400&fit=crop' },
-  { id: 'p_male_2', name: '夹板', description: '打造帅气发型', cost: 59, type: 'physical', owned: false, icon: <Zap size={24} className="text-orange-400"/>, category: '个人形象', image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400&h=400&fit=crop' },
   { id: 'p_male_3', name: '洗面奶', description: '深层清洁，控油祛痘', cost: 49, type: 'physical', owned: false, icon: <Droplets size={24} className="text-blue-400"/>, category: '个人形象', image: 'https://images.unsplash.com/photo-1620331311520-246422fd82f9?w=400&h=400&fit=crop' },
   { id: 'p_male_4', name: '护肤品套装', description: '全套护肤，焕然一新', cost: 199, type: 'physical', owned: false, icon: <Gift size={24} className="text-cyan-400"/>, category: '个人形象', image: 'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=400&h=400&fit=crop' },
   
@@ -169,7 +168,6 @@ export const SHOP_CATALOG: ShopItem[] = [
   
   // 更多形象设计类商品推荐
   { id: 'p_style_6', name: '眉笔', description: '精致眉形，提升气质', cost: 29, type: 'physical', owned: false, icon: <Sparkles size={24} className="text-amber-400"/>, category: '个人形象', image: 'https://images.unsplash.com/photo-1522338242992-e1a54906a8da?w=400&h=400&fit=crop' },
-  { id: 'p_style_11', name: '隐形眼镜', description: '清晰视野，舒适佩戴', cost: 199, type: 'physical', owned: false, icon: <Glasses size={24} className="text-cyan-400"/>, category: '个人形象', image: 'https://images.unsplash.com/photo-1598550942736-7a3787e3e3c8?w=400&h=400&fit=crop' },
   { id: 'p_style_13', name: '面膜', description: '补水保湿，焕发光彩', cost: 69, type: 'physical', owned: false, icon: <Sparkles size={24} className="text-green-400"/>, category: '个人形象', image: 'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=400&h=400&fit=crop' },
   
   
