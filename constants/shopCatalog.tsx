@@ -10,7 +10,7 @@ import {
   Gift, Fish, BookOpen, Video, Scissors, Ticket, Music, Dumbbell,
   Wifi, Box, Calendar, Mountain, Home, Car, Heart, Shirt, Users,
   Globe, Palette, Droplets, Watch, Zap, Timer, Award, Sparkles,
-  Headset, Building2, Crown, Smile
+  Headset, Building2, Crown, Smile, Shield, Cat, Dog
 } from 'lucide-react';
 
 export interface ShopItem {
@@ -206,6 +206,25 @@ export const SHOP_CATALOG: ShopItem[] = [
   // 新增会员商品
   { id: 'r_vip_17', name: '滴答年会员', description: '高效时间管理', cost: 99, type: 'rights', owned: false, icon: <Calendar size={24} className="text-blue-500"/>, category: '会员充值', image: 'https://images.unsplash.com/photo-1506784365847-bbad939e9335?w=400&h=400&fit=crop' },
   { id: 'r_vip_18', name: '微信读书年会员', description: '海量图书，随时阅读', cost: 99, type: 'rights', owned: false, icon: <BookOpen size={24} className="text-green-500"/>, category: '会员充值', image: 'https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=400&h=400&fit=crop' },
+  
+  // 安全保障类
+  { id: 'p_safe_1', name: '保险', description: '未来保障，安心无忧', cost: 5000, type: 'rights', owned: false, icon: <Shield size={24} className="text-blue-500"/>, category: '会员充值', image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=400&h=400&fit=crop' },
+  { id: 'p_safe_2', name: '家用监控', description: '安全守护，随时查看', cost: 500, type: 'physical', owned: false, icon: <Camera size={24} className="text-gray-500"/>, category: '家居数码', image: 'https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=400&h=400&fit=crop' },
+  
+  // 情感陪伴类
+  { id: 'p_pet_1', name: '宠物', description: '可爱陪伴，治愈心灵', cost: 1000, type: 'physical', owned: false, icon: <Cat size={24} className="text-orange-400"/>, category: '休闲娱乐', image: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400&h=400&fit=crop' },
+  
+  // 放松享受类
+  { id: 's_relax_1', name: '足疗按摩', description: '放松身心，缓解疲劳', cost: 200, type: 'leisure', owned: false, icon: <Armchair size={24} className="text-purple-400"/>, category: '休闲娱乐', image: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=400&h=400&fit=crop' },
+  
+  // 最新科技产品
+  { id: 'p_tech_1', name: '最新手机', description: '科技前沿，旗舰体验', cost: 8999, type: 'physical', owned: false, icon: <Smartphone size={24} className="text-blue-500"/>, category: '家居数码', image: 'https://images.unsplash.com/photo-1616348436168-de43ad0db179?w=400&h=400&fit=crop' },
+  { id: 'p_tech_2', name: '最新电脑', description: '性能怪兽，效率翻倍', cost: 15999, type: 'physical', owned: false, icon: <Laptop size={24} className="text-gray-400"/>, category: '家居数码', image: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400&h=400&fit=crop' },
+  { id: 'p_tech_3', name: '最新手表', description: '智能穿戴，健康监测', cost: 3999, type: 'physical', owned: false, icon: <Watch size={24} className="text-black"/>, category: '家居数码', image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop' },
+  { id: 'p_tech_4', name: '最新耳机', description: '沉浸音质，降噪神器', cost: 2499, type: 'physical', owned: false, icon: <Headphones size={24} className="text-white"/>, category: '家居数码', image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop' },
+  
+  // 社交类
+  { id: 'r_social_1', name: '交友软件VIP', description: '扩大社交圈，遇见TA', cost: 99, type: 'rights', owned: false, icon: <Heart size={24} className="text-pink-500"/>, category: '会员充值', image: 'https://images.unsplash.com/photo-1516589091380-5d8e87df6999?w=400&h=400&fit=crop' },
 ];
 
 export default SHOP_CATALOG;
