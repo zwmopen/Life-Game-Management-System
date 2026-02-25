@@ -1,11 +1,17 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
-import { Music, ChevronLeft, ChevronRight, Search } from 'lucide-react';
+import { Music, ChevronLeft, ChevronRight, Search, ExternalLink } from 'lucide-react';
 import { Theme } from '../../types';
 import Button from './Button';
 import { useGlobalAudio } from '../GlobalAudioManagerOptimized';
 import audioStatistics from '../../utils/audioStatistics';
 import { cardStyles, inputStyles, buttonStyles, getStyleByTheme, getTextMain, getTextMuted, bgColors } from '../../constants/styles';
 import { GlobalHelpButton } from '../HelpSystem';
+
+const NetEaseCloudMusicIcon = () => (
+  <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2-3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5-1.5.67-1.5 1.5zm4-8c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v4c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-4z"/>
+  </svg>
+);
 
 interface Sound {
   id: string;
@@ -245,6 +251,18 @@ const UnifiedBgMusicSelector: React.FC<UnifiedBgMusicSelectorProps> = ({
               </div>
             </div>
             
+            {/* 网易云音乐按钮 */}
+            <a
+              href="https://music.163.com/st/webplayer"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`flex items-center justify-center p-1.5 rounded-full transition-all duration-300 hover:scale-110 ${getStyleByTheme(buttonStyles, isNeomorphic, theme)}`}
+              title="打开网易云音乐"
+            >
+              <span className="text-red-500">
+                <NetEaseCloudMusicIcon />
+              </span>
+            </a>
 
             
             <div className="flex items-center gap-1 px-1">
