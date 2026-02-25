@@ -386,8 +386,8 @@ const ShopCatalog: React.FC<ShopCatalogProps> = memo(({
                 )}
                 
                 {/* 商品图片 */}
-                {/* 只显示有效的images.unsplash.com链接，不使用占位符服务 */}
-                {item.image && item.image.includes('images.unsplash.com') ? (
+                {/* 支持多种图片来源，包括unsplash和wikimedia */}
+                {item.image && (item.image.includes('images.unsplash.com') || item.image.includes('upload.wikimedia.org') || item.image.includes('obsidian.md')) ? (
                   <div className="product-image absolute top-0 left-0 w-full h-full z-0">
                     <img 
                       src={item.image} 

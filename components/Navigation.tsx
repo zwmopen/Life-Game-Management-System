@@ -268,10 +268,15 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
                     </div>
                   )}
                   <button
-                  onClick={(e) => handleNavClick(item.id, e)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleNavClick(item.id, e);
+                  }}
                   onTouchStart={(e) => e.stopPropagation()}
                   onTouchMove={(e) => e.stopPropagation()}
-                  onTouchEnd={(e) => e.stopPropagation()}
+                  onTouchEnd={(e) => {
+                    e.stopPropagation();
+                  }}
                   className={`
                       flex items-center rounded-full transition-colors duration-300 border border-transparent
                       ${isNavCollapsed 

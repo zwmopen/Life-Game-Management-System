@@ -183,7 +183,15 @@ const ModelButton = ({ children, onClick, isActive, theme, isFavorite }: { child
   
   return (
     <button
-      onClick={onClick}
+      onClick={(e) => {
+        e.stopPropagation();
+        onClick();
+      }}
+      onTouchStart={(e) => e.stopPropagation()}
+      onTouchMove={(e) => e.stopPropagation()}
+      onTouchEnd={(e) => {
+        e.stopPropagation();
+      }}
       className={getButtonClass()}
     >
       <span className="flex items-center">{children}</span>

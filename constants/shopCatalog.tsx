@@ -226,6 +226,11 @@ export const SHOP_CATALOG: ShopItem[] = [
   
   // 社交类
   { id: 'r_social_1', name: '交友软件VIP', description: '扩大社交圈，遇见TA', cost: 99, type: 'rights', owned: false, icon: <Heart size={24} className="text-pink-500"/>, category: '会员充值', image: 'https://images.unsplash.com/photo-1516589091380-5d8e87df6999?w=400&h=400&fit=crop' },
+
+  // Obsidian Sync 订阅
+  { id: 'r_vip_19', name: 'Obsidian Sync 年度订阅（标准 1 GB 套餐）', description: '1个已同步保险库 · 1个月历史记录 · 1 GB 存储空间', cost: 48, type: 'rights', owned: false, icon: <BookOpen size={24} className="text-blue-500"/>, category: '会员充值', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/2023_Obsidian_logo.svg/1280px-2023_Obsidian_logo.svg.png?20230604143825' },
+  { id: 'r_vip_20', name: 'Obsidian Sync 年度订阅（标准 10 GB 套餐）', description: '1个已同步保险库 · 1个月历史记录 · 10 GB 存储空间', cost: 96, type: 'rights', owned: false, icon: <BookOpen size={24} className="text-purple-500"/>, category: '会员充值', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/2023_Obsidian_logo.svg/1280px-2023_Obsidian_logo.svg.png?20230604143825' },
 ];
+
 
 export default SHOP_CATALOG;
