@@ -263,9 +263,7 @@ const UnifiedBgMusicSelector: React.FC<UnifiedBgMusicSelectorProps> = ({
               className={`flex items-center justify-center p-1.5 rounded-full transition-all duration-300 hover:scale-110 ${getStyleByTheme(buttonStyles, isNeomorphic, theme)}`}
               title="打开网易云音乐"
             >
-              <span className="text-red-500">
-                <NetEaseCloudMusicIcon />
-              </span>
+              <NetEaseCloudMusicIcon />
             </a>
 
             
