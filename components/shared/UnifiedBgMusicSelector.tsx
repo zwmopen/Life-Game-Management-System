@@ -9,7 +9,7 @@ import { GlobalHelpButton } from '../HelpSystem';
 
 const NetEaseCloudMusicIcon = () => (
   <img 
-    src="https://gd-hbimg.huaban.com/d11163d659c764327f48c723823bd4b39e77d414573c-dJp63m_fw658" 
+    src="/icons/netease-cloud-music.png" 
     alt="网易云音乐" 
     width="16" 
     height="16"
