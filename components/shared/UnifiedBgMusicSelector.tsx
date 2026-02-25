@@ -4,16 +4,16 @@ import { Theme } from '../../types';
 import Button from './Button';
 import { useGlobalAudio } from '../GlobalAudioManagerOptimized';
 import audioStatistics from '../../utils/audioStatistics';
-import { cardStyles, inputStyles, buttonStyles, getStyleByTheme, getTextMain, getTextMuted, bgColors } from '../../constants/styles';
+import { cardStyles, inputStyles, buttonStyles, smallButtonStyles, getStyleByTheme, getTextMain, getTextMuted, bgColors } from '../../constants/styles';
 import { GlobalHelpButton } from '../HelpSystem';
 
 const NetEaseCloudMusicIcon = () => (
   <img 
-    src="/icons/netease-cloud-music.png" 
+    src="/Life-Game-Management-System/icons/网易云音乐线-5(netease-cloud-music-l-64px_爱给网_aigei_com.png" 
     alt="网易云音乐" 
     width="16" 
-    height="16"
-    className="rounded-full"
+    height="16" 
+    className="object-contain"
   />
 );
 
@@ -260,10 +260,12 @@ const UnifiedBgMusicSelector: React.FC<UnifiedBgMusicSelectorProps> = ({
               href="https://music.163.com/st/webplayer"
               target="_blank"
               rel="noopener noreferrer"
-              className={`flex items-center justify-center p-1.5 rounded-full transition-all duration-300 hover:scale-110 ${getStyleByTheme(buttonStyles, isNeomorphic, theme)}`}
+              className={`flex items-center justify-center p-1.5 rounded-full transition-all duration-300 hover:scale-110 ${getStyleByTheme(smallButtonStyles, isNeomorphic, theme)}`}
               title="打开网易云音乐"
             >
-              <NetEaseCloudMusicIcon />
+              <span className={getTextMain(isNeomorphic, theme)}>
+                <NetEaseCloudMusicIcon />
+              </span>
             </a>
 
             
