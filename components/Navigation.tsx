@@ -269,15 +269,14 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
                   )}
                   <button
                   onClick={(e) => handleNavClick(item.id, e)}
-                  onTouchEnd={(e) => handleNavClick(item.id, e)}
                   className={`
-                      flex items-center rounded-full transition-all duration-300 border border-transparent
+                      flex items-center rounded-full transition-colors duration-300 border border-transparent
                       ${isNavCollapsed 
                         ? `w-10 h-10 justify-center mx-auto my-1` 
                         : `w-full space-x-3 px-4 py-3 pl-8`
                       }
                       ${currentView === item.id ? activeClass : `${textClass} ${hoverClass}`}
-                      transform hover:scale-[1.03] active:scale-[0.98]
+                      hover:scale-[1.03] active:scale-[0.98]
                   `}
                   title={item.label}
                   >
