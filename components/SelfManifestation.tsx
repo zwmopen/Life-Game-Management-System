@@ -199,7 +199,7 @@ const SelfManifestation: React.FC<HighestVersionProps> = ({ onHelpClick }) => {
 
   // 网站链接数据
   const musicLinks = [
-    { name: '网易云', url: 'https://music.163.com/' },
+    { name: '网易云', url: 'https://music.163.com/st/webplayer' },
     { name: '汽水音乐', url: 'https://www.douyin.com/music' },
     { name: 'YouTube', url: 'https://www.youtube.com/' },
     { name: '哔哩哔哩', url: 'https://www.bilibili.com/' },
