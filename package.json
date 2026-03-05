@@ -7,12 +7,12 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview",
+    "preview": "npm run build && wrangler dev",
     "webdav": "node webdav-server.js",
     "server": "node server.js",
     "start": "concurrently \"npm run server\" \"npm run dev\"",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist",
+    "deploy": "npm run build && wrangler deploy",
     "models:split": "node scripts/splitThinkingModels.js",
     "models:merge": "node scripts/mergeThinkingModels.js",
     "models:watch": "node scripts/watchThinkingModels.js"
@@ -47,6 +47,7 @@
     "zustand": "^5.0.11"
   },
   "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.26.0",
     "@playwright/test": "^1.57.0",
     "@tailwindcss/postcss": "^4.1.18",
     "@types/node": "^22.19.7",
@@ -60,6 +61,7 @@
     "terser": "^5.44.1",
     "typescript": "~5.8.2",
     "vite": "^6.4.1",
-    "webdav-server": "^2.6.2"
+    "webdav-server": "^2.6.2",
+    "wrangler": "^4.70.0"
   }
 }
