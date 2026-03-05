@@ -8,6 +8,9 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "webdav": "node webdav-server.js",
     "server": "node server.js",
     "start": "concurrently \"npm run server\" \"npm run dev\"",
@@ -49,17 +52,22 @@
   "devDependencies": {
     "@playwright/test": "^1.57.0",
     "@tailwindcss/postcss": "^4.1.18",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.2.0",
     "@types/node": "^22.19.7",
     "@vitejs/plugin-react": "^5.1.2",
+    "@vitest/coverage-v8": "^3.0.9",
     "autoprefixer": "^10.4.24",
     "concurrently": "^9.2.1",
     "gh-pages": "^6.3.0",
     "http-proxy-middleware": "^3.0.5",
+    "jsdom": "^26.0.0",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.18",
     "terser": "^5.44.1",
     "typescript": "~5.8.2",
     "vite": "^6.4.1",
+    "vitest": "^3.0.9",
     "webdav-server": "^2.6.2"
   }
 }
