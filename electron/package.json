@@ -1,0 +1,44 @@
+{
+  "name": "life-game-management-system-desktop",
+  "version": "1.0.0",
+  "description": "Desktop shell for \u4eba\u751f\u6e38\u620f\u7ba1\u7406\u7cfb\u7edf",
+  "productName": "\u4eba\u751f\u6e38\u620f\u7ba1\u7406\u7cfb\u7edf",
+  "author": {
+    "name": "zwmopen",
+    "email": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zwmopen/Life-Game-Management-System"
+  },
+  "license": "MIT",
+  "main": "build/src/index.js",
+  "scripts": {
+    "build": "tsc && electron-rebuild",
+    "electron:start-live": "node ./live-runner.js",
+    "electron:start": "npm run build && electron --inspect=5858 ./",
+    "electron:pack": "npm run build && electron-builder build --dir -c ./electron-builder.config.json",
+    "electron:installer": "npm run build && electron-builder build -c ./electron-builder.config.json --win nsis --publish never",
+    "electron:portable": "npm run build && electron-builder build -c ./electron-builder.config.json -c.artifactName=life-game-management-system-portable-${version}-${arch}.${ext} --win portable --publish never",
+    "electron:make": "npm run electron:installer"
+  },
+  "dependencies": {
+    "@capacitor-community/electron": "^5.0.0",
+    "chokidar": "~3.5.3",
+    "electron-is-dev": "~2.0.0",
+    "electron-serve": "~1.1.0",
+    "electron-unhandled": "~4.0.1",
+    "electron-updater": "^5.3.0",
+    "electron-window-state": "^5.0.3"
+  },
+  "devDependencies": {
+    "electron": "^26.2.2",
+    "electron-builder": "~23.6.0",
+    "electron-rebuild": "^3.2.9",
+    "typescript": "^5.0.4"
+  },
+  "keywords": [
+    "capacitor",
+    "electron"
+  ]
+}

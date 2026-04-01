@@ -68,6 +68,7 @@ interface LifeGameProps {
   onStartAutoTask: (type: AutoTaskType, id: string, duration: number, subId?: string) => void;
   checkInStreak: number;
   onPomodoroComplete: (m: number) => void;
+  onCheckInComplete: (goldReward: number, xpReward: number) => void;
   xp: number;
   weeklyGoal: string;
   setWeeklyGoal: (g: string) => void;
@@ -117,7 +118,7 @@ const XP_PER_LEVEL = 200;
 
 const LifeGame: React.FC<LifeGameProps> = ({ 
     balance, onUpdateBalance, habits, projects, habitOrder, projectOrder, onToggleHabit, onUpdateHabit, onDeleteHabit, onUpdateProject, onDeleteProject, onAddHabit, onAddProject, initialTab, initialCategory, onAddFloatingReward, totalTasksCompleted, totalHours,
-    challengePool, setChallengePool, todaysChallenges, completedRandomTasks, onToggleRandomChallenge, onStartAutoTask, checkInStreak, onPomodoroComplete, xp, weeklyGoal, setWeeklyGoal, todayGoal, setTodayGoal,
+    challengePool, setChallengePool, todaysChallenges, completedRandomTasks, onToggleRandomChallenge, onStartAutoTask, checkInStreak, onPomodoroComplete, onCheckInComplete, xp, weeklyGoal, setWeeklyGoal, todayGoal, setTodayGoal,
     givenUpTasks = [], onGiveUpTask, onUpdateHabitOrder, onUpdateProjectOrder, isNavCollapsed, setIsNavCollapsed, todayStats, statsHistory,
     // Pomodoro Global State
     timeLeft, isActive, duration, onToggleTimer, onResetTimer, onChangeDuration, onUpdateTimeLeft, onUpdateIsActive,
@@ -1014,7 +1015,7 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                                 const xpReward = 15 + (consecutiveDays * 3);
                                                 
                                                 // 触发奖励
-                                                onUpdateBalance(goldReward, "签到奖励");
+                                                onCheckInComplete(goldReward, xpReward);
                                                 
                                                 // 添加签到成功提示
                                                 onAddFloatingReward('签到成功！', 'text-green-500', window.innerWidth / 2);
@@ -1034,10 +1035,6 @@ const LifeGame: React.FC<LifeGameProps> = ({
                                                     origin: { y: 0.6 },
                                                     colors: ['#fbbf24', '#f59e0b', '#d97706', '#3b82f6', '#10b981', '#8b5cf6']
                                                 });
-                                                
-                                                // 关联勋章系统：更新签到 streak
-                                                const streak = checkInStreak + 1;
-                                                localStorage.setItem('aes-checkin-streak', streak.toString());
                                                 
                                                 // 使用React状态更新，确保组件重新渲染
                                                 setTimeout(() => {

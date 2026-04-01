@@ -9,6 +9,7 @@ import { retrieveWebDAVConfig, storeWebDAVConfig } from '../utils/secureStorage'
 import { APP_VERSION } from '../constants/app';
 import backupManager from '../utils/BackupManager';
 import { BackupProgress } from '../utils/EnhancedWebDAVBackupManager';
+import dataPersistenceManager from '../utils/DataPersistenceManager';
 
 // 导入主题上下文
 import { useTheme } from '../contexts/ThemeContext';
@@ -99,6 +100,14 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
     accessToken: localStorage.getItem('bdpan_token') || '',
     refreshToken: ''
   });
+
+  const isValidBackupPayload = (backupData: unknown): backupData is Record<string, unknown> => {
+    if (!backupData || typeof backupData !== 'object') {
+      return false;
+    }
+
+    return ['aes-global-data-v3', 'life-game-stats-v2', 'aes-settings-v2'].some(key => key in backupData);
+  };
   
   // 检查百度网盘授权状态
   const checkBaiduNetdiskAuth = async () => {
@@ -225,19 +234,7 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
     localStorage.setItem('localBackups', JSON.stringify(updatedBackups));
     
     try {
-      // Get actual game data from localStorage
-      const gameData = {
-        settings,
-        // Add other game data from localStorage here
-        projects: JSON.parse(localStorage.getItem('projects') || '[]'),
-        habits: JSON.parse(localStorage.getItem('habits') || '[]'),
-        characters: JSON.parse(localStorage.getItem('characters') || '[]'),
-        achievements: JSON.parse(localStorage.getItem('achievements') || '[]'),
-        timestamp: new Date().toISOString()
-      };
-      
-      // Create backup file
-      const backupData = JSON.stringify(gameData, null, 2);
+      const backupData = dataPersistenceManager.exportAllData();
       
       // Update backup entry with success status and actual size
       const finalBackup = {
@@ -287,38 +284,8 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
   // Restore from local backup
   const restoreFromLocalBackup = (backupId: string) => {
     if (window.confirm('确定要从备份恢复数据吗？这将覆盖当前所有数据！')) {
-      setLocalBackupStatus('正在从本地备份恢复...');
-      setIsRestoring(true);
-      
-      try {
-        // Get the backup file from localStorage
-        const backupJson = localStorage.getItem('localBackups');
-        if (backupJson) {
-          const backups = JSON.parse(backupJson);
-          const selectedBackup = backups.find((backup: any) => backup.id === backupId);
-          if (selectedBackup) {
-            // 在实际实现中，这里应该从文件系统或服务器获取备份文件内容
-            // 然后恢复数据到localStorage
-            // 这里模拟恢复过程
-            setTimeout(() => {
-              // 模拟恢复成功
-              setLocalBackupStatus('本地备份恢复成功！');
-              setIsRestoring(false);
-              
-              // 重置应用或刷新页面以加载新数据
-              window.location.reload();
-            }, 1500);
-          } else {
-            throw new Error('找不到指定的备份文件');
-          }
-        } else {
-          throw new Error('没有找到备份文件');
-        }
-      } catch (error) {
-        console.error('Failed to restore from local backup:', error);
-        setLocalBackupStatus('本地备份恢复失败：' + (error as Error).message);
-        setIsRestoring(false);
-      }
+      setLocalBackupStatus('请使用上方“从本地恢复”按钮选择已下载的备份文件进行恢复。');
+      setTimeout(() => setLocalBackupStatus(''), 4000);
     }
   };
   
@@ -337,23 +304,35 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
+      if (!window.confirm('确定要从备份文件恢复数据吗？这将覆盖当前所有数据！')) {
+        event.target.value = '';
+        return;
+      }
+
       setLocalBackupStatus('正在解析备份文件...');
+      setIsRestoring(true);
       const reader = new FileReader();
       reader.onload = (e) => {
         try {
           const backupData = JSON.parse(e.target?.result as string);
-          // Verify backup data structure
-          if (backupData.settings) {
-            // In a real implementation, you would restore the data
-            // For now, we'll just show a success message
-            setLocalBackupStatus('备份文件解析成功！');
-          } else {
+
+          if (!isValidBackupPayload(backupData)) {
             throw new Error('无效的备份文件格式');
           }
+
+          const imported = dataPersistenceManager.importData(JSON.stringify(backupData));
+          if (!imported) {
+            throw new Error('备份文件导入失败');
+          }
+
+          setLocalBackupStatus('备份文件恢复成功！页面即将刷新...');
+          setTimeout(() => window.location.reload(), 1000);
         } catch (error) {
           console.error('Failed to parse backup file:', error);
           setLocalBackupStatus('备份文件解析失败：' + (error as Error).message);
         } finally {
+          setIsRestoring(false);
+          event.target.value = '';
           setTimeout(() => setLocalBackupStatus(''), 3000);
         }
       };

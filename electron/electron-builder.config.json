@@ -1,0 +1,36 @@
+{
+  "appId": "com.lifegame.manager",
+  "productName": "\u4eba\u751f\u6e38\u620f\u7ba1\u7406\u7cfb\u7edf",
+  "artifactName": "life-game-management-system-${version}-${arch}.${ext}",
+  "directories": {
+    "buildResources": "resources",
+    "output": "release"
+  },
+  "asar": true,
+  "files": [
+    "assets/**/*",
+    "build/**/*",
+    "capacitor.config.*",
+    "app/**/*"
+  ],
+  "nsis": {
+    "allowElevation": true,
+    "oneClick": false,
+    "allowToChangeInstallationDirectory": true
+  },
+  "win": {
+    "target": [
+      {
+        "target": "nsis",
+        "arch": [
+          "x64"
+        ]
+      }
+    ],
+    "icon": "assets/appIcon.ico"
+  },
+  "mac": {
+    "category": "public.app-category.productivity",
+    "target": "dmg"
+  }
+}

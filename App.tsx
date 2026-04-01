@@ -81,6 +81,50 @@ const createLogger = () => {
 
 const appLogger = createLogger();
 
+const mergeSavedHabitsWithDefaults = (savedHabits: Habit[] = []): Habit[] => {
+  const savedHabitsMap = new Map(savedHabits.map(habit => [habit.id, habit]));
+
+  const mergedDefaultHabits = INITIAL_HABITS.map(defaultHabit => {
+    const savedHabit = savedHabitsMap.get(defaultHabit.id);
+    if (!savedHabit) {
+      return defaultHabit;
+    }
+
+    savedHabitsMap.delete(defaultHabit.id);
+
+    return {
+      ...defaultHabit,
+      ...savedHabit,
+      reminder: defaultHabit.reminder || savedHabit.reminder
+        ? {
+            ...defaultHabit.reminder,
+            ...savedHabit.reminder
+          }
+        : undefined
+    };
+  });
+
+  return [...mergedDefaultHabits, ...savedHabitsMap.values()];
+};
+
+const reconcileSavedOrder = (savedOrder: string[] | undefined, currentIds: string[]): string[] => {
+  const nextOrder: string[] = [];
+  const validIds = new Set(currentIds);
+
+  (savedOrder || []).forEach(id => {
+    if (validIds.has(id) && !nextOrder.includes(id)) {
+      nextOrder.push(id);
+    }
+  });
+
+  currentIds.forEach(id => {
+    if (!nextOrder.includes(id)) {
+      nextOrder.push(id);
+    }
+  });
+
+  return nextOrder;
+};
 
 
 const App: React.FC = () => {
@@ -264,13 +308,16 @@ const App: React.FC = () => {
 
     if(streakStr) setCheckInStreak(parseInt(streakStr));
 
-    // 强制使用新的 ZWM 2.0 日常显化任务，忽略 localStorage 中的旧数据
-    setHabits(INITIAL_HABITS);
-    setHabitOrder(INITIAL_HABITS.map(h => h.id));
-    
     if (savedGlobal) {
       try {
         const data = JSON.parse(savedGlobal);
+        const mergedHabits = mergeSavedHabitsWithDefaults(
+          Array.isArray(data.habits) ? data.habits : []
+        );
+        const mergedHabitOrder = reconcileSavedOrder(
+          Array.isArray(data.habitOrder) ? data.habitOrder : undefined,
+          mergedHabits.map(habit => habit.id)
+        );
         
         const savedProjects = data.projects || [];
         const mergedProjects = [...savedProjects];
@@ -297,8 +344,10 @@ const App: React.FC = () => {
             setGivenUpTasks(data.givenUpTasks || []);
         }
         
+        setHabits(mergedHabits);
+        setHabitOrder(mergedHabitOrder);
         setProjects(finalProjects);
-        setProjectOrder(data.projectOrder || (finalProjects).map(p => p.id));
+        setProjectOrder(reconcileSavedOrder(data.projectOrder, finalProjects.map(p => p.id)));
         setBalance(data.balance ?? 88);
         setDay(data.day || 1);
         setTransactions(data.transactions || []);
@@ -335,11 +384,10 @@ const App: React.FC = () => {
           setClaimedBadges([]);
       }
     } else {
+        setHabits(INITIAL_HABITS);
+        setHabitOrder(INITIAL_HABITS.map(h => h.id));
         localStorage.setItem('aes-global-data-v3', JSON.stringify({ startDate: new Date().toISOString() }));
     }
-    
-    // 确保使用新的任务顺序
-    setHabitOrder(INITIAL_HABITS.map(h => h.id));
 
     // 加载命运骰子状态
     if (savedDiceState) {
@@ -639,6 +687,22 @@ const App: React.FC = () => {
       }
     }
   }, []);
+
+  const handleCheckInComplete = useCallback((goldReward: number, xpReward: number) => {
+    if (goldReward > 0) {
+      handleUpdateBalance(goldReward, '签到奖励');
+    }
+
+    if (xpReward > 0) {
+      setXp(prev => prev + xpReward);
+    }
+
+    setCheckInStreak(prev => {
+      const next = prev + 1;
+      localStorage.setItem('aes-checkin-streak', next.toString());
+      return next;
+    });
+  }, [handleUpdateBalance]);
 
   const handleClaimReward = useCallback((id: string, rewardXp: number, rewardGold: number) => {
       setClaimedBadges(prev => [...prev, id]);
@@ -1246,6 +1310,7 @@ const App: React.FC = () => {
                   onStartAutoTask={handleStartAutoTask}
                   checkInStreak={checkInStreak}
                   onPomodoroComplete={handlePomodoroComplete}
+                  onCheckInComplete={handleCheckInComplete}
                   xp={xp}
                   todayStats={todayStats}
                   statsHistory={statsHistory}
@@ -1322,6 +1387,7 @@ const App: React.FC = () => {
                   onStartAutoTask={handleStartAutoTask}
                   checkInStreak={checkInStreak}
                   onPomodoroComplete={handlePomodoroComplete}
+                  onCheckInComplete={handleCheckInComplete}
                   xp={xp}
                   todayStats={todayStats}
                   statsHistory={statsHistory}
@@ -1469,6 +1535,7 @@ const App: React.FC = () => {
                   onStartAutoTask={handleStartAutoTask}
                   checkInStreak={checkInStreak}
                   onPomodoroComplete={handlePomodoroComplete}
+                  onCheckInComplete={handleCheckInComplete}
                   xp={xp}
                   todayStats={todayStats}
                   statsHistory={statsHistory}
