@@ -1,123 +1,130 @@
-// 安全存储工具测试
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import {
-  encryptAndStore,
   decryptAndRetrieve,
-  removeEncryptedItem,
-  hasEncryptedItem,
-  storeWebDAVConfig,
-  retrieveWebDAVConfig,
+  encryptAndStore,
   getDeviceInfo,
-} from '../utils/secureStorage';
+  hasEncryptedItem,
+  removeEncryptedItem,
+  retrieveWebDAVConfig,
+  storeWebDAVConfig,
+} from '@/utils/secureStorage';
+
+const STORAGE_METHOD_KEYS = new Set([
+  'getItem',
+  'setItem',
+  'removeItem',
+  'clear',
+  'key',
+  'length',
+]);
 
 describe('secureStorage', () => {
+  let storage: Record<string, string>;
+
   beforeEach(() => {
-    // 清空 localStorage
+    storage = {};
+
+    const getItemMock = localStorage.getItem as unknown as ReturnType<typeof vi.fn>;
+    const setItemMock = localStorage.setItem as unknown as ReturnType<typeof vi.fn>;
+    const removeItemMock = localStorage.removeItem as unknown as ReturnType<typeof vi.fn>;
+    const clearMock = localStorage.clear as unknown as ReturnType<typeof vi.fn>;
+    const keyMock = localStorage.key as unknown as ReturnType<typeof vi.fn>;
+
+    clearMock.mockImplementation(() => {
+      Object.keys(storage).forEach((key) => {
+        delete storage[key];
+      });
+
+      Object.keys(localStorage).forEach((key) => {
+        if (!STORAGE_METHOD_KEYS.has(key)) {
+          delete (localStorage as Record<string, unknown>)[key];
+        }
+      });
+    });
+
+    setItemMock.mockImplementation((key: string, value: string) => {
+      storage[key] = String(value);
+      (localStorage as Record<string, unknown>)[key] = String(value);
+    });
+
+    getItemMock.mockImplementation((key: string) => storage[key] ?? null);
+
+    removeItemMock.mockImplementation((key: string) => {
+      delete storage[key];
+      delete (localStorage as Record<string, unknown>)[key];
+    });
+
+    keyMock.mockImplementation((index: number) => Object.keys(storage)[index] ?? null);
+
+    Object.defineProperty(localStorage, 'length', {
+      configurable: true,
+      get: () => Object.keys(storage).length,
+    });
+
     localStorage.clear();
     vi.clearAllMocks();
   });
 
-  describe('encryptAndStore & decryptAndRetrieve', () => {
-    it('应该能够加密并存储数据', () => {
-      const testData = { username: 'test', password: 'secret123' };
+  it('stores encrypted payloads and marker keys', () => {
+    const payload = { username: 'test', password: 'secret123' };
 
-      encryptAndStore('test-key', testData);
+    encryptAndStore('test-key', payload);
 
-      // 验证数据被存储
-      expect(localStorage.setItem).toHaveBeenCalled();
-    });
+    expect(localStorage.setItem).toHaveBeenCalledWith('test-key', expect.any(String));
+    expect(localStorage.setItem).toHaveBeenCalledWith('test-key_v2', 'true');
+    expect(storage['test-key']).not.toContain(JSON.stringify(payload));
+  });
 
-    it('应该能够解密并读取数据', () => {
-      const testData = { username: 'test', password: 'secret123' };
+  it('reads back previously encrypted payloads', () => {
+    const payload = { username: 'test', password: 'secret123' };
 
-      // 直接存储加密数据到 localStorage
-      const storedValue = localStorage.setItem('test-key', JSON.stringify(testData));
-      localStorage.getItem.mockReturnValue(JSON.stringify(testData));
+    encryptAndStore('test-key', payload);
 
-      const result = decryptAndRetrieve('test-key');
+    expect(decryptAndRetrieve('test-key')).toEqual(payload);
+  });
 
-      expect(result).toEqual(testData);
-    });
+  it('returns null for missing encrypted items', () => {
+    expect(decryptAndRetrieve('missing-key')).toBeNull();
+  });
 
-    it('应该返回 null 当数据不存在时', () => {
-      localStorage.getItem.mockReturnValue(null);
+  it('removes encrypted items and version markers together', () => {
+    encryptAndStore('test-key', { enabled: true });
 
-      const result = decryptAndRetrieve('nonexistent-key');
+    removeEncryptedItem('test-key');
 
-      expect(result).toBeNull();
+    expect(hasEncryptedItem('test-key')).toBe(false);
+    expect(localStorage.removeItem).toHaveBeenCalledWith('test-key');
+    expect(localStorage.removeItem).toHaveBeenCalledWith('test-key_v2');
+  });
+
+  it('stores and retrieves WebDAV config safely', () => {
+    const config = {
+      url: 'https://dav.example.com/',
+      username: 'user@example.com',
+      password: 'app-password-123',
+      basePath: '/backup',
+    };
+
+    storeWebDAVConfig(config);
+
+    expect(retrieveWebDAVConfig()).toMatchObject(config);
+  });
+
+  it('returns the default WebDAV config when nothing is stored', () => {
+    expect(retrieveWebDAVConfig()).toEqual({
+      url: 'https://dav.jianguoyun.com/dav/',
+      username: '',
+      password: '',
+      basePath: '',
     });
   });
 
-  describe('removeEncryptedItem', () => {
-    it('应该能够删除存储的数据', () => {
-      removeEncryptedItem('test-key');
+  it('reports device info and detects legacy WebDAV keys', () => {
+    localStorage.setItem('webdav-url', 'https://dav.example.com/');
 
-      expect(localStorage.removeItem).toHaveBeenCalledWith('test-key');
-      expect(localStorage.removeItem).toHaveBeenCalledWith('test-key_v2');
-    });
-  });
+    const info = getDeviceInfo();
 
-  describe('hasEncryptedItem', () => {
-    it('应该返回 true 当数据存在时', () => {
-      localStorage.getItem.mockReturnValue('some-encrypted-data');
-
-      const result = hasEncryptedItem('test-key');
-
-      expect(result).toBe(true);
-    });
-
-    it('应该返回 false 当数据不存在时', () => {
-      localStorage.getItem.mockReturnValue(null);
-
-      const result = hasEncryptedItem('test-key');
-
-      expect(result).toBe(false);
-    });
-  });
-
-  describe('WebDAV 配置存储', () => {
-    it('应该能够存储和读取 WebDAV 配置', () => {
-      const config = {
-        url: 'https://dav.example.com/',
-        username: 'user@example.com',
-        password: 'app-password-123',
-        basePath: '/backup',
-      };
-
-      // 模拟存储
-      localStorage.getItem.mockReturnValue(JSON.stringify(config));
-
-      storeWebDAVConfig(config);
-      const result = retrieveWebDAVConfig();
-
-      // 验证配置被存储
-      expect(localStorage.setItem).toHaveBeenCalled();
-    });
-
-    it('应该返回默认配置当没有存储配置时', () => {
-      localStorage.getItem.mockReturnValue(null);
-
-      const result = retrieveWebDAVConfig();
-
-      expect(result).toEqual({
-        url: 'https://dav.jianguoyun.com/dav/',
-        username: '',
-        password: '',
-        basePath: '',
-      });
-    });
-  });
-
-  describe('getDeviceInfo', () => {
-    it('应该返回设备信息', () => {
-      localStorage.getItem.mockReturnValue(null);
-
-      const info = getDeviceInfo();
-
-      expect(info).toHaveProperty('deviceId');
-      expect(info).toHaveProperty('hasLegacyData');
-      expect(typeof info.deviceId).toBe('string');
-      expect(typeof info.hasLegacyData).toBe('boolean');
-    });
+    expect(info.deviceId).toMatch(/^[a-f0-9]{8}\.\.\.$/i);
+    expect(info.hasLegacyData).toBe(true);
   });
 });

@@ -1,5 +1,6 @@
 // 统一音效管理库
 import audioManager from './audioManager';
+import audioStatistics from './audioStatistics';
 
 // Vite 环境类型声明
 interface ImportMetaEnv {
@@ -428,9 +429,7 @@ class SoundManager {
       try {
         await audio.play();
         // 记录音频播放统计
-        import('./audioStatistics').then(({ default: audioStatistics }) => {
-          audioStatistics.recordPlay(id);
-        });
+        audioStatistics.recordPlay(id);
       } catch (error) {
         console.error(`播放背景音乐 ${id} 失败:`, error);
         // 尝试修复播放问题

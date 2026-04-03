@@ -20,6 +20,18 @@ global.sessionStorage = localStorageMock as any;
 Object.defineProperty(global, 'crypto', {
   value: {
     randomUUID: () => 'test-uuid-1234',
+    getRandomValues: <T extends ArrayBufferView | null>(array: T): T => {
+      if (!array) {
+        return array;
+      }
+
+      const view = new Uint8Array(array.buffer, array.byteOffset, array.byteLength);
+      for (let i = 0; i < view.length; i += 1) {
+        view[i] = (i * 17 + 23) % 256;
+      }
+
+      return array;
+    },
     subtle: {
       digest: vi.fn(),
     },

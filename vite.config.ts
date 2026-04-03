@@ -1,5 +1,5 @@
 import path from 'path';
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import fs from 'fs';
 import { webdavProxyPlugin } from './plugins/webdav-proxy-plugin';
@@ -77,8 +77,6 @@ function createAudioScanMiddleware() {
 }
 
 export default defineConfig(({ mode }) => {
-    const env = loadEnv(mode, '.', '');
-    
     return {
       // 配置base路径为GitHub仓库名称，解决GitHub Pages部署后资源加载问题
       base: '/Life-Game-Management-System/',
@@ -104,10 +102,6 @@ export default defineConfig(({ mode }) => {
           },
         }
       ],
-      define: {
-        'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
-        'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY)
-      },
       resolve: {
         alias: {
           '@': path.resolve(__dirname, '.'),
@@ -149,7 +143,7 @@ export default defineConfig(({ mode }) => {
               recharts: ['recharts'],
               three: ['three', 'three-stdlib'],
               lucide: ['lucide-react'],
-              crypto: ['crypto-js', 'bcryptjs', 'jsonwebtoken'],
+              crypto: ['crypto-js'],
               confetti: ['canvas-confetti'],
               // 大型组件单独打包，实现按需加载
               thinkingcenter: ['@/components/ThinkingCenter'],

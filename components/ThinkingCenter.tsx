@@ -1,36 +1,98 @@
-import React, { useState, useMemo, Suspense, lazy, useEffect } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Theme } from '../types';
-import { Search, BookOpen, Settings, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Search, ChevronLeft, ChevronRight } from 'lucide-react';
 import { GlobalHelpButton } from './HelpSystem';
 import { getNeomorphicStyles, getCardBgStyle, getTextStyle } from '../utils/styleHelpers';
 
-// 按需加载思维模型数据
-const loadThinkingModels = async () => {
-  const data = await import('./thinkingModels.json');
-  return data.default || [];
+interface ThinkingModelSummary {
+  id: string;
+  name: string;
+  label: string;
+  icon: string;
+  description: string;
+}
+
+interface ThinkingModel extends ThinkingModelSummary {
+  deepAnalysis?: string;
+  principle?: string;
+  scope?: string;
+  tips?: string;
+  practice?: string;
+  scenario?: string;
+  visualDesign?: string;
+}
+
+interface ThinkingModelsIndex {
+  total: number;
+  lastUpdated: string;
+  models: ThinkingModelSummary[];
+}
+
+const thinkingModelDetailLoaders = import.meta.glob('../data/thinking-models/*.json');
+
+const toThinkingModelFileName = (modelId: string) =>
+  `${modelId.replace(/[\/\\?%*:|"<>]/g, '_').replace(/\s+/g, '_')}.json`;
+
+const loadThinkingModelsIndex = async (): Promise<ThinkingModelSummary[]> => {
+  const data = await import('../data/thinking-models/_index.json');
+  const index = data.default as ThinkingModelsIndex;
+  return Array.isArray(index?.models) ? index.models : [];
 };
 
-// 缓存思维模型数据
-let thinkingModelsCache: any[] | null = null;
-const getThinkingModels = async () => {
+let thinkingModelsCache: ThinkingModelSummary[] | null = null;
+const thinkingModelDetailCache = new Map<string, ThinkingModel>();
+
+const getThinkingModels = async (): Promise<ThinkingModelSummary[]> => {
   if (!thinkingModelsCache) {
-    thinkingModelsCache = await loadThinkingModels();
+    thinkingModelsCache = await loadThinkingModelsIndex();
   }
   return thinkingModelsCache;
 };
 
-// 同步获取模型数据（用于初始渲染）
-const getInitialThinkingModels = () => {
+const getThinkingModelDetail = async (modelId: string): Promise<ThinkingModel | null> => {
+  if (thinkingModelDetailCache.has(modelId)) {
+    return thinkingModelDetailCache.get(modelId)!;
+  }
+
+  const loaderKey = `../data/thinking-models/${toThinkingModelFileName(modelId)}`;
+  const loader = thinkingModelDetailLoaders[loaderKey] as
+    | (() => Promise<{ default: ThinkingModel }>)
+    | undefined;
+
+  if (!loader) {
+    return null;
+  }
+
+  const module = await loader();
+  const detail = module.default;
+  thinkingModelDetailCache.set(modelId, detail);
+  return detail;
+};
+
+const DEFAULT_MODEL: ThinkingModel = {
+  id: 'default',
+  name: 'default',
+  label: '默认模型',
+  icon: 'BrainCircuit',
+  description: '默认思维模型',
+  deepAnalysis: '这是一个默认思维模型，用于处理错误情况。',
+  principle: '默认原则',
+  scope: '默认范围',
+  tips: '1. 这是一个默认模型',
+  practice: '使用默认模型处理错误情况',
+  scenario: '',
+  visualDesign: '<div style="text-align: center; padding: 20px;">默认可视化设计</div>'
+};
+
+const getInitialThinkingModels = (): ThinkingModelSummary[] => {
   try {
-    // 这里我们使用一个简化的初始模型列表，只包含基本信息
-    // 完整数据会在组件挂载后异步加载
     return [
       {
-        id: '101010法则',
-        name: '10-10-10法则',
-        label: '10/10/10 法则',
-        icon: 'BrainCircuit',
-        description: '当身陷情绪、难以决断时，将视角拉远，通过三层时间维度来审视当前的决策。'
+        id: DEFAULT_MODEL.id,
+        name: DEFAULT_MODEL.name,
+        label: DEFAULT_MODEL.label,
+        icon: DEFAULT_MODEL.icon,
+        description: DEFAULT_MODEL.description
       }
     ];
   } catch (error) {
@@ -39,7 +101,6 @@ const getInitialThinkingModels = () => {
   }
 };
 
-// 同步获取的初始模型数据
 const initialThinkingModels = getInitialThinkingModels();
 
 interface ThinkingCenterProps {
@@ -256,9 +317,10 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme = 'neomorphic-lig
   }, []);
 
   // 修复模型数据编码的函数
-  const fixModelEncoding = React.useCallback((model: any) => {
+  const fixModelEncoding = React.useCallback((model: ThinkingModel) => {
     return {
       ...model,
+      name: fixEncoding(model.name),
       label: fixEncoding(model.label),
       description: fixEncoding(model.description),
       deepAnalysis: fixEncoding(model.deepAnalysis || ''),
@@ -271,10 +333,12 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme = 'neomorphic-lig
   }, [fixEncoding]);
 
   // State management
-  const [thinkingModels, setThinkingModels] = useState<any[]>(initialThinkingModels);
+  const [thinkingModels, setThinkingModels] = useState<ThinkingModelSummary[]>(initialThinkingModels);
   const [isLoading, setIsLoading] = useState(true);
-  const [activeModel, setActiveModel] = useState<string>(initialThinkingModels[0]?.id || '');
+  const [loadingDetailId, setLoadingDetailId] = useState<string | null>(null);
+  const [activeModel, setActiveModel] = useState<string>(initialThinkingModels[0]?.id || DEFAULT_MODEL.id);
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [modelDetailsById, setModelDetailsById] = useState<Record<string, ThinkingModel>>({});
   const [viewCounts, setViewCounts] = useState<Record<string, number>>(() => {
     // 初始化查看次数，所有模型初始为0
     const initialCounts: Record<string, number> = {};
@@ -326,9 +390,9 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme = 'neomorphic-lig
         setViewCounts(initialCounts);
         
         // 如果有模型，设置第一个为激活模型
-        if (models.length > 0 && !activeModel) {
-          setActiveModel(models[0].id);
-          setPreviousModel(models[0].id);
+        if (models.length > 0) {
+          setActiveModel(prev => prev === DEFAULT_MODEL.id || !prev ? models[0].id : prev);
+          setPreviousModel(prev => prev || models[0].id);
         }
       } catch (error) {
         console.error('Error loading thinking models:', error);
@@ -339,6 +403,43 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme = 'neomorphic-lig
     
     loadModels();
   }, []);
+
+  const activeModelDetail = modelDetailsById[activeModel];
+
+  useEffect(() => {
+    let cancelled = false;
+
+    if (!activeModel || activeModelDetail) {
+      return undefined;
+    }
+
+    const loadModelDetail = async () => {
+      try {
+        setLoadingDetailId(activeModel);
+        const detail = await getThinkingModelDetail(activeModel);
+        if (!cancelled && detail) {
+          setModelDetailsById(prev => ({
+            ...prev,
+            [activeModel]: detail
+          }));
+        }
+      } catch (error) {
+        if (!cancelled) {
+          console.error(`Error loading model detail for ${activeModel}:`, error);
+        }
+      } finally {
+        if (!cancelled) {
+          setLoadingDetailId(current => (current === activeModel ? null : current));
+        }
+      }
+    };
+
+    loadModelDetail();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [activeModel, activeModelDetail]);
   
   // Handle model click event with triple-click favorite functionality
   const handleModelClick = (modelId: string) => {
@@ -446,9 +547,9 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme = 'neomorphic-lig
     if (searchTerm.trim()) {
       const searchLower = searchTerm.toLowerCase();
       models = thinkingModels.filter(model => 
+        fixEncoding(model.name).toLowerCase().includes(searchLower) ||
         fixEncoding(model.label).toLowerCase().includes(searchLower) ||
-        fixEncoding(model.description).toLowerCase().includes(searchLower) ||
-        fixEncoding(model.deepAnalysis || '').toLowerCase().includes(searchLower)
+        fixEncoding(model.description).toLowerCase().includes(searchLower)
       );
     }
     
@@ -471,7 +572,7 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme = 'neomorphic-lig
     });
     
     // 修复所有模型的编码问题
-    return sortedModels.map(fixModelEncoding);
+    return sortedModels.map(model => fixModelEncoding(model as ThinkingModel));
   }, [thinkingModels, searchTerm, favorites, fixEncoding, fixModelEncoding]);
   
   // Auto-select first model when search results change
@@ -483,41 +584,19 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme = 'neomorphic-lig
     }
   }, [filteredModels, activeModel]);
 
+  const isCurrentModelDetailLoading = loadingDetailId === activeModel && !activeModelDetail;
+
   // Get the current active model data with error handling
   const currentModel = useMemo(() => {
     try {
-      const model = thinkingModels.find(model => model.id === activeModel) || thinkingModels[0] || {
-        id: 'default',
-        name: 'default',
-        label: '默认模型',
-        icon: 'BrainCircuit',
-        description: '默认思维模型',
-        deepAnalysis: '这是一个默认思维模型，用于处理错误情况。',
-        principle: '默认原则',
-        scope: '默认范围',
-        tips: '1. 这是一个默认模型',
-        practice: '使用默认模型处理错误情况',
-        visualDesign: '<div style="text-align: center; padding: 20px;">默认可视化设计</div>'
-      };
+      const summary = thinkingModels.find(model => model.id === activeModel) || thinkingModels[0];
+      const model = activeModelDetail || (summary ? { ...DEFAULT_MODEL, ...summary } : DEFAULT_MODEL);
       return fixModelEncoding(model);
     } catch (error) {
       console.error('Error finding active model:', error);
-      // 返回一个安全的默认模型
-      return fixModelEncoding({
-        id: 'default',
-        name: 'default',
-        label: '默认模型',
-        icon: 'BrainCircuit',
-        description: '默认思维模型',
-        deepAnalysis: '这是一个默认思维模型，用于处理错误情况。',
-        principle: '默认原则',
-        scope: '默认范围',
-        tips: '1. 这是一个默认模型',
-        practice: '使用默认模型处理错误情况',
-        visualDesign: '<div style="text-align: center; padding: 20px;">默认可视化设计</div>'
-      });
+      return fixModelEncoding(DEFAULT_MODEL);
     }
-  }, [thinkingModels, activeModel, fixModelEncoding]);
+  }, [thinkingModels, activeModel, activeModelDetail, fixModelEncoding]);
 
   return (
     <div className={`${bgClass} min-h-screen transition-colors duration-200`}>
@@ -636,7 +715,12 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme = 'neomorphic-lig
               <>
                 {/* Visual Design - Lazy loaded with error handling */}
                 <div className={`rounded-xl p-4 border transition-all duration-200 ${isDark ? (isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow}` : 'bg-zinc-900 border-zinc-800') : (isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow}` : 'bg-white border-slate-200')}`}>
-                  {currentModel && currentModel.visualDesign ? (
+                  {isCurrentModelDetailLoading ? (
+                    <div className="flex flex-col items-center justify-center h-40">
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mb-3"></div>
+                      <p className={`text-sm ${textSub}`}>正在按需加载模型可视化...</p>
+                    </div>
+                  ) : currentModel && currentModel.visualDesign ? (
                     <ModelErrorBoundary
                       fallback={
                         <div className={`flex flex-col items-center justify-center h-40 text-sm ${textSub} p-4`}>
@@ -668,55 +752,62 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme = 'neomorphic-lig
                 
                 {/* Model Details */}
                 <div className={`rounded-xl p-4 border transition-all duration-200 ${isDark ? (isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow}` : 'bg-zinc-900 border-zinc-800') : (isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow}` : 'bg-white border-slate-200')}`}>
-                  <div className="space-y-4">
-                    {/* Deep Analysis */}
-                    {currentModel.deepAnalysis && (
-                      <div>
-                        <h3 className={`text-base font-semibold mb-2 ${textMain}`}>深度分析</h3>
-                        <p className={`text-sm ${textSub} whitespace-pre-line`}>{currentModel.deepAnalysis}</p>
-                      </div>
-                    )}
-                    
-                    {/* Principle */}
-                    {currentModel.principle && (
-                      <div>
-                        <h3 className={`text-base font-semibold mb-2 ${textMain}`}>核心原则</h3>
-                        <p className={`text-sm ${textSub} whitespace-pre-line`}>{currentModel.principle}</p>
-                      </div>
-                    )}
-                    
-                    {/* Scope */}
-                    {currentModel.scope && (
-                      <div>
-                        <h3 className={`text-base font-semibold mb-2 ${textMain}`}>适用范围</h3>
-                        <p className={`text-sm ${textSub} whitespace-pre-line`}>{currentModel.scope}</p>
-                      </div>
-                    )}
-                    
-                    {/* Tips */}
-                    {currentModel.tips && (
-                      <div>
-                        <h3 className={`text-base font-semibold mb-2 ${textMain}`}>使用技巧</h3>
-                        <p className={`text-sm ${textSub} whitespace-pre-line`}>{currentModel.tips}</p>
-                      </div>
-                    )}
-                    
-                    {/* Practice */}
-                    {currentModel.practice && (
-                      <div>
-                        <h3 className={`text-base font-semibold mb-2 ${textMain}`}>实践建议</h3>
-                        <p className={`text-sm ${textSub} whitespace-pre-line`}>{currentModel.practice}</p>
-                      </div>
-                    )}
-                    
-                    {/* Scenario */}
-                    {currentModel.scenario && (
-                      <div>
-                        <h3 className={`text-base font-semibold mb-2 ${textMain}`}>应用场景</h3>
-                        <p className={`text-sm ${textSub} whitespace-pre-line`}>{currentModel.scenario}</p>
-                      </div>
-                    )}
-                  </div>
+                  {isCurrentModelDetailLoading ? (
+                    <div className="flex flex-col items-center justify-center py-10">
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mb-3"></div>
+                      <p className={`text-sm ${textSub}`}>正在按需加载模型详情...</p>
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      {/* Deep Analysis */}
+                      {currentModel.deepAnalysis && (
+                        <div>
+                          <h3 className={`text-base font-semibold mb-2 ${textMain}`}>深度分析</h3>
+                          <p className={`text-sm ${textSub} whitespace-pre-line`}>{currentModel.deepAnalysis}</p>
+                        </div>
+                      )}
+                      
+                      {/* Principle */}
+                      {currentModel.principle && (
+                        <div>
+                          <h3 className={`text-base font-semibold mb-2 ${textMain}`}>核心原则</h3>
+                          <p className={`text-sm ${textSub} whitespace-pre-line`}>{currentModel.principle}</p>
+                        </div>
+                      )}
+                      
+                      {/* Scope */}
+                      {currentModel.scope && (
+                        <div>
+                          <h3 className={`text-base font-semibold mb-2 ${textMain}`}>适用范围</h3>
+                          <p className={`text-sm ${textSub} whitespace-pre-line`}>{currentModel.scope}</p>
+                        </div>
+                      )}
+                      
+                      {/* Tips */}
+                      {currentModel.tips && (
+                        <div>
+                          <h3 className={`text-base font-semibold mb-2 ${textMain}`}>使用技巧</h3>
+                          <p className={`text-sm ${textSub} whitespace-pre-line`}>{currentModel.tips}</p>
+                        </div>
+                      )}
+                      
+                      {/* Practice */}
+                      {currentModel.practice && (
+                        <div>
+                          <h3 className={`text-base font-semibold mb-2 ${textMain}`}>实践建议</h3>
+                          <p className={`text-sm ${textSub} whitespace-pre-line`}>{currentModel.practice}</p>
+                        </div>
+                      )}
+                      
+                      {/* Scenario */}
+                      {currentModel.scenario && (
+                        <div>
+                          <h3 className={`text-base font-semibold mb-2 ${textMain}`}>应用场景</h3>
+                          <p className={`text-sm ${textSub} whitespace-pre-line`}>{currentModel.scenario}</p>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               </>
             )}
