@@ -4,6 +4,28 @@ import react from '@vitejs/plugin-react';
 import fs from 'fs';
 import { webdavProxyPlugin } from './plugins/webdav-proxy-plugin';
 
+function normalizeBasePath(basePath?: string) {
+  if (!basePath) {
+    return undefined;
+  }
+
+  if (basePath === '/') {
+    return '/';
+  }
+
+  const trimmed = basePath.trim().replace(/^\/+|\/+$/g, '');
+  return trimmed ? `/${trimmed}/` : '/';
+}
+
+const deferredModulePreloadPatterns = [
+  /assets\/js\/confetti-/,
+  /assets\/js\/thinkingcenter-/,
+  /assets\/js\/halloffame-/,
+  /assets\/js\/selfmanifestation-/,
+  /assets\/js\/Settings-/,
+  /assets\/js\/TimeBox-/
+];
+
 // 创建自定义中间件函数
 function createAudioScanMiddleware() {
   return (req, res, next) => {
@@ -77,9 +99,13 @@ function createAudioScanMiddleware() {
 }
 
 export default defineConfig(({ mode }) => {
+    const shouldGenerateSourceMap = process.env.BUILD_SOURCEMAP === 'true';
+    const configuredBasePath = normalizeBasePath(process.env.VITE_BASE_PATH);
+    const basePath = configuredBasePath ?? (mode === 'production' ? '/Life-Game-Management-System/' : '/');
+
     return {
       // 配置base路径为GitHub仓库名称，解决GitHub Pages部署后资源加载问题
-      base: '/Life-Game-Management-System/',
+      base: basePath,
       server: {
         port: 3000,
         host: '0.0.0.0',
@@ -108,6 +134,13 @@ export default defineConfig(({ mode }) => {
         }
       },
       build: {
+        modulePreload: {
+          resolveDependencies: (_filename, deps) => {
+            return deps.filter(dep =>
+              !deferredModulePreloadPatterns.some(pattern => pattern.test(dep))
+            );
+          }
+        },
         // 生产构建时使用合理的压缩配置
         minify: 'esbuild', // 使用esbuild代替terser，减少压缩错误
         esbuild: {
@@ -122,7 +155,7 @@ export default defineConfig(({ mode }) => {
         outDir: 'dist',
         assetsDir: 'assets',
         // 生成source map以方便调试
-        sourcemap: true,
+        sourcemap: shouldGenerateSourceMap,
         // 启用CSS代码分割
         cssCodeSplit: true,
         // 优化大文件处理

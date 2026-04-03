@@ -16,7 +16,6 @@ import { View, Transaction, ReviewLog, Habit, Task, TaskType, DailyStats, Theme,
 import { Wallet, Crown, Clock, Brain, Zap, Target, Crosshair, Skull, Star, Gift, Medal, Sparkles, Swords, Flame, Footprints, Calendar, ShoppingBag, Dumbbell, Shield } from 'lucide-react';
 import { GlobalGuideCard, helpContent } from './components/HelpSystem';
 import CharacterProfile, { getAllLevels, getAllFocusTitles, getAllWealthTitles, getAllMilitaryRanks, XP_PER_LEVEL, CharacterProfileHandle } from './components/CharacterProfile';
-import confetti from 'canvas-confetti';
 
 // 导入坚果云配置迁移函数
 import { migrateOldWebDAVConfig } from './utils/secureStorage';

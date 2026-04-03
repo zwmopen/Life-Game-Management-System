@@ -1,14 +1,14 @@
 // 缓存名称
 const CACHE_NAME = 'life-game-cache-v1';
 
-// 基础路径 - 适应GitHub Pages部署
-const BASE_PATH = '/Life-Game-Management-System/';
+const BASE_URL = new URL('./', self.registration.scope || self.location.href);
+const resolveAppUrl = (relativePath = '') => new URL(relativePath, BASE_URL).toString();
 
 // 要缓存的资源
 const urlsToCache = [
-  BASE_PATH,
-  BASE_PATH + 'index.html',
-  BASE_PATH + 'manifest.json'
+  resolveAppUrl(),
+  resolveAppUrl('index.html'),
+  resolveAppUrl('manifest.json')
 ];
 
 // 安装阶段 - 缓存核心资源
@@ -78,11 +78,11 @@ self.addEventListener('push', (event) => {
   const data = event.data.json();
   const options = {
     body: data.body,
-    icon: BASE_PATH + 'vite.svg',
-    badge: BASE_PATH + 'vite.svg',
+    icon: resolveAppUrl('icons/icon-192.png'),
+    badge: resolveAppUrl('icons/icon-192.png'),
     vibrate: [100, 50, 100],
     data: {
-      url: data.url || BASE_PATH
+      url: data.url || resolveAppUrl()
     }
   };
   event.waitUntil(

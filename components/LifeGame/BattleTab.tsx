@@ -23,6 +23,7 @@ import ReminderPopup from '../shared/ReminderPopup';
 import TaskEditorModal from '../TaskManagement/TaskEditorModal';
 import { Theme, AttributeType, AttributeTypeValue, Habit, Project, SubTask, TaskType, AutoTaskType, Task, DiceState, DiceTask, DiceCategory, DiceHistory, Settings as SettingsType } from '../../types';
 import { getNeomorphicStyles, getButtonStyle, getCardBgStyle, getTextStyle } from '../../utils/styleHelpers';
+import { fireConfetti } from '../../utils/confetti';
 import { useReminders } from '../../hooks/useReminders';
 import { useTaskOperations } from '../../hooks/useTaskOperations';
 import { useDragAndDrop } from '../../hooks/useDragAndDrop';
@@ -906,14 +907,11 @@ const BattleTab: React.FC<BattleTabProps> = memo(({
                     }, 600);
                     
                     // 触发烟花特效
-                    import('canvas-confetti').then(confettiModule => {
-                      const confetti = confettiModule.default;
-                      confetti({
-                          particleCount: 100,
-                          spread: 70,
-                          origin: { y: 0.6 },
-                          colors: ['#fbbf24', '#f59e0b', '#d97706', '#3b82f6', '#10b981', '#8b5cf6']
-                      });
+                    void fireConfetti({
+                      particleCount: 100,
+                      spread: 70,
+                      origin: { y: 0.6 },
+                      colors: ['#fbbf24', '#f59e0b', '#d97706', '#3b82f6', '#10b981', '#8b5cf6']
                     });
                     
                     // 关联勋章系统：更新签到 streak

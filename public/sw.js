@@ -1,11 +1,11 @@
 // Service Worker for PWA
 const CACHE_NAME = 'life-game-system-v1';
-// 基础路径 - 适应GitHub Pages部署
-const BASE_PATH = '/Life-Game-Management-System/';
+const BASE_URL = new URL('./', self.registration.scope || self.location.href);
+const resolveAppUrl = (relativePath = '') => new URL(relativePath, BASE_URL).toString();
 const urlsToCache = [
-  BASE_PATH,
-  BASE_PATH + 'index.html',
-  BASE_PATH + 'manifest.json'
+  resolveAppUrl(),
+  resolveAppUrl('index.html'),
+  resolveAppUrl('manifest.json')
 ];
 
 // Install event - cache resources

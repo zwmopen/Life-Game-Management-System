@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import confetti from 'canvas-confetti';
 import SHOP_CATALOG from '../constants/shopCatalog';
 import { ProductType, ProductCategory } from '../types';
+import { fireConfetti } from '../utils/confetti';
 
 interface UseShopProps {
     balance: number;
@@ -114,7 +114,7 @@ export const useShop = ({
         purchaseSound.play().catch(()=>{});
         
         // 触发烟花效果
-        confetti({
+        void fireConfetti({
             particleCount: 100,
             spread: 70,
             origin: { x: e.clientX / window.innerWidth, y: e.clientY / window.innerHeight }
@@ -177,7 +177,7 @@ export const useShop = ({
         purchaseSound.volume = 0.5;
         purchaseSound.play().catch(()=>{});
         
-        confetti({
+        void fireConfetti({
             particleCount: 100,
             spread: 70,
             origin: { x: e.clientX / window.innerWidth, y: e.clientY / window.innerHeight }

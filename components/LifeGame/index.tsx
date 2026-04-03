@@ -11,7 +11,6 @@ import {
   Headphones, Armchair, Scissors, Glasses, Footprints, Utensils, Sofa, Activity, Power, ChevronRight, Sun, Wallet, Bell,
   Camera, Tablet, Wind, Fish, Mountain, Home, Car, Heart, Globe, Palette
 } from 'lucide-react';
-import confetti from 'canvas-confetti';
 import { Theme, AttributeType, AttributeTypeValue, Habit, Project, SubTask, TaskType, AutoTaskType, Task, DiceState, DiceTask, DiceCategory, DiceHistory, Settings as SettingsType, ProductType, ProductCategory } from '../../types';
 import CharacterProfile, { CharacterProfileHandle } from '../CharacterProfile';
 import { GlobalGuideCard, helpContent, GlobalHelpButton } from '../HelpSystem';
@@ -40,6 +39,7 @@ import { useDragAndDrop } from '../../hooks/useDragAndDrop';
 import SHOP_CATALOG from '../../constants/shopCatalog';
 import { BLIND_BOX_PRICES, BLIND_BOX_RULES, HIDDEN_ITEM_PROBABILITY, getPriceRange, getHiddenItemPrice } from '../../constants/blindBox';
 import { ATTR_COLORS, getNeomorphicStyles, getButtonStyle, getCardBgStyle, getTextStyle } from '../../utils/styleHelpers';
+import { fireConfetti } from '../../utils/confetti';
 
 import BattleTab from './BattleTab';
 import ShopTab from './ShopTab';
@@ -362,7 +362,7 @@ const LifeGame: React.FC<LifeGameProps> = memo(({
         completeSound.play().catch(()=>{});
         
         // 触发小型烟花效果
-        confetti({
+        void fireConfetti({
             particleCount: 50,
             spread: 50,
             origin: { x: 0.5, y: 0.5 },

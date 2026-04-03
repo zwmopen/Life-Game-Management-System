@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import confetti from 'canvas-confetti';
 import { Star, Zap, Clock, Wallet, ShoppingBag, Target, Flame, Sparkles, X } from 'lucide-react';
+import { withConfetti } from '../../utils/confetti';
 
 interface RewardModalProps {
   badge: any;
@@ -54,15 +54,34 @@ const RewardModal: React.FC<RewardModalProps> = ({ badge, onClose, theme = 'neom
     const animationEnd = Date.now() + duration;
     const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
     const randomInRange = (min: number, max: number) => Math.random() * (max - min) + min;
-    const interval: any = setInterval(function() {
-      const timeLeft = animationEnd - Date.now();
-      if (timeLeft <= 0) return clearInterval(interval);
-      const particleCount = 50 * (timeLeft / duration);
-      confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
-      confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
-    }, 250);
+    let isCancelled = false;
+    let interval: ReturnType<typeof setInterval> | null = null;
+
+    void withConfetti((confetti) => {
+      if (isCancelled) {
+        return;
+      }
+
+      interval = setInterval(() => {
+        const timeLeft = animationEnd - Date.now();
+        if (timeLeft <= 0) {
+          if (interval) {
+            clearInterval(interval);
+          }
+          return;
+        }
+
+        const particleCount = 50 * (timeLeft / duration);
+        confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
+        confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
+      }, 250);
+    });
+
     return () => {
-      clearInterval(interval);
+      isCancelled = true;
+      if (interval) {
+        clearInterval(interval);
+      }
       clearTimeout(autoCloseTimer);
     };
   }, [badge.id, rewardXp, rewardGold, onClose]);
