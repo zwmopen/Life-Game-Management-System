@@ -8,11 +8,11 @@ import { cardStyles, inputStyles, buttonStyles, smallButtonStyles, getStyleByThe
 import { GlobalHelpButton } from '../HelpSystem';
 
 const NetEaseCloudMusicIcon = () => (
-  <img 
-    src="/Life-Game-Management-System/icons/网易云音乐线-5(netease-cloud-music-l-64px_爱给网_aigei_com.png" 
-    alt="网易云音乐" 
-    width="16" 
-    height="16" 
+  <img
+    src={`${import.meta.env.BASE_URL}icons/netease-cloud-music.png`}
+    alt="网易云音乐"
+    width="16"
+    height="16"
     className="object-contain"
   />
 );

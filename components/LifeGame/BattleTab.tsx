@@ -6,7 +6,7 @@ import {
   Video, Camera, Tablet, Wind, Fish, Mountain, Home, Car, Heart, Globe, 
   Palette, Volume2, VolumeX, ShieldAlert, Download, Upload, Cloud, 
   CloudDownload, Save, RotateCcw, ChevronUp, ChevronDown, Target, Crosshair, 
-  Gift, Coins, Trophy, ShoppingBag, CheckCircle, Swords, Flame, Shield, 
+  Gift, Coins, Trophy, ShoppingBag, CheckCircle, Swords, Flame, Shield, Flag,
   Brain, BicepsFlexed, Sparkles, Users as UsersIcon, Plus, X, Crown, Edit3, 
   Trash2, Repeat, Zap, Mic, Loader2, Gamepad2, Play, Pause, StopCircle, 
   Archive, ArchiveRestore, Settings
@@ -29,9 +29,34 @@ import { useTaskOperations } from '../../hooks/useTaskOperations';
 import { useDragAndDrop } from '../../hooks/useDragAndDrop';
 import { APP_VERSION } from '../../constants/app';
 
+const DEFAULT_TODAY_GOAL = '锁定今天最重要的一场战役';
+const DEFAULT_WEEKLY_GOAL = '为本周设定一个清晰的总攻目标';
+
+const loadWeeklyCheckInData = (): Record<string, boolean> => {
+  try {
+    return JSON.parse(localStorage.getItem('life-game-weekly-checkin') || '{}');
+  } catch {
+    return {};
+  }
+};
+
+const getCurrentWeekDates = (baseDate = new Date()): Date[] => {
+  const cursor = new Date(baseDate);
+  const day = cursor.getDay();
+  const diff = cursor.getDate() - day + (day === 0 ? -6 : 1);
+  const monday = new Date(cursor.setDate(diff));
+
+  return Array.from({ length: 7 }, (_, index) => {
+    const date = new Date(monday);
+    date.setDate(monday.getDate() + index);
+    return date;
+  });
+};
+
 interface BattleTabProps {
   balance: number;
   onUpdateBalance: (amount: number, reason: string) => void;
+  onCheckInComplete?: (goldReward: number, xpReward: number) => void;
   habits: Habit[];
   projects: Project[];
   habitOrder: string[];
@@ -101,11 +126,13 @@ interface BattleTabProps {
   toggleSubTask: (projectId: string, subTaskId: string) => void;
   giveUpSubTask: (projectId: string, subTaskId: string) => void;
   checkInUpdated: number;
+  onOpenShop: () => void;
+  onOpenArmory: () => void;
   setActiveHelp: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 const BattleTab: React.FC<BattleTabProps> = memo(({
-  balance, onUpdateBalance, habits, projects, habitOrder, projectOrder, onToggleHabit, onUpdateHabit, onDeleteHabit, 
+  balance, onUpdateBalance, onCheckInComplete, habits, projects, habitOrder, projectOrder, onToggleHabit, onUpdateHabit, onDeleteHabit, 
   onUpdateProject, onDeleteProject, onAddHabit, onAddProject, onAddFloatingReward, totalTasksCompleted, totalHours,
   challengePool, setChallengePool, todaysChallenges, completedRandomTasks, onToggleRandomChallenge, onStartAutoTask, 
   checkInStreak, onPomodoroComplete, xp, weeklyGoal, setWeeklyGoal, todayGoal, setTodayGoal, givenUpTasks, onGiveUpTask, 
@@ -114,9 +141,11 @@ const BattleTab: React.FC<BattleTabProps> = memo(({
   isImmersive, setIsImmersive, onInternalImmersiveModeChange, settings,
   diceState, onSpinDice, onDiceResult, onAddDiceTask, onDeleteDiceTask, onUpdateDiceTask, onUpdateDiceConfig, 
   onUpdateDiceState, onLevelChange, theme, isDark, isNeomorphic, cardBg, textMain, textSub, neomorphicStyles,
-  level, setLevel, characterProfileRef, toggleSubTask, giveUpSubTask, checkInUpdated, setActiveHelp
+  level, setLevel, characterProfileRef, toggleSubTask, giveUpSubTask, checkInUpdated, onOpenShop, onOpenArmory, setActiveHelp
 }) => {
-  const [taskCategory, setTaskCategory] = useState<'daily' | 'main' | 'timebox' | 'dice'>('daily');
+  const [taskCategory, setTaskCategory] = useState<'daily' | 'main' | 'timebox' | 'dice'>(() => (
+    projects.some(project => project.status !== 'completed') ? 'main' : 'daily'
+  ));
   
   const [isAddTaskOpen, setIsAddTaskOpen] = useState(false);
   const [newTaskTitle, setNewTaskTitle] = useState('');
@@ -151,6 +180,10 @@ const BattleTab: React.FC<BattleTabProps> = memo(({
     const saved = localStorage.getItem('life-game-reminder-interval');
     return saved || '1';
   });
+  const [checkInData, setCheckInData] = useState<Record<string, boolean>>(() => loadWeeklyCheckInData());
+  const [localCheckInStreak, setLocalCheckInStreak] = useState(checkInStreak);
+  const [todayGoalDraft, setTodayGoalDraft] = useState(todayGoal || DEFAULT_TODAY_GOAL);
+  const [weeklyGoalDraft, setWeeklyGoalDraft] = useState(weeklyGoal || DEFAULT_WEEKLY_GOAL);
 
   // 实时保存提醒设置到本地存储
   useEffect(() => {
@@ -296,6 +329,239 @@ const BattleTab: React.FC<BattleTabProps> = memo(({
         };
     }).sort((a, b) => Number(a.completed) - Number(b.completed));
   }, [sortedProjects]);
+
+  useEffect(() => {
+    setCheckInData(loadWeeklyCheckInData());
+  }, [checkInUpdated]);
+
+  useEffect(() => {
+    setLocalCheckInStreak(checkInStreak);
+  }, [checkInStreak]);
+
+  useEffect(() => {
+    if (!isEditingTodayGoal) {
+      setTodayGoalDraft(todayGoal || DEFAULT_TODAY_GOAL);
+    }
+  }, [todayGoal, isEditingTodayGoal]);
+
+  useEffect(() => {
+    if (!isEditingGoal) {
+      setWeeklyGoalDraft(weeklyGoal || DEFAULT_WEEKLY_GOAL);
+    }
+  }, [weeklyGoal, isEditingGoal]);
+
+  const weekDates = useMemo(() => getCurrentWeekDates(), []);
+  const isCheckedInToday = !!checkInData[todayStr];
+  const checkedInThisWeek = useMemo(
+    () => weekDates.filter(date => checkInData[date.toLocaleDateString()]).length,
+    [checkInData, weekDates]
+  );
+
+  const dailyProgress = useMemo(() => {
+    const total = habitTasks.length;
+    const completed = habitTasks.filter(task => task.completed).length;
+    return {
+      total,
+      completed,
+      remaining: Math.max(0, total - completed),
+      percent: total === 0 ? 100 : Math.round((completed / total) * 100)
+    };
+  }, [habitTasks]);
+
+  const mainProgress = useMemo(() => {
+    const total = projectTasks.reduce((sum, project) => {
+      if (project.subTasks?.length) {
+        return sum + project.subTasks.length;
+      }
+
+      return sum + 1;
+    }, 0);
+
+    const completed = projectTasks.reduce((sum, project) => {
+      if (project.subTasks?.length) {
+        return sum + project.subTasks.filter(subTask => subTask.completed).length;
+      }
+
+      return sum + Number(project.completed);
+    }, 0);
+
+    return {
+      total,
+      completed,
+      remaining: Math.max(0, total - completed),
+      percent: total === 0 ? 100 : Math.round((completed / total) * 100)
+    };
+  }, [projectTasks]);
+
+  const totalProgress = useMemo(() => {
+    const total = dailyProgress.total + mainProgress.total;
+    const completed = dailyProgress.completed + mainProgress.completed;
+
+    return {
+      total,
+      completed,
+      percent: total === 0 ? 100 : Math.round((completed / total) * 100)
+    };
+  }, [dailyProgress, mainProgress]);
+
+  const nextMainMission = useMemo(() => {
+    for (const project of projectTasks) {
+      const nextSubTask = project.subTasks?.find(subTask => !subTask.completed);
+      if (nextSubTask) {
+        return `${project.text} / ${nextSubTask.text}`;
+      }
+
+      if (!project.completed) {
+        return project.text;
+      }
+    }
+
+    return '';
+  }, [projectTasks]);
+
+  const nextDailyMission = useMemo(
+    () => habitTasks.find(task => !task.completed && !task.isGivenUp)?.text || '',
+    [habitTasks]
+  );
+
+  const focusTrendData = useMemo(() => {
+    const historyPoints = Object.entries(statsHistory || {})
+      .sort(([dayA], [dayB]) => Number(dayA) - Number(dayB))
+      .slice(-6)
+      .map(([day, stats]) => ({
+        date: `D${day}`,
+        focusMinutes: stats.focusMinutes || 0
+      }));
+
+    const withToday = [
+      ...historyPoints,
+      { date: '今', focusMinutes: todayStats?.focusMinutes || 0 }
+    ];
+
+    return withToday.slice(-7);
+  }, [statsHistory, todayStats]);
+
+  const weeklyFocusAverage = useMemo(() => {
+    if (focusTrendData.length === 0) {
+      return 0;
+    }
+
+    const totalFocus = focusTrendData.reduce((sum, item) => sum + item.focusMinutes, 0);
+    return Math.round(totalFocus / focusTrendData.length);
+  }, [focusTrendData]);
+
+  const commandBrief = useMemo(() => {
+    if (!isCheckedInToday) {
+      return {
+        title: '先完成今日签到，拿到启动奖励',
+        detail: '先点亮今天，再推进主线，会更像一场完整的开局。',
+        action: 'checkin' as const
+      };
+    }
+
+    if (nextMainMission) {
+      return {
+        title: '主线优先，先推进今天最重要的战役',
+        detail: nextMainMission,
+        action: 'main' as const
+      };
+    }
+
+    if (nextDailyMission) {
+      return {
+        title: '把剩余日常清干净，今天会更完整',
+        detail: nextDailyMission,
+        action: 'daily' as const
+      };
+    }
+
+    return {
+      title: '执行面已经收得差不多了，可以去领奖励',
+      detail: '把成果转成奖励和成就，明天更愿意继续回来。',
+      action: 'shop' as const
+    };
+  }, [isCheckedInToday, nextMainMission, nextDailyMission]);
+
+  const commitTodayGoal = useCallback(() => {
+    const nextGoal = todayGoalDraft.trim() || DEFAULT_TODAY_GOAL;
+    setTodayGoal(nextGoal);
+    setTodayGoalDraft(nextGoal);
+    setIsEditingTodayGoal(false);
+  }, [setTodayGoal, todayGoalDraft]);
+
+  const commitWeeklyGoal = useCallback(() => {
+    const nextGoal = weeklyGoalDraft.trim() || DEFAULT_WEEKLY_GOAL;
+    setWeeklyGoal(nextGoal);
+    setWeeklyGoalDraft(nextGoal);
+    setIsEditingGoal(false);
+  }, [setWeeklyGoal, weeklyGoalDraft]);
+
+  const handleCheckIn = useCallback(() => {
+    if (isCheckedInToday) {
+      return;
+    }
+
+    const updatedCheckInData = { ...checkInData, [todayStr]: true };
+    const consecutiveDays = weekDates.filter(date => updatedCheckInData[date.toLocaleDateString()]).length;
+    const goldReward = 10 + (consecutiveDays * 5);
+    const xpReward = 15 + (consecutiveDays * 3);
+    const nextStreak = localCheckInStreak + 1;
+
+    localStorage.setItem('life-game-weekly-checkin', JSON.stringify(updatedCheckInData));
+    setCheckInData(updatedCheckInData);
+    setLocalCheckInStreak(nextStreak);
+
+    if (onCheckInComplete) {
+      onCheckInComplete(goldReward, xpReward);
+    } else {
+      onUpdateBalance(goldReward, '签到奖励');
+      localStorage.setItem('aes-checkin-streak', nextStreak.toString());
+    }
+
+    onAddFloatingReward('签到成功！', 'text-green-500', window.innerWidth / 2);
+
+    setTimeout(() => {
+      onAddFloatingReward(`+${goldReward} 金币`, 'text-yellow-500', window.innerWidth / 2 - 80);
+    }, 250);
+    setTimeout(() => {
+      onAddFloatingReward(`+${xpReward} 经验`, 'text-blue-500', window.innerWidth / 2 + 80);
+    }, 500);
+
+    void fireConfetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { y: 0.6 },
+      colors: ['#fbbf24', '#f59e0b', '#d97706', '#3b82f6', '#10b981', '#8b5cf6']
+    });
+  }, [
+    checkInData,
+    isCheckedInToday,
+    localCheckInStreak,
+    onAddFloatingReward,
+    onCheckInComplete,
+    onUpdateBalance,
+    todayStr,
+    weekDates
+  ]);
+
+  const handleCommandAction = useCallback(() => {
+    switch (commandBrief.action) {
+      case 'checkin':
+        handleCheckIn();
+        break;
+      case 'main':
+        setTaskCategory('main');
+        break;
+      case 'daily':
+        setTaskCategory('daily');
+        break;
+      case 'shop':
+        onOpenShop();
+        break;
+      default:
+        break;
+    }
+  }, [commandBrief.action, handleCheckIn, onOpenShop]);
 
   const handleStartTimer = useCallback((duration: number) => {
       if (characterProfileRef.current) {
@@ -514,16 +780,218 @@ const BattleTab: React.FC<BattleTabProps> = memo(({
       ? 'bg-blue-500 text-white' 
       : getButtonStyle(false, false, isNeomorphic, theme, isDark)
   }`, [taskCategory, isNeomorphic, theme, isDark]);
+
+  const summaryCardClass = `${cardBg} border rounded-3xl p-4 md:p-5 transition-all duration-300 hover:shadow-lg`;
+  const quickActionClass = `px-3 py-2 rounded-xl text-sm font-semibold transition-all ${getButtonStyle(false, false, isNeomorphic, theme, isDark)}`;
+  const primaryActionClass = `px-4 py-2 rounded-xl text-sm font-semibold text-white shadow-lg transition-all ${isDark ? 'bg-blue-500 hover:bg-blue-400 shadow-blue-900/30' : 'bg-blue-600 hover:bg-blue-500 shadow-blue-500/20'}`;
+  const progressTrackClass = isDark ? 'bg-zinc-800/80' : 'bg-zinc-200/80';
+  const weeklyCheckInLabels = ['一', '二', '三', '四', '五', '六', '日'];
+  const commandActionLabel = (() => {
+    switch (commandBrief.action) {
+      case 'checkin':
+        return '立即签到';
+      case 'main':
+        return '推进主线';
+      case 'daily':
+        return '处理日常';
+      case 'shop':
+        return '进入补给黑市';
+      default:
+        return '继续作战';
+    }
+  })();
   
   return (
-    <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8">
+    <div className="max-w-5xl mx-auto space-y-6 sm:space-y-8">
+      <div className={`${summaryCardClass} overflow-hidden`}>
+        <div className="grid gap-4 lg:grid-cols-[1.3fr_0.9fr]">
+          <div className="space-y-4">
+            <div className="flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-[0.24em] text-zinc-500">
+              <Target size={14} /> 今日战情总览
+              <span className={`rounded-full px-2 py-1 tracking-normal ${isCheckedInToday ? 'bg-emerald-500/15 text-emerald-500' : 'bg-amber-500/15 text-amber-500'}`}>
+                {isCheckedInToday ? '已完成启动签到' : '待领取启动奖励'}
+              </span>
+            </div>
+
+            <div className="space-y-2">
+              <h2 className={`text-2xl md:text-3xl font-black leading-tight ${textMain}`}>
+                今天先把主线拉清楚，再去享受奖励。
+              </h2>
+              <div className={`text-sm md:text-base ${textSub}`}>{commandBrief.title}</div>
+              <div className={`text-sm ${textSub}`}>{commandBrief.detail}</div>
+            </div>
+
+            <div className="grid gap-3 md:grid-cols-2">
+              <div className={`${cardBg} border rounded-2xl p-4`}>
+                <div className="mb-2 flex items-center justify-between">
+                  <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-zinc-500">
+                    <Crosshair size={12} /> 今日主目标
+                  </div>
+                  <button onClick={() => setIsEditingTodayGoal(true)} className="rounded-lg p-1 text-zinc-500 transition-colors hover:text-blue-500" aria-label="编辑今日目标">
+                    <Edit3 size={14} />
+                  </button>
+                </div>
+                {isEditingTodayGoal ? (
+                  <input
+                    autoFocus
+                    value={todayGoalDraft}
+                    onChange={(event) => setTodayGoalDraft(event.target.value)}
+                    onBlur={commitTodayGoal}
+                    onKeyDown={(event) => {
+                      if (event.key === 'Enter') {
+                        event.preventDefault();
+                        commitTodayGoal();
+                      }
+                    }}
+                    className={`w-full rounded-xl border px-3 py-2 text-sm outline-none ${isDark ? 'border-zinc-700 bg-zinc-900 text-zinc-100' : 'border-zinc-200 bg-white text-zinc-900'}`}
+                  />
+                ) : (
+                  <button onClick={() => setIsEditingTodayGoal(true)} className={`w-full text-left text-base font-semibold leading-7 ${textMain}`}>
+                    {todayGoal || DEFAULT_TODAY_GOAL}
+                  </button>
+                )}
+              </div>
+
+              <div className={`${cardBg} border rounded-2xl p-4`}>
+                <div className="mb-2 flex items-center justify-between">
+                  <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-zinc-500">
+                    <Flag size={12} /> 本周战役
+                  </div>
+                  <button onClick={() => setIsEditingGoal(true)} className="rounded-lg p-1 text-zinc-500 transition-colors hover:text-blue-500" aria-label="编辑本周战役">
+                    <Edit3 size={14} />
+                  </button>
+                </div>
+                {isEditingGoal ? (
+                  <input
+                    autoFocus
+                    value={weeklyGoalDraft}
+                    onChange={(event) => setWeeklyGoalDraft(event.target.value)}
+                    onBlur={commitWeeklyGoal}
+                    onKeyDown={(event) => {
+                      if (event.key === 'Enter') {
+                        event.preventDefault();
+                        commitWeeklyGoal();
+                      }
+                    }}
+                    className={`w-full rounded-xl border px-3 py-2 text-sm outline-none ${isDark ? 'border-zinc-700 bg-zinc-900 text-zinc-100' : 'border-zinc-200 bg-white text-zinc-900'}`}
+                  />
+                ) : (
+                  <button onClick={() => setIsEditingGoal(true)} className={`w-full text-left text-base font-semibold leading-7 ${textMain}`}>
+                    {weeklyGoal || DEFAULT_WEEKLY_GOAL}
+                  </button>
+                )}
+              </div>
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              <button onClick={handleCommandAction} className={primaryActionClass}>
+                {commandActionLabel}
+              </button>
+              <button onClick={() => setTaskCategory('main')} className={quickActionClass}>
+                推进主线
+              </button>
+              <button onClick={() => setTaskCategory('daily')} className={quickActionClass}>
+                处理日常
+              </button>
+              <button onClick={() => setTaskCategory('timebox')} className={quickActionClass}>
+                发起冲刺
+              </button>
+              <button onClick={onOpenShop} className={quickActionClass}>
+                奖励入口
+              </button>
+            </div>
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-2">
+            <div className={`${cardBg} border rounded-2xl p-4`}>
+              <div className="mb-3 flex items-center justify-between">
+                <div className="text-xs font-bold uppercase tracking-widest text-zinc-500">今日完成</div>
+                <div className="text-lg font-black text-blue-500">{totalProgress.percent}%</div>
+              </div>
+              <div className={`mb-2 h-2 overflow-hidden rounded-full ${progressTrackClass}`}>
+                <div className="h-full rounded-full bg-blue-500 transition-all" style={{ width: `${totalProgress.percent}%` }} />
+              </div>
+              <div className={`text-sm font-semibold ${textMain}`}>{totalProgress.completed} / {totalProgress.total || 0} 项</div>
+              <div className={`mt-1 text-xs ${textSub}`}>日常 {dailyProgress.completed}/{dailyProgress.total || 0}，主线 {mainProgress.completed}/{mainProgress.total || 0}</div>
+            </div>
+
+            <div className={`${cardBg} border rounded-2xl p-4`}>
+              <div className="mb-3 flex items-center justify-between">
+                <div className="text-xs font-bold uppercase tracking-widest text-zinc-500">主线推进</div>
+                <div className="text-lg font-black text-violet-500">{mainProgress.percent}%</div>
+              </div>
+              <div className={`mb-2 h-2 overflow-hidden rounded-full ${progressTrackClass}`}>
+                <div className="h-full rounded-full bg-violet-500 transition-all" style={{ width: `${mainProgress.percent}%` }} />
+              </div>
+              <div className={`text-sm font-semibold ${textMain}`}>剩余 {mainProgress.remaining} 个推进点</div>
+              <div className={`mt-1 text-xs ${textSub}`}>{nextMainMission || '主线基本清空，可以转入日常或奖励。'}</div>
+            </div>
+
+            <div className={`${cardBg} border rounded-2xl p-4 sm:col-span-2`}>
+              <div className="mb-3 flex items-center justify-between">
+                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-zinc-500">
+                  <Calendar size={12} /> 签到节奏
+                </div>
+                {settings && 'guideCardConfig' in settings && settings.guideCardConfig && (
+                  <GlobalHelpButton helpId="checkin" onHelpClick={setActiveHelp} size={14} className="text-blue-500 p-0.5" />
+                )}
+              </div>
+              <div className="mb-3 flex items-center gap-3">
+                <button
+                  onClick={handleCheckIn}
+                  disabled={isCheckedInToday}
+                  className={`flex h-12 min-w-[88px] items-center justify-center gap-2 rounded-2xl px-4 text-sm font-semibold transition-all ${
+                    isCheckedInToday
+                      ? 'cursor-not-allowed border border-emerald-500/30 bg-emerald-500/15 text-emerald-500'
+                      : primaryActionClass
+                  }`}
+                >
+                  {isCheckedInToday ? <Check size={16} /> : <Package size={16} />}
+                  {isCheckedInToday ? '今日已签' : '立即签到'}
+                </button>
+                <div>
+                  <div className={`text-sm font-semibold ${textMain}`}>连续签到 {localCheckInStreak} 天</div>
+                  <div className={`text-xs ${textSub}`}>本周已点亮 {checkedInThisWeek} / 7 天</div>
+                </div>
+              </div>
+              <div className="grid grid-cols-7 gap-2">
+                {weekDates.map((date, index) => {
+                  const dateStr = date.toLocaleDateString();
+                  const checked = !!checkInData[dateStr];
+                  const isToday = dateStr === todayStr;
+
+                  return (
+                    <div
+                      key={dateStr}
+                      className={`rounded-xl border px-2 py-2 text-center text-[11px] font-semibold ${
+                        checked
+                          ? 'border-emerald-500/30 bg-emerald-500/15 text-emerald-500'
+                          : isToday
+                            ? 'border-blue-500/30 bg-blue-500/10 text-blue-500'
+                            : isDark
+                              ? 'border-zinc-800 bg-zinc-900/60 text-zinc-500'
+                              : 'border-zinc-200 bg-white/70 text-zinc-500'
+                      }`}
+                    >
+                      <div className="mb-1 flex justify-center">
+                        {checked ? <Check size={12} /> : <Calendar size={12} />}
+                      </div>
+                      <div>{weeklyCheckInLabels[index]}</div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       {/* 战略指挥部 - 包含角色状态、任务管理、实时情报 */}
       <div className={`${cardBg} border p-4 rounded-2xl transition-all duration-300 hover:shadow-lg`}>
         <div className="flex items-center justify-between mb-4">
           <div className="text-sm font-bold text-zinc-500 uppercase tracking-wider flex items-center gap-2">
             <Layout size={16}/> 战略指挥部
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             <button 
               onClick={() => setTaskCategory('daily')}
               className={dailyButtonClass}
@@ -561,7 +1029,7 @@ const BattleTab: React.FC<BattleTabProps> = memo(({
             balance={balance} 
             totalHours={totalHours} 
             totalKills={totalTasksCompleted} 
-            checkInStreak={checkInStreak} 
+            checkInStreak={localCheckInStreak} 
             onPomodoroComplete={onPomodoroComplete} 
             onUpdateBalance={onUpdateBalance} 
             onLevelChange={onLevelChange} 

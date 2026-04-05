@@ -72,6 +72,7 @@ interface LifeGameProps {
   onStartAutoTask: (type: AutoTaskType, id: string, duration: number, subId?: string) => void;
   checkInStreak: number;
   onPomodoroComplete: (m: number) => void;
+  onCheckInComplete?: (goldReward: number, xpReward: number) => void;
   xp: number;
   weeklyGoal: string;
   setWeeklyGoal: (g: string) => void;
@@ -119,7 +120,7 @@ const XP_PER_LEVEL = 200;
 
 const LifeGame: React.FC<LifeGameProps> = memo(({ 
     balance, onUpdateBalance, habits, projects, habitOrder, projectOrder, onToggleHabit, onUpdateHabit, onDeleteHabit, onUpdateProject, onDeleteProject, onAddHabit, onAddProject, initialTab, initialCategory, onAddFloatingReward, totalTasksCompleted, totalHours,
-    challengePool, setChallengePool, todaysChallenges, completedRandomTasks, onToggleRandomChallenge, onStartAutoTask, checkInStreak, onPomodoroComplete, xp, weeklyGoal, setWeeklyGoal, todayGoal, setTodayGoal,
+    challengePool, setChallengePool, todaysChallenges, completedRandomTasks, onToggleRandomChallenge, onStartAutoTask, checkInStreak, onPomodoroComplete, onCheckInComplete, xp, weeklyGoal, setWeeklyGoal, todayGoal, setTodayGoal,
     givenUpTasks = [], onGiveUpTask, onUpdateHabitOrder, onUpdateProjectOrder, isNavCollapsed, setIsNavCollapsed, todayStats, statsHistory,
     // Pomodoro Global State
     timeLeft, isActive, duration, onToggleTimer, onResetTimer, onChangeDuration, onUpdateTimeLeft, onUpdateIsActive,
@@ -520,13 +521,13 @@ const LifeGame: React.FC<LifeGameProps> = memo(({
             balance, onUpdateBalance, habits, projects, habitOrder, projectOrder, onToggleHabit, onUpdateHabit, onDeleteHabit, 
             onUpdateProject, onDeleteProject, onAddHabit, onAddProject, onAddFloatingReward, totalTasksCompleted, totalHours,
             challengePool, setChallengePool, todaysChallenges, completedRandomTasks, onToggleRandomChallenge, onStartAutoTask, 
-            checkInStreak, onPomodoroComplete, xp, weeklyGoal, setWeeklyGoal, todayGoal, setTodayGoal, givenUpTasks, onGiveUpTask, 
+            checkInStreak, onPomodoroComplete, onCheckInComplete, xp, weeklyGoal, setWeeklyGoal, todayGoal, setTodayGoal, givenUpTasks, onGiveUpTask, 
             onUpdateHabitOrder, onUpdateProjectOrder, isNavCollapsed, setIsNavCollapsed, todayStats, statsHistory,
             timeLeft, isActive, duration, onToggleTimer, onResetTimer, onChangeDuration, onUpdateTimeLeft, onUpdateIsActive,
             isImmersive, setIsImmersive, onInternalImmersiveModeChange, settings,
             diceState, onSpinDice, onDiceResult, onAddDiceTask, onDeleteDiceTask, onUpdateDiceTask, onUpdateDiceConfig, 
             onUpdateDiceState, onLevelChange, theme, isDark, isNeomorphic, cardBg, textMain, textSub, neomorphicStyles,
-            level, setLevel, characterProfileRef, toggleSubTask, giveUpSubTask, checkInUpdated, setActiveHelp
+            level, setLevel, characterProfileRef, toggleSubTask, giveUpSubTask, checkInUpdated, onOpenShop: () => setMainTab('shop'), onOpenArmory: () => setMainTab('armory'), setActiveHelp
           }}
         />
       )}
