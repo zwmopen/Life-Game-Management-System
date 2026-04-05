@@ -4,6 +4,8 @@ import react from '@vitejs/plugin-react';
 import fs from 'fs';
 import { webdavProxyPlugin } from './plugins/webdav-proxy-plugin';
 
+import { cloudflare } from "@cloudflare/vite-plugin";
+
 function normalizeBasePath(basePath?: string) {
   if (!basePath) {
     return undefined;
@@ -124,20 +126,16 @@ export default defineConfig(({ mode }) => {
         // 启动时自动打开浏览器
         open: true,
       },
-      plugins: [
-        react(), 
-        webdavProxyPlugin(),
-        // 添加音频文件扫描中间件
-        {
-          name: 'audio-scan-middleware',
-          configureServer(server) {
-            // 仅在开发环境添加音频扫描中间件
-            if (mode === 'development') {
-              server.middlewares.use(createAudioScanMiddleware());
-            }
-          },
-        }
-      ],
+      plugins: [react(), webdavProxyPlugin(), // 添加音频文件扫描中间件
+      {
+        name: 'audio-scan-middleware',
+        configureServer(server) {
+          // 仅在开发环境添加音频扫描中间件
+          if (mode === 'development') {
+            server.middlewares.use(createAudioScanMiddleware());
+          }
+        },
+      }, cloudflare()],
       resolve: {
         alias: {
           '@': path.resolve(__dirname, '.'),
