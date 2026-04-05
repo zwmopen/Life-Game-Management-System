@@ -1,7 +1,7 @@
 import WebDAVClient, { WebDAVConfig, WebDAVFile } from './webdavClient';
 import dataPersistenceManager from './DataPersistenceManager';
 import { retrieveWebDAVConfig } from './secureStorage';
-import { logInfo, logError, logWarn } from './logger';
+import { logDebug, logInfo, logError } from './logger';
 
 interface SyncConfig {
   autoSync: boolean;
@@ -62,6 +62,10 @@ class SyncManager {
     this.loadStatus();
   }
 
+  private hasCompleteConfig(config: Pick<WebDAVConfig, 'url' | 'username' | 'password'>): boolean {
+    return Boolean(config.url && config.username && config.password);
+  }
+
   /**
    * 初始化同步管理器
    */
@@ -69,8 +73,12 @@ class SyncManager {
     try {
       const webdavConfig = retrieveWebDAVConfig();
       
-      if (!webdavConfig.url || !webdavConfig.username || !webdavConfig.password) {
-        logWarn('WebDAV配置不完整，无法初始化同步管理器');
+      if (!this.hasCompleteConfig(webdavConfig)) {
+        logDebug('WebDAV configuration is incomplete; skipping sync initialization.');
+        this.webDAVClient = null;
+        this.initialized = false;
+        this.status.syncError = null;
+        this.saveStatus();
         return false;
       }
 
@@ -95,6 +103,8 @@ class SyncManager {
       logInfo('同步管理器初始化成功');
       return true;
     } catch (error) {
+      this.webDAVClient = null;
+      this.initialized = false;
       logError('同步管理器初始化失败:', error);
       this.status.syncError = error instanceof Error ? error.message : '初始化失败';
       this.saveStatus();

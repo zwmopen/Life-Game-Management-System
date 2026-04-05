@@ -1,6 +1,47 @@
 import { AchievementItem, DiceCategory, Project, Habit } from '../types';
 import { AttributeType } from '../types';
 
+type ThresholdDefinition = {
+  min: number;
+  title: string;
+};
+
+const getStoredThresholds = (storageKey: string, defaults: ThresholdDefinition[]): ThresholdDefinition[] => {
+  if (typeof window === 'undefined') {
+    return defaults;
+  }
+
+  try {
+    const raw = window.localStorage.getItem(storageKey);
+    if (!raw) {
+      return defaults;
+    }
+
+    const parsed = JSON.parse(raw) as unknown;
+    if (!Array.isArray(parsed)) {
+      return defaults;
+    }
+
+    const sanitized = parsed
+      .filter((item): item is ThresholdDefinition => {
+        return Boolean(
+          item &&
+          typeof item === 'object' &&
+          typeof (item as ThresholdDefinition).min === 'number' &&
+          typeof (item as ThresholdDefinition).title === 'string'
+        );
+      })
+      .map(item => ({
+        min: item.min,
+        title: item.title
+      }));
+
+    return sanitized.length > 0 ? sanitized : defaults;
+  } catch {
+    return defaults;
+  }
+};
+
 // --- Check-in Thresholds ---
 export const CHECKIN_THRESHOLDS = [
   { min: 3, title: '坚持不懈' },
@@ -13,7 +54,7 @@ export const CHECKIN_THRESHOLDS = [
   { min: 365, title: '永恒坚守' }
 ];
 
-export const getAllCheckInTitles = () => CHECKIN_THRESHOLDS;
+export const getAllCheckInTitles = () => getStoredThresholds('aes-checkin-thresholds', CHECKIN_THRESHOLDS);
 
 // --- Consumption Thresholds ---
 export const CONSUMPTION_THRESHOLDS = [
@@ -37,7 +78,7 @@ export const CONSUMPTION_THRESHOLDS = [
   { min: 5000000, title: '无限消费' }
 ];
 
-export const getAllConsumptionTitles = () => CONSUMPTION_THRESHOLDS;
+export const getAllConsumptionTitles = () => getStoredThresholds('aes-consumption-thresholds', CONSUMPTION_THRESHOLDS);
 
 // --- Initial Habits ---
 // 替换为 ZWM 2.0 日常显化任务

@@ -274,6 +274,7 @@ const App: React.FC = () => {
     
     try {
       // 初始化备份管理器
+      migrateOldWebDAVConfig();
       backupManager.initialize();
     } catch (error) {
       logError('Failed to initialize backup manager:', error);
@@ -284,13 +285,6 @@ const App: React.FC = () => {
       syncManager.initialize();
     } catch (error) {
       logError('Failed to initialize sync manager:', error);
-    }
-    
-    try {
-      // 执行坚果云配置迁移
-      migrateOldWebDAVConfig();
-    } catch (error) {
-      logError('Failed to migrate old WebDAV config:', error);
     }
     
     const savedGlobal = localStorage.getItem('aes-global-data-v3');

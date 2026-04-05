@@ -27,14 +27,10 @@ import CharacterProfile, { CharacterProfileHandle, getAllLevels, getAllFocusTitl
 import { GlobalGuideCard, helpContent, GlobalHelpButton } from './HelpSystem';
 import { getNeomorphicStyles, getButtonStyle, getCardBgStyle, getTextStyle } from '../utils/styleHelpers';
 import BadgeManagementModal from './HallOfFame/BadgeManagementModal';
-
-// 签到勋章配置
-const CHECKIN_THRESHOLDS = [{min:3,title:'坚持不懈'},{min:7,title:'签到达人'},{min:15,title:'自律新星'},{min:30,title:'习惯养成'},{min:60,title:'岁月如歌'},{min:100,title:'时间的朋友'},{min:200,title:'持久王者'},{min:365,title:'永恒坚守'}];
-const getAllCheckInTitles = () => CHECKIN_THRESHOLDS;
-
-// 消费勋章配置
-const CONSUMPTION_THRESHOLDS = [{min:100,title:'初次破费'},{min:500,title:'快乐剁手'},{min:1000,title:'品质生活'},{min:2000,title:'补给大亨'},{min:3500,title:'氪金战士'},{min:5000,title:'消费至尊'},{min:8000,title:'黑市常客'},{min:12000,title:'装备大师'},{min:18000,title:'挥金如土'},{min:25000,title:'经济支柱'},{min:40000,title:'商会主席'},{min:60000,title:'财阀雏形'},{min:90000,title:'资本巨头'},{min:150000,title:'市场主宰'},{min:250000,title:'富可敌国'},{min:500000,title:'金钱之神'},{min:1000000,title:'虚空财主'},{min:5000000,title:'无限消费'}];
-const getAllConsumptionTitles = () => CONSUMPTION_THRESHOLDS;
+import {
+  getAllCheckInTitles as getPersistedCheckInTitles,
+  getAllConsumptionTitles as getPersistedConsumptionTitles
+} from '../constants/index';
 
 interface HallOfFameProps {
     theme: Theme;
@@ -189,7 +185,7 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
              };
          });
 
-         const checkInBadges = getAllCheckInTitles().map((c, idx) => {
+         const checkInBadges = getPersistedCheckInTitles().map((c, idx) => {
              // 默认奖励比例为10%
              const rewardRatio = 0.1;
              // 计算奖励值 - 签到类勋章，同时奖励经验值+金币
@@ -208,7 +204,7 @@ const HallOfFame: React.FC<HallOfFameProps> = ({
              };
          });
 
-         const spendBadges = getAllConsumptionTitles().map((c, idx) => {
+         const spendBadges = getPersistedConsumptionTitles().map((c, idx) => {
              // 默认奖励比例为10%
              const rewardRatio = 0.1;
              // 计算奖励值 - 消费类勋章，仅奖励金币

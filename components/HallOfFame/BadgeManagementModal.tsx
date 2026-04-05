@@ -7,6 +7,10 @@ import { Theme } from '../../types';
 import EditGroupModal from './EditGroupModal';
 import EditBadgeModal from './EditBadgeModal';
 import { getAllLevels, getAllFocusTitles, getAllWealthTitles, getAllMilitaryRanks } from '../CharacterProfile';
+import {
+  getAllCheckInTitles as getPersistedCheckInTitles,
+  getAllConsumptionTitles as getPersistedConsumptionTitles
+} from '../../constants/index';
 
 interface BadgeManagementModalProps {
   isOpen: boolean;
@@ -94,6 +98,22 @@ const BadgeManagementModal: React.FC<BadgeManagementModalProps> = ({
             return r;
         });
         localStorage.setItem('aes-combat-thresholds', JSON.stringify(updatedMilitaryRanks));
+    } else if (editingBadge.category === 'CHECKIN') {
+        const updatedCheckInTitles = getPersistedCheckInTitles().map((item, idx) => {
+            if (idx + 1 === editingBadge.level) {
+                return { ...item, min: requiredValue, title: editedBadge.title };
+            }
+            return item;
+        });
+        localStorage.setItem('aes-checkin-thresholds', JSON.stringify(updatedCheckInTitles));
+    } else if (editingBadge.category === 'SPEND') {
+        const updatedConsumptionTitles = getPersistedConsumptionTitles().map((item, idx) => {
+            if (idx + 1 === editingBadge.level) {
+                return { ...item, min: requiredValue, title: editedBadge.title };
+            }
+            return item;
+        });
+        localStorage.setItem('aes-consumption-thresholds', JSON.stringify(updatedConsumptionTitles));
     }
     // ... Add more categories as needed or move logic to a hook
     
@@ -152,7 +172,10 @@ const BadgeManagementModal: React.FC<BadgeManagementModalProps> = ({
           <div className="space-y-6">
             <div className="text-center">
               <button 
-                className={`w-full py-1.5 rounded-[24px] text-xs font-bold border transition-all ${getButtonStyleLocal(false)}`}
+                type="button"
+                disabled
+                title="系统勋章暂不支持新增"
+                className={`w-full py-1.5 rounded-[24px] text-xs font-bold border transition-all opacity-50 cursor-not-allowed ${getButtonStyleLocal(false)}`}
                 onClick={() => setEditingBadge({ id: `new-${Date.now()}`, title: '新勋章', subTitle: 'NEW', icon: Trophy, color: 'text-yellow-500', bgColor: 'bg-yellow-500/20', borderColor: 'border-yellow-500/50', isUnlocked: false, req: '完成条件', progress: 0, rewardXp: 0, rewardGold: 0, category: selectedCategory === 'ALL' ? 'LEVEL' : selectedCategory, level: 1, min: 100, rewardRatio: 0.1 })}
               >
                 <Plus size={12} className="inline-block mr-1" /> 新增勋章
@@ -174,8 +197,8 @@ const BadgeManagementModal: React.FC<BadgeManagementModalProps> = ({
                       <span className={textMain}>{group.l}</span>
                     </div>
                     <div className="flex gap-2">
-                      <button className={`px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all ${getButtonStyleLocal(false)}`} onClick={() => setEditingGroup(group.id)}><Edit3 size={12} className={isDark ? 'text-yellow-400' : 'text-yellow-600'} /></button>
-                      <button className={`px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all ${getButtonStyleLocal(false)}`}><Trash2 size={12} className={isDark ? 'text-red-400' : 'text-red-600'} /></button>
+                      <button type="button" disabled title="系统分组暂不支持修改" className={`px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all opacity-50 cursor-not-allowed ${getButtonStyleLocal(false)}`} onClick={() => setEditingGroup(group.id)}><Edit3 size={12} className={isDark ? 'text-yellow-400' : 'text-yellow-600'} /></button>
+                      <button type="button" disabled title="系统分组暂不支持删除" className={`px-4 py-1.5 rounded-[24px] text-xs font-bold border transition-all opacity-50 cursor-not-allowed ${getButtonStyleLocal(false)}`}><Trash2 size={12} className={isDark ? 'text-red-400' : 'text-red-600'} /></button>
                     </div>
                   </div>
                   
@@ -194,7 +217,7 @@ const BadgeManagementModal: React.FC<BadgeManagementModalProps> = ({
                         <div className="flex gap-2 opacity-70 transition-opacity duration-300 group-hover:opacity-100">
                           <button className={`w-8 h-8 flex items-center justify-center rounded-full text-xs font-bold border transition-all ${getButtonStyleLocal(false)}`} onClick={() => setEditingBadge(badge)}><Edit3 size={12} className={isDark ? 'text-yellow-400' : 'text-yellow-600'} /></button>
                           <button className={`w-8 h-8 flex items-center justify-center rounded-full text-xs font-bold border transition-all ${getButtonStyleLocal(false)}`} onClick={() => { const updatedClaimedBadges = claimedBadges.filter(id => id !== badge.id); localStorage.setItem('claimedBadges', JSON.stringify(updatedClaimedBadges)); onForceRefresh(); }}><RotateCw size={12} className={isDark ? 'text-blue-400' : 'text-blue-600'} /></button>
-                          <button className={`w-8 h-8 flex items-center justify-center rounded-full text-xs font-bold border transition-all ${getButtonStyleLocal(false)}`}><Trash2 size={12} className={isDark ? 'text-red-400' : 'text-red-600'} /></button>
+                          <button type="button" disabled title="系统勋章暂不支持删除" className={`w-8 h-8 flex items-center justify-center rounded-full text-xs font-bold border transition-all opacity-50 cursor-not-allowed ${getButtonStyleLocal(false)}`}><Trash2 size={12} className={isDark ? 'text-red-400' : 'text-red-600'} /></button>
                         </div>
                       </div>
                     ))}
@@ -204,7 +227,7 @@ const BadgeManagementModal: React.FC<BadgeManagementModalProps> = ({
             </div>
             
             <div className="text-center">
-              <button className={`w-full py-1.5 rounded-[24px] text-xs font-bold border transition-all ${getButtonStyleLocal(false)}`}><Plus size={12} className="inline-block mr-1" /> 新增分组</button>
+              <button type="button" disabled title="系统分组暂不支持新增" className={`w-full py-1.5 rounded-[24px] text-xs font-bold border transition-all opacity-50 cursor-not-allowed ${getButtonStyleLocal(false)}`}><Plus size={12} className="inline-block mr-1" /> 新增分组</button>
             </div>
           </div>
         </div>

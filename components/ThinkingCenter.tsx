@@ -28,6 +28,71 @@ interface ThinkingModelsIndex {
   models: ThinkingModelSummary[];
 }
 
+const replaceMarkerNearAscii = (input: string, marker: string, replacement: string): string => {
+  let output = input;
+  const patterns = [
+    new RegExp(`(?<=[A-Za-z])${marker}(?=[A-Za-z])`, 'gu'),
+    new RegExp(`(?<![A-Za-z])${marker}(?=[A-Za-z])`, 'gu'),
+    new RegExp(`(?<=[A-Za-z])${marker}(?![A-Za-z])`, 'gu')
+  ];
+
+  for (const pattern of patterns) {
+    output = output.replace(pattern, replacement);
+  }
+
+  return output;
+};
+
+const normalizeSuspiciousAsciiCase = (text: string): string => {
+  if (!text) {
+    return text;
+  }
+
+  return text.replace(/[A-Za-z][A-Za-z'/-]*/g, token => {
+    const shouldNormalizeCase =
+      /[A-Za-z][a-z][A-Z]/.test(token) ||
+      /[A-Z]{2,}[a-z][A-Z]/.test(token) ||
+      /[a-z][A-Z]/.test(token);
+
+    return shouldNormalizeCase ? token.toUpperCase() : token;
+  });
+};
+
+const repairThinkingCopy = (text: string): string => {
+  if (!text) {
+    return text;
+  }
+
+  let repaired = text;
+  const markerReplacements: Array<[string, string]> = [
+    ['\u6211\u4eec', 'US'],
+    ['\u8ba1\u5212', 'P'],
+    ['\u662f', 'AM'],
+    ['\u6211', 'I']
+  ];
+
+  for (const [marker, replacement] of markerReplacements) {
+    repaired = replaceMarkerNearAscii(repaired, marker, replacement);
+  }
+
+  return normalizeSuspiciousAsciiCase(repaired);
+};
+
+const normalizeVisualDesignCopy = (html: string): string => {
+  if (!html) {
+    return html;
+  }
+
+  return repairThinkingCopy(html).replace(/>([^<>]+)</g, (match, textContent: string) => {
+    const trimmed = textContent.trim();
+    if (!trimmed || !/[A-Za-z]/.test(trimmed)) {
+      return match;
+    }
+
+    return `>${normalizeSuspiciousAsciiCase(trimmed)}<`;
+  });
+};
+
 const thinkingModelDetailLoaders = import.meta.glob('../data/thinking-models/*.json');
 
 const toThinkingModelFileName = (modelId: string) =>
@@ -309,10 +374,10 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme = 'neomorphic-lig
     if (!text) return text;
     try {
       // 处理URL编码问题
-      return decodeURIComponent(encodeURIComponent(text));
+      return repairThinkingCopy(decodeURIComponent(encodeURIComponent(text)));
     } catch (error) {
       console.error('Error fixing encoding:', error);
-      return text;
+      return repairThinkingCopy(text);
     }
   }, []);
 
@@ -328,7 +393,8 @@ const ThinkingCenter: React.FC<ThinkingCenterProps> = ({ theme = 'neomorphic-lig
       scope: fixEncoding(model.scope || ''),
       tips: fixEncoding(model.tips || ''),
       practice: fixEncoding(model.practice || ''),
-      scenario: fixEncoding(model.scenario || '')
+      scenario: fixEncoding(model.scenario || ''),
+      visualDesign: normalizeVisualDesignCopy(model.visualDesign || '')
     };
   }, [fixEncoding]);
 

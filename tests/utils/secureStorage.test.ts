@@ -115,7 +115,7 @@ describe('secureStorage', () => {
       url: 'https://dav.jianguoyun.com/dav/',
       username: '',
       password: '',
-      basePath: '',
+      basePath: '/人生游戏管理系统',
     });
   });
 

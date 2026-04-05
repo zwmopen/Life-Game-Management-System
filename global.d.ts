@@ -25,3 +25,24 @@ declare module './components/LifeGame/ArmoryTab' {
   const component: React.ComponentType<any>;
   export default component;
 }
+
+interface LifeGameElectronWebDAVRequest {
+  targetUrl: string;
+  method: string;
+  headers?: Record<string, string>;
+  body?: string;
+}
+
+interface LifeGameElectronWebDAVResponse {
+  status: number;
+  statusText: string;
+  headers: Record<string, string>;
+  body: string;
+}
+
+interface Window {
+  lifeGameElectron?: {
+    platform: 'electron';
+    webdavRequest: (payload: LifeGameElectronWebDAVRequest) => Promise<LifeGameElectronWebDAVResponse>;
+  };
+}

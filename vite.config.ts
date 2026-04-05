@@ -9,6 +9,10 @@ function normalizeBasePath(basePath?: string) {
     return undefined;
   }
 
+  if (basePath === '.' || basePath === './') {
+    return './';
+  }
+
   if (basePath === '/') {
     return '/';
   }
@@ -101,7 +105,13 @@ function createAudioScanMiddleware() {
 export default defineConfig(({ mode }) => {
     const shouldGenerateSourceMap = process.env.BUILD_SOURCEMAP === 'true';
     const configuredBasePath = normalizeBasePath(process.env.VITE_BASE_PATH);
-    const basePath = configuredBasePath ?? (mode === 'production' ? '/Life-Game-Management-System/' : '/');
+    const basePath =
+      configuredBasePath ??
+      (mode === 'electron'
+        ? './'
+        : mode === 'production'
+          ? '/Life-Game-Management-System/'
+          : '/');
 
     return {
       // 配置base路径为GitHub仓库名称，解决GitHub Pages部署后资源加载问题

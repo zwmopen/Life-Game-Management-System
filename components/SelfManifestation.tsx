@@ -1,10 +1,50 @@
-import React, { useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
-import { ChevronDown, ChevronRight, Settings, Lock } from 'lucide-react';
+import { ChevronDown, ChevronRight, Clock } from 'lucide-react';
 
 interface HighestVersionProps {
   onHelpClick: (helpId: string) => void;
 }
+
+type SavedScript = {
+  id: string;
+  content: string;
+  timestamp: number;
+};
+
+type TimeBoxTask = {
+  id: number;
+  title: string;
+  duration: number;
+  status: string;
+};
+
+type DailyTask = {
+  id: string;
+  label: string;
+};
+
+type KdyContentEntry = {
+  title: string;
+  content: string;
+};
+
+type SelfManifestationSnapshot = {
+  version: number;
+  timestamp: number;
+  currentScript: string;
+  editingScriptId: string | null;
+  savedScripts: SavedScript[];
+  dailyTasksData: DailyTask[];
+  completedTaskIds: string[];
+  timeBoxTasks: TimeBoxTask[];
+  isTimeBoxOpen: boolean;
+  kdyContent: Record<number, KdyContentEntry>;
+  activeKdy: number;
+  subBgmActiveTab: 'sub' | 'kdy';
+};
+
+const SELF_MANIFESTATION_STORAGE_KEY = 'aes-self-manifestation-v1';
 
 const SelfManifestation: React.FC<HighestVersionProps> = ({ onHelpClick }) => {
   const { theme } = useTheme();
@@ -23,8 +63,11 @@ const SelfManifestation: React.FC<HighestVersionProps> = ({ onHelpClick }) => {
   });
   const [completedTasks, setCompletedTasks] = useState<Set<string>>(new Set());
   const [currentScript, setCurrentScript] = useState('');
-  const [savedScripts, setSavedScripts] = useState<Array<{id: string, content: string, timestamp: number}>>([]);
+  const [savedScripts, setSavedScripts] = useState<SavedScript[]>([]);
   const [editingScriptId, setEditingScriptId] = useState<string | null>(null);
+  const [statusMessage, setStatusMessage] = useState<{ type: 'success' | 'error' | 'info'; message: string } | null>(null);
+  const [isStateHydrated, setIsStateHydrated] = useState(false);
+  const [restoreInputVersion, setRestoreInputVersion] = useState(0);
   
   // SUBBGM 和 肯定语言 功能
   const [subBgmActiveTab, setSubBgmActiveTab] = useState<'sub' | 'kdy'>('sub');
@@ -735,11 +778,13 @@ const SelfManifestation: React.FC<HighestVersionProps> = ({ onHelpClick }) => {
 
   // 时间盒子功能
   const [isTimeBoxOpen, setIsTimeBoxOpen] = useState(false);
-  const [timeBoxTasks, setTimeBoxTasks] = useState([
+  const [timeBoxTasks, setTimeBoxTasks] = useState<TimeBoxTask[]>([
     { id: 1, title: '实现任务状态管理', duration: 90, status: '进行中' },
     { id: 2, title: '构建分析页面', duration: 150, status: '待处理' },
     { id: 3, title: '创建专注模式页面', duration: 75, status: '待处理' }
   ]);
+  const [timeBoxTitle, setTimeBoxTitle] = useState('');
+  const [timeBoxDuration, setTimeBoxDuration] = useState('60');
 
   const toggleTimeBox = useCallback(() => {
     setIsTimeBoxOpen(prev => !prev);
@@ -754,6 +799,21 @@ const SelfManifestation: React.FC<HighestVersionProps> = ({ onHelpClick }) => {
     };
     setTimeBoxTasks(prev => [...prev, newTask]);
   }, []);
+
+  const handleAddTimeBoxTask = useCallback(() => {
+    const trimmedTitle = timeBoxTitle.trim();
+    const parsedDuration = Number(timeBoxDuration);
+
+    if (!trimmedTitle || !Number.isFinite(parsedDuration) || parsedDuration <= 0) {
+      setStatusMessage({ type: 'info', message: '请先填写有效的时间盒任务和时长。' });
+      return;
+    }
+
+    addTimeBoxTask(trimmedTitle, parsedDuration);
+    setTimeBoxTitle('');
+    setTimeBoxDuration('60');
+    setStatusMessage({ type: 'success', message: '时间盒任务已加入。' });
+  }, [addTimeBoxTask, timeBoxDuration, timeBoxTitle]);
 
   const completeTimeBoxTask = useCallback((taskId: number) => {
     setTimeBoxTasks(prev => prev.map(task => 
@@ -791,7 +851,7 @@ const SelfManifestation: React.FC<HighestVersionProps> = ({ onHelpClick }) => {
     ]
   };
 
-  const [dailyTasksData, setDailyTasksData] = useState([
+  const [dailyTasksData, setDailyTasksData] = useState<DailyTask[]>([
     { id: 'task-1', label: '早上 7:00 自然苏醒，不赖床' },
     { id: 'task-2', label: '使用滴答清单规划当日任务' },
     { id: 'task-3', label: '完成 30 分钟的体育锻炼' },
@@ -804,7 +864,132 @@ const SelfManifestation: React.FC<HighestVersionProps> = ({ onHelpClick }) => {
 
   const [newTask, setNewTask] = useState('');
 
-  const progressPercentage = (completedTasks.size / dailyTasksData.length) * 100;
+  const completedTaskCount = dailyTasksData.filter(task => completedTasks.has(task.id)).length;
+  const remainingTaskCount = Math.max(dailyTasksData.length - completedTaskCount, 0);
+  const progressPercentage = dailyTasksData.length === 0
+    ? 0
+    : (completedTaskCount / dailyTasksData.length) * 100;
+
+  useEffect(() => {
+    try {
+      const rawData = localStorage.getItem(SELF_MANIFESTATION_STORAGE_KEY);
+      if (!rawData) {
+        setIsStateHydrated(true);
+        return;
+      }
+
+      const parsed = JSON.parse(rawData) as Partial<SelfManifestationSnapshot>;
+
+      if (typeof parsed.currentScript === 'string') {
+        setCurrentScript(parsed.currentScript);
+      }
+
+      if (parsed.editingScriptId === null || typeof parsed.editingScriptId === 'string') {
+        setEditingScriptId(parsed.editingScriptId ?? null);
+      }
+
+      if (Array.isArray(parsed.savedScripts)) {
+        setSavedScripts(parsed.savedScripts.filter((script): script is SavedScript => (
+          typeof script?.id === 'string'
+          && typeof script?.content === 'string'
+          && typeof script?.timestamp === 'number'
+        )));
+      }
+
+      if (Array.isArray(parsed.dailyTasksData)) {
+        setDailyTasksData(parsed.dailyTasksData.filter((task): task is DailyTask => (
+          typeof task?.id === 'string' && typeof task?.label === 'string'
+        )));
+      }
+
+      if (Array.isArray(parsed.completedTaskIds)) {
+        setCompletedTasks(new Set(parsed.completedTaskIds.filter((taskId): taskId is string => typeof taskId === 'string')));
+      }
+
+      if (Array.isArray(parsed.timeBoxTasks)) {
+        setTimeBoxTasks(parsed.timeBoxTasks.filter((task): task is TimeBoxTask => (
+          typeof task?.id === 'number'
+          && typeof task?.title === 'string'
+          && typeof task?.duration === 'number'
+          && typeof task?.status === 'string'
+        )));
+      }
+
+      if (typeof parsed.isTimeBoxOpen === 'boolean') {
+        setIsTimeBoxOpen(parsed.isTimeBoxOpen);
+      }
+
+      if (parsed.kdyContent && typeof parsed.kdyContent === 'object') {
+        setKdyContent(parsed.kdyContent as Record<number, KdyContentEntry>);
+      }
+
+      if (typeof parsed.activeKdy === 'number') {
+        setActiveKdy(parsed.activeKdy);
+      }
+
+      if (parsed.subBgmActiveTab === 'sub' || parsed.subBgmActiveTab === 'kdy') {
+        setSubBgmActiveTab(parsed.subBgmActiveTab);
+      }
+    } catch (error) {
+      console.error('Failed to restore self manifestation state:', error);
+      setStatusMessage({ type: 'error', message: '自我显化记录读取失败，已回退到默认内容。' });
+    } finally {
+      setIsStateHydrated(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!isStateHydrated) {
+      return;
+    }
+
+    const dataToPersist: SelfManifestationSnapshot = {
+      version: 1,
+      timestamp: Date.now(),
+      currentScript,
+      editingScriptId,
+      savedScripts,
+      dailyTasksData,
+      completedTaskIds: dailyTasksData
+        .map(task => task.id)
+        .filter(taskId => completedTasks.has(taskId)),
+      timeBoxTasks,
+      isTimeBoxOpen,
+      kdyContent,
+      activeKdy,
+      subBgmActiveTab
+    };
+
+    try {
+      localStorage.setItem(SELF_MANIFESTATION_STORAGE_KEY, JSON.stringify(dataToPersist));
+    } catch (error) {
+      console.error('Failed to persist self manifestation state:', error);
+    }
+  }, [
+    activeKdy,
+    completedTasks,
+    currentScript,
+    dailyTasksData,
+    editingScriptId,
+    isStateHydrated,
+    isTimeBoxOpen,
+    kdyContent,
+    savedScripts,
+    subBgmActiveTab,
+    timeBoxTasks
+  ]);
+
+  useEffect(() => {
+    if (!statusMessage) {
+      return;
+    }
+
+    const timeout = window.setTimeout(() => {
+      setStatusMessage(null);
+    }, 3000);
+
+    return () => window.clearTimeout(timeout);
+  }, [statusMessage]);
 
   const addTask = () => {
     if (newTask.trim()) {
@@ -824,20 +1009,29 @@ const SelfManifestation: React.FC<HighestVersionProps> = ({ onHelpClick }) => {
   };
 
   const saveScript = () => {
+    const trimmedScript = currentScript.trim();
+
+    if (!trimmedScript) {
+      setStatusMessage({ type: 'info', message: '先写下内容，再保存剧本。' });
+      return;
+    }
+
     if (editingScriptId) {
       // 编辑现有剧本
       setSavedScripts(prev => prev.map(script => 
-        script.id === editingScriptId ? { ...script, content: currentScript, timestamp: Date.now() } : script
+        script.id === editingScriptId ? { ...script, content: trimmedScript, timestamp: Date.now() } : script
       ));
       setEditingScriptId(null);
+      setStatusMessage({ type: 'success', message: '剧本已更新。' });
     } else {
       // 保存新剧本
       const newScript = {
         id: `script-${Date.now()}`,
-        content: currentScript,
+        content: trimmedScript,
         timestamp: Date.now()
       };
       setSavedScripts(prev => [...prev, newScript]);
+      setStatusMessage({ type: 'success', message: '剧本已保存。' });
     }
     setCurrentScript('');
   };
@@ -856,14 +1050,26 @@ const SelfManifestation: React.FC<HighestVersionProps> = ({ onHelpClick }) => {
       setEditingScriptId(null);
       setCurrentScript('');
     }
+    setStatusMessage({ type: 'success', message: '剧本已删除。' });
   };
 
   // 备份数据功能
   const backupData = () => {
-    const dataToBackup = {
-      savedScripts: savedScripts,
-      apiKey: apiKey,
-      timestamp: Date.now()
+    const dataToBackup: SelfManifestationSnapshot = {
+      version: 1,
+      timestamp: Date.now(),
+      currentScript,
+      editingScriptId,
+      savedScripts,
+      dailyTasksData,
+      completedTaskIds: dailyTasksData
+        .map(task => task.id)
+        .filter(taskId => completedTasks.has(taskId)),
+      timeBoxTasks,
+      isTimeBoxOpen,
+      kdyContent,
+      activeKdy,
+      subBgmActiveTab
     };
     
     const dataStr = JSON.stringify(dataToBackup, null, 2);
@@ -871,9 +1077,10 @@ const SelfManifestation: React.FC<HighestVersionProps> = ({ onHelpClick }) => {
     const url = URL.createObjectURL(dataBlob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `life-game-backup-${new Date().toISOString().slice(0, 10)}.json`;
+    link.download = `self-manifestation-backup-${new Date().toISOString().slice(0, 10)}.json`;
     link.click();
     URL.revokeObjectURL(url);
+    setStatusMessage({ type: 'success', message: '自我显化记录已导出。' });
   };
 
   const restoreData = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -883,12 +1090,66 @@ const SelfManifestation: React.FC<HighestVersionProps> = ({ onHelpClick }) => {
     const reader = new FileReader();
     reader.onload = (e) => {
       try {
-        const data = JSON.parse(e.target?.result as string);
-        if (data.savedScripts) setSavedScripts(data.savedScripts);
-        if (data.apiKey) updateApiKey(data.apiKey);
-        alert('数据恢复成功！');
+        const data = JSON.parse(e.target?.result as string) as Partial<SelfManifestationSnapshot>;
+
+        if (typeof data.currentScript === 'string') {
+          setCurrentScript(data.currentScript);
+        }
+
+        if (data.editingScriptId === null || typeof data.editingScriptId === 'string') {
+          setEditingScriptId(data.editingScriptId ?? null);
+        }
+
+        if (Array.isArray(data.savedScripts)) {
+          setSavedScripts(data.savedScripts.filter((script): script is SavedScript => (
+            typeof script?.id === 'string'
+            && typeof script?.content === 'string'
+            && typeof script?.timestamp === 'number'
+          )));
+        }
+
+        if (Array.isArray(data.dailyTasksData)) {
+          setDailyTasksData(data.dailyTasksData.filter((task): task is DailyTask => (
+            typeof task?.id === 'string' && typeof task?.label === 'string'
+          )));
+        }
+
+        if (Array.isArray(data.completedTaskIds)) {
+          setCompletedTasks(new Set(data.completedTaskIds.filter((taskId): taskId is string => typeof taskId === 'string')));
+        }
+
+        if (Array.isArray(data.timeBoxTasks)) {
+          setTimeBoxTasks(data.timeBoxTasks.filter((task): task is TimeBoxTask => (
+            typeof task?.id === 'number'
+            && typeof task?.title === 'string'
+            && typeof task?.duration === 'number'
+            && typeof task?.status === 'string'
+          )));
+        }
+
+        if (typeof data.isTimeBoxOpen === 'boolean') {
+          setIsTimeBoxOpen(data.isTimeBoxOpen);
+        }
+
+        if (data.kdyContent && typeof data.kdyContent === 'object') {
+          setKdyContent(data.kdyContent as Record<number, KdyContentEntry>);
+        }
+
+        if (typeof data.activeKdy === 'number') {
+          setActiveKdy(data.activeKdy);
+        }
+
+        if (data.subBgmActiveTab === 'sub' || data.subBgmActiveTab === 'kdy') {
+          setSubBgmActiveTab(data.subBgmActiveTab);
+        }
+
+        setStatusMessage({ type: 'success', message: '自我显化记录已恢复。' });
       } catch (error) {
-        alert('数据恢复失败，请确保选择了正确的备份文件。');
+        console.error('Failed to restore self manifestation backup:', error);
+        setStatusMessage({ type: 'error', message: '恢复失败，请确认选择了正确的备份文件。' });
+      } finally {
+        event.target.value = '';
+        setRestoreInputVersion(prev => prev + 1);
       }
     };
     reader.readAsText(file);
@@ -912,6 +1173,7 @@ const SelfManifestation: React.FC<HighestVersionProps> = ({ onHelpClick }) => {
             [
               { id: 'overview', label: '系统总览' },
               { id: 'blueprint', label: '身份蓝图' },
+              { id: 'tasks', label: '任务推进' },
               { id: 'scripting', label: '现实剧本' },
               { id: 'subbgm', label: 'SUB&KDY' }
             ].map(tab => (
@@ -927,6 +1189,27 @@ const SelfManifestation: React.FC<HighestVersionProps> = ({ onHelpClick }) => {
             ))
           }
         </div>
+
+        {statusMessage && (
+          <div
+            className={[
+              'mb-6 rounded-2xl border px-4 py-3 text-sm font-medium',
+              statusMessage.type === 'success'
+                ? theme === 'neomorphic-dark'
+                  ? 'border-emerald-700 bg-emerald-950/40 text-emerald-200'
+                  : 'border-emerald-200 bg-emerald-50 text-emerald-700'
+                : statusMessage.type === 'error'
+                ? theme === 'neomorphic-dark'
+                  ? 'border-red-700 bg-red-950/40 text-red-200'
+                  : 'border-red-200 bg-red-50 text-red-700'
+                : theme === 'neomorphic-dark'
+                ? 'border-blue-700 bg-blue-950/40 text-blue-200'
+                : 'border-blue-200 bg-blue-50 text-blue-700'
+            ].join(' ')}
+          >
+            {statusMessage.message}
+          </div>
+        )}
 
         {/* 系统总览 */}
         {activeTab === 'overview' && (
@@ -1021,6 +1304,21 @@ const SelfManifestation: React.FC<HighestVersionProps> = ({ onHelpClick }) => {
               </p>
             </div>
             <div className="p-6">
+              <div className="mb-6 grid grid-cols-1 gap-3 md:grid-cols-3">
+                <div className={`rounded-2xl px-4 py-3 ${themeStyles.cardBg} ${themeStyles.cardBorder} border`}>
+                  <p className={`text-xs uppercase tracking-[0.2em] ${themeStyles.mutedText}`}>Total</p>
+                  <p className={`mt-2 text-2xl font-bold ${themeStyles.text}`}>{dailyTasksData.length}</p>
+                </div>
+                <div className={`rounded-2xl px-4 py-3 ${themeStyles.cardBg} ${themeStyles.cardBorder} border`}>
+                  <p className={`text-xs uppercase tracking-[0.2em] ${themeStyles.mutedText}`}>Done</p>
+                  <p className={`mt-2 text-2xl font-bold text-emerald-500`}>{completedTaskCount}</p>
+                </div>
+                <div className={`rounded-2xl px-4 py-3 ${themeStyles.cardBg} ${themeStyles.cardBorder} border`}>
+                  <p className={`text-xs uppercase tracking-[0.2em] ${themeStyles.mutedText}`}>Left</p>
+                  <p className={`mt-2 text-2xl font-bold text-blue-500`}>{remainingTaskCount}</p>
+                </div>
+              </div>
+
               <div className="mb-6">
                 <div className={`h-3 rounded-full ${themeStyles.progressBarBg} ${theme === 'neomorphic-dark' ? 'shadow-[inset_2px_2px_4px_rgba(0,0,0,0.3),inset_-2px_-2px_4px_rgba(30,30,46,0.7)]' : 'shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)]'}`}>
                   <div 
@@ -1045,7 +1343,8 @@ const SelfManifestation: React.FC<HighestVersionProps> = ({ onHelpClick }) => {
                   />
                   <button 
                     onClick={addTask}
-                    className={`px-4 py-2 rounded-full ${themeStyles.buttonBg} text-white font-medium text-sm transition-all duration-200 hover:${themeStyles.buttonHoverBg} ${themeStyles.buttonShadow} hover:${themeStyles.buttonHoverShadow} hover:scale-105`}
+                    disabled={!newTask.trim()}
+                    className={`px-4 py-2 rounded-full ${themeStyles.buttonBg} text-white font-medium text-sm transition-all duration-200 hover:${themeStyles.buttonHoverBg} ${themeStyles.buttonShadow} hover:${themeStyles.buttonHoverShadow} hover:scale-105 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100`}
                   >
                     添加
                   </button>
@@ -1113,6 +1412,32 @@ const SelfManifestation: React.FC<HighestVersionProps> = ({ onHelpClick }) => {
                   </p>
                 </div>
                 <div className="p-6">
+                  <div className={`mb-6 rounded-2xl border p-4 ${themeStyles.cardBg} ${themeStyles.cardBorder}`}>
+                    <div className="grid grid-cols-1 gap-3 md:grid-cols-[minmax(0,1fr)_120px_auto]">
+                      <input
+                        type="text"
+                        value={timeBoxTitle}
+                        onChange={(e) => setTimeBoxTitle(e.target.value)}
+                        placeholder="添加一个新的时间盒任务..."
+                        className={`w-full rounded-xl border px-3 py-2 ${themeStyles.inputBg} ${themeStyles.inputBorder} ${themeStyles.text} focus:outline-none focus:ring-2 focus:ring-purple-500`}
+                      />
+                      <input
+                        type="number"
+                        min={5}
+                        step={5}
+                        value={timeBoxDuration}
+                        onChange={(e) => setTimeBoxDuration(e.target.value)}
+                        className={`w-full rounded-xl border px-3 py-2 ${themeStyles.inputBg} ${themeStyles.inputBorder} ${themeStyles.text} focus:outline-none focus:ring-2 focus:ring-purple-500`}
+                      />
+                      <button
+                        onClick={handleAddTimeBoxTask}
+                        className={`rounded-xl px-4 py-2 ${themeStyles.buttonBg} text-sm font-medium text-white transition-all duration-200 hover:${themeStyles.buttonHoverBg} ${themeStyles.buttonShadow} hover:${themeStyles.buttonHoverShadow}`}
+                      >
+                        加入时间盒
+                      </button>
+                    </div>
+                  </div>
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {timeBoxTasks.map((task) => (
                       <div 
@@ -1147,13 +1472,40 @@ const SelfManifestation: React.FC<HighestVersionProps> = ({ onHelpClick }) => {
         {/* 现实剧本 */}
         {activeTab === 'scripting' && (
           <div className={`rounded-2xl ${themeStyles.cardBg} ${themeStyles.cardBorder} border ${theme === 'neomorphic-dark' ? 'shadow-[12px_12px_24px_rgba(0,0,0,0.5),-12px_-12px_24px_rgba(30,30,46,1)]' : 'shadow-[12px_12px_24px_rgba(163,177,198,0.7),-12px_-12px_24px_rgba(255,255,255,1)]'}`}>
-            <div className="p-6 border-b border-gray-200">
-              <h2 className={`text-2xl font-bold mb-2 ${themeStyles.text}`}>
-                编写现实剧本
-              </h2>
-              <p className={`${themeStyles.mutedText}`}>
-                你是编剧，也是演员。把未来的生活写成现在的剧本，针对你最害怕的场景，提前写好“最高版本”的反应剧本。
-              </p>
+            <div className="border-b border-gray-200 p-6">
+              <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                <div>
+                  <h2 className={`text-2xl font-bold mb-2 ${themeStyles.text}`}>
+                    编写现实剧本
+                  </h2>
+                  <p className={`${themeStyles.mutedText}`}>
+                    你是编剧，也是演员。把未来的生活写成现在的剧本，针对你最害怕的场景，提前写好“最高版本”的反应剧本。
+                  </p>
+                </div>
+
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    onClick={backupData}
+                    className={`rounded-full px-4 py-2 text-sm font-medium ${themeStyles.buttonBg} text-white transition-all duration-200 hover:${themeStyles.buttonHoverBg} ${themeStyles.buttonShadow} hover:${themeStyles.buttonHoverShadow}`}
+                  >
+                    导出记录
+                  </button>
+                  <input
+                    key={restoreInputVersion}
+                    type="file"
+                    accept=".json"
+                    onChange={restoreData}
+                    className="hidden"
+                    id="self-manifestation-restore-input"
+                  />
+                  <label
+                    htmlFor="self-manifestation-restore-input"
+                    className={`cursor-pointer rounded-full px-4 py-2 text-sm font-medium ${themeStyles.inputBg} ${themeStyles.text} ${themeStyles.buttonShadow}`}
+                  >
+                    恢复记录
+                  </label>
+                </div>
+              </div>
             </div>
             <div className="p-6">
               <div className={`p-4 rounded-xl mb-4 ${themeStyles.inputBg} ${theme === 'neomorphic-dark' ? 'shadow-[inset_2px_2px_4px_rgba(0,0,0,0.3),inset_-2px_-2px_4px_rgba(30,30,46,0.7)]' : 'shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,1)]'}`}>
@@ -1175,7 +1527,8 @@ const SelfManifestation: React.FC<HighestVersionProps> = ({ onHelpClick }) => {
               <div className="flex justify-end mt-4">
                 <button 
                   onClick={saveScript}
-                  className={`px-6 py-3 rounded-lg ${themeStyles.buttonBg} text-white font-medium transition-all duration-200 hover:${themeStyles.buttonHoverBg} ${themeStyles.buttonShadow} hover:${themeStyles.buttonHoverShadow} hover:scale-105`}
+                  disabled={!currentScript.trim()}
+                  className={`px-6 py-3 rounded-lg ${themeStyles.buttonBg} text-white font-medium transition-all duration-200 hover:${themeStyles.buttonHoverBg} ${themeStyles.buttonShadow} hover:${themeStyles.buttonHoverShadow} hover:scale-105 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100`}
                 >
                   {editingScriptId ? '更新剧本' : '保存剧本'}
                 </button>

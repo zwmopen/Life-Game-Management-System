@@ -218,15 +218,70 @@ export class ElectronCapacitorApp {
 
 // Set a CSP up for our application based on the custom scheme
 export function setupContentSecurityPolicy(customScheme: string): void {
+  const defaultSrc = [
+    `${customScheme}://*`,
+    "'unsafe-inline'",
+    'data:',
+    'blob:',
+    ...(electronIsDev ? ['devtools://*', "'unsafe-eval'"] : []),
+  ].join(' ');
+
+  const scriptSrc = [
+    `${customScheme}://*`,
+    "'unsafe-inline'",
+    "'unsafe-eval'",
+    'data:',
+    'blob:',
+    'https://cdn.tailwindcss.com',
+  ].join(' ');
+
+  const styleSrc = [
+    `${customScheme}://*`,
+    "'unsafe-inline'",
+    'data:',
+    'https://fonts.googleapis.com',
+    'https://npm.elemecdn.com',
+  ].join(' ');
+
+  const fontSrc = [
+    `${customScheme}://*`,
+    'data:',
+    'https://fonts.gstatic.com',
+    'https://npm.elemecdn.com',
+  ].join(' ');
+
+  const connectSrc = [
+    `${customScheme}://*`,
+    'data:',
+    'blob:',
+    'http:',
+    'https:',
+    'ws:',
+    'wss:',
+  ].join(' ');
+
+  const imgSrc = [
+    `${customScheme}://*`,
+    'data:',
+    'blob:',
+    'http:',
+    'https:',
+  ].join(' ');
+
+  const cspValue = [
+    `default-src ${defaultSrc}`,
+    `script-src ${scriptSrc}`,
+    `style-src ${styleSrc}`,
+    `font-src ${fontSrc}`,
+    `img-src ${imgSrc}`,
+    `connect-src ${connectSrc}`,
+  ].join('; ');
+
   session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
     callback({
       responseHeaders: {
         ...details.responseHeaders,
-        'Content-Security-Policy': [
-          electronIsDev
-            ? `default-src ${customScheme}://* 'unsafe-inline' devtools://* 'unsafe-eval' data:`
-            : `default-src ${customScheme}://* 'unsafe-inline' data:`,
-        ],
+        'Content-Security-Policy': [cspValue],
       },
     });
   });

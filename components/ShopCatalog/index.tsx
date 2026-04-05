@@ -81,8 +81,25 @@ const ShopCatalog: React.FC<ShopCatalogProps> = memo(({
   };
 
   // 使用useMemo缓存过滤和排序后的商品列表
+  const normalizedInventory = useMemo(() => {
+    const seenItemIds = new Set<string>();
+
+    return inventory.filter(item => {
+      if (!item?.id) {
+        return true;
+      }
+
+      if (seenItemIds.has(item.id)) {
+        return false;
+      }
+
+      seenItemIds.add(item.id);
+      return true;
+    });
+  }, [inventory]);
+
   const filteredInventory = useMemo(() => {
-    return inventory.filter(i => {
+    return normalizedInventory.filter(i => {
       // 首先根据分类过滤
       if (shopFilter === 'owned') {
         if (i.owned !== true) return false;
@@ -100,7 +117,7 @@ const ShopCatalog: React.FC<ShopCatalogProps> = memo(({
       
       return true;
     });
-  }, [inventory, shopFilter, searchTerm]);
+  }, [normalizedInventory, shopFilter, searchTerm]);
 
   const sortedInventory = useMemo(() => {
     return [...filteredInventory].sort((a, b) => {
@@ -244,36 +261,36 @@ const ShopCatalog: React.FC<ShopCatalogProps> = memo(({
                 </div>
               ) : (
                 // 正常显示模式
-                <button 
-                  key={f.id} 
-                  onClick={() => setShopFilter(f.id as any)} 
-                  className={`px-2 py-1.5 rounded-[24px] text-xs font-bold border transition-all duration-200 whitespace-nowrap overflow-hidden text-ellipsis ${getButtonStyle(shopFilter === f.id)}`}
-                  style={{ maxWidth: '120px' }}
-                >
-                  {f.label} <span className="text-[9px] opacity-80">({f.count})</span>
+                <div className="flex items-center gap-1">
+                  <button
+                    type="button"
+                    onClick={() => setShopFilter(f.id as any)}
+                    className={`px-2 py-1.5 rounded-[24px] text-xs font-bold border transition-all duration-200 whitespace-nowrap overflow-hidden text-ellipsis ${getButtonStyle(shopFilter === f.id)}`}
+                    style={{ maxWidth: '120px' }}
+                  >
+                    {f.label} <span className="text-[9px] opacity-80">({f.count})</span>
+                  </button>
                   {f.isCustom && isManageShopMode && (
                     <div className="ml-1 inline-flex gap-1">
-                      <button 
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleEditGroup(f.label);
-                        }}
+                      <button
+                        type="button"
+                        onClick={() => handleEditGroup(f.label)}
                         className={`w-5 h-5 rounded-full transition-all duration-200 flex items-center justify-center ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] text-blue-400 shadow-[3px_3px_6px_rgba(0,0,0,0.4),-3px_-3px_6px_rgba(30,30,46,0.8)] hover:shadow-[4px_4px_8px_rgba(0,0,0,0.5),-4px_-4px_8px_rgba(30,30,46,0.9)] active:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] text-blue-600 shadow-[3px_3px_6px_rgba(163,177,198,0.4),-3px_-3px_6px_rgba(255,255,255,0.8)] hover:shadow-[4px_4px_8px_rgba(163,177,198,0.5),-4px_-4px_8px_rgba(255,255,255,0.9)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.4),inset_-2px_-2px_4px_rgba(255,255,255,0.8)]') : 'bg-blue-500 text-white hover:bg-blue-600'}`}
+                        aria-label={`edit-group-${f.id}`}
                       >
                         <Edit2 size={10} />
                       </button>
-                      <button 
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleDeleteGroup(f.label);
-                        }}
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteGroup(f.label)}
                         className={`w-5 h-5 rounded-full transition-all duration-200 flex items-center justify-center ${isNeomorphic ? (theme === 'neomorphic-dark' ? 'bg-[#1e1e2e] text-red-400 shadow-[3px_3px_6px_rgba(0,0,0,0.4),-3px_-3px_6px_rgba(30,30,46,0.8)] hover:shadow-[4px_4px_8px_rgba(0,0,0,0.5),-4px_-4px_8px_rgba(30,30,46,0.9)] active:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.4),inset_-2px_-2px_4px_rgba(30,30,46,0.8)]' : 'bg-[#e0e5ec] text-red-600 shadow-[3px_3px_6px_rgba(163,177,198,0.4),-3px_-3px_6px_rgba(255,255,255,0.8)] hover:shadow-[4px_4px_8px_rgba(163,177,198,0.5),-4px_-4px_8px_rgba(255,255,255,0.9)] active:shadow-[inset_2px_2px_4px_rgba(163,177,198,0.4),inset_-2px_-2px_4px_rgba(255,255,255,0.8)]') : 'bg-red-500 text-white hover:bg-red-600'}`}
+                        aria-label={`delete-group-${f.id}`}
                       >
                         <Trash2 size={10} />
                       </button>
                     </div>
                   )}
-                </button>
+                </div>
               )}
             </div>
           ))}
@@ -361,9 +378,10 @@ const ShopCatalog: React.FC<ShopCatalogProps> = memo(({
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
           {sortedInventory.map((item, index) => {
             const itemId = item?.id || `item-${index}`;
+            const itemKey = `${itemId}-${index}`;
             return (
               <div 
-                key={itemId} 
+                key={itemKey} 
                 className={`group relative rounded-xl overflow-hidden border transition-all duration-300 ${isNeomorphic ? `${neomorphicStyles.bg} ${neomorphicStyles.border} ${neomorphicStyles.shadow} ${neomorphicStyles.hoverShadow} ${neomorphicStyles.transition} group-hover:${neomorphicStyles.activeShadow}` : 'hover:shadow-lg'} ${item.type === 'physical' && item.owned ? 'opacity-50' : ''} ${isManageShopMode ? 'border-red-500/30' : ''} cursor-pointer`} 
                 style={{ minHeight: '280px' }}
               >

@@ -326,7 +326,7 @@ class SoundManager {
       console.log(`尝试播放音效 ${effectName}`);
       // 确保音频已解锁
       if (!this.audioUnlocked) {
-        console.warn('音频未解锁，尝试立即解锁...');
+        console.debug('Attempting audio unlock before playback.');
         await this.attemptAudioUnlock();
       }
 
