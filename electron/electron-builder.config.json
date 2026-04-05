@@ -6,12 +6,24 @@
     "buildResources": "resources",
     "output": "release"
   },
+  "afterPack": "./scripts/after-pack-trim-locales.js",
+  "compression": "maximum",
   "asar": true,
   "files": [
     "assets/**/*",
     "build/**/*",
     "capacitor.config.*",
-    "app/**/*"
+    "app/**/*",
+    "!app/manifest.json",
+    "!app/service-worker.js",
+    "!app/sw.js",
+    "!app/simple-backup.html",
+    "!**/*.map",
+    "!**/*.d.ts",
+    "!**/.github/**",
+    "!**/.vscode/**",
+    "!**/{test,tests,__tests__,example,examples}/**",
+    "!**/{README,README.md,README.txt,readme,readme.md,readme.txt,CHANGELOG,CHANGELOG.md,changelog,changelog.md}"
   ],
   "nsis": {
     "allowElevation": true,
