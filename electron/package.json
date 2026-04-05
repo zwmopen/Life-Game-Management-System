@@ -15,11 +15,12 @@
   "main": "build/src/index.js",
   "scripts": {
     "build": "tsc && electron-rebuild",
+    "prepare:web": "cd .. && npm run build:electron && npx cap sync @capacitor-community/electron",
     "electron:start-live": "node ./live-runner.js",
-    "electron:start": "npm run build && electron --inspect=5858 ./",
-    "electron:pack": "npm run build && electron-builder build --dir -c ./electron-builder.config.json",
-    "electron:installer": "npm run build && electron-builder build -c ./electron-builder.config.json --win nsis --publish never",
-    "electron:portable": "npm run build && electron-builder build -c ./electron-builder.config.json -c.artifactName=life-game-management-system-portable-${version}-${arch}.${ext} --win portable --publish never",
+    "electron:start": "npm run prepare:web && npm run build && electron --inspect=5858 ./",
+    "electron:pack": "npm run prepare:web && npm run build && electron-builder build --dir -c ./electron-builder.config.json",
+    "electron:installer": "npm run prepare:web && npm run build && electron-builder build -c ./electron-builder.config.json --win nsis --publish never",
+    "electron:portable": "npm run prepare:web && npm run build && electron-builder build -c ./electron-builder.config.json -c.artifactName=life-game-management-system-portable-${version}-${arch}.${ext} --win portable --publish never",
     "electron:make": "npm run electron:installer"
   },
   "dependencies": {
