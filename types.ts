@@ -127,6 +127,26 @@ export const ThemeGroups = {
 /**
  * 属性类型枚举
  */
+export type DesktopUpdateStatus =
+  | 'idle'
+  | 'checking'
+  | 'available'
+  | 'not-available'
+  | 'downloaded'
+  | 'error'
+  | 'unsupported';
+
+export interface DesktopUpdateInfo {
+  platform: 'electron' | 'web';
+  status: DesktopUpdateStatus;
+  currentVersion: string;
+  latestVersion?: string;
+  releaseNotes?: string;
+  error?: string;
+  lastCheckedAt?: number;
+  isUpdateAvailable: boolean;
+}
+
 export const AttributeType = {
   /** 力量 */
   STRENGTH: 'STR',

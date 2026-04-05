@@ -12,7 +12,7 @@ const ThinkingCenter = lazy(() => import('./components/ThinkingCenter'));
 const TimeBox = lazy(() => import('./components/TimeBox'));
 const SelfManifestation = lazy(() => import('./components/SelfManifestation'));
 import { AlertTriangle } from 'lucide-react';
-import { View, Transaction, ReviewLog, Habit, Task, TaskType, DailyStats, Theme, Project, AttributeType, AttributeTypeValue, AchievementItem, AutoTask, AutoTaskType, SoundType, DiceState, DiceTask, DiceCategory, DiceHistory } from './types';
+import { View, Transaction, ReviewLog, Habit, Task, TaskType, DailyStats, Theme, Project, AttributeType, AttributeTypeValue, AchievementItem, AutoTask, AutoTaskType, SoundType, DiceState, DiceTask, DiceCategory, DiceHistory, DesktopUpdateInfo } from './types';
 import { Wallet, Crown, Clock, Brain, Zap, Target, Crosshair, Skull, Star, Gift, Medal, Sparkles, Swords, Flame, Footprints, Calendar, ShoppingBag, Dumbbell, Shield } from 'lucide-react';
 import { GlobalGuideCard, helpContent } from './components/HelpSystem';
 import CharacterProfile, { getAllLevels, getAllFocusTitles, getAllWealthTitles, getAllMilitaryRanks, XP_PER_LEVEL, CharacterProfileHandle } from './components/CharacterProfile';
@@ -35,6 +35,7 @@ import {
   INITIAL_ACHIEVEMENTS,
   INITIAL_DICE_STATE
 } from './constants/index';
+import { APP_VERSION } from './constants/app';
 
 // 导入共享组件
 import RewardModal from './components/shared/RewardModal';
@@ -125,12 +126,20 @@ const reconcileSavedOrder = (savedOrder: string[] | undefined, currentIds: strin
   return nextOrder;
 };
 
+const createDefaultDesktopUpdateInfo = (): DesktopUpdateInfo => ({
+  platform: typeof window !== 'undefined' && window.lifeGameElectron?.platform === 'electron' ? 'electron' : 'web',
+  status: typeof window !== 'undefined' && window.lifeGameElectron?.platform === 'electron' ? 'idle' : 'unsupported',
+  currentVersion: APP_VERSION,
+  isUpdateAvailable: false,
+});
+
 
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<View>(View.RPG_MISSION_CENTER);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isNavCollapsed, setIsNavCollapsed] = useState(false);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
+  const [desktopUpdateInfo, setDesktopUpdateInfo] = useState<DesktopUpdateInfo>(createDefaultDesktopUpdateInfo);
   
   // 使用主题上下文
   const { theme, setTheme, toggleTheme } = useTheme();
@@ -155,6 +164,42 @@ const App: React.FC = () => {
       // 当模态框打开时，暂时禁用沉浸模式以避免冲突
       setIsImmersive(false);
     }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.lifeGameElectron) {
+      return;
+    }
+
+    let isMounted = true;
+    const removeListener = window.lifeGameElectron.onUpdateStatus(status => {
+      if (isMounted) {
+        setDesktopUpdateInfo(status as DesktopUpdateInfo);
+      }
+    });
+
+    window.lifeGameElectron
+      .getUpdateStatus()
+      .then(status => {
+        if (isMounted) {
+          setDesktopUpdateInfo(status as DesktopUpdateInfo);
+        }
+      })
+      .catch(error => {
+        if (isMounted) {
+          setDesktopUpdateInfo(prev => ({
+            ...prev,
+            platform: 'electron',
+            status: 'error',
+            error: error instanceof Error ? error.message : String(error),
+          }));
+        }
+      });
+
+    return () => {
+      isMounted = false;
+      removeListener?.();
+    };
   }, []);
 
   // 使用模块化 hooks
@@ -1269,6 +1314,41 @@ const App: React.FC = () => {
     }));
   };
 
+  const handleCheckDesktopUpdate = async () => {
+    if (!window.lifeGameElectron) {
+      return;
+    }
+
+    try {
+      const status = await window.lifeGameElectron.checkForUpdates();
+      setDesktopUpdateInfo(status as DesktopUpdateInfo);
+    } catch (error) {
+      setDesktopUpdateInfo(prev => ({
+        ...prev,
+        platform: 'electron',
+        status: 'error',
+        error: error instanceof Error ? error.message : String(error),
+      }));
+    }
+  };
+
+  const handleInstallDesktopUpdate = async () => {
+    if (!window.lifeGameElectron) {
+      return;
+    }
+
+    try {
+      await window.lifeGameElectron.quitAndInstallUpdate();
+    } catch (error) {
+      setDesktopUpdateInfo(prev => ({
+        ...prev,
+        platform: 'electron',
+        status: 'error',
+        error: error instanceof Error ? error.message : String(error),
+      }));
+    }
+  };
+
   const renderView = () => {
     switch (currentView) {
 
@@ -1477,6 +1557,9 @@ const App: React.FC = () => {
                   checkInStreak={checkInStreak}
                   transactions={transactions}
                   reviews={reviews}
+                  desktopUpdateInfo={desktopUpdateInfo}
+                  onCheckDesktopUpdate={handleCheckDesktopUpdate}
+                  onInstallDesktopUpdate={handleInstallDesktopUpdate}
                 />;
       case View.THINKING_CENTER:
         return <ThinkingCenter 
@@ -1602,6 +1685,7 @@ const App: React.FC = () => {
               isNavCollapsed={isNavCollapsed}
               setIsNavCollapsed={setIsNavCollapsed}
               onHelpClick={(helpId) => setActiveHelp(helpId)}
+              hasDesktopUpdate={desktopUpdateInfo.isUpdateAvailable}
             />
           )}
           

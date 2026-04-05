@@ -1736,679 +1736,1398 @@ export class SceneManager {
    */
   private createAnimal(type: string): THREE.Group {
     const group = new THREE.Group();
+    const finalizeMesh = (mesh: THREE.Mesh) => {
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+      return mesh;
+    };
     
     if (type === 'fox') {
-      // 赤狐1
-      const bodyMaterial = new THREE.MeshStandardMaterial({
-        color: 0xf97316,
-        roughness: 0.7,
-        metalness: 0.2
+      const furMaterial = new THREE.MeshStandardMaterial({
+        color: 0xd86a1d,
+        roughness: 0.88,
+        metalness: 0.04
       });
-      
-      // 身体
-      const body = new THREE.Mesh(new THREE.CapsuleGeometry(0.25, 0.4, 4, 8), bodyMaterial);
-      body.position.set(0, 0.4, 0);
-      body.rotation.z = 0.2;
-      body.castShadow = true;
-      body.receiveShadow = true;
-      group.add(body);
-      
-      // 头部
-      const head = new THREE.Mesh(
-        new THREE.SphereGeometry(0.25, 16, 16),
-        bodyMaterial
-      );
-      head.position.set(0, 0.7, 0.4);
-      head.castShadow = true;
-      head.receiveShadow = true;
-      group.add(head);
-      
-      // 耳朵
-      const earMaterial = new THREE.MeshStandardMaterial({
-        color: 0x1f2937,
-        roughness: 0.8,
-        metalness: 0.1
+      const darkMaterial = new THREE.MeshStandardMaterial({
+        color: 0x2f211c,
+        roughness: 0.92,
+        metalness: 0.02
       });
-      
-      const leftEar = new THREE.Mesh(
-        new THREE.BoxGeometry(0.15, 0.2, 0.1),
-        earMaterial
-      );
-      leftEar.position.set(-0.12, 0.9, 0.35);
-      leftEar.rotation.z = 0.3;
-      leftEar.castShadow = true;
-      leftEar.receiveShadow = true;
-      group.add(leftEar);
-      
-      const rightEar = new THREE.Mesh(
-        new THREE.BoxGeometry(0.15, 0.2, 0.1),
-        earMaterial
-      );
-      rightEar.position.set(0.12, 0.9, 0.35);
-      rightEar.rotation.z = -0.3;
-      rightEar.castShadow = true;
-      rightEar.receiveShadow = true;
-      group.add(rightEar);
-      
-      // 尾巴
-      const tailMaterial = new THREE.MeshStandardMaterial({
-        color: 0xd97706,
-        roughness: 0.7,
-        metalness: 0.2
+      const creamMaterial = new THREE.MeshStandardMaterial({
+        color: 0xfff1dd,
+        roughness: 0.95,
+        metalness: 0.0
       });
-      
-      const tail = new THREE.Mesh(
-        new THREE.BoxGeometry(0.3, 0.3, 0.7),
-        tailMaterial
-      );
-      tail.position.set(0, 0.3, -0.3);
-      tail.rotation.y = Math.PI / 4;
-      tail.castShadow = true;
-      tail.receiveShadow = true;
-      group.add(tail);
-    } else if (type === 'fox2') {
-      // 赤狐2 - 改良版，更具特色
-      const bodyMaterial = new THREE.MeshStandardMaterial({
-        color: 0xea580c,
-        roughness: 0.6,
-        metalness: 0.3
-      });
-      
-      // 身体 - 更健壮
-      const body = new THREE.Mesh(new THREE.CapsuleGeometry(0.3, 0.5, 4, 8), bodyMaterial);
-      body.position.set(0, 0.45, 0);
-      body.rotation.z = 0.15;
-      body.castShadow = true;
-      body.receiveShadow = true;
-      group.add(body);
-      
-      // 头部
-      const head = new THREE.Mesh(
-        new THREE.SphereGeometry(0.28, 16, 16),
-        bodyMaterial
-      );
-      head.position.set(0, 0.8, 0.45);
-      head.castShadow = true;
-      head.receiveShadow = true;
-      group.add(head);
-      
-      // 耳朵 - 更大更尖
-      const earMaterial = new THREE.MeshStandardMaterial({
-        color: 0x0f172a,
-        roughness: 0.85,
-        metalness: 0.05
-      });
-      
-      const leftEar = new THREE.Mesh(
-        new THREE.BoxGeometry(0.18, 0.25, 0.12),
-        earMaterial
-      );
-      leftEar.position.set(-0.15, 1.05, 0.4);
-      leftEar.rotation.z = 0.2;
-      leftEar.castShadow = true;
-      leftEar.receiveShadow = true;
-      group.add(leftEar);
-      
-      const rightEar = new THREE.Mesh(
-        new THREE.BoxGeometry(0.18, 0.25, 0.12),
-        earMaterial
-      );
-      rightEar.position.set(0.15, 1.05, 0.4);
-      rightEar.rotation.z = -0.2;
-      rightEar.castShadow = true;
-      rightEar.receiveShadow = true;
-      group.add(rightEar);
-      
-      // 尾巴 - 更蓬松
-      const tailMaterial = new THREE.MeshStandardMaterial({
-        color: 0xc2410c,
-        roughness: 0.6,
-        metalness: 0.3
-      });
-      
-      const tail = new THREE.Mesh(
-        new THREE.BoxGeometry(0.35, 0.35, 0.8),
-        tailMaterial
-      );
-      tail.position.set(0, 0.35, -0.35);
-      tail.rotation.y = Math.PI / 3.5;
-      tail.castShadow = true;
-      tail.receiveShadow = true;
-      group.add(tail);
-      
-      // 添加面部细节
-      const detailMaterial = new THREE.MeshStandardMaterial({
-        color: 0xffffff,
+      const innerEarMaterial = new THREE.MeshStandardMaterial({
+        color: 0xf7c8b0,
         roughness: 0.9,
         metalness: 0.0
       });
-      
-      // 鼻子
-      const nose = new THREE.Mesh(
-        new THREE.SphereGeometry(0.05, 8, 8),
-        detailMaterial
-      );
-      nose.position.set(0, 0.75, 0.65);
-      nose.castShadow = true;
-      nose.receiveShadow = true;
-      group.add(nose);
-      
-      // 眼睛
       const eyeMaterial = new THREE.MeshStandardMaterial({
-        color: 0x1e293b,
-        roughness: 0.8,
-        metalness: 0.1
+        color: 0x111827,
+        roughness: 0.75,
+        metalness: 0.08
       });
-      
-      const leftEye = new THREE.Mesh(
-        new THREE.SphereGeometry(0.04, 8, 8),
-        eyeMaterial
-      );
-      leftEye.position.set(-0.1, 0.85, 0.6);
-      leftEye.castShadow = true;
-      leftEye.receiveShadow = true;
-      group.add(leftEye);
-      
-      const rightEye = new THREE.Mesh(
-        new THREE.SphereGeometry(0.04, 8, 8),
-        eyeMaterial
-      );
-      rightEye.position.set(0.1, 0.85, 0.6);
-      rightEye.castShadow = true;
-      rightEye.receiveShadow = true;
-      group.add(rightEye);
-    } else if (type === 'rabbit') {
-      // 兔子1
-      const bodyMaterial = new THREE.MeshStandardMaterial({
-        color: 0xffffff,
-        roughness: 0.7,
-        metalness: 0.1
-      });
-      
-      // 身体
-      const body = new THREE.Mesh(new THREE.CapsuleGeometry(0.2, 0.3, 4, 8), bodyMaterial);
-      body.position.set(0, 0.3, 0);
-      body.castShadow = true;
-      body.receiveShadow = true;
+
+      const body = finalizeMesh(new THREE.Mesh(
+        new THREE.CapsuleGeometry(0.18, 0.58, 6, 12),
+        furMaterial
+      ));
+      body.position.set(0, 0.42, 0);
+      body.rotation.x = Math.PI / 2;
       group.add(body);
-      
-      // 头部
-      const head = new THREE.Mesh(
-        new THREE.SphereGeometry(0.2, 16, 16),
-        bodyMaterial
-      );
-      head.position.set(0, 0.5, 0.3);
-      head.castShadow = true;
-      head.receiveShadow = true;
+
+      const chest = finalizeMesh(new THREE.Mesh(
+        new THREE.SphereGeometry(0.16, 14, 14),
+        creamMaterial
+      ));
+      chest.position.set(0, 0.35, 0.28);
+      chest.scale.set(0.95, 1.15, 0.75);
+      group.add(chest);
+
+      const haunch = finalizeMesh(new THREE.Mesh(
+        new THREE.SphereGeometry(0.17, 14, 14),
+        furMaterial
+      ));
+      haunch.position.set(0, 0.44, -0.28);
+      haunch.scale.set(1.05, 1, 0.9);
+      group.add(haunch);
+
+      const neck = finalizeMesh(new THREE.Mesh(
+        new THREE.CylinderGeometry(0.08, 0.12, 0.22, 10),
+        furMaterial
+      ));
+      neck.position.set(0, 0.56, 0.22);
+      neck.rotation.x = -0.6;
+      group.add(neck);
+
+      const head = finalizeMesh(new THREE.Mesh(
+        new THREE.SphereGeometry(0.16, 18, 18),
+        furMaterial
+      ));
+      head.position.set(0, 0.66, 0.42);
+      head.scale.set(1, 0.95, 1.08);
       group.add(head);
-      
-      // 耳朵
-      const earMaterial = new THREE.MeshStandardMaterial({
-        color: 0xffffff,
-        roughness: 0.8,
+
+      const muzzle = finalizeMesh(new THREE.Mesh(
+        new THREE.ConeGeometry(0.085, 0.24, 10),
+        creamMaterial
+      ));
+      muzzle.position.set(0, 0.61, 0.58);
+      muzzle.rotation.x = Math.PI / 2;
+      group.add(muzzle);
+
+      const nose = finalizeMesh(new THREE.Mesh(
+        new THREE.SphereGeometry(0.028, 10, 10),
+        darkMaterial
+      ));
+      nose.position.set(0, 0.6, 0.69);
+      group.add(nose);
+
+      [-0.12, 0.12].forEach((x) => {
+        const cheek = finalizeMesh(new THREE.Mesh(
+          new THREE.SphereGeometry(0.065, 10, 10),
+          creamMaterial
+        ));
+        cheek.position.set(x, 0.6, 0.52);
+        cheek.scale.set(1.05, 0.82, 0.8);
+        group.add(cheek);
+      });
+
+      [-0.1, 0.1].forEach((x) => {
+        const eye = finalizeMesh(new THREE.Mesh(
+          new THREE.SphereGeometry(0.022, 10, 10),
+          eyeMaterial
+        ));
+        eye.position.set(x, 0.69, 0.55);
+        group.add(eye);
+      });
+
+      [-0.12, 0.12].forEach((x, index) => {
+        const earOuter = finalizeMesh(new THREE.Mesh(
+          new THREE.ConeGeometry(0.065, 0.2, 4),
+          furMaterial
+        ));
+        earOuter.position.set(x, 0.87, 0.41);
+        earOuter.rotation.x = index === 0 ? -0.18 : -0.12;
+        earOuter.rotation.z = x < 0 ? 0.18 : -0.18;
+        group.add(earOuter);
+
+        const earInner = finalizeMesh(new THREE.Mesh(
+          new THREE.ConeGeometry(0.038, 0.14, 4),
+          innerEarMaterial
+        ));
+        earInner.position.set(x, 0.84, 0.46);
+        earInner.rotation.x = earOuter.rotation.x;
+        earInner.rotation.z = earOuter.rotation.z;
+        group.add(earInner);
+      });
+
+      [
+        [-0.11, 0.18, 0.2],
+        [0.11, 0.18, 0.2],
+        [-0.12, 0.18, -0.15],
+        [0.12, 0.18, -0.15]
+      ].forEach(([x, y, z], index) => {
+        const leg = finalizeMesh(new THREE.Mesh(
+          new THREE.CylinderGeometry(0.03, 0.038, index < 2 ? 0.34 : 0.3, 8),
+          darkMaterial
+        ));
+        leg.position.set(x, y, z);
+        if (index === 0) leg.rotation.z = 0.08;
+        if (index === 1) leg.rotation.z = -0.08;
+        group.add(leg);
+
+        const paw = finalizeMesh(new THREE.Mesh(
+          new THREE.SphereGeometry(0.035, 8, 8),
+          darkMaterial
+        ));
+        paw.position.set(x, 0.02, z + (index < 2 ? 0.03 : 0));
+        paw.scale.set(1, 0.55, 1.2);
+        group.add(paw);
+      });
+
+      const tailBase = finalizeMesh(new THREE.Mesh(
+        new THREE.CapsuleGeometry(0.085, 0.38, 4, 8),
+        furMaterial
+      ));
+      tailBase.position.set(0, 0.56, -0.43);
+      tailBase.rotation.x = -1.0;
+      group.add(tailBase);
+
+      const tailTip = finalizeMesh(new THREE.Mesh(
+        new THREE.CapsuleGeometry(0.065, 0.22, 4, 8),
+        creamMaterial
+      ));
+      tailTip.position.set(0, 0.74, -0.57);
+      tailTip.rotation.x = -0.92;
+      group.add(tailTip);
+    } else if (type === 'fox2') {
+      const furMaterial = new THREE.MeshStandardMaterial({
+        color: 0xbe4b16,
+        roughness: 0.82,
+        metalness: 0.08
+      });
+      const darkMaterial = new THREE.MeshStandardMaterial({
+        color: 0x1c1917,
+        roughness: 0.9,
+        metalness: 0.03
+      });
+      const creamMaterial = new THREE.MeshStandardMaterial({
+        color: 0xfff6e8,
+        roughness: 0.96,
         metalness: 0.0
       });
-      
-      const leftEar = new THREE.Mesh(
-        new THREE.BoxGeometry(0.1, 0.5, 0.1),
-        earMaterial
-      );
-      leftEar.position.set(-0.1, 0.9, 0.25);
-      leftEar.rotation.z = 0.1;
-      leftEar.castShadow = true;
-      leftEar.receiveShadow = true;
-      group.add(leftEar);
-      
-      const rightEar = new THREE.Mesh(
-        new THREE.BoxGeometry(0.1, 0.5, 0.1),
-        earMaterial
-      );
-      rightEar.position.set(0.1, 0.9, 0.25);
-      rightEar.rotation.z = -0.1;
-      rightEar.castShadow = true;
-      rightEar.receiveShadow = true;
-      group.add(rightEar);
-      
-      // 眼睛
-      const eyeMaterial = new THREE.MeshStandardMaterial({
-        color: 0x1f2937,
-        roughness: 0.7,
-        metalness: 0.2
+      const innerEarMaterial = new THREE.MeshStandardMaterial({
+        color: 0xf1b7a6,
+        roughness: 0.9,
+        metalness: 0.0
       });
-      
-      const leftEye = new THREE.Mesh(
-        new THREE.BoxGeometry(0.05, 0.05, 0.05),
-        eyeMaterial
-      );
-      leftEye.position.set(-0.08, 0.55, 0.45);
-      leftEye.castShadow = true;
-      leftEye.receiveShadow = true;
-      group.add(leftEye);
-      
-      const rightEye = new THREE.Mesh(
-        new THREE.BoxGeometry(0.05, 0.05, 0.05),
-        eyeMaterial
-      );
-      rightEye.position.set(0.08, 0.55, 0.45);
-      rightEye.castShadow = true;
-      rightEye.receiveShadow = true;
-      group.add(rightEye);
-    } else if (type === 'rabbit2') {
-      // 兔子2 - 改良版，更具特色
-      const bodyMaterial = new THREE.MeshStandardMaterial({
-        color: 0xfef3c7,
+      const eyeMaterial = new THREE.MeshStandardMaterial({
+        color: 0x0f172a,
         roughness: 0.65,
-        metalness: 0.15
+        metalness: 0.16
       });
-      
-      // 身体 - 更圆润
-      const body = new THREE.Mesh(new THREE.IcosahedronGeometry(0.25, 3), bodyMaterial);
-      body.position.set(0, 0.35, 0);
-      body.castShadow = true;
-      body.receiveShadow = true;
+
+      const body = finalizeMesh(new THREE.Mesh(
+        new THREE.CapsuleGeometry(0.19, 0.66, 6, 12),
+        furMaterial
+      ));
+      body.position.set(0, 0.39, -0.04);
+      body.rotation.x = Math.PI / 2;
+      body.rotation.z = 0.08;
       group.add(body);
-      
-      // 头部
-      const head = new THREE.Mesh(
-        new THREE.IcosahedronGeometry(0.22, 3),
-        bodyMaterial
-      );
-      head.position.set(0, 0.55, 0.35);
-      head.castShadow = true;
-      head.receiveShadow = true;
+
+      const ribCage = finalizeMesh(new THREE.Mesh(
+        new THREE.SphereGeometry(0.18, 14, 14),
+        furMaterial
+      ));
+      ribCage.position.set(0, 0.44, 0.14);
+      ribCage.scale.set(0.95, 1.05, 1.2);
+      group.add(ribCage);
+
+      const chest = finalizeMesh(new THREE.Mesh(
+        new THREE.SphereGeometry(0.15, 12, 12),
+        creamMaterial
+      ));
+      chest.position.set(0, 0.31, 0.3);
+      chest.scale.set(0.9, 1.2, 0.72);
+      group.add(chest);
+
+      const neck = finalizeMesh(new THREE.Mesh(
+        new THREE.CylinderGeometry(0.075, 0.11, 0.26, 10),
+        furMaterial
+      ));
+      neck.position.set(0, 0.56, 0.28);
+      neck.rotation.x = -0.82;
+      group.add(neck);
+
+      const head = finalizeMesh(new THREE.Mesh(
+        new THREE.SphereGeometry(0.17, 18, 18),
+        furMaterial
+      ));
+      head.position.set(0, 0.67, 0.52);
+      head.scale.set(0.95, 0.92, 1.18);
       group.add(head);
-      
-      // 耳朵 - 更长更有特色
-      const earMaterial = new THREE.MeshStandardMaterial({
-        color: 0xfef3c7,
-        roughness: 0.75,
-        metalness: 0.05
+
+      const muzzle = finalizeMesh(new THREE.Mesh(
+        new THREE.ConeGeometry(0.08, 0.28, 10),
+        creamMaterial
+      ));
+      muzzle.position.set(0, 0.61, 0.7);
+      muzzle.rotation.x = Math.PI / 2;
+      group.add(muzzle);
+
+      const nose = finalizeMesh(new THREE.Mesh(
+        new THREE.SphereGeometry(0.026, 10, 10),
+        darkMaterial
+      ));
+      nose.position.set(0, 0.6, 0.82);
+      group.add(nose);
+
+      [-0.13, 0.13].forEach((x) => {
+        const cheek = finalizeMesh(new THREE.Mesh(
+          new THREE.SphereGeometry(0.07, 10, 10),
+          creamMaterial
+        ));
+        cheek.position.set(x, 0.61, 0.61);
+        cheek.scale.set(1.08, 0.85, 0.82);
+        group.add(cheek);
       });
-      
-      const leftEar = new THREE.Mesh(
-        new THREE.BoxGeometry(0.12, 0.6, 0.12),
-        earMaterial
-      );
-      leftEar.position.set(-0.12, 1.0, 0.3);
-      leftEar.rotation.z = 0.2;
-      leftEar.castShadow = true;
-      leftEar.receiveShadow = true;
-      group.add(leftEar);
-      
-      const rightEar = new THREE.Mesh(
-        new THREE.BoxGeometry(0.12, 0.6, 0.12),
-        earMaterial
-      );
-      rightEar.position.set(0.12, 1.0, 0.3);
-      rightEar.rotation.z = -0.2;
-      rightEar.castShadow = true;
-      rightEar.receiveShadow = true;
-      group.add(rightEar);
-      
-      // 眼睛 - 更大更明亮
+
+      [-0.11, 0.11].forEach((x) => {
+        const eye = finalizeMesh(new THREE.Mesh(
+          new THREE.SphereGeometry(0.024, 10, 10),
+          eyeMaterial
+        ));
+        eye.position.set(x, 0.7, 0.69);
+        group.add(eye);
+      });
+
+      [-0.13, 0.13].forEach((x) => {
+        const earOuter = finalizeMesh(new THREE.Mesh(
+          new THREE.ConeGeometry(0.07, 0.23, 4),
+          furMaterial
+        ));
+        earOuter.position.set(x, 0.92, 0.48);
+        earOuter.rotation.x = -0.08;
+        earOuter.rotation.z = x < 0 ? 0.22 : -0.22;
+        group.add(earOuter);
+
+        const earTip = finalizeMesh(new THREE.Mesh(
+          new THREE.ConeGeometry(0.045, 0.1, 4),
+          darkMaterial
+        ));
+        earTip.position.set(x, 1.0, 0.48);
+        earTip.rotation.x = earOuter.rotation.x;
+        earTip.rotation.z = earOuter.rotation.z;
+        group.add(earTip);
+
+        const earInner = finalizeMesh(new THREE.Mesh(
+          new THREE.ConeGeometry(0.036, 0.14, 4),
+          innerEarMaterial
+        ));
+        earInner.position.set(x, 0.88, 0.54);
+        earInner.rotation.x = earOuter.rotation.x;
+        earInner.rotation.z = earOuter.rotation.z;
+        group.add(earInner);
+      });
+
+      [
+        [-0.11, 0.18, 0.25, 0.06],
+        [0.11, 0.2, 0.22, -0.08],
+        [-0.12, 0.2, -0.16, -0.04],
+        [0.12, 0.2, -0.22, 0.05]
+      ].forEach(([x, y, z, tilt], index) => {
+        const leg = finalizeMesh(new THREE.Mesh(
+          new THREE.CylinderGeometry(0.028, 0.04, index < 2 ? 0.37 : 0.34, 8),
+          darkMaterial
+        ));
+        leg.position.set(x, y, z);
+        leg.rotation.z = tilt;
+        group.add(leg);
+
+        const paw = finalizeMesh(new THREE.Mesh(
+          new THREE.SphereGeometry(0.036, 8, 8),
+          darkMaterial
+        ));
+        paw.position.set(x, 0.02, z + (index === 0 ? 0.05 : 0));
+        paw.scale.set(1, 0.55, 1.25);
+        group.add(paw);
+      });
+
+      const tailBase = finalizeMesh(new THREE.Mesh(
+        new THREE.CapsuleGeometry(0.095, 0.46, 4, 8),
+        furMaterial
+      ));
+      tailBase.position.set(0, 0.57, -0.47);
+      tailBase.rotation.x = -1.12;
+      tailBase.rotation.z = 0.08;
+      group.add(tailBase);
+
+      const tailMid = finalizeMesh(new THREE.Mesh(
+        new THREE.CapsuleGeometry(0.08, 0.32, 4, 8),
+        furMaterial
+      ));
+      tailMid.position.set(0, 0.77, -0.6);
+      tailMid.rotation.x = -0.95;
+      tailMid.rotation.z = 0.1;
+      group.add(tailMid);
+
+      const tailTip = finalizeMesh(new THREE.Mesh(
+        new THREE.CapsuleGeometry(0.06, 0.2, 4, 8),
+        creamMaterial
+      ));
+      tailTip.position.set(0, 0.92, -0.7);
+      tailTip.rotation.x = -0.82;
+      group.add(tailTip);
+
+      group.rotation.y = 0.18;
+    } else if (type === 'rabbit') {
+      const furMaterial = new THREE.MeshStandardMaterial({
+        color: 0xfaf7f2,
+        roughness: 0.92,
+        metalness: 0.02
+      });
+      const bellyMaterial = new THREE.MeshStandardMaterial({
+        color: 0xfff6ea,
+        roughness: 0.95,
+        metalness: 0.0
+      });
+      const innerEarMaterial = new THREE.MeshStandardMaterial({
+        color: 0xf7c7cf,
+        roughness: 0.9,
+        metalness: 0.0
+      });
       const eyeMaterial = new THREE.MeshStandardMaterial({
-        color: 0x0369a1,
-        roughness: 0.6,
-        metalness: 0.3
+        color: 0x111827,
+        roughness: 0.72,
+        metalness: 0.12
       });
-      
-      const leftEye = new THREE.Mesh(
-        new THREE.BoxGeometry(0.06, 0.06, 0.06),
-        eyeMaterial
-      );
-      leftEye.position.set(-0.09, 0.6, 0.5);
-      leftEye.castShadow = true;
-      leftEye.receiveShadow = true;
-      group.add(leftEye);
-      
-      const rightEye = new THREE.Mesh(
-        new THREE.BoxGeometry(0.06, 0.06, 0.06),
-        eyeMaterial
-      );
-      rightEye.position.set(0.09, 0.6, 0.5);
-      rightEye.castShadow = true;
-      rightEye.receiveShadow = true;
-      group.add(rightEye);
-      
-      // 尾巴 - 更蓬松
-      const tailMaterial = new THREE.MeshStandardMaterial({
-        color: 0xfef3c7,
-        roughness: 0.7,
-        metalness: 0.1
+      const noseMaterial = new THREE.MeshStandardMaterial({
+        color: 0xf28ca2,
+        roughness: 0.78,
+        metalness: 0.04
       });
-      
-      const tail = new THREE.Mesh(
-        new THREE.IcosahedronGeometry(0.15, 2),
-        tailMaterial
-      );
-      tail.position.set(0, 0.3, -0.25);
-      tail.castShadow = true;
-      tail.receiveShadow = true;
-      group.add(tail);
-    } else if (type === 'panda' || type === 'panda2') {
-      // 熊猫
-      const bodyMaterial = new THREE.MeshStandardMaterial({
-        color: 0xffffff,
-        roughness: 0.7,
-        metalness: 0.1
-      });
-      
-      const blackMaterial = new THREE.MeshStandardMaterial({
-        color: 0x1f2937,
-        roughness: 0.8,
-        metalness: 0.05
-      });
-      
-      // 身体
-      const body = new THREE.Mesh(new THREE.CapsuleGeometry(0.35, 0.5, 4, 8), bodyMaterial);
-      body.position.set(0, 0.5, 0);
-      body.castShadow = true;
-      body.receiveShadow = true;
+
+      const body = finalizeMesh(new THREE.Mesh(
+        new THREE.CapsuleGeometry(0.2, 0.5, 6, 12),
+        furMaterial
+      ));
+      body.position.set(0, 0.32, -0.02);
+      body.rotation.x = Math.PI / 2;
       group.add(body);
-      
-      // 头部
-      const head = new THREE.Mesh(
-        new THREE.SphereGeometry(0.3, 16, 16),
-        bodyMaterial
-      );
-      head.position.set(0, 0.9, 0.4);
-      head.castShadow = true;
-      head.receiveShadow = true;
+
+      const haunch = finalizeMesh(new THREE.Mesh(
+        new THREE.SphereGeometry(0.2, 14, 14),
+        furMaterial
+      ));
+      haunch.position.set(0, 0.33, -0.22);
+      haunch.scale.set(1.1, 1, 1.18);
+      group.add(haunch);
+
+      const chest = finalizeMesh(new THREE.Mesh(
+        new THREE.SphereGeometry(0.15, 14, 14),
+        bellyMaterial
+      ));
+      chest.position.set(0, 0.28, 0.19);
+      chest.scale.set(0.92, 1.08, 0.78);
+      group.add(chest);
+
+      const head = finalizeMesh(new THREE.Mesh(
+        new THREE.SphereGeometry(0.18, 18, 18),
+        furMaterial
+      ));
+      head.position.set(0, 0.55, 0.31);
+      head.scale.set(1, 0.98, 1.08);
       group.add(head);
-      
-      if (type === 'panda2') {
-        // 熊猫2 - 更圆润的体型，更明显的黑眼圈
-        body.scale.set(1.1, 1.1, 1.1);
-        
-        // 更明显的黑眼圈
-        const leftEyePatch = new THREE.Mesh(
-          new THREE.BoxGeometry(0.15, 0.25, 0.05),
+
+      const muzzle = finalizeMesh(new THREE.Mesh(
+        new THREE.SphereGeometry(0.1, 12, 12),
+        bellyMaterial
+      ));
+      muzzle.position.set(0, 0.49, 0.46);
+      muzzle.scale.set(0.96, 0.7, 1.08);
+      group.add(muzzle);
+
+      const nose = finalizeMesh(new THREE.Mesh(
+        new THREE.SphereGeometry(0.03, 10, 10),
+        noseMaterial
+      ));
+      nose.position.set(0, 0.52, 0.55);
+      nose.scale.set(1, 0.75, 0.8);
+      group.add(nose);
+
+      [-0.08, 0.08].forEach((x) => {
+        const eye = finalizeMesh(new THREE.Mesh(
+          new THREE.SphereGeometry(0.022, 10, 10),
+          eyeMaterial
+        ));
+        eye.position.set(x, 0.58, 0.47);
+        group.add(eye);
+      });
+
+      [
+        [-0.11, 0.92, 0.24, 0.08, 0.12],
+        [0.11, 0.94, 0.2, -0.04, -0.1]
+      ].forEach(([x, y, z, rotZ, rotX]) => {
+        const ear = finalizeMesh(new THREE.Mesh(
+          new THREE.CapsuleGeometry(0.045, 0.42, 4, 8),
+          furMaterial
+        ));
+        ear.position.set(x, y, z);
+        ear.rotation.z = rotZ;
+        ear.rotation.x = rotX;
+        group.add(ear);
+
+        const innerEar = finalizeMesh(new THREE.Mesh(
+          new THREE.CapsuleGeometry(0.022, 0.32, 4, 8),
+          innerEarMaterial
+        ));
+        innerEar.position.set(x, y - 0.02, z + 0.03);
+        innerEar.rotation.z = rotZ;
+        innerEar.rotation.x = rotX;
+        group.add(innerEar);
+      });
+
+      [
+        [-0.08, 0.16, 0.17],
+        [0.08, 0.16, 0.17]
+      ].forEach(([x, y, z]) => {
+        const foreLeg = finalizeMesh(new THREE.Mesh(
+          new THREE.CylinderGeometry(0.026, 0.03, 0.2, 8),
+          furMaterial
+        ));
+        foreLeg.position.set(x, y, z);
+        group.add(foreLeg);
+
+        const paw = finalizeMesh(new THREE.Mesh(
+          new THREE.SphereGeometry(0.035, 8, 8),
+          bellyMaterial
+        ));
+        paw.position.set(x, 0.05, z + 0.03);
+        paw.scale.set(0.9, 0.55, 1.35);
+        group.add(paw);
+      });
+
+      [
+        [-0.13, 0.16, -0.15, 0.12],
+        [0.13, 0.16, -0.15, -0.12]
+      ].forEach(([x, y, z, rotZ]) => {
+        const hindLeg = finalizeMesh(new THREE.Mesh(
+          new THREE.CapsuleGeometry(0.06, 0.18, 4, 8),
+          furMaterial
+        ));
+        hindLeg.position.set(x, y, z);
+        hindLeg.rotation.z = rotZ;
+        hindLeg.rotation.x = Math.PI / 2.4;
+        group.add(hindLeg);
+
+        const foot = finalizeMesh(new THREE.Mesh(
+          new THREE.SphereGeometry(0.05, 8, 8),
+          bellyMaterial
+        ));
+        foot.position.set(x, 0.05, z + 0.12);
+        foot.scale.set(0.9, 0.45, 1.6);
+        group.add(foot);
+      });
+
+      const tail = finalizeMesh(new THREE.Mesh(
+        new THREE.SphereGeometry(0.085, 12, 12),
+        bellyMaterial
+      ));
+      tail.position.set(0, 0.32, -0.42);
+      tail.scale.set(1, 1, 0.92);
+      group.add(tail);
+
+      group.rotation.y = -0.14;
+    } else if (type === 'rabbit2') {
+      const furMaterial = new THREE.MeshStandardMaterial({
+        color: 0xcda87f,
+        roughness: 0.9,
+        metalness: 0.03
+      });
+      const bellyMaterial = new THREE.MeshStandardMaterial({
+        color: 0xf4eadb,
+        roughness: 0.95,
+        metalness: 0.0
+      });
+      const innerEarMaterial = new THREE.MeshStandardMaterial({
+        color: 0xf2b8b2,
+        roughness: 0.88,
+        metalness: 0.0
+      });
+      const eyeMaterial = new THREE.MeshStandardMaterial({
+        color: 0x1f2937,
+        roughness: 0.75,
+        metalness: 0.1
+      });
+      const noseMaterial = new THREE.MeshStandardMaterial({
+        color: 0x9b6b5a,
+        roughness: 0.82,
+        metalness: 0.02
+      });
+
+      const body = finalizeMesh(new THREE.Mesh(
+        new THREE.CapsuleGeometry(0.21, 0.56, 6, 12),
+        furMaterial
+      ));
+      body.position.set(0, 0.34, -0.04);
+      body.rotation.x = Math.PI / 2;
+      body.rotation.z = 0.08;
+      group.add(body);
+
+      const haunch = finalizeMesh(new THREE.Mesh(
+        new THREE.SphereGeometry(0.21, 14, 14),
+        furMaterial
+      ));
+      haunch.position.set(0, 0.35, -0.24);
+      haunch.scale.set(1.15, 1, 1.2);
+      group.add(haunch);
+
+      const chest = finalizeMesh(new THREE.Mesh(
+        new THREE.SphereGeometry(0.15, 12, 12),
+        bellyMaterial
+      ));
+      chest.position.set(0, 0.28, 0.22);
+      chest.scale.set(0.9, 1.15, 0.78);
+      group.add(chest);
+
+      const head = finalizeMesh(new THREE.Mesh(
+        new THREE.SphereGeometry(0.19, 18, 18),
+        furMaterial
+      ));
+      head.position.set(0, 0.6, 0.34);
+      head.scale.set(0.98, 1, 1.12);
+      group.add(head);
+
+      const muzzle = finalizeMesh(new THREE.Mesh(
+        new THREE.SphereGeometry(0.105, 12, 12),
+        bellyMaterial
+      ));
+      muzzle.position.set(0, 0.54, 0.5);
+      muzzle.scale.set(0.94, 0.72, 1.1);
+      group.add(muzzle);
+
+      const nose = finalizeMesh(new THREE.Mesh(
+        new THREE.SphereGeometry(0.028, 10, 10),
+        noseMaterial
+      ));
+      nose.position.set(0, 0.57, 0.6);
+      nose.scale.set(1, 0.8, 0.84);
+      group.add(nose);
+
+      [-0.082, 0.082].forEach((x) => {
+        const eye = finalizeMesh(new THREE.Mesh(
+          new THREE.SphereGeometry(0.022, 10, 10),
+          eyeMaterial
+        ));
+        eye.position.set(x, 0.64, 0.5);
+        group.add(eye);
+      });
+
+      [
+        [-0.11, 1.0, 0.22, 0.16, 0.18, 0.48],
+        [0.13, 0.88, 0.26, -0.42, 0.42, 0.34]
+      ].forEach(([x, y, z, rotZ, rotX, length]) => {
+        const ear = finalizeMesh(new THREE.Mesh(
+          new THREE.CapsuleGeometry(0.046, length, 4, 8),
+          furMaterial
+        ));
+        ear.position.set(x, y, z);
+        ear.rotation.z = rotZ;
+        ear.rotation.x = rotX;
+        group.add(ear);
+
+        const innerEar = finalizeMesh(new THREE.Mesh(
+          new THREE.CapsuleGeometry(0.022, length - 0.1, 4, 8),
+          innerEarMaterial
+        ));
+        innerEar.position.set(x, y - 0.03, z + 0.025);
+        innerEar.rotation.z = rotZ;
+        innerEar.rotation.x = rotX;
+        group.add(innerEar);
+      });
+
+      [
+        [-0.08, 0.18, 0.2, 0.06],
+        [0.08, 0.17, 0.18, -0.05]
+      ].forEach(([x, y, z, tilt]) => {
+        const foreLeg = finalizeMesh(new THREE.Mesh(
+          new THREE.CylinderGeometry(0.025, 0.03, 0.22, 8),
+          furMaterial
+        ));
+        foreLeg.position.set(x, y, z);
+        foreLeg.rotation.z = tilt;
+        group.add(foreLeg);
+
+        const paw = finalizeMesh(new THREE.Mesh(
+          new THREE.SphereGeometry(0.034, 8, 8),
+          bellyMaterial
+        ));
+        paw.position.set(x, 0.06, z + 0.05);
+        paw.scale.set(0.9, 0.55, 1.25);
+        group.add(paw);
+      });
+
+      [
+        [-0.13, 0.18, -0.18, 0.22],
+        [0.13, 0.2, -0.22, -0.28]
+      ].forEach(([x, y, z, tilt]) => {
+        const thigh = finalizeMesh(new THREE.Mesh(
+          new THREE.CapsuleGeometry(0.07, 0.22, 4, 8),
+          furMaterial
+        ));
+        thigh.position.set(x, y, z);
+        thigh.rotation.z = tilt;
+        thigh.rotation.x = Math.PI / 2.2;
+        group.add(thigh);
+
+        const foot = finalizeMesh(new THREE.Mesh(
+          new THREE.SphereGeometry(0.052, 8, 8),
+          bellyMaterial
+        ));
+        foot.position.set(x, 0.05, z + 0.13);
+        foot.scale.set(0.9, 0.45, 1.6);
+        group.add(foot);
+      });
+
+      const tail = finalizeMesh(new THREE.Mesh(
+        new THREE.SphereGeometry(0.09, 12, 12),
+        bellyMaterial
+      ));
+      tail.position.set(0, 0.34, -0.45);
+      group.add(tail);
+
+      group.rotation.y = 0.22;
+    } else if (type === 'panda' || type === 'panda2') {
+      const isPanda2 = type === 'panda2';
+      const whiteMaterial = new THREE.MeshStandardMaterial({
+        color: 0xfafaf9,
+        roughness: 0.9,
+        metalness: 0.02
+      });
+      const blackMaterial = new THREE.MeshStandardMaterial({
+        color: 0x111827,
+        roughness: 0.92,
+        metalness: 0.02
+      });
+      const pinkMaterial = new THREE.MeshStandardMaterial({
+        color: 0xf1b8b2,
+        roughness: 0.88,
+        metalness: 0.0
+      });
+      const bambooMaterial = new THREE.MeshStandardMaterial({
+        color: 0x4ade80,
+        roughness: 0.76,
+        metalness: 0.04
+      });
+      const bambooNodeMaterial = new THREE.MeshStandardMaterial({
+        color: 0x16a34a,
+        roughness: 0.72,
+        metalness: 0.04
+      });
+
+      const body = finalizeMesh(new THREE.Mesh(
+        new THREE.CapsuleGeometry(isPanda2 ? 0.31 : 0.29, isPanda2 ? 0.58 : 0.52, 6, 12),
+        whiteMaterial
+      ));
+      body.position.set(0, 0.42, -0.02);
+      body.rotation.x = Math.PI / 2;
+      body.scale.set(1.12, 1.02, 1);
+      group.add(body);
+
+      const belly = finalizeMesh(new THREE.Mesh(
+        new THREE.SphereGeometry(0.23, 14, 14),
+        whiteMaterial
+      ));
+      belly.position.set(0, 0.34, 0.16);
+      belly.scale.set(0.98, 1.12, 0.84);
+      group.add(belly);
+
+      [
+        [-0.22, 0.4, 0.08, 0.2],
+        [0.22, 0.4, 0.08, -0.2]
+      ].forEach(([x, y, z, rotZ]) => {
+        const shoulder = finalizeMesh(new THREE.Mesh(
+          new THREE.SphereGeometry(0.13, 12, 12),
           blackMaterial
-        );
-        leftEyePatch.position.set(-0.15, 0.95, 0.6);
-        leftEyePatch.rotation.z = 0.2;
-        leftEyePatch.castShadow = true;
-        leftEyePatch.receiveShadow = true;
-        group.add(leftEyePatch);
-        
-        const rightEyePatch = new THREE.Mesh(
-          new THREE.BoxGeometry(0.15, 0.25, 0.05),
+        ));
+        shoulder.position.set(x, y, z);
+        shoulder.scale.set(1.05, 1.2, 0.92);
+        shoulder.rotation.z = rotZ;
+        group.add(shoulder);
+      });
+
+      const head = finalizeMesh(new THREE.Mesh(
+        new THREE.SphereGeometry(isPanda2 ? 0.24 : 0.22, 18, 18),
+        whiteMaterial
+      ));
+      head.position.set(0, 0.76, 0.28);
+      head.scale.set(1.02, 0.98, 1.04);
+      group.add(head);
+
+      const muzzle = finalizeMesh(new THREE.Mesh(
+        new THREE.SphereGeometry(0.11, 12, 12),
+        whiteMaterial
+      ));
+      muzzle.position.set(0, 0.68, 0.44);
+      muzzle.scale.set(0.95, 0.72, 1.12);
+      group.add(muzzle);
+
+      const nose = finalizeMesh(new THREE.Mesh(
+        new THREE.SphereGeometry(0.03, 10, 10),
+        blackMaterial
+      ));
+      nose.position.set(0, 0.69, 0.53);
+      nose.scale.set(1, 0.75, 0.82);
+      group.add(nose);
+
+      [-0.14, 0.14].forEach((x, index) => {
+        const ear = finalizeMesh(new THREE.Mesh(
+          new THREE.SphereGeometry(0.08, 10, 10),
           blackMaterial
-        );
-        rightEyePatch.position.set(0.15, 0.95, 0.6);
-        rightEyePatch.rotation.z = -0.2;
-        rightEyePatch.castShadow = true;
-        rightEyePatch.receiveShadow = true;
-        group.add(rightEyePatch);
-        
-        // 添加竹子道具
-        const bambooMaterial = new THREE.MeshStandardMaterial({
-          color: 0x4ade80,
-          roughness: 0.7,
-          metalness: 0.1
-        });
-        
-        const bamboo = new THREE.Mesh(
-          new THREE.CylinderGeometry(0.05, 0.05, 0.6, 6),
+        ));
+        ear.position.set(x, 0.93, 0.18);
+        ear.scale.set(1, 0.82, 0.9);
+        ear.rotation.z = index === 0 ? 0.18 : -0.18;
+        group.add(ear);
+
+        const innerEar = finalizeMesh(new THREE.Mesh(
+          new THREE.SphereGeometry(0.04, 8, 8),
+          pinkMaterial
+        ));
+        innerEar.position.set(x, 0.92, 0.23);
+        innerEar.scale.set(0.9, 0.6, 0.8);
+        group.add(innerEar);
+      });
+
+      [-0.1, 0.1].forEach((x) => {
+        const patch = finalizeMesh(new THREE.Mesh(
+          new THREE.SphereGeometry(isPanda2 ? 0.08 : 0.072, 12, 12),
+          blackMaterial
+        ));
+        patch.position.set(x, 0.79, 0.41);
+        patch.scale.set(0.92, 1.2, 0.38);
+        patch.rotation.z = x < 0 ? 0.22 : -0.22;
+        group.add(patch);
+
+        const eye = finalizeMesh(new THREE.Mesh(
+          new THREE.SphereGeometry(0.022, 10, 10),
+          blackMaterial
+        ));
+        eye.position.set(x, 0.8, 0.46);
+        group.add(eye);
+      });
+
+      [
+        [-0.18, 0.18, 0.18],
+        [0.18, 0.18, 0.18]
+      ].forEach(([x, y, z], index) => {
+        const arm = finalizeMesh(new THREE.Mesh(
+          new THREE.CapsuleGeometry(0.055, 0.26, 4, 8),
+          blackMaterial
+        ));
+        arm.position.set(x, y, z);
+        arm.rotation.z = index === 0 ? 0.24 : -0.24;
+        arm.rotation.x = Math.PI / 12;
+        group.add(arm);
+      });
+
+      [
+        [-0.16, 0.18, -0.14],
+        [0.16, 0.18, -0.14]
+      ].forEach(([x, y, z], index) => {
+        const leg = finalizeMesh(new THREE.Mesh(
+          new THREE.CapsuleGeometry(0.065, 0.24, 4, 8),
+          blackMaterial
+        ));
+        leg.position.set(x, y, z);
+        leg.rotation.z = index === 0 ? 0.08 : -0.08;
+        leg.rotation.x = Math.PI / 2.2;
+        group.add(leg);
+
+        const paw = finalizeMesh(new THREE.Mesh(
+          new THREE.SphereGeometry(0.06, 8, 8),
+          blackMaterial
+        ));
+        paw.position.set(x, 0.05, z + 0.08);
+        paw.scale.set(1, 0.5, 1.24);
+        group.add(paw);
+      });
+
+      if (isPanda2) {
+        const bamboo = finalizeMesh(new THREE.Mesh(
+          new THREE.CylinderGeometry(0.04, 0.04, 0.62, 8),
           bambooMaterial
-        );
-        bamboo.position.set(0, 0.8, 0.7);
-        bamboo.rotation.z = Math.PI / 4;
-        bamboo.castShadow = true;
-        bamboo.receiveShadow = true;
+        ));
+        bamboo.position.set(0.16, 0.42, 0.46);
+        bamboo.rotation.z = -0.42;
         group.add(bamboo);
+
+        [-0.18, 0, 0.18].forEach((offset) => {
+          const node = finalizeMesh(new THREE.Mesh(
+            new THREE.CylinderGeometry(0.045, 0.045, 0.035, 8),
+            bambooNodeMaterial
+          ));
+          node.position.set(0.16 + offset * 0.18, 0.42 - offset * 0.07, 0.46 + offset * 0.08);
+          node.rotation.z = -0.42;
+          group.add(node);
+        });
+
+        group.rotation.y = 0.2;
       } else {
-        // 熊猫1 - 标准熊猫造型
-        // 眼睛
-        const leftEye = new THREE.Mesh(
-          new THREE.BoxGeometry(0.06, 0.06, 0.06),
-          blackMaterial
-        );
-        leftEye.position.set(-0.12, 0.95, 0.6);
-        leftEye.castShadow = true;
-        leftEye.receiveShadow = true;
-        group.add(leftEye);
-        
-        const rightEye = new THREE.Mesh(
-          new THREE.BoxGeometry(0.06, 0.06, 0.06),
-          blackMaterial
-        );
-        rightEye.position.set(0.12, 0.95, 0.6);
-        rightEye.castShadow = true;
-        rightEye.receiveShadow = true;
-        group.add(rightEye);
+        group.rotation.y = -0.16;
       }
     } else if (type === 'pig' || type === 'pig2') {
-      // 小猪
-      const bodyMaterial = new THREE.MeshStandardMaterial({
-        color: 0xfbcfe8,
-        roughness: 0.7,
-        metalness: 0.1
+
+      const isPig2 = type === 'pig2';
+      const skinMaterial = new THREE.MeshStandardMaterial({
+        color: isPig2 ? 0xf4a5bf : 0xf8bfd4,
+        roughness: 0.88,
+        metalness: 0.04
       });
-      
-      // 身体
-      const body = new THREE.Mesh(new THREE.IcosahedronGeometry(0.3, 3), bodyMaterial);
-      body.position.set(0, 0.4, 0);
-      body.castShadow = true;
-      body.receiveShadow = true;
+      const accentMaterial = new THREE.MeshStandardMaterial({
+        color: isPig2 ? 0xec84aa : 0xf59bbd,
+        roughness: 0.82,
+        metalness: 0.04
+      });
+      const hoofMaterial = new THREE.MeshStandardMaterial({
+        color: 0x7c3f58,
+        roughness: 0.9,
+        metalness: 0.02
+      });
+      const eyeMaterial = new THREE.MeshStandardMaterial({
+        color: 0x111827,
+        roughness: 0.75,
+        metalness: 0.12
+      });
+
+      const body = finalizeMesh(new THREE.Mesh(
+        new THREE.CapsuleGeometry(isPig2 ? 0.26 : 0.24, isPig2 ? 0.52 : 0.46, 6, 12),
+        skinMaterial
+      ));
+      body.position.set(0, 0.35, -0.02);
+      body.rotation.x = Math.PI / 2;
+      body.scale.set(1.1, 0.96, 1);
       group.add(body);
-      
-      // 头部
-      const head = new THREE.Mesh(
-        new THREE.BoxGeometry(0.4, 0.4, 0.4),
-        bodyMaterial
-      );
-      head.position.set(0, 0.6, 0.4);
-      head.castShadow = true;
-      head.receiveShadow = true;
+
+      const belly = finalizeMesh(new THREE.Mesh(
+        new THREE.SphereGeometry(0.2, 12, 12),
+        accentMaterial
+      ));
+      belly.position.set(0, 0.23, 0.04);
+      belly.scale.set(1.05, 0.7, 0.88);
+      group.add(belly);
+
+      const head = finalizeMesh(new THREE.Mesh(
+        new THREE.SphereGeometry(isPig2 ? 0.22 : 0.2, 18, 18),
+        skinMaterial
+      ));
+      head.position.set(0, 0.46, 0.34);
+      head.scale.set(1, 0.92, 1.06);
       group.add(head);
-      
-      if (type === 'pig2') {
-        // 小猪2 - 粉色皮肤，卷曲尾巴
-        bodyMaterial.color.set(0xf9a8d4);
-        
-        // 卷曲尾巴
-        const tailMaterial = new THREE.MeshStandardMaterial({
-          color: 0xf9a8d4,
-          roughness: 0.7,
-          metalness: 0.1
+
+      const snout = finalizeMesh(new THREE.Mesh(
+        new THREE.CylinderGeometry(0.09, 0.105, 0.14, 14),
+        accentMaterial
+      ));
+      snout.position.set(0, 0.42, 0.5);
+      snout.rotation.x = Math.PI / 2;
+      group.add(snout);
+
+      [-0.03, 0.03].forEach((x) => {
+        const nostril = finalizeMesh(new THREE.Mesh(
+          new THREE.SphereGeometry(0.012, 8, 8),
+          hoofMaterial
+        ));
+        nostril.position.set(x, 0.42, 0.57);
+        nostril.scale.set(1, 1.2, 0.7);
+        group.add(nostril);
+      });
+
+      [-0.08, 0.08].forEach((x) => {
+        const eye = finalizeMesh(new THREE.Mesh(
+          new THREE.SphereGeometry(0.02, 10, 10),
+          eyeMaterial
+        ));
+        eye.position.set(x, 0.51, 0.46);
+        group.add(eye);
+      });
+
+      [
+        [-0.12, 0.58, 0.29, 0.22],
+        [0.12, 0.58, 0.29, -0.22]
+      ].forEach(([x, y, z, rotZ]) => {
+        const ear = finalizeMesh(new THREE.Mesh(
+          new THREE.ConeGeometry(0.08, 0.18, 4),
+          skinMaterial
+        ));
+        ear.position.set(x, y, z);
+        ear.rotation.z = rotZ;
+        ear.rotation.x = 0.18;
+        group.add(ear);
+      });
+
+      [
+        [-0.14, 0.15, 0.18],
+        [0.14, 0.15, 0.18],
+        [-0.14, 0.15, -0.18],
+        [0.14, 0.15, -0.18]
+      ].forEach(([x, y, z]) => {
+        const leg = finalizeMesh(new THREE.Mesh(
+          new THREE.CylinderGeometry(0.038, 0.05, 0.22, 8),
+          skinMaterial
+        ));
+        leg.position.set(x, y, z);
+        group.add(leg);
+
+        const hoof = finalizeMesh(new THREE.Mesh(
+          new THREE.SphereGeometry(0.042, 8, 8),
+          hoofMaterial
+        ));
+        hoof.position.set(x, 0.02, z);
+        hoof.scale.set(1, 0.5, 1.1);
+        group.add(hoof);
+      });
+
+      if (isPig2) {
+        [-0.09, 0.1].forEach((x, index) => {
+          const patch = finalizeMesh(new THREE.Mesh(
+            new THREE.SphereGeometry(0.07, 10, 10),
+            accentMaterial
+          ));
+          patch.position.set(x, 0.42 + index * 0.03, index === 0 ? -0.1 : 0.02);
+          patch.scale.set(1.2, 0.8, 0.9);
+          group.add(patch);
         });
-        
-        for(let i = 0; i < 3; i++) {
-          const tailSegment = new THREE.Mesh(
-            new THREE.CylinderGeometry(0.05, 0.05, 0.2, 6),
-            tailMaterial
-          );
-          tailSegment.position.set(
-            Math.cos(i * Math.PI / 2) * 0.2,
-            0.4,
-            -0.2 + Math.sin(i * Math.PI / 2) * 0.2
-          );
-          tailSegment.rotation.z = i * Math.PI / 2;
-          tailSegment.castShadow = true;
-          tailSegment.receiveShadow = true;
+
+        for (let i = 0; i < 3; i++) {
+          const tailSegment = finalizeMesh(new THREE.Mesh(
+            new THREE.TorusGeometry(0.05 - i * 0.01, 0.012, 8, 18, Math.PI * 1.35),
+            accentMaterial
+          ));
+          tailSegment.position.set(0, 0.42 + i * 0.03, -0.34 - i * 0.02);
+          tailSegment.rotation.x = Math.PI / 2;
+          tailSegment.rotation.z = i * 0.25;
           group.add(tailSegment);
         }
+      } else {
+        const tail = finalizeMesh(new THREE.Mesh(
+          new THREE.CylinderGeometry(0.018, 0.02, 0.2, 8),
+          accentMaterial
+        ));
+        tail.position.set(0, 0.42, -0.34);
+        tail.rotation.x = -0.8;
+        group.add(tail);
       }
     } else if (type === 'chick' || type === 'chick2') {
-      // 小鸡
-      const bodyMaterial = new THREE.MeshStandardMaterial({
-        color: 0xfacc15,
-        roughness: 0.65,
-        metalness: 0.15
+      const isChick2 = type === 'chick2';
+      const featherMaterial = new THREE.MeshStandardMaterial({
+        color: isChick2 ? 0xf8b400 : 0xf6d84c,
+        roughness: 0.84,
+        metalness: 0.06
       });
-      
-      // 身体
-      const body = new THREE.Mesh(new THREE.IcosahedronGeometry(0.2, 3), bodyMaterial);
-      body.position.set(0, 0.3, 0);
-      body.castShadow = true;
-      body.receiveShadow = true;
-      group.add(body);
-      
-      // 头部
-      const head = new THREE.Mesh(
-        new THREE.SphereGeometry(0.18, 16, 16),
-        bodyMaterial
-      );
-      head.position.set(0, 0.5, 0.3);
-      head.castShadow = true;
-      head.receiveShadow = true;
-      group.add(head);
-      
-      if (type === 'chick2') {
-        // 小鸡2 - 更可爱的造型，带有翅膀
-        body.scale.set(1.1, 1.1, 1.1);
-        
-        // 翅膀
-        const wingMaterial = new THREE.MeshStandardMaterial({
-          color: 0xf59e0b,
-          roughness: 0.7,
-          metalness: 0.1
-        });
-        
-        const leftWing = new THREE.Mesh(
-          new THREE.BoxGeometry(0.15, 0.08, 0.2),
-          wingMaterial
-        );
-        leftWing.position.set(-0.2, 0.35, 0.1);
-        leftWing.rotation.z = 0.3;
-        leftWing.castShadow = true;
-        leftWing.receiveShadow = true;
-        group.add(leftWing);
-        
-        const rightWing = new THREE.Mesh(
-          new THREE.BoxGeometry(0.15, 0.08, 0.2),
-          wingMaterial
-        );
-        rightWing.position.set(0.2, 0.35, 0.1);
-        rightWing.rotation.z = -0.3;
-        rightWing.castShadow = true;
-        rightWing.receiveShadow = true;
-        group.add(rightWing);
-      }
-    } else if (type === 'penguin' || type === 'penguin2') {
-      // 企鹅
-      const bodyMaterial = new THREE.MeshStandardMaterial({
-        color: 0x1f2937,
+      const wingMaterial = new THREE.MeshStandardMaterial({
+        color: isChick2 ? 0xf59e0b : 0xfacc15,
+        roughness: 0.88,
+        metalness: 0.04
+      });
+      const beakMaterial = new THREE.MeshStandardMaterial({
+        color: 0xf97316,
         roughness: 0.7,
-        metalness: 0.1
+        metalness: 0.08
       });
-      
-      const bellyMaterial = new THREE.MeshStandardMaterial({
-        color: 0xffffff,
-        roughness: 0.75,
-        metalness: 0.05
+      const eyeMaterial = new THREE.MeshStandardMaterial({
+        color: 0x111827,
+        roughness: 0.72,
+        metalness: 0.14
       });
-      
-      // 身体
-      const body = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.35, 0.9, 12), bodyMaterial);
-      body.position.set(0, 0.45, 0);
-      body.castShadow = true;
-      body.receiveShadow = true;
+
+      const body = finalizeMesh(new THREE.Mesh(
+        new THREE.SphereGeometry(isChick2 ? 0.22 : 0.2, 18, 18),
+        featherMaterial
+      ));
+      body.position.set(0, 0.28, -0.01);
+      body.scale.set(1, 0.96, 1.02);
       group.add(body);
-      
-      // 腹部
-      const belly = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.3, 0.8, 12), bellyMaterial);
-      belly.position.set(0, 0.4, 0.1);
-      belly.castShadow = true;
-      belly.receiveShadow = true;
-      group.add(belly);
-      
-      // 头部
-      const head = new THREE.Mesh(
-        new THREE.SphereGeometry(0.25, 16, 16),
-        bodyMaterial
-      );
-      head.position.set(0, 0.9, 0.2);
-      head.castShadow = true;
-      head.receiveShadow = true;
+
+      const head = finalizeMesh(new THREE.Mesh(
+        new THREE.SphereGeometry(isChick2 ? 0.17 : 0.16, 18, 18),
+        featherMaterial
+      ));
+      head.position.set(0, 0.5, 0.2);
       group.add(head);
-      
-      if (type === 'penguin2') {
-        // 企鹅2 - 带有领结，更可爱的造型
-        // 领结
-        const bowMaterial = new THREE.MeshStandardMaterial({
-          color: 0xef4444,
-          roughness: 0.6,
-          metalness: 0.2
+
+      [-0.08, 0, 0.08].forEach((x, index) => {
+        const tuft = finalizeMesh(new THREE.Mesh(
+          new THREE.ConeGeometry(index === 1 ? 0.05 : 0.04, index === 1 ? 0.12 : 0.1, 5),
+          wingMaterial
+        ));
+        tuft.position.set(x, 0.68 + index * 0.01, 0.16);
+        tuft.rotation.x = -0.2;
+        tuft.rotation.z = x * -1.6;
+        group.add(tuft);
+      });
+
+      const beak = finalizeMesh(new THREE.Mesh(
+        new THREE.ConeGeometry(isChick2 ? 0.055 : 0.05, 0.18, 4),
+        beakMaterial
+      ));
+      beak.position.set(0, 0.48, 0.37);
+      beak.rotation.x = Math.PI / 2;
+      group.add(beak);
+
+      [-0.06, 0.06].forEach((x) => {
+        const eye = finalizeMesh(new THREE.Mesh(
+          new THREE.SphereGeometry(0.022, 10, 10),
+          eyeMaterial
+        ));
+        eye.position.set(x, 0.55, 0.3);
+        group.add(eye);
+      });
+
+      [
+        [-0.17, 0.31, 0.05, 0.48],
+        [0.17, 0.31, 0.05, -0.48]
+      ].forEach(([x, y, z, rotZ]) => {
+        const wing = finalizeMesh(new THREE.Mesh(
+          new THREE.SphereGeometry(isChick2 ? 0.09 : 0.08, 12, 12),
+          wingMaterial
+        ));
+        wing.position.set(x, y, z);
+        wing.scale.set(0.62, 0.92, 1.18);
+        wing.rotation.z = rotZ;
+        if (isChick2) {
+          wing.rotation.x = 0.16;
+        }
+        group.add(wing);
+      });
+
+      [
+        [-0.06, 0.08, 0.09],
+        [0.06, 0.08, 0.09]
+      ].forEach(([x, y, z]) => {
+        const leg = finalizeMesh(new THREE.Mesh(
+          new THREE.CylinderGeometry(0.012, 0.016, 0.14, 6),
+          beakMaterial
+        ));
+        leg.position.set(x, y, z);
+        group.add(leg);
+
+        [-0.03, 0, 0.03].forEach((toeX) => {
+          const toe = finalizeMesh(new THREE.Mesh(
+            new THREE.CylinderGeometry(0.005, 0.006, 0.06, 5),
+            beakMaterial
+          ));
+          toe.position.set(x + toeX, 0.01, z + 0.05);
+          toe.rotation.x = Math.PI / 2;
+          toe.rotation.z = toeX * 3;
+          group.add(toe);
         });
-        
-        const bow = new THREE.Mesh(
-          new THREE.BoxGeometry(0.2, 0.1, 0.1),
-          bowMaterial
-        );
-        bow.position.set(0, 0.7, 0.3);
-        bow.castShadow = true;
-        bow.receiveShadow = true;
-        group.add(bow);
+      });
+
+      const tail = finalizeMesh(new THREE.Mesh(
+        new THREE.ConeGeometry(0.05, 0.12, 4),
+        wingMaterial
+      ));
+      tail.position.set(0, 0.28, -0.18);
+      tail.rotation.x = -Math.PI / 2.8;
+      group.add(tail);
+    } else if (type === 'penguin' || type === 'penguin2') {
+      const isPenguin2 = type === 'penguin2';
+      const bodyMaterial = new THREE.MeshStandardMaterial({
+        color: 0x0f172a,
+        roughness: 0.86,
+        metalness: 0.04
+      });
+      const bellyMaterial = new THREE.MeshStandardMaterial({
+        color: 0xf8fafc,
+        roughness: 0.92,
+        metalness: 0.0
+      });
+      const beakMaterial = new THREE.MeshStandardMaterial({
+        color: 0xf59e0b,
+        roughness: 0.76,
+        metalness: 0.06
+      });
+      const accentMaterial = new THREE.MeshStandardMaterial({
+        color: 0xef4444,
+        roughness: 0.7,
+        metalness: 0.08
+      });
+      const eyeMaterial = new THREE.MeshStandardMaterial({
+        color: 0x111827,
+        roughness: 0.74,
+        metalness: 0.12
+      });
+
+      const body = finalizeMesh(new THREE.Mesh(
+        new THREE.CapsuleGeometry(isPenguin2 ? 0.24 : 0.22, isPenguin2 ? 0.62 : 0.56, 6, 12),
+        bodyMaterial
+      ));
+      body.position.set(0, 0.42, 0);
+      body.scale.set(1, 1.1, 1);
+      group.add(body);
+
+      const belly = finalizeMesh(new THREE.Mesh(
+        new THREE.SphereGeometry(0.2, 14, 14),
+        bellyMaterial
+      ));
+      belly.position.set(0, 0.36, 0.16);
+      belly.scale.set(0.92, 1.28, 0.72);
+      group.add(belly);
+
+      const head = finalizeMesh(new THREE.Mesh(
+        new THREE.SphereGeometry(isPenguin2 ? 0.19 : 0.18, 18, 18),
+        bodyMaterial
+      ));
+      head.position.set(0, 0.83, 0.16);
+      head.scale.set(1.02, 1, 1.04);
+      group.add(head);
+
+      const face = finalizeMesh(new THREE.Mesh(
+        new THREE.SphereGeometry(0.14, 12, 12),
+        bellyMaterial
+      ));
+      face.position.set(0, 0.8, 0.26);
+      face.scale.set(0.92, 0.82, 0.8);
+      group.add(face);
+
+      const beak = finalizeMesh(new THREE.Mesh(
+        new THREE.ConeGeometry(0.05, 0.18, 4),
+        beakMaterial
+      ));
+      beak.position.set(0, 0.76, 0.4);
+      beak.rotation.x = Math.PI / 2;
+      group.add(beak);
+
+      [-0.07, 0.07].forEach((x) => {
+        const eye = finalizeMesh(new THREE.Mesh(
+          new THREE.SphereGeometry(0.022, 10, 10),
+          eyeMaterial
+        ));
+        eye.position.set(x, 0.85, 0.3);
+        group.add(eye);
+      });
+
+      [
+        [-0.2, 0.45, 0.06, 0.22],
+        [0.2, 0.45, 0.06, -0.22]
+      ].forEach(([x, y, z, rotZ]) => {
+        const flipper = finalizeMesh(new THREE.Mesh(
+          new THREE.CapsuleGeometry(0.05, 0.32, 4, 8),
+          bodyMaterial
+        ));
+        flipper.position.set(x, y, z);
+        flipper.rotation.z = rotZ;
+        flipper.rotation.x = Math.PI / 7;
+        group.add(flipper);
+      });
+
+      [
+        [-0.09, 0.08, 0.13],
+        [0.09, 0.08, 0.13]
+      ].forEach(([x, y, z]) => {
+        const leg = finalizeMesh(new THREE.Mesh(
+          new THREE.CylinderGeometry(0.018, 0.022, 0.12, 6),
+          bodyMaterial
+        ));
+        leg.position.set(x, y, z);
+        group.add(leg);
+
+        const foot = finalizeMesh(new THREE.Mesh(
+          new THREE.SphereGeometry(0.05, 8, 8),
+          beakMaterial
+        ));
+        foot.position.set(x, 0.01, z + 0.05);
+        foot.scale.set(1.35, 0.35, 1.15);
+        group.add(foot);
+      });
+
+      const tail = finalizeMesh(new THREE.Mesh(
+        new THREE.ConeGeometry(0.04, 0.12, 4),
+        bodyMaterial
+      ));
+      tail.position.set(0, 0.28, -0.2);
+      tail.rotation.x = -Math.PI / 2.7;
+      group.add(tail);
+
+      if (isPenguin2) {
+        const scarf = finalizeMesh(new THREE.Mesh(
+          new THREE.TorusGeometry(0.1, 0.025, 8, 20),
+          accentMaterial
+        ));
+        scarf.position.set(0, 0.63, 0.16);
+        scarf.rotation.x = Math.PI / 2;
+        group.add(scarf);
+
+        const scarfTail = finalizeMesh(new THREE.Mesh(
+          new THREE.BoxGeometry(0.06, 0.18, 0.04),
+          accentMaterial
+        ));
+        scarfTail.position.set(0.08, 0.54, 0.25);
+        scarfTail.rotation.z = -0.18;
+        group.add(scarfTail);
+
+        group.rotation.y = 0.12;
+      } else {
+        group.rotation.y = -0.12;
       }
     } else if (type === 'frog' || type === 'frog2') {
-      // 青蛙
+
+      const isFrog2 = type === 'frog2';
       const bodyMaterial = new THREE.MeshStandardMaterial({
-        color: 0x4ade80,
-        roughness: 0.7,
-        metalness: 0.1
+        color: isFrog2 ? 0x1fb66f : 0x58d68d,
+        roughness: 0.88,
+        metalness: 0.03
       });
-      
-      // 身体
-      const body = new THREE.Mesh(new THREE.IcosahedronGeometry(0.25, 3), bodyMaterial);
-      body.position.set(0, 0.3, 0);
-      body.castShadow = true;
-      body.receiveShadow = true;
-      group.add(body);
-      
-      // 眼睛
+      const bellyMaterial = new THREE.MeshStandardMaterial({
+        color: 0xd9f99d,
+        roughness: 0.94,
+        metalness: 0.0
+      });
       const eyeMaterial = new THREE.MeshStandardMaterial({
-        color: 0xffffff,
-        roughness: 0.6,
-        metalness: 0.2
+        color: 0xf8fafc,
+        roughness: 0.7,
+        metalness: 0.12
       });
-      
-      const leftEye = new THREE.Mesh(
-        new THREE.SphereGeometry(0.15, 12, 12),
-        eyeMaterial
-      );
-      leftEye.position.set(-0.2, 0.5, 0.3);
-      leftEye.castShadow = true;
-      leftEye.receiveShadow = true;
-      group.add(leftEye);
-      
-      const rightEye = new THREE.Mesh(
-        new THREE.SphereGeometry(0.15, 12, 12),
-        eyeMaterial
-      );
-      rightEye.position.set(0.2, 0.5, 0.3);
-      rightEye.castShadow = true;
-      rightEye.receiveShadow = true;
-      group.add(rightEye);
-      
-      if (type === 'frog2') {
-        // 青蛙2 - 更鲜艳的颜色，带有斑点
-        bodyMaterial.color.set(0x10b981);
-        
-        // 背部斑点
-        const spotMaterial = new THREE.MeshStandardMaterial({
-          color: 0x059669,
-          roughness: 0.8,
-          metalness: 0.05
-        });
-        
-        for(let i = 0; i < 5; i++) {
-          const spot = new THREE.Mesh(
-            new THREE.SphereGeometry(0.05, 8, 8),
-            spotMaterial
-          );
-          spot.position.set(
-            (Math.random() - 0.5) * 0.3,
-            0.3 + Math.random() * 0.2,
-            (Math.random() - 0.5) * 0.2
-          );
-          spot.castShadow = true;
-          spot.receiveShadow = true;
-          group.add(spot);
-        }
-      }
+      const pupilMaterial = new THREE.MeshStandardMaterial({
+        color: 0x0f172a,
+        roughness: 0.8,
+        metalness: 0.08
+      });
+      const spotMaterial = new THREE.MeshStandardMaterial({
+        color: isFrog2 ? 0x047857 : 0x16a34a,
+        roughness: 0.9,
+        metalness: 0.02
+      });
+
+      const body = finalizeMesh(new THREE.Mesh(
+        new THREE.SphereGeometry(0.24, 18, 18),
+        bodyMaterial
+      ));
+      body.position.set(0, 0.26, 0);
+      body.scale.set(1.15, 0.72, 1.08);
+      group.add(body);
+
+      const belly = finalizeMesh(new THREE.Mesh(
+        new THREE.SphereGeometry(0.17, 14, 14),
+        bellyMaterial
+      ));
+      belly.position.set(0, 0.19, 0.12);
+      belly.scale.set(1.05, 0.7, 0.82);
+      group.add(belly);
+
+      const head = finalizeMesh(new THREE.Mesh(
+        new THREE.SphereGeometry(0.2, 18, 18),
+        bodyMaterial
+      ));
+      head.position.set(0, 0.36, 0.2);
+      head.scale.set(1.15, 0.62, 1.02);
+      group.add(head);
+
+      [-0.12, 0.12].forEach((x) => {
+        const eyeStem = finalizeMesh(new THREE.Mesh(
+          new THREE.CylinderGeometry(0.03, 0.04, 0.1, 8),
+          bodyMaterial
+        ));
+        eyeStem.position.set(x, 0.49, 0.19);
+        eyeStem.rotation.z = x < 0 ? 0.08 : -0.08;
+        group.add(eyeStem);
+
+        const eye = finalizeMesh(new THREE.Mesh(
+          new THREE.SphereGeometry(0.07, 12, 12),
+          eyeMaterial
+        ));
+        eye.position.set(x, 0.56, 0.21);
+        group.add(eye);
+
+        const pupil = finalizeMesh(new THREE.Mesh(
+          new THREE.SphereGeometry(0.022, 10, 10),
+          pupilMaterial
+        ));
+        pupil.position.set(x, 0.57, 0.27);
+        pupil.scale.set(0.75, 1.1, 0.7);
+        group.add(pupil);
+      });
+
+      const mouth = finalizeMesh(new THREE.Mesh(
+        new THREE.TorusGeometry(0.12, 0.012, 6, 18, Math.PI),
+        spotMaterial
+      ));
+      mouth.position.set(0, 0.31, 0.28);
+      mouth.rotation.x = Math.PI;
+      group.add(mouth);
+
+      [
+        [-0.14, 0.16, 0.14, 0.48],
+        [0.14, 0.16, 0.14, -0.48]
+      ].forEach(([x, y, z, rotZ]) => {
+        const foreLeg = finalizeMesh(new THREE.Mesh(
+          new THREE.CylinderGeometry(0.022, 0.028, 0.18, 8),
+          bodyMaterial
+        ));
+        foreLeg.position.set(x, y, z);
+        foreLeg.rotation.z = rotZ;
+        group.add(foreLeg);
+
+        const hand = finalizeMesh(new THREE.Mesh(
+          new THREE.SphereGeometry(0.04, 8, 8),
+          bodyMaterial
+        ));
+        hand.position.set(x + (x < 0 ? -0.03 : 0.03), 0.04, z + 0.05);
+        hand.scale.set(1.25, 0.4, 1.4);
+        group.add(hand);
+      });
+
+      [
+        [-0.16, 0.2, -0.12, 0.38],
+        [0.16, 0.2, -0.12, -0.38]
+      ].forEach(([x, y, z, rotZ]) => {
+        const thigh = finalizeMesh(new THREE.Mesh(
+          new THREE.SphereGeometry(0.08, 10, 10),
+          bodyMaterial
+        ));
+        thigh.position.set(x, y, z);
+        thigh.scale.set(1.2, 0.85, 0.9);
+        group.add(thigh);
+
+        const calf = finalizeMesh(new THREE.Mesh(
+          new THREE.CapsuleGeometry(0.04, 0.2, 4, 8),
+          bodyMaterial
+        ));
+        calf.position.set(x + (x < 0 ? -0.06 : 0.06), 0.12, z + 0.1);
+        calf.rotation.z = rotZ;
+        calf.rotation.x = Math.PI / 2.4;
+        group.add(calf);
+
+        const foot = finalizeMesh(new THREE.Mesh(
+          new THREE.SphereGeometry(0.05, 8, 8),
+          bellyMaterial
+        ));
+        foot.position.set(x + (x < 0 ? -0.12 : 0.12), 0.03, z + 0.22);
+        foot.scale.set(1.6, 0.35, 1.2);
+        group.add(foot);
+      });
+
+      const spotPositions = isFrog2
+        ? [[-0.08, 0.36, -0.04], [0.09, 0.32, 0.02], [0, 0.4, -0.12], [-0.02, 0.29, 0.08]]
+        : [[-0.06, 0.34, -0.08], [0.07, 0.31, -0.02]];
+
+      spotPositions.forEach(([x, y, z]) => {
+        const spot = finalizeMesh(new THREE.Mesh(
+          new THREE.SphereGeometry(isFrog2 ? 0.045 : 0.035, 8, 8),
+          spotMaterial
+        ));
+        spot.position.set(x, y, z);
+        spot.scale.set(1.2, 0.55, 1);
+        group.add(spot);
+      });
+
+      group.rotation.y = isFrog2 ? 0.24 : -0.18;
     } else if (type === 'bee' || type === 'bee2') {
+
       // 蜜蜂 - 根据类型创建不同的蜜蜂模型
       if (type === 'bee') {
         // 蜜蜂1 - 普通工蜂：典型黄黑条纹，透明翅膀，细长体型
@@ -2770,364 +3489,308 @@ export class SceneManager {
         }
       }
     } else if (type === 'sheep' || type === 'sheep2') {
-      // 绵羊
-      const bodyMaterial = new THREE.MeshStandardMaterial({
-        color: 0xffffff,
-        roughness: 0.65,
-        metalness: 0.15
+      const isSheep2 = type === 'sheep2';
+      const woolMaterial = new THREE.MeshStandardMaterial({
+        color: 0xfafaf9,
+        roughness: 0.96,
+        metalness: 0.0
       });
-      
-      // 身体
-      const body = new THREE.Mesh(new THREE.IcosahedronGeometry(0.3, 3), bodyMaterial);
-      body.position.set(0, 0.4, 0);
-      body.castShadow = true;
-      body.receiveShadow = true;
-      group.add(body);
-      
-      // 头部
-      const head = new THREE.Mesh(
-        new THREE.BoxGeometry(0.3, 0.3, 0.35),
-        bodyMaterial
-      );
-      head.position.set(0, 0.6, 0.4);
-      head.castShadow = true;
-      head.receiveShadow = true;
+      const faceMaterial = new THREE.MeshStandardMaterial({
+        color: isSheep2 ? 0x3f3f46 : 0x52525b,
+        roughness: 0.88,
+        metalness: 0.02
+      });
+      const innerEarMaterial = new THREE.MeshStandardMaterial({
+        color: 0xf5c6b8,
+        roughness: 0.84,
+        metalness: 0.0
+      });
+      const bellMaterial = new THREE.MeshStandardMaterial({
+        color: 0xfbbf24,
+        roughness: 0.46,
+        metalness: 0.58
+      });
+      const eyeMaterial = new THREE.MeshStandardMaterial({
+        color: 0x111827,
+        roughness: 0.8,
+        metalness: 0.08
+      });
+
+      const bodyCore = finalizeMesh(new THREE.Mesh(
+        new THREE.CapsuleGeometry(isSheep2 ? 0.22 : 0.2, isSheep2 ? 0.5 : 0.44, 6, 12),
+        woolMaterial
+      ));
+      bodyCore.position.set(0, 0.38, -0.02);
+      bodyCore.rotation.x = Math.PI / 2;
+      bodyCore.scale.set(1.08, 0.98, 1);
+      group.add(bodyCore);
+
+      const woolClusters = isSheep2
+        ? [
+            [-0.12, 0.49, 0.02, 0.11], [0.1, 0.5, 0.08, 0.1], [0, 0.56, -0.02, 0.12],
+            [-0.08, 0.32, -0.12, 0.09], [0.1, 0.34, -0.14, 0.1], [0, 0.35, 0.18, 0.11],
+            [-0.18, 0.42, -0.04, 0.1], [0.18, 0.42, -0.02, 0.1], [0.02, 0.28, -0.2, 0.09]
+          ]
+        : [
+            [-0.1, 0.47, 0.02, 0.1], [0.09, 0.48, 0.06, 0.09], [0, 0.53, -0.01, 0.1],
+            [-0.08, 0.34, -0.11, 0.08], [0.08, 0.35, -0.12, 0.08], [0, 0.33, 0.16, 0.09],
+            [-0.16, 0.41, -0.02, 0.08], [0.16, 0.4, -0.01, 0.08]
+          ];
+
+      woolClusters.forEach(([x, y, z, size]) => {
+        const wool = finalizeMesh(new THREE.Mesh(
+          new THREE.SphereGeometry(size, 10, 10),
+          woolMaterial
+        ));
+        wool.position.set(x, y, z);
+        wool.scale.set(1.08, 0.96, 1.04);
+        group.add(wool);
+      });
+
+      const head = finalizeMesh(new THREE.Mesh(
+        new THREE.CapsuleGeometry(0.11, 0.18, 4, 8),
+        faceMaterial
+      ));
+      head.position.set(0, 0.48, 0.34);
+      head.rotation.x = Math.PI / 2;
+      head.scale.set(0.95, 0.92, 1.12);
       group.add(head);
-      
-      if (type === 'sheep2') {
-        // 绵羊2 - 更蓬松的羊毛，带有铃铛
-        // 更蓬松的羊毛
-        for(let i = 0; i < 15; i++) {
-          const wool = new THREE.Mesh(
-            new THREE.SphereGeometry(0.1, 8, 8),
-            bodyMaterial
-          );
-          wool.position.set(
-            (Math.random() - 0.5) * 0.4,
-            0.4 + (Math.random() - 0.5) * 0.3,
-            (Math.random() - 0.5) * 0.4
-          );
-          wool.castShadow = true;
-          wool.receiveShadow = true;
-          group.add(wool);
-        }
-        
-        // 铃铛
-        const bellMaterial = new THREE.MeshStandardMaterial({
-          color: 0xfbbf24,
-          roughness: 0.4,
-          metalness: 0.6
-        });
-        
-        const bell = new THREE.Mesh(
-          new THREE.CylinderGeometry(0.08, 0.1, 0.12, 8),
+
+      const muzzle = finalizeMesh(new THREE.Mesh(
+        new THREE.SphereGeometry(0.09, 10, 10),
+        faceMaterial
+      ));
+      muzzle.position.set(0, 0.44, 0.49);
+      muzzle.scale.set(0.92, 0.72, 1.12);
+      group.add(muzzle);
+
+      [-0.06, 0.06].forEach((x) => {
+        const eye = finalizeMesh(new THREE.Mesh(
+          new THREE.SphereGeometry(0.018, 10, 10),
+          eyeMaterial
+        ));
+        eye.position.set(x, 0.53, 0.46);
+        group.add(eye);
+      });
+
+      [
+        [-0.11, 0.57, 0.31, 0.3],
+        [0.11, 0.57, 0.31, -0.3]
+      ].forEach(([x, y, z, rotZ]) => {
+        const ear = finalizeMesh(new THREE.Mesh(
+          new THREE.SphereGeometry(0.05, 10, 10),
+          faceMaterial
+        ));
+        ear.position.set(x, y, z);
+        ear.scale.set(0.6, 1.15, 0.4);
+        ear.rotation.z = rotZ;
+        group.add(ear);
+
+        const innerEar = finalizeMesh(new THREE.Mesh(
+          new THREE.SphereGeometry(0.028, 8, 8),
+          innerEarMaterial
+        ));
+        innerEar.position.set(x, y - 0.01, z + 0.02);
+        innerEar.scale.set(0.5, 0.8, 0.35);
+        innerEar.rotation.z = rotZ;
+        group.add(innerEar);
+      });
+
+      [
+        [-0.13, 0.16, 0.16], [0.13, 0.16, 0.16],
+        [-0.13, 0.16, -0.14], [0.13, 0.16, -0.14]
+      ].forEach(([x, y, z]) => {
+        const leg = finalizeMesh(new THREE.Mesh(
+          new THREE.CylinderGeometry(0.032, 0.04, 0.24, 8),
+          faceMaterial
+        ));
+        leg.position.set(x, y, z);
+        group.add(leg);
+
+        const hoof = finalizeMesh(new THREE.Mesh(
+          new THREE.SphereGeometry(0.036, 8, 8),
+          faceMaterial
+        ));
+        hoof.position.set(x, 0.02, z);
+        hoof.scale.set(1, 0.45, 1.05);
+        group.add(hoof);
+      });
+
+      if (isSheep2) {
+        const bell = finalizeMesh(new THREE.Mesh(
+          new THREE.CylinderGeometry(0.06, 0.075, 0.1, 10),
           bellMaterial
-        );
-        bell.position.set(0, 0.2, 0);
-        bell.castShadow = true;
-        bell.receiveShadow = true;
+        ));
+        bell.position.set(0, 0.26, 0.25);
         group.add(bell);
+
+        const bellClapper = finalizeMesh(new THREE.Mesh(
+          new THREE.SphereGeometry(0.018, 8, 8),
+          faceMaterial
+        ));
+        bellClapper.position.set(0, 0.21, 0.25);
+        group.add(bellClapper);
+
+        group.rotation.y = 0.18;
+      } else {
+        group.rotation.y = -0.12;
       }
     } else if (type === 'bear' || type === 'bear2') {
       const isPolarBear = type === 'bear2';
-      
-      // 基础材质设置
-      const bodyMaterial = new THREE.MeshStandardMaterial({
-        color: isPolarBear ? 0xf0f0f0 : 0x78350f, // 北极熊白色，棕熊深棕色
-        roughness: 0.9,
-        metalness: 0.05,
-        flatShading: false
+      const furMaterial = new THREE.MeshStandardMaterial({
+        color: isPolarBear ? 0xf1f5f9 : 0x6f4a2d,
+        roughness: 0.92,
+        metalness: 0.02
       });
-      
-      const detailMaterial = new THREE.MeshStandardMaterial({
-        color: isPolarBear ? 0xe0e0e0 : 0x92400e, // 细节色
-        roughness: 0.95,
+      const accentMaterial = new THREE.MeshStandardMaterial({
+        color: isPolarBear ? 0xe2e8f0 : 0x8a5b33,
+        roughness: 0.94,
         metalness: 0.0
       });
-      
-      const blackMaterial = new THREE.MeshStandardMaterial({
-        color: isPolarBear ? 0x111827 : 0x1f2937, // 黑色细节
+      const darkMaterial = new THREE.MeshStandardMaterial({
+        color: 0x111827,
         roughness: 0.9,
-        metalness: 0.0
+        metalness: 0.02
       });
-      
-      // 爪子材质
       const clawMaterial = new THREE.MeshStandardMaterial({
-        color: isPolarBear ? 0xd1d5db : 0x9ca3af, // 爪子颜色
-        roughness: 0.7,
-        metalness: 0.2
+        color: isPolarBear ? 0xcbd5e1 : 0xa8a29e,
+        roughness: 0.72,
+        metalness: 0.18
       });
-      
-      // 1. 身体：站立的熊类体型，使用胶囊几何体，只缩小Z轴高度到原来的四分之一
-      const body = new THREE.Mesh(
-        new THREE.CapsuleGeometry(
-          isPolarBear ? 0.45 : 0.4, // 保持原半径不变
-          isPolarBear ? 0.25 : 0.275,  // 高度，缩小到原来的四分之一（原高度1.0/1.1）
-          8, 16
-        ),
-        bodyMaterial
-      );
-      body.position.set(0, 1.0, 0); // 调整高度，避免身体插入地下
-      body.rotation.z = 0; // 直立站立，不再前倾
-      body.castShadow = true;
-      body.receiveShadow = true;
+
+      const body = finalizeMesh(new THREE.Mesh(
+        new THREE.CapsuleGeometry(isPolarBear ? 0.28 : 0.3, isPolarBear ? 0.72 : 0.62, 6, 12),
+        furMaterial
+      ));
+      body.position.set(0, 0.46, -0.02);
+      body.rotation.x = Math.PI / 2;
+      body.scale.set(isPolarBear ? 1.22 : 1.08, 1, 1);
       group.add(body);
-      
-      // 2. 颈部：连接头部和身体，恢复原始尺寸
-      const neck = new THREE.Mesh(
-        new THREE.CapsuleGeometry(0.22, 0.3, 8, 8), // 恢复原始颈部尺寸
-        bodyMaterial
-      );
-      neck.position.set(0, 0.5, 0); // 相对于身体定位，连接身体顶部，调整位置以适应缩小的身体
-      neck.rotation.z = 0;
-      neck.castShadow = true;
-      neck.receiveShadow = true;
-      body.add(neck);
-      
-      // 3. 头部：熊头形状，位于颈部上方，恢复原始尺寸
-      const head = new THREE.Mesh(
-        new THREE.SphereGeometry(
-          isPolarBear ? 0.35 : 0.32, // 恢复原始头部大小
-          16, 16
-        ),
-        bodyMaterial
-      );
-      head.position.set(0, 0.3, 0); // 相对于颈部定位，位于颈部顶部，恢复原始位置
-      head.castShadow = true;
-      head.receiveShadow = true;
-      neck.add(head);
-      
-      // 4. 耳朵：熊耳，位于头部顶部两侧，恢复原始尺寸
-      const earGeometry = new THREE.SphereGeometry(0.12, 8, 8); // 恢复原始耳朵尺寸
-      
-      const leftEar = new THREE.Mesh(earGeometry, bodyMaterial);
-      leftEar.position.set(-0.25, 0.25, 0); // 相对于头部定位，头部左侧，恢复原始位置
-      leftEar.scale.set(1, 0.8, 1); // 耳朵更扁平
-      leftEar.castShadow = true;
-      leftEar.receiveShadow = true;
-      head.add(leftEar);
-      
-      const rightEar = new THREE.Mesh(earGeometry, bodyMaterial);
-      rightEar.position.set(0.25, 0.25, 0); // 相对于头部定位，头部右侧，恢复原始位置
-      rightEar.scale.set(1, 0.8, 1);
-      rightEar.castShadow = true;
-      rightEar.receiveShadow = true;
-      head.add(rightEar);
-      
-      // 5. 面部特征：位于头部前方，恢复原始尺寸
-      // 眼睛
-      const eyeGeometry = new THREE.SphereGeometry(0.05, 8, 8); // 恢复原始眼睛尺寸
-      
-      const leftEye = new THREE.Mesh(eyeGeometry, blackMaterial);
-      leftEye.position.set(-0.15, 0.1, 0.3); // 相对于头部定位，头部前方左侧，恢复原始位置
-      leftEye.castShadow = true;
-      leftEye.receiveShadow = true;
-      head.add(leftEye);
-      
-      const rightEye = new THREE.Mesh(eyeGeometry, blackMaterial);
-      rightEye.position.set(0.15, 0.1, 0.3); // 相对于头部定位，头部前方右侧，恢复原始位置
-      rightEye.castShadow = true;
-      rightEye.receiveShadow = true;
-      head.add(rightEye);
-      
-      // 鼻子：熊鼻子，位于头部正前方，恢复原始尺寸
-      const nose = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.1, 0.08, 0.06, 8), // 恢复原始鼻子尺寸
-        blackMaterial
-      );
-      nose.position.set(0, -0.05, 0.33); // 相对于头部定位，头部正前方，恢复原始位置
-      nose.rotation.x = Math.PI / 2;
-      nose.castShadow = true;
-      nose.receiveShadow = true;
-      head.add(nose);
-      
-      // 嘴部：嘴部轮廓，位于鼻子下方，恢复原始尺寸
-      const mouth = new THREE.Mesh(
-        new THREE.BoxGeometry(0.18, 0.03, 0.05), // 恢复原始嘴部尺寸
-        blackMaterial
-      );
-      mouth.position.set(0, -0.12, 0.31); // 相对于头部定位，鼻子下方，恢复原始位置
-      mouth.castShadow = true;
-      mouth.receiveShadow = true;
-      head.add(mouth);
-      
-      // 6. 前肢（手臂）：位于身体两侧，靠近肩部，与肩部有机连接，恢复原始尺寸
-      // 前肢几何体，恢复原始尺寸
-      const frontLegGeometry = new THREE.CapsuleGeometry(
-        0.15, // 半径，恢复原始尺寸
-        0.8,  // 长度，恢复原始尺寸
-        8, 8
-      );
-      
-      // 左前肢（左臂）：位于身体左侧，与肩部连接
-      const leftFrontLeg = new THREE.Mesh(frontLegGeometry, bodyMaterial);
-      leftFrontLeg.position.set(-0.5, 0.3, 0.2); // 更靠近肩部，与肩部有机连接，恢复原始位置
-      leftFrontLeg.rotation.z = Math.PI / 2; // 旋转90度，手臂水平
-      leftFrontLeg.rotation.x = 0.1; // 轻微弯曲，自然下垂，恢复原始角度
-      leftFrontLeg.castShadow = true;
-      leftFrontLeg.receiveShadow = true;
-      body.add(leftFrontLeg);
-      
-      // 右前肢（右臂）：位于身体右侧，与肩部连接
-      const rightFrontLeg = new THREE.Mesh(frontLegGeometry, bodyMaterial);
-      rightFrontLeg.position.set(0.5, 0.3, 0.2); // 更靠近肩部，与肩部有机连接，恢复原始位置
-      rightFrontLeg.rotation.z = -Math.PI / 2; // 旋转-90度，手臂水平
-      rightFrontLeg.rotation.x = -0.1; // 轻微弯曲，自然下垂，恢复原始角度
-      rightFrontLeg.castShadow = true;
-      rightFrontLeg.receiveShadow = true;
-      body.add(rightFrontLeg);
-      
-      // 7. 后肢（腿）：位于身体下方，支撑身体重量，恢复原始尺寸
-      // 后肢几何体，更粗壮，适合站立，恢复原始尺寸
-      const backLegGeometry = new THREE.CapsuleGeometry(
-        0.18, // 半径，更粗壮，恢复原始尺寸
-        0.9,  // 长度，恢复原始尺寸
-        8, 8
-      );
-      
-      // 左后肢（左腿）：位于身体左后方
-      const leftBackLeg = new THREE.Mesh(backLegGeometry, bodyMaterial);
-      leftBackLeg.position.set(-0.3, -0.5, -0.3); // 相对于身体定位，身体左下方，恢复原始位置
-      leftBackLeg.rotation.z = 0; // 直立
-      leftBackLeg.rotation.x = 0.1; // 轻微弯曲，自然支撑身体，恢复原始角度
-      leftBackLeg.castShadow = true;
-      leftBackLeg.receiveShadow = true;
-      body.add(leftBackLeg);
-      
-      // 右后肢（右腿）：位于身体右后方
-      const rightBackLeg = new THREE.Mesh(backLegGeometry, bodyMaterial);
-      rightBackLeg.position.set(0.3, -0.5, -0.3); // 相对于身体定位，身体右下方，恢复原始位置
-      rightBackLeg.rotation.z = 0; // 直立
-      rightBackLeg.rotation.x = -0.1; // 轻微弯曲，自然支撑身体，恢复原始角度
-      rightBackLeg.castShadow = true;
-      rightBackLeg.receiveShadow = true;
-      body.add(rightBackLeg);
-      
-      // 8. 肩部和臀部肌肉：增强立体感，与四肢有机连接，恢复原始尺寸
-      const shoulderGeometry = new THREE.SphereGeometry(0.2, 8, 8); // 恢复原始尺寸
-      
-      // 左肩部：集成到左前肢连接点
-      const leftShoulder = new THREE.Mesh(shoulderGeometry, detailMaterial);
-      leftShoulder.position.set(-0.4, 0.4, 0.3); // 与左前肢连接点重合，恢复原始位置
-      leftShoulder.castShadow = true;
-      leftShoulder.receiveShadow = true;
-      body.add(leftShoulder);
-      
-      // 右肩部：集成到右前肢连接点
-      const rightShoulder = new THREE.Mesh(shoulderGeometry, detailMaterial);
-      rightShoulder.position.set(0.4, 0.4, 0.3); // 与右前肢连接点重合，恢复原始位置
-      rightShoulder.castShadow = true;
-      rightShoulder.receiveShadow = true;
-      body.add(rightShoulder);
-      
-      const hipGeometry = new THREE.SphereGeometry(0.22, 8, 8); // 恢复原始尺寸
-      
-      // 左髋部：集成到左后肢连接点，更靠近身体
-      const leftHip = new THREE.Mesh(hipGeometry, detailMaterial);
-      leftHip.position.set(-0.3, -0.3, -0.3); // 与左后肢连接点重合，恢复原始位置
-      leftHip.castShadow = true;
-      leftHip.receiveShadow = true;
-      body.add(leftHip);
-      
-      // 右髋部：集成到右后肢连接点，更靠近身体
-      const rightHip = new THREE.Mesh(hipGeometry, detailMaterial);
-      rightHip.position.set(0.3, -0.3, -0.3); // 与右后肢连接点重合，恢复原始位置
-      rightHip.castShadow = true;
-      rightHip.receiveShadow = true;
-      body.add(rightHip);
-      
-      // 9. 尾巴：短尾巴，位于身体后方，恢复原始尺寸
-      const tail = new THREE.Mesh(
-        new THREE.SphereGeometry(0.08, 8, 8), // 恢复原始尺寸
-        bodyMaterial
-      );
-      tail.position.set(0, -0.1, -0.5); // 相对于身体定位，身体后方，恢复原始位置
-      tail.castShadow = true;
-      tail.receiveShadow = true;
-      body.add(tail);
-      
-      // 10. 爪子：正确连接到四肢末端，恢复原始尺寸
-      // 为前肢添加爪子
-      const addFrontClaws = (leg: THREE.Mesh, isLeft: boolean) => {
-        for (let i = 0; i < 5; i++) {
-          const claw = new THREE.Mesh(
-            new THREE.CylinderGeometry(0.03, 0.015, 0.1, 4), // 恢复原始爪子尺寸
-            clawMaterial
-          );
-          
-          const offset = (i - 2) * 0.08;
-          claw.position.set(
-            0,
-            -0.4, // 调整爪子位置到前肢末端，恢复原始位置
-            isLeft ? -0.1 + offset : 0.1 - offset
-          );
-          
-          claw.rotation.z = isLeft ? -0.1 : 0.1; // 调整爪子角度，恢复原始角度
-          claw.rotation.y = isLeft ? -Math.PI / 2 : Math.PI / 2;
-          
-          claw.castShadow = true;
-          claw.receiveShadow = true;
-          leg.add(claw);
-        }
-      };
-      
-      // 为后肢添加爪子
-      const addBackClaws = (leg: THREE.Mesh, isLeft: boolean) => {
-        for (let i = 0; i < 5; i++) {
-          const claw = new THREE.Mesh(
-            new THREE.CylinderGeometry(0.03, 0.02, 0.12, 4), // 恢复原始爪子尺寸
-            clawMaterial
-          );
-          
-          const offset = (i - 2) * 0.1;
-          claw.position.set(
-            isLeft ? -0.05 + offset : 0.05 - offset,
-            -0.45, // 调整爪子位置到后肢末端，恢复原始位置
-            0
-          );
-          
-          claw.rotation.z = isLeft ? 0.1 : -0.1; // 调整爪子角度，恢复原始角度
-          claw.rotation.x = Math.PI / 2;
-          
-          claw.castShadow = true;
-          claw.receiveShadow = true;
-          leg.add(claw);
-        }
-      };
-      
-      // 为前肢和后肢添加爪子
-      addFrontClaws(leftFrontLeg, true);  // 左前肢爪子
-      addFrontClaws(rightFrontLeg, false); // 右前肢爪子
-      addBackClaws(leftBackLeg, true);    // 左后肢爪子
-      addBackClaws(rightBackLeg, false);   // 右后肢爪子
-      
-      // 11. 熊的特征细节，恢复原始尺寸
-      // 棕熊添加面部棕色斑纹，恢复原始尺寸
+
+      const chest = finalizeMesh(new THREE.Mesh(
+        new THREE.SphereGeometry(isPolarBear ? 0.24 : 0.26, 14, 14),
+        accentMaterial
+      ));
+      chest.position.set(0, 0.44, 0.24);
+      chest.scale.set(1.02, 1.08, 0.86);
+      group.add(chest);
+
       if (!isPolarBear) {
-        const faceMarking = new THREE.Mesh(
-          new THREE.SphereGeometry(0.22, 16, 16, 0, Math.PI * 2, 0, Math.PI / 3), // 恢复原始尺寸
-          detailMaterial
-        );
-        faceMarking.position.set(0, 0, 0.2); // 相对于头部定位，面部前方，恢复原始位置
-        faceMarking.scale.set(1, 0.7, 0.8);
-        faceMarking.castShadow = true;
-        faceMarking.receiveShadow = true;
-        head.add(faceMarking);
+        const hump = finalizeMesh(new THREE.Mesh(
+          new THREE.SphereGeometry(0.19, 12, 12),
+          accentMaterial
+        ));
+        hump.position.set(0, 0.64, 0.08);
+        hump.scale.set(1.15, 0.9, 1.1);
+        group.add(hump);
       }
-      
-      // 北极熊添加颈部一圈深色毛发，恢复原始尺寸
-      if (isPolarBear) {
-        const neckRuff = new THREE.Mesh(
-          new THREE.TorusGeometry(0.3, 0.12, 8, 16), // 恢复原始尺寸
-          detailMaterial
-        );
-        neckRuff.position.set(0, 0.6, 0); // 相对于身体定位，颈部位置，恢复原始位置
-        neckRuff.rotation.x = Math.PI / 2;
-        neckRuff.castShadow = true;
-        neckRuff.receiveShadow = true;
-        body.add(neckRuff);
-      }
+
+      const haunch = finalizeMesh(new THREE.Mesh(
+        new THREE.SphereGeometry(isPolarBear ? 0.24 : 0.26, 12, 12),
+        furMaterial
+      ));
+      haunch.position.set(0, 0.45, -0.28);
+      haunch.scale.set(1.12, 1, 1.08);
+      group.add(haunch);
+
+      const neck = finalizeMesh(new THREE.Mesh(
+        new THREE.CapsuleGeometry(isPolarBear ? 0.12 : 0.13, isPolarBear ? 0.22 : 0.18, 4, 8),
+        furMaterial
+      ));
+      neck.position.set(0, 0.58, 0.32);
+      neck.rotation.x = isPolarBear ? -0.76 : -0.6;
+      group.add(neck);
+
+      const head = finalizeMesh(new THREE.Mesh(
+        new THREE.SphereGeometry(isPolarBear ? 0.21 : 0.2, 18, 18),
+        furMaterial
+      ));
+      head.position.set(0, 0.66, isPolarBear ? 0.56 : 0.5);
+      head.scale.set(isPolarBear ? 1.12 : 1, 0.95, 1.08);
+      group.add(head);
+
+      const muzzle = finalizeMesh(new THREE.Mesh(
+        new THREE.CapsuleGeometry(isPolarBear ? 0.085 : 0.09, isPolarBear ? 0.22 : 0.16, 4, 8),
+        accentMaterial
+      ));
+      muzzle.position.set(0, 0.61, isPolarBear ? 0.78 : 0.66);
+      muzzle.rotation.x = Math.PI / 2;
+      muzzle.scale.set(isPolarBear ? 0.95 : 1.05, 0.78, 1.08);
+      group.add(muzzle);
+
+      const nose = finalizeMesh(new THREE.Mesh(
+        new THREE.SphereGeometry(0.03, 10, 10),
+        darkMaterial
+      ));
+      nose.position.set(0, 0.61, isPolarBear ? 0.92 : 0.77);
+      nose.scale.set(1, 0.8, 0.9);
+      group.add(nose);
+
+      [-0.12, 0.12].forEach((x) => {
+        const ear = finalizeMesh(new THREE.Mesh(
+          new THREE.SphereGeometry(0.075, 10, 10),
+          furMaterial
+        ));
+        ear.position.set(x, 0.84, isPolarBear ? 0.49 : 0.45);
+        ear.scale.set(0.9, 0.82, 0.8);
+        group.add(ear);
+      });
+
+      [-0.08, 0.08].forEach((x) => {
+        const eye = finalizeMesh(new THREE.Mesh(
+          new THREE.SphereGeometry(0.022, 10, 10),
+          darkMaterial
+        ));
+        eye.position.set(x, 0.69, isPolarBear ? 0.73 : 0.64);
+        group.add(eye);
+      });
+
+      [
+        [-0.19, 0.2, 0.2, 0.08],
+        [0.19, 0.2, 0.2, -0.08],
+        [-0.21, 0.2, -0.18, -0.05],
+        [0.21, 0.2, -0.18, 0.05]
+      ].forEach(([x, y, z, tilt], index) => {
+        const isFront = index < 2;
+        const leg = finalizeMesh(new THREE.Mesh(
+          new THREE.CapsuleGeometry(isFront ? 0.07 : 0.075, isFront ? 0.28 : 0.3, 4, 8),
+          furMaterial
+        ));
+        leg.position.set(x, y, z);
+        leg.rotation.z = tilt;
+        leg.rotation.x = isFront ? Math.PI / 18 : Math.PI / 8;
+        group.add(leg);
+
+        const paw = finalizeMesh(new THREE.Mesh(
+          new THREE.SphereGeometry(isFront ? 0.065 : 0.07, 8, 8),
+          accentMaterial
+        ));
+        paw.position.set(x, 0.04, z + (isFront ? 0.07 : 0.05));
+        paw.scale.set(1.2, 0.45, isFront ? 1.5 : 1.35);
+        group.add(paw);
+
+        [-0.04, -0.015, 0.015, 0.04].forEach((toeOffset, toeIndex) => {
+          const claw = finalizeMesh(new THREE.Mesh(
+            new THREE.ConeGeometry(0.012, isPolarBear ? 0.07 : 0.06, 4),
+            clawMaterial
+          ));
+          claw.position.set(x + toeOffset, 0.02, z + (isFront ? 0.15 : 0.11) + toeIndex * 0.002);
+          claw.rotation.x = Math.PI / 2;
+          group.add(claw);
+        });
+      });
+
+      const tail = finalizeMesh(new THREE.Mesh(
+        new THREE.SphereGeometry(0.06, 8, 8),
+        furMaterial
+      ));
+      tail.position.set(0, 0.42, -0.54);
+      tail.scale.set(1, 0.7, 0.8);
+      group.add(tail);
+
+      group.rotation.y = isPolarBear ? 0.18 : -0.16;
     } else {
+
       // 默认创建兔子
       const bodyMaterial = new THREE.MeshStandardMaterial({
         color: 0xffffff,

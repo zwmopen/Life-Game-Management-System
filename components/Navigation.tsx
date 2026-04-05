@@ -16,10 +16,11 @@ interface NavigationProps {
   isNavCollapsed: boolean;
   setIsNavCollapsed: (collapsed: boolean) => void;
   onHelpClick: (helpId: string) => void;
+  hasDesktopUpdate?: boolean;
   isModalOpen?: boolean; // New prop for modal state
 }
 
-const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileOpen, setIsMobileOpen, entropy, isNavCollapsed, setIsNavCollapsed, onHelpClick, isModalOpen = false }) => {
+const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileOpen, setIsMobileOpen, entropy, isNavCollapsed, setIsNavCollapsed, onHelpClick, hasDesktopUpdate = false, isModalOpen = false }) => {
   const { theme, setTheme } = useTheme();
   // 新增状态：控制是否完全隐藏侧边栏（仅手机端）
   const [isNavHidden, setIsNavHidden] = useState(false);
@@ -171,6 +172,7 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
       : isDark 
       ? 'bg-emerald-900/20 text-emerald-400 border-transparent rounded-full' 
       : 'bg-blue-50 text-blue-600 border-transparent rounded-full';
+  const updateDotRingClass = isDark ? 'ring-[#1e1e2e]' : 'ring-[#e0e5ec]';
   
   const hoverClass = isNeomorphic 
       ? `${theme === 'neomorphic-dark' 
@@ -288,7 +290,12 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, isMobileO
                   `}
                   title={item.label}
                   >
-                  <item.icon size={isNavCollapsed ? 18 : 20} />
+                  <span className="relative inline-flex">
+                    <item.icon size={isNavCollapsed ? 18 : 20} />
+                    {hasDesktopUpdate && item.id === View.SETTINGS && (
+                      <span className={`absolute -right-1 -top-1 h-2.5 w-2.5 rounded-full bg-emerald-500 ring-2 ${updateDotRingClass} ${currentView === View.SETTINGS ? 'animate-pulse' : ''}`} />
+                    )}
+                  </span>
                   {!isNavCollapsed && (
                     <span className="font-medium text-sm">{item.label}</span>
                   )}

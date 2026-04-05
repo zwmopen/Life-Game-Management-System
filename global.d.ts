@@ -40,9 +40,24 @@ interface LifeGameElectronWebDAVResponse {
   body: string;
 }
 
+interface LifeGameElectronUpdateInfo {
+  platform: 'electron' | 'web';
+  status: 'idle' | 'checking' | 'available' | 'not-available' | 'downloaded' | 'error' | 'unsupported';
+  currentVersion: string;
+  latestVersion?: string;
+  releaseNotes?: string;
+  error?: string;
+  lastCheckedAt?: number;
+  isUpdateAvailable: boolean;
+}
+
 interface Window {
   lifeGameElectron?: {
     platform: 'electron';
     webdavRequest: (payload: LifeGameElectronWebDAVRequest) => Promise<LifeGameElectronWebDAVResponse>;
+    getUpdateStatus: () => Promise<LifeGameElectronUpdateInfo>;
+    checkForUpdates: () => Promise<LifeGameElectronUpdateInfo>;
+    quitAndInstallUpdate: () => Promise<boolean>;
+    onUpdateStatus: (callback: (status: LifeGameElectronUpdateInfo) => void) => () => void;
   };
 }

@@ -3,6 +3,7 @@ import { Play, Pause, RotateCcw, VolumeX, Volume2, Maximize2, Sun, Moon, Coffee,
 import { Theme } from '../../types';
 import { useGlobalAudio } from '../../components/GlobalAudioManagerOptimized';
 import OptimizedImmersivePomodoro3D from './OptimizedImmersivePomodoro3D';
+import ImmersiveTimerHud from './ImmersiveTimerHud';
 import { getNeomorphicStyles } from '../../utils/styleHelpers';
 import UnifiedBgMusicSelector from './UnifiedBgMusicSelector';
 import { GlobalGuideCard, GlobalHelpButton, helpContent } from '../../components/HelpSystem';
@@ -506,46 +507,19 @@ const OptimizedImmersivePomodoro: React.FC<OptimizedImmersivePomodoroProps> = ({
                 />
               </div>
             </div>
-            
-            {/* 核心：悬浮能量环 */}
-            <div 
-              className={`focus-ring-container ${isFocusing ? 'focusing' : ''} ${isPaused ? 'paused' : ''}`} 
-              id="focusRing"
-              onClick={isFocusing ? pauseFocus : startFocus}
-            >
-              {/* 外部凹槽 */}
-              <div className="ring-groove">
-                {/* SVG 进度条 */}
-                <svg className="progress-ring" viewBox="0 0 240 240">
-                  {/* 背景轨道 */}
-                  <circle className="progress-ring__circle-bg" r="114" cx="120" cy="120"/>
-                  {/* 进度条 */}
-                  <circle 
-                    className="progress-ring__circle" 
-                    id="progressCircle" 
-                    r="114" 
-                    cx="120" 
-                    cy="120"
-                    style={{
-                      strokeDasharray: 716,
-                      strokeDashoffset: 716 - (secondsRemaining / currentDuration) * 716
-                    }}
-                  />
-                </svg>
-              </div>
-
-              {/* 内部凸起圆盘 */}
-              <div className="center-plate">
-                <div 
-              className="timer-text" 
-              id="timer"
-            >{formatTime(secondsRemaining)}</div>
-                <div className="status-text" id="statusText">
-                  {isFocusing ? (isPaused ? '已暂停 (单击继续)' : '专注生长中...') : '点击开始'}
-                </div>
-              </div>
+            <ImmersiveTimerHud
+              isDark={isDark}
+              isNeomorphic={isNeomorphic}
+              isFocusing={isFocusing}
+              isPaused={isPaused}
+              currentDuration={currentDuration}
+              secondsRemaining={secondsRemaining}
+              currentSeed={currentSeed}
+              formatTime={formatTime}
+              onPrimaryAction={isFocusing ? pauseFocus : startFocus}
+              onReset={resetFocus}
+            />
             </div>
-          </div>
 
           {/* 侧边种子选择 - 修改条件，在专注模式下完全隐藏 */}
           <div className={`${isNeomorphicDark ? 'neu-out neomorphic-dark-mode' : isDark ? 'neu-out dark-mode' : 'neu-out'} seed-selector ${isFocusing && !isPaused ? 'hidden' : ''}`} id="seedSelector">

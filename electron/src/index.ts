@@ -48,6 +48,128 @@ interface WebDAVProxyPayload {
   body?: string;
 }
 
+type DesktopUpdateStatus =
+  | 'idle'
+  | 'checking'
+  | 'available'
+  | 'not-available'
+  | 'downloaded'
+  | 'error'
+  | 'unsupported';
+
+interface DesktopUpdateState {
+  platform: 'electron' | 'web';
+  status: DesktopUpdateStatus;
+  currentVersion: string;
+  latestVersion?: string;
+  releaseNotes?: string;
+  error?: string;
+  lastCheckedAt?: number;
+  isUpdateAvailable: boolean;
+}
+
+const desktopUpdateState: DesktopUpdateState = {
+  platform: 'electron',
+  status: 'idle',
+  currentVersion: app.getVersion(),
+  isUpdateAvailable: false,
+};
+
+function normalizeReleaseNotes(releaseNotes: unknown): string | undefined {
+  if (typeof releaseNotes === 'string') {
+    return releaseNotes;
+  }
+
+  if (Array.isArray(releaseNotes)) {
+    return releaseNotes
+      .map(note => {
+        if (typeof note === 'string') {
+          return note;
+        }
+
+        if (note && typeof note === 'object' && 'note' in note && typeof note.note === 'string') {
+          return note.note;
+        }
+
+        return '';
+      })
+      .filter(Boolean)
+      .join('\n');
+  }
+
+  return undefined;
+}
+
+function emitUpdateStatus() {
+  try {
+    const mainWindow = myCapacitorApp.getMainWindow();
+    if (mainWindow && !mainWindow.isDestroyed()) {
+      mainWindow.webContents.send('updater:status', desktopUpdateState);
+    }
+  } catch {
+    // Main window has not been created yet.
+  }
+}
+
+function setDesktopUpdateState(nextState: Partial<DesktopUpdateState>) {
+  Object.assign(desktopUpdateState, nextState, {
+    platform: 'electron',
+    currentVersion: app.getVersion(),
+  });
+  emitUpdateStatus();
+}
+
+function registerAutoUpdaterEvents() {
+  autoUpdater.on('checking-for-update', () => {
+    setDesktopUpdateState({
+      status: 'checking',
+      error: undefined,
+      lastCheckedAt: Date.now(),
+    });
+  });
+
+  autoUpdater.on('update-available', info => {
+    setDesktopUpdateState({
+      status: 'available',
+      latestVersion: info.version,
+      releaseNotes: normalizeReleaseNotes(info.releaseNotes),
+      isUpdateAvailable: true,
+      error: undefined,
+      lastCheckedAt: Date.now(),
+    });
+  });
+
+  autoUpdater.on('update-not-available', info => {
+    setDesktopUpdateState({
+      status: 'not-available',
+      latestVersion: info.version,
+      releaseNotes: normalizeReleaseNotes(info.releaseNotes),
+      isUpdateAvailable: false,
+      error: undefined,
+      lastCheckedAt: Date.now(),
+    });
+  });
+
+  autoUpdater.on('update-downloaded', info => {
+    setDesktopUpdateState({
+      status: 'downloaded',
+      latestVersion: info.version,
+      releaseNotes: normalizeReleaseNotes(info.releaseNotes),
+      isUpdateAvailable: true,
+      error: undefined,
+      lastCheckedAt: Date.now(),
+    });
+  });
+
+  autoUpdater.on('error', error => {
+    setDesktopUpdateState({
+      status: 'error',
+      error: error == null ? 'Unknown updater error' : String(error),
+      lastCheckedAt: Date.now(),
+    });
+  });
+}
+
 function sanitizeProxyHeaders(url: URL, headers: Record<string, string>, body: string) {
   const sanitizedHeaders: Record<string, string> = {};
 
@@ -137,6 +259,27 @@ ipcMain.handle('webdav:request', async (_event, payload: WebDAVProxyPayload) => 
   return await proxyWebDAVRequest(payload);
 });
 
+ipcMain.handle('updater:get-status', () => {
+  return desktopUpdateState;
+});
+
+ipcMain.handle('updater:check-now', async () => {
+  await safelyCheckForUpdates();
+  return desktopUpdateState;
+});
+
+ipcMain.handle('updater:quit-and-install', () => {
+  if (desktopUpdateState.status !== 'downloaded') {
+    return false;
+  }
+
+  setImmediate(() => {
+    autoUpdater.quitAndInstall();
+  });
+
+  return true;
+});
+
 function shouldCheckForUpdates() {
   if (!app.isPackaged) {
     return false;
@@ -149,6 +292,12 @@ function shouldCheckForUpdates() {
 async function safelyCheckForUpdates() {
   if (!shouldCheckForUpdates()) {
     console.info('[updater] Skip update check: app-update.yml not found for this build.');
+    setDesktopUpdateState({
+      status: 'unsupported',
+      isUpdateAvailable: false,
+      error: undefined,
+      lastCheckedAt: Date.now(),
+    });
     return;
   }
 
@@ -156,6 +305,11 @@ async function safelyCheckForUpdates() {
     await autoUpdater.checkForUpdatesAndNotify();
   } catch (error) {
     console.error('[updater] Update check failed:', error);
+    setDesktopUpdateState({
+      status: 'error',
+      error: error == null ? 'Unknown updater error' : String(error),
+      lastCheckedAt: Date.now(),
+    });
   }
 }
 
@@ -163,6 +317,7 @@ async function safelyCheckForUpdates() {
 (async () => {
   // Wait for electron app to be ready.
   await app.whenReady();
+  registerAutoUpdaterEvents();
   // Security - Set Content-Security-Policy based on whether or not we are in dev mode.
   setupContentSecurityPolicy(myCapacitorApp.getCustomURLScheme());
   // Initialize our app, build windows, and load content.

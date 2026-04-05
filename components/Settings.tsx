@@ -1,6 +1,6 @@
 import React, { useState, useEffect, memo } from 'react';
 import { Volume2, VolumeX, Music, Headphones, Sun, Moon, Zap, FileText, Bell, Eye, Database, Info, ShieldAlert, Download, RefreshCw, Trash2, X, ChevronUp, ChevronDown, Upload, Cloud, CloudDownload, Save, RotateCcw } from 'lucide-react';
-import { Theme, Settings as SettingsType, Transaction, ReviewLog } from '../types';
+import { Theme, Settings as SettingsType, Transaction, ReviewLog, DesktopUpdateInfo } from '../types';
 import { GlobalGuideCard, helpContent, GlobalHelpButton } from './HelpSystem';
 import { getNeomorphicStyles, getButtonStyle, getCardBgStyle, getTextStyle } from '../utils/styleHelpers';
 import WebDAVClient, { WebDAVConfig } from '../utils/webdavClient';
@@ -24,9 +24,12 @@ interface SettingsProps {
   checkInStreak?: number;
   transactions?: Transaction[];
   reviews?: ReviewLog[];
+  desktopUpdateInfo?: DesktopUpdateInfo;
+  onCheckDesktopUpdate?: () => Promise<void> | void;
+  onInstallDesktopUpdate?: () => Promise<void> | void;
 }
 
-const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, onToggleTheme, day = 1, balance = 59, xp = 10, checkInStreak = 1, transactions = [], reviews = [] }) => {
+const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, onToggleTheme, day = 1, balance = 59, xp = 10, checkInStreak = 1, transactions = [], reviews = [], desktopUpdateInfo, onCheckDesktopUpdate, onInstallDesktopUpdate }) => {
   const { theme } = useTheme();
   const isDark = theme.includes('dark');
   const isNeomorphic = theme.startsWith('neomorphic');
@@ -38,6 +41,36 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
   const cardBg = getCardBgStyle(isNeomorphic, theme, isDark);
   const textMain = getTextStyle(isDark, isNeomorphic, 'main');
   const textSub = getTextStyle(isDark, isNeomorphic, 'sub');
+  const desktopUpdateStatus = desktopUpdateInfo?.status ?? 'unsupported';
+  const hasDesktopUpdate = desktopUpdateInfo?.isUpdateAvailable ?? false;
+
+  const desktopUpdateStatusText = (() => {
+    switch (desktopUpdateStatus) {
+      case 'checking':
+        return '正在检查 GitHub 新版本...';
+      case 'available':
+        return `发现新版本 v${desktopUpdateInfo?.latestVersion ?? ''}，正在准备更新`;
+      case 'downloaded':
+        return `新版本 v${desktopUpdateInfo?.latestVersion ?? ''} 已准备好，重启即可安装`;
+      case 'not-available':
+        return '当前已经是最新桌面版';
+      case 'error':
+        return desktopUpdateInfo?.error ? `更新检查失败：${desktopUpdateInfo.error}` : '更新检查失败';
+      case 'unsupported':
+        return '当前环境不支持桌面自动更新';
+      default:
+        return '桌面端启动后会自动检查 GitHub Release 新版本';
+    }
+  })();
+
+  const desktopUpdateStatusClass =
+    desktopUpdateStatus === 'available' || desktopUpdateStatus === 'downloaded'
+      ? 'text-emerald-500'
+      : desktopUpdateStatus === 'error'
+      ? 'text-red-500'
+      : desktopUpdateStatus === 'checking'
+      ? 'text-blue-500'
+      : textSub;
   
   // State to control project documentation visibility
   const [showDocs, setShowDocs] = useState(false);
@@ -960,6 +993,44 @@ const Settings: React.FC<SettingsProps> = memo(({ settings, onUpdateSettings, on
                   <span className={`font-bold text-sm ${textMain} whitespace-nowrap`}>最新版本：</span>
                 </div>
                 <span className={`${textSub} break-words text-sm`}>v{APP_VERSION}</span>
+
+                <div className="flex items-center gap-1 pt-0.5">
+                  <RefreshCw size={14} className={desktopUpdateStatus === 'checking' ? 'text-blue-500 animate-spin' : 'text-emerald-500'} />
+                  <span className={`font-bold text-sm ${textMain} whitespace-nowrap flex items-center gap-2`}>
+                    桌面客户端：
+                    {hasDesktopUpdate && <span className="inline-block h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse" />}
+                  </span>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <span className={`${textSub} break-words text-sm`}>
+                    v{desktopUpdateInfo?.currentVersion ?? APP_VERSION}
+                    {desktopUpdateInfo?.latestVersion && desktopUpdateInfo.latestVersion !== desktopUpdateInfo.currentVersion
+                      ? ` → v${desktopUpdateInfo.latestVersion}`
+                      : ''}
+                  </span>
+                  <span className={`text-xs leading-relaxed ${desktopUpdateStatusClass}`}>
+                    {desktopUpdateStatusText}
+                  </span>
+                  {desktopUpdateInfo?.platform === 'electron' && (
+                    <div className="flex flex-wrap gap-2">
+                      <button
+                        onClick={() => onCheckDesktopUpdate?.()}
+                        disabled={desktopUpdateStatus === 'checking'}
+                        className={[getButtonStyle(false), 'px-3 py-1.5 rounded-full text-xs font-bold transition-all disabled:opacity-60 disabled:cursor-not-allowed'].join(' ')}
+                      >
+                        {desktopUpdateStatus === 'checking' ? '检查中...' : '检查更新'}
+                      </button>
+                      {desktopUpdateStatus === 'downloaded' && (
+                        <button
+                          onClick={() => onInstallDesktopUpdate?.()}
+                          className={[getButtonStyle(false), 'px-3 py-1.5 rounded-full text-xs font-bold transition-all'].join(' ')}
+                        >
+                          重启并安装
+                        </button>
+                      )}
+                    </div>
+                  )}
+                </div>
                 
                 <div className="flex items-center gap-1 pt-0.5">
                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="text-blue-500">
