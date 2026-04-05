@@ -1,8 +1,8 @@
 {
   "name": "life-game-management-system-desktop",
-  "version": "1.0.0",
-  "description": "Desktop shell for \u4eba\u751f\u6e38\u620f\u7ba1\u7406\u7cfb\u7edf",
-  "productName": "\u4eba\u751f\u6e38\u620f\u7ba1\u7406\u7cfb\u7edf",
+  "version": "1.0.1",
+  "description": "Desktop shell for 人生游戏管理系统",
+  "productName": "人生游戏管理系统",
   "author": {
     "name": "zwmopen",
     "email": ""
