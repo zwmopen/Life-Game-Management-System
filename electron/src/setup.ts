@@ -98,6 +98,7 @@ export class ElectronCapacitorApp {
   }
 
   async init(): Promise<void> {
+    const shouldUseDeveloperChrome = electronIsDev;
     const icon = nativeImage.createFromPath(
       join(app.getAppPath(), 'assets', process.platform === 'win32' ? 'appIcon.ico' : 'appIcon.png')
     );
@@ -108,6 +109,7 @@ export class ElectronCapacitorApp {
     // Setup preload script path and construct our main window.
     const preloadPath = join(app.getAppPath(), 'build', 'src', 'preload.js');
     this.MainWindow = new BrowserWindow({
+      autoHideMenuBar: !shouldUseDeveloperChrome,
       icon,
       show: false,
       x: this.mainWindowState.x,
@@ -123,6 +125,11 @@ export class ElectronCapacitorApp {
       },
     });
     this.mainWindowState.manage(this.MainWindow);
+
+    if (!shouldUseDeveloperChrome) {
+      Menu.setApplicationMenu(null);
+      this.MainWindow.setMenuBarVisibility(false);
+    }
 
     if (this.CapacitorFileConfig.backgroundColor) {
       this.MainWindow.setBackgroundColor(this.CapacitorFileConfig.electron.backgroundColor);
@@ -162,8 +169,10 @@ export class ElectronCapacitorApp {
       this.TrayIcon.setContextMenu(Menu.buildFromTemplate(this.TrayMenuTemplate));
     }
 
-    // Setup the main manu bar at the top of our window.
-    Menu.setApplicationMenu(Menu.buildFromTemplate(this.AppMenuBarMenuTemplate));
+    // Setup the main menu bar at the top of our window for development builds only.
+    if (shouldUseDeveloperChrome) {
+      Menu.setApplicationMenu(Menu.buildFromTemplate(this.AppMenuBarMenuTemplate));
+    }
 
     // If the splashscreen is enabled, show it first while the main window loads then switch it out for the main window, or just load the main window from the start.
     if (this.CapacitorFileConfig.electron?.splashScreenEnabled) {
@@ -195,6 +204,22 @@ export class ElectronCapacitorApp {
       }
     });
 
+    if (!shouldUseDeveloperChrome) {
+      this.MainWindow.webContents.on('before-input-event', (event, input) => {
+        const key = input.key.toLowerCase();
+        const isReloadShortcut = (input.control || input.meta) && key === 'r';
+        const isDevToolsShortcut = ((input.control || input.meta) && input.shift && key === 'i') || key === 'f12';
+
+        if (isReloadShortcut || isDevToolsShortcut) {
+          event.preventDefault();
+        }
+      });
+
+      this.MainWindow.webContents.on('devtools-opened', () => {
+        this.MainWindow?.webContents.closeDevTools();
+      });
+    }
+
     // Link electron plugins into the system.
     setupCapacitorElectronPlugins();
 
@@ -207,7 +232,7 @@ export class ElectronCapacitorApp {
         this.MainWindow.show();
       }
       setTimeout(() => {
-        if (electronIsDev) {
+        if (shouldUseDeveloperChrome) {
           this.MainWindow.webContents.openDevTools();
         }
         CapElectronEventEmitter.emit('CAPELECTRON_DeeplinkListenerInitialized', '');
